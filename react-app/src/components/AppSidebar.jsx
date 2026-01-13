@@ -44,14 +44,6 @@ export function AppSidebar() {
               <Link to="/posts">Posts</Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton 
-              asChild 
-              className={isActive('/newsletter') ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''}
-            >
-              <Link to="/newsletter">Newsletter</Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>

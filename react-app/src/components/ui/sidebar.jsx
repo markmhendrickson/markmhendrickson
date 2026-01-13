@@ -2,10 +2,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cn } from "@/lib/utils"
 
-const SidebarContext = React.createContext({
-  open: true,
-  setOpen: () => {},
-})
+const SidebarContext = React.createContext(undefined)
 
 const SidebarProvider = ({ children, defaultOpen = true }) => {
   const [open, setOpen] = React.useState(defaultOpen)
@@ -18,7 +15,7 @@ const SidebarProvider = ({ children, defaultOpen = true }) => {
 
 const useSidebar = () => {
   const context = React.useContext(SidebarContext)
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useSidebar must be used within SidebarProvider")
   }
   return context

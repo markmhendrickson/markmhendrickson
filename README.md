@@ -12,8 +12,6 @@ Personal website for Mark Hendrickson
 
 The site is currently deployed as static HTML files:
 - `index.html` - Main landing page
-- `newsletter.html` - Newsletter subscription page
-- `newsletter-unsubscribe.html` - Newsletter unsubscribe page
 
 Deployment is handled automatically via GitHub Actions on push to `main` branch.
 
