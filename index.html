@@ -1,14 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="nEBuNFHTOYaM31OSes9NbyVYNNj7aqFm0F8CUzSyX8Q" />
     <title>Mark Hendrickson</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 5rem 2rem;
+        }
+        
+        .container {
+            max-width: 600px;
+            text-align: left;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+        
+        .descriptor {
+            font-size: 17px;
+            color: #666;
+            margin-bottom: 3rem;
+            font-weight: 350;
+            letter-spacing: 0.01em;
+        }
+        
+        .thesis {
+            font-size: 15px;
+            line-height: 1.75;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+        
+        .thesis p {
+            margin: 0 0 1.5rem 0;
+        }
+        
+        .thesis p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline {
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .timeline-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            color: #000;
+        }
+        
+        .timeline-item {
+            margin-bottom: 4rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #000;
+            transform: translateY(-50%);
+        }
+        
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 2.5px;
+            top: 1em;
+            width: 1px;
+            height: calc(100% + 1rem);
+            background: #ddd;
+        }
+        
+        .timeline-role {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-company {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-date {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-description {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .timeline-description p {
+            margin: 0 0 0.75rem 0;
+        }
+        
+        .timeline-description p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .link {
+            font-size: 13px;
+            color: #000;
+            text-decoration: none;
+            border-bottom: 1px solid #000;
+            padding-bottom: 1px;
+            font-weight: 450;
+        }
+        
+        .link:hover {
+            border-bottom: 1px solid transparent;
+        }
+        
+        .contact {
+            font-size: 13px;
+            color: #000;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 4rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .descriptor {
+                font-size: 15px;
+            }
+            
+            .thesis {
+                font-size: 14px;
+            }
+            
+            .timeline-role {
+                font-size: 14px;
+            }
+            
+            .timeline-company {
+                font-size: 14px;
+            }
+            
+            .timeline-date {
+                font-size: 12px;
+            }
+            
+            .timeline-description {
+                font-size: 12px;
+            }
+            
+            .link {
+                font-size: 12px;
+            }
+            
+            .contact {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mark Hendrickson</h1>
+        <div class="descriptor">Building sovereign systems at the intersection of crypto and AI</div>
+        
+        <div class="thesis">
+            <p>I build systems that restore sovereignty, clarity, and long-range capability to individuals in a world defined by complexity, centralized control, and cognitive overload.</p>
+            
+            <p>My technology transforms chaos into structure, volatility into signal, and information abundance into actionable leverage, empowering people to operate with more agency, creativity, and strategic independence.</p>
+            
+            <p>My work centers on designing personal infrastructure that is open, privacy-preserving, and fundamentally user-owned. Through data ingestion, contextual modeling, and automation, I eliminate friction and restore the time, mental bandwidth, and autonomy lost to modern digital and institutional systems. This gives people the structural foundation to think more deeply, act more decisively, and build more freely.</p>
+            
+            <p>I take an antifragile approach: systems grow stronger through disruption, not weaker. The tools I build help people thrive under uncertainty, adapt intelligently to changing conditions, and make decisions from clarity rather than reactivity.</p>
+        </div>
+        
+        <div style="margin-bottom: 4rem;">
+            <a href="https://github.com/markmhendrickson" class="link">GitHub</a> · <a href="mailto:mark@markmhendrickson.com" class="link">mark@markmhendrickson.com</a> · <a href="/newsletter.html" class="link">Newsletter</a>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-role">Founder</div>
+                <div class="timeline-company">Startup (Neotoma & Ateles)</div>
+                <div class="timeline-date">2025 – Present · Barcelona, Spain</div>
+                <div class="timeline-description">
+                    <p>Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.</p>
+                    <p>Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">General Manager</div>
+                <div class="timeline-company">Trust Machines (Leather)</div>
+                <div class="timeline-date">2022 – 2025 · Barcelona, Spain</div>
+                <div class="timeline-description">Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">Product Lead</div>
+                <div class="timeline-company">Hiro Systems PBC (originally Blockstack)</div>
+                <div class="timeline-date">2018 – 2022 · Barcelona, Spain</div>
+                <div class="timeline-description">Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">Product Manager, Designer and Developer</div>
+                <div class="timeline-company">Freelance</div>
+                <div class="timeline-date">2015 – 2018 · Barcelona, Spain</div>
+                <div class="timeline-description">Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">Head of Product and Co-Founder</div>
+                <div class="timeline-company">KITE Solutions Inc.</div>
+                <div class="timeline-date">2012 – 2015 · New York City & Barcelona</div>
+                <div class="timeline-description">Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">Product Lead</div>
+                <div class="timeline-company">Lift</div>
+                <div class="timeline-date">2012 · San Francisco, California</div>
+                <div class="timeline-description">Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">CEO and Co-Founder</div>
+                <div class="timeline-company">Plancast</div>
+                <div class="timeline-date">2009 – 2011 · San Francisco, California</div>
+                <div class="timeline-description">
+                    <p>Co-founded and ran Plancast, a social event discovery service.</p>
+                    <p>Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">Project Manager, Designer and Writer</div>
+                <div class="timeline-company">TechCrunch</div>
+                <div class="timeline-date">2007 – 2009 · Atherton, California</div>
+                <div class="timeline-description">Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">Network Engineer</div>
+                <div class="timeline-company">Bowdoin College</div>
+                <div class="timeline-date">2003 – 2007 · Brunswick, Maine</div>
+                <div class="timeline-description">Upgraded and maintained a campus-wide network for student body and faculty.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">Web Designer & Developer</div>
+                <div class="timeline-company">Freelance</div>
+                <div class="timeline-date">1997 – 2007 · Menlo Park, California and Brunswick, Maine</div>
+                <div class="timeline-description">Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">BA, Government & Economics</div>
+                <div class="timeline-company">Bowdoin College</div>
+                <div class="timeline-date">2003 – 2007 · Brunswick, Maine</div>
+                <div class="timeline-description">
+                    <p>Double major with coursework in classical and modern political theory, constitutional and international law, and economics.</p>
+                    <p>Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-role">High School</div>
+                <div class="timeline-company">Menlo School</div>
+                <div class="timeline-date">1999 – 2003 · Atherton, California</div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
+
