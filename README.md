@@ -1,65 +1,57 @@
 # markmhendrickson.com
 
-Personal website for Mark Hendrickson - Built with React + Vite + shadcn/ui
+Personal website for Mark Hendrickson
 
-## Tech Stack
+## Current Status
+
+**Published:** Static HTML site (deployed via GitHub Pages)
+
+**Staged:** React + Vite + shadcn/ui app in `react-app/` directory (not yet ready for publishing)
+
+## Static Site (Currently Published)
+
+The site is currently deployed as static HTML files:
+- `index.html` - Main landing page
+- `newsletter.html` - Newsletter subscription page
+- `newsletter-unsubscribe.html` - Newsletter unsubscribe page
+
+Deployment is handled automatically via GitHub Actions on push to `main` branch.
+
+## React App (Staged for Future)
+
+A React application is being developed in the `react-app/` directory but is not yet ready for publishing.
+
+### React App Tech Stack
 
 - **React 18** - UI framework
 - **Vite** - Build tool and dev server
-- **shadcn/ui** - Component library (Select, Checkbox, Label)
+- **shadcn/ui** - Component library
 - **Tailwind CSS** - Styling
 - **React Router** - Client-side routing
 
-## Local Development
+### React App Development
 
-Start the development server:
+To work on the React app:
 
 ```bash
+cd react-app
 npm install
 npm run dev
 ```
 
 Then open http://localhost:5173 in your browser.
 
-## Build
-
-Build for production:
+### React App Build
 
 ```bash
+cd react-app
 npm run build
 ```
 
-Output will be in the `dist/` directory.
+Output will be in the `react-app/dist/` directory.
 
-## Deployment to GitHub Pages
+## Deployment
 
-The site is configured for GitHub Pages deployment. After building:
+The static HTML site is automatically deployed to GitHub Pages via the `.github/workflows/deploy.yml` workflow when changes are pushed to the `main` branch.
 
-1. Build the project: `npm run build`
-2. Copy `CNAME` to `dist/`: `cp CNAME dist/`
-3. Commit and push the `dist/` directory to the `gh-pages` branch
-
-Or use the GitHub Actions workflow (if configured) to automatically deploy on push to main.
-
-## Project Structure
-
-```
-├── src/
-│   ├── components/
-│   │   └── ui/          # shadcn/ui components
-│   ├── pages/           # Page components
-│   │   ├── Home.jsx
-│   │   └── Newsletter.jsx
-│   ├── lib/             # Utilities
-│   ├── App.jsx          # Main app with routing
-│   ├── main.jsx         # Entry point
-│   └── index.css        # Global styles + Tailwind
-├── dist/                # Build output (for GitHub Pages)
-└── backup/              # Old HTML files (backup)
-
-```
-
-## Components
-
-- **Home** - Main landing page with bio and timeline
-- **Newsletter** - Newsletter subscription form with ICP survey using shadcn/ui Select and Checkbox components
+The React app in `react-app/` is not included in the deployment and will remain staged until ready for publishing.

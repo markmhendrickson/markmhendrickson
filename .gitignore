@@ -12,11 +12,16 @@ dist
 dist-ssr
 *.local
 
+# React app (staged, not yet ready for publishing)
+react-app/node_modules
+react-app/dist
+react-app/dist-ssr
+
 # Draft posts (not committed to version control)
-src/content/posts/drafts/
+react-app/src/content/posts/drafts/
 
 # Private posts metadata (includes drafts, not committed)
-src/content/posts/posts.private.json
+react-app/src/content/posts/posts.private.json
 
 # Editor directories and files
 .vscode/*
@@ -28,3 +33,4 @@ src/content/posts/posts.private.json
 *.njsproj
 *.sln
 *.sw?
+.vite/
