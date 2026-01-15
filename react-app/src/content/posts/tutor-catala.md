@@ -1,0 +1,1 @@
+Algú coneix a un tutor de català bo? Estic buscant un per a fer classes d'una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la feina cada setmana. Tinc un nivell básic però vull parlar amb fluïdesa 🤓

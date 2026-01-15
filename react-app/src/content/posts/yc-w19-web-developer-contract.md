@@ -1,0 +1,1 @@
+Web developers: The founder of a YC W19 company I know is looking to contract immediately for a project involving React, Node, and MongoDB with hosting on Digital Ocean. If you're interested or know someone who might be, please contact him directly at [jusduan@gmail.com](mailto:jusduan@gmail.com).

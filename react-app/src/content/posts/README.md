@@ -8,6 +8,24 @@ This directory contains all blog posts and essays for the personal website.
 - `posts.private.json` - **Private** metadata including drafts (gitignored, optional)
 - `*.md` - Markdown files for published posts (one file per post)
 - `drafts/` - Directory for draft posts (gitignored, not committed to version control)
+- `drafts/outlines/` - Directory for post outlines (gitignored, private planning documents)
+
+## Hero Images
+
+Hero images are optional and can be added to any post:
+
+1. **Store images**: Place hero images in `/public/images/posts/` directory
+2. **Add to metadata**: Include `heroImage` field in post metadata with just the filename:
+   ```json
+   {
+     "heroImage": "my-hero-image.jpg"
+   }
+   ```
+3. **Display**: Hero images automatically appear:
+   - At the top of the post page (full width, below header)
+   - As a thumbnail in the posts listing (clickable, max height 300px)
+
+Supported formats: JPG, PNG, WebP, etc. (any format supported by browsers)
 
 **Note:** The system uses `posts.private.json` if available, otherwise falls back to `posts.json`. Private file should include all posts (published + drafts), while public file only includes published posts.
 
@@ -33,7 +51,8 @@ This directory contains all blog posts and essays for the personal website.
      "publishedDate": null,
      "category": "essay",
      "readTime": 5,
-     "tags": ["tag1", "tag2"]
+     "tags": ["tag1", "tag2"],
+     "heroImage": "my-hero-image.jpg"
    }
    ```
 
@@ -46,6 +65,14 @@ This directory contains all blog posts and essays for the personal website.
    - `category`: Post category (e.g., "essay", "technical", "article")
    - `readTime`: Estimated reading time in minutes
    - `tags`: Array of tag strings
+   - `heroImage`: (Optional) Filename of hero image stored in `/public/images/posts/`. If provided, displays at the top of the post page and as a thumbnail in the posts listing.
+
+## Post Outlines
+
+- **Location**: Store post outlines in `drafts/outlines/` subdirectory
+- **Purpose**: Planning documents for future posts (essay outlines, content planning)
+- **Git**: The `drafts/outlines/` directory is gitignored (private, not committed)
+- **Naming**: Use descriptive names like `foundational-mission-essay-outline.md`
 
 ## Draft Posts
 

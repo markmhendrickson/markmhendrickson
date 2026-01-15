@@ -1,0 +1,1 @@
+I've been reading The Flip Side since October and find it's an incredibly effective and efficient way to encounter and digest thoughtful opinions daily from across the left-right divide in the US. I highly recommend it for bursting your political bubble: [theflipside.io](https://www.theflipside.io)

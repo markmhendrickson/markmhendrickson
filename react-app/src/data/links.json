@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Website",
+    "url": "https://markmhendrickson.com",
+    "icon": "Globe",
+    "description": "Personal website and blog"
+  },
+  {
+    "name": "GitHub",
+    "url": "https://github.com/markmhendrickson",
+    "icon": "Github",
+    "description": "Code repositories and open source projects"
+  },
+  {
+    "name": "LinkedIn",
+    "url": "https://www.linkedin.com/in/markmhendrickson",
+    "icon": "Linkedin",
+    "description": "Professional network and career updates"
+  },
+  {
+    "name": "X",
+    "url": "https://x.com/markymark",
+    "icon": "Twitter",
+    "description": "Thoughts on tech, crypto, and AI"
+  },
+  {
+    "name": "Instagram",
+    "url": "https://instagram.com/markmhendrickson",
+    "icon": "Instagram",
+    "description": "Personal photos, videos, and updates"
+  },
+  {
+    "name": "Email",
+    "url": "mailto:mark@markmhendrickson.com",
+    "icon": "Mail",
+    "description": "Get in touch via email"
+  }
+]

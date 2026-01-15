@@ -1,41 +1,278 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import publicPostsData from '@/content/posts/posts.json'
-import { ArrowLeft } from 'lucide-react'
 
-export default function Post() {
-  const { slug } = useParams()
+// Progressive image reveal component (simulates AI image generation)
+function ProgressiveImage({ src, alt, className, shouldAnimate = true, onComplete, delay = 0 }) {
+  const [progress, setProgress] = useState(0)
+  const animationRef = useRef(null)
+  const startTimeRef = useRef(null)
+
+  useEffect(() => {
+    if (!shouldAnimate) {
+      setProgress(100)
+      if (onComplete) onComplete()
+      return
+    }
+
+    setProgress(0)
+    startTimeRef.current = null
+
+    const animate = () => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = Date.now()
+      }
+
+      const elapsed = Date.now() - startTimeRef.current
+      // Simulate progressive rendering over 3 seconds
+      const duration = 3000
+      const newProgress = Math.min(100, (elapsed / duration) * 100)
+      
+      setProgress(newProgress)
+      
+      if (newProgress >= 100) {
+        if (onComplete) onComplete()
+        return
+      }
+
+      animationRef.current = requestAnimationFrame(animate)
+    }
+
+    const startTimeout = setTimeout(() => {
+      animate()
+    }, delay)
+
+    return () => {
+      clearTimeout(startTimeout)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+      startTimeRef.current = null
+    }
+  }, [shouldAnimate, onComplete, delay])
+
+  // Calculate blur and opacity based on progress
+  const blur = Math.max(0, 20 - (progress / 100) * 20) // Start at 20px blur, end at 0
+  const opacity = Math.min(1, progress / 30) // Fade in quickly in first 30%
+  const scale = 0.95 + (progress / 100) * 0.05 // Slight zoom in effect
+
+  return (
+    <div className="relative overflow-hidden">
+      <img
+        src={src}
+        alt={alt}
+        className={className}
+        style={{
+          filter: `blur(${blur}px)`,
+          opacity: opacity,
+          transform: `scale(${scale})`,
+          transition: 'filter 0.1s ease-out, opacity 0.1s ease-out, transform 0.1s ease-out',
+        }}
+      />
+      {progress < 100 && (
+        <div 
+          className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/20"
+          style={{
+            opacity: 1 - (progress / 100),
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+// Typewriter effect component for animating text character by character
+function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAnimate = true }) {
+  const [displayedText, setDisplayedText] = useState('')
+  const [isComplete, setIsComplete] = useState(false)
+  const animationRef = useRef(null)
+  const startTimeRef = useRef(null)
+  const fullTextRef = useRef('')
+
+  // Extract plain text from children (for animation)
+  const extractText = (node) => {
+    if (typeof node === 'string') return node
+    if (typeof node === 'number') return String(node)
+    if (React.isValidElement(node)) {
+      if (node.props?.children) {
+        return React.Children.toArray(node.props.children)
+          .map(extractText)
+          .join('')
+      }
+    }
+    if (Array.isArray(node)) {
+      return node.map(extractText).join('')
+    }
+    return ''
+  }
+
+  useEffect(() => {
+    // Cancel any ongoing animation
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current)
+      animationRef.current = null
+    }
+    if (startTimeRef.current) {
+      startTimeRef.current = null
+    }
+
+    if (!shouldAnimate) {
+      // When animation is disabled, show full content immediately
+      const fullText = extractText(children)
+      setIsComplete(true)
+      setDisplayedText(fullText || '')
+      return
+    }
+
+    const fullText = extractText(children)
+    fullTextRef.current = fullText
+    
+    if (!fullText) {
+      setIsComplete(true)
+      setDisplayedText('')
+      if (onComplete) onComplete()
+      return
+    }
+
+    // Reset state when animation should start
+    setIsComplete(false)
+    startTimeRef.current = null
+    // Show first character immediately to make animation visible
+    if (fullText.length > 0) {
+      setDisplayedText(fullText[0])
+    } else {
+      setDisplayedText('')
+    }
+
+    const animate = () => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = Date.now()
+      }
+
+      const elapsed = Date.now() - startTimeRef.current
+      const charsToShow = Math.floor((elapsed / speed))
+      
+      if (charsToShow >= fullText.length) {
+        setDisplayedText(fullText)
+        setIsComplete(true)
+        if (onComplete) onComplete()
+        return
+      }
+
+      const newText = fullText.slice(0, Math.max(1, charsToShow))
+      setDisplayedText(newText)
+      animationRef.current = requestAnimationFrame(animate)
+    }
+
+    let startTimeout
+    if (delay === 0) {
+      // Start immediately if no delay
+      animate()
+    } else {
+      startTimeout = setTimeout(() => {
+        animate()
+      }, delay)
+    }
+
+    return () => {
+      if (startTimeout) {
+        clearTimeout(startTimeout)
+      }
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+      startTimeRef.current = null
+    }
+  }, [children, delay, speed, onComplete, shouldAnimate])
+
+  // If animation is disabled, show full content immediately
+  if (!shouldAnimate) {
+    return <>{children}</>
+  }
+
+  // If complete, show full content
+  if (isComplete) {
+    return <>{children}</>
+  }
+
+  // During animation, show partial text with cursor
+  // For simple text, animate character by character
+  if (typeof children === 'string' || (Array.isArray(children) && children.every(c => typeof c === 'string'))) {
+    return (
+      <span>
+        {displayedText}
+        {!isComplete && <span className="animate-pulse opacity-50 ml-1">|</span>}
+      </span>
+    )
+  }
+
+  // For complex children, show extracted text during animation
+  return (
+    <span>
+      {displayedText}
+      {!isComplete && <span className="animate-pulse opacity-50 ml-1">|</span>}
+    </span>
+  )
+}
+
+export default function Post({ slug: slugProp }) {
+  const { slug: slugParam } = useParams()
+  const slug = slugProp || slugParam
   const navigate = useNavigate()
   const [post, setPost] = useState(null)
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(true)
+  const [animationPhase, setAnimationPhase] = useState(null) // null | 'title' | 'excerpt' | 'heroImage' | 'content' | 'complete'
+  const [contentParagraphIndex, setContentParagraphIndex] = useState(0)
+  const [heroImageProgress, setHeroImageProgress] = useState(0) // 0-100 for progressive reveal
+  const contentParagraphsRef = useRef([])
   const isDev = import.meta.env.DEV
 
   useEffect(() => {
     const loadPost = async () => {
       try {
-        // Try to load private posts.json first, fall back to public
-        let postsData = publicPostsData
+        // Start with public posts
+        let postsData = [...publicPostsData]
+        
+        // Try to load private posts.json and merge with public
         try {
           const privatePostsModule = await import('@/content/posts/posts.private.json')
-          postsData = privatePostsModule.default || privatePostsModule
+          const privatePosts = privatePostsModule.default || privatePostsModule
+          
+          // Create a map of slugs from public posts
+          const publicSlugMap = new Map(postsData.map(post => [post.slug, post]))
+          
+          // Add private posts, overriding public posts with same slug
+          privatePosts.forEach(privatePost => {
+            publicSlugMap.set(privatePost.slug, privatePost)
+          })
+          
+          // Convert map back to array
+          postsData = Array.from(publicSlugMap.values())
         } catch (error) {
-          // Private file doesn't exist, use public one
+          // Private file doesn't exist, use public one only
         }
         
         // Find post metadata
         const postMeta = postsData.find(p => p.slug === slug)
         
         if (!postMeta) {
-          navigate('/posts', { replace: true })
+          // Only navigate away if we have a slug param (not for home route)
+          if (slugParam) {
+            navigate('/posts', { replace: true })
+          }
           return
         }
 
         // Check if post is published (or if we're in dev mode)
         if (!postMeta.published && !isDev) {
-          navigate('/posts', { replace: true })
+          // Only navigate away if we have a slug param (not for home route)
+          if (slugParam) {
+            navigate('/posts', { replace: true })
+          }
           return
         }
 
@@ -58,20 +295,34 @@ export default function Post() {
             markdownModule = await import(`@/content/posts/${slug}.md?raw`)
           }
           setContent(markdownModule.default)
+          // Reset animation state when content loads
+          setAnimationPhase('title')
+          setContentParagraphIndex(0)
+          setHeroImageProgress(0)
+          contentParagraphsRef.current = []
         } catch (error) {
           console.error('Error loading post content:', error)
           setContent('# Post Not Found\n\nThe content for this post could not be loaded.')
+          setAnimationPhase('title')
+          setContentParagraphIndex(0)
+          setHeroImageProgress(0)
+          contentParagraphsRef.current = []
         }
       } catch (error) {
         console.error('Error loading post:', error)
-        navigate('/posts', { replace: true })
+        // Only navigate away if we have a slug param (not for home route)
+        if (slugParam) {
+          navigate('/posts', { replace: true })
+        }
       } finally {
         setLoading(false)
       }
     }
 
-    loadPost()
-  }, [slug, navigate, isDev])
+    if (slug) {
+      loadPost()
+    }
+  }, [slug, slugParam, navigate, isDev])
 
   const formatDate = (dateString) => {
     if (!dateString) return ''
@@ -85,7 +336,7 @@ export default function Post() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen py-20 px-8">
+      <div className="flex justify-center items-center min-h-screen py-8 px-8">
         <div className="max-w-[600px] w-full">
           <p className="text-[15px] text-[#666]">Loading...</p>
         </div>
@@ -98,55 +349,40 @@ export default function Post() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen py-20 px-8">
+    <div className="flex justify-center items-center min-h-screen py-8 px-8">
       <div className="max-w-[600px] w-full">
-        <Link 
-          to="/posts" 
-          className="text-[13px] text-black no-underline border-b border-black pb-[1px] font-[450] mb-8 inline-flex items-center gap-1 hover:border-transparent"
-        >
-          <ArrowLeft className="h-3 w-3" />
-          Back to posts
-        </Link>
-
-        {!post.published && isDev && (
-          <div className="mb-6 p-3 bg-yellow-50 border border-yellow-200 rounded text-[13px] text-yellow-800">
-            <strong>Draft:</strong> This post is unpublished and only visible in dev mode.
-          </div>
-        )}
-
         <article>
           <header className="mb-8">
             <h1 className="text-[28px] font-medium mb-2 tracking-tight">
               {post.title}
             </h1>
-            <div className="flex items-center gap-4 text-[13px] text-[#999] mb-4">
-              {post.publishedDate && (
-                <time dateTime={post.publishedDate}>
-                  {formatDate(post.publishedDate)}
-                </time>
-              )}
-              {post.readTime && (
-                <span>{post.readTime} min read</span>
-              )}
-              {post.category && (
-                <span className="capitalize">{post.category}</span>
-              )}
-            </div>
-            {post.tags && post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 text-[11px] font-medium bg-gray-100 text-gray-700 rounded"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+            {post.excerpt && (
+              <p className="text-[15px] leading-[1.75] text-[#666] mb-4">
+                {post.excerpt}
+              </p>
             )}
           </header>
 
+          {post.heroImage && post.heroImageStyle !== 'float-right' && (
+            <div className="mb-8 -mx-8">
+              <img
+                src={`/images/posts/${post.heroImage}`}
+                alt={post.title}
+                className="w-full aspect-square object-cover"
+              />
+            </div>
+          )}
+
           <div className="prose prose-sm max-w-none">
+            {post.heroImage && post.heroImageStyle === 'float-right' && (
+              <div className="float-right ml-8 mb-4 max-w-[300px]">
+                <img
+                  src={`/images/posts/${post.heroImage}`}
+                  alt={post.title}
+                  className="w-full aspect-square object-cover rounded"
+                />
+              </div>
+            )}
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -162,17 +398,23 @@ export default function Post() {
                 p: ({ node, ...props }) => (
                   <p className="text-[15px] leading-[1.75] mb-4 text-[#333]" {...props} />
                 ),
+                strong: ({ node, ...props }) => (
+                  <strong className="font-semibold" {...props} />
+                ),
+                em: ({ node, ...props }) => (
+                  <em className="italic" {...props} />
+                ),
                 a: ({ node, ...props }) => (
                   <a className="text-black border-b border-black pb-[1px] hover:border-transparent" {...props} />
                 ),
                 ul: ({ node, ...props }) => (
-                  <ul className="list-disc list-inside mb-4 space-y-2 text-[15px] leading-[1.75]" {...props} />
+                  <ul className="list-disc list-outside mb-4 ml-6 space-y-3" {...props} />
                 ),
                 ol: ({ node, ...props }) => (
-                  <ol className="list-decimal list-inside mb-4 space-y-2 text-[15px] leading-[1.75]" {...props} />
+                  <ol className="list-decimal list-outside mb-4 ml-6 space-y-3" {...props} />
                 ),
                 li: ({ node, ...props }) => (
-                  <li className="text-[15px] leading-[1.75]" {...props} />
+                  <li className="text-[15px] leading-[1.75] mb-3 pl-1 [&>p]:mb-2 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0" {...props} />
                 ),
                 blockquote: ({ node, ...props }) => (
                   <blockquote className="border-l-4 border-gray-300 pl-4 italic text-[15px] text-[#666] mb-4" {...props} />
@@ -192,6 +434,45 @@ export default function Post() {
               {content}
             </ReactMarkdown>
           </div>
+
+          {post.heroImageStyle === 'float-right' && <div className="clear-both"></div>}
+
+          {(post.showMetadata !== false) && (
+            <footer className="mt-12 pt-8 border-t border-[#e0e0e0]">
+              <div className="flex flex-wrap gap-2 mb-4">
+                {!post.published && isDev && (
+                  <span className="px-2 py-1 text-[11px] font-medium bg-yellow-100 text-yellow-800 rounded">
+                    Draft
+                  </span>
+                )}
+                {post.tags && post.tags.length > 0 && (
+                  <>
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-1 text-[11px] font-medium bg-gray-100 text-gray-700 rounded"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </>
+                )}
+              </div>
+              <div className="flex items-center gap-4 text-[13px] text-[#999]">
+                {post.publishedDate && (
+                  <time dateTime={post.publishedDate}>
+                    {formatDate(post.publishedDate)}
+                  </time>
+                )}
+                {post.readTime && (
+                  <span>{post.readTime} min read</span>
+                )}
+                {post.category && (
+                  <span className="capitalize">{post.category}</span>
+                )}
+              </div>
+            </footer>
+          )}
         </article>
       </div>
     </div>

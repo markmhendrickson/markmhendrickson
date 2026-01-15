@@ -1,16 +1,20 @@
 import { Link, useLocation } from 'react-router-dom'
-import { 
-  Sidebar, 
-  SidebarHeader, 
-  SidebarContent, 
-  SidebarFooter,
-  SidebarMenu, 
-  SidebarMenuItem, 
-  SidebarMenuButton 
+import { Home, FileText, Share2, Clock, Music } from 'lucide-react'
+import {
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  useSidebar,
 } from '@/components/ui/sidebar'
 
 export function AppSidebar() {
   const location = useLocation()
+  const { isMobile, setOpen } = useSidebar()
 
   const isActive = (path) => {
     if (path === '/') {
@@ -19,49 +23,67 @@ export function AppSidebar() {
     return location.pathname.startsWith(path)
   }
 
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setOpen(false)
+    }
+  }
+
   return (
     <Sidebar>
       <SidebarHeader>
-        <Link to="/" className="text-[18px] font-medium hover:opacity-80 transition-opacity">
-          Mark Hendrickson
-        </Link>
+        <div className="flex items-center justify-center h-16">
+          <Link to="/" onClick={handleLinkClick} className="flex items-center gap-3">
+            <span className="text-base font-medium">Mark Hendrickson</span>
+          </Link>
+        </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton 
-              asChild 
-              className={isActive('/') ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''}
-            >
-              <Link to="/">Home</Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton 
-              asChild 
-              className={isActive('/posts') ? 'bg-sidebar-accent text-sidebar-accent-foreground' : ''}
-            >
-              <Link to="/posts">Posts</Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive('/')}>
+                <Link to="/" onClick={handleLinkClick}>
+                  <Home className="size-4" />
+                  <span>Home</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive('/posts')}>
+                <Link to="/posts" onClick={handleLinkClick}>
+                  <FileText className="size-4" />
+                  <span>Posts</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive('/timeline')}>
+                <Link to="/timeline" onClick={handleLinkClick}>
+                  <Clock className="size-4" />
+                  <span>Timeline</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive('/social')}>
+                <Link to="/social" onClick={handleLinkClick}>
+                  <Share2 className="size-4" />
+                  <span>Links</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive('/songs')}>
+                <Link to="/songs" onClick={handleLinkClick}>
+                  <Music className="size-4" />
+                  <span>Songs</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <a href="https://github.com/markmhendrickson" target="_blank" rel="noopener noreferrer">
-                GitHub
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <a href="mailto:mark@markmhendrickson.com">Email</a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
     </Sidebar>
   )
 }

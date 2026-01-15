@@ -1,0 +1,1 @@
+“Hmmm what I’ve been doing is that I wanted to be a good friend to my life and my life is so far away” - My Touch Bar autosuggest

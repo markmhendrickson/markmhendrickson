@@ -29,15 +29,20 @@ A React application is being developed in the `react-app/` directory but is not 
 
 ### React App Development
 
-To work on the React app:
+To run the development server and preview changes:
 
 ```bash
 cd react-app
-npm install
+npm install  # Only needed on first setup or after dependency changes
 npm run dev
 ```
 
-Then open http://localhost:5173 in your browser.
+The dev server will start and display a URL (typically `http://localhost:5173`). Open this URL in your browser to preview changes. The server will automatically reload when you make changes to the code.
+
+**Available commands:**
+- `npm run dev` - Start development server with hot-reload
+- `npm run build` - Build for production
+- `npm run preview` - Preview the production build locally
 
 ### React App Build
 
