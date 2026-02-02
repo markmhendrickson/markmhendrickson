@@ -12,6 +12,8 @@ import Songs from './pages/Songs'
 import NotFound from './pages/NotFound'
 import TestError from './pages/TestError'
 
+const isDev = import.meta.env.DEV
+
 const routes = (
   <Routes>
     <Route path="/" element={<Layout><Post slug="professional-mission" /></Layout>} />
@@ -19,7 +21,7 @@ const routes = (
     <Route path="/newsletter" element={<Layout><Newsletter /></Layout>} />
     <Route path="/newsletter/confirm" element={<Layout><NewsletterConfirm /></Layout>} />
     <Route path="/posts" element={<Layout><Posts /></Layout>} />
-    <Route path="/posts/draft" element={<Layout><Posts draft /></Layout>} />
+    <Route path="/posts/draft" element={isDev ? <Layout><Posts draft /></Layout> : <Layout><NotFound /></Layout>} />
     <Route path="/posts/:slug" element={<Layout><Post /></Layout>} />
     <Route path="/social" element={<Layout><SocialMedia /></Layout>} />
     <Route path="/songs" element={<Layout><Songs /></Layout>} />

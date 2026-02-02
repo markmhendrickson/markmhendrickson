@@ -57,9 +57,9 @@ function ProgressiveImage({ src, alt, className, shouldAnimate = true, onComplet
       // Simulate progressive rendering over 3 seconds
       const duration = 3000
       const newProgress = Math.min(100, (elapsed / duration) * 100)
-      
+
       setProgress(newProgress)
-      
+
       if (newProgress >= 100) {
         if (onComplete) onComplete()
         return
@@ -100,7 +100,7 @@ function ProgressiveImage({ src, alt, className, shouldAnimate = true, onComplet
         }}
       />
       {progress < 100 && (
-        <div 
+        <div
           className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/20"
           style={{
             opacity: 1 - (progress / 100),
@@ -164,7 +164,7 @@ function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAni
 
     const fullText = extractText(children)
     fullTextRef.current = fullText
-    
+
     if (!fullText) {
       setIsComplete(true)
       setDisplayedText('')
@@ -189,7 +189,7 @@ function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAni
 
       const elapsed = Date.now() - startTimeRef.current
       const charsToShow = Math.floor((elapsed / speed))
-      
+
       if (charsToShow >= fullText.length) {
         setDisplayedText(fullText)
         setIsComplete(true)
@@ -291,7 +291,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
         // Find post metadata
         const postMeta = postsData.find(p => p.slug === slug)
-        
+
         if (!postMeta) {
           // Only navigate away if we have a slug param (not for home route)
           if (slugParam) {
@@ -314,7 +314,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         // Load markdown content
         // First try to load from JSON cache (body field), then fall back to markdown files
         let content: string | null = null
-        
+
         // Check if body is in the metadata (from parquet cache)
         if (postMeta.body) {
           content = postMeta.body
@@ -339,7 +339,7 @@ export default function Post({ slug: slugProp }: PostProps) {
             console.error('Error loading post content from markdown:', error)
           }
         }
-        
+
         if (content) {
           setContent(content)
           // Reset animation state when content loads
@@ -374,16 +374,16 @@ export default function Post({ slug: slugProp }: PostProps) {
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) return ''
     const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     })
   }
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-content pt-0 pb-8 md:pt-8 md:pb-8 px-0 md:px-8">
+      <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
         <div className="max-w-[600px] w-full">
           <p className="text-[15px] text-[#666]">Loading...</p>
         </div>
@@ -396,7 +396,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-content pt-0 pb-8 md:pt-8 md:pb-8 px-0 md:px-8">
+    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
       <div className="max-w-[600px] w-full">
         <article>
           <header className="mb-8">

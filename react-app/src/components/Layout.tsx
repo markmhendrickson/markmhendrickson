@@ -22,7 +22,7 @@ const routeNames: Record<string, string> = {
 const menuItems = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/posts', label: 'Posts', icon: FileText },
-  { path: '/posts/draft', label: 'Drafts', icon: FileEdit },
+  ...(import.meta.env.DEV ? [{ path: '/posts/draft', label: 'Drafts', icon: FileEdit }] : []),
   { path: '/timeline', label: 'Timeline', icon: Clock },
   { path: '/social', label: 'Links', icon: Share2 },
 ]
@@ -40,7 +40,7 @@ export function Layout({ children }: LayoutProps) {
     if (params.slug) {
       // Check public posts first
       const post = (publicPostsData as Post[]).find(p => p.slug === params.slug)
-      
+
       if (!post) {
         setPostTitle(null)
         // Try private posts in dev only (production build excludes drafts)

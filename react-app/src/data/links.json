@@ -1,11 +1,5 @@
 [
   {
-    "name": "Website",
-    "url": "https://markmhendrickson.com",
-    "icon": "Globe",
-    "description": "Personal website and blog"
-  },
-  {
     "name": "GitHub",
     "url": "https://github.com/markmhendrickson",
     "icon": "Github",
@@ -31,7 +25,7 @@
   },
   {
     "name": "Email",
-    "url": "mailto:mark@markmhendrickson.com",
+    "url": "mailto:mark@hendricksonserrano.com",
     "icon": "Mail",
     "description": "Get in touch via email"
   }

@@ -1,8 +1,8 @@
 export default function Home() {
   return (
     <div className="min-h-content">
-      <div className="pt-20 pb-[100px]">
-        <div className="flex justify-start px-8">
+      <div className="pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
+        <div className="flex justify-start">
           <div className="max-w-[1200px] w-full">
             <img
               src="/profile.jpg"

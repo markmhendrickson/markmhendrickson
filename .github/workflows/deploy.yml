@@ -12,41 +12,41 @@ jobs:
       contents: read
       pages: write
       id-token: write
-    
+
     steps:
       # Use REPO_ACCESS_TOKEN if shared (react-components) is private; otherwise GITHUB_TOKEN is enough
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           token: ${{ secrets.REPO_ACCESS_TOKEN || github.token }}
-      
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: react-app/package-lock.json
-      
+
       - name: Install dependencies
         working-directory: react-app
         run: npm ci
-      
+
       - name: Build
         working-directory: react-app
         run: npm run build:ci
-      
+
       # SPA fallback: serve index.html for client routes so refresh/direct links work
       - name: Copy index to 404
         run: cp react-app/dist/index.html react-app/dist/404.html
-      
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: react-app/dist
-      
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
