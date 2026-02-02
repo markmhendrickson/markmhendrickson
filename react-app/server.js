@@ -8,6 +8,51 @@ const isProd = process.env.NODE_ENV === 'production'
 const PORT = process.env.PORT || 5173
 const SSR_PLACEHOLDER = '<!--ssr-outlet-->'
 
+const STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/social', '/songs']
+
+function getPostSlugs() {
+  const postsPath = path.resolve(__dirname, 'src', 'content', 'posts', 'posts.json')
+  if (!fs.existsSync(postsPath)) return []
+  const raw = fs.readFileSync(postsPath, 'utf-8')
+  const posts = JSON.parse(raw)
+  return (Array.isArray(posts) ? posts : [])
+    .filter((p) => p.published !== false && p.slug)
+    .map((p) => `/posts/${p.slug}`)
+}
+
+async function runPrerender() {
+  const distPath = path.resolve(__dirname, 'dist')
+  const templatePath = path.join(distPath, 'index.html')
+  const template = fs.readFileSync(templatePath, 'utf-8')
+  if (!template.includes(SSR_PLACEHOLDER)) {
+    console.warn('prerender: template has no ssr-outlet placeholder')
+    return
+  }
+  const serverPath = path.join(distPath, 'server', 'entry-server.js')
+  if (!fs.existsSync(serverPath)) {
+    throw new Error('prerender: SSR bundle not found. Run "npm run build" then "npm run build:ssr" first.')
+  }
+  const { render } = await import(pathToFileURL(serverPath).href)
+  const postRoutes = getPostSlugs()
+  const allRoutes = [...STATIC_ROUTES, ...postRoutes]
+  for (const url of allRoutes) {
+    const appHtml = render(url)
+    const html = template.replace(SSR_PLACEHOLDER, appHtml)
+    const pathname = url.split('?')[0] || '/'
+    const outPath =
+      pathname === '/'
+        ? path.join(distPath, 'index.html')
+        : path.join(distPath, ...pathname.replace(/^\//, '').split('/').filter(Boolean), 'index.html')
+    fs.mkdirSync(path.dirname(outPath), { recursive: true })
+    fs.writeFileSync(outPath, html, 'utf-8')
+    console.log('prerender:', url, '->', outPath.replace(distPath, 'dist'))
+  }
+  const notFoundHtml = render('/_no_match_')
+  fs.writeFileSync(path.join(distPath, '404.html'), template.replace(SSR_PLACEHOLDER, notFoundHtml), 'utf-8')
+  console.log('prerender: 404.html')
+  console.log('prerender: done,', allRoutes.length, 'routes')
+}
+
 async function createServer() {
   const app = express()
 
@@ -60,7 +105,14 @@ async function createServer() {
   })
 }
 
-createServer().catch((e) => {
-  console.error(e)
-  process.exit(1)
-})
+if (process.argv.includes('--prerender')) {
+  runPrerender().catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+} else {
+  createServer().catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+}

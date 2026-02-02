@@ -1,10 +1,13 @@
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import React from 'react'
+import { Helmet } from 'react-helmet-async'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import publicPostsData from '@/content/posts/posts.json'
 import { stripLinksFromExcerpt } from '@/lib/utils'
+
+const SITE_BASE = 'https://markmhendrickson.com'
 
 interface Post {
   slug: string
@@ -395,7 +398,33 @@ export default function Post({ slug: slugProp }: PostProps) {
     return null
   }
 
+  const metaDescription = post.excerpt
+    ? stripLinksFromExcerpt(post.excerpt)
+    : (post.summary && post.summary.replace(/\s+/g, ' ').replace(/^[-*]\s*/gm, '').trim().slice(0, 160))
+  const desc = (metaDescription || post.title).slice(0, 160)
+  const canonicalUrl = `${SITE_BASE}/posts/${post.slug}`
+  const ogImage = post.heroImage
+    ? `${SITE_BASE}/images/posts/${post.heroImage}`
+    : `${SITE_BASE}/profile.jpg`
+
   return (
+    <>
+      <Helmet>
+        <title>{post.title} — Mark Hendrickson</title>
+        <meta name="description" content={desc} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={desc} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={ogImage} />
+        {post.publishedDate && (
+          <meta property="article:published_time" content={post.publishedDate} />
+        )}
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={desc} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
       <div className="max-w-[600px] w-full">
         <article>
@@ -544,5 +573,6 @@ export default function Post({ slug: slugProp }: PostProps) {
         </article>
       </div>
     </div>
+    </>
   )
 }

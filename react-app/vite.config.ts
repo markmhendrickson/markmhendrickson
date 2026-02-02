@@ -24,8 +24,9 @@ export default defineConfig({
     dedupe: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
   },
   ssr: {
-    // Bundle React (and deps) for SSR so ESM is used; avoids "module is not defined" from CJS entry
-    noExternal: ['react', 'react-dom', 'react-dom/server', 'react-router-dom'],
+    // Externalize react/react-dom so prerender and Node use one instance (avoids "useContext" null).
+    // react-helmet-async is CJS; bundle it so Node ESM loader doesn't fail on named import.
+    noExternal: ['react-dom/server', 'react-router-dom', 'react-helmet-async'],
     target: 'node',
   },
   server: {

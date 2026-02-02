@@ -20,3 +20,5 @@ I take an antifragile approach: systems grow stronger through disruption, not we
 *This repo is the source for markmhendrickson.com. React app in `react-app/`; deploy is GitHub Actions → Pages on push to `main`.*
 
 **Deploy:** The `shared` submodule points at `github.com/markmhendrickson/react-components`. If that repo is private, add a repo secret `REPO_ACCESS_TOKEN` (PAT with `repo` scope) in this repo’s Settings → Secrets so the workflow can clone it. If the repo is public, no secret is needed.
+
+**Analytics (GA4):** The site loads gtag when `VITE_GA_MEASUREMENT_ID` is set at build time. To create a property and web stream via the Google Analytics Admin API (no UI): enable [Analytics Admin API](https://console.cloud.google.com/apis/library/analyticsadmin.googleapis.com), run `gcloud auth application-default login`, then `pip install google-auth requests` and `python scripts/create_ga4_property.py`. The script prints the measurement ID (G-…); add it as repo secret `VITE_GA_MEASUREMENT_ID` so the deploy workflow injects it into the build.

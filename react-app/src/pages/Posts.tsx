@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import publicPostsData from '@/content/posts/posts.json'
 import { stripLinksFromExcerpt } from '@/lib/utils'
 
@@ -83,12 +84,27 @@ export default function Posts({ draft = false }: PostsProps) {
     })
   }
 
+  const pageTitle = draft ? 'Drafts' : 'Posts'
+  const pageDesc = draft
+    ? 'Unpublished posts and works in progress.'
+    : 'Essays, technical articles, and thoughts on building sovereign systems.'
+
   return (
+    <>
+      <Helmet>
+        <title>{pageTitle} — Mark Hendrickson</title>
+        <meta name="description" content={pageDesc} />
+        <meta property="og:title" content={`${pageTitle} — Mark Hendrickson`} />
+        <meta property="og:description" content={pageDesc} />
+        <meta property="og:url" content="https://markmhendrickson.com/posts" />
+        <meta name="twitter:title" content={`${pageTitle} — Mark Hendrickson`} />
+        <meta name="twitter:description" content={pageDesc} />
+      </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
       <div className="max-w-[600px] w-full">
         <div className="flex items-baseline justify-between gap-4 mb-2">
           <h1 className="text-[28px] font-medium tracking-tight">
-            {draft ? 'Drafts' : 'Posts'}
+            {pageTitle}
           </h1>
           {!draft && isDev && draftCount > 0 && (
             <Link
@@ -108,9 +124,7 @@ export default function Posts({ draft = false }: PostsProps) {
           )}
         </div>
         <p className="text-[17px] text-[#666] mb-12 font-light tracking-wide">
-          {draft
-            ? 'Unpublished posts and works in progress.'
-            : 'Essays, technical articles, and thoughts on building sovereign systems.'}
+          {pageDesc}
         </p>
 
         <div className="space-y-8">
@@ -165,5 +179,6 @@ export default function Posts({ draft = false }: PostsProps) {
         </div>
       </div>
     </div>
+    </>
   )
 }
