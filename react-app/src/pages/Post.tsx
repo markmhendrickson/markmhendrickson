@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
@@ -15,6 +15,8 @@ interface Post {
   title: string
   excerpt?: string
   summary?: string
+  /** Optional 110–160 char description for og:description and meta description when shared. */
+  shareDescription?: string
   published: boolean
   publishedDate?: string
   category?: string
@@ -400,14 +402,19 @@ export default function Post({ slug: slugProp }: PostProps) {
     return null
   }
 
-  const metaDescription = post.excerpt
-    ? stripLinksFromExcerpt(post.excerpt)
-    : (post.summary && post.summary.replace(/\s+/g, ' ').replace(/^[-*]\s*/gm, '').trim().slice(0, 160))
+  const metaDescription = post.shareDescription
+    ? post.shareDescription
+    : post.excerpt
+      ? stripLinksFromExcerpt(post.excerpt)
+      : (post.summary && post.summary.replace(/\s+/g, ' ').replace(/^[-*]\s*/gm, '').trim().slice(0, 160))
   const desc = (metaDescription || post.title).slice(0, 160)
-  const canonicalUrl = `${SITE_BASE}/posts/${post.slug}`
-  const ogImage = post.heroImage
-    ? `${SITE_BASE}/images/posts/${post.heroImage}`
-    : `${SITE_BASE}/profile.jpg`
+  const isHome = useLocation().pathname === '/'
+  const canonicalUrl = isHome ? `${SITE_BASE}/` : `${SITE_BASE}/posts/${post.slug}`
+  const ogImage = isHome
+    ? `${SITE_BASE}/profile.jpg`
+    : post.heroImage
+      ? `${SITE_BASE}/images/posts/${post.heroImage}`
+      : `${SITE_BASE}/profile.jpg`
 
   return (
     <>
@@ -427,6 +434,19 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={desc} />
         <meta name="twitter:image" content={ogImage} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description: desc,
+            url: canonicalUrl,
+            image: ogImage,
+            ...(post.publishedDate && { datePublished: post.publishedDate }),
+            author: { '@type': 'Person', name: 'Mark Hendrickson', url: SITE_BASE },
+            publisher: { '@type': 'Organization', name: 'Mark Hendrickson', logo: { '@type': 'ImageObject', url: `${SITE_BASE}/profile.jpg` } },
+          })}
+        </script>
       </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
       <div className="max-w-[600px] w-full">
@@ -457,35 +477,14 @@ export default function Post({ slug: slugProp }: PostProps) {
             const normalizedExcerpt = post.excerpt ? post.excerpt.trim().replace(/\s+/g, ' ') : ''
             const repeatsExcerpt = normalizedExcerpt && normalizedSummary === normalizedExcerpt
             return !repeatsExcerpt && (
-            <div className="prose prose-sm max-w-none mb-8 p-6 rounded-lg border-0 md:border md:border-sidebar-border bg-sidebar">
+            <div className="post-prose-summary prose prose-sm max-w-none mb-8 p-6 rounded-lg border-0 md:border md:border-sidebar-border bg-sidebar">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-4 mt-0">Key takeaways</h2>
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  p: ({ node, ...props }) => (
-                    <p className="text-[15px] leading-[1.75] mb-3 text-[#333]" {...props} />
-                  ),
-                  ul: ({ node, ...props }) => (
-                    <ul className="list-disc list-outside mb-4 ml-6 space-y-2" {...props} />
-                  ),
-                  li: ({ node, ...props }) => (
-                    <li className="text-[15px] leading-[1.75] text-[#333]" {...props} />
-                  ),
-                  strong: ({ node, ...props }) => (
-                    <strong className="font-semibold" {...props} />
-                  ),
-                  a: ({ node, ...props }) => (
-                    <a className="text-black border-b border-black pb-[1px] hover:border-transparent" {...props} />
-                  ),
-                }}
-              >
-                {post.summary}
-              </ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.summary}</ReactMarkdown>
             </div>
           );
           })()}
 
-          <div className="prose prose-sm max-w-none">
+          <div className="post-prose prose prose-sm max-w-none">
             {post.heroImage && post.heroImageStyle === 'float-right' && (
               <div className="w-full mb-4 md:float-right md:ml-8 md:mb-4 md:max-w-[300px]">
                 <img
@@ -495,56 +494,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 />
               </div>
             )}
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                h1: ({ node, ...props }) => (
-                  <h1 className="text-[24px] font-medium mb-4 mt-14 first:mt-0 tracking-tight" {...props} />
-                ),
-                h2: ({ node, ...props }) => (
-                  <h2 className="text-[20px] font-medium mb-3 mt-12 tracking-tight" {...props} />
-                ),
-                h3: ({ node, ...props }) => (
-                  <h3 className="text-[18px] font-medium mb-2 mt-8 tracking-tight" {...props} />
-                ),
-                p: ({ node, ...props }) => (
-                  <p className="text-[15px] leading-[1.75] mb-4 text-[#333]" {...props} />
-                ),
-                strong: ({ node, ...props }) => (
-                  <strong className="font-semibold" {...props} />
-                ),
-                em: ({ node, ...props }) => (
-                  <em className="italic" {...props} />
-                ),
-                a: ({ node, ...props }) => (
-                  <a className="text-black border-b border-black pb-[1px] hover:border-transparent" {...props} />
-                ),
-                ul: ({ node, ...props }) => (
-                  <ul className="list-disc list-outside mb-4 ml-6 space-y-3" {...props} />
-                ),
-                ol: ({ node, ...props }) => (
-                  <ol className="list-decimal list-outside mb-4 ml-6 space-y-3" {...props} />
-                ),
-                li: ({ node, ...props }) => (
-                  <li className="text-[15px] leading-[1.75] mb-3 pl-1 [&>p]:mb-2 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0" {...props} />
-                ),
-                blockquote: ({ node, ...props }) => (
-                  <blockquote className="border-l-4 border-gray-300 pl-4 italic text-[15px] text-[#666] mb-4" {...props} />
-                ),
-                code: ({ node, inline, ...props }: { node?: unknown; inline?: boolean; children?: React.ReactNode }) => {
-                  if (inline) {
-                    return (
-                      <code className="bg-gray-100 px-1 py-0.5 rounded text-[14px] font-mono" {...props} />
-                    )
-                  }
-                  return (
-                    <code className="block bg-gray-100 p-4 rounded mb-4 text-[14px] font-mono overflow-x-auto" {...props} />
-                  )
-                },
-              }}
-            >
-              {content}
-            </ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
           </div>
 
           {post.heroImageStyle === 'float-right' && <div className="clear-both"></div>}

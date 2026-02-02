@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, type Params } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, FileEdit, Share2, Clock } from 'lucide-react'
 import publicPostsData from '@/content/posts/posts.json'
@@ -69,14 +70,34 @@ export function Layout({ children }: LayoutProps) {
     return null
   }
 
+  const defaultTitle = 'Mark Hendrickson'
+  const defaultDescription = 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI and complexity.'
+  const defaultUrl = 'https://markmhendrickson.com/'
+  const defaultImage = 'https://markmhendrickson.com/profile.jpg'
+
   return (
-    <SharedLayout
-      siteName="Mark Hendrickson"
-      menuItems={menuItems}
-      routeNames={routeNames}
-      getBreadcrumbLabel={getBreadcrumbLabel}
-    >
-      {children}
-    </SharedLayout>
+    <>
+      <Helmet>
+        <title>{defaultTitle}</title>
+        <meta name="description" content={defaultDescription} />
+        <link rel="canonical" href={defaultUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={defaultTitle} />
+        <meta property="og:description" content={defaultDescription} />
+        <meta property="og:url" content={defaultUrl} />
+        <meta property="og:image" content={defaultImage} />
+        <meta name="twitter:title" content={defaultTitle} />
+        <meta name="twitter:description" content={defaultDescription} />
+        <meta name="twitter:image" content={defaultImage} />
+      </Helmet>
+      <SharedLayout
+        siteName="Mark Hendrickson"
+        menuItems={menuItems}
+        routeNames={routeNames}
+        getBreadcrumbLabel={getBreadcrumbLabel}
+      >
+        {children}
+      </SharedLayout>
+    </>
   )
 }
