@@ -415,13 +415,14 @@ export default function Post({ slug: slugProp }: PostProps) {
   const desc = (metaDescription || post.title).slice(0, 160)
   const isHome = useLocation().pathname === '/'
   const canonicalUrl = isHome ? `${SITE_BASE}/` : `${SITE_BASE}/posts/${post.slug}`
+  // Default OG image only on home; post pages use post-specific image or none
   const ogImage = post.ogImage
     ? `${SITE_BASE}/images/${post.ogImage}`
     : isHome
       ? OG_DEFAULT_IMAGE
       : post.heroImage
         ? `${SITE_BASE}/images/posts/${post.heroImage}`
-        : OG_DEFAULT_IMAGE
+        : null
 
   return (
     <>
@@ -433,18 +434,22 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={desc} />
         <meta property="og:url" content={canonicalUrl} />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />
-        <meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />
+        {ogImage != null && (
+          <>
+            <meta property="og:image" content={ogImage} />
+            <meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />
+            <meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />
+            <meta name="twitter:image" content={ogImage} />
+            <meta name="twitter:image:width" content={String(OG_IMAGE_WIDTH)} />
+            <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />
+          </>
+        )}
         {post.publishedDate && (
           <meta property="article:published_time" content={post.publishedDate} />
         )}
         <meta name="twitter:creator" content="@markmhendrickson" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={desc} />
-        <meta name="twitter:image" content={ogImage} />
-        <meta name="twitter:image:width" content={String(OG_IMAGE_WIDTH)} />
-        <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />
         <script type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',
@@ -452,7 +457,7 @@ export default function Post({ slug: slugProp }: PostProps) {
             headline: post.title,
             description: desc,
             url: canonicalUrl,
-            image: ogImage,
+            ...(ogImage != null && { image: ogImage }),
             ...(post.publishedDate && { datePublished: post.publishedDate }),
             author: { '@type': 'Person', name: 'Mark Hendrickson', url: SITE_BASE },
             publisher: { '@type': 'Organization', name: 'Mark Hendrickson', logo: { '@type': 'ImageObject', url: `${SITE_BASE}/profile.jpg` } },

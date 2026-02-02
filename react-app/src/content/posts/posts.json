@@ -3,7 +3,6 @@
     "slug": "truth-layer-agent-memory",
     "title": "Building a truth layer for persistent agent memory",
     "excerpt": "Agent memory is forgetful. Why I'm building inspectable, structured memory for trustworthy agentic systems.",
-    "shareDescription": "When agents act on your behalf, memory becomes state. I'm building Neotoma: inspectable, replayable, deterministic memory so you can trust what they do.",
     "published": true,
     "publishedDate": "2026-02-02",
     "category": "essay",
