@@ -421,6 +421,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         {post.publishedDate && (
           <meta property="article:published_time" content={post.publishedDate} />
         )}
+        <meta name="twitter:creator" content="@markmhendrickson" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={desc} />
         <meta name="twitter:image" content={ogImage} />

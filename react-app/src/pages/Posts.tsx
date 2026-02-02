@@ -97,8 +97,11 @@ export default function Posts({ draft = false }: PostsProps) {
         <meta property="og:title" content={`${pageTitle} — Mark Hendrickson`} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content="https://markmhendrickson.com/posts" />
+        <meta property="og:image" content="https://markmhendrickson.com/profile.jpg" />
+        <meta name="twitter:creator" content="@markmhendrickson" />
         <meta name="twitter:title" content={`${pageTitle} — Mark Hendrickson`} />
         <meta name="twitter:description" content={pageDesc} />
+        <meta name="twitter:image" content="https://markmhendrickson.com/profile.jpg" />
       </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
       <div className="max-w-[600px] w-full">
