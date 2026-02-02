@@ -4,10 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "predev": "python3 ../../../scripts/generate_posts_cache.py",
+    "predev": "test -f ../../../scripts/generate_posts_cache.py && python3 ../../../scripts/generate_posts_cache.py || true",
     "dev": "vite",
     "dev:ssr": "node server.js",
-    "prebuild": "python3 ../../../scripts/generate_posts_cache.py",
+    "prebuild": "test -f ../../../scripts/generate_posts_cache.py && python3 ../../../scripts/generate_posts_cache.py || true",
     "build": "vite build",
     "build:ci": "npm run build && npm run build:ssr && NODE_ENV=production node server.js --prerender",
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist/server",

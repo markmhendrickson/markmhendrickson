@@ -4,9 +4,9 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import './index.css'
 
-// GA4: load gtag when measurement ID is set (e.g. VITE_GA_MEASUREMENT_ID at build time)
-const gaId = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined
-if (gaId && typeof document !== 'undefined') {
+// GA4: load gtag only in production (measurement ID from env or default for markmhendrickson.com)
+const gaId = (import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined) || 'G-5CWQZTEN9S'
+if (import.meta.env.PROD && gaId && typeof document !== 'undefined') {
   const s = document.createElement('script')
   s.async = true
   s.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
