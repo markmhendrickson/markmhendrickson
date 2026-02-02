@@ -1,5 +1,24 @@
 [
   {
+    "slug": "truth-layer-agent-memory",
+    "title": "Building a truth layer for persistent agent memory",
+    "excerpt": "Agent memory is forgetful. Why I'm building inspectable, structured memory for trustworthy agentic systems.",
+    "published": true,
+    "publishedDate": "2026-02-02",
+    "category": "essay",
+    "readTime": 6,
+    "tags": [
+      "neotoma",
+      "agent-memory",
+      "truth-layer",
+      "determinism"
+    ],
+    "showMetadata": null,
+    "createdDate": "2026-02-02",
+    "updatedDate": "2026-02-02",
+    "summary": "- What keeps breaking is trust, not intelligence. Memory changes implicitly, context drifts, and you can't see what changed or replay it.\n- When agents act, personal data becomes state. The missing primitive is explicit, inspectable, replayable personal state. Other domains have it (DBs, event logs, ledgers). Personal data didn't need it until agents. Systems problem, not UX.\n- Doing it right adds friction: named operations, visible inputs, reconstructable history. Convenience-first and agent-safe pull in opposite directions.\n- Neotoma is the \"truth\" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.\n- The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.\n- MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.\n- Developer preview next. I'm dogfooding it in my own agentic operating system, Ateles."
+  },
+  {
     "slug": "professional-mission",
     "title": "Mark Hendrickson",
     "excerpt": "Building sovereign systems at the intersection of crypto and AI",
