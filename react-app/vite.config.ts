@@ -13,7 +13,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@shared': path.resolve(__dirname, '../../shared/src'),
+      '@shared': path.resolve(__dirname, '../shared/src'),
       // Resolve shared package deps from app node_modules (shared has no node_modules)
       'lucide-react': path.resolve(__dirname, 'node_modules/lucide-react'),
       '@radix-ui/react-slot': path.resolve(__dirname, 'node_modules/@radix-ui/react-slot'),
