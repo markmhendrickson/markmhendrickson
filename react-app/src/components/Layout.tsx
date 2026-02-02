@@ -72,6 +72,9 @@ export function Layout({ children }: LayoutProps) {
     return null
   }
 
+  // Post and Posts set their own Helmet; avoid duplicate title/description so crawlers use page-specific meta
+  const hasPageHelmet = location.pathname === '/' || location.pathname === '/posts' || location.pathname.startsWith('/posts/')
+
   const defaultTitle = 'Mark Hendrickson'
   const defaultDescription = 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI and complexity.'
   const defaultUrl = 'https://markmhendrickson.com/'
@@ -81,27 +84,25 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <>
-      <Helmet>
-        <title>{defaultTitle}</title>
-        <meta name="description" content={defaultDescription} />
-        <link rel="canonical" href={defaultUrl} />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={defaultTitle} />
-        <meta property="og:description" content={defaultDescription} />
-        <meta property="og:url" content={defaultUrl} />
-        {isHome && (
-          <>
-            <meta property="og:image" content={defaultImage} />
-            <meta property="og:image:width" content={String(ogImageWidth)} />
-            <meta property="og:image:height" content={String(ogImageHeight)} />
-            <meta name="twitter:image" content={defaultImage} />
-            <meta name="twitter:image:width" content={String(ogImageWidth)} />
-            <meta name="twitter:image:height" content={String(ogImageHeight)} />
-          </>
-        )}
-        <meta name="twitter:title" content={defaultTitle} />
-        <meta name="twitter:description" content={defaultDescription} />
-      </Helmet>
+      {!hasPageHelmet && (
+        <Helmet>
+          <title>{defaultTitle}</title>
+          <meta name="description" content={defaultDescription} />
+          <link rel="canonical" href={defaultUrl} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={defaultTitle} />
+          <meta property="og:description" content={defaultDescription} />
+          <meta property="og:url" content={defaultUrl} />
+          <meta property="og:image" content={defaultImage} />
+          <meta property="og:image:width" content={String(ogImageWidth)} />
+          <meta property="og:image:height" content={String(ogImageHeight)} />
+          <meta name="twitter:title" content={defaultTitle} />
+          <meta name="twitter:description" content={defaultDescription} />
+          <meta name="twitter:image" content={defaultImage} />
+          <meta name="twitter:image:width" content={String(ogImageWidth)} />
+          <meta name="twitter:image:height" content={String(ogImageHeight)} />
+        </Helmet>
+      )}
       <SharedLayout
         siteName="Mark Hendrickson"
         menuItems={menuItems}
