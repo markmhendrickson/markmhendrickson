@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -6,13 +6,19 @@ import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
 
+declare global {
+  interface Window {
+    gtag?: (command: string, eventName: string, params?: Record<string, string>) => void
+  }
+}
+
 export default function Newsletter() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -28,11 +34,11 @@ export default function Newsletter() {
         })
       })
 
-      const result = await response.json()
+      const result = await response.json() as { error?: string }
 
       if (response.ok) {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'newsletter_subscribe', {
+        if (typeof window.gtag !== 'undefined') {
+          window.gtag('event', 'newsletter_subscribe', {
             'event_category': 'engagement',
             'event_label': 'newsletter_signup'
           })

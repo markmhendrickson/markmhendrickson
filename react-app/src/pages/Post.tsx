@@ -4,12 +4,38 @@ import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import publicPostsData from '@/content/posts/posts.json'
+import { stripLinksFromExcerpt } from '@/lib/utils'
+
+interface Post {
+  slug: string
+  title: string
+  excerpt?: string
+  published: boolean
+  publishedDate?: string
+  category?: string
+  readTime?: number
+  tags?: string[]
+  heroImage?: string
+  heroImageStyle?: string
+  excludeFromListing?: boolean
+  showMetadata?: boolean
+  body?: string
+}
+
+interface ProgressiveImageProps {
+  src: string
+  alt: string
+  className?: string
+  shouldAnimate?: boolean
+  onComplete?: () => void
+  delay?: number
+}
 
 // Progressive image reveal component (simulates AI image generation)
-function ProgressiveImage({ src, alt, className, shouldAnimate = true, onComplete, delay = 0 }) {
+function ProgressiveImage({ src, alt, className, shouldAnimate = true, onComplete, delay = 0 }: ProgressiveImageProps) {
   const [progress, setProgress] = useState(0)
-  const animationRef = useRef(null)
-  const startTimeRef = useRef(null)
+  const animationRef = useRef<number | null>(null)
+  const startTimeRef = useRef<number | null>(null)
 
   useEffect(() => {
     if (!shouldAnimate) {
@@ -47,7 +73,7 @@ function ProgressiveImage({ src, alt, className, shouldAnimate = true, onComplet
 
     return () => {
       clearTimeout(startTimeout)
-      if (animationRef.current) {
+      if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current)
       }
       startTimeRef.current = null
@@ -84,16 +110,24 @@ function ProgressiveImage({ src, alt, className, shouldAnimate = true, onComplet
   )
 }
 
+interface TypewriterTextProps {
+  children: React.ReactNode
+  delay?: number
+  speed?: number
+  onComplete?: () => void
+  shouldAnimate?: boolean
+}
+
 // Typewriter effect component for animating text character by character
-function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAnimate = true }) {
+function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAnimate = true }: TypewriterTextProps) {
   const [displayedText, setDisplayedText] = useState('')
   const [isComplete, setIsComplete] = useState(false)
-  const animationRef = useRef(null)
-  const startTimeRef = useRef(null)
+  const animationRef = useRef<number | null>(null)
+  const startTimeRef = useRef<number | null>(null)
   const fullTextRef = useRef('')
 
   // Extract plain text from children (for animation)
-  const extractText = (node) => {
+  const extractText = (node: React.ReactNode): string => {
     if (typeof node === 'string') return node
     if (typeof node === 'number') return String(node)
     if (React.isValidElement(node)) {
@@ -111,11 +145,11 @@ function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAni
 
   useEffect(() => {
     // Cancel any ongoing animation
-    if (animationRef.current) {
+    if (animationRef.current !== null) {
       cancelAnimationFrame(animationRef.current)
       animationRef.current = null
     }
-    if (startTimeRef.current) {
+    if (startTimeRef.current !== null) {
       startTimeRef.current = null
     }
 
@@ -167,7 +201,7 @@ function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAni
       animationRef.current = requestAnimationFrame(animate)
     }
 
-    let startTimeout
+    let startTimeout: ReturnType<typeof setTimeout>
     if (delay === 0) {
       // Start immediately if no delay
       animate()
@@ -181,7 +215,7 @@ function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAni
       if (startTimeout) {
         clearTimeout(startTimeout)
       }
-      if (animationRef.current) {
+      if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current)
       }
       startTimeRef.current = null
@@ -218,44 +252,42 @@ function TypewriterText({ children, delay = 0, speed = 20, onComplete, shouldAni
   )
 }
 
-export default function Post({ slug: slugProp }) {
-  const { slug: slugParam } = useParams()
+interface PostProps {
+  slug?: string
+}
+
+export default function Post({ slug: slugProp }: PostProps) {
+  const { slug: slugParam } = useParams<{ slug?: string }>()
   const slug = slugProp || slugParam
   const navigate = useNavigate()
-  const [post, setPost] = useState(null)
+  const [post, setPost] = useState<Post | null>(null)
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(true)
-  const [animationPhase, setAnimationPhase] = useState(null) // null | 'title' | 'excerpt' | 'heroImage' | 'content' | 'complete'
+  const [animationPhase, setAnimationPhase] = useState<'title' | 'excerpt' | 'heroImage' | 'content' | 'complete' | null>(null)
   const [contentParagraphIndex, setContentParagraphIndex] = useState(0)
   const [heroImageProgress, setHeroImageProgress] = useState(0) // 0-100 for progressive reveal
-  const contentParagraphsRef = useRef([])
+  const contentParagraphsRef = useRef<string[]>([])
   const isDev = import.meta.env.DEV
 
   useEffect(() => {
     const loadPost = async () => {
       try {
         // Start with public posts
-        let postsData = [...publicPostsData]
-        
-        // Try to load private posts.json and merge with public
-        try {
-          const privatePostsModule = await import('@/content/posts/posts.private.json')
-          const privatePosts = privatePostsModule.default || privatePostsModule
-          
-          // Create a map of slugs from public posts
-          const publicSlugMap = new Map(postsData.map(post => [post.slug, post]))
-          
-          // Add private posts, overriding public posts with same slug
-          privatePosts.forEach(privatePost => {
-            publicSlugMap.set(privatePost.slug, privatePost)
-          })
-          
-          // Convert map back to array
-          postsData = Array.from(publicSlugMap.values())
-        } catch (error) {
-          // Private file doesn't exist, use public one only
+        let postsData: Post[] = [...(publicPostsData as Post[])]
+
+        // Load private posts (drafts) only in development so production build excludes them
+        if (isDev) {
+          try {
+            const privatePostsModule = await import('@/content/posts/posts.private.json') as { default?: Post[] } | Post[]
+            const privatePosts = (privatePostsModule as { default?: Post[] }).default || (privatePostsModule as Post[])
+            const publicSlugMap = new Map<string, Post>(postsData.map(post => [post.slug, post]))
+            privatePosts.forEach(privatePost => publicSlugMap.set(privatePost.slug, privatePost))
+            postsData = Array.from(publicSlugMap.values())
+          } catch {
+            // Private file not found, keep public only
+          }
         }
-        
+
         // Find post metadata
         const postMeta = postsData.find(p => p.slug === slug)
         
@@ -278,30 +310,44 @@ export default function Post({ slug: slugProp }) {
 
         setPost(postMeta)
 
-        // Load markdown content using dynamic import
-        // Check drafts directory first if post is unpublished, then published directory
-        try {
-          let markdownModule
-          if (!postMeta.published && isDev) {
-            // Try drafts directory first for unpublished posts
-            try {
-              markdownModule = await import(`@/content/posts/drafts/${slug}.md?raw`)
-            } catch (draftError) {
-              // Fall back to published directory if not in drafts
-              markdownModule = await import(`@/content/posts/${slug}.md?raw`)
+        // Load markdown content
+        // First try to load from JSON cache (body field), then fall back to markdown files
+        let content: string | null = null
+        
+        // Check if body is in the metadata (from parquet cache)
+        if (postMeta.body) {
+          content = postMeta.body
+        } else {
+          // Fallback: Try to load from markdown files (legacy support)
+          try {
+            let markdownModule: { default: string }
+            if (!postMeta.published && isDev) {
+              // Try drafts directory first for unpublished posts
+              try {
+                markdownModule = await import(`@/content/posts/drafts/${slug}.md?raw`) as { default: string }
+              } catch (draftError) {
+                // Fall back to published directory if not in drafts
+                markdownModule = await import(`@/content/posts/${slug}.md?raw`) as { default: string }
+              }
+            } else {
+              // Published posts are always in the main posts directory
+              markdownModule = await import(`@/content/posts/${slug}.md?raw`) as { default: string }
             }
-          } else {
-            // Published posts are always in the main posts directory
-            markdownModule = await import(`@/content/posts/${slug}.md?raw`)
+            content = markdownModule.default
+          } catch (error) {
+            console.error('Error loading post content from markdown:', error)
           }
-          setContent(markdownModule.default)
+        }
+        
+        if (content) {
+          setContent(content)
           // Reset animation state when content loads
           setAnimationPhase('title')
           setContentParagraphIndex(0)
           setHeroImageProgress(0)
           contentParagraphsRef.current = []
-        } catch (error) {
-          console.error('Error loading post content:', error)
+        } else {
+          console.error('Post body not found in cache or markdown files')
           setContent('# Post Not Found\n\nThe content for this post could not be loaded.')
           setAnimationPhase('title')
           setContentParagraphIndex(0)
@@ -324,7 +370,7 @@ export default function Post({ slug: slugProp }) {
     }
   }, [slug, slugParam, navigate, isDev])
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string | undefined): string => {
     if (!dateString) return ''
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', { 
@@ -336,7 +382,7 @@ export default function Post({ slug: slugProp }) {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen py-8 px-8">
+      <div className="flex justify-center items-center min-h-screen py-8 px-0 md:px-8">
         <div className="max-w-[600px] w-full">
           <p className="text-[15px] text-[#666]">Loading...</p>
         </div>
@@ -349,7 +395,7 @@ export default function Post({ slug: slugProp }) {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen py-8 px-8">
+    <div className="flex justify-center items-center min-h-screen py-8 px-0 md:px-8">
       <div className="max-w-[600px] w-full">
         <article>
           <header className="mb-8">
@@ -358,13 +404,13 @@ export default function Post({ slug: slugProp }) {
             </h1>
             {post.excerpt && (
               <p className="text-[15px] leading-[1.75] text-[#666] mb-4">
-                {post.excerpt}
+                {stripLinksFromExcerpt(post.excerpt)}
               </p>
             )}
           </header>
 
           {post.heroImage && post.heroImageStyle !== 'float-right' && (
-            <div className="mb-8 -mx-8">
+            <div className="mb-8 md:-mx-8">
               <img
                 src={`/images/posts/${post.heroImage}`}
                 alt={post.title}
@@ -375,7 +421,7 @@ export default function Post({ slug: slugProp }) {
 
           <div className="prose prose-sm max-w-none">
             {post.heroImage && post.heroImageStyle === 'float-right' && (
-              <div className="float-right ml-8 mb-4 max-w-[300px]">
+              <div className="w-full mb-4 md:float-right md:ml-8 md:mb-4 md:max-w-[300px]">
                 <img
                   src={`/images/posts/${post.heroImage}`}
                   alt={post.title}
@@ -419,7 +465,7 @@ export default function Post({ slug: slugProp }) {
                 blockquote: ({ node, ...props }) => (
                   <blockquote className="border-l-4 border-gray-300 pl-4 italic text-[15px] text-[#666] mb-4" {...props} />
                 ),
-                code: ({ node, inline, ...props }) => {
+                code: ({ node, inline, ...props }: { node?: unknown; inline?: boolean; children?: React.ReactNode }) => {
                   if (inline) {
                     return (
                       <code className="bg-gray-100 px-1 py-0.5 rounded text-[14px] font-mono" {...props} />
@@ -439,25 +485,13 @@ export default function Post({ slug: slugProp }) {
 
           {(post.showMetadata !== false) && (
             <footer className="mt-12 pt-8 border-t border-[#e0e0e0]">
-              <div className="flex flex-wrap gap-2 mb-4">
-                {!post.published && isDev && (
+              {!post.published && isDev && (
+                <div className="flex flex-wrap gap-2 mb-4">
                   <span className="px-2 py-1 text-[11px] font-medium bg-yellow-100 text-yellow-800 rounded">
                     Draft
                   </span>
-                )}
-                {post.tags && post.tags.length > 0 && (
-                  <>
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 text-[11px] font-medium bg-gray-100 text-gray-700 rounded"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </>
-                )}
-              </div>
+                </div>
+              )}
               <div className="flex items-center gap-4 text-[13px] text-[#999]">
                 {post.publishedDate && (
                   <time dateTime={post.publishedDate}>

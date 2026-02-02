@@ -11,47 +11,61 @@
     "heroImage": "profile.jpg",
     "heroImageStyle": "float-right",
     "excludeFromListing": true,
-    "showMetadata": false
+    "showMetadata": false,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "the-flip-side",
     "title": "The Flip Side",
-    "excerpt": "A recommendation for The Flip Side, an effective newsletter that presents thoughtful opinions from across the left-right political divide.",
+    "excerpt": "I've been reading The Flip Side since October and find it's an incredibly effective and efficient way to encounter and digest thoughtful opinions...",
     "published": true,
     "publishedDate": "2019-03-22",
     "category": "essay",
     "readTime": 1,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "yc-w19-web-developer-contract",
     "title": "Yc W19 Web Developer Contract",
-    "excerpt": "Job posting: YC W19 company seeking web developer contractor for React, Node, and MongoDB project with Digital Ocean hosting.",
+    "excerpt": "Web developers: The founder of a YC W19 company I know is looking to contract immediately for a project involving React, Node, and MongoDB with...",
     "published": true,
     "publishedDate": "2018-12-05",
     "category": "essay",
     "readTime": 1,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "facebook-police-state",
     "title": "The Facebook police state",
-    "excerpt": "Argues that expecting Facebook to police data misuse off-platform is unrealistic. Better to educate users about risks and rely on legal remedies.",
+    "excerpt": "Should Facebook really be responsible for policing the misuse of user datahttps://newsroom.fb.com/news/2018/03/forensic-audits-cambridge-analytica/...",
     "published": true,
     "publishedDate": "2018-03-20",
     "category": "technical",
     "readTime": 5,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "finding-flow-beyond-distraction",
     "title": "Finding flow beyond distraction",
-    "excerpt": "Practical methods for establishing flow states by reducing external distractions (notifications, phones) and internal ones (worry management).",
+    "excerpt": "One my highest priorities over the past several years has been to establish a more frequent state of flowhttps://en.wikipedia.org/wiki/Flowpsychology...",
     "published": true,
     "publishedDate": "2018-02-28",
     "category": "technical",
     "readTime": 8,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "alps-snowboarding-recommendations",
@@ -61,7 +75,10 @@
     "publishedDate": "2018-02-09",
     "category": "essay",
     "readTime": 1,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "tutor-catala",
@@ -71,17 +88,23 @@
     "publishedDate": "2017-12-10",
     "category": "essay",
     "readTime": 1,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "the-outline",
     "title": "The Outline",
-    "excerpt": "A brief recommendation for The Outline, an impressive media website noted for its creative design and construction quality.",
+    "excerpt": "This is the most impressive media website I've seen in a while, from a creative design and construction quality point of view:...",
     "published": true,
     "publishedDate": "2017-12-10",
     "category": "technical",
     "readTime": 1,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "foursquare-swarm-checkins-sync",
@@ -91,7 +114,10 @@
     "publishedDate": "2017-11-13",
     "category": "technical",
     "readTime": 2,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "sync-server-dropbox-api-version-2-fix",
@@ -101,7 +127,10 @@
     "publishedDate": "2017-11-05",
     "category": "technical",
     "readTime": 2,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "dropbox-website-publishing",
@@ -111,7 +140,10 @@
     "publishedDate": "2017-11-03",
     "category": "technical",
     "readTime": 6,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "park-ranger-grunt-hoist-proxy",
@@ -121,7 +153,10 @@
     "publishedDate": "2017-04-04",
     "category": "technical",
     "readTime": 3,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "touch-bar-autosuggest",
@@ -131,7 +166,10 @@
     "publishedDate": "2017-03-02",
     "category": "essay",
     "readTime": 1,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "spanish-non-lucrative-residence-visa",
@@ -141,236 +179,308 @@
     "publishedDate": "2014-10-26",
     "category": "article",
     "readTime": 29,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "bringing-it-all-back-home",
     "title": "Bringing it all back home",
-    "excerpt": "Introducing Asheville, an open-source project to sync personal online data from social networks to Dropbox, enabling true data ownership.",
+    "excerpt": "> \"Now, I been in jail when all my mail showed, that a man can’t give his address out to bad company\" - Bob Dylan, Absolutely Sweet Marie Last summer...",
     "published": true,
     "publishedDate": "2014-01-30",
     "category": "technical",
     "readTime": 6,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "11-reasons-why-i-wont-click-on-your-link-bait",
     "title": "11 Reasons Why I Won't Click On Your Link Bait",
-    "excerpt": "A satirical list of reasons why link-bait listicles fail to capture interest, from pandering to dumbing down content.",
+    "excerpt": "1. It blatantly panders to my predispositions. 2. I presume it was written by an underpaid intern. 3. I already saw the content on Reddit. 4. I'm...",
     "published": true,
     "publishedDate": "2013-12-06",
     "category": "essay",
     "readTime": 1,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "kanban",
     "title": "Kanban",
-    "excerpt": "How to use kanban boards with physical notecards to visualize and prioritize product development from design through validation.",
+    "excerpt": "One of the most important aspects of product design and management is prioritization. There are only so many resources at a company's disposal at any...",
     "published": true,
     "publishedDate": "2012-12-11",
     "category": "technical",
     "readTime": 7,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "success-projection-for-startups",
     "title": "Success projection for startups",
-    "excerpt": "Building projection models that work backwards from desired valuation to current metrics helps startups gauge if they're on track.",
+    "excerpt": "Startups often get so consumed by their day-to-day challenges that they do a poor job actually projecting their longer-term success or lack thereof....",
     "published": true,
     "publishedDate": "2012-12-05",
     "category": "essay",
     "readTime": 4,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "three-types-of-design",
     "title": "Three types of design",
-    "excerpt": "Distinguishes three types of design: product (functionality), interface (usability), and visual (aesthetics), and how they interrelate.",
+    "excerpt": "People tend to use the word \"design\" very loosely when talking about product, but it's actually quite important to distinguish between the types of...",
     "published": true,
     "publishedDate": "2012-11-29",
     "category": "technical",
     "readTime": 5,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "the-postmvp-fork-in-the-road",
     "title": "The Post-MVP Fork in the Road",
-    "excerpt": "After an unenthusiastic MVP launch, startups face a fork: iterate incrementally or honestly assess and revamp fundamentals. Most choose wrong.",
+    "excerpt": "A lot of startups rightly aim to release a minimum viable product MVP as their first initiative. The goal of an MVP helps a team rally around a...",
     "published": true,
     "publishedDate": "2012-11-28",
     "category": "technical",
     "readTime": 4,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "does-your-product-provide-instant-gratification",
     "title": "Does your product provide instant gratification?",
-    "excerpt": "Products must provide immediate gratification upon first use. If users can't quickly derive value, you have a structural value proposition problem.",
+    "excerpt": "Over the past year, and mostly as a result of my Plancast post-mortem, I've spoken  with dozens of entrepreneurs who are working on events-related...",
     "published": true,
     "publishedDate": "2012-11-27",
     "category": "technical",
     "readTime": 3,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "a-postmortem-for-plancast",
     "title": "A Post-Mortem for Plancast",
-    "excerpt": "A detailed analysis of why Plancast failed to scale, examining fundamental challenges with events as a content type in social networks.",
+    "excerpt": "Nearly three years ago, I left my position at TechCrunchhttp://techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ to start my own Internet...",
     "published": true,
     "publishedDate": "2012-01-22",
     "category": "technical",
     "readTime": 13,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "share-frequency",
     "title": "Share frequency",
-    "excerpt": "The frequency at which users can share content on a social network is critical to how much ongoing value it provides.",
+    "excerpt": "When designing a social network that depends on users to contribute content from which they'll collectively derive value, one must consider certain...",
     "published": true,
     "publishedDate": "2011-08-12",
     "category": "technical",
     "readTime": 4,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "homesteading-on-the-indie-web",
     "title": "Homesteading on the indie web",
-    "excerpt": "Designing a tool to help people establish independent personal websites (homesteads) as part of the indie web movement for digital freedom.",
+    "excerpt": "I had the pleasure of attending IndieWebCamphttp://indiewebcamp.com/ in Portland last month, a BarCamp-style conference where techies get together to...",
     "published": true,
     "publishedDate": "2011-07-30",
     "category": "technical",
     "readTime": 10,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "content",
     "title": "Content",
-    "excerpt": "Examines the types of content that social networks support (profiles, relationships, proactive content, reactive content) and their implications.",
+    "excerpt": "People are particular about the forms of communication they employ when expressing themselves, through social networks or any other media, because...",
     "published": true,
     "publishedDate": "2011-07-07",
     "category": "technical",
     "readTime": 5,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "relationship",
     "title": "Relationship",
-    "excerpt": "How the types of relationships a social network facilitates determine its value and appeal to different user groups.",
+    "excerpt": "When people connect with others on a given social network, they are conscientious about whom they will connect with, because an exchange of...",
     "published": true,
     "publishedDate": "2011-06-04",
     "category": "technical",
     "readTime": 4,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "three-pillars",
     "title": "Three pillars of social networking",
-    "excerpt": "Identifies three pillars that differentiate social networks: relationship types, content types, and communication mechanisms.",
+    "excerpt": "Social networking is a precondition for new modes of information exchange, not an end in and of itself. By definition, a social network is simply a...",
     "published": true,
     "publishedDate": "2011-05-02",
     "category": "essay",
     "readTime": 2,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "how-to-pitch-a-tech-blogger",
     "title": "How to pitch a tech blogger",
-    "excerpt": "A guide for entrepreneurs on pitching startups to tech bloggers: craft a narrative, build relationships, and deliver pitches directly.",
+    "excerpt": "I've been asked privately quite a few times over the last couple of years how one should pitch their startup to a tech blog like...",
     "published": true,
     "publishedDate": "2010-09-26",
     "category": "technical",
     "readTime": 8,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "some-latenight-ideas-for-blippy",
     "title": "Some late-night ideas for Blippy",
-    "excerpt": "Late-night thoughts on Blippy, a service for sharing purchase information, and ideas for improving its approach to social shopping.",
+    "excerpt": "I feel a certain kinship towards the founders of Blippyhttp://blippy.com/. Not because I know them well I've met Philip Kaplan aka Pud only once but...",
     "published": true,
     "publishedDate": "2010-01-18",
     "category": "essay",
     "readTime": 3,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "plancast-in-public-beta",
     "title": "Plancast in public beta",
-    "excerpt": "Announcement of Plancast's public beta launch, a service for sharing and discovering events from personal calendars.",
+    "excerpt": "I'm happy to announce that the site I've been working on for the past half year or so - Plancasthttp://plancast.com/ - is now available in public...",
     "published": true,
     "publishedDate": "2009-11-15",
     "category": "technical",
     "readTime": 2,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "facebooks-social-graph",
     "title": "Facebook's social graph",
-    "excerpt": "Facebook's social graph was once its greatest asset but has become a liability as users seek to connect differently across contexts.",
+    "excerpt": "The social graph on Facebook has been the company's biggest asset, but over time it has become perhaps its biggest liability as well. When users want...",
     "published": true,
     "publishedDate": "2009-07-31",
     "category": "technical",
     "readTime": 7,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "worldly-developments",
     "title": "Worldly Developments",
-    "excerpt": "Announcement of incorporating as Worldly Developments, the company behind Plancast and other internet products.",
+    "excerpt": "I'm happy to announce some exciting news regarding my startup. I've officially incorporated as Worldly Developmentshttp://worldlydevelopments.com/...",
     "published": true,
     "publishedDate": "2009-06-21",
     "category": "technical",
     "readTime": 2,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "the-web-needs-its-own-app-store",
     "title": "The web needs its own App Store",
-    "excerpt": "The web needs its own app store to enable better discovery, distribution, and monetization of web applications.",
+    "excerpt": "I've been thinking a bit about the Apple App Store recently, perhaps because I'm starting to think more about developing a mobile application that...",
     "published": true,
     "publishedDate": "2009-05-19",
     "category": "technical",
     "readTime": 4,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "narrowing-scope",
     "title": "Narrowing Scope",
-    "excerpt": "Narrowing Plancast's scope to focus on a more accessible experience for first-time users, prioritizing simplicity over feature breadth.",
+    "excerpt": "Since my last post, I've narrowed the scope of my project down a great deal. The main reason was to make it more accessible to first-time users who...",
     "published": true,
     "publishedDate": "2009-05-18",
     "category": "article",
     "readTime": 3,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "the-unfolding-legacy-of-twitter-for-software-design",
     "title": "The unfolding legacy of Twitter for software design",
-    "excerpt": "Twitter's influence on software design reflects broader shifts in web innovation toward simplicity, constraints, and real-time communication.",
+    "excerpt": "The immense amount of ink spilled for Twitter these days signals two main things. First, that web innovation in general is going through a...",
     "published": true,
     "publishedDate": "2009-03-30",
     "category": "technical",
     "readTime": 4,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "my-first-week-as-an-entrepreneur",
     "title": "My first week as an entrepreneur",
-    "excerpt": "Reflections on the first week after leaving TechCrunch to work on a startup, covering initial challenges and learning experiences.",
+    "excerpt": "Today marks the completion of my first week working on my first startup/getting-the-lay-of-the-land. So, I thought it would be a good time to share...",
     "published": true,
     "publishedDate": "2009-03-22",
     "category": "technical",
     "readTime": 7,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "getting-the-lay-of-the-land",
     "title": "Getting the lay of the land",
-    "excerpt": "Announcement of leaving TechCrunch to start an internet business, with initial thoughts on getting oriented in the startup world.",
+    "excerpt": "As Erick Schonfeld was kind enough to announce in a post on TechCrunchhttp://www.techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ last...",
     "published": true,
     "publishedDate": "2009-03-17",
     "category": "technical",
     "readTime": 7,
-    "tags": []
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
   }
 ]

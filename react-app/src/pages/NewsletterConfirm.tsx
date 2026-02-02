@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -6,12 +6,26 @@ import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
 
+declare global {
+  interface Window {
+    gtag?: (command: string, eventName: string, params?: Record<string, string>) => void
+  }
+}
+
+interface SurveyData {
+  role: string
+  ai_usage: string[]
+  challenge: string
+  crypto: string
+  team_size: string
+}
+
 export default function NewsletterConfirm() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const email = searchParams.get('email') || ''
   
-  const [surveyData, setSurveyData] = useState({
+  const [surveyData, setSurveyData] = useState<SurveyData>({
     role: '',
     ai_usage: [],
     challenge: '',
@@ -28,7 +42,7 @@ export default function NewsletterConfirm() {
     }
   }, [email, navigate])
 
-  const handleCheckboxChange = (value) => {
+  const handleCheckboxChange = (value: string) => {
     setSurveyData(prev => ({
       ...prev,
       ai_usage: prev.ai_usage.includes(value)
@@ -37,7 +51,7 @@ export default function NewsletterConfirm() {
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -54,12 +68,12 @@ export default function NewsletterConfirm() {
         })
       })
 
-      const result = await response.json()
+      const result = await response.json() as { error?: string }
 
       if (response.ok) {
         setSuccess(true)
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'newsletter_survey_completed', {
+        if (typeof window.gtag !== 'undefined') {
+          window.gtag('event', 'newsletter_survey_completed', {
             'event_category': 'engagement',
             'event_label': 'newsletter_survey'
           })

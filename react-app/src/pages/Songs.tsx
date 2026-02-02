@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react'
 
+interface Song {
+  song_id?: string
+  title?: string
+  artist?: string
+  album?: string
+  spotify_url?: string
+}
+
 // Extract track ID from Spotify URL
-function getSpotifyTrackId(url) {
+function getSpotifyTrackId(url: string | undefined): string | null {
   if (!url) return null
   const match = url.match(/\/track\/([a-zA-Z0-9]+)/)
   return match ? match[1] : null
 }
 
 export default function Songs() {
-  const [songs, setSongs] = useState([])
+  const [songs, setSongs] = useState<Song[]>([])
   const [loading, setLoading] = useState(true)
-  const [sortBy, setSortBy] = useState('title') // 'title', 'artist', 'album'
+  const [sortBy, setSortBy] = useState<'title' | 'artist' | 'album'>('title')
 
   useEffect(() => {
     const loadSongs = async () => {
@@ -18,7 +26,7 @@ export default function Songs() {
         // Try to load from public JSON file
         const response = await fetch('/data/songs.json')
         if (response.ok) {
-          const data = await response.json()
+          const data = await response.json() as Song[]
           setSongs(data)
         } else {
           console.warn('Songs JSON not found, using empty array')
@@ -36,7 +44,7 @@ export default function Songs() {
   }, [])
 
   // Sort songs
-  const processedSongs = songs.sort((a, b) => {
+  const processedSongs = [...songs].sort((a, b) => {
       if (sortBy === 'title') {
         return (a.title || '').localeCompare(b.title || '')
       } else if (sortBy === 'artist') {
@@ -61,7 +69,7 @@ export default function Songs() {
             <label className="text-[14px] text-[#666]">Sort by:</label>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => setSortBy(e.target.value as 'title' | 'artist' | 'album')}
               className="px-3 py-1.5 text-[14px] border border-[#e0e0e0] rounded bg-white focus:outline-none focus:border-[#999]"
             >
               <option value="title">Title</option>
@@ -112,6 +120,7 @@ export default function Songs() {
                         loading="lazy"
                         style={{ borderRadius: '12px' }}
                         className="max-w-full"
+                        title={`${song.title || 'Song'} by ${song.artist || 'Unknown Artist'}`}
                       />
                     </div>
                   )}

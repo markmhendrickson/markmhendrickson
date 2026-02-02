@@ -1,6 +1,13 @@
 import timelineData from '@/data/timeline.json'
 
-const timeline = timelineData
+interface TimelineItem {
+  role: string
+  company: string
+  date: string
+  description: string[]
+}
+
+const timeline = timelineData as TimelineItem[]
 
 export default function Timeline() {
   return (

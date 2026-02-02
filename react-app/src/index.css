@@ -50,6 +50,10 @@
   * {
     border-color: hsl(var(--border));
   }
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -58,5 +62,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 }

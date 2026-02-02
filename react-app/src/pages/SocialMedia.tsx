@@ -1,8 +1,19 @@
-import { Github, Linkedin, Instagram, Twitter, Facebook, Youtube, Mail, Globe } from 'lucide-react'
+import { Github, Linkedin, Instagram, Twitter, Facebook, Youtube, Mail, Globe, type LucideIcon } from 'lucide-react'
 import linksData from '@/data/links.json'
 
+interface LinkData {
+  name: string
+  url: string
+  icon: string
+  description: string
+}
+
+interface LinkWithIcon extends Omit<LinkData, 'icon'> {
+  icon: LucideIcon
+}
+
 // Map icon names to actual icon components
-const iconMap = {
+const iconMap: Record<string, LucideIcon> = {
   Github,
   Linkedin,
   Instagram,
@@ -14,9 +25,9 @@ const iconMap = {
 }
 
 // Transform JSON data to include icon components
-const links = linksData.map(link => ({
+const links: LinkWithIcon[] = (linksData as LinkData[]).map(link => ({
   ...link,
-  icon: iconMap[link.icon]
+  icon: iconMap[link.icon] || Globe
 }))
 
 export default function SocialMedia() {
@@ -49,21 +60,6 @@ export default function SocialMedia() {
                       <div className="text-[13px] text-[#666] line-clamp-1">
                         {link.description}
                       </div>
-                    </div>
-                    <div className="flex-shrink-0">
-                      <svg
-                        className="w-5 h-5 text-[#999] group-hover:text-[#333] transition-colors"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
                     </div>
                   </a>
                 )
