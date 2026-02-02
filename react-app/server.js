@@ -7,6 +7,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
 const PORT = process.env.PORT || 5173
 const SSR_PLACEHOLDER = '<!--ssr-outlet-->'
+const HELMET_PLACEHOLDER = '<!--helmet-outlet-->'
+
+function helmetHeadString(helmetContext) {
+  const helmet = helmetContext?.helmet
+  if (!helmet) return ''
+  const parts = [
+    helmet.title?.toString?.(),
+    helmet.priority?.toString?.(),
+    helmet.meta?.toString?.(),
+    helmet.link?.toString?.(),
+    helmet.script?.toString?.(),
+  ].filter(Boolean)
+  return parts.join('')
+}
 
 const STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/social', '/songs']
 
@@ -18,6 +32,12 @@ function getPostSlugs() {
   return (Array.isArray(posts) ? posts : [])
     .filter((p) => p.published !== false && p.slug)
     .map((p) => `/posts/${p.slug}`)
+}
+
+function readPostBody(slug) {
+  const mdPath = path.resolve(__dirname, 'src', 'content', 'posts', `${slug}.md`)
+  if (!fs.existsSync(mdPath)) return null
+  return fs.readFileSync(mdPath, 'utf-8')
 }
 
 async function runPrerender() {
@@ -36,9 +56,15 @@ async function runPrerender() {
   const postRoutes = getPostSlugs()
   const allRoutes = [...STATIC_ROUTES, ...postRoutes]
   for (const url of allRoutes) {
-    const appHtml = render(url)
-    const html = template.replace(SSR_PLACEHOLDER, appHtml)
+    const helmetContext = {}
     const pathname = url.split('?')[0] || '/'
+    const postMatch = pathname.match(/^\/posts\/([^/]+)$/)
+    const postBody = postMatch ? readPostBody(postMatch[1]) : null
+    const appHtml = render(url, helmetContext, postBody != null ? { postBody } : undefined)
+    let html = template.replace(SSR_PLACEHOLDER, appHtml)
+    if (template.includes(HELMET_PLACEHOLDER)) {
+      html = html.replace(HELMET_PLACEHOLDER, helmetHeadString(helmetContext))
+    }
     const outPath =
       pathname === '/'
         ? path.join(distPath, 'index.html')
@@ -47,8 +73,13 @@ async function runPrerender() {
     fs.writeFileSync(outPath, html, 'utf-8')
     console.log('prerender:', url, '->', outPath.replace(distPath, 'dist'))
   }
-  const notFoundHtml = render('/_no_match_')
-  fs.writeFileSync(path.join(distPath, '404.html'), template.replace(SSR_PLACEHOLDER, notFoundHtml), 'utf-8')
+  const notFoundHelmetContext = {}
+  const notFoundHtml = render('/_no_match_', notFoundHelmetContext)
+  let notFoundFull = template.replace(SSR_PLACEHOLDER, notFoundHtml)
+  if (template.includes(HELMET_PLACEHOLDER)) {
+    notFoundFull = notFoundFull.replace(HELMET_PLACEHOLDER, helmetHeadString(notFoundHelmetContext))
+  }
+  fs.writeFileSync(path.join(distPath, '404.html'), notFoundFull, 'utf-8')
   console.log('prerender: 404.html')
   console.log('prerender: done,', allRoutes.length, 'routes')
 }
@@ -68,8 +99,12 @@ async function createServer() {
         let template = fs.readFileSync(templatePath, 'utf-8')
         const serverPath = path.join(distPath, 'server', 'entry-server.js')
         const { render } = await import(pathToFileURL(serverPath).href)
-        const appHtml = render(url)
-        const html = template.replace(SSR_PLACEHOLDER, appHtml)
+        const helmetContext = {}
+        const appHtml = render(url, helmetContext)
+        let html = template.replace(SSR_PLACEHOLDER, appHtml)
+        if (template.includes(HELMET_PLACEHOLDER)) {
+          html = html.replace(HELMET_PLACEHOLDER, helmetHeadString(helmetContext))
+        }
         res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
       } catch (e) {
         next(e)
@@ -90,8 +125,12 @@ async function createServer() {
         let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
         template = await vite.transformIndexHtml(url, template)
         const { render } = await vite.ssrLoadModule('/src/entry-server.tsx')
-        const appHtml = render(url)
-        const html = template.replace(SSR_PLACEHOLDER, appHtml)
+        const helmetContext = {}
+        const appHtml = render(url, helmetContext)
+        let html = template.replace(SSR_PLACEHOLDER, appHtml)
+        if (template.includes(HELMET_PLACEHOLDER)) {
+          html = html.replace(HELMET_PLACEHOLDER, helmetHeadString(helmetContext))
+        }
         res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
       } catch (e) {
         vite.ssrFixStacktrace(e)

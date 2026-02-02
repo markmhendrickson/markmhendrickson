@@ -1,32 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
+import { PostSSRProvider } from './contexts/PostSSRContext'
 import App from './App'
 import './index.css'
-
-// GA4: load gtag only in production (measurement ID from env or default for markmhendrickson.com)
-const gaId = (import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined) || 'G-5CWQZTEN9S'
-if (import.meta.env.PROD && gaId && typeof document !== 'undefined') {
-  const s = document.createElement('script')
-  s.async = true
-  s.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
-  document.head.appendChild(s)
-  window.dataLayer = window.dataLayer ?? []
-  window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer.push(args)
-  }
-  window.gtag('js', new Date().toISOString())
-  window.gtag('config', gaId, { send_page_view: true })
-}
 
 const rootEl = document.getElementById('root')
 if (!rootEl) throw new Error('Root element not found')
 
 // HelmetProvider must wrap App so Post/Posts <Helmet> has context (entry-client is the actual entry, not main.tsx)
+// PostSSRProvider(null) on client so usePostSSR() has a provider; SSR injects postMeta in entry-server
 const app = (
-  <HelmetProvider>
-    <App />
-  </HelmetProvider>
+  <PostSSRProvider postMeta={null}>
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
+  </PostSSRProvider>
 )
 // Hydrate when server-rendered HTML replaced the placeholder; otherwise render (SPA dev without server)
 const hasServerContent = rootEl.hasChildNodes() && !rootEl.innerHTML.includes('<!--ssr-outlet-->')

@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import publicPostsData from '@/content/posts/posts.json'
+import { usePostSSR } from '@/contexts/PostSSRContext'
 import { stripLinksFromExcerpt } from '@/lib/utils'
 
 const SITE_BASE = 'https://markmhendrickson.com'
@@ -264,9 +265,10 @@ export default function Post({ slug: slugProp }: PostProps) {
   const { slug: slugParam } = useParams<{ slug?: string }>()
   const slug = slugProp || slugParam
   const navigate = useNavigate()
-  const [post, setPost] = useState<Post | null>(null)
-  const [content, setContent] = useState('')
-  const [loading, setLoading] = useState(true)
+  const ssrPost = usePostSSR() as Post | null
+  const [post, setPost] = useState<Post | null>(ssrPost ?? null)
+  const [content, setContent] = useState(ssrPost?.body ?? '')
+  const [loading, setLoading] = useState(!ssrPost)
   const [animationPhase, setAnimationPhase] = useState<'title' | 'excerpt' | 'heroImage' | 'content' | 'complete' | null>(null)
   const [contentParagraphIndex, setContentParagraphIndex] = useState(0)
   const [heroImageProgress, setHeroImageProgress] = useState(0) // 0-100 for progressive reveal

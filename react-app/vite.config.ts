@@ -5,9 +5,31 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+const GA_MEASUREMENT_ID = process.env.VITE_GA_MEASUREMENT_ID || 'G-5CWQZTEN9S'
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Inject gtag in production only (head, before app) so GA detects the tag
+    {
+      name: 'inject-ga-production',
+      transformIndexHtml(html, ctx) {
+        // Only inject when building (not in dev server), so production deploy has gtag in head
+        if (ctx.server || !GA_MEASUREMENT_ID) return html
+        const snippet = `
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"><\/script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${GA_MEASUREMENT_ID}');
+<\/script>`
+        return html.replace('</head>', `${snippet}\n  </head>`)
+      },
+    },
+  ],
   base: '/',
   root: __dirname, // Explicitly set root to react-app directory
   resolve: {
