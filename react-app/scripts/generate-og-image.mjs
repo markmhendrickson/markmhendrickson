@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Generate a 1200x630 og:image from profile.jpg, under 600 KB (WhatsApp limit).
+ * Generate a 1200x630 og:image from profile.jpg with headline + CTA, under 600 KB (WhatsApp limit).
  * Output: public/images/og-default-1200x630.jpg
  * Run: node scripts/generate-og-image.mjs
  */
 import sharp from 'sharp'
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
+import { writeFileSync, mkdirSync, existsSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -19,6 +19,9 @@ const OG_WIDTH = 1200
 const OG_HEIGHT = 630
 const MAX_BYTES = 600 * 1024 // 600 KB
 
+const HEADLINE = 'Mark Hendrickson'
+const CTA = 'markmhendrickson.com'
+
 if (!existsSync(inputPath)) {
   console.error('Input not found:', inputPath)
   process.exit(1)
@@ -26,9 +29,38 @@ if (!existsSync(inputPath)) {
 
 mkdirSync(outDir, { recursive: true })
 
+/** SVG overlay: bottom band + headline + CTA for social preview. */
+function svgOverlay() {
+  const bandTop = 420
+  return `
+<svg width="${OG_WIDTH}" height="${OG_HEIGHT}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="40%" stop-color="rgba(0,0,0,0.5)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.85)"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="${bandTop}" width="${OG_WIDTH}" height="${OG_HEIGHT - bandTop}" fill="url(#band)"/>
+  <text x="${OG_WIDTH / 2}" y="520" text-anchor="middle" fill="white" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="56" font-weight="700">${escapeXml(HEADLINE)}</text>
+  <text x="${OG_WIDTH / 2}" y="578" text-anchor="middle" fill="rgba(255,255,255,0.95)" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="500">${escapeXml(CTA)}</text>
+</svg>
+`.trim()
+}
+
+function escapeXml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+}
+
 async function generate(quality) {
-  const buffer = await sharp(inputPath)
+  const photo = await sharp(inputPath)
     .resize(OG_WIDTH, OG_HEIGHT, { fit: 'cover', position: 'center' })
+    .jpeg({ quality: 90 })
+    .toBuffer()
+
+  const overlay = Buffer.from(svgOverlay())
+  const buffer = await sharp(photo)
+    .composite([{ input: overlay, top: 0, left: 0 }])
     .jpeg({ quality, mozjpeg: true })
     .toBuffer()
   return buffer

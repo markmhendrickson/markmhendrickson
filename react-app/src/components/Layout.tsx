@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, type Params } from 'react-router-dom'
+import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, FileEdit, Share2, Clock } from 'lucide-react'
@@ -33,8 +33,10 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const location = useLocation()
   const params = useParams()
   const [postTitle, setPostTitle] = useState<string | null>(null)
+  const isHome = location.pathname === '/'
 
   // Load post title if we're on a post page
   useEffect(() => {
@@ -87,14 +89,18 @@ export function Layout({ children }: LayoutProps) {
         <meta property="og:title" content={defaultTitle} />
         <meta property="og:description" content={defaultDescription} />
         <meta property="og:url" content={defaultUrl} />
-        <meta property="og:image" content={defaultImage} />
-        <meta property="og:image:width" content={String(ogImageWidth)} />
-        <meta property="og:image:height" content={String(ogImageHeight)} />
+        {isHome && (
+          <>
+            <meta property="og:image" content={defaultImage} />
+            <meta property="og:image:width" content={String(ogImageWidth)} />
+            <meta property="og:image:height" content={String(ogImageHeight)} />
+            <meta name="twitter:image" content={defaultImage} />
+            <meta name="twitter:image:width" content={String(ogImageWidth)} />
+            <meta name="twitter:image:height" content={String(ogImageHeight)} />
+          </>
+        )}
         <meta name="twitter:title" content={defaultTitle} />
         <meta name="twitter:description" content={defaultDescription} />
-        <meta name="twitter:image" content={defaultImage} />
-        <meta name="twitter:image:width" content={String(ogImageWidth)} />
-        <meta name="twitter:image:height" content={String(ogImageHeight)} />
       </Helmet>
       <SharedLayout
         siteName="Mark Hendrickson"
