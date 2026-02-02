@@ -10,6 +10,7 @@ interface Post {
   slug: string
   title: string
   excerpt?: string
+  summary?: string
   published: boolean
   publishedDate?: string
   category?: string
@@ -382,7 +383,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen py-8 px-0 md:px-8">
+      <div className="flex justify-center items-center min-h-content pt-0 pb-8 md:pt-8 md:pb-8 px-0 md:px-8">
         <div className="max-w-[600px] w-full">
           <p className="text-[15px] text-[#666]">Loading...</p>
         </div>
@@ -395,7 +396,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen py-8 px-0 md:px-8">
+    <div className="flex justify-center items-center min-h-content pt-0 pb-8 md:pt-8 md:pb-8 px-0 md:px-8">
       <div className="max-w-[600px] w-full">
         <article>
           <header className="mb-8">
@@ -418,6 +419,39 @@ export default function Post({ slug: slugProp }: PostProps) {
               />
             </div>
           )}
+
+          {post.summary && (() => {
+            const normalizedSummary = post.summary.trim().replace(/\s+/g, ' ')
+            const normalizedExcerpt = post.excerpt ? post.excerpt.trim().replace(/\s+/g, ' ') : ''
+            const repeatsExcerpt = normalizedExcerpt && normalizedSummary === normalizedExcerpt
+            return !repeatsExcerpt && (
+            <div className="prose prose-sm max-w-none mb-8 p-6 rounded-lg border-0 md:border md:border-sidebar-border bg-sidebar">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-4 mt-0">Key takeaways</h2>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  p: ({ node, ...props }) => (
+                    <p className="text-[15px] leading-[1.75] mb-3 text-[#333]" {...props} />
+                  ),
+                  ul: ({ node, ...props }) => (
+                    <ul className="list-disc list-outside mb-4 ml-6 space-y-2" {...props} />
+                  ),
+                  li: ({ node, ...props }) => (
+                    <li className="text-[15px] leading-[1.75] text-[#333]" {...props} />
+                  ),
+                  strong: ({ node, ...props }) => (
+                    <strong className="font-semibold" {...props} />
+                  ),
+                  a: ({ node, ...props }) => (
+                    <a className="text-black border-b border-black pb-[1px] hover:border-transparent" {...props} />
+                  ),
+                }}
+              >
+                {post.summary}
+              </ReactMarkdown>
+            </div>
+          );
+          })()}
 
           <div className="prose prose-sm max-w-none">
             {post.heroImage && post.heroImageStyle === 'float-right' && (

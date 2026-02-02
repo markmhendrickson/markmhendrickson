@@ -32,7 +32,7 @@ const links: LinkWithIcon[] = (linksData as LinkData[]).map(link => ({
 
 export default function SocialMedia() {
   return (
-    <div className="flex justify-center items-start min-h-screen py-20 px-8">
+    <div className="flex justify-center items-start min-h-content py-20 px-8">
       <div className="max-w-[600px] w-full">
             <h1 className="text-[28px] font-medium mb-2 tracking-tight">Links</h1>
             <div className="text-[17px] text-[#666] mb-12 font-normal tracking-wide">

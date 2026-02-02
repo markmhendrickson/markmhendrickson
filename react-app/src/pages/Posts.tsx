@@ -84,7 +84,7 @@ export default function Posts({ draft = false }: PostsProps) {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen py-20 px-8">
+    <div className="flex justify-center items-center min-h-content py-20 px-8">
       <div className="max-w-[600px] w-full">
         <div className="flex items-baseline justify-between gap-4 mb-2">
           <h1 className="text-[28px] font-medium tracking-tight">

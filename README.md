@@ -18,3 +18,5 @@ I take an antifragile approach: systems grow stronger through disruption, not we
 ---
 
 *This repo is the source for markmhendrickson.com. React app in `react-app/`; deploy is GitHub Actions → Pages on push to `main`.*
+
+**Deploy:** The `shared` submodule points at `github.com/markmhendrickson/react-components`. If that repo is private, add a repo secret `REPO_ACCESS_TOKEN` (PAT with `repo` scope) in this repo’s Settings → Secrets so the workflow can clone it. If the repo is public, no secret is needed.

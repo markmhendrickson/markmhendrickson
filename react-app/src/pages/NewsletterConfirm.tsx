@@ -90,7 +90,7 @@ export default function NewsletterConfirm() {
 
   if (success) {
     return (
-      <div className="flex justify-center items-start min-h-screen py-20 px-8">
+      <div className="flex justify-center items-start min-h-content py-20 px-8">
         <div className="max-w-[600px] w-full text-center">
           <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
           <h1 className="text-[28px] font-medium mb-4 tracking-tight">Thank You!</h1>
@@ -106,7 +106,7 @@ export default function NewsletterConfirm() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen py-20 px-8">
+    <div className="flex justify-center items-center min-h-content py-20 px-8">
       <div className="max-w-[600px] w-full">
 
         <Alert className="mb-6">

@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-content">
       <div className="pt-20 pb-[100px]">
         <div className="flex justify-start px-8">
           <div className="max-w-[1200px] w-full">
