@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "generate:og": "node scripts/generate-og-image.mjs",
     "predev": "test -f ../../../scripts/generate_posts_cache.py && python3 ../../../scripts/generate_posts_cache.py || true",
     "dev": "vite",
     "dev:ssr": "node server.js",
@@ -41,6 +42,7 @@
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
+    "sharp": "^0.33.5",
     "tailwindcss": "^3.4.13",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.6.3",

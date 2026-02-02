@@ -37,6 +37,18 @@ Hero images are optional and can be added to any post:
 
 Supported formats: JPG, PNG, WebP, etc. (any format supported by browsers)
 
+## Share (OG) Images
+
+Social previews use a default 1200×630 image under 600 KB (WhatsApp limit). Generate it once:
+
+```bash
+npm run generate:og
+```
+
+Output: `public/images/og-default-1200x630.jpg` (from `public/profile.jpg`).
+
+**Per-post share image:** Add `ogImage` to post metadata with a path under `public/images/` (e.g. `og/my-post-card.jpg`). Use 1200×630 px and keep under 600 KB. For a headline or call-to-action on the image, create the card in a design tool (Figma, Canva, etc.) or use a custom image and reference it via `ogImage`.
+
 **Note:** The system uses `posts.private.json` if available, otherwise falls back to `posts.json`. Private file should include all posts (published + drafts), while public file only includes published posts.
 
 ## Adding a New Post

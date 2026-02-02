@@ -73,7 +73,9 @@ export function Layout({ children }: LayoutProps) {
   const defaultTitle = 'Mark Hendrickson'
   const defaultDescription = 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI and complexity.'
   const defaultUrl = 'https://markmhendrickson.com/'
-  const defaultImage = 'https://markmhendrickson.com/profile.jpg'
+  const defaultImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
+  const ogImageWidth = 1200
+  const ogImageHeight = 630
 
   return (
     <>
@@ -86,9 +88,13 @@ export function Layout({ children }: LayoutProps) {
         <meta property="og:description" content={defaultDescription} />
         <meta property="og:url" content={defaultUrl} />
         <meta property="og:image" content={defaultImage} />
+        <meta property="og:image:width" content={String(ogImageWidth)} />
+        <meta property="og:image:height" content={String(ogImageHeight)} />
         <meta name="twitter:title" content={defaultTitle} />
         <meta name="twitter:description" content={defaultDescription} />
         <meta name="twitter:image" content={defaultImage} />
+        <meta name="twitter:image:width" content={String(ogImageWidth)} />
+        <meta name="twitter:image:height" content={String(ogImageHeight)} />
       </Helmet>
       <SharedLayout
         siteName="Mark Hendrickson"

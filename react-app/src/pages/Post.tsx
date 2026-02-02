@@ -9,6 +9,9 @@ import { usePostSSR } from '@/contexts/PostSSRContext'
 import { stripLinksFromExcerpt } from '@/lib/utils'
 
 const SITE_BASE = 'https://markmhendrickson.com'
+const OG_DEFAULT_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
+const OG_IMAGE_WIDTH = 1200
+const OG_IMAGE_HEIGHT = 630
 
 interface Post {
   slug: string
@@ -17,6 +20,8 @@ interface Post {
   summary?: string
   /** Optional 110–160 char description for og:description and meta description when shared. */
   shareDescription?: string
+  /** Optional path (under public/images/) to a 1200x630, under 600KB og:image for this post (e.g. og/foo.jpg). */
+  ogImage?: string
   published: boolean
   publishedDate?: string
   category?: string
@@ -410,11 +415,13 @@ export default function Post({ slug: slugProp }: PostProps) {
   const desc = (metaDescription || post.title).slice(0, 160)
   const isHome = useLocation().pathname === '/'
   const canonicalUrl = isHome ? `${SITE_BASE}/` : `${SITE_BASE}/posts/${post.slug}`
-  const ogImage = isHome
-    ? `${SITE_BASE}/profile.jpg`
-    : post.heroImage
-      ? `${SITE_BASE}/images/posts/${post.heroImage}`
-      : `${SITE_BASE}/profile.jpg`
+  const ogImage = post.ogImage
+    ? `${SITE_BASE}/images/${post.ogImage}`
+    : isHome
+      ? OG_DEFAULT_IMAGE
+      : post.heroImage
+        ? `${SITE_BASE}/images/posts/${post.heroImage}`
+        : OG_DEFAULT_IMAGE
 
   return (
     <>
@@ -427,6 +434,8 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta property="og:description" content={desc} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />
+        <meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />
         {post.publishedDate && (
           <meta property="article:published_time" content={post.publishedDate} />
         )}
@@ -434,6 +443,8 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={desc} />
         <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:image:width" content={String(OG_IMAGE_WIDTH)} />
+        <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />
         <script type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',
