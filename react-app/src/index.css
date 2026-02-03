@@ -43,6 +43,21 @@
   .post-prose a {
     @apply text-black border-b border-black pb-[1px] hover:border-transparent;
   }
+  .post-prose .footnotes {
+    @apply mt-10 pt-6 border-t border-[#e0e0e0];
+  }
+  .post-prose .footnotes p {
+    @apply text-[13px] leading-[1.65] mb-2 text-[#666];
+  }
+  .post-prose .footnotes ol {
+    @apply list-decimal list-outside ml-5 space-y-2;
+  }
+  .post-prose .footnotes li {
+    @apply text-[13px] leading-[1.65] text-[#666];
+  }
+  .post-prose .footnotes hr {
+    @apply hidden;
+  }
 
   /* Key takeaways box: same idea, scoped to summary container */
   .post-prose-summary p {

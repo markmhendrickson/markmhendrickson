@@ -76,7 +76,7 @@ export function Layout({ children }: LayoutProps) {
   const hasPageHelmet = location.pathname === '/posts' || location.pathname.startsWith('/posts/')
 
   const defaultTitle = 'Mark Hendrickson'
-  const defaultDescription = 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI and complexity.'
+  const defaultDescription = 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.'
   const defaultUrl = 'https://markmhendrickson.com/'
   const defaultImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200

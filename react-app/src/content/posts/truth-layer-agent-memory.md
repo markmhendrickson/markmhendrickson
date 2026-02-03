@@ -1,4 +1,4 @@
-I've been working on something called **[Neotoma](https://github.com/markmhendrickson/neotoma)**.
+I've been working on something called **[Neotoma](https://github.com/markmhendrickson/neotoma)**.[^1]
 
 There's nothing to try yet. This isn't a launch post, and I'm not announcing a product or asking for signups. The problem has been bothering me for a while, and more importantly, it's been actively getting in the way of work I've been trying to do.
 
@@ -89,15 +89,15 @@ The agentic web is emerging. We need one where users remain in control of memory
 
 I'm working on releasing a developer preview for my own usage and public testing. It will be rough and explicitly unreliable (e.g. APIs may change). Its purpose will be to pressure-test these ideas in real use, not to sell anything.
 
-How I'm approaching the build: I'm dogfooding it first in my own stack so I can see where determinism and provenance actually help and where they get in the way. Use cases include:
+How I'm approaching the build: I'm dogfooding it first in my own agentic stack so I can see where determinism and provenance actually help and where they get in the way. Use cases include:
 
-- **Tasks and execution** — Tasks, plans, projects, outcomes; due dates and follow-up reminders; sync with external task systems
-- **Contacts and relationships** — Contact records from email and documents; relationship graph; linked to communications and tasks
-- **Communications** — Email triage and persistence; workflow-triggered processing (e.g. inbound docs → structured records); conversation tracking linked to tasks, contacts, and projects
-- **Finance** — Transactions, recurring flows, income, holdings; imports and queries; transfer recording; document extraction from email
-- **Record keeping** — Purchases, accounts, companies, reports; audit log and snapshots for all writes
-- **Content and habits** — Posts and content; habits and completions; audio import and transcription
-- **Integrations** — Calendar, DNS and domains, credential sync, and other APIs as needed
+- **Tasks and execution** — Tasks, plans, projects, and outcomes with due dates and follow-up reminders
+- **Contacts and relationships** — Contact records and relationship graph linked to communications, tasks, and events
+- **Communications** — Email triage, workflow-triggered processing, and conversation tracking
+- **Finance** — Transactions, flows, income, holdings, and transfer and cost recording
+- **Record keeping** — Purchases, accounts, property and one-off analysis reports
+- **Content** — Posts, personal history, favorite media and consumption sources
+- **Health** — Habits, exercises, and ongoing tracking
 
 I'm prioritizing MCP stability and a minimal CLI before adding more surface area, stress-testing entity and relationship resolution and timeline queries as usage scales.
 
@@ -105,3 +105,5 @@ If this framing resonates, the work is happening in the open here:
 [https://github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma)
 
 Starring the repo is the simplest way to keep track of it as it evolves. Input from people thinking about agentic systems and scalable state is always welcome.
+
+[^1]: Named after the genus *Neotoma* (packrats), known for collecting and preserving material.

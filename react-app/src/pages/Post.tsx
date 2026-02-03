@@ -325,31 +325,47 @@ export default function Post({ slug: slugProp }: PostProps) {
         setPost(postMeta)
 
         // Load markdown content
-        // First try to load from JSON cache (body field), then fall back to markdown files
+        // In dev, prefer markdown files for preview. In prod, prefer parquet cache.
         let content: string | null = null
 
-        // Check if body is in the metadata (from parquet cache)
-        if (postMeta.body) {
-          content = postMeta.body
-        } else {
-          // Fallback: Try to load from markdown files (legacy support)
-          try {
-            let markdownModule: { default: string }
-            if (!postMeta.published && isDev) {
-              // Try drafts directory first for unpublished posts
-              try {
-                markdownModule = await import(`@/content/posts/drafts/${slug}.md?raw`) as { default: string }
-              } catch (draftError) {
-                // Fall back to published directory if not in drafts
-                markdownModule = await import(`@/content/posts/${slug}.md?raw`) as { default: string }
-              }
-            } else {
-              // Published posts are always in the main posts directory
+        const loadMarkdownContent = async (): Promise<string> => {
+          let markdownModule: { default: string }
+          if (!postMeta.published && isDev) {
+            // Try drafts directory first for unpublished posts
+            try {
+              markdownModule = await import(`@/content/posts/drafts/${slug}.md?raw`) as { default: string }
+            } catch (draftError) {
+              // Fall back to published directory if not in drafts
               markdownModule = await import(`@/content/posts/${slug}.md?raw`) as { default: string }
             }
-            content = markdownModule.default
+          } else {
+            // Published posts are always in the main posts directory
+            markdownModule = await import(`@/content/posts/${slug}.md?raw`) as { default: string }
+          }
+          return markdownModule.default
+        }
+
+        const tryLoadMarkdown = async (): Promise<string | null> => {
+          try {
+            return await loadMarkdownContent()
           } catch (error) {
             console.error('Error loading post content from markdown:', error)
+            return null
+          }
+        }
+
+        if (isDev) {
+          // Dev preview: markdown takes priority over parquet content
+          content = await tryLoadMarkdown()
+          if (content === null && postMeta.body) {
+            content = postMeta.body
+          }
+        } else {
+          // Production: parquet cache takes priority
+          if (postMeta.body) {
+            content = postMeta.body
+          } else {
+            content = await tryLoadMarkdown()
           }
         }
 
