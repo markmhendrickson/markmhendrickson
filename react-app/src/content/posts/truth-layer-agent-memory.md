@@ -89,7 +89,17 @@ The agentic web is emerging. We need one where users remain in control of memory
 
 I'm working on releasing a developer preview for my own usage and public testing. It will be rough and explicitly unreliable (e.g. APIs may change). Its purpose will be to pressure-test these ideas in real use, not to sell anything.
 
-How I'm approaching the build: I'm dogfooding it first in my own stack (an agentic operating system called Ateles). I'm using it as the memory layer for tasks, contacts, record keeping, financial analysis, communications and much more so I can see where determinism and provenance actually help and where they get in the way. I'm prioritizing MCP stability and a minimal CLI before adding more surface area, stress-testing entity and relationship resolution and timeline queries as my usage scales.
+How I'm approaching the build: I'm dogfooding it first in my own stack so I can see where determinism and provenance actually help and where they get in the way. Use cases include:
+
+- **Tasks and execution** — Tasks, plans, projects, outcomes; due dates and follow-up reminders; sync with external task systems
+- **Contacts and relationships** — Contact records from email and documents; relationship graph; linked to communications and tasks
+- **Communications** — Email triage and persistence; workflow-triggered processing (e.g. inbound docs → structured records); conversation tracking linked to tasks, contacts, and projects
+- **Finance** — Transactions, recurring flows, income, holdings; imports and queries; transfer recording; document extraction from email
+- **Record keeping** — Purchases, accounts, companies, reports; audit log and snapshots for all writes
+- **Content and habits** — Posts and content; habits and completions; audio import and transcription
+- **Integrations** — Calendar, DNS and domains, credential sync, and other APIs as needed
+
+I'm prioritizing MCP stability and a minimal CLI before adding more surface area, stress-testing entity and relationship resolution and timeline queries as usage scales.
 
 If this framing resonates, the work is happening in the open here:
 [https://github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma)

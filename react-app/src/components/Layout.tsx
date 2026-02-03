@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
-import { Home, FileText, FileEdit, Share2, Clock } from 'lucide-react'
+import { Home, FileText, Share2, Clock } from 'lucide-react'
 import publicPostsData from '@/content/posts/posts.json'
 
 interface Post {
@@ -23,7 +23,6 @@ const routeNames: Record<string, string> = {
 const menuItems = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/posts', label: 'Posts', icon: FileText },
-  ...(import.meta.env.DEV ? [{ path: '/posts/draft', label: 'Drafts', icon: FileEdit }] : []),
   { path: '/timeline', label: 'Timeline', icon: Clock },
   { path: '/social', label: 'Links', icon: Share2 },
 ]
@@ -72,8 +71,9 @@ export function Layout({ children }: LayoutProps) {
     return null
   }
 
-  // Post and Posts set their own Helmet; avoid duplicate title/description so crawlers use page-specific meta
-  const hasPageHelmet = location.pathname === '/' || location.pathname === '/posts' || location.pathname.startsWith('/posts/')
+  // Post and Posts set their own Helmet; avoid duplicate title/description so crawlers use page-specific meta.
+  // Home (/) is excluded so we render default Helmet here (og:image on first paint); Post overrides once loaded.
+  const hasPageHelmet = location.pathname === '/posts' || location.pathname.startsWith('/posts/')
 
   const defaultTitle = 'Mark Hendrickson'
   const defaultDescription = 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI and complexity.'

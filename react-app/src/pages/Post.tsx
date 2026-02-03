@@ -270,6 +270,7 @@ interface PostProps {
 
 export default function Post({ slug: slugProp }: PostProps) {
   const { slug: slugParam } = useParams<{ slug?: string }>()
+  const location = useLocation()
   const slug = slugProp || slugParam
   const navigate = useNavigate()
   const ssrPost = usePostSSR() as Post | null
@@ -413,7 +414,7 @@ export default function Post({ slug: slugProp }: PostProps) {
       ? stripLinksFromExcerpt(post.excerpt)
       : (post.summary && post.summary.replace(/\s+/g, ' ').replace(/^[-*]\s*/gm, '').trim().slice(0, 160))
   const desc = (metaDescription || post.title).slice(0, 160)
-  const isHome = useLocation().pathname === '/'
+  const isHome = location.pathname === '/'
   const canonicalUrl = isHome ? `${SITE_BASE}/` : `${SITE_BASE}/posts/${post.slug}`
   // Default OG image only on home; post pages use post-specific image or none
   const ogImage = post.ogImage
@@ -502,7 +503,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
           <div className="post-prose prose prose-sm max-w-none">
             {post.heroImage && post.heroImageStyle === 'float-right' && (
-              <div className="w-full mb-4 md:float-right md:ml-8 md:mb-4 md:max-w-[300px]">
+              <div className="w-full mb-8 md:mb-4 md:float-right md:ml-8 md:max-w-[300px]">
                 <img
                   src={`/images/posts/${post.heroImage}`}
                   alt={post.title}

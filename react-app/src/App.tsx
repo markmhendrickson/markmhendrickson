@@ -35,11 +35,16 @@ interface AppProps {
   url?: string
 }
 
+const routerFuture = {
+  v7_startTransition: true,
+  v7_relativeSplatPath: true,
+}
+
 function App({ url }: AppProps) {
   const router = url != null ? (
     <StaticRouter location={url}>{routes}</StaticRouter>
   ) : (
-    <BrowserRouter>{routes}</BrowserRouter>
+    <BrowserRouter future={routerFuture}>{routes}</BrowserRouter>
   )
   return <ErrorBoundary>{router}</ErrorBoundary>
 }
