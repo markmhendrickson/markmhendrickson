@@ -7,7 +7,19 @@ import publicPostsData from '@/content/posts/posts.json'
 
 interface Post {
   slug: string
+  alternativeSlugs?: string[]
   title: string
+}
+
+function buildSlugToPostMap(posts: Post[]): Map<string, Post> {
+  const map = new Map<string, Post>()
+  for (const post of posts) {
+    if (post.slug) map.set(post.slug, post)
+    for (const alt of post.alternativeSlugs ?? []) {
+      if (alt) map.set(alt, post)
+    }
+  }
+  return map
 }
 
 // Route name mapping for friendly breadcrumb labels
@@ -37,27 +49,23 @@ export function Layout({ children }: LayoutProps) {
   const [postTitle, setPostTitle] = useState<string | null>(null)
   const isHome = location.pathname === '/'
 
-  // Load post title if we're on a post page
+  // Load post title if we're on a post page (resolve primary or alternative slug)
   useEffect(() => {
     if (params.slug) {
-      // Check public posts first
-      const post = (publicPostsData as Post[]).find(p => p.slug === params.slug)
+      const publicMap = buildSlugToPostMap(publicPostsData as Post[])
+      let post = publicMap.get(params.slug)
 
-      if (!post) {
-        setPostTitle(null)
-        // Try private posts in dev only (production build excludes drafts)
-        if (import.meta.env.DEV) {
-          import('@/content/posts/posts.private.json')
-            .then((module: { default?: Post[] } | Post[]) => {
-              const privatePosts = (module as { default?: Post[] }).default || (module as Post[])
-              const privatePost = privatePosts.find(p => p.slug === params.slug)
-              if (privatePost) setPostTitle(privatePost.title)
-            })
-            .catch(() => {})
-        }
-      } else {
-        setPostTitle(post.title)
+      if (!post && import.meta.env.DEV) {
+        import('@/content/posts/posts.private.json')
+          .then((module: { default?: Post[] } | Post[]) => {
+            const privatePosts = (module as { default?: Post[] }).default || (module as Post[])
+            const fullMap = buildSlugToPostMap([...(publicPostsData as Post[]), ...privatePosts])
+            const privatePost = fullMap.get(params.slug!)
+            if (privatePost) setPostTitle(privatePost.title)
+          })
+          .catch(() => {})
       }
+      setPostTitle(post ? post.title : null)
     } else {
       setPostTitle(null)
     }

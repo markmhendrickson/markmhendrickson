@@ -18,6 +18,8 @@ const OG_IMAGE_HEIGHT = 630
 
 interface Post {
   slug: string
+  /** Alternative URL slugs (e.g. short or share-friendly); canonical URL uses slug. */
+  alternativeSlugs?: string[]
   title: string
   excerpt?: string
   summary?: string
@@ -39,6 +41,18 @@ interface Post {
   body?: string
   /** Draft share tweet (dev only, from .tweet.md / parquet). */
   shareTweet?: string
+}
+
+/** Build a map from primary + alternative slugs to post (for resolving URL slug to canonical post). */
+function buildSlugToPostMap(posts: Post[]): Map<string, Post> {
+  const map = new Map<string, Post>()
+  for (const post of posts) {
+    if (post.slug) map.set(post.slug, post)
+    for (const alt of post.alternativeSlugs ?? []) {
+      if (alt) map.set(alt, post)
+    }
+  }
+  return map
 }
 
 interface ProgressiveImageProps {
@@ -280,6 +294,11 @@ export default function Post({ slug: slugProp }: PostProps) {
   const location = useLocation()
   const slug = slugProp || slugParam
   const navigate = useNavigate()
+  const slugToPostPublic = useMemo(
+    () => buildSlugToPostMap(publicPostsData as Post[]),
+    []
+  )
+  const resolvedCanonicalSlug = slug ? (slugToPostPublic.get(slug)?.slug ?? slug) : null
   const ssrPost = usePostSSR() as Post | null
   const [post, setPost] = useState<Post | null>(ssrPost ?? null)
   const [content, setContent] = useState(ssrPost?.body ?? '')
@@ -308,7 +327,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   // For barcelona-guest-floor, split content so we can render amenity cards between "What this place offers" and the next section
   const barcelonaContentSplit = useMemo(() => {
-    if (slug !== 'barcelona-guest-floor' || !content.includes('## What this place offers')) return null
+    if (resolvedCanonicalSlug !== 'barcelona-guest-floor' || !content.includes('## What this place offers')) return null
     const parts = content.split(/\n## What this place offers\n\n/)
     if (parts.length !== 2) return null
     const [, listAndRest] = parts
@@ -318,7 +337,7 @@ export default function Post({ slug: slugProp }: PostProps) {
       contentBefore: parts[0] + '## What this place offers\n\n',
       contentAfter: restPart ? '\n\n## ' + restPart : '',
     }
-  }, [slug, content])
+  }, [resolvedCanonicalSlug, content])
 
   const openImageViewer = (index: number) => {
     setImageViewer({ open: true, index })
@@ -340,10 +359,10 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   const latestPost = useMemo(() => {
     const list = (publicPostsData as Post[])
-      .filter((p) => p.published && !p.excludeFromListing && p.slug !== (slug ?? ''))
+      .filter((p) => p.published && !p.excludeFromListing && p.slug !== (resolvedCanonicalSlug ?? ''))
       .sort((a, b) => (b.publishedDate || '').localeCompare(a.publishedDate || ''))
     return list[0] ?? null
-  }, [slug])
+  }, [resolvedCanonicalSlug])
 
   const { prevPost, nextPost } = useMemo(() => {
     const raw = (publicPostsData as Post[])
@@ -359,7 +378,7 @@ export default function Post({ slug: slugProp }: PostProps) {
       seen.add(p.slug)
       return true
     })
-    const idx = list.findIndex((p) => p.slug === (slug ?? ''))
+    const idx = list.findIndex((p) => p.slug === (resolvedCanonicalSlug ?? ''))
     if (idx < 0) {
       return {
         prevPost: list[0] ?? null,
@@ -370,7 +389,7 @@ export default function Post({ slug: slugProp }: PostProps) {
       prevPost: list[idx + 1] ?? null,
       nextPost: list[idx - 1] ?? null,
     }
-  }, [slug])
+  }, [resolvedCanonicalSlug])
 
   useEffect(() => {
     const loadPost = async () => {
@@ -391,8 +410,14 @@ export default function Post({ slug: slugProp }: PostProps) {
           }
         }
 
-        // Find post metadata
-        const postMeta = postsData.find(p => p.slug === slug)
+        const slugToPost = buildSlugToPostMap(postsData)
+        const postMeta = slug ? slugToPost.get(slug) ?? postsData.find(p => p.slug === slug) : undefined
+        const canonicalSlug = postMeta?.slug
+
+        if (postMeta && slug && canonicalSlug && slug !== canonicalSlug) {
+          navigate(`/posts/${canonicalSlug}`, { replace: true })
+          return
+        }
 
         if (!postMeta) {
           // Only navigate away if we have a slug param (not for home route)
@@ -418,18 +443,16 @@ export default function Post({ slug: slugProp }: PostProps) {
         let content: string | null = null
 
         const loadMarkdownContent = async (): Promise<string> => {
+          const loadSlug = canonicalSlug ?? slug
           let markdownModule: { default: string }
           if (!postMeta.published && isDev) {
-            // Try drafts directory first for unpublished posts
             try {
-              markdownModule = await import(`@/content/posts/drafts/${slug}.md?raw`) as { default: string }
+              markdownModule = await import(`@/content/posts/drafts/${loadSlug}.md?raw`) as { default: string }
             } catch (draftError) {
-              // Fall back to published directory if not in drafts
-              markdownModule = await import(`@/content/posts/${slug}.md?raw`) as { default: string }
+              markdownModule = await import(`@/content/posts/${loadSlug}.md?raw`) as { default: string }
             }
           } else {
-            // Published posts are always in the main posts directory
-            markdownModule = await import(`@/content/posts/${slug}.md?raw`) as { default: string }
+            markdownModule = await import(`@/content/posts/${loadSlug}.md?raw`) as { default: string }
           }
           return markdownModule.default
         }
@@ -444,16 +467,17 @@ export default function Post({ slug: slugProp }: PostProps) {
         }
 
         const tryLoadSummaryMarkdown = async (): Promise<string | null> => {
+          const loadSlug = canonicalSlug ?? slug
           try {
             let mod: { default: string }
             if (!postMeta.published && isDev) {
               try {
-                mod = await import(`@/content/posts/drafts/${slug}.summary.md?raw`) as { default: string }
+                mod = await import(`@/content/posts/drafts/${loadSlug}.summary.md?raw`) as { default: string }
               } catch {
-                mod = await import(`@/content/posts/${slug}.summary.md?raw`) as { default: string }
+                mod = await import(`@/content/posts/${loadSlug}.summary.md?raw`) as { default: string }
               }
             } else {
-              mod = await import(`@/content/posts/${slug}.summary.md?raw`) as { default: string }
+              mod = await import(`@/content/posts/${loadSlug}.summary.md?raw`) as { default: string }
             }
             return mod.default?.trim() ?? null
           } catch {
@@ -462,12 +486,13 @@ export default function Post({ slug: slugProp }: PostProps) {
         }
 
         const tryLoadTweetMarkdown = async (): Promise<string | null> => {
+          const loadSlug = canonicalSlug ?? slug
           try {
             let mod: { default: string }
             try {
-              mod = await import(`@/content/posts/drafts/${slug}.tweet.md?raw`) as { default: string }
+              mod = await import(`@/content/posts/drafts/${loadSlug}.tweet.md?raw`) as { default: string }
             } catch {
-              mod = await import(`@/content/posts/${slug}.tweet.md?raw`) as { default: string }
+              mod = await import(`@/content/posts/${loadSlug}.tweet.md?raw`) as { default: string }
             }
             return mod.default?.trim() ?? null
           } catch {
@@ -597,6 +622,8 @@ export default function Post({ slug: slugProp }: PostProps) {
         {post.updatedDate && (
           <meta property="article:modified_time" content={post.updatedDate} />
         )}
+        <meta property="article:author" content={SITE_BASE} />
+        <meta property="og:article:author" content="Mark Hendrickson" />
         <meta name="twitter:creator" content="@markmhendrickson" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={desc} />
@@ -817,17 +844,16 @@ export default function Post({ slug: slugProp }: PostProps) {
         </article>
 
         {isDev && !post.published && (post.shareTweet?.trim() || tweetContent) && (
-          <section className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Share tweet draft">
-            <h2 className="text-[13px] font-medium uppercase tracking-wide text-muted-foreground mb-3">
+          <Alert className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Share tweet draft">
+            <AlertTitle className="mb-4 text-sm font-medium uppercase tracking-wide text-muted-foreground">
               Share tweet
-            </h2>
-            <div className="rounded-lg bg-muted/50 p-4 text-[15px] leading-relaxed whitespace-pre-wrap">
-              {post.shareTweet?.trim() || tweetContent}
-            </div>
-            <p className="mt-2 text-[13px] text-muted-foreground">
-              Edit <code className="px-1 py-0.5 rounded bg-muted text-xs">{post.slug}.tweet.md</code> (drafts dir for draft posts) and run the posts cache script to sync to parquet.
-            </p>
-          </section>
+            </AlertTitle>
+            <AlertDescription asChild>
+              <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed whitespace-pre-wrap">
+                {post.shareTweet?.trim() || tweetContent}
+              </div>
+            </AlertDescription>
+          </Alert>
         )}
 
         {imageViewer.open && postImages.length > 0 && (

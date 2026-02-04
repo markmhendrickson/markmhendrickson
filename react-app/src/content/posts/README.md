@@ -24,7 +24,7 @@ This directory contains cache files and markdown files for blog posts and essays
 
 ## Share tweet (drafts)
 
-For draft posts, add `drafts/{slug}.tweet.md` with the share tweet text (e.g. for Twitter/X). The cache script syncs it to parquet (`share_tweet`). In dev, the tweet is displayed below the post on the post page. Run `python3 execution/scripts/generate_posts_cache.py` after adding or editing the file.
+For draft posts, add `drafts/{slug}.tweet.md` with the share tweet text (e.g. for Twitter/X). Always include relevant URLs (e.g. link to the post, project links) and @ mentions (people or accounts relevant to the post). Stay under 280 characters. The cache script syncs the file to parquet (`share_tweet`). In dev, the tweet is displayed below the post on the post page. Run `python3 execution/scripts/generate_posts_cache.py` after adding or editing the file.
 
 ## Hero Images
 
@@ -152,7 +152,8 @@ If you need to add posts manually:
 
 ### Fields
 
-- `slug`: Unique identifier, kebab-case (e.g., "my-new-post")
+- `slug`: Unique identifier, kebab-case (e.g., "my-new-post"); also the canonical URL path
+- `alternative_slugs`: (Optional) JSON array of alternate URL slugs (e.g. `["short-slug"]`). Requests to alternative slugs return 301 to the canonical `/posts/{slug}` URL for SEO.
 - `title`: Post title
 - `excerpt`: Short description (shown in post list)
 - `published`: `true` for published, `false` for drafts

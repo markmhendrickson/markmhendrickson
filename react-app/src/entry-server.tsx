@@ -15,14 +15,26 @@ export interface HelmetContext {
   }
 }
 
+function buildSlugToPostMap(posts: { slug: string; alternativeSlugs?: string[]; published?: boolean }[]) {
+  const map = new Map<string, (typeof posts)[0]>()
+  for (const post of posts) {
+    if (post.slug) map.set(post.slug, post)
+    for (const alt of post.alternativeSlugs ?? []) {
+      if (alt) map.set(alt, post)
+    }
+  }
+  return map
+}
+
 function getSSRPostForUrl(url: string) {
   const pathname = (url.split('?')[0] || '/').replace(/\/$/, '')
   const match = pathname.match(/^\/posts\/([^/]+)$/)
   const slug = match?.[1]
   if (!slug) return null
-  const posts = publicPostsData as { slug: string; published?: boolean }[]
-  const post = posts.find((p) => p.slug === slug && p.published !== false)
-  return post ?? null
+  const posts = publicPostsData as { slug: string; alternativeSlugs?: string[]; published?: boolean }[]
+  const slugToPost = buildSlugToPostMap(posts)
+  const post = slugToPost.get(slug)
+  return post && post.published !== false ? post : null
 }
 
 export interface RenderOptions {

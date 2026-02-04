@@ -25,12 +25,28 @@ function helmetHeadString(helmetContext) {
 const SITE_BASE = 'https://markmhendrickson.com'
 const STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/social', '/songs']
 
-function getPostSlugs() {
+function getPosts() {
   const postsPath = path.resolve(__dirname, 'src', 'content', 'posts', 'posts.json')
   if (!fs.existsSync(postsPath)) return []
   const raw = fs.readFileSync(postsPath, 'utf-8')
   const posts = JSON.parse(raw)
-  return (Array.isArray(posts) ? posts : [])
+  return Array.isArray(posts) ? posts : []
+}
+
+function buildSlugToCanonical(posts) {
+  const map = new Map()
+  for (const p of posts) {
+    if (p.slug) map.set(p.slug, p.slug)
+    for (const alt of p.alternativeSlugs ?? []) {
+      if (alt) map.set(alt, p.slug)
+    }
+  }
+  return map
+}
+
+function getPostSlugs() {
+  const posts = getPosts()
+  return posts
     .filter((p) => p.published !== false && p.slug)
     .map((p) => `/posts/${p.slug}`)
 }
@@ -81,6 +97,12 @@ function readPostBody(slug) {
   return fs.readFileSync(mdPath, 'utf-8')
 }
 
+function resolveSlugToCanonical(slug) {
+  const posts = getPosts()
+  const slugToCanonical = buildSlugToCanonical(posts)
+  return slugToCanonical.get(slug) ?? slug
+}
+
 async function runPrerender() {
   const distPath = path.resolve(__dirname, 'dist')
   const templatePath = path.join(distPath, 'index.html')
@@ -100,7 +122,8 @@ async function runPrerender() {
     const helmetContext = {}
     const pathname = url.split('?')[0] || '/'
     const postMatch = pathname.match(/^\/posts\/([^/]+)$/)
-    const postBody = postMatch ? readPostBody(postMatch[1]) : null
+    const canonicalSlug = postMatch ? resolveSlugToCanonical(postMatch[1]) : null
+    const postBody = canonicalSlug ? readPostBody(canonicalSlug) : null
     const appHtml = render(url, helmetContext, postBody != null ? { postBody } : undefined)
     let html = template.replace(SSR_PLACEHOLDER, appHtml)
     if (template.includes(HELMET_PLACEHOLDER)) {
@@ -138,6 +161,16 @@ async function createServer() {
 
     app.use('*', async (req, res, next) => {
       const url = req.originalUrl
+      const pathname = (url.split('?')[0] || '/').replace(/\/$/, '')
+      const postMatch = pathname.match(/^\/posts\/([^/]+)$/)
+      if (postMatch) {
+        const slug = postMatch[1]
+        const canonical = resolveSlugToCanonical(slug)
+        if (canonical !== slug) {
+          res.redirect(301, `/posts/${canonical}${req.url.slice(pathname.length) || ''}`)
+          return
+        }
+      }
       try {
         const templatePath = path.join(distPath, 'index.html')
         let template = fs.readFileSync(templatePath, 'utf-8')
@@ -165,6 +198,16 @@ async function createServer() {
 
     app.use('*', async (req, res, next) => {
       const url = req.originalUrl
+      const pathname = (url.split('?')[0] || '/').replace(/\/$/, '')
+      const postMatch = pathname.match(/^\/posts\/([^/]+)$/)
+      if (postMatch) {
+        const slug = postMatch[1]
+        const canonical = resolveSlugToCanonical(slug)
+        if (canonical !== slug) {
+          res.redirect(301, `/posts/${canonical}${url.slice(pathname.length) || ''}`)
+          return
+        }
+      }
       try {
         let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
         template = await vite.transformIndexHtml(url, template)
