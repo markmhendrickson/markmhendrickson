@@ -277,6 +277,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const ssrPost = usePostSSR() as Post | null
   const [post, setPost] = useState<Post | null>(ssrPost ?? null)
   const [content, setContent] = useState(ssrPost?.body ?? '')
+  const [summaryContent, setSummaryContent] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(!ssrPost)
   const [animationPhase, setAnimationPhase] = useState<'title' | 'excerpt' | 'heroImage' | 'content' | 'complete' | null>(null)
   const [contentParagraphIndex, setContentParagraphIndex] = useState(0)
@@ -362,13 +363,34 @@ export default function Post({ slug: slugProp }: PostProps) {
           }
         }
 
+        const tryLoadSummaryMarkdown = async (): Promise<string | null> => {
+          try {
+            let mod: { default: string }
+            if (!postMeta.published && isDev) {
+              try {
+                mod = await import(`@/content/posts/drafts/${slug}.summary.md?raw`) as { default: string }
+              } catch {
+                mod = await import(`@/content/posts/${slug}.summary.md?raw`) as { default: string }
+              }
+            } else {
+              mod = await import(`@/content/posts/${slug}.summary.md?raw`) as { default: string }
+            }
+            return mod.default?.trim() ?? null
+          } catch {
+            return null
+          }
+        }
+
         if (isDev) {
           // Dev preview: markdown takes priority over parquet content
           content = await tryLoadMarkdown()
           if (content === null && postMeta.body) {
             content = postMeta.body
           }
+          const summaryFromMd = await tryLoadSummaryMarkdown()
+          setSummaryContent(summaryFromMd ?? undefined)
         } else {
+          setSummaryContent(undefined)
           // Production: parquet cache takes priority
           if (postMeta.body) {
             content = postMeta.body
@@ -387,6 +409,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         } else {
           console.error('Post body not found in cache or markdown files')
           setContent('# Post Not Found\n\nThe content for this post could not be loaded.')
+          setSummaryContent(undefined)
           setAnimationPhase('title')
           setContentParagraphIndex(0)
           setHeroImageProgress(0)
@@ -440,6 +463,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const desc = (metaDescription || post.title).slice(0, 160)
   const isHome = location.pathname === '/'
   const canonicalUrl = isHome ? `${SITE_BASE}/` : `${SITE_BASE}/posts/${post.slug}`
+  const displaySummary = summaryContent !== undefined ? summaryContent : (post.summary ?? '')
   // Default OG image only on home; post pages use post-specific image or none
   const ogImage = post.ogImage
     ? `${SITE_BASE}/images/${post.ogImage}`
@@ -492,26 +516,35 @@ export default function Post({ slug: slugProp }: PostProps) {
     <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
       <div className="max-w-[600px] w-full">
         {isHome && latestPost && (
-          <Alert className="mb-8">
-            <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-              Latest post
-            </AlertTitle>
-            <AlertDescription asChild>
-              <Link
-                to={`/posts/${latestPost.slug}`}
-                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
-              >
-                <span className="font-medium text-foreground">{latestPost.title}</span>
-                {latestPost.excerpt && (
-                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                    {stripLinksFromExcerpt(latestPost.excerpt)}
-                  </p>
-                )}
-                <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
-                  Read more →
-                </span>
-              </Link>
-            </AlertDescription>
+          <Alert className="mb-8 flex flex-row items-stretch gap-4">
+            <div className="min-w-0 flex-1 flex flex-col gap-1">
+              <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                Latest post
+              </AlertTitle>
+              <AlertDescription asChild>
+                <Link
+                  to={`/posts/${latestPost.slug}`}
+                  className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90 py-px"
+                >
+                  <span className="font-medium text-foreground">{latestPost.title}</span>
+                  {latestPost.excerpt && (
+                    <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                      {stripLinksFromExcerpt(latestPost.excerpt)}
+                    </p>
+                  )}
+                  <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
+                    Read more →
+                  </span>
+                </Link>
+              </AlertDescription>
+            </div>
+            {latestPost.heroImage && (
+              <img
+                src={`/images/posts/${latestPost.heroImage}`}
+                alt=""
+                className="hidden md:block shrink-0 w-[148px] rounded object-cover self-stretch"
+              />
+            )}
           </Alert>
         )}
         <article>
@@ -526,33 +559,37 @@ export default function Post({ slug: slugProp }: PostProps) {
             )}
           </header>
 
-          {post.heroImage && post.heroImageStyle !== 'float-right' && (
-            <div className="mb-8 md:-mx-8">
-              <img
-                src={`/images/posts/${post.heroImage}`}
-                alt={post.title}
-                className="w-full aspect-square object-cover"
-              />
-            </div>
-          )}
-
-          {post.summary && (() => {
-            const normalizedSummary = post.summary.trim().replace(/\s+/g, ' ')
+          {displaySummary && (() => {
+            const normalizedSummary = displaySummary.trim().replace(/\s+/g, ' ')
             const normalizedExcerpt = post.excerpt ? post.excerpt.trim().replace(/\s+/g, ' ') : ''
             const repeatsExcerpt = normalizedExcerpt && normalizedSummary === normalizedExcerpt
             return !repeatsExcerpt && (
             <Alert className="mb-8">
-              <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+              <AlertTitle className="mb-4 text-sm font-medium uppercase tracking-wide text-muted-foreground">
                 Key takeaways
               </AlertTitle>
               <AlertDescription asChild>
                 <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.summary}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{displaySummary}</ReactMarkdown>
                 </div>
               </AlertDescription>
             </Alert>
           );
           })()}
+
+          {post.heroImage && post.heroImageStyle !== 'float-right' && (
+            <div className="mb-8 md:-mx-8">
+              <img
+                src={`/images/posts/${post.heroImage}`}
+                alt={post.title}
+                className={
+                  post.heroImageStyle === 'keep-proportions'
+                    ? 'w-full max-h-[70vh] h-auto object-contain'
+                    : 'w-full aspect-square object-cover'
+                }
+              />
+            </div>
+          )}
 
           <div className="post-prose prose prose-sm max-w-none">
             {post.heroImage && post.heroImageStyle === 'float-right' && (
