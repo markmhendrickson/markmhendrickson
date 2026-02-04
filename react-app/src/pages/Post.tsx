@@ -476,7 +476,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   return (
     <>
       <Helmet>
-        <title>{post.title} — Mark Hendrickson</title>
+        <title>{post.title === 'Mark Hendrickson' ? post.title : `${post.title} — Mark Hendrickson`}</title>
         <meta name="description" content={desc} />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:type" content="article" />
@@ -542,7 +542,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               <img
                 src={`/images/posts/${latestPost.heroImage}`}
                 alt=""
-                className="hidden md:block shrink-0 w-[148px] rounded object-cover self-stretch"
+                className="hidden md:block shrink-0 w-[148px] h-[148px] rounded object-cover"
               />
             )}
           </Alert>

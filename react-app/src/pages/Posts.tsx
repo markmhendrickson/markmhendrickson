@@ -135,45 +135,47 @@ export default function Posts({ draft = false }: PostsProps) {
             </p>
           ) : (
             posts.map((post) => (
-              <article key={post.slug} className="border-b border-[#e0e0e0] pb-8 last:border-0 last:pb-0">
+              <article key={post.slug} className="border-b border-[#e0e0e0] pb-8 last:border-0 last:pb-0 flex flex-row items-stretch gap-4">
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-[20px] font-medium mb-2 tracking-tight">
+                    <Link
+                      to={`/posts/${post.slug}`}
+                      className="text-black no-underline hover:underline"
+                    >
+                      {post.title}
+                    </Link>
+                  </h2>
+                  {post.excerpt && (
+                    <p className="text-[15px] text-[#666] mb-3 leading-relaxed">
+                      {stripLinksFromExcerpt(post.excerpt)}
+                    </p>
+                  )}
+                  <div className="flex items-center gap-4 text-[13px] text-[#999]">
+                    {post.publishedDate && (
+                      <time dateTime={post.publishedDate}>
+                        {formatDate(post.publishedDate)}
+                      </time>
+                    )}
+                    {post.readTime && (
+                      <span>{post.readTime} min read</span>
+                    )}
+                    {post.category && (
+                      <span className="capitalize">{post.category}</span>
+                    )}
+                  </div>
+                </div>
                 {post.heroImage && (
                   <Link
                     to={`/posts/${post.slug}`}
-                    className="block mb-4 -mx-8"
+                    className="hidden md:block shrink-0 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
                   >
                     <img
                       src={`/images/posts/${post.heroImage}`}
-                      alt={post.title}
-                      className="w-full h-auto object-cover max-h-[300px]"
+                      alt=""
+                      className="shrink-0 w-[148px] h-[148px] rounded object-cover"
                     />
                   </Link>
                 )}
-                <h2 className="text-[20px] font-medium mb-2 tracking-tight">
-                  <Link
-                    to={`/posts/${post.slug}`}
-                    className="text-black no-underline hover:underline"
-                  >
-                    {post.title}
-                  </Link>
-                </h2>
-                {post.excerpt && (
-                  <p className="text-[15px] text-[#666] mb-3 leading-relaxed">
-                    {stripLinksFromExcerpt(post.excerpt)}
-                  </p>
-                )}
-                <div className="flex items-center gap-4 text-[13px] text-[#999]">
-                  {post.publishedDate && (
-                    <time dateTime={post.publishedDate}>
-                      {formatDate(post.publishedDate)}
-                    </time>
-                  )}
-                  {post.readTime && (
-                    <span>{post.readTime} min read</span>
-                  )}
-                  {post.category && (
-                    <span className="capitalize">{post.category}</span>
-                  )}
-                </div>
               </article>
             ))
           )}
