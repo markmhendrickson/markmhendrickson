@@ -1,5 +1,5 @@
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import { useState, useEffect, useRef } from 'react'
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import ReactMarkdown from 'react-markdown'
@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm'
 import publicPostsData from '@/content/posts/posts.json'
 import { usePostSSR } from '@/contexts/PostSSRContext'
 import { stripLinksFromExcerpt } from '@/lib/utils'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 const SITE_BASE = 'https://markmhendrickson.com'
 const OG_DEFAULT_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
@@ -283,6 +284,13 @@ export default function Post({ slug: slugProp }: PostProps) {
   const contentParagraphsRef = useRef<string[]>([])
   const isDev = import.meta.env.DEV
 
+  const latestPost = useMemo(() => {
+    const list = (publicPostsData as Post[])
+      .filter((p) => p.published && !p.excludeFromListing && p.slug !== (slug ?? ''))
+      .sort((a, b) => (b.publishedDate || '').localeCompare(a.publishedDate || ''))
+    return list[0] ?? null
+  }, [slug])
+
   useEffect(() => {
     const loadPost = async () => {
       try {
@@ -483,6 +491,29 @@ export default function Post({ slug: slugProp }: PostProps) {
       </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
       <div className="max-w-[600px] w-full">
+        {isHome && latestPost && (
+          <Alert className="mb-8">
+            <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+              Latest post
+            </AlertTitle>
+            <AlertDescription asChild>
+              <Link
+                to={`/posts/${latestPost.slug}`}
+                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
+              >
+                <span className="font-medium text-foreground">{latestPost.title}</span>
+                {latestPost.excerpt && (
+                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                    {stripLinksFromExcerpt(latestPost.excerpt)}
+                  </p>
+                )}
+                <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
+                  Read more →
+                </span>
+              </Link>
+            </AlertDescription>
+          </Alert>
+        )}
         <article>
           <header className="mb-8">
             <h1 className="text-[28px] font-medium mb-2 tracking-tight">
@@ -510,10 +541,16 @@ export default function Post({ slug: slugProp }: PostProps) {
             const normalizedExcerpt = post.excerpt ? post.excerpt.trim().replace(/\s+/g, ' ') : ''
             const repeatsExcerpt = normalizedExcerpt && normalizedSummary === normalizedExcerpt
             return !repeatsExcerpt && (
-            <div className="post-prose-summary prose prose-sm max-w-none mb-8 p-6 rounded-lg border-0 md:border md:border-sidebar-border bg-sidebar">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-4 mt-0">Key takeaways</h2>
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.summary}</ReactMarkdown>
-            </div>
+            <Alert className="mb-8">
+              <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                Key takeaways
+              </AlertTitle>
+              <AlertDescription asChild>
+                <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.summary}</ReactMarkdown>
+                </div>
+              </AlertDescription>
+            </Alert>
           );
           })()}
 

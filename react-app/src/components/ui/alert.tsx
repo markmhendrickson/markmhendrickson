@@ -45,15 +45,22 @@ const AlertTitle = React.forwardRef<
 AlertTitle.displayName = "AlertTitle"
 
 const AlertDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm [&_p]:leading-relaxed", className)}
-    {...props}
-  />
-))
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { asChild?: boolean }
+>(({ className, asChild, children, ...props }, ref) => {
+  const compClassName = cn("text-sm [&_p]:leading-relaxed", className)
+  if (asChild && React.Children.count(children) === 1) {
+    const child = React.Children.only(children) as React.ReactElement<{ className?: string }>
+    return React.cloneElement(child, {
+      className: cn(compClassName, child.props.className),
+    })
+  }
+  return (
+    <div ref={ref} className={compClassName} {...props}>
+      {children}
+    </div>
+  )
+})
 AlertDescription.displayName = "AlertDescription"
 
 export { Alert, AlertTitle, AlertDescription }

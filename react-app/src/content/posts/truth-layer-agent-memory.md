@@ -94,7 +94,7 @@ How I'm approaching the build: I'm dogfooding it first in my own agentic stack s
 - **Tasks and execution** — Tasks, plans, projects, and outcomes with due dates and follow-up reminders
 - **Contacts and relationships** — Contact records and relationship graph linked to communications, tasks, and events
 - **Communications** — Email triage, workflow-triggered processing, and conversation tracking
-- **Finance** — Transactions, flows, income, holdings, and transfer and cost recording
+- **Finance** — Transactions, flows, income, holdings, transfer and cost recording
 - **Record keeping** — Purchases, accounts, property and one-off analysis reports
 - **Content** — Posts, personal history, favorite media and consumption sources
 - **Health** — Habits, exercises, and ongoing tracking

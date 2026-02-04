@@ -59,15 +59,15 @@
     @apply hidden;
   }
 
-  /* Key takeaways box: same idea, scoped to summary container */
+  /* Key takeaways box: smaller text to match Alert / latest-post notice */
   .post-prose-summary p {
-    @apply text-[15px] leading-[1.75] mb-3 text-[#333];
+    @apply text-sm leading-[1.65] mb-3 text-[#333];
   }
   .post-prose-summary ul {
     @apply list-disc list-outside mb-4 ml-6 space-y-2;
   }
   .post-prose-summary li {
-    @apply text-[15px] leading-[1.75] text-[#333];
+    @apply text-sm leading-[1.65] text-[#333];
   }
   .post-prose-summary strong {
     @apply font-semibold;
