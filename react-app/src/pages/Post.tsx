@@ -559,16 +559,12 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={desc} />
         <meta property="og:url" content={canonicalUrl} />
-        {ogImage != null && (
-          <>
-            <meta property="og:image" content={ogImage} />
-            <meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />
-            <meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />
-            <meta name="twitter:image" content={ogImage} />
-            <meta name="twitter:image:width" content={String(OG_IMAGE_WIDTH)} />
-            <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />
-          </>
-        )}
+        {ogImage != null && <meta property="og:image" content={ogImage} />}
+        {ogImage != null && <meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />}
+        {ogImage != null && <meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />}
+        {ogImage != null && <meta name="twitter:image" content={ogImage} />}
+        {ogImage != null && <meta name="twitter:image:width" content={String(OG_IMAGE_WIDTH)} />}
+        {ogImage != null && <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />}
         {post.publishedDate && (
           <meta property="article:published_time" content={post.publishedDate} />
         )}
