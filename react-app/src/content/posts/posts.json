@@ -1,24 +1,129 @@
 [
   {
-    "slug": "truth-layer-agent-memory",
-    "title": "Building a truth layer for persistent agent memory",
-    "excerpt": "Agent memory is forgetful. Why I'm building inspectable, structured memory for trustworthy agentic systems.",
+    "slug": "barcelona-guest-floor",
+    "title": "Barcelona Guest Floor",
+    "excerpt": "Private guest floor in Gràcia, Barcelona: kitchen, living room, king bed, bathroom, elevator, rooftop terrace. Direct booking; cash or crypto.",
     "published": true,
-    "publishedDate": "2026-02-02",
+    "publishedDate": "2026-02-04",
+    "category": "article",
+    "readTime": 8,
+    "tags": [
+      "barcelona",
+      "rental",
+      "gràcia",
+      "guest floor"
+    ],
+    "heroImage": "barcelona-guest-floor-hero.jpg",
+    "heroImageStyle": "keep-proportions",
+    "excludeFromListing": true,
+    "showMetadata": true,
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-04"
+  },
+  {
+    "slug": "barcelona-guest-floor",
+    "title": "Barcelona Guest Floor",
+    "excerpt": "Private guest floor in Gràcia, Barcelona: kitchen, living room, king bed, bathroom, elevator, rooftop terrace. Direct booking; cash or crypto.",
+    "published": true,
+    "publishedDate": "2026-02-04",
+    "category": "article",
+    "readTime": 8,
+    "tags": [
+      "barcelona",
+      "rental",
+      "gràcia",
+      "guest floor"
+    ],
+    "heroImage": "barcelona-guest-floor-hero.jpg",
+    "heroImageStyle": "keep-proportions",
+    "excludeFromListing": true,
+    "showMetadata": true,
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-04"
+  },
+  {
+    "slug": "agentic-search-and-the-truth-layer",
+    "title": "Agentic retrieval infers. It doesn't guarantee.",
+    "excerpt": "Boris Cherny's tweet on RAG vs agentic search raises a broader question: how does agentic search differ from a structured memory layer? A technical comparison of two approaches to agent memory.",
+    "published": true,
+    "publishedDate": "2026-02-04",
     "category": "essay",
-    "readTime": 6,
+    "readTime": 5,
     "tags": [
       "neotoma",
-      "agent-memory",
+      "agentic-search",
       "truth-layer",
-      "determinism"
+      "rag"
     ],
-    "heroImage": "truth-layer-agent-memory-hero.png",
+    "heroImage": "agentic-search-and-the-truth-layer-hero.png",
     "heroImageStyle": "keep-proportions",
     "showMetadata": null,
-    "createdDate": "2026-02-02",
+    "createdDate": "2026-02-04",
     "updatedDate": "2026-02-04",
-    "summary": "- What keeps breaking AI-based automation is trust, not intelligence. Memory changes implicitly, context drifts, and you can't see what changed or replay it.\n- When agents act, personal data becomes state. The missing primitive is explicit, inspectable, replayable personal state. Other domains have it (DBs, event logs, ledgers). Personal data didn't need it until agents.\n- Doing it right adds friction: named operations, visible inputs, reconstructable history. Convenience-first and agent-safe pull in opposite directions.\n- Neotoma is the \"truth\" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.\n- The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.\n- MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.\n- Developer preview next. I'm dogfooding it in my own agentic operating system, Ateles."
+    "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes."
+  },
+  {
+    "slug": "agentic-search-and-the-truth-layer",
+    "title": "Agentic retrieval infers. It doesn't guarantee.",
+    "excerpt": "Boris Cherny's tweet on RAG vs agentic search raises a broader question: how does agentic search differ from a structured memory layer? A technical comparison of two approaches to agent memory.",
+    "published": true,
+    "publishedDate": "2026-02-04",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "neotoma",
+      "agentic-search",
+      "truth-layer",
+      "rag"
+    ],
+    "heroImage": "agentic-search-and-the-truth-layer-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "showMetadata": null,
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-04",
+    "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes."
+  },
+  {
+    "slug": "agentic-search-and-the-truth-layer",
+    "title": "Agentic retrieval infers. It doesn't guarantee.",
+    "excerpt": "Boris Cherny's tweet on RAG vs agentic search raises a broader question: how does agentic search differ from a structured memory layer? A technical comparison of two approaches to agent memory.",
+    "published": true,
+    "publishedDate": "2026-02-04",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "neotoma",
+      "agentic-search",
+      "truth-layer",
+      "rag"
+    ],
+    "heroImage": "agentic-search-and-the-truth-layer-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "showMetadata": null,
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-04",
+    "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes."
+  },
+  {
+    "slug": "agentic-search-and-the-truth-layer",
+    "title": "Agentic retrieval infers. It doesn't guarantee.",
+    "excerpt": "Boris Cherny's tweet on RAG vs agentic search raises a broader question: how does agentic search differ from a structured memory layer? A technical comparison of two approaches to agent memory.",
+    "published": true,
+    "publishedDate": "2026-02-04",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "neotoma",
+      "agentic-search",
+      "truth-layer",
+      "rag"
+    ],
+    "heroImage": "agentic-search-and-the-truth-layer-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "showMetadata": null,
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-04",
+    "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes."
   },
   {
     "slug": "truth-layer-agent-memory",
@@ -39,7 +144,28 @@
     "showMetadata": null,
     "createdDate": "2026-02-02",
     "updatedDate": "2026-02-04",
-    "summary": "- What keeps breaking AI-based automation is trust, not intelligence. Memory changes implicitly, context drifts, and you can't see what changed or replay it.\n- When agents act, personal data becomes state. The missing primitive is explicit, inspectable, replayable personal state. Other domains have it (DBs, event logs, ledgers). Personal data didn't need it until agents.\n- Doing it right adds friction: named operations, visible inputs, reconstructable history. Convenience-first and agent-safe pull in opposite directions.\n- Neotoma is the \"truth\" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.\n- The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.\n- MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.\n- Developer preview next. I'm dogfooding it in my own agentic operating system, Ateles."
+    "summary": "- What keeps breaking AI-based automation is trust, not intelligence. Memory changes implicitly, context drifts, and you can't see what changed or replay it.\n- When agents act, personal data becomes state. The missing primitive is explicit, inspectable, replayable personal state. Other domains have it (DBs, event logs, ledgers). Personal data didn't need it until agents.\n- Doing it right adds friction: named operations, visible inputs, reconstructable history. Convenience-first and agent-safe pull in opposite directions.\n- Neotoma is the \"truth\" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.\n- The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.\n- MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.\n- Developer preview next. I'm dogfooding it in my own agentic operating system."
+  },
+  {
+    "slug": "truth-layer-agent-memory",
+    "title": "Building a truth layer for persistent agent memory",
+    "excerpt": "Agent memory is forgetful. Why I'm building inspectable, structured memory for trustworthy agentic systems.",
+    "published": true,
+    "publishedDate": "2026-02-02",
+    "category": "essay",
+    "readTime": 6,
+    "tags": [
+      "neotoma",
+      "agent-memory",
+      "truth-layer",
+      "determinism"
+    ],
+    "heroImage": "truth-layer-agent-memory-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "showMetadata": null,
+    "createdDate": "2026-02-02",
+    "updatedDate": "2026-02-04",
+    "summary": "- What keeps breaking AI-based automation is trust, not intelligence. Memory changes implicitly, context drifts, and you can't see what changed or replay it.\n- When agents act, personal data becomes state. The missing primitive is explicit, inspectable, replayable personal state. Other domains have it (DBs, event logs, ledgers). Personal data didn't need it until agents.\n- Doing it right adds friction: named operations, visible inputs, reconstructable history. Convenience-first and agent-safe pull in opposite directions.\n- Neotoma is the \"truth\" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.\n- The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.\n- MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.\n- Developer preview next. I'm dogfooding it in my own agentic operating system."
   },
   {
     "slug": "professional-mission",
