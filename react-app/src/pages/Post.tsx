@@ -906,38 +906,6 @@ export default function Post({ slug: slugProp }: PostProps) {
             className="mt-8 flex flex-col gap-4"
             aria-label="Previous and next posts"
           >
-            {prevPost && (
-              <Link
-                to={`/posts/${prevPost.slug}`}
-                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
-              >
-                <Alert className="flex flex-row items-stretch gap-4 cursor-pointer h-full">
-                  <div className="min-w-0 flex-1 flex flex-col gap-1">
-                    <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-                      Previous post
-                    </AlertTitle>
-                    <AlertDescription className="py-px">
-                      <span className="font-medium text-foreground">{prevPost.title}</span>
-                      {prevPost.excerpt && (
-                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                          {stripLinksFromExcerpt(prevPost.excerpt)}
-                        </p>
-                      )}
-                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
-                        Read more →
-                      </span>
-                    </AlertDescription>
-                  </div>
-                  {prevPost.heroImage && (
-                    <img
-                      src={`/images/posts/${prevPost.heroImageSquare ?? prevPost.heroImage}`}
-                      alt=""
-                      className="shrink-0 w-[148px] h-[148px] rounded object-cover"
-                    />
-                  )}
-                </Alert>
-              </Link>
-            )}
             {nextPost && (
               <Link
                 to={`/posts/${nextPost.slug}`}
@@ -963,6 +931,38 @@ export default function Post({ slug: slugProp }: PostProps) {
                   {nextPost.heroImage && (
                     <img
                       src={`/images/posts/${nextPost.heroImageSquare ?? nextPost.heroImage}`}
+                      alt=""
+                      className="shrink-0 w-[148px] h-[148px] rounded object-cover"
+                    />
+                  )}
+                </Alert>
+              </Link>
+            )}
+            {prevPost && (
+              <Link
+                to={`/posts/${prevPost.slug}`}
+                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+              >
+                <Alert className="flex flex-row items-stretch gap-4 cursor-pointer h-full">
+                  <div className="min-w-0 flex-1 flex flex-col gap-1">
+                    <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                      Previous post
+                    </AlertTitle>
+                    <AlertDescription className="py-px">
+                      <span className="font-medium text-foreground">{prevPost.title}</span>
+                      {prevPost.excerpt && (
+                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                          {stripLinksFromExcerpt(prevPost.excerpt)}
+                        </p>
+                      )}
+                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
+                        Read more →
+                      </span>
+                    </AlertDescription>
+                  </div>
+                  {prevPost.heroImage && (
+                    <img
+                      src={`/images/posts/${prevPost.heroImageSquare ?? prevPost.heroImage}`}
                       alt=""
                       className="shrink-0 w-[148px] h-[148px] rounded object-cover"
                     />

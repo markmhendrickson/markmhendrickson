@@ -1,0 +1,9 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" fill="#000"/>
+  <!-- Ring: thicker so it holds at 16px -->
+  <circle cx="32" cy="32" r="26" fill="none" stroke="#fff" stroke-width="6"/>
+  <!-- M: single-line, thicker strokes -->
+  <path d="M 14 50 V 18 M 14 18 L 26 32 L 32 18 M 32 18 V 50" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="square"/>
+  <!-- H -->
+  <path d="M 32 50 V 18 M 32 32 H 50 M 50 18 V 50" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="square"/>
+</svg>

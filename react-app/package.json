@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "generate:favicons": "node scripts/generate-favicons.mjs",
     "generate:og": "node scripts/generate-og-image.mjs",
     "generate:og:post": "node scripts/generate-post-og-image.mjs",
     "predev": "test -f ../../../scripts/generate_posts_cache.py && python3 ../../../scripts/generate_posts_cache.py || true",
