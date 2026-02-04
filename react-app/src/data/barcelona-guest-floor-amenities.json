@@ -1,0 +1,23 @@
+[
+  { "icon": "Wifi", "label": "Wifi", "link": "https://www.speedtest.net/es/result/18737866754" },
+  { "icon": "Thermometer", "label": "Air conditioning and heating" },
+  { "icon": "Square", "label": "Shared patio or balcony" },
+  { "icon": "Baby", "label": "Crib" },
+  { "icon": "Briefcase", "label": "Dedicated workspace" },
+  { "icon": "Wind", "label": "Window AC unit" },
+  { "icon": "Luggage", "label": "Luggage dropoff allowed" },
+  { "icon": "Sparkles", "label": "Hair dryer" },
+  { "icon": "Shirt", "label": "Free laundry (washer and dryer)" },
+  { "icon": "Sofa", "label": "Living room with sleep-able sofa" },
+  { "icon": "ChefHat", "label": "Kitchen with full appliances" },
+  { "icon": "Bed", "label": "King-sized Tempur-Pedic bed" },
+  { "icon": "ShowerHead", "label": "Spacious bathroom with walk-in shower" },
+  { "icon": "ArrowUpDown", "label": "Elevator access" },
+  { "icon": "Flame", "label": "Rooftop terrace with barbecue" },
+  { "icon": "Bike", "label": "Bike-share program credentials" },
+  { "icon": "Bike", "label": "Ninebot KickScooter MAX G30E II Powered by Segway" },
+  { "icon": "Music", "label": "Apple Home Pod speaker" },
+  { "icon": "Coffee", "label": "Nespresso coffee machine" },
+  { "icon": "Trees", "label": "Peaceful side street location" },
+  { "icon": "Activity", "label": "Space for exercise (yoga)" }
+]
