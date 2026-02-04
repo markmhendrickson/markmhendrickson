@@ -44,11 +44,18 @@ function buildSlugToCanonical(posts) {
   return map
 }
 
+/** All post URLs to prerender: canonical slug plus every alternativeSlug so crawlers (X, etc.) get correct meta for any shared URL. */
 function getPostSlugs() {
   const posts = getPosts()
-  return posts
-    .filter((p) => p.published !== false && p.slug)
-    .map((p) => `/posts/${p.slug}`)
+  const routes = new Set()
+  for (const p of posts) {
+    if (p.published === false || !p.slug) continue
+    routes.add(`/posts/${p.slug}`)
+    for (const alt of p.alternativeSlugs ?? []) {
+      if (alt) routes.add(`/posts/${alt}`)
+    }
+  }
+  return [...routes]
 }
 
 function getPostEntries() {
