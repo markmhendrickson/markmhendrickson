@@ -12,14 +12,19 @@ This directory contains cache files and markdown files for blog posts and essays
 - `posts.private.json` - **Generated cache** of all posts including drafts - auto-generated on build
 - `*.md` - Markdown files for post body (source of truth for content; synced to parquet on build)
 - `*.summary.md` - Key takeaways for each post (source of truth when present; synced to parquet on build)
+- `*.tweet.md` - Share tweet for each post (draft tweets in `drafts/{slug}.tweet.md`; synced to parquet as `share_tweet`; shown in dev below post)
 - `drafts/` - Directory for draft posts (gitignored, not committed to version control)
 - `drafts/outlines/` - Directory for post outlines (gitignored, private planning documents)
 
 **Build Process:**
 1. `npm run build` triggers prebuild script
-2. Prebuild script (`generate_posts_cache.py`) syncs body from `{slug}.md` and key takeaways from `{slug}.summary.md` into parquet, and pulls any parquet summaries into new `.summary.md` files when missing
+2. Prebuild script (`generate_posts_cache.py`) syncs body from `{slug}.md`, key takeaways from `{slug}.summary.md`, and share tweet from `{slug}.tweet.md` into parquet; pulls missing summaries/tweets from parquet into `.summary.md`/`.tweet.md`
 3. Cache JSON files are generated from parquet
 4. Vite builds the React app using cache files
+
+## Share tweet (drafts)
+
+For draft posts, add `drafts/{slug}.tweet.md` with the share tweet text (e.g. for Twitter/X). The cache script syncs it to parquet (`share_tweet`). In dev, the tweet is displayed below the post on the post page. Run `python3 execution/scripts/generate_posts_cache.py` after adding or editing the file.
 
 ## Hero Images
 
@@ -62,6 +67,26 @@ Supported image formats: JPG, PNG, WebP, etc. (any format supported by browsers)
 
 **When generating new hero images:** Apply the above specifications. The theme or subject can vary per post, but the visual style (black background, white outline line-art, minimalist) must remain consistent.
 
+### Post Image Assets Checklist (for drafting)
+
+For each post with a hero image, create **three composed assets** (do not crop; regenerate for each format):
+
+| Asset | Filename | Dimensions | Use |
+|-------|----------|------------|-----|
+| Hero | `{slug}-hero.png` | Flexible (keep-proportions) | Full-width on post page |
+| Square thumbnail | `{slug}-hero-square.png` | 1:1 square | Posts list, home latest, prev/next (148×148) |
+| OG source | `{slug}-hero-og.png` | 1200×630 landscape | Social previews (Twitter, LinkedIn, etc.) |
+
+**Workflow:**
+1. Create `{slug}-hero.png` with composition for full-width display (elements in lower portion, generous negative space).
+2. Create `{slug}-hero-square.png` composed for 1:1 (e.g. vertical stack, centered layout).
+3. Create `{slug}-hero-og.png` composed for 1200×630 (e.g. left-right split, horizontal layout).
+4. Add `{slug}-hero-style.txt` with `keep-proportions`.
+5. Run `npm run generate:og:post -- <slug>` to produce `og/{slug}-1200x630.jpg` (< 600 KB).
+6. Regenerate cache: `python3 execution/scripts/generate_posts_cache.py`.
+
+The cache auto-detects `-hero-square.png` and `og/{slug}-1200x630.jpg` when present. All three assets share the same visual style (black background, white line-art, no typography).
+
 ## Share (OG) Images
 
 Social previews use a default 1200×630 image under 600 KB (WhatsApp limit). Generate it once:
@@ -72,13 +97,13 @@ npm run generate:og
 
 Output: `public/images/og-default-1200x630.jpg` (from `public/profile.jpg`).
 
-**Per-post share image:** Generate a 1200×630 image from a post's hero image (black background, under 600 KB):
+**Per-post share image:** Generate a 1200×630 image (black background, under 600 KB):
 
 ```bash
 npm run generate:og:post -- <slug>
 ```
 
-Example: `npm run generate:og:post -- agentic-search-and-the-truth-layer` outputs `public/images/og/<slug>-1200x630.jpg`. The cache script automatically sets `ogImage` to `og/<slug>-1200x630.jpg` when that file exists. You can also set `og_image` in parquet or add a custom image (e.g. from Figma/Canva) under `public/images/` and reference it via parquet `og_image` or the same file convention.
+The script prefers a dedicated OG source when present: `public/images/posts/<slug>-hero-og.png` (composed for 1200×630, cover fit). Otherwise it uses the hero image (contain fit). Output: `public/images/og/<slug>-1200x630.jpg`. The cache script automatically sets `ogImage` to `og/<slug>-1200x630.jpg` when that file exists. You can also set `og_image` in parquet or add a custom image (e.g. from Figma/Canva) under `public/images/` and reference it via parquet `og_image` or the same file convention.
 
 **OG title:** For social previews, 50–60 characters is optimal. Shorter titles (e.g. 47 chars) can be lengthened in post metadata if desired.
 

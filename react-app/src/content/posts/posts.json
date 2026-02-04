@@ -36,6 +36,7 @@
     ],
     "heroImage": "agentic-search-and-the-truth-layer-hero.png",
     "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "agentic-search-and-the-truth-layer-hero-square.png",
     "showMetadata": null,
     "createdDate": "2026-02-04",
     "updatedDate": "2026-02-04",
@@ -58,10 +59,12 @@
     ],
     "heroImage": "truth-layer-agent-memory-hero.png",
     "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "truth-layer-agent-memory-hero-square.png",
     "showMetadata": null,
     "createdDate": "2026-02-02",
     "updatedDate": "2026-02-04",
-    "summary": "- What keeps breaking AI-based automation is trust, not intelligence. Memory changes implicitly, context drifts, and you can't see what changed or replay it.\n- When agents act, personal data becomes state. The missing primitive is explicit, inspectable, replayable personal state. Other domains have it (DBs, event logs, ledgers). Personal data didn't need it until agents.\n- Doing it right adds friction: named operations, visible inputs, reconstructable history. Convenience-first and agent-safe pull in opposite directions.\n- Neotoma is the \"truth\" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.\n- The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.\n- MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.\n- Developer preview next. I'm dogfooding it in my own agentic operating system."
+    "summary": "- What keeps breaking AI-based automation is trust, not intelligence. Memory changes implicitly, context drifts, and you can't see what changed or replay it.\n- When agents act, personal data becomes state. The missing primitive is explicit, inspectable, replayable personal state. Other domains have it (DBs, event logs, ledgers). Personal data didn't need it until agents.\n- Doing it right adds friction: named operations, visible inputs, reconstructable history. Convenience-first and agent-safe pull in opposite directions.\n- Neotoma is the \"truth\" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.\n- The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.\n- MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.\n- Developer preview next. I'm dogfooding it in my own agentic operating system.",
+    "ogImage": "og/truth-layer-agent-memory-1200x630.jpg"
   },
   {
     "slug": "professional-mission",

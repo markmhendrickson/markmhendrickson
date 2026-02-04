@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /**
- * Generate a 1200x630 og:image from a post's hero image (black background, hero fitted), under 600 KB.
+ * Generate a 1200x630 og:image from a post's hero image, under 600 KB.
+ * Prefers dedicated OG source ({slug}-hero-og.png) when present; otherwise uses hero image.
+ * Dedicated OG sources are composed for 1200x630 and use cover fit; hero uses contain fit.
  * Usage: node scripts/generate-post-og-image.mjs <slug>
  * Example: node scripts/generate-post-og-image.mjs agentic-search-and-the-truth-layer
  * Output: public/images/og/<slug>-1200x630.jpg
@@ -26,16 +28,29 @@ if (!slug) {
 }
 
 const heroExtensions = ['.png', '.jpg', '.jpeg', '.webp']
-let heroPath = null
+let sourcePath = null
+let useCoverFit = false
+// Prefer dedicated OG source ({slug}-hero-og.*) composed for 1200x630
 for (const ext of heroExtensions) {
-  const p = join(postsImagesDir, `${slug}-hero${ext}`)
+  const p = join(postsImagesDir, `${slug}-hero-og${ext}`)
   if (existsSync(p)) {
-    heroPath = p
+    sourcePath = p
+    useCoverFit = true
     break
   }
 }
-if (!heroPath) {
-  console.error('No hero image found for slug:', slug, '(looked for', `${slug}-hero{.png,.jpg,.jpeg,.webp}`, 'in', postsImagesDir + ')')
+// Fall back to hero image
+if (!sourcePath) {
+  for (const ext of heroExtensions) {
+    const p = join(postsImagesDir, `${slug}-hero${ext}`)
+    if (existsSync(p)) {
+      sourcePath = p
+      break
+    }
+  }
+}
+if (!sourcePath) {
+  console.error('No hero image found for slug:', slug, '(looked for', `${slug}-hero{-og,}{.png,.jpg,.jpeg,.webp}`, 'in', postsImagesDir + ')')
   process.exit(1)
 }
 
@@ -43,8 +58,9 @@ mkdirSync(ogDir, { recursive: true })
 const outPath = join(ogDir, `${slug}-1200x630.jpg`)
 
 async function generate(quality) {
-  const hero = await sharp(heroPath)
-    .resize(OG_WIDTH, OG_HEIGHT, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 1 } })
+  const fit = useCoverFit ? 'cover' : 'contain'
+  const hero = await sharp(sourcePath)
+    .resize(OG_WIDTH, OG_HEIGHT, { fit, background: { r: 0, g: 0, b: 0, alpha: 1 } })
     .toBuffer()
 
   const buffer = await sharp(hero)

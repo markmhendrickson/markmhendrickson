@@ -11,6 +11,7 @@ export interface PostMeta {
   readTime?: number
   tags?: string[]
   heroImage?: string
+  heroImageSquare?: string
   heroImageStyle?: string
   excludeFromListing?: boolean
   showMetadata?: boolean

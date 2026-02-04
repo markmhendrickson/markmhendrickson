@@ -32,10 +32,13 @@ interface Post {
   readTime?: number
   tags?: string[]
   heroImage?: string
+  heroImageSquare?: string
   heroImageStyle?: string
   excludeFromListing?: boolean
   showMetadata?: boolean
   body?: string
+  /** Draft share tweet (dev only, from .tweet.md / parquet). */
+  shareTweet?: string
 }
 
 interface ProgressiveImageProps {
@@ -281,6 +284,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const [post, setPost] = useState<Post | null>(ssrPost ?? null)
   const [content, setContent] = useState(ssrPost?.body ?? '')
   const [summaryContent, setSummaryContent] = useState<string | undefined>(undefined)
+  const [tweetContent, setTweetContent] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(!ssrPost)
   const [animationPhase, setAnimationPhase] = useState<'title' | 'excerpt' | 'heroImage' | 'content' | 'complete' | null>(null)
   const [contentParagraphIndex, setContentParagraphIndex] = useState(0)
@@ -457,6 +461,20 @@ export default function Post({ slug: slugProp }: PostProps) {
           }
         }
 
+        const tryLoadTweetMarkdown = async (): Promise<string | null> => {
+          try {
+            let mod: { default: string }
+            try {
+              mod = await import(`@/content/posts/drafts/${slug}.tweet.md?raw`) as { default: string }
+            } catch {
+              mod = await import(`@/content/posts/${slug}.tweet.md?raw`) as { default: string }
+            }
+            return mod.default?.trim() ?? null
+          } catch {
+            return null
+          }
+        }
+
         if (isDev) {
           // Dev preview: markdown takes priority over parquet content
           content = await tryLoadMarkdown()
@@ -465,8 +483,16 @@ export default function Post({ slug: slugProp }: PostProps) {
           }
           const summaryFromMd = await tryLoadSummaryMarkdown()
           setSummaryContent(summaryFromMd ?? undefined)
+          if (!postMeta.published) {
+            const tweetFromCache = (postMeta as Post).shareTweet?.trim()
+            const tweetFromMd = await tryLoadTweetMarkdown()
+            setTweetContent((tweetFromCache || tweetFromMd) ?? undefined)
+          } else {
+            setTweetContent(undefined)
+          }
         } else {
           setSummaryContent(undefined)
+          setTweetContent(undefined)
           // Production: parquet cache takes priority
           if (postMeta.body) {
             content = postMeta.body
@@ -627,7 +653,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               </div>
               {latestPost.heroImage && (
                 <img
-                  src={`/images/posts/${latestPost.heroImage}`}
+                  src={`/images/posts/${latestPost.heroImageSquare ?? latestPost.heroImage}`}
                   alt=""
                   className="hidden md:block shrink-0 w-[148px] h-[148px] rounded object-cover"
                 />
@@ -790,6 +816,20 @@ export default function Post({ slug: slugProp }: PostProps) {
           )}
         </article>
 
+        {isDev && !post.published && (post.shareTweet?.trim() || tweetContent) && (
+          <section className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Share tweet draft">
+            <h2 className="text-[13px] font-medium uppercase tracking-wide text-muted-foreground mb-3">
+              Share tweet
+            </h2>
+            <div className="rounded-lg bg-muted/50 p-4 text-[15px] leading-relaxed whitespace-pre-wrap">
+              {post.shareTweet?.trim() || tweetContent}
+            </div>
+            <p className="mt-2 text-[13px] text-muted-foreground">
+              Edit <code className="px-1 py-0.5 rounded bg-muted text-xs">{post.slug}.tweet.md</code> (drafts dir for draft posts) and run the posts cache script to sync to parquet.
+            </p>
+          </section>
+        )}
+
         {imageViewer.open && postImages.length > 0 && (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
@@ -868,7 +908,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                   </div>
                   {prevPost.heroImage && (
                     <img
-                      src={`/images/posts/${prevPost.heroImage}`}
+                      src={`/images/posts/${prevPost.heroImageSquare ?? prevPost.heroImage}`}
                       alt=""
                       className="shrink-0 w-[148px] h-[148px] rounded object-cover"
                     />
@@ -900,7 +940,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                   </div>
                   {nextPost.heroImage && (
                     <img
-                      src={`/images/posts/${nextPost.heroImage}`}
+                      src={`/images/posts/${nextPost.heroImageSquare ?? nextPost.heroImage}`}
                       alt=""
                       className="shrink-0 w-[148px] h-[148px] rounded object-cover"
                     />

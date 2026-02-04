@@ -1,0 +1,5 @@
+- OpenClaw and Claw-style agents excel at doing (calendar, texts, browsing, forms, skills). The gap is remembering in a way that is verifiable, consistent, and recoverable.
+- More context does not fix overwrites, missing provenance, unstable canonical identity, non-deterministic answers, or tool-bound memory. Those limits are about state, not retrieval.
+- A truth layer sits under the agent: the agent keeps doing; the layer keeps state with canonical identity, provenance, deterministic queries, recoverability, and cross-tool access.
+- With a truth layer, tasks and transactions become first-class entities with lineage. Same query yields same result; bad writes can be rolled back; the same data is available to Cursor, Claude, ChatGPT, or Claw via MCP.
+- Visibility into what the agent learned (e.g. workflows in Notion) is behavior. A truth layer adds visibility into state: what entities exist, how they are linked, where they came from, and how they changed.

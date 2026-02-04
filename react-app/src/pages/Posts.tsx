@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { Search } from 'lucide-react'
 import publicPostsData from '@/content/posts/posts.json'
 import { stripLinksFromExcerpt } from '@/lib/utils'
+import { Input } from '@/components/ui/input'
 
 interface Post {
   slug: string
@@ -10,10 +12,13 @@ interface Post {
   excerpt?: string
   published: boolean
   publishedDate?: string
+  updatedDate?: string
+  createdDate?: string
   category?: string
   readTime?: number
   tags?: string[]
   heroImage?: string
+  heroImageSquare?: string
   heroImageStyle?: string
   excludeFromListing?: boolean
   showMetadata?: boolean
@@ -23,10 +28,40 @@ interface PostsProps {
   draft?: boolean
 }
 
+function matchQuery(post: Post, q: string): boolean {
+  const lower = q.toLowerCase()
+  const title = (post.title ?? '').toLowerCase()
+  const excerpt = (post.excerpt ?? '').toLowerCase()
+  const tags = (post.tags ?? []).join(' ').toLowerCase()
+  return title.includes(lower) || excerpt.includes(lower) || tags.includes(lower)
+}
+
 export default function Posts({ draft = false }: PostsProps) {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get('q')?.trim() ?? ''
+  const [searchInput, setSearchInput] = useState(query)
   const [posts, setPosts] = useState<Post[]>([])
+  /** All published posts including excludeFromListing, for search only */
+  const [postsForSearch, setPostsForSearch] = useState<Post[]>([])
   const [draftCount, setDraftCount] = useState<number>(0)
   const isDev = import.meta.env.DEV
+
+  const filteredPosts = useMemo(() => {
+    if (!query) return posts
+    return postsForSearch.filter((post) => matchQuery(post, query))
+  }, [posts, query, postsForSearch])
+
+  // Sync local search input from URL when navigating (e.g. back button)
+  useEffect(() => {
+    setSearchInput(query)
+  }, [query])
+
+  const handleSearchChange = (value: string) => {
+    setSearchInput(value)
+    const next = value.trim() ? { q: value.trim() } : {}
+    setSearchParams(next, { replace: true })
+  }
+
   const defaultOgImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200
   const ogImageHeight = 630
@@ -55,16 +90,15 @@ export default function Posts({ draft = false }: PostsProps) {
         setDraftCount(drafts.length)
       }
 
-      // Filter: draft route shows only drafts; /posts shows only published
-      // Also exclude posts marked with excludeFromListing
+      // Index list: draft route shows only drafts; /posts shows only published, excluding excludeFromListing
       const filtered = postsData
         .filter(post => !post.excludeFromListing)
         .filter(post => draft ? !post.published : post.published)
 
-      // Sort by date (publishedDate for published, updatedDate/createdDate for drafts)
-      const sorted = filtered.sort((a, b) => {
-        const dateA = a.publishedDate ?? (a as Post & { updatedDate?: string }).updatedDate ?? (a as Post & { createdDate?: string }).createdDate
-        const dateB = b.publishedDate ?? (b as Post & { updatedDate?: string }).updatedDate ?? (b as Post & { createdDate?: string }).createdDate
+      // Sort: published list by publishedDate desc; draft list always by modified time (updatedDate) desc
+      const sorted = [...filtered].sort((a, b) => {
+        const dateA = draft ? (a.updatedDate ?? a.createdDate) : a.publishedDate
+        const dateB = draft ? (b.updatedDate ?? b.createdDate) : b.publishedDate
         if (!dateA && !dateB) return 0
         if (!dateA) return 1
         if (!dateB) return -1
@@ -72,6 +106,20 @@ export default function Posts({ draft = false }: PostsProps) {
       })
 
       setPosts(sorted)
+
+      // Search pool: all published posts (including excludeFromListing) for search results only
+      if (!draft) {
+        const allPublished = postsData
+          .filter(post => post.published)
+          .sort((a, b) => {
+            const dateA = a.publishedDate ?? ''
+            const dateB = b.publishedDate ?? ''
+            return new Date(dateB).getTime() - new Date(dateA).getTime()
+          })
+        setPostsForSearch(allPublished)
+      } else {
+        setPostsForSearch([])
+      }
     }
 
     loadPosts()
@@ -115,6 +163,11 @@ export default function Posts({ draft = false }: PostsProps) {
         <div className="flex items-baseline justify-between gap-4 mb-2">
           <h1 className="text-[28px] font-medium tracking-tight">
             {pageTitle}
+            {query && (
+              <span className="text-[17px] font-normal text-muted-foreground ml-2">
+                (“{query}”)
+              </span>
+            )}
           </h1>
           {!draft && isDev && draftCount > 0 && (
             <Link
@@ -133,17 +186,35 @@ export default function Posts({ draft = false }: PostsProps) {
             </Link>
           )}
         </div>
-        <p className="text-[17px] text-[#666] mb-12 font-light tracking-wide">
+        <p className="text-[17px] text-[#666] mb-6 font-light tracking-wide">
           {pageDesc}
         </p>
 
+        {!draft && (
+          <div className="mb-8 flex items-center gap-2">
+            <Search className="w-4 h-4 text-muted-foreground shrink-0" aria-hidden />
+            <Input
+              type="search"
+              placeholder="Search posts by title, excerpt, or tags…"
+              value={searchInput}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              className="max-w-sm h-9 text-sm"
+              aria-label="Search posts"
+            />
+          </div>
+        )}
+
         <div className="space-y-8">
-          {posts.length === 0 ? (
+          {filteredPosts.length === 0 ? (
             <p className="text-[15px] text-[#666]">
-              {draft ? 'No drafts yet.' : 'No posts yet.'}
+              {query
+                ? `No posts match “${query}”.`
+                : draft
+                  ? 'No drafts yet.'
+                  : 'No posts yet.'}
             </p>
           ) : (
-            posts.map((post) => (
+            filteredPosts.map((post) => (
               <article key={post.slug} className="border-b border-[#e0e0e0] pb-8 last:border-0 last:pb-0 flex flex-row items-stretch gap-4">
                 <div className="min-w-0 flex-1">
                   <h2 className="text-[20px] font-medium mb-2 tracking-tight">
@@ -179,7 +250,7 @@ export default function Posts({ draft = false }: PostsProps) {
                     className="hidden md:block shrink-0 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
                   >
                     <img
-                      src={`/images/posts/${post.heroImage}`}
+                      src={`/images/posts/${post.heroImageSquare ?? post.heroImage}`}
                       alt=""
                       className="shrink-0 w-[148px] h-[148px] rounded object-cover"
                     />
