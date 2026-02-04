@@ -10,14 +10,15 @@ This directory contains cache files and markdown files for blog posts and essays
 
 - `posts.json` - **Generated cache** of public posts only (published: true) - auto-generated on build
 - `posts.private.json` - **Generated cache** of all posts including drafts - auto-generated on build
-- `*.md` - Markdown files for published posts (kept for reference, but not source of truth)
+- `*.md` - Markdown files for post body (source of truth for content; synced to parquet on build)
+- `*.summary.md` - Key takeaways for each post (source of truth when present; synced to parquet on build)
 - `drafts/` - Directory for draft posts (gitignored, not committed to version control)
 - `drafts/outlines/` - Directory for post outlines (gitignored, private planning documents)
 
 **Build Process:**
 1. `npm run build` triggers prebuild script
-2. Prebuild script (`generate_posts_cache.py`) queries parquet MCP
-3. Cache JSON files are generated automatically
+2. Prebuild script (`generate_posts_cache.py`) syncs body from `{slug}.md` and key takeaways from `{slug}.summary.md` into parquet, and pulls any parquet summaries into new `.summary.md` files when missing
+3. Cache JSON files are generated from parquet
 4. Vite builds the React app using cache files
 
 ## Hero Images
@@ -35,7 +36,31 @@ Hero images are optional and can be added to any post:
    - At the top of the post page (full width, below header)
    - As a thumbnail in the posts listing (clickable, max height 300px)
 
-Supported formats: JPG, PNG, WebP, etc. (any format supported by browsers)
+**Formatting (optional):** Add a file `{slug}-hero-style.txt` in `public/images/posts/` with one line to control layout:
+- `keep-proportions` — image keeps aspect ratio, no cropping (max height 70vh)
+- `float-right` — image floats to the right of the body text, square crop
+- (omit or leave empty) — default: full-width, square crop
+
+Example: `truth-layer-agent-memory-hero-style.txt` containing `keep-proportions`. Synced to parquet on cache generation.
+
+Supported image formats: JPG, PNG, WebP, etc. (any format supported by browsers)
+
+### Hero Image Style Guide (MANDATORY)
+
+**MANDATORY:** All hero images for blog posts MUST follow this style. Reference: `truth-layer-agent-memory-hero.png`, `agentic-search-and-the-truth-layer-hero.png`.
+
+**Visual style:**
+- **Background:** Solid black only. No gradients, no white sections, no mixed backgrounds.
+- **Foreground:** White line-art exclusively. No fills, no shading, no gradients within shapes.
+- **Line work:** Consistent thin white outlines. Clean, minimal line weight.
+- **Color:** Monochromatic black and white only. No gray, no other colors.
+- **Composition:** Elements in lower portion of frame. Generous negative (black) space above.
+- **Aesthetic:** Stylized, iconic, minimalist. Not realistic or photorealistic.
+- **No typography:** No text, labels, or captions within the image.
+
+**Layout:** Use `keep-proportions` in `{slug}-hero-style.txt` so the image displays without cropping (max height 70vh).
+
+**When generating new hero images:** Apply the above specifications. The theme or subject can vary per post, but the visual style (black background, white outline line-art, minimalist) must remain consistent.
 
 ## Share (OG) Images
 
@@ -106,9 +131,19 @@ If you need to add posts manually:
 - `hero_image_style`: (Optional) CSS style for hero image
 - `exclude_from_listing`: (Optional) Exclude from posts listing
 - `show_metadata`: (Optional) Show metadata on post page
-- `body`: Full markdown content
+- `body`: Full markdown content (synced from `{slug}.md`)
+- `summary`: Key takeaways, markdown (synced from `{slug}.summary.md` when file exists)
 - `created_date`: Creation date (YYYY-MM-DD)
 - `updated_date`: Last update date (YYYY-MM-DD)
+
+## Key Takeaways (summary)
+
+Key takeaways for each post are editable in markdown, like the post body.
+
+- **File**: `{slug}.summary.md` next to `{slug}.md` (or in `drafts/` for drafts)
+- **Content**: Markdown (typically a bullet list) shown in the "Key takeaways" box on the post page
+- **Sync**: On build or when running `generate_posts_cache.py`, body and summary are synced from `.md` / `.summary.md` into parquet, then cache JSON is generated. If a post has a summary in parquet but no `.summary.md` file yet, the script creates one from parquet so you can edit it in md.
+- **Single post**: `python3 execution/scripts/apply_post_md_to_parquet.py <slug>` applies both `{slug}.md` and `{slug}.summary.md` to parquet and regenerates cache.
 
 ## Post Outlines
 
@@ -193,7 +228,7 @@ result = client.call_tool_sync("read_parquet", {
 - **January 2025**: Migrated posts from markdown/JSON to Parquet MCP storage
 - **Source of truth**: Changed from `posts.json` to `$DATA_DIR/posts/posts.parquet`
 - **Build process**: Automated cache generation from parquet on build
-- **Scripts**: 
+- **Scripts**:
   - Migration: `execution/scripts/migrate_posts_to_parquet.py`
   - Cache generation: `execution/scripts/generate_posts_cache.py`
 

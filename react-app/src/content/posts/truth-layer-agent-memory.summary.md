@@ -4,4 +4,4 @@
 - Neotoma is the "truth" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.
 - The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.
 - MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.
-- Developer preview next. I'm dogfooding it in my own agentic operating system, Ateles.
+- Developer preview next. I'm dogfooding it in my own agentic operating system.

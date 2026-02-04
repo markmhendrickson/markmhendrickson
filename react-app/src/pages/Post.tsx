@@ -8,6 +8,8 @@ import publicPostsData from '@/content/posts/posts.json'
 import { usePostSSR } from '@/contexts/PostSSRContext'
 import { stripLinksFromExcerpt } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import AmenitiesCards from '@/components/AmenitiesCards'
 
 const SITE_BASE = 'https://markmhendrickson.com'
 const OG_DEFAULT_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
@@ -286,11 +288,84 @@ export default function Post({ slug: slugProp }: PostProps) {
   const contentParagraphsRef = useRef<string[]>([])
   const isDev = import.meta.env.DEV
 
+  // Extract ordered list of images from markdown for gallery viewer
+  const postImages = useMemo(() => {
+    if (!content) return []
+    const list: { src: string; alt: string }[] = []
+    const re = /!\[([^\]]*)\]\(([^)]+)\)/g
+    let m: RegExpExecArray | null
+    while ((m = re.exec(content)) !== null) {
+      list.push({ alt: m[1] ?? '', src: m[2] ?? '' })
+    }
+    return list
+  }, [content])
+
+  const [imageViewer, setImageViewer] = useState<{ open: boolean; index: number }>({ open: false, index: 0 })
+
+  // For barcelona-guest-floor, split content so we can render amenity cards between "What this place offers" and the next section
+  const barcelonaContentSplit = useMemo(() => {
+    if (slug !== 'barcelona-guest-floor' || !content.includes('## What this place offers')) return null
+    const parts = content.split(/\n## What this place offers\n\n/)
+    if (parts.length !== 2) return null
+    const [, listAndRest] = parts
+    const nextParts = listAndRest.split(/\n\n## /)
+    const restPart = nextParts.slice(1).join('\n\n## ')
+    return {
+      contentBefore: parts[0] + '## What this place offers\n\n',
+      contentAfter: restPart ? '\n\n## ' + restPart : '',
+    }
+  }, [slug, content])
+
+  const openImageViewer = (index: number) => {
+    setImageViewer({ open: true, index })
+  }
+  const closeImageViewer = () => setImageViewer((v) => ({ ...v, open: false }))
+  const goPrev = () => setImageViewer((v) => ({ ...v, index: Math.max(0, v.index - 1) }))
+  const goNext = () => setImageViewer((v) => ({ ...v, index: Math.min(postImages.length - 1, v.index + 1) }))
+
+  useEffect(() => {
+    if (!imageViewer.open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeImageViewer()
+      if (e.key === 'ArrowLeft') goPrev()
+      if (e.key === 'ArrowRight') goNext()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [imageViewer.open])
+
   const latestPost = useMemo(() => {
     const list = (publicPostsData as Post[])
       .filter((p) => p.published && !p.excludeFromListing && p.slug !== (slug ?? ''))
       .sort((a, b) => (b.publishedDate || '').localeCompare(a.publishedDate || ''))
     return list[0] ?? null
+  }, [slug])
+
+  const { prevPost, nextPost } = useMemo(() => {
+    const raw = (publicPostsData as Post[])
+      .filter((p) => p.published && !p.excludeFromListing)
+      .sort((a, b) => {
+        const dateCmp = (b.publishedDate || '').localeCompare(a.publishedDate || '')
+        if (dateCmp !== 0) return dateCmp
+        return (a.slug || '').localeCompare(b.slug || '')
+      })
+    const seen = new Set<string>()
+    const list = raw.filter((p) => {
+      if (seen.has(p.slug)) return false
+      seen.add(p.slug)
+      return true
+    })
+    const idx = list.findIndex((p) => p.slug === (slug ?? ''))
+    if (idx < 0) {
+      return {
+        prevPost: list[0] ?? null,
+        nextPost: null,
+      }
+    }
+    return {
+      prevPost: list[idx + 1] ?? null,
+      nextPost: list[idx - 1] ?? null,
+    }
   }, [slug])
 
   useEffect(() => {
@@ -618,7 +693,76 @@ export default function Post({ slug: slugProp }: PostProps) {
                 />
               </div>
             )}
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+            {(() => {
+              const markdownComponents = {
+                table: ({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) => (
+                  <div className="overflow-x-auto my-6 rounded-lg border border-border">
+                    <table {...props}>{children}</table>
+                  </div>
+                ),
+                p: ({ children, ...props }: React.ComponentPropsWithoutRef<'p'>) => {
+                  const arr = React.Children.toArray(children)
+                  const allImg = arr.length >= 1 && arr.every((c) => React.isValidElement(c) && (c.type === 'img' || c.type === 'button'))
+                  if (allImg) {
+                    return (
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 my-4" {...props}>
+                        {children}
+                      </div>
+                    )
+                  }
+                  return <p {...props}>{children}</p>
+                },
+                img: ({ src, alt, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
+                  const index = postImages.findIndex((im) => im.src === src)
+                  const safeIndex = index >= 0 ? index : 0
+                  if (postImages.length === 0) {
+                    return (
+                      <div className="aspect-square w-full overflow-hidden rounded-lg">
+                        <img src={src} alt={alt ?? ''} className="w-full h-full object-cover block" loading="lazy" {...props} />
+                      </div>
+                    )
+                  }
+                  return (
+                    <button
+                      type="button"
+                      onClick={() => openImageViewer(safeIndex)}
+                      className="w-full text-left rounded-lg overflow-hidden border border-[#e0e0e0] hover:border-[#999] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors aspect-square"
+                    >
+                      <img
+                        src={src}
+                        alt={alt ?? ''}
+                        className="w-full h-full object-cover block"
+                        loading="lazy"
+                        {...props}
+                      />
+                    </button>
+                  )
+                },
+              }
+              return barcelonaContentSplit ? (
+              <>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={markdownComponents}
+                >
+                  {barcelonaContentSplit.contentBefore}
+                </ReactMarkdown>
+                <AmenitiesCards />
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={markdownComponents}
+                >
+                  {barcelonaContentSplit.contentAfter}
+                </ReactMarkdown>
+              </>
+            ) : (
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={markdownComponents}
+              >
+                {content}
+              </ReactMarkdown>
+            )}
           </div>
 
           {post.heroImageStyle === 'float-right' && <div className="clear-both"></div>}
@@ -648,6 +792,127 @@ export default function Post({ slug: slugProp }: PostProps) {
             </footer>
           )}
         </article>
+
+        {imageViewer.open && postImages.length > 0 && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Image viewer"
+            onClick={closeImageViewer}
+          >
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); closeImageViewer() }}
+              className="absolute top-4 right-4 p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
+              aria-label="Close"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            {imageViewer.index > 0 && (
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); goPrev() }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+            )}
+            {imageViewer.index < postImages.length - 1 && (
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); goNext() }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
+                aria-label="Next image"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+            )}
+            <div className="max-w-[90vw] max-h-[90vh] flex items-center justify-center p-12" onClick={(e) => e.stopPropagation()}>
+              <img
+                src={postImages[imageViewer.index].src}
+                alt={postImages[imageViewer.index].alt}
+                className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded"
+              />
+            </div>
+            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+              {imageViewer.index + 1} / {postImages.length}
+            </span>
+          </div>
+        )}
+
+        {!isHome && !post?.excludeFromListing && (prevPost || nextPost) && (
+          <nav
+            className="mt-8 flex flex-col gap-4"
+            aria-label="Previous and next posts"
+          >
+            {prevPost && (
+              <Link
+                to={`/posts/${prevPost.slug}`}
+                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+              >
+                <Alert className="flex flex-row items-stretch gap-4 cursor-pointer h-full">
+                  <div className="min-w-0 flex-1 flex flex-col gap-1">
+                    <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                      Previous post
+                    </AlertTitle>
+                    <AlertDescription className="py-px">
+                      <span className="font-medium text-foreground">{prevPost.title}</span>
+                      {prevPost.excerpt && (
+                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                          {stripLinksFromExcerpt(prevPost.excerpt)}
+                        </p>
+                      )}
+                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
+                        Read more →
+                      </span>
+                    </AlertDescription>
+                  </div>
+                  {prevPost.heroImage && (
+                    <img
+                      src={`/images/posts/${prevPost.heroImage}`}
+                      alt=""
+                      className="shrink-0 w-[148px] h-[148px] rounded object-cover"
+                    />
+                  )}
+                </Alert>
+              </Link>
+            )}
+            {nextPost && (
+              <Link
+                to={`/posts/${nextPost.slug}`}
+                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+              >
+                <Alert className="flex flex-row items-stretch gap-4 cursor-pointer h-full">
+                  <div className="min-w-0 flex-1 flex flex-col gap-1">
+                    <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                      Next post
+                    </AlertTitle>
+                    <AlertDescription className="py-px">
+                      <span className="font-medium text-foreground">{nextPost.title}</span>
+                      {nextPost.excerpt && (
+                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                          {stripLinksFromExcerpt(nextPost.excerpt)}
+                        </p>
+                      )}
+                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
+                        Read more →
+                      </span>
+                    </AlertDescription>
+                  </div>
+                  {nextPost.heroImage && (
+                    <img
+                      src={`/images/posts/${nextPost.heroImage}`}
+                      alt=""
+                      className="shrink-0 w-[148px] h-[148px] rounded object-cover"
+                    />
+                  )}
+                </Alert>
+              </Link>
+            )}
+          </nav>
+        )}
       </div>
     </div>
     </>

@@ -43,6 +43,18 @@
   .post-prose a {
     @apply text-black border-b border-black pb-[1px] hover:border-transparent;
   }
+  .post-prose table {
+    @apply w-full min-w-full border-collapse text-[15px] leading-[1.75];
+  }
+  .post-prose thead th {
+    @apply text-left font-medium py-3 px-4 border-b border-border bg-muted text-foreground;
+  }
+  .post-prose tbody td {
+    @apply py-3 px-4 border-b border-border text-foreground;
+  }
+  .post-prose tbody tr:last-child td {
+    @apply border-b-0;
+  }
   .post-prose .footnotes {
     @apply mt-10 pt-6 border-t border-[#e0e0e0];
   }
