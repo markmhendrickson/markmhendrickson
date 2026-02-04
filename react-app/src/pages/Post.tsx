@@ -25,6 +25,7 @@ interface Post {
   ogImage?: string
   published: boolean
   publishedDate?: string
+  updatedDate?: string
   category?: string
   readTime?: number
   tags?: string[]
@@ -496,6 +497,9 @@ export default function Post({ slug: slugProp }: PostProps) {
         {post.publishedDate && (
           <meta property="article:published_time" content={post.publishedDate} />
         )}
+        {post.updatedDate && (
+          <meta property="article:modified_time" content={post.updatedDate} />
+        )}
         <meta name="twitter:creator" content="@markmhendrickson" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={desc} />
@@ -506,26 +510,39 @@ export default function Post({ slug: slugProp }: PostProps) {
             headline: post.title,
             description: desc,
             url: canonicalUrl,
+            mainEntityOfPage: canonicalUrl,
             ...(ogImage != null && { image: ogImage }),
             ...(post.publishedDate && { datePublished: post.publishedDate }),
+            ...(post.updatedDate && { dateModified: post.updatedDate }),
             author: { '@type': 'Person', name: 'Mark Hendrickson', url: SITE_BASE },
             publisher: { '@type': 'Organization', name: 'Mark Hendrickson', logo: { '@type': 'ImageObject', url: `${SITE_BASE}/profile.jpg` } },
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_BASE },
+              { '@type': 'ListItem', position: 2, name: 'Posts', item: `${SITE_BASE}/posts` },
+              { '@type': 'ListItem', position: 3, name: post.title, item: canonicalUrl },
+            ],
           })}
         </script>
       </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
       <div className="max-w-[600px] w-full">
         {isHome && latestPost && (
-          <Alert className="mb-8 flex flex-row items-stretch gap-4">
-            <div className="min-w-0 flex-1 flex flex-col gap-1">
-              <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-                Latest post
-              </AlertTitle>
-              <AlertDescription asChild>
-                <Link
-                  to={`/posts/${latestPost.slug}`}
-                  className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90 py-px"
-                >
+          <Link
+            to={`/posts/${latestPost.slug}`}
+            className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+          >
+            <Alert className="mb-8 flex flex-row items-stretch gap-4 cursor-pointer">
+              <div className="min-w-0 flex-1 flex flex-col gap-1">
+                <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                  Latest post
+                </AlertTitle>
+                <AlertDescription className="py-px">
                   <span className="font-medium text-foreground">{latestPost.title}</span>
                   {latestPost.excerpt && (
                     <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
@@ -535,17 +552,17 @@ export default function Post({ slug: slugProp }: PostProps) {
                   <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
                     Read more →
                   </span>
-                </Link>
-              </AlertDescription>
-            </div>
-            {latestPost.heroImage && (
-              <img
-                src={`/images/posts/${latestPost.heroImage}`}
-                alt=""
-                className="hidden md:block shrink-0 w-[148px] h-[148px] rounded object-cover"
-              />
-            )}
-          </Alert>
+                </AlertDescription>
+              </div>
+              {latestPost.heroImage && (
+                <img
+                  src={`/images/posts/${latestPost.heroImage}`}
+                  alt=""
+                  className="hidden md:block shrink-0 w-[148px] h-[148px] rounded object-cover"
+                />
+              )}
+            </Alert>
+          </Link>
         )}
         <article>
           <header className="mb-8">

@@ -22,6 +22,7 @@ function helmetHeadString(helmetContext) {
   return parts.join('')
 }
 
+const SITE_BASE = 'https://markmhendrickson.com'
 const STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/social', '/songs']
 
 function getPostSlugs() {
@@ -32,6 +33,46 @@ function getPostSlugs() {
   return (Array.isArray(posts) ? posts : [])
     .filter((p) => p.published !== false && p.slug)
     .map((p) => `/posts/${p.slug}`)
+}
+
+function getPostEntries() {
+  const postsPath = path.resolve(__dirname, 'src', 'content', 'posts', 'posts.json')
+  if (!fs.existsSync(postsPath)) return []
+  const raw = fs.readFileSync(postsPath, 'utf-8')
+  const parsed = JSON.parse(raw)
+  const posts = Array.isArray(parsed) ? parsed : []
+  const seen = new Set()
+  return posts
+    .filter((p) => p.published !== false && p.slug)
+    .map((p) => {
+      const pathName = `/posts/${p.slug}`
+      const lastmod = p.updatedDate || p.publishedDate || null
+      return { pathName, lastmod }
+    })
+    .filter((entry) => {
+      if (seen.has(entry.pathName)) return false
+      seen.add(entry.pathName)
+      return true
+    })
+}
+
+function buildSitemapXml(staticRoutes, postEntries) {
+  const urlEntries = [
+    ...staticRoutes.map((route) => ({ loc: `${SITE_BASE}${route}` })),
+    ...postEntries.map((entry) => ({
+      loc: `${SITE_BASE}${entry.pathName}`,
+      lastmod: entry.lastmod || undefined,
+    })),
+  ]
+  const urls = urlEntries
+    .map(({ loc, lastmod }) => {
+      if (lastmod) {
+        return `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod></url>`
+      }
+      return `  <url><loc>${loc}</loc></url>`
+    })
+    .join('\n')
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
 }
 
 function readPostBody(slug) {
@@ -81,6 +122,9 @@ async function runPrerender() {
   }
   fs.writeFileSync(path.join(distPath, '404.html'), notFoundFull, 'utf-8')
   console.log('prerender: 404.html')
+  const sitemapXml = buildSitemapXml(STATIC_ROUTES, getPostEntries())
+  fs.writeFileSync(path.join(distPath, 'sitemap.xml'), sitemapXml, 'utf-8')
+  console.log('prerender: sitemap.xml')
   console.log('prerender: done,', allRoutes.length, 'routes')
 }
 

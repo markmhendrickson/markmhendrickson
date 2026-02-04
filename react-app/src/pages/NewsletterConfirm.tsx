@@ -1,5 +1,6 @@
 import { useState, useEffect, FormEvent } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -21,6 +22,13 @@ interface SurveyData {
 }
 
 export default function NewsletterConfirm() {
+  const pageTitle = 'Newsletter confirmed — Mark Hendrickson'
+  const pageDesc = 'Newsletter subscription confirmation and optional interest survey.'
+  const canonicalUrl = 'https://markmhendrickson.com/newsletter/confirm'
+  const defaultOgImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
+  const ogImageWidth = 1200
+  const ogImageHeight = 630
+
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const email = searchParams.get('email') || ''
@@ -90,54 +98,91 @@ export default function NewsletterConfirm() {
 
   if (success) {
     return (
-      <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-        <div className="max-w-[600px] w-full text-center">
-          <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
-          <h1 className="text-[28px] font-medium mb-4 tracking-tight">Thank You!</h1>
-          <p className="text-[17px] text-[#666] mb-8">
-            Your subscription is confirmed. Check your email for a confirmation message.
-          </p>
-          <Link to="/">
-            <Button>Return to Home</Button>
-          </Link>
+      <>
+        <Helmet>
+          <title>{pageTitle}</title>
+          <meta name="description" content={pageDesc} />
+          <link rel="canonical" href={canonicalUrl} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={pageTitle} />
+          <meta property="og:description" content={pageDesc} />
+          <meta property="og:url" content={canonicalUrl} />
+          <meta property="og:image" content={defaultOgImage} />
+          <meta property="og:image:width" content={String(ogImageWidth)} />
+          <meta property="og:image:height" content={String(ogImageHeight)} />
+          <meta name="twitter:title" content={pageTitle} />
+          <meta name="twitter:description" content={pageDesc} />
+          <meta name="twitter:image" content={defaultOgImage} />
+          <meta name="twitter:image:width" content={String(ogImageWidth)} />
+          <meta name="twitter:image:height" content={String(ogImageHeight)} />
+        </Helmet>
+        <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
+          <div className="max-w-[600px] w-full text-center">
+            <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
+            <h1 className="text-[28px] font-medium mb-4 tracking-tight">Thank You!</h1>
+            <p className="text-[17px] text-[#666] mb-8">
+              Your subscription is confirmed. Check your email for a confirmation message.
+            </p>
+            <Link to="/">
+              <Button>Return to Home</Button>
+            </Link>
+          </div>
         </div>
-      </div>
+      </>
     )
   }
 
   return (
-    <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-      <div className="max-w-[600px] w-full">
+    <>
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDesc} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDesc} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={defaultOgImage} />
+        <meta property="og:image:width" content={String(ogImageWidth)} />
+        <meta property="og:image:height" content={String(ogImageHeight)} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDesc} />
+        <meta name="twitter:image" content={defaultOgImage} />
+        <meta name="twitter:image:width" content={String(ogImageWidth)} />
+        <meta name="twitter:image:height" content={String(ogImageHeight)} />
+      </Helmet>
+      <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
+        <div className="max-w-[600px] w-full">
 
-        <Alert className="mb-6">
-          <CheckCircle2 className="h-4 w-4" />
-          <AlertDescription>
-            Successfully subscribed! We've sent a confirmation email to <strong>{email}</strong>.
-          </AlertDescription>
-        </Alert>
+          <Alert className="mb-6">
+            <CheckCircle2 className="h-4 w-4" />
+            <AlertDescription>
+              Successfully subscribed! We've sent a confirmation email to <strong>{email}</strong>.
+            </AlertDescription>
+          </Alert>
 
-        <h2 className="text-[24px] font-medium mb-2 tracking-tight">Optional: Help Us Understand Your Interests</h2>
-        <p className="text-[15px] text-[#666] mb-8 leading-relaxed">
-          These questions help us tailor content to your needs. All responses are optional and stored privately.
-        </p>
+          <h2 className="text-[24px] font-medium mb-2 tracking-tight">Optional: Help Us Understand Your Interests</h2>
+          <p className="text-[15px] text-[#666] mb-8 leading-relaxed">
+            These questions help us tailor content to your needs. All responses are optional and stored privately.
+          </p>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="role">What best describes your role?</Label>
-            <Input
-              id="role"
-              type="text"
-              placeholder="e.g., Founder, Engineer, Product Manager"
-              value={surveyData.role}
-              onChange={(e) => setSurveyData(prev => ({ ...prev, role: e.target.value }))}
-              disabled={loading}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>How do you use AI in your work? (Select all that apply)</Label>
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              {['Building AI products', 'Using AI tools for productivity', 'Researching AI capabilities', 'Not currently using AI'].map((option) => (
+              <Label htmlFor="role">What best describes your role?</Label>
+              <Input
+                id="role"
+                type="text"
+                placeholder="e.g., Founder, Engineer, Product Manager"
+                value={surveyData.role}
+                onChange={(e) => setSurveyData(prev => ({ ...prev, role: e.target.value }))}
+                disabled={loading}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>How do you use AI in your work? (Select all that apply)</Label>
+              <div className="space-y-2">
+                {['Building AI products', 'Using AI tools for productivity', 'Researching AI capabilities', 'Not currently using AI'].map((option) => (
                 <label key={option} className="flex items-center space-x-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -206,5 +251,6 @@ export default function NewsletterConfirm() {
         </form>
       </div>
     </div>
+    </>
   )
 }

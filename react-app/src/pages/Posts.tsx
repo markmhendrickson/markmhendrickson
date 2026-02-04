@@ -27,6 +27,9 @@ export default function Posts({ draft = false }: PostsProps) {
   const [posts, setPosts] = useState<Post[]>([])
   const [draftCount, setDraftCount] = useState<number>(0)
   const isDev = import.meta.env.DEV
+  const defaultOgImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
+  const ogImageWidth = 1200
+  const ogImageHeight = 630
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -97,9 +100,15 @@ export default function Posts({ draft = false }: PostsProps) {
         <meta property="og:title" content={`${pageTitle} — Mark Hendrickson`} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content="https://markmhendrickson.com/posts" />
+        <meta property="og:image" content={defaultOgImage} />
+        <meta property="og:image:width" content={String(ogImageWidth)} />
+        <meta property="og:image:height" content={String(ogImageHeight)} />
         <meta name="twitter:creator" content="@markmhendrickson" />
         <meta name="twitter:title" content={`${pageTitle} — Mark Hendrickson`} />
         <meta name="twitter:description" content={pageDesc} />
+        <meta name="twitter:image" content={defaultOgImage} />
+        <meta name="twitter:image:width" content={String(ogImageWidth)} />
+        <meta name="twitter:image:height" content={String(ogImageHeight)} />
       </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
       <div className="max-w-[600px] w-full">

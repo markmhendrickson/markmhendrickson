@@ -71,9 +71,8 @@ export function Layout({ children }: LayoutProps) {
     return null
   }
 
-  // Post and Posts set their own Helmet; avoid duplicate title/description so crawlers use page-specific meta.
-  // Home (/) is excluded so we render default Helmet here (og:image on first paint); Post overrides once loaded.
-  const hasPageHelmet = location.pathname === '/posts' || location.pathname.startsWith('/posts/')
+  // Home (/) uses the default Helmet here; all other routes should supply their own Helmet.
+  const hasPageHelmet = location.pathname !== '/'
 
   const defaultTitle = 'Mark Hendrickson'
   const defaultDescription = 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.'
@@ -101,6 +100,15 @@ export function Layout({ children }: LayoutProps) {
           <meta name="twitter:image" content={defaultImage} />
           <meta name="twitter:image:width" content={String(ogImageWidth)} />
           <meta name="twitter:image:height" content={String(ogImageHeight)} />
+          <script type="application/ld+json">
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: defaultTitle,
+              url: defaultUrl,
+              description: defaultDescription,
+            })}
+          </script>
         </Helmet>
       )}
       <SharedLayout
