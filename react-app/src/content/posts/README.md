@@ -153,7 +153,7 @@ If you need to add posts manually:
 ### Fields
 
 - `slug`: Unique identifier, kebab-case (e.g., "my-new-post"); also the canonical URL path
-- `alternative_slugs`: (Optional) JSON array of alternate URL slugs (e.g. `["short-slug"]`). Requests to alternative slugs return 301 to the canonical `/posts/{slug}` URL for SEO.
+- `alternative_slugs`: (Optional) JSON array of alternate URL slugs (e.g. `["short-slug"]`). Alternative URLs serve the same content; the page sets `<link rel="canonical">` to the primary `/posts/{slug}` URL for SEO.
 - `title`: Post title
 - `excerpt`: Short description (shown in post list)
 - `published`: `true` for published, `false` for drafts

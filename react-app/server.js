@@ -161,16 +161,6 @@ async function createServer() {
 
     app.use('*', async (req, res, next) => {
       const url = req.originalUrl
-      const pathname = (url.split('?')[0] || '/').replace(/\/$/, '')
-      const postMatch = pathname.match(/^\/posts\/([^/]+)$/)
-      if (postMatch) {
-        const slug = postMatch[1]
-        const canonical = resolveSlugToCanonical(slug)
-        if (canonical !== slug) {
-          res.redirect(301, `/posts/${canonical}${req.url.slice(pathname.length) || ''}`)
-          return
-        }
-      }
       try {
         const templatePath = path.join(distPath, 'index.html')
         let template = fs.readFileSync(templatePath, 'utf-8')
@@ -198,16 +188,6 @@ async function createServer() {
 
     app.use('*', async (req, res, next) => {
       const url = req.originalUrl
-      const pathname = (url.split('?')[0] || '/').replace(/\/$/, '')
-      const postMatch = pathname.match(/^\/posts\/([^/]+)$/)
-      if (postMatch) {
-        const slug = postMatch[1]
-        const canonical = resolveSlugToCanonical(slug)
-        if (canonical !== slug) {
-          res.redirect(301, `/posts/${canonical}${url.slice(pathname.length) || ''}`)
-          return
-        }
-      }
       try {
         let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8')
         template = await vite.transformIndexHtml(url, template)

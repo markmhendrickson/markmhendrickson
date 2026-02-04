@@ -414,11 +414,6 @@ export default function Post({ slug: slugProp }: PostProps) {
         const postMeta = slug ? slugToPost.get(slug) ?? postsData.find(p => p.slug === slug) : undefined
         const canonicalSlug = postMeta?.slug
 
-        if (postMeta && slug && canonicalSlug && slug !== canonicalSlug) {
-          navigate(`/posts/${canonicalSlug}`, { replace: true })
-          return
-        }
-
         if (!postMeta) {
           // Only navigate away if we have a slug param (not for home route)
           if (slugParam) {
@@ -591,6 +586,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const isHome = location.pathname === '/'
   const canonicalUrl = isHome ? `${SITE_BASE}/` : `${SITE_BASE}/posts/${post.slug}`
   const displaySummary = summaryContent !== undefined ? summaryContent : (post.summary ?? '')
+  const displayTweet = (post.shareTweet ?? '').trim() || (tweetContent ?? '').trim()
   // Default OG image only on home; post pages use post-specific image or none
   const ogImage = post.ogImage
     ? `${SITE_BASE}/images/${post.ogImage}`
@@ -843,14 +839,14 @@ export default function Post({ slug: slugProp }: PostProps) {
           )}
         </article>
 
-        {isDev && !post.published && (post.shareTweet?.trim() || tweetContent) && (
+        {isDev && !post.published && (
           <Alert className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Share tweet draft">
             <AlertTitle className="mb-4 text-sm font-medium uppercase tracking-wide text-muted-foreground">
               Share tweet
             </AlertTitle>
             <AlertDescription asChild>
               <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed whitespace-pre-wrap">
-                {post.shareTweet?.trim() || tweetContent}
+                {displayTweet || '\u00A0'}
               </div>
             </AlertDescription>
           </Alert>
