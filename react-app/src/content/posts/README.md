@@ -72,7 +72,15 @@ npm run generate:og
 
 Output: `public/images/og-default-1200x630.jpg` (from `public/profile.jpg`).
 
-**Per-post share image:** Add `ogImage` to post metadata with a path under `public/images/` (e.g. `og/my-post-card.jpg`). Use 1200×630 px and keep under 600 KB. For a headline or call-to-action on the image, create the card in a design tool (Figma, Canva, etc.) or use a custom image and reference it via `ogImage`.
+**Per-post share image:** Generate a 1200×630 image from a post's hero image (black background, under 600 KB):
+
+```bash
+npm run generate:og:post -- <slug>
+```
+
+Example: `npm run generate:og:post -- agentic-search-and-the-truth-layer` outputs `public/images/og/<slug>-1200x630.jpg`. The cache script automatically sets `ogImage` to `og/<slug>-1200x630.jpg` when that file exists. You can also set `og_image` in parquet or add a custom image (e.g. from Figma/Canva) under `public/images/` and reference it via parquet `og_image` or the same file convention.
+
+**OG title:** For social previews, 50–60 characters is optimal. Shorter titles (e.g. 47 chars) can be lengthened in post metadata if desired.
 
 **Note:** The system uses `posts.private.json` if available, otherwise falls back to `posts.json`. Private file should include all posts (published + drafts), while public file only includes published posts.
 

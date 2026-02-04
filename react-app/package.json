@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "generate:og": "node scripts/generate-og-image.mjs",
+    "generate:og:post": "node scripts/generate-post-og-image.mjs",
     "predev": "test -f ../../../scripts/generate_posts_cache.py && python3 ../../../scripts/generate_posts_cache.py || true",
     "dev": "vite",
     "dev:ssr": "node server.js",

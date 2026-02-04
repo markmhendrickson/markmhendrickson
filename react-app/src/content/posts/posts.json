@@ -1,8 +1,8 @@
 [
   {
     "slug": "barcelona-guest-floor",
-    "title": "Barcelona Guest Floor",
-    "excerpt": "Private guest floor in Gràcia, Barcelona: kitchen, living room, king bed, bathroom, elevator, rooftop terrace. Direct booking; cash or crypto.",
+    "title": "Barcelona guest floor",
+    "excerpt": "Your own floor in the heart of Barcelona. Quiet street in Gràcia, kitchen, king bed, rooftop terrace. Welcoming to all.",
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "article",
@@ -23,7 +23,7 @@
   {
     "slug": "agentic-search-and-the-truth-layer",
     "title": "Agentic retrieval infers. It doesn't guarantee.",
-    "excerpt": "Boris Cherny's tweet on RAG vs agentic search raises a broader question: how does agentic search differ from a structured memory layer? A technical comparison of two approaches to agent memory.",
+    "excerpt": "Your AI finds things. It also misses things, overwrites them, and often can't say where an answer came from. Why that happens and what would fix it.",
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "essay",
@@ -39,7 +39,8 @@
     "showMetadata": null,
     "createdDate": "2026-02-04",
     "updatedDate": "2026-02-04",
-    "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes."
+    "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes.",
+    "ogImage": "og/agentic-search-and-the-truth-layer-1200x630.jpg"
   },
   {
     "slug": "truth-layer-agent-memory",
