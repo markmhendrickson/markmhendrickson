@@ -705,7 +705,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                   const allImg = arr.length >= 1 && arr.every((c) => React.isValidElement(c) && (c.type === 'img' || c.type === 'button'))
                   if (allImg) {
                     return (
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 my-4" {...props}>
+                      <div className="grid grid-cols-3 gap-3 my-4" {...props}>
                         {children}
                       </div>
                     )
@@ -755,14 +755,15 @@ export default function Post({ slug: slugProp }: PostProps) {
                   {barcelonaContentSplit.contentAfter}
                 </ReactMarkdown>
               </>
-            ) : (
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={markdownComponents}
-              >
-                {content}
-              </ReactMarkdown>
-            )}
+              ) : (
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={markdownComponents}
+                >
+                  {content}
+                </ReactMarkdown>
+              );
+            })()}
           </div>
 
           {post.heroImageStyle === 'float-right' && <div className="clear-both"></div>}
