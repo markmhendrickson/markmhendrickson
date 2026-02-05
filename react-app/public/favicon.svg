@@ -1,5 +1,5 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" fill="#000"/>
+  <!-- Transparent background - no fill rect -->
   
   <!-- Outer hexagon -->
   <path d="M 32 6 L 56 21 L 56 43 L 32 58 L 8 43 L 8 21 Z" 
