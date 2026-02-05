@@ -1,0 +1,1 @@
+OpenClaw shows agents can do a lot. The gap I care about is memory you can trust, query, and fix. A truth layer under the agent gives you canonical identity, provenance, and rollback. That's what I'm building with Neotoma.

@@ -1,5 +1,22 @@
 [
   {
+    "slug": "openclaw-and-the-truth-layer",
+    "title": "Why something like OpenClaw would benefit from a truth layer",
+    "excerpt": "Agents like OpenClaw are great at doing things. The gap is remembering in a way you can verify, replay, and fix. A truth layer under the agent changes that.",
+    "published": true,
+    "publishedDate": "2026-02-04",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [],
+    "heroImage": "openclaw-and-the-truth-layer-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "showMetadata": null,
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-05",
+    "summary": "- OpenClaw and Claw-style agents excel at doing (calendar, texts, browsing, forms, skills). The gap is remembering in a way that is verifiable, consistent, and recoverable.\n- More context does not fix overwrites, missing provenance, unstable canonical identity, non-deterministic answers, or tool-bound memory. Those limits are about state, not retrieval.\n- A truth layer sits under the agent: the agent keeps doing; the layer keeps state with canonical identity, provenance, deterministic queries, recoverability, and cross-tool access.\n- With a truth layer, tasks and transactions become first-class entities with lineage. Same query yields same result; bad writes can be rolled back; the same data is available to Cursor, Claude, ChatGPT, or Claw via MCP.\n- Visibility into what the agent learned (e.g. workflows in Notion) is behavior. A truth layer adds visibility into state: what entities exist, how they are linked, where they came from, and how they changed.",
+    "shareTweet": "OpenClaw shows agents can do a lot. The gap I care about is memory you can trust, query, and fix. A truth layer under the agent gives you canonical identity, provenance, and rollback. That's what I'm building with Neotoma."
+  },
+  {
     "slug": "barcelona-guest-floor",
     "title": "Barcelona guest floor",
     "excerpt": "Your own floor in the heart of Barcelona. Quiet street in Gràcia, kitchen, king bed, rooftop terrace. Welcoming to all.",
