@@ -1,8 +1,8 @@
 [
   {
     "slug": "openclaw-and-the-truth-layer",
-    "title": "Why something like OpenClaw would benefit from a truth layer",
-    "excerpt": "Agents like OpenClaw are great at doing things. The gap is remembering in a way you can verify, replay, and fix. A truth layer under the agent changes that.",
+    "title": "OpenClaw is powerful at doing but could use some help remembering.",
+    "excerpt": "OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.",
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "essay",
