@@ -1,0 +1,5 @@
+- Incumbents face structural constraints that prevent them from copying certain architectures, even if they have more resources.
+- Effective barriers arise from incentive misalignment, architectural constraints, business model conflicts, distribution mismatch, and timing windows.
+- Neotoma demonstrates these principles: privacy-first architecture directly conflicts with incumbent revenue models, deterministic workflows require complete rewrites, and cross-platform support undermines lock-in strategies.
+- The goal is not to outrun replication through speed or secrecy, but to construct systems whose value compounds through principles incumbents are structurally disincentivized to pursue.
+- When evaluating defensibility, ask: would copying hurt their existing revenue, require non-incremental architectural changes, or demand a different customer relationship they can't serve?
