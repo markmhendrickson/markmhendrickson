@@ -1,3 +1,5 @@
-Claw pursues work from text messages effectively up front. On repeat usage it gets mixed up. It needs to keep records straight. Follow-up tasks, vendor spending. Same question, different answer tomorrow.
+OpenClaw is powerful at doing but could use some help remembering.
 
-https://markmhendrickson.com/posts/openclaw-memory-help
+Pursues work from texts effectively up front. On repeat it gets mixed up. Records don't stay straight. Follow-up tasks, vendor spending. Same question, different answer tomorrow.
+
+https://markmhendrickson.com/posts/claw-memory

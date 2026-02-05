@@ -14,9 +14,9 @@
     "createdDate": "2026-02-04",
     "updatedDate": "2026-02-05",
     "summary": "- OpenClaw and Claw-style agents excel at doing (calendar, texts, browsing, forms, skills). The gap is remembering in a way that is verifiable, consistent, and recoverable.\n- More context does not fix overwrites, missing provenance, unstable canonical identity, non-deterministic answers, or tool-bound memory. Those limits are about state, not retrieval.\n- A truth layer sits under the agent: the agent keeps doing; the layer keeps state with canonical identity, provenance, deterministic queries, recoverability, and cross-tool access.\n- With a truth layer, tasks and transactions become first-class entities with lineage. Same query yields same result; bad writes can be rolled back; the same data is available to Cursor, Claude, ChatGPT, or Claw via MCP.\n- Visibility into what the agent learned (e.g. workflows in Notion) is behavior. A truth layer adds visibility into state: what entities exist, how they are linked, where they came from, and how they changed.",
-    "shareTweet": "Claw pursues work from text messages effectively up front. On repeat usage it gets mixed up. It needs to keep records straight. Follow-up tasks, vendor spending. Same question, different answer tomorrow.\n\nhttps://markmhendrickson.com/posts/openclaw-memory-help",
+    "shareTweet": "OpenClaw is powerful at doing but could use some help remembering.\n\nPursues work from texts effectively up front. On repeat it gets mixed up. Records don't stay straight. Follow-up tasks, vendor spending. Same question, different answer tomorrow.\n\nhttps://markmhendrickson.com/posts/claw-memory",
     "alternativeSlugs": [
-      "openclaw-memory-help"
+      "claw-memory"
     ]
   },
   {
