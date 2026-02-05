@@ -1,9 +1,27 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
   <rect width="64" height="64" fill="#000"/>
-  <!-- Ring: thicker so it holds at 16px -->
-  <circle cx="32" cy="32" r="26" fill="none" stroke="#fff" stroke-width="6"/>
-  <!-- M: single-line, thicker strokes -->
-  <path d="M 14 50 V 18 M 14 18 L 26 32 L 32 18 M 32 18 V 50" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="square"/>
-  <!-- H -->
-  <path d="M 32 50 V 18 M 32 32 H 50 M 50 18 V 50" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="square"/>
+  
+  <!-- Simplified packrat nest/cache - circular nest made of strokes -->
+  <circle cx="32" cy="32" r="24" fill="none" stroke="#fff" stroke-width="2"/>
+  
+  <!-- Inner nest texture - simplified organic lines -->
+  <path d="M 20 28 Q 24 24 32 26 Q 40 28 44 32" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 18 32 Q 22 30 32 32 Q 42 34 46 36" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 20 36 Q 26 38 32 38 Q 38 38 44 40" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 22 40 Q 28 42 32 42 Q 36 42 42 44" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- Simplified packrat silhouette - small and recognizable -->
+  <!-- Head -->
+  <circle cx="38" cy="20" r="3.5" fill="#fff"/>
+  <!-- Ears -->
+  <ellipse cx="36" cy="18" rx="1.5" ry="2.5" fill="#fff"/>
+  <ellipse cx="40" cy="18" rx="1.5" ry="2.5" fill="#fff"/>
+  <!-- Eye -->
+  <circle cx="38" cy="20" r="0.8" fill="#000"/>
+  
+  <!-- Body curve -->
+  <path d="M 38 23 Q 40 28 38 32" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Tail curve -->
+  <path d="M 38 32 Q 42 36 46 40" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
 </svg>
