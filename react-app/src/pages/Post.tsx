@@ -839,14 +839,14 @@ export default function Post({ slug: slugProp }: PostProps) {
           )}
         </article>
 
-        {isDev && !post.published && (
+        {isDev && displayTweet && (
           <Alert className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Share tweet draft">
             <AlertTitle className="mb-4 text-sm font-medium uppercase tracking-wide text-muted-foreground">
               Share tweet
             </AlertTitle>
             <AlertDescription asChild>
               <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed whitespace-pre-wrap">
-                {displayTweet || '\u00A0'}
+                {displayTweet}
               </div>
             </AlertDescription>
           </Alert>

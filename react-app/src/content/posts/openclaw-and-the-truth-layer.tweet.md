@@ -1,1 +1,3 @@
-OpenClaw shows agents can do a lot. The gap I care about is memory you can trust, query, and fix. A truth layer under the agent gives you canonical identity, provenance, and rollback. That's what I'm building with Neotoma.
+Claw pursues work from text messages effectively up front. On repeat usage it gets mixed up. It needs to keep records straight. Follow-up tasks, vendor spending. Same question, different answer tomorrow.
+
+https://markmhendrickson.com/posts/openclaw-memory-help

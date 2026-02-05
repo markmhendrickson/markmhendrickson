@@ -10,6 +10,7 @@ interface Post {
   slug: string
   title: string
   excerpt?: string
+  summary?: string
   published: boolean
   publishedDate?: string
   updatedDate?: string
@@ -32,8 +33,9 @@ function matchQuery(post: Post, q: string): boolean {
   const lower = q.toLowerCase()
   const title = (post.title ?? '').toLowerCase()
   const excerpt = (post.excerpt ?? '').toLowerCase()
+  const summary = (post.summary ?? '').toLowerCase()
   const tags = (post.tags ?? []).join(' ').toLowerCase()
-  return title.includes(lower) || excerpt.includes(lower) || tags.includes(lower)
+  return title.includes(lower) || excerpt.includes(lower) || summary.includes(lower) || tags.includes(lower)
 }
 
 export default function Posts({ draft = false }: PostsProps) {
@@ -195,7 +197,7 @@ export default function Posts({ draft = false }: PostsProps) {
             <Search className="w-4 h-4 text-muted-foreground shrink-0" aria-hidden />
             <Input
               type="search"
-              placeholder="Search posts by title, excerpt, or tags…"
+              placeholder="Search posts"
               value={searchInput}
               onChange={(e) => handleSearchChange(e.target.value)}
               className="max-w-sm h-9 text-sm"
