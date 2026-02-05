@@ -30,9 +30,23 @@ function getPostSlugs() {
   if (!fs.existsSync(postsPath)) return []
   const raw = fs.readFileSync(postsPath, 'utf-8')
   const posts = JSON.parse(raw)
-  return (Array.isArray(posts) ? posts : [])
-    .filter((p) => p.published !== false && p.slug)
-    .map((p) => `/posts/${p.slug}`)
+  const routes = []
+  
+  for (const p of (Array.isArray(posts) ? posts : [])) {
+    if (p.published === false || !p.slug) continue
+    
+    // Add canonical slug
+    routes.push(`/posts/${p.slug}`)
+    
+    // Add alternative slugs (for Twitter card previews and SEO)
+    if (Array.isArray(p.alternativeSlugs)) {
+      for (const altSlug of p.alternativeSlugs) {
+        if (altSlug) routes.push(`/posts/${altSlug}`)
+      }
+    }
+  }
+  
+  return routes
 }
 
 function urlToFilePath(url) {
