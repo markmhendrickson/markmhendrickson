@@ -31,6 +31,11 @@ jobs:
         working-directory: react-app
         run: npm ci
 
+      - name: Ensure posts.private.json exists for build
+        working-directory: react-app
+        run: |
+          cp src/content/posts/posts.json src/content/posts/posts.private.json || true
+
       - name: Build
         working-directory: react-app
         env:
