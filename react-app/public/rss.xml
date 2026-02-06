@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mark Hendrickson</title>
+    <link>https://markmhendrickson.com/</link>
+    <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 05 Feb 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>OpenClaw is powerful at doing but could use some help remembering.</title>
+    <link>https://markmhendrickson.com/posts/openclaw-and-the-truth-layer</link>
+    <description>OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.</description>
+    <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/openclaw-and-the-truth-layer</guid>
+  </item>
+  <item>
+    <title>Barcelona guest floor</title>
+    <link>https://markmhendrickson.com/posts/barcelona-guest-floor</link>
+    <description>Your own floor in the heart of Barcelona. Quiet street in Gràcia, kitchen, king bed, rooftop terrace. Welcoming to all.</description>
+    <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/barcelona-guest-floor</guid>
+  </item>
+  <item>
+    <title>Agentic retrieval infers. It doesn&apos;t guarantee.</title>
+    <link>https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer</link>
+    <description>Your AI finds things. It also misses things, overwrites them, and often can&apos;t say where an answer came from. Why that happens and what would fix it.</description>
+    <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer</guid>
+  </item>
+  <item>
+    <title>Building a truth layer for persistent agent memory</title>
+    <link>https://markmhendrickson.com/posts/truth-layer-agent-memory</link>
+    <description>Agent memory is forgetful. Why I&apos;m building inspectable, structured memory for trustworthy agentic systems.</description>
+    <pubDate>Mon, 02 Feb 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/truth-layer-agent-memory</guid>
+  </item>
+  <item>
+    <title>Mark Hendrickson</title>
+    <link>https://markmhendrickson.com/posts/professional-mission</link>
+    <description>Building sovereign systems at the intersection of crypto and AI</description>
+    <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/professional-mission</guid>
+  </item>
+  <item>
+    <title>The Flip Side</title>
+    <link>https://markmhendrickson.com/posts/the-flip-side</link>
+    <description>I&apos;ve been reading The Flip Side since October and find it&apos;s an incredibly effective and efficient way to encounter and digest thoughtful opinions...</description>
+    <pubDate>Fri, 22 Mar 2019 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-flip-side</guid>
+  </item>
+  <item>
+    <title>Yc W19 Web Developer Contract</title>
+    <link>https://markmhendrickson.com/posts/yc-w19-web-developer-contract</link>
+    <description>Web developers: The founder of a YC W19 company I know is looking to contract immediately for a project involving React, Node, and MongoDB with...</description>
+    <pubDate>Wed, 05 Dec 2018 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/yc-w19-web-developer-contract</guid>
+  </item>
+  <item>
+    <title>The Facebook police state</title>
+    <link>https://markmhendrickson.com/posts/facebook-police-state</link>
+    <description>Should Facebook really be responsible for policing the misuse of user datahttps://newsroom.fb.com/news/2018/03/forensic-audits-cambridge-analytica/...</description>
+    <pubDate>Tue, 20 Mar 2018 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/facebook-police-state</guid>
+  </item>
+  <item>
+    <title>Finding flow beyond distraction</title>
+    <link>https://markmhendrickson.com/posts/finding-flow-beyond-distraction</link>
+    <description>One my highest priorities over the past several years has been to establish a more frequent state of flowhttps://en.wikipedia.org/wiki/Flowpsychology...</description>
+    <pubDate>Wed, 28 Feb 2018 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/finding-flow-beyond-distraction</guid>
+  </item>
+  <item>
+    <title>Alps Snowboarding Recommendations</title>
+    <link>https://markmhendrickson.com/posts/alps-snowboarding-recommendations</link>
+    <description>Any recommendations on the best snowboarding destinations in the Alps with easy access from Barcelona and London? 🏂</description>
+    <pubDate>Fri, 09 Feb 2018 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/alps-snowboarding-recommendations</guid>
+  </item>
+  <item>
+    <title>Tutor Catala</title>
+    <link>https://markmhendrickson.com/posts/tutor-catala</link>
+    <description>Algú coneix a un tutor de català bo? Estic buscant un per a fer classes d&apos;una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la...</description>
+    <pubDate>Sun, 10 Dec 2017 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/tutor-catala</guid>
+  </item>
+  <item>
+    <title>The Outline</title>
+    <link>https://markmhendrickson.com/posts/the-outline</link>
+    <description>This is the most impressive media website I&apos;ve seen in a while, from a creative design and construction quality point of view:...</description>
+    <pubDate>Sun, 10 Dec 2017 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-outline</guid>
+  </item>
+  <item>
+    <title>Syncing Foursquare / Swarm checkins to my website</title>
+    <link>https://markmhendrickson.com/posts/foursquare-swarm-checkins-sync</link>
+    <description>Neotoma now backs up all of my Foursquare / Swarm check-ins to my Dropbox account whereupon they’re republished instantly to my website on a new check-ins page.</description>
+    <pubDate>Mon, 13 Nov 2017 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/foursquare-swarm-checkins-sync</guid>
+  </item>
+  <item>
+    <title>Dropbox API v2 fix for Neotoma sync server</title>
+    <link>https://markmhendrickson.com/posts/sync-server-dropbox-api-version-2-fix</link>
+    <description>As part of my working sprint at IndieWebCamp Berlin today, I managed to fix a show-stopping bug that’s been in production for sync-server on Neotoma and run a backup job for my latest Foursquare / Swarm check-ins.</description>
+    <pubDate>Sun, 05 Nov 2017 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/sync-server-dropbox-api-version-2-fix</guid>
+  </item>
+  <item>
+    <title>Publishing to my website instantly with Dropbox</title>
+    <link>https://markmhendrickson.com/posts/dropbox-website-publishing</link>
+    <description>My website&apos;s content is now populated automatically via Dropbox using Neotoma personal server and publishing software, reducing the friction to publishing, keeping data in sync, and paving the way for content aggregation.</description>
+    <pubDate>Fri, 03 Nov 2017 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/dropbox-website-publishing</guid>
+  </item>
+  <item>
+    <title>New Node.js repos for environment management, deployment and proxying</title>
+    <link>https://markmhendrickson.com/posts/park-ranger-grunt-hoist-proxy</link>
+    <description>While working more or less full-time on Neotoma since last summer, I’ve created a few repositories that are hopefully useful as modules to other Node.js apps in general.</description>
+    <pubDate>Tue, 04 Apr 2017 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/park-ranger-grunt-hoist-proxy</guid>
+  </item>
+  <item>
+    <title>Touch Bar Autosuggest</title>
+    <link>https://markmhendrickson.com/posts/touch-bar-autosuggest</link>
+    <description>“Hmmm what I’ve been doing is that I wanted to be a good friend to my life and my life is so far away” - My Touch Bar autosuggest</description>
+    <pubDate>Thu, 02 Mar 2017 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/touch-bar-autosuggest</guid>
+  </item>
+  <item>
+    <title>Applying for the Spanish non-lucrative residence visa</title>
+    <link>https://markmhendrickson.com/posts/spanish-non-lucrative-residence-visa</link>
+    <description>Just over a year ago, I moved to Barcelona in Spain to live abroad for the first time. I booked a flight from San Francisco with little else in terms of preparation, an intentionally rash decision to experience what it would be like to land in a new country and improvise the establishment of a life there.</description>
+    <pubDate>Sun, 26 Oct 2014 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/spanish-non-lucrative-residence-visa</guid>
+  </item>
+  <item>
+    <title>Bringing it all back home</title>
+    <link>https://markmhendrickson.com/posts/bringing-it-all-back-home</link>
+    <description>&gt; &quot;Now, I been in jail when all my mail showed, that a man can’t give his address out to bad company&quot; - Bob Dylan, Absolutely Sweet Marie Last summer...</description>
+    <pubDate>Thu, 30 Jan 2014 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/bringing-it-all-back-home</guid>
+  </item>
+  <item>
+    <title>11 Reasons Why I Won&apos;t Click On Your Link Bait</title>
+    <link>https://markmhendrickson.com/posts/11-reasons-why-i-wont-click-on-your-link-bait</link>
+    <description>1. It blatantly panders to my predispositions. 2. I presume it was written by an underpaid intern. 3. I already saw the content on Reddit. 4. I&apos;m...</description>
+    <pubDate>Fri, 06 Dec 2013 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/11-reasons-why-i-wont-click-on-your-link-bait</guid>
+  </item>
+  <item>
+    <title>Kanban</title>
+    <link>https://markmhendrickson.com/posts/kanban</link>
+    <description>One of the most important aspects of product design and management is prioritization. There are only so many resources at a company&apos;s disposal at any...</description>
+    <pubDate>Tue, 11 Dec 2012 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/kanban</guid>
+  </item>
+  <item>
+    <title>Success projection for startups</title>
+    <link>https://markmhendrickson.com/posts/success-projection-for-startups</link>
+    <description>Startups often get so consumed by their day-to-day challenges that they do a poor job actually projecting their longer-term success or lack thereof....</description>
+    <pubDate>Wed, 05 Dec 2012 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/success-projection-for-startups</guid>
+  </item>
+  <item>
+    <title>Three types of design</title>
+    <link>https://markmhendrickson.com/posts/three-types-of-design</link>
+    <description>People tend to use the word &quot;design&quot; very loosely when talking about product, but it&apos;s actually quite important to distinguish between the types of...</description>
+    <pubDate>Thu, 29 Nov 2012 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/three-types-of-design</guid>
+  </item>
+  <item>
+    <title>The Post-MVP Fork in the Road</title>
+    <link>https://markmhendrickson.com/posts/the-postmvp-fork-in-the-road</link>
+    <description>A lot of startups rightly aim to release a minimum viable product MVP as their first initiative. The goal of an MVP helps a team rally around a...</description>
+    <pubDate>Wed, 28 Nov 2012 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-postmvp-fork-in-the-road</guid>
+  </item>
+  <item>
+    <title>Does your product provide instant gratification?</title>
+    <link>https://markmhendrickson.com/posts/does-your-product-provide-instant-gratification</link>
+    <description>Over the past year, and mostly as a result of my Plancast post-mortem, I&apos;ve spoken  with dozens of entrepreneurs who are working on events-related...</description>
+    <pubDate>Tue, 27 Nov 2012 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/does-your-product-provide-instant-gratification</guid>
+  </item>
+  <item>
+    <title>A Post-Mortem for Plancast</title>
+    <link>https://markmhendrickson.com/posts/a-postmortem-for-plancast</link>
+    <description>Nearly three years ago, I left my position at TechCrunchhttp://techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ to start my own Internet...</description>
+    <pubDate>Sun, 22 Jan 2012 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/a-postmortem-for-plancast</guid>
+  </item>
+  <item>
+    <title>Share frequency</title>
+    <link>https://markmhendrickson.com/posts/share-frequency</link>
+    <description>When designing a social network that depends on users to contribute content from which they&apos;ll collectively derive value, one must consider certain...</description>
+    <pubDate>Fri, 12 Aug 2011 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/share-frequency</guid>
+  </item>
+  <item>
+    <title>Homesteading on the indie web</title>
+    <link>https://markmhendrickson.com/posts/homesteading-on-the-indie-web</link>
+    <description>I had the pleasure of attending IndieWebCamphttp://indiewebcamp.com/ in Portland last month, a BarCamp-style conference where techies get together to...</description>
+    <pubDate>Sat, 30 Jul 2011 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/homesteading-on-the-indie-web</guid>
+  </item>
+  <item>
+    <title>Content</title>
+    <link>https://markmhendrickson.com/posts/content</link>
+    <description>People are particular about the forms of communication they employ when expressing themselves, through social networks or any other media, because...</description>
+    <pubDate>Thu, 07 Jul 2011 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/content</guid>
+  </item>
+  <item>
+    <title>Relationship</title>
+    <link>https://markmhendrickson.com/posts/relationship</link>
+    <description>When people connect with others on a given social network, they are conscientious about whom they will connect with, because an exchange of...</description>
+    <pubDate>Sat, 04 Jun 2011 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/relationship</guid>
+  </item>
+  <item>
+    <title>Three pillars of social networking</title>
+    <link>https://markmhendrickson.com/posts/three-pillars</link>
+    <description>Social networking is a precondition for new modes of information exchange, not an end in and of itself. By definition, a social network is simply a...</description>
+    <pubDate>Mon, 02 May 2011 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/three-pillars</guid>
+  </item>
+  <item>
+    <title>How to pitch a tech blogger</title>
+    <link>https://markmhendrickson.com/posts/how-to-pitch-a-tech-blogger</link>
+    <description>I&apos;ve been asked privately quite a few times over the last couple of years how one should pitch their startup to a tech blog like...</description>
+    <pubDate>Sun, 26 Sep 2010 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/how-to-pitch-a-tech-blogger</guid>
+  </item>
+  <item>
+    <title>Some late-night ideas for Blippy</title>
+    <link>https://markmhendrickson.com/posts/some-latenight-ideas-for-blippy</link>
+    <description>I feel a certain kinship towards the founders of Blippyhttp://blippy.com/. Not because I know them well I&apos;ve met Philip Kaplan aka Pud only once but...</description>
+    <pubDate>Mon, 18 Jan 2010 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/some-latenight-ideas-for-blippy</guid>
+  </item>
+  <item>
+    <title>Plancast in public beta</title>
+    <link>https://markmhendrickson.com/posts/plancast-in-public-beta</link>
+    <description>I&apos;m happy to announce that the site I&apos;ve been working on for the past half year or so - Plancasthttp://plancast.com/ - is now available in public...</description>
+    <pubDate>Sun, 15 Nov 2009 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/plancast-in-public-beta</guid>
+  </item>
+  <item>
+    <title>Facebook&apos;s social graph</title>
+    <link>https://markmhendrickson.com/posts/facebooks-social-graph</link>
+    <description>The social graph on Facebook has been the company&apos;s biggest asset, but over time it has become perhaps its biggest liability as well. When users want...</description>
+    <pubDate>Fri, 31 Jul 2009 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/facebooks-social-graph</guid>
+  </item>
+  <item>
+    <title>Worldly Developments</title>
+    <link>https://markmhendrickson.com/posts/worldly-developments</link>
+    <description>I&apos;m happy to announce some exciting news regarding my startup. I&apos;ve officially incorporated as Worldly Developmentshttp://worldlydevelopments.com/...</description>
+    <pubDate>Sun, 21 Jun 2009 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/worldly-developments</guid>
+  </item>
+  <item>
+    <title>The web needs its own App Store</title>
+    <link>https://markmhendrickson.com/posts/the-web-needs-its-own-app-store</link>
+    <description>I&apos;ve been thinking a bit about the Apple App Store recently, perhaps because I&apos;m starting to think more about developing a mobile application that...</description>
+    <pubDate>Tue, 19 May 2009 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-web-needs-its-own-app-store</guid>
+  </item>
+  <item>
+    <title>Narrowing Scope</title>
+    <link>https://markmhendrickson.com/posts/narrowing-scope</link>
+    <description>Since my last post, I&apos;ve narrowed the scope of my project down a great deal. The main reason was to make it more accessible to first-time users who...</description>
+    <pubDate>Mon, 18 May 2009 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/narrowing-scope</guid>
+  </item>
+  <item>
+    <title>The unfolding legacy of Twitter for software design</title>
+    <link>https://markmhendrickson.com/posts/the-unfolding-legacy-of-twitter-for-software-design</link>
+    <description>The immense amount of ink spilled for Twitter these days signals two main things. First, that web innovation in general is going through a...</description>
+    <pubDate>Mon, 30 Mar 2009 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-unfolding-legacy-of-twitter-for-software-design</guid>
+  </item>
+  <item>
+    <title>My first week as an entrepreneur</title>
+    <link>https://markmhendrickson.com/posts/my-first-week-as-an-entrepreneur</link>
+    <description>Today marks the completion of my first week working on my first startup/getting-the-lay-of-the-land. So, I thought it would be a good time to share...</description>
+    <pubDate>Sun, 22 Mar 2009 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/my-first-week-as-an-entrepreneur</guid>
+  </item>
+  <item>
+    <title>Getting the lay of the land</title>
+    <link>https://markmhendrickson.com/posts/getting-the-lay-of-the-land</link>
+    <description>As Erick Schonfeld was kind enough to announce in a post on TechCrunchhttp://www.techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ last...</description>
+    <pubDate>Tue, 17 Mar 2009 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/getting-the-lay-of-the-land</guid>
+  </item>
+  </channel>
+</rss>

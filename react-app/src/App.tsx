@@ -9,6 +9,7 @@ import Posts from './pages/Posts'
 import Post from './pages/Post'
 import SocialMedia from './pages/SocialMedia'
 import Songs from './pages/Songs'
+import Mcp from './pages/Mcp'
 import NotFound from './pages/NotFound'
 import TestError from './pages/TestError'
 
@@ -25,6 +26,7 @@ const routes = (
     <Route path="/posts/:slug" element={<Layout><Post /></Layout>} />
     <Route path="/social" element={<Layout><SocialMedia /></Layout>} />
     <Route path="/songs" element={<Layout><Songs /></Layout>} />
+    <Route path="/agent" element={<Layout><Mcp /></Layout>} />
     <Route path="/test-error" element={<Layout><TestError /></Layout>} />
     <Route path="*" element={<Layout><NotFound /></Layout>} />
   </Routes>

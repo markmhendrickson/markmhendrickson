@@ -9,7 +9,6 @@ This directory contains cache files and markdown files for blog posts and essays
 ## Structure
 
 - `posts.json` - **Generated cache** of public posts only (published: true) - auto-generated on build
-- `posts.private.json` - **Generated cache** of all posts including drafts - auto-generated on build
 - `*.md` - Markdown files for post body (source of truth for content; synced to parquet on build)
 - `*.summary.md` - Key takeaways for each post (source of truth when present; synced to parquet on build)
 - `*.tweet.md` - Share tweet for each post (draft tweets in `drafts/{slug}.tweet.md`; synced to parquet as `share_tweet`; shown in dev below post)
@@ -19,7 +18,7 @@ This directory contains cache files and markdown files for blog posts and essays
 **Build Process:**
 1. `npm run build` triggers prebuild script
 2. Prebuild script (`generate_posts_cache.py`) syncs body from `{slug}.md`, key takeaways from `{slug}.summary.md`, and share tweet from `{slug}.tweet.md` into parquet; pulls missing summaries/tweets from parquet into `.summary.md`/`.tweet.md`
-3. Cache JSON files are generated from parquet
+3. Cache JSON file is generated from parquet
 4. Vite builds the React app using cache files
 
 ## Share tweet (drafts)
@@ -107,7 +106,7 @@ The script prefers a dedicated OG source when present: `public/images/posts/<slu
 
 **OG title:** For social previews, 50–60 characters is optimal. Shorter titles (e.g. 47 chars) can be lengthened in post metadata if desired.
 
-**Note:** The system uses `posts.private.json` if available, otherwise falls back to `posts.json`. Private file should include all posts (published + drafts), while public file only includes published posts.
+**Note:** The system uses `posts.json` for public posts only.
 
 ## Adding a New Post
 
@@ -191,7 +190,7 @@ Key takeaways for each post are editable in markdown, like the post body.
 - **Storage**: Drafts are stored in parquet with `published: false`
 - **Visibility**: Drafts are only visible when running `npm run dev` (development mode)
 - **Production**: In production builds, drafts are automatically hidden (filtered by React app)
-- **Cache**: `posts.private.json` includes drafts, `posts.json` excludes them
+- **Cache**: `posts.json` excludes drafts
 
 ### Publishing a Draft
 

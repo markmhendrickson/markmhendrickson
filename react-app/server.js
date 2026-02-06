@@ -98,6 +98,70 @@ function buildSitemapXml(staticRoutes, postEntries) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
 }
 
+function escapeXml(str) {
+  if (str == null || typeof str !== 'string') return ''
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
+function toRfc822Date(isoDate) {
+  if (!isoDate) return ''
+  try {
+    return new Date(isoDate).toUTCString()
+  } catch {
+    return ''
+  }
+}
+
+const RSS_FEED_TITLE = 'Mark Hendrickson'
+const RSS_FEED_DESCRIPTION =
+  'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.'
+
+function buildRssXml(posts) {
+  const published = posts
+    .filter((p) => p.published !== false && p.slug)
+    .sort((a, b) => {
+      const da = a.publishedDate || a.updatedDate || ''
+      const db = b.publishedDate || b.updatedDate || ''
+      return db.localeCompare(da)
+    })
+  const latestDate = published[0]
+    ? toRfc822Date(published[0].updatedDate || published[0].publishedDate)
+    : toRfc822Date(new Date().toISOString())
+  const items = published
+    .map((p) => {
+      const link = `${SITE_BASE}/posts/${p.slug}`
+      const title = escapeXml(p.title || '')
+      const description = escapeXml(p.excerpt || '')
+      const pubDate = toRfc822Date(p.publishedDate || p.updatedDate)
+      return `  <item>
+    <title>${title}</title>
+    <link>${escapeXml(link)}</link>
+    <description>${description}</description>
+    <pubDate>${pubDate}</pubDate>
+    <guid isPermaLink="true">${escapeXml(link)}</guid>
+  </item>`
+    })
+    .join('\n')
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${escapeXml(RSS_FEED_TITLE)}</title>
+    <link>${SITE_BASE}/</link>
+    <description>${escapeXml(RSS_FEED_DESCRIPTION)}</description>
+    <language>en-us</language>
+    <lastBuildDate>${latestDate}</lastBuildDate>
+    <atom:link href="${SITE_BASE}/rss.xml" rel="self" type="application/rss+xml"/>
+${items}
+  </channel>
+</rss>
+`
+}
+
 function readPostBody(slug) {
   const mdPath = path.resolve(__dirname, 'src', 'content', 'posts', `${slug}.md`)
   if (!fs.existsSync(mdPath)) return null
@@ -155,6 +219,9 @@ async function runPrerender() {
   const sitemapXml = buildSitemapXml(STATIC_ROUTES, getPostEntries())
   fs.writeFileSync(path.join(distPath, 'sitemap.xml'), sitemapXml, 'utf-8')
   console.log('prerender: sitemap.xml')
+  const rssXml = buildRssXml(getPosts())
+  fs.writeFileSync(path.join(distPath, 'rss.xml'), rssXml, 'utf-8')
+  console.log('prerender: rss.xml')
   console.log('prerender: done,', allRoutes.length, 'routes')
 }
 

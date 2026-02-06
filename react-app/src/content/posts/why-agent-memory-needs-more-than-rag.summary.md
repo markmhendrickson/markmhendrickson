@@ -1,0 +1,5 @@
+- RAG fails for agent memory because of redundant top-k, pruning that breaks evidence chains, and similarity that ignores structure.
+- The paper validates structure over similarity: retrieval should follow the organisation induced by decomposition and aggregation, not a ranking over raw spans; xMemory does it with a learned hierarchy, Neotoma with schema-first design.
+- xMemory gives semantic retrieval over a four-level hierarchy but no structural retrieval; Neotoma gives both and stays deterministic, with optional advisory LLM suggestions for schema changes.
+- Semantic-only retrieval leads to expected failures when evidence is spread across turns, when you need set queries (e.g. tasks due before Friday), or when you need relationship traversal (e.g. tasks in project Y).
+- Deterministic, schema-first structure is more reliable than LLM-generated structure; inference can suggest schema changes without breaking determinism if it stays advisory and tooling or humans apply.

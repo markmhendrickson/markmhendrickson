@@ -68,11 +68,6 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    rollupOptions: {
-      // Exclude private posts from production bundle (drafts); app falls back to posts.json
-      external: (id) =>
-        process.env.NODE_ENV === 'production' && id.includes('posts.private.json'),
-    },
   },
   // For GitHub Pages - handle client-side routing
   preview: {

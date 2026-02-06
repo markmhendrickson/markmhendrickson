@@ -1,68 +1,52 @@
 [
   {
-    "slug": "building-structural-barriers",
-    "title": "Building structural barriers that incumbents can't copy",
-    "excerpt": "Incumbents face structural constraints that prevent them from copying certain architectures. You don't protect through secrecy or patents. You build something they structurally can't pursue.",
+    "slug": "why-agent-memory-needs-more-than-rag",
+    "title": "Why agent memory needs more than RAG",
+    "excerpt": "Retrieval for agent memory should be driven by structure, not similarity. Learned hierarchies beat RAG but are brittle. Schema-first design gives the same advantage without putting the LLM in the critical path.",
     "published": true,
-    "publishedDate": "2026-02-05",
-    "category": "essay",
+    "publishedDate": "2026-02-06",
+    "category": "Technical",
     "readTime": 8,
     "tags": [
       "neotoma",
-      "startup strategy",
+      "agent-memory",
+      "architecture",
+      "rag",
+      "build-in-public"
+    ],
+    "heroImage": "why-agent-memory-needs-more-than-rag-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "why-agent-memory-needs-more-than-rag-hero-square.png",
+    "showMetadata": true,
+    "createdDate": "2026-02-05",
+    "updatedDate": "2026-02-06",
+    "summary": "- RAG fails for agent memory because of redundant top-k, pruning that breaks evidence chains, and similarity that ignores structure.\n- The paper validates structure over similarity: retrieval should follow the organisation induced by decomposition and aggregation, not a ranking over raw spans; xMemory does it with a learned hierarchy, Neotoma with schema-first design.\n- xMemory gives semantic retrieval over a four-level hierarchy but no structural retrieval; Neotoma gives both and stays deterministic, with optional advisory LLM suggestions for schema changes.\n- Semantic-only retrieval leads to expected failures when evidence is spread across turns, when you need set queries (e.g. tasks due before Friday), or when you need relationship traversal (e.g. tasks in project Y).\n- Deterministic, schema-first structure is more reliable than LLM-generated structure; inference can suggest schema changes without breaking determinism if it stays advisory and tooling or humans apply.",
+    "shareTweet": "RAG retrieves by similarity. Agent memory needs structure. A new paper validates why @neotoma_dev uses deterministic, schema-first architecture instead of LLM-based hierarchy.\n\nhttps://markmhendrickson.com/posts/why-agent-memory-needs-more-than-rag",
+    "ogImage": "og/why-agent-memory-needs-more-than-rag-1200x630.jpg"
+  },
+  {
+    "slug": "building-structural-barriers",
+    "title": "Building structural barriers that incumbents can't copy",
+    "excerpt": "You don't protect it through secrecy or patents. You build something they structurally can't pursue.",
+    "published": true,
+    "publishedDate": "2026-02-05",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "strategy",
+      "neotoma",
+      "positioning",
       "defensibility"
     ],
     "heroImage": "building-structural-barriers-hero.png",
     "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "building-structural-barriers-hero-square.png",
     "showMetadata": null,
     "createdDate": "2026-02-05",
-    "updatedDate": "2026-02-05",
+    "updatedDate": "2026-02-06",
     "summary": "- Incumbents face structural constraints that prevent them from copying certain architectures, even if they have more resources.\n- Effective barriers arise from incentive misalignment, architectural constraints, business model conflicts, distribution mismatch, and timing windows.\n- Neotoma demonstrates these principles: privacy-first architecture directly conflicts with incumbent revenue models, deterministic workflows require complete rewrites, and cross-platform support undermines lock-in strategies.\n- The goal is not to outrun replication through speed or secrecy, but to construct systems whose value compounds through principles incumbents are structurally disincentivized to pursue.\n- When evaluating defensibility, ask: would copying hurt their existing revenue, require non-incremental architectural changes, or demand a different customer relationship they can't serve?",
     "shareTweet": "My dad asked: \"How do you protect your IP when Big Guys could copy you?\"\n\nShort answer: you don't protect through secrecy or patents. You build something they structurally can't pursue.\n\nFive barriers that actually work: https://markmhendrickson.com/posts/building-structural-barriers",
     "ogImage": "og/building-structural-barriers-1200x630.jpg"
-  },
-  {
-    "slug": "openclaw-and-the-truth-layer",
-    "title": "OpenClaw is powerful at doing but could use some help remembering.",
-    "excerpt": "OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.",
-    "published": true,
-    "publishedDate": "2026-02-04",
-    "category": "essay",
-    "readTime": 5,
-    "tags": [],
-    "heroImage": "openclaw-and-the-truth-layer-hero.png",
-    "heroImageStyle": "keep-proportions",
-    "showMetadata": null,
-    "createdDate": "2026-02-04",
-    "updatedDate": "2026-02-05",
-    "summary": "- OpenClaw and Claw-style agents excel at doing (calendar, texts, browsing, forms, skills). The gap is remembering in a way that is verifiable, consistent, and recoverable.\n- More context does not fix overwrites, missing provenance, unstable canonical identity, non-deterministic answers, or tool-bound memory. Those limits are about state, not retrieval.\n- A truth layer sits under the agent: the agent keeps doing; the layer keeps state with canonical identity, provenance, deterministic queries, recoverability, and cross-tool access.\n- With a truth layer, tasks and transactions become first-class entities with lineage. Same query yields same result; bad writes can be rolled back; the same data is available to Cursor, Claude, ChatGPT, or Claw via MCP.\n- Visibility into what the agent learned (e.g. workflows in Notion) is behavior. A truth layer adds visibility into state: what entities exist, how they are linked, where they came from, and how they changed.",
-    "shareTweet": "OpenClaw is powerful at doing but could use some help remembering.\n\nPursues work from texts effectively up front. On repeat it gets mixed up. Records don't stay straight. Follow-up tasks, vendor spending. Same question, different answer tomorrow.\n\nhttps://markmhendrickson.com/posts/openclaw-and-the-truth-layer",
-    "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg",
-    "alternativeSlugs": [
-      "claw-memory",
-      "openclaw-memory"
-    ]
-  },
-  {
-    "slug": "barcelona-guest-floor",
-    "title": "Barcelona guest floor",
-    "excerpt": "Your own floor in the heart of Barcelona. Quiet street in Gr\u00e0cia, kitchen, king bed, rooftop terrace. Welcoming to all.",
-    "published": true,
-    "publishedDate": "2026-02-04",
-    "category": "article",
-    "readTime": 8,
-    "tags": [
-      "barcelona",
-      "rental",
-      "gr\u00e0cia",
-      "guest floor"
-    ],
-    "heroImage": "barcelona-guest-floor-hero.jpg",
-    "heroImageStyle": "keep-proportions",
-    "excludeFromListing": true,
-    "showMetadata": true,
-    "createdDate": "2026-02-04",
-    "updatedDate": "2026-02-04"
   },
   {
     "slug": "agentic-search-and-the-truth-layer",
@@ -89,6 +73,49 @@
     "alternativeSlugs": [
       "agentic-search-truth-layer",
       "agentic-retrieval-and-the-truth-layer"
+    ]
+  },
+  {
+    "slug": "barcelona-guest-floor",
+    "title": "Barcelona guest floor",
+    "excerpt": "Your own floor in the heart of Barcelona. Quiet street in Gràcia, kitchen, king bed, rooftop terrace. Welcoming to all.",
+    "published": true,
+    "publishedDate": "2026-02-04",
+    "category": "article",
+    "readTime": 8,
+    "tags": [
+      "barcelona",
+      "rental",
+      "gràcia",
+      "guest floor"
+    ],
+    "heroImage": "barcelona-guest-floor-hero.jpg",
+    "heroImageStyle": "keep-proportions",
+    "excludeFromListing": true,
+    "showMetadata": true,
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-04"
+  },
+  {
+    "slug": "openclaw-and-the-truth-layer",
+    "title": "OpenClaw is powerful at doing but could use some help remembering.",
+    "excerpt": "OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.",
+    "published": true,
+    "publishedDate": "2026-02-04",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [],
+    "heroImage": "openclaw-and-the-truth-layer-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "showMetadata": null,
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-05",
+    "summary": "- OpenClaw and Claw-style agents excel at doing (calendar, texts, browsing, forms, skills). The gap is remembering in a way that is verifiable, consistent, and recoverable.\n- More context does not fix overwrites, missing provenance, unstable canonical identity, non-deterministic answers, or tool-bound memory. Those limits are about state, not retrieval.\n- A truth layer sits under the agent: the agent keeps doing; the layer keeps state with canonical identity, provenance, deterministic queries, recoverability, and cross-tool access.\n- With a truth layer, tasks and transactions become first-class entities with lineage. Same query yields same result; bad writes can be rolled back; the same data is available to Cursor, Claude, ChatGPT, or Claw via MCP.\n- Visibility into what the agent learned (e.g. workflows in Notion) is behavior. A truth layer adds visibility into state: what entities exist, how they are linked, where they came from, and how they changed.",
+    "shareTweet": "OpenClaw is powerful at doing but could use some help remembering.\n\nPursues work from texts effectively up front. On repeat it gets mixed up. Records don't stay straight. Follow-up tasks, vendor spending. Same question, different answer tomorrow.\n\nhttps://markmhendrickson.com/posts/openclaw-and-the-truth-layer",
+    "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg",
+    "alternativeSlugs": [
+      "claw-memory",
+      "openclaw-memory"
     ]
   },
   {
@@ -185,22 +212,9 @@
   {
     "slug": "alps-snowboarding-recommendations",
     "title": "Alps Snowboarding Recommendations",
-    "excerpt": "Any recommendations on the best snowboarding destinations in the Alps with easy access from Barcelona and London? \ud83c\udfc2",
+    "excerpt": "Any recommendations on the best snowboarding destinations in the Alps with easy access from Barcelona and London? 🏂",
     "published": true,
     "publishedDate": "2018-02-09",
-    "category": "essay",
-    "readTime": 1,
-    "tags": [],
-    "showMetadata": true,
-    "createdDate": "2026-01-19",
-    "updatedDate": "2026-01-19"
-  },
-  {
-    "slug": "tutor-catala",
-    "title": "Tutor Catala",
-    "excerpt": "Alg\u00fa coneix a un tutor de catal\u00e0 bo? Estic buscant un per a fer classes d'una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la...",
-    "published": true,
-    "publishedDate": "2017-12-10",
     "category": "essay",
     "readTime": 1,
     "tags": [],
@@ -222,9 +236,22 @@
     "updatedDate": "2026-01-19"
   },
   {
+    "slug": "tutor-catala",
+    "title": "Tutor Catala",
+    "excerpt": "Algú coneix a un tutor de català bo? Estic buscant un per a fer classes d'una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la...",
+    "published": true,
+    "publishedDate": "2017-12-10",
+    "category": "essay",
+    "readTime": 1,
+    "tags": [],
+    "showMetadata": true,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
+  },
+  {
     "slug": "foursquare-swarm-checkins-sync",
     "title": "Syncing Foursquare / Swarm checkins to my website",
-    "excerpt": "Neotoma now backs up all of my Foursquare / Swarm check-ins to my Dropbox account whereupon they\u2019re republished instantly to my website on a new check-ins page.",
+    "excerpt": "Neotoma now backs up all of my Foursquare / Swarm check-ins to my Dropbox account whereupon they’re republished instantly to my website on a new check-ins page.",
     "published": true,
     "publishedDate": "2017-11-13",
     "category": "technical",
@@ -237,7 +264,7 @@
   {
     "slug": "sync-server-dropbox-api-version-2-fix",
     "title": "Dropbox API v2 fix for Neotoma sync server",
-    "excerpt": "As part of my working sprint at IndieWebCamp Berlin today, I managed to fix a show-stopping bug that\u2019s been in production for sync-server on Neotoma and run a backup job for my latest Foursquare / Swarm check-ins.",
+    "excerpt": "As part of my working sprint at IndieWebCamp Berlin today, I managed to fix a show-stopping bug that’s been in production for sync-server on Neotoma and run a backup job for my latest Foursquare / Swarm check-ins.",
     "published": true,
     "publishedDate": "2017-11-05",
     "category": "technical",
@@ -263,7 +290,7 @@
   {
     "slug": "park-ranger-grunt-hoist-proxy",
     "title": "New Node.js repos for environment management, deployment and proxying",
-    "excerpt": "While working more or less full-time on Neotoma since last summer, I\u2019ve created a few repositories that are hopefully useful as modules to other Node.js apps in general.",
+    "excerpt": "While working more or less full-time on Neotoma since last summer, I’ve created a few repositories that are hopefully useful as modules to other Node.js apps in general.",
     "published": true,
     "publishedDate": "2017-04-04",
     "category": "technical",
@@ -276,7 +303,7 @@
   {
     "slug": "touch-bar-autosuggest",
     "title": "Touch Bar Autosuggest",
-    "excerpt": "\u201cHmmm what I\u2019ve been doing is that I wanted to be a good friend to my life and my life is so far away\u201d - My Touch Bar autosuggest",
+    "excerpt": "“Hmmm what I’ve been doing is that I wanted to be a good friend to my life and my life is so far away” - My Touch Bar autosuggest",
     "published": true,
     "publishedDate": "2017-03-02",
     "category": "essay",
@@ -302,7 +329,7 @@
   {
     "slug": "bringing-it-all-back-home",
     "title": "Bringing it all back home",
-    "excerpt": "> \"Now, I been in jail when all my mail showed, that a man can\u2019t give his address out to bad company\" - Bob Dylan, Absolutely Sweet Marie Last summer...",
+    "excerpt": "> \"Now, I been in jail when all my mail showed, that a man can’t give his address out to bad company\" - Bob Dylan, Absolutely Sweet Marie Last summer...",
     "published": true,
     "publishedDate": "2014-01-30",
     "category": "technical",

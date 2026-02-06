@@ -1,0 +1,12 @@
+{
+  "name": "markmhendrickson-site",
+  "private": true,
+  "scripts": {
+    "build": "cd react-app && npm ci && npm run build:ci"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^4.0.0",
+    "@netlify/functions": "^2.0.0",
+    "resend": "^4.0.0"
+  }
+}

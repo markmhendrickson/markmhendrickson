@@ -1,0 +1,18 @@
+[build]
+  base = "."
+  command = "npm run build"
+  publish = "react-app/dist"
+  functions = "netlify/functions"
+
+# Rewrite /api/newsletter/* to Netlify functions
+[[redirects]]
+  from = "/api/newsletter/subscribe"
+  to = "/.netlify/functions/newsletter_subscribe"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/newsletter/update-survey"
+  to = "/.netlify/functions/newsletter_update_survey"
+  status = 200
+  force = true

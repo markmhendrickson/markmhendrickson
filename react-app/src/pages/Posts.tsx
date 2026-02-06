@@ -29,6 +29,18 @@ interface PostsProps {
   draft?: boolean
 }
 
+/** In dev, load private cache (includes drafts) so we can show "View drafts" and /posts/draft. */
+async function loadPostsData(includeDrafts: boolean): Promise<Post[]> {
+  if (!includeDrafts) return publicPostsData as Post[]
+  if (import.meta.env.PROD) return publicPostsData as Post[]
+  try {
+    const privateData = await import('@/content/posts/posts.private.json')
+    return (privateData.default ?? privateData) as Post[]
+  } catch {
+    return publicPostsData as Post[]
+  }
+}
+
 function matchQuery(post: Post, q: string): boolean {
   const lower = q.toLowerCase()
   const title = (post.title ?? '').toLowerCase()
@@ -38,6 +50,8 @@ function matchQuery(post: Post, q: string): boolean {
   return title.includes(lower) || excerpt.includes(lower) || summary.includes(lower) || tags.includes(lower)
 }
 
+const isDev = import.meta.env.DEV
+
 export default function Posts({ draft = false }: PostsProps) {
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q')?.trim() ?? ''
@@ -45,8 +59,7 @@ export default function Posts({ draft = false }: PostsProps) {
   const [posts, setPosts] = useState<Post[]>([])
   /** All published posts including excludeFromListing, for search only */
   const [postsForSearch, setPostsForSearch] = useState<Post[]>([])
-  const [draftCount, setDraftCount] = useState<number>(0)
-  const isDev = import.meta.env.DEV
+  const [draftCount, setDraftCount] = useState(0)
 
   const filteredPosts = useMemo(() => {
     if (!query) return posts
@@ -70,25 +83,10 @@ export default function Posts({ draft = false }: PostsProps) {
 
   useEffect(() => {
     const loadPosts = async () => {
-      // Start with public posts
-      let postsData: Post[] = [...(publicPostsData as Post[])]
+      const postsData: Post[] = await loadPostsData(isDev)
 
-      // Load private posts (drafts) only in development so production build excludes them
       if (isDev) {
-        try {
-          const privatePostsModule = await import('@/content/posts/posts.private.json') as { default?: Post[] } | Post[]
-          const privatePosts = (privatePostsModule as { default?: Post[] }).default || (privatePostsModule as Post[])
-          const publicSlugMap = new Map<string, Post>(postsData.map(post => [post.slug, post]))
-          privatePosts.forEach(privatePost => publicSlugMap.set(privatePost.slug, privatePost))
-          postsData = Array.from(publicSlugMap.values())
-        } catch {
-          // Private file not found, keep public only
-        }
-      }
-
-      // Count drafts for link (dev only)
-      if (isDev) {
-        const drafts = postsData.filter(post => !post.published && !post.excludeFromListing)
+        const drafts = postsData.filter(post => !post.published)
         setDraftCount(drafts.length)
       }
 
@@ -97,14 +95,14 @@ export default function Posts({ draft = false }: PostsProps) {
         .filter(post => !post.excludeFromListing)
         .filter(post => draft ? !post.published : post.published)
 
-      // Sort: published list by publishedDate desc; draft list always by modified time (updatedDate) desc
+      // Sort: published list by publishedDate desc (newest first), slug asc for ties. Must match Post.tsx publishedListOrder and cache script.
       const sorted = [...filtered].sort((a, b) => {
-        const dateA = draft ? (a.updatedDate ?? a.createdDate) : a.publishedDate
-        const dateB = draft ? (b.updatedDate ?? b.createdDate) : b.publishedDate
-        if (!dateA && !dateB) return 0
-        if (!dateA) return 1
-        if (!dateB) return -1
-        return new Date(dateB).getTime() - new Date(dateA).getTime()
+        const dA = draft ? (a.updatedDate ?? a.createdDate) : a.publishedDate
+        const dB = draft ? (b.updatedDate ?? b.createdDate) : b.publishedDate
+        const tA = dA ? new Date(dA).getTime() : 0
+        const tB = dB ? new Date(dB).getTime() : 0
+        if (tB !== tA) return tB - tA
+        return (a.slug || '').localeCompare(b.slug || '')
       })
 
       setPosts(sorted)
@@ -114,9 +112,10 @@ export default function Posts({ draft = false }: PostsProps) {
         const allPublished = postsData
           .filter(post => post.published)
           .sort((a, b) => {
-            const dateA = a.publishedDate ?? ''
-            const dateB = b.publishedDate ?? ''
-            return new Date(dateB).getTime() - new Date(dateA).getTime()
+            const tA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
+            const tB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0
+            if (tB !== tA) return tB - tA
+            return (a.slug || '').localeCompare(b.slug || '')
           })
         setPostsForSearch(allPublished)
       } else {

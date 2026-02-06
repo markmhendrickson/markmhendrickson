@@ -16,6 +16,17 @@ const OG_DEFAULT_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
 const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
 
+/** In dev, load private cache so draft posts can be viewed by slug. */
+async function loadPostsDataForSlug(includeDrafts: boolean): Promise<Post[]> {
+  if (!includeDrafts || import.meta.env.PROD) return publicPostsData as Post[]
+  try {
+    const privateData = await import('@/content/posts/posts.private.json')
+    return (privateData.default ?? privateData) as Post[]
+  } catch {
+    return publicPostsData as Post[]
+  }
+}
+
 interface Post {
   slug: string
   /** Alternative URL slugs (e.g. short or share-friendly); canonical URL uses slug. */
@@ -357,21 +368,25 @@ export default function Post({ slug: slugProp }: PostProps) {
     return () => window.removeEventListener('keydown', onKey)
   }, [imageViewer.open])
 
+  /** Canonical published-list order: newest first by publishedDate, then slug asc for ties. Must match Posts.tsx and cache script. */
+  const publishedListOrder = (a: Post, b: Post) => {
+    const tA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
+    const tB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0
+    if (tB !== tA) return tB - tA
+    return (a.slug || '').localeCompare(b.slug || '')
+  }
+
   const latestPost = useMemo(() => {
     const list = (publicPostsData as Post[])
       .filter((p) => p.published && !p.excludeFromListing && p.slug !== (resolvedCanonicalSlug ?? ''))
-      .sort((a, b) => (b.publishedDate || '').localeCompare(a.publishedDate || ''))
+      .sort(publishedListOrder)
     return list[0] ?? null
   }, [resolvedCanonicalSlug])
 
   const { prevPost, nextPost } = useMemo(() => {
     const raw = (publicPostsData as Post[])
       .filter((p) => p.published && !p.excludeFromListing)
-      .sort((a, b) => {
-        const dateCmp = (b.publishedDate || '').localeCompare(a.publishedDate || '')
-        if (dateCmp !== 0) return dateCmp
-        return (a.slug || '').localeCompare(b.slug || '')
-      })
+      .sort(publishedListOrder)
     const seen = new Set<string>()
     const list = raw.filter((p) => {
       if (seen.has(p.slug)) return false
@@ -394,21 +409,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   useEffect(() => {
     const loadPost = async () => {
       try {
-        // Start with public posts
-        let postsData: Post[] = [...(publicPostsData as Post[])]
-
-        // Load private posts (drafts) only in development so production build excludes them
-        if (isDev) {
-          try {
-            const privatePostsModule = await import('@/content/posts/posts.private.json') as { default?: Post[] } | Post[]
-            const privatePosts = (privatePostsModule as { default?: Post[] }).default || (privatePostsModule as Post[])
-            const publicSlugMap = new Map<string, Post>(postsData.map(post => [post.slug, post]))
-            privatePosts.forEach(privatePost => publicSlugMap.set(privatePost.slug, privatePost))
-            postsData = Array.from(publicSlugMap.values())
-          } catch {
-            // Private file not found, keep public only
-          }
-        }
+        const postsData: Post[] = await loadPostsDataForSlug(isDev)
 
         const slugToPost = buildSlugToPostMap(postsData)
         const postMeta = slug ? slugToPost.get(slug) ?? postsData.find(p => p.slug === slug) : undefined

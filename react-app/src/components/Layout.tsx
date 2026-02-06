@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
-import { Home, FileText, Share2, Clock } from 'lucide-react'
+import { Home, FileText, Share2, Clock, Bot } from 'lucide-react'
 import publicPostsData from '@/content/posts/posts.json'
 
 interface Post {
@@ -29,6 +29,7 @@ const routeNames: Record<string, string> = {
   'timeline': 'Timeline',
   'newsletter': 'Newsletter',
   'social': 'Links',
+  'agent': 'Agent',
   'test-error': 'Test Error',
 }
 
@@ -36,6 +37,7 @@ const menuItems = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/posts', label: 'Posts', icon: FileText },
   { path: '/timeline', label: 'Timeline', icon: Clock },
+  { path: '/agent', label: 'Agent', icon: Bot },
   { path: '/social', label: 'Links', icon: Share2 },
 ]
 
@@ -55,16 +57,6 @@ export function Layout({ children }: LayoutProps) {
       const publicMap = buildSlugToPostMap(publicPostsData as Post[])
       let post = publicMap.get(params.slug)
 
-      if (!post && import.meta.env.DEV) {
-        import('@/content/posts/posts.private.json')
-          .then((module: { default?: Post[] } | Post[]) => {
-            const privatePosts = (module as { default?: Post[] }).default || (module as Post[])
-            const fullMap = buildSlugToPostMap([...(publicPostsData as Post[]), ...privatePosts])
-            const privatePost = fullMap.get(params.slug!)
-            if (privatePost) setPostTitle(privatePost.title)
-          })
-          .catch(() => {})
-      }
       setPostTitle(post ? post.title : null)
     } else {
       setPostTitle(null)
@@ -96,6 +88,7 @@ export function Layout({ children }: LayoutProps) {
           <title>{defaultTitle}</title>
           <meta name="description" content={defaultDescription} />
           <link rel="canonical" href={defaultUrl} />
+          <link rel="alternate" type="application/rss+xml" title={`${defaultTitle} RSS`} href="https://markmhendrickson.com/rss.xml" />
           <meta property="og:type" content="website" />
           <meta property="og:title" content={defaultTitle} />
           <meta property="og:description" content={defaultDescription} />
