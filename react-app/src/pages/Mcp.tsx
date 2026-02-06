@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
-const REMOTE_AGENT_JSON = 'https://markmhendrickson.com/agent.json'
-const LOCAL_AGENT_JSON = '/agent.json'
+const REMOTE_AGENT_JSON = 'https://markmhendrickson.com/api/agent.json'
+const LOCAL_AGENT_JSON = '/api/agent.json'
 const AGENT_JSON_URL = import.meta.env.DEV ? LOCAL_AGENT_JSON : REMOTE_AGENT_JSON
 const SITE_BASE = 'https://markmhendrickson.com'
 const NEOTOMA_POST_URL = `${SITE_BASE}/posts/truth-layer-agent-memory`
@@ -31,8 +31,12 @@ interface McpContent {
   title: string
   subtitle: string
   description: string
+  mcpServerRepoUrl?: string
   sections: McpSection[]
 }
+
+const LINK_CLASS =
+  'text-[#1a1a1a] underline underline-offset-2 decoration-[#999] hover:decoration-[#333]'
 
 function linkFirstNeotoma(
   text: string,
@@ -47,10 +51,7 @@ function linkFirstNeotoma(
           <React.Fragment key={i}>
             {part}
             {i < parts.length - 1 ? (
-              <a
-                href={NEOTOMA_POST_URL}
-                className="text-[#1a1a1a] underline underline-offset-2 decoration-[#999] hover:decoration-[#333]"
-              >
+              <a href={NEOTOMA_POST_URL} className={LINK_CLASS}>
                 Neotoma
               </a>
             ) : null}
@@ -62,14 +63,43 @@ function linkFirstNeotoma(
   return text
 }
 
+function linkFirstMcpServer(
+  text: string,
+  repoUrl: string | undefined,
+  mcpLinkedRef: React.MutableRefObject<boolean>,
+  neotomaLinkedRef: React.MutableRefObject<boolean>
+): React.ReactNode {
+  if (!repoUrl || mcpLinkedRef.current || !text.includes('an MCP server')) {
+    return linkFirstNeotoma(text, neotomaLinkedRef)
+  }
+  mcpLinkedRef.current = true
+  const parts = text.split('an MCP server')
+  return (
+    <>
+      {parts.map((part, i) => (
+        <React.Fragment key={i}>
+          {linkFirstNeotoma(part, neotomaLinkedRef)}
+          {i < parts.length - 1 ? (
+            <a href={repoUrl} target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+              an MCP server
+            </a>
+          ) : null}
+        </React.Fragment>
+      ))}
+    </>
+  )
+}
+
 export default function Mcp() {
   const [content, setContent] = useState<McpContent | null>(null)
   const [error, setError] = useState<string | null>(null)
   const neotomaLinkedRef = useRef(false)
+  const mcpServerLinkedRef = useRef(false)
 
   const prevContentRef = useRef<McpContent | null>(null)
   if (content && content !== prevContentRef.current) {
     neotomaLinkedRef.current = false
+    mcpServerLinkedRef.current = false
     prevContentRef.current = content
   }
 
@@ -112,50 +142,55 @@ export default function Mcp() {
         <meta name="twitter:image:width" content={String(OG_IMAGE_WIDTH)} />
         <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />
       </Helmet>
-      <div className="flex justify-center items-start min-h-content pt-8 pb-16 px-4 md:py-24 md:px-8">
-        <div className="max-w-[680px] w-full">
+      <div className="flex justify-center items-start min-h-content pt-10 pb-20 px-5 md:py-28 md:px-8">
+        <div className="max-w-[42rem] w-full">
           {error && (
-            <p className="text-[15px] text-[#555] leading-relaxed mb-4" role="alert">
+            <p className="text-base text-[#555] leading-relaxed mb-4" role="alert">
               Could not load agent page: {error}. Ensure {AGENT_JSON_URL} is available.
             </p>
           )}
           {!content && !error && (
-            <p className="text-[15px] text-[#555]">Loading…</p>
+            <p className="text-base text-[#555]">Loading…</p>
           )}
           {content && (
             <article className="agent-page">
-              <header className="mb-14">
-                <h1 className="text-[32px] md:text-[36px] font-medium mb-3 tracking-tight text-[#111]">
+              <header className="mb-16">
+                <h1 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight text-[#111] leading-tight">
                   {content.title}
                 </h1>
-                <p className="text-[18px] text-[#555] leading-snug">
+                <p className="text-lg md:text-xl text-[#555] leading-snug max-w-[32rem]">
                   {content.subtitle}
                 </p>
               </header>
 
-              <div className="space-y-14">
+              <div className="space-y-16">
                 {content.sections.map((section, index) => (
-                  <section key={index} className="space-y-4">
-                    <h2 className="text-[17px] font-semibold text-[#222] tracking-tight border-b border-[#e5e5e5] pb-2">
+                  <section key={index} className="space-y-5">
+                    <h2 className="text-lg font-semibold text-[#1a1a1a] tracking-tight border-b border-[#e0e0e0] pb-2.5">
                       {section.heading}
                     </h2>
-                    <div className="text-[15px] text-[#444] leading-[1.65] space-y-3">
+                    <div className="text-[1.0625rem] text-[#333] leading-[1.7] space-y-4">
                       {section.paragraphs.map((paragraph, paragraphIndex) => (
-                        <p key={paragraphIndex}>
-                          {linkFirstNeotoma(paragraph, neotomaLinkedRef)}
+                        <p key={paragraphIndex} className="max-w-[65ch]">
+                          {linkFirstMcpServer(
+                            paragraph,
+                            content.mcpServerRepoUrl,
+                            mcpServerLinkedRef,
+                            neotomaLinkedRef
+                          )}
                         </p>
                       ))}
                     </div>
                     {section.bullets && section.bullets.length > 0 && (
-                      <ul className="mt-2 list-disc pl-5 space-y-1.5 text-[15px] text-[#444] leading-[1.6]">
+                      <ul className="mt-1 list-disc pl-6 space-y-2 text-[1.0625rem] text-[#333] leading-[1.7] marker:text-[#888]">
                         {section.bullets.map((item, itemIndex) => (
-                          <li key={itemIndex}>
+                          <li key={itemIndex} className="pl-0.5 max-w-[65ch]">
                             {item.url ? (
                               <a
                                 href={item.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#1a1a1a] underline underline-offset-2 decoration-[#999] hover:decoration-[#333]"
+                                className={LINK_CLASS}
                               >
                                 {item.text}
                               </a>
@@ -167,14 +202,14 @@ export default function Mcp() {
                       </ul>
                     )}
                     {section.table && section.table.columns.length > 0 && (
-                      <div className="mt-6 overflow-x-auto rounded-md border border-[#e5e5e5]">
-                        <table className="w-full text-[14px] text-[#333]">
+                      <div className="mt-6 overflow-x-auto rounded-lg border border-[#e0e0e0] bg-[#fafafa]/50">
+                        <table className="w-full text-[0.9375rem] text-[#333] border-collapse">
                           <thead>
-                            <tr className="bg-[#f7f7f7]">
+                            <tr className="bg-[#f0f0f0]">
                               {section.table.columns.map((column, columnIndex) => (
                                 <th
                                   key={columnIndex}
-                                  className="text-left font-semibold px-4 py-3 border-b border-[#e5e5e5] text-[#222]"
+                                  className="text-left font-semibold px-5 py-3.5 border-b border-[#e0e0e0] text-[#1a1a1a]"
                                 >
                                   {column}
                                 </th>
@@ -185,12 +220,12 @@ export default function Mcp() {
                             {section.table.rows.map((row, rowIndex) => (
                               <tr
                                 key={rowIndex}
-                                className={rowIndex % 2 === 1 ? 'bg-[#fafafa]' : ''}
+                                className={rowIndex % 2 === 1 ? 'bg-[#f5f5f5]/60' : ''}
                               >
                                 {row.map((cell, cellIndex) => (
                                   <td
                                     key={cellIndex}
-                                    className={`px-4 py-3 border-b border-[#eee] last:border-b-0 align-top ${cellIndex === 0 ? 'font-mono text-[13px] text-[#222]' : ''}`}
+                                    className={`px-5 py-3.5 border-b border-[#ebebeb] last:border-b-0 align-top ${cellIndex === 0 ? 'font-mono text-[0.8125rem] text-[#1a1a1a] whitespace-nowrap' : 'leading-[1.6]'}`}
                                   >
                                     {linkFirstNeotoma(cell, neotomaLinkedRef)}
                                   </td>

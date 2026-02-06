@@ -4,6 +4,24 @@
   publish = "react-app/dist"
   functions = "netlify/functions"
 
+# Redirect TLD JSON to canonical /api/ paths (absolute URLs in mcp.json use /api/)
+[[redirects]]
+  from = "/timeline.json"
+  to = "/api/timeline.json"
+  status = 302
+[[redirects]]
+  from = "/posts.json"
+  to = "/api/posts.json"
+  status = 302
+[[redirects]]
+  from = "/links.json"
+  to = "/api/links.json"
+  status = 302
+[[redirects]]
+  from = "/agent.json"
+  to = "/api/agent.json"
+  status = 302
+
 # Rewrite /api/newsletter/* to Netlify functions
 [[redirects]]
   from = "/api/newsletter/subscribe"

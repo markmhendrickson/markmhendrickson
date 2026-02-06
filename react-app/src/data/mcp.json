@@ -2,6 +2,7 @@
   "title": "Agent",
   "subtitle": "Have your agent talk to my agent.",
   "description": "I run an MCP-backed agent so other agents can read and write against my Neotoma-backed data.",
+  "mcpServerRepoUrl": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
   "sections": [
     {
       "heading": "What MCP provides",
@@ -62,18 +63,10 @@
         "Posts, links, and timeline entries are stored in Neotoma and cached into JSON for the site and MCP. Neotoma is the source of truth; cache generation runs before builds."
       ],
       "bullets": [
-        { "text": "Public posts JSON", "url": "https://markmhendrickson.com/posts.json" },
-        { "text": "Links JSON", "url": "https://markmhendrickson.com/links.json" },
-        { "text": "Timeline JSON", "url": "https://markmhendrickson.com/timeline.json" }
-      ]
-    },
-    {
-      "heading": "Repository",
-      "paragraphs": [
-        "Read-only MCP server for this site's content (posts, links, timeline). Run locally with DATA_DIR pointing at your parquet data; see the repo for setup and .cursor/mcp.json configuration."
-      ],
-      "bullets": [
-        { "text": "mcp-server-markmhendrickson", "url": "https://github.com/markmhendrickson/mcp-server-markmhendrickson" }
+        { "text": "Public posts JSON", "url": "https://markmhendrickson.com/api/posts.json" },
+        { "text": "Links JSON", "url": "https://markmhendrickson.com/api/links.json" },
+        { "text": "Timeline JSON", "url": "https://markmhendrickson.com/api/timeline.json" },
+        { "text": "Agent JSON", "url": "https://markmhendrickson.com/api/agent.json" }
       ]
     }
   ]
