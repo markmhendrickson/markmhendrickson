@@ -606,6 +606,20 @@ export default function Post({ slug: slugProp }: PostProps) {
     return () => window.removeEventListener('keydown', onKey)
   }, [imageViewer.open])
 
+  // Scroll to linked section when page loads with anchor hash (e.g. /posts/slug#section-id)
+  useEffect(() => {
+    const hash = location.hash?.slice(1)
+    if (!hash || !content || !post) return
+    const scrollToAnchor = () => {
+      const el = document.getElementById(hash)
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+    const t = requestAnimationFrame(() => {
+      requestAnimationFrame(scrollToAnchor)
+    })
+    return () => cancelAnimationFrame(t)
+  }, [content, post, location.hash])
+
   /** Canonical published-list order: newest first by publishedDate, then slug asc for ties. Must match Posts.tsx and cache script. */
   const publishedListOrder = (a: Post, b: Post) => {
     const tA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
