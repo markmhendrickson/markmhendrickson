@@ -20,7 +20,7 @@
     "showMetadata": null,
     "createdDate": "2026-02-07",
     "updatedDate": "2026-02-09",
-    "summary": "- I built an experimental MCP server with 78 tools for Bitcoin L1 and Stacks L2, one mnemonic for both.\n- Same two chains as human wallets, but agent-callable: less friction for people who want to hold their own keys without the full cognitive load.\n- L1 covers core Bitcoin, Ordinals and inscriptions, tx management, and Ledger; L2 covers STX, Clarity, swaps, sBTC bridge, stacking, BNS, and market data.\n- Destructive actions default to dry run; no keys or mnemonics are ever returned; preview and env limits keep execution policy-gated.\n- The wallet MCP is an execution adapter in my three-layer stack; I define strategy, agents execute, I approve when actions exceed my limits.",
+    "summary": "- I built an experimental MCP server with 93 tools for Bitcoin L1 and Stacks L2, one mnemonic for both.\n- Same two chains as human wallets, but agent-callable: less friction for people who want to hold their own keys without the full cognitive load.\n- L1 covers core Bitcoin, Ordinals and inscriptions, tx management, and Ledger; L2 covers STX, Clarity, swaps, sBTC bridge, stacking, BNS, market data, mempool monitoring, block explorer, contract events, token metadata, network stats, and enriched stacking cycle progress.\n- Destructive actions default to dry run; no keys or mnemonics are ever returned; preview and env limits keep execution policy-gated.\n- The wallet MCP is an execution adapter in my three-layer stack; I define strategy, agents execute, I approve when actions exceed my limits.",
     "ogImage": "og/agentic-wallets-mcp-bitcoin-1200x630.jpg",
     "linkedTweetUrl": "https://x.com/markymark/status/2020437952061649064",
     "alternativeSlugs": [
@@ -93,9 +93,10 @@
     "heroImageSquare": "agentic-search-and-the-truth-layer-hero-square.png",
     "showMetadata": null,
     "createdDate": "2026-02-04",
-    "updatedDate": "2026-02-04",
+    "updatedDate": "2026-02-09",
     "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes.",
     "ogImage": "og/agentic-search-and-the-truth-layer-1200x630.jpg",
+    "linkedTweetUrl": "https://x.com/markymark/status/2019079842256298118",
     "alternativeSlugs": [
       "agentic-search-truth-layer",
       "agentic-retrieval-and-the-truth-layer",
@@ -136,9 +137,10 @@
     "heroImageStyle": "keep-proportions",
     "showMetadata": null,
     "createdDate": "2026-02-04",
-    "updatedDate": "2026-02-05",
+    "updatedDate": "2026-02-09",
     "summary": "- OpenClaw and Claw-style agents excel at doing (calendar, texts, browsing, forms, skills). The gap is remembering in a way that is verifiable, consistent, and recoverable.\n- More context does not fix overwrites, missing provenance, unstable canonical identity, non-deterministic answers, or tool-bound memory. Those limits are about state, not retrieval.\n- A truth layer sits under the agent: the agent keeps doing; the layer keeps state with canonical identity, provenance, deterministic queries, recoverability, and cross-tool access.\n- With a truth layer, tasks and transactions become first-class entities with lineage. Same query yields same result; bad writes can be rolled back; the same data is available to Cursor, Claude, ChatGPT, or Claw via MCP.\n- Visibility into what the agent learned (e.g. workflows in Notion) is behavior. A truth layer adds visibility into state: what entities exist, how they are linked, where they came from, and how they changed.",
     "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg",
+    "linkedTweetUrl": "https://x.com/markymark/status/2019433572906549314",
     "alternativeSlugs": [
       "claw-memory",
       "openclaw-memory"

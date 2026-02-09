@@ -1,6 +1,6 @@
-This weekend I pulled together an MCP server for a Bitcoin wallet: tools that AI agents can call over the Model Context Protocol. The [repo](https://github.com/markmhendrickson/mcp-server-bitcoin) exposes 78 tools across Layer 1 and Layer 2. One mnemonic drives both.
+This weekend I pulled together an MCP server for a Bitcoin wallet: tools that AI agents can call over the Model Context Protocol. The [repo](https://github.com/markmhendrickson/mcp-server-bitcoin) exposes 93 tools across Layer 1 and Layer 2. One mnemonic drives both.
 
-I was previously general manager of [Leather](https://leather.io), a crypto wallet that also supports Bitcoin and Stacks. At Leather I saw that human-facing self-custody wallets mostly reached people willing to absorb the attention and complexity, (e.g. degens and developers). That meant key hygiene, fee awareness, confirmation flows, and the rest. The cognitive load kept the real addressable market narrow.
+I was previously general manager of [Leather](https://leather.io), a crypto wallet that also supports Bitcoin and Stacks. At Leather I saw that human-facing self-custody wallets mostly reached people willing to absorb the attention and complexity (e.g. degens and developers). That meant key hygiene, fee awareness, confirmation flows, and the rest. The cognitive load kept the real addressable market narrow.
 
 Agentic wallets change that. When the primary interface is agents that reason and execute within policy, the user approves only what matters. The friction drops and the set of people who can practically hold their own keys grows.
 
@@ -54,6 +54,12 @@ The same mnemonic derives Stacks keys (path `m/44'/5757'/0'/0/0`). [Hiro](https:
 - Clarity: call public function, deploy contract, read-only call.
 - Sign serialized Stacks tx (SIP-30), sign message, sign SIP-018 structured data; nonce and fee estimation.
 - On-chain profile update ([schema.org/Person](https://schema.org/Person)) for BNS names.
+- Transaction queries with filters (type, block range, unanchored) and by contract.
+- Mempool: list pending transactions, mempool stats, dropped transactions.
+- Block explorer: recent blocks, block by height or hash, Stacks blocks for a given Bitcoin block.
+- Contract events: events for a contract, or asset events for an address.
+- Token metadata: SIP-10 and SIP-9 metadata and holders.
+- Network info and health/status.
 
 **Swaps, DeFi, and bridge:**
 
@@ -61,7 +67,7 @@ The same mnemonic derives Stacks keys (path `m/44'/5757'/0'/0/0`). [Hiro](https:
 - Swap quote (estimated output, rate, fees) for all three; execute swap via ALEX DEX. Bitflow and Velar support quotes and pair discovery; you could add execution via protocol SDKs (e.g. Velar SDK returns contract-call params).
 - Swap history from on-chain activity.
 - sBTC balance and bridge deposit/withdraw info.
-- Stacking: current PoX status, cycle info, initiate solo stacking, revoke delegation.
+- Stacking: current PoX status, cycle info (blocks remaining, percent complete, estimated time remaining, participation rate), initiate solo stacking, revoke delegation.
 
 **BNS and market data:**
 
@@ -118,4 +124,4 @@ I've wired it into the same stack where I already use [truth and strategy layers
 
 My goal is to validate the shape of an agentic wallet surface and to make my own Bitcoin and Stacks operations agent-driven instead of manual.
 
-To run it: clone [mcp-server-bitcoin](https://github.com/markmhendrickson/mcp-server-bitcoin) (or add as submodule at `mcp/btc_wallet/`), add the server to your MCP config, and use a test wallet with dry run on.
+To run it: clone [mcp-server-bitcoin](https://github.com/markmhendrickson/mcp-server-bitcoin) (or add as submodule at `mcp/btc_wallet/`), add the server to your MCP config (use the `run_btc_wallet_mcp.sh` script path), and use a test wallet with dry run on.

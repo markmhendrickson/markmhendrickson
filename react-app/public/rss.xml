@@ -5,8 +5,15 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 06 Feb 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 09 Feb 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>A Bitcoin wallet MCP server for L1 and L2</title>
+    <link>https://markmhendrickson.com/posts/agentic-wallets-mcp-bitcoin</link>
+    <description>The future of crypto wallets is agentic. Wallets that expose execution surfaces let agents monitor, reason, and execute within policy while you keep sovereignty and approve only what exceeds your limits.</description>
+    <pubDate>Mon, 09 Feb 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/agentic-wallets-mcp-bitcoin</guid>
+  </item>
   <item>
     <title>Why agent memory needs more than RAG</title>
     <link>https://markmhendrickson.com/posts/why-agent-memory-needs-more-than-rag</link>

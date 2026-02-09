@@ -3,19 +3,21 @@ import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Search } from 'lucide-react'
 import publicPostsData from '@/content/posts/posts.json'
-import { stripLinksFromExcerpt } from '@/lib/utils'
+import { stripLinksFromExcerpt, getPostImageSrc } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 
 interface Post {
   slug: string
   title: string
   excerpt?: string
+  body?: string
   summary?: string
   published: boolean
   publishedDate?: string
   updatedDate?: string
   createdDate?: string
   category?: string
+  linkedTweetUrl?: string
   readTime?: number
   tags?: string[]
   heroImage?: string
@@ -23,6 +25,7 @@ interface Post {
   heroImageStyle?: string
   excludeFromListing?: boolean
   showMetadata?: boolean
+  tweetMetadata?: { images?: string[] }
 }
 
 interface PostsProps {
@@ -45,17 +48,67 @@ function matchQuery(post: Post, q: string): boolean {
   const lower = q.toLowerCase()
   const title = (post.title ?? '').toLowerCase()
   const excerpt = (post.excerpt ?? '').toLowerCase()
+  const body = (post.body ?? '').toLowerCase()
   const summary = (post.summary ?? '').toLowerCase()
   const tags = (post.tags ?? []).join(' ').toLowerCase()
-  return title.includes(lower) || excerpt.includes(lower) || summary.includes(lower) || tags.includes(lower)
+  return title.includes(lower) || excerpt.includes(lower) || body.includes(lower) || summary.includes(lower) || tags.includes(lower)
 }
 
 const isDev = import.meta.env.DEV
+
+/** X/Twitter cutoff for "Show more" (280 chars) */
+const TWEET_SHOW_MORE_CUTOFF = 280
+
+function TweetPreview({
+  body,
+  expanded,
+  onToggle,
+  cutoff
+}: {
+  body: string
+  expanded: boolean
+  onToggle: () => void
+  cutoff: number
+}) {
+  const truncated = body.length > cutoff
+  const displayText = truncated && !expanded ? body.slice(0, cutoff) : body
+
+  return (
+    <p className="text-[15px] text-[#666] mb-3 leading-relaxed whitespace-pre-wrap">
+      {displayText}
+      {truncated && !expanded && (
+        <>
+          {' '}
+          <button
+            type="button"
+            onClick={onToggle}
+            className="text-[#666] hover:text-black hover:underline bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit"
+          >
+            Show more
+          </button>
+        </>
+      )}
+      {truncated && expanded && (
+        <>
+          {' '}
+          <button
+            type="button"
+            onClick={onToggle}
+            className="text-[#666] hover:text-black hover:underline bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit"
+          >
+            Show less
+          </button>
+        </>
+      )}
+    </p>
+  )
+}
 
 export default function Posts({ draft = false }: PostsProps) {
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q')?.trim() ?? ''
   const [searchInput, setSearchInput] = useState(query)
+  const [expandedTweetSlugs, setExpandedTweetSlugs] = useState<Set<string>>(new Set())
   const [posts, setPosts] = useState<Post[]>([])
   /** All published posts including excludeFromListing, for search only */
   const [postsForSearch, setPostsForSearch] = useState<Post[]>([])
@@ -216,47 +269,70 @@ export default function Posts({ draft = false }: PostsProps) {
             </p>
           ) : (
             filteredPosts.map((post) => (
-              <article key={post.slug} className="border-b border-[#e0e0e0] pb-8 last:border-0 last:pb-0 flex flex-row items-stretch gap-4">
-                <div className="min-w-0 flex-1">
-                  <h2 className="text-[20px] font-medium mb-2 tracking-tight">
-                    <Link
-                      to={`/posts/${post.slug}`}
-                      className="text-black no-underline hover:underline"
-                    >
-                      {post.title}
-                    </Link>
-                  </h2>
-                  {post.excerpt && (
+              <article key={post.slug} className="border-b border-[#e0e0e0] pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch gap-4">
+                {(post.heroImage || post.tweetMetadata?.images?.[0]) && (
+                  <Link
+                    to={`/posts/${post.slug}`}
+                    className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
+                  >
+                    <img
+                      src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.tweetMetadata?.images?.[0] ?? '')}
+                      alt=""
+                      className="w-full aspect-square object-cover rounded md:w-[148px] md:h-[148px]"
+                    />
+                  </Link>
+                )}
+                <div className="order-2 md:order-1 min-w-0 flex-1">
+                  {(post.category || '').toLowerCase() === 'tweet' ? (
+                    <TweetPreview
+                      body={post.body ?? ''}
+                      expanded={expandedTweetSlugs.has(post.slug)}
+                      onToggle={() => {
+                        setExpandedTweetSlugs(prev => {
+                          const next = new Set(prev)
+                          if (next.has(post.slug)) next.delete(post.slug)
+                          else next.add(post.slug)
+                          return next
+                        })
+                      }}
+                      cutoff={TWEET_SHOW_MORE_CUTOFF}
+                    />
+                  ) : (
+                    <h2 className="text-[20px] font-medium mb-2 tracking-tight">
+                      <Link
+                        to={`/posts/${post.slug}`}
+                        className="text-black no-underline hover:underline"
+                      >
+                        {post.title}
+                      </Link>
+                    </h2>
+                  )}
+                  {(post.category || '').toLowerCase() !== 'tweet' && post.excerpt && (
                     <p className="text-[15px] text-[#666] mb-3 leading-relaxed">
                       {stripLinksFromExcerpt(post.excerpt)}
                     </p>
                   )}
                   <div className="flex items-center gap-4 text-[13px] text-[#999]">
                     {post.publishedDate && (
-                      <time dateTime={post.publishedDate}>
-                        {formatDate(post.publishedDate)}
-                      </time>
+                      <Link
+                        to={`/posts/${post.slug}`}
+                        className="text-[#999] hover:text-black hover:underline no-underline"
+                      >
+                        <time dateTime={post.publishedDate}>
+                          {formatDate(post.publishedDate)}
+                        </time>
+                      </Link>
                     )}
                     {post.readTime && (
                       <span>{post.readTime} min read</span>
                     )}
                     {post.category && (
-                      <span className="capitalize">{post.category}</span>
+                      <span className="capitalize">
+                        {(post.category || '').toLowerCase() === 'tweet' ? 'X Post' : post.category}
+                      </span>
                     )}
                   </div>
                 </div>
-                {post.heroImage && (
-                  <Link
-                    to={`/posts/${post.slug}`}
-                    className="hidden md:block shrink-0 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
-                  >
-                    <img
-                      src={`/images/posts/${post.heroImageSquare ?? post.heroImage}`}
-                      alt=""
-                      className="shrink-0 w-[148px] h-[148px] rounded object-cover"
-                    />
-                  </Link>
-                )}
               </article>
             ))
           )}

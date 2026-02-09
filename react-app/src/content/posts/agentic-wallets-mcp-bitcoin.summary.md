@@ -1,5 +1,5 @@
-- I built an experimental MCP server with 78 tools for Bitcoin L1 and Stacks L2, one mnemonic for both.
+- I built an experimental MCP server with 93 tools for Bitcoin L1 and Stacks L2, one mnemonic for both.
 - Same two chains as human wallets, but agent-callable: less friction for people who want to hold their own keys without the full cognitive load.
-- L1 covers core Bitcoin, Ordinals and inscriptions, tx management, and Ledger; L2 covers STX, Clarity, swaps, sBTC bridge, stacking, BNS, and market data.
+- L1 covers core Bitcoin, Ordinals and inscriptions, tx management, and Ledger; L2 covers STX, Clarity, swaps, sBTC bridge, stacking, BNS, market data, mempool monitoring, block explorer, contract events, token metadata, network stats, and enriched stacking cycle progress.
 - Destructive actions default to dry run; no keys or mnemonics are ever returned; preview and env limits keep execution policy-gated.
 - The wallet MCP is an execution adapter in my three-layer stack; I define strategy, agents execute, I approve when actions exceed my limits.

@@ -55,7 +55,7 @@ export default function Timeline() {
                 <div className="text-[15px] text-[#666] mb-1">{item.company}</div>
                 <div className="text-[13px] text-[#999] mb-2">{item.date}</div>
                 {item.description.length > 0 && (
-                  <div className="text-[13px] text-[#666] leading-relaxed">
+                  <div className="text-[15px] text-[#666] leading-relaxed">
                     {item.description.map((desc, i) => (
                       <p key={i} className={i < item.description.length - 1 ? 'mb-3' : ''}>{desc}</p>
                     ))}

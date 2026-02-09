@@ -145,20 +145,20 @@ export default function Mcp() {
       <div className="flex justify-center items-start min-h-content pt-10 pb-20 px-5 md:py-28 md:px-8">
         <div className="max-w-[42rem] w-full">
           {error && (
-            <p className="text-base text-[#555] leading-relaxed mb-4" role="alert">
+            <p className="text-[15px] text-[#666] leading-relaxed mb-4" role="alert">
               Could not load agent page: {error}. Ensure {AGENT_JSON_URL} is available.
             </p>
           )}
           {!content && !error && (
-            <p className="text-base text-[#555]">Loading…</p>
+            <p className="text-[15px] text-[#666]">Loading…</p>
           )}
           {content && (
             <article className="agent-page">
               <header className="mb-16">
-                <h1 className="text-3xl md:text-4xl font-medium mb-4 tracking-tight text-[#111] leading-tight">
+                <h1 className="text-[28px] font-medium mb-2 tracking-tight text-[#111]">
                   {content.title}
                 </h1>
-                <p className="text-lg md:text-xl text-[#555] leading-snug max-w-[32rem]">
+                <p className="text-[17px] text-[#666] font-normal tracking-wide max-w-[32rem]">
                   {content.subtitle}
                 </p>
               </header>
@@ -166,10 +166,10 @@ export default function Mcp() {
               <div className="space-y-16">
                 {content.sections.map((section, index) => (
                   <section key={index} className="space-y-5">
-                    <h2 className="text-lg font-semibold text-[#1a1a1a] tracking-tight border-b border-[#e0e0e0] pb-2.5">
+                    <h2 className="text-[20px] font-medium text-[#1a1a1a] tracking-tight border-b border-[#e0e0e0] pb-2.5">
                       {section.heading}
                     </h2>
-                    <div className="text-[1.0625rem] text-[#333] leading-[1.7] space-y-4">
+                    <div className="text-[15px] text-[#666] leading-relaxed space-y-4">
                       {section.paragraphs.map((paragraph, paragraphIndex) => (
                         <p key={paragraphIndex} className="max-w-[65ch]">
                           {linkFirstMcpServer(
@@ -182,7 +182,7 @@ export default function Mcp() {
                       ))}
                     </div>
                     {section.bullets && section.bullets.length > 0 && (
-                      <ul className="mt-1 list-disc pl-6 space-y-2 text-[1.0625rem] text-[#333] leading-[1.7] marker:text-[#888]">
+                      <ul className="mt-1 list-disc pl-6 space-y-2 text-[15px] text-[#666] leading-relaxed marker:text-[#888]">
                         {section.bullets.map((item, itemIndex) => (
                           <li key={itemIndex} className="pl-0.5 max-w-[65ch]">
                             {item.url ? (
@@ -203,7 +203,7 @@ export default function Mcp() {
                     )}
                     {section.table && section.table.columns.length > 0 && (
                       <div className="mt-6 overflow-x-auto rounded-lg border border-[#e0e0e0] bg-[#fafafa]/50">
-                        <table className="w-full text-[0.9375rem] text-[#333] border-collapse">
+                        <table className="w-full text-[15px] text-[#666] border-collapse">
                           <thead>
                             <tr className="bg-[#f0f0f0]">
                               {section.table.columns.map((column, columnIndex) => (
@@ -225,7 +225,7 @@ export default function Mcp() {
                                 {row.map((cell, cellIndex) => (
                                   <td
                                     key={cellIndex}
-                                    className={`px-5 py-3.5 border-b border-[#ebebeb] last:border-b-0 align-top ${cellIndex === 0 ? 'font-mono text-[0.8125rem] text-[#1a1a1a] whitespace-nowrap' : 'leading-[1.6]'}`}
+                                    className={`px-5 py-3.5 border-b border-[#ebebeb] last:border-b-0 align-top ${cellIndex === 0 ? 'font-mono text-[13px] text-[#1a1a1a] whitespace-nowrap' : 'leading-relaxed'}`}
                                   >
                                     {linkFirstNeotoma(cell, neotomaLinkedRef)}
                                   </td>

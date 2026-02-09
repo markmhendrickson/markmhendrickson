@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import publicPostsData from '@/content/posts/posts.json'
 import { usePostSSR } from '@/contexts/PostSSRContext'
-import { stripLinksFromExcerpt } from '@/lib/utils'
+import { stripLinksFromExcerpt, getPostImageSrc } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
@@ -172,6 +172,8 @@ interface Post {
   linkedTweetUrl?: string
   /** URL of an X profile or list timeline to embed (see https://help.x.com/en/using-x/embed-x-feed). */
   xTimelineUrl?: string
+  /** Tweet metadata (images, engagement) for X posts. */
+  tweetMetadata?: { images?: string[] }
 }
 
 /** Share bar: common platforms + content strategy targets (X, LinkedIn, Facebook, HN, Reddit, Email, Copy link). */
@@ -180,11 +182,14 @@ function PostShareBar({
   title,
   onCopyFeedback,
   copySuccess,
+  noTopBorder,
 }: {
   shareUrl: string
   title: string
   onCopyFeedback: () => void
   copySuccess: boolean
+  /** When true, omit top margin and border (e.g. when share is first in footer). */
+  noTopBorder?: boolean
 }) {
   const encodedUrl = encodeURIComponent(shareUrl)
   const encodedTitle = encodeURIComponent(title)
@@ -232,7 +237,7 @@ function PostShareBar({
   }
 
   return (
-    <div className="mt-6 pt-6 border-t border-[#eee]">
+    <div className={noTopBorder ? 'pt-2' : 'mt-6 pt-6 border-t border-[#eee]'}>
       <span className="text-[13px] text-[#999] font-medium uppercase tracking-wide block mb-3">Share</span>
       <div className="flex flex-wrap items-center gap-2">
         {shareLinks.map(({ label, href, icon: Icon, title: linkTitle }) => (
@@ -548,12 +553,11 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   const [imageViewer, setImageViewer] = useState<{ open: boolean; index: number }>({ open: false, index: 0 })
   const [copyLinkSuccess, setCopyLinkSuccess] = useState(false)
-  const tweetEmbedRef = useRef<HTMLDivElement>(null)
   const timelineEmbedRef = useRef<HTMLDivElement>(null)
 
-  // Load X (Twitter) widgets script when linkedTweetUrl or xTimelineUrl is set
+  // Load X (Twitter) widgets script when xTimelineUrl is set (timeline embed only)
   useEffect(() => {
-    if (!post?.linkedTweetUrl && !post?.xTimelineUrl) return
+    if (!post?.xTimelineUrl) return
     const runWidgets = () => {
       const twttr = (window as unknown as { twttr?: { widgets?: { load: (el?: HTMLElement) => void } } }).twttr
       twttr?.widgets?.load()
@@ -572,7 +576,7 @@ export default function Post({ slug: slugProp }: PostProps) {
     }
     document.body.appendChild(script)
     return () => { /* script stays for other embeds */ }
-  }, [post?.linkedTweetUrl, post?.xTimelineUrl])
+  }, [post?.xTimelineUrl])
 
   // For barcelona-guest-floor, split content so we can render amenity cards between "What this place offers" and the next section
   const barcelonaContentSplit = useMemo(() => {
@@ -830,12 +834,14 @@ export default function Post({ slug: slugProp }: PostProps) {
     return null
   }
 
+  /** Only treat as tweet post when category is tweet; linkedTweetUrl is for footer "share" link. */
+  const isTweetPost = post.category === 'tweet'
   const metaDescription = post.shareDescription
     ? post.shareDescription
     : post.excerpt
       ? stripLinksFromExcerpt(post.excerpt)
       : (post.summary && post.summary.replace(/\s+/g, ' ').replace(/^[-*]\s*/gm, '').trim().slice(0, 160))
-  const desc = (metaDescription || post.title).slice(0, 160)
+  const desc = (metaDescription || post.title || (post.body ?? '')).slice(0, 160)
   const isHome = location.pathname === '/'
   const canonicalUrl = isHome ? `${SITE_BASE}/` : `${SITE_BASE}/posts/${post.slug}`
   const displaySummary = summaryContent !== undefined ? summaryContent : (post.summary ?? '')
@@ -846,17 +852,17 @@ export default function Post({ slug: slugProp }: PostProps) {
     : isHome
       ? OG_DEFAULT_IMAGE
       : post.heroImage
-        ? `${SITE_BASE}/images/posts/${post.heroImage}`
+        ? (post.heroImage.startsWith('http') ? post.heroImage : `${SITE_BASE}/images/posts/${post.heroImage}`)
         : null
 
   return (
     <>
       <Helmet>
-        <title>{post.title === 'Mark Hendrickson' ? post.title : `${post.title} — Mark Hendrickson`}</title>
+        <title>{!post.title ? (isTweetPost ? 'X Post — Mark Hendrickson' : 'Mark Hendrickson') : (post.title === 'Mark Hendrickson' ? post.title : `${post.title} — Mark Hendrickson`)}</title>
         <meta name="description" content={desc} />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.title} />
+        <meta property="og:title" content={post.title || (isTweetPost ? 'X Post' : '')} />
         <meta property="og:description" content={desc} />
         <meta property="og:url" content={canonicalUrl} />
         {ogImage != null && <meta property="og:image" content={ogImage} />}
@@ -874,13 +880,13 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta property="article:author" content={SITE_BASE} />
         <meta property="og:article:author" content="Mark Hendrickson" />
         <meta name="twitter:creator" content="@markmhendrickson" />
-        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:title" content={post.title || (isTweetPost ? 'X Post' : '')} />
         <meta name="twitter:description" content={desc} />
         <script type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Article',
-            headline: post.title,
+            headline: post.title || (isTweetPost ? (post.body ?? '').slice(0, 100) : ''),
             description: desc,
             url: canonicalUrl,
             mainEntityOfPage: canonicalUrl,
@@ -898,7 +904,7 @@ export default function Post({ slug: slugProp }: PostProps) {
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_BASE },
               { '@type': 'ListItem', position: 2, name: 'Posts', item: `${SITE_BASE}/posts` },
-              { '@type': 'ListItem', position: 3, name: post.title, item: canonicalUrl },
+              { '@type': 'ListItem', position: 3, name: post.title || (isTweetPost ? 'X Post' : post.slug), item: canonicalUrl },
             ],
           })}
         </script>
@@ -916,9 +922,13 @@ export default function Post({ slug: slugProp }: PostProps) {
                   Latest post
                 </AlertTitle>
                 <AlertDescription className="py-px">
-                  <span className="font-medium text-foreground">{latestPost.title}</span>
+                  <span className="font-medium text-foreground">
+                    {latestPost.category === 'tweet'
+                      ? (latestPost.body ?? '').slice(0, 80) + ((latestPost.body ?? '').length > 80 ? '…' : '')
+                      : latestPost.title}
+                  </span>
                   {latestPost.excerpt && (
-                    <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                    <p className="mt-1 text-sm text-muted-foreground">
                       {stripLinksFromExcerpt(latestPost.excerpt)}
                     </p>
                   )}
@@ -929,7 +939,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               </div>
               {latestPost.heroImage && (
                 <img
-                  src={`/images/posts/${latestPost.heroImageSquare ?? latestPost.heroImage}`}
+                  src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? '')}
                   alt=""
                   className="hidden md:block shrink-0 w-[148px] h-[148px] rounded object-cover"
                 />
@@ -938,6 +948,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           </Link>
         )}
         <article>
+          {!isTweetPost && (
           <header className="mb-8">
             <h1 className="text-[28px] font-medium mb-2 tracking-tight">
               {post.title}
@@ -948,6 +959,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               </p>
             )}
           </header>
+          )}
 
           {displaySummary && (() => {
             const normalizedSummary = displaySummary.trim().replace(/\s+/g, ' ')
@@ -967,10 +979,10 @@ export default function Post({ slug: slugProp }: PostProps) {
           );
           })()}
 
-          {post.heroImage && post.heroImageStyle !== 'float-right' && (
+          {post.heroImage && !isTweetPost && post.heroImageStyle !== 'float-right' && (
             <div className="mb-8 md:-mx-8">
               <img
-                src={`/images/posts/${post.heroImage}`}
+                src={getPostImageSrc(post.heroImage)}
                 alt={post.title}
                 className={
                   post.heroImageStyle === 'keep-proportions'
@@ -985,7 +997,7 @@ export default function Post({ slug: slugProp }: PostProps) {
             {post.heroImage && post.heroImageStyle === 'float-right' && (
               <div className="w-full mb-8 md:mb-4 md:float-right md:ml-8 md:max-w-[300px]">
                 <img
-                  src={`/images/posts/${post.heroImage}`}
+                  src={getPostImageSrc(post.heroImage)}
                   alt={post.title}
                   className="w-full aspect-square object-cover rounded"
                 />
@@ -1084,6 +1096,21 @@ export default function Post({ slug: slugProp }: PostProps) {
             })()}
           </div>
 
+          {isTweetPost && post.tweetMetadata?.images && post.tweetMetadata.images.length > 0 && (
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {post.tweetMetadata.images.map((url, i) => (
+                <div key={i} className="aspect-square overflow-hidden rounded-lg border border-[#e0e0e0]">
+                  <img
+                    src={getPostImageSrc(url)}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
           {post.heroImageStyle === 'float-right' && <div className="clear-both"></div>}
 
           {(post.published || post.showMetadata !== false) && (
@@ -1095,50 +1122,48 @@ export default function Post({ slug: slugProp }: PostProps) {
                   </span>
                 </div>
               )}
-              <div className="flex items-center gap-4 text-[13px] text-[#999]">
-                {post.publishedDate && (
-                  <time dateTime={post.publishedDate}>
-                    {formatDate(post.publishedDate)}
-                  </time>
-                )}
-                {post.readTime && (
-                  <span>{post.readTime} min read</span>
-                )}
-                {post.category && (
-                  <span className="capitalize">{post.category}</span>
-                )}
-              </div>
+              {!isHome && (
+                <div className="flex items-center gap-4 text-[13px] text-[#999]">
+                  {post.publishedDate && (
+                    <time dateTime={post.publishedDate}>
+                      {formatDate(post.publishedDate)}
+                    </time>
+                  )}
+                  {post.readTime && (
+                    <span>{post.readTime} min read</span>
+                  )}
+                  {post.category && (
+                    <span className="capitalize">
+                      {(post.category || '').toLowerCase() === 'tweet' ? 'X Post' : post.category}
+                    </span>
+                  )}
+                </div>
+              )}
               <PostShareBar
-                shareUrl={`${PROD_SITE_BASE}/posts/${post.slug}`}
+                shareUrl={isHome ? `${PROD_SITE_BASE}/` : `${PROD_SITE_BASE}/posts/${post.slug}`}
                 title={post.title}
                 onCopyFeedback={() => {
                   setCopyLinkSuccess(true)
                   setTimeout(() => setCopyLinkSuccess(false), 2000)
                 }}
                 copySuccess={copyLinkSuccess}
+                noTopBorder={isHome}
               />
             </footer>
           )}
         </article>
 
         {post.linkedTweetUrl && (
-          <section className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Related post on X">
-            <h2 className="text-[13px] text-muted-foreground font-medium uppercase tracking-wide mb-4">
-              Related post on X
-            </h2>
-            <div ref={tweetEmbedRef} className="flex flex-col items-center gap-3">
-              <blockquote className="twitter-tweet" data-dnt="true">
-                <a href={post.linkedTweetUrl}>Post on X</a>
-              </blockquote>
-              <a
-                href={post.linkedTweetUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-foreground"
-              >
-                View on X
-              </a>
-            </div>
+          <section className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Related X post">
+            <a
+              href={post.linkedTweetUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5"
+            >
+              <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
+              View X post
+            </a>
           </section>
         )}
 
@@ -1149,16 +1174,16 @@ export default function Post({ slug: slugProp }: PostProps) {
             </h2>
             <div ref={timelineEmbedRef} className="flex flex-col items-center">
               <blockquote className="twitter-timeline" data-dnt="true">
-                <a href={post.xTimelineUrl}>Tweets</a>
+                <a href={post.xTimelineUrl}>X Posts</a>
               </blockquote>
             </div>
           </section>
         )}
 
         {isDev && displayTweet && (
-          <Alert className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Share tweet draft">
+          <Alert className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Share X post draft">
             <AlertTitle className="mb-4 text-sm font-medium uppercase tracking-wide text-muted-foreground">
-              Share tweet
+              Share X post
             </AlertTitle>
             <AlertDescription asChild>
               <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed whitespace-pre-wrap">
@@ -1233,9 +1258,13 @@ export default function Post({ slug: slugProp }: PostProps) {
                       Next post
                     </AlertTitle>
                     <AlertDescription className="py-px">
-                      <span className="font-medium text-foreground">{nextPost.title}</span>
+                      <span className="font-medium text-foreground">
+                        {nextPost.category === 'tweet'
+                          ? (nextPost.body ?? '').slice(0, 80) + ((nextPost.body ?? '').length > 80 ? '…' : '')
+                          : nextPost.title}
+                      </span>
                       {nextPost.excerpt && (
-                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                        <p className="mt-1 text-sm text-muted-foreground">
                           {stripLinksFromExcerpt(nextPost.excerpt)}
                         </p>
                       )}
@@ -1244,9 +1273,9 @@ export default function Post({ slug: slugProp }: PostProps) {
                       </span>
                     </AlertDescription>
                   </div>
-                  {nextPost.heroImage && (
+                  {(nextPost.heroImage || nextPost.tweetMetadata?.images?.[0]) && (
                     <img
-                      src={`/images/posts/${nextPost.heroImageSquare ?? nextPost.heroImage}`}
+                      src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
                       alt=""
                       className="shrink-0 w-[148px] h-[148px] rounded object-cover"
                     />
@@ -1265,9 +1294,13 @@ export default function Post({ slug: slugProp }: PostProps) {
                       Previous post
                     </AlertTitle>
                     <AlertDescription className="py-px">
-                      <span className="font-medium text-foreground">{prevPost.title}</span>
+                      <span className="font-medium text-foreground">
+                        {prevPost.category === 'tweet'
+                          ? (prevPost.body ?? '').slice(0, 80) + ((prevPost.body ?? '').length > 80 ? '…' : '')
+                          : prevPost.title}
+                      </span>
                       {prevPost.excerpt && (
-                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                        <p className="mt-1 text-sm text-muted-foreground">
                           {stripLinksFromExcerpt(prevPost.excerpt)}
                         </p>
                       )}
@@ -1276,9 +1309,9 @@ export default function Post({ slug: slugProp }: PostProps) {
                       </span>
                     </AlertDescription>
                   </div>
-                  {prevPost.heroImage && (
+                  {(prevPost.heroImage || prevPost.tweetMetadata?.images?.[0]) && (
                     <img
-                      src={`/images/posts/${prevPost.heroImageSquare ?? prevPost.heroImage}`}
+                      src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
                       alt=""
                       className="shrink-0 w-[148px] h-[148px] rounded object-cover"
                     />
