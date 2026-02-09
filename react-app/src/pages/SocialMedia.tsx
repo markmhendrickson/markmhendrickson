@@ -34,7 +34,7 @@ const links: LinkWithIcon[] = (linksData as LinkData[]).map(link => ({
 export default function SocialMedia() {
   const pageTitle = 'Links — Mark Hendrickson'
   const pageDesc = 'Links to profiles and contact channels.'
-  const canonicalUrl = 'https://markmhendrickson.com/social'
+  const canonicalUrl = 'https://markmhendrickson.com/links'
   const defaultOgImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200
   const ogImageHeight = 630

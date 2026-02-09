@@ -55,6 +55,39 @@
   .post-prose tbody tr:last-child td {
     @apply border-b-0;
   }
+
+  /* Table horizontal scroll: overlay is sibling of viewport, absolute so flush to right edge of table box */
+  .post-prose .table-scroll-outer {
+    @apply relative;
+  }
+  .post-prose .table-scroll-outer .table-scroll-viewport {
+    @apply min-w-0 max-w-full;
+  }
+  .post-prose .table-scroll-outer.table-scrollable .table-scroll-inner {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    min-width: 100%;
+  }
+  .post-prose .table-scroll-outer.table-scrollable .table-scroll-inner > table {
+    flex: 0 0 auto;
+  }
+  .post-prose .table-scroll-outer.table-scrollable .table-scroll-edge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2.5rem;
+    pointer-events: none;
+  }
+  .post-prose .table-scroll-outer.table-scrollable .table-scroll-hint {
+    @apply flex items-center gap-1 text-[11px] text-muted-foreground bg-white px-2 py-1.5 rounded-md;
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    white-space: nowrap;
+  }
+
   .post-prose .footnotes {
     @apply mt-10 pt-6 border-t border-[#e0e0e0];
   }

@@ -23,7 +23,7 @@ function helmetHeadString(helmetContext) {
 }
 
 const SITE_BASE = 'https://markmhendrickson.com'
-const STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/social', '/songs']
+const STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs']
 
 function getPosts() {
   const postsPath = path.resolve(__dirname, 'src', 'content', 'posts', 'posts.json')

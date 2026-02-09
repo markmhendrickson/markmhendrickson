@@ -21,9 +21,15 @@ This directory contains cache files and markdown files for blog posts and essays
 3. Cache JSON file is generated from parquet
 4. Vite builds the React app using cache files
 
+**When updating posts:** Always regenerate the cache after changing posts (e.g. via parquet MCP or editing markdown): `python3 execution/scripts/generate_posts_cache.py` from repo root. The site reads from the cache files, not parquet directly.
+
 ## Share tweet (drafts)
 
 For draft posts, add `drafts/{slug}.tweet.md` with the share tweet text (e.g. for Twitter/X). Always include relevant URLs (e.g. link to the post, project links) and @ mentions (people or accounts relevant to the post). Stay under 280 characters. The cache script syncs the file to parquet (`share_tweet`). In dev, the tweet is displayed below the post on the post page. Run `python3 execution/scripts/generate_posts_cache.py` after adding or editing the file.
+
+## X timeline embed
+
+To show an embedded X (Twitter) feed below a post, set the post’s `x_timeline_url` in parquet to a **profile URL** (e.g. `https://x.com/username`) or a **list URL**. The site renders it using X’s timeline widget (same script as single-tweet embeds). See [How to embed a timeline](https://help.x.com/en/using-x/embed-x-feed). Regenerate the cache after changing the value.
 
 ## Hero Images
 

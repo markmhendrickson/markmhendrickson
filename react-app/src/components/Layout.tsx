@@ -28,7 +28,7 @@ const routeNames: Record<string, string> = {
   'draft': 'Drafts',
   'timeline': 'Timeline',
   'newsletter': 'Newsletter',
-  'social': 'Links',
+  'links': 'Links',
   'agent': 'Agent',
   'test-error': 'Test Error',
 }
@@ -38,7 +38,7 @@ const menuItems = [
   { path: '/posts', label: 'Posts', icon: FileText },
   { path: '/timeline', label: 'Timeline', icon: Clock },
   { path: '/agent', label: 'Agent', icon: Bot },
-  { path: '/social', label: 'Links', icon: Share2 },
+  { path: '/links', label: 'Links', icon: Share2 },
 ]
 
 interface LayoutProps {

@@ -14,6 +14,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const distPath = path.resolve(__dirname, '..', 'dist')
 const templatePath = path.join(distPath, 'index.html')
 const SSR_PLACEHOLDER = '<!--ssr-outlet-->'
+const HELMET_PLACEHOLDER = '<!--helmet-outlet-->'
+
+function helmetHeadString(helmetContext) {
+  const helmet = helmetContext?.helmet
+  if (!helmet) return ''
+  const parts = [
+    helmet.title?.toString?.(),
+    helmet.priority?.toString?.(),
+    helmet.meta?.toString?.(),
+    helmet.link?.toString?.(),
+    helmet.script?.toString?.(),
+  ].filter(Boolean)
+  return parts.join('')
+}
 
 const STATIC_ROUTES = [
   '/',
@@ -21,7 +35,7 @@ const STATIC_ROUTES = [
   '/newsletter',
   '/newsletter/confirm',
   '/posts',
-  '/social',
+  '/links',
   '/songs',
 ]
 
@@ -76,8 +90,12 @@ async function main() {
 
   for (const url of allRoutes) {
     try {
-      const appHtml = render(url)
-      const html = template.replace(SSR_PLACEHOLDER, appHtml)
+      const helmetContext = {}
+      const appHtml = render(url, helmetContext)
+      let html = template.replace(SSR_PLACEHOLDER, appHtml)
+      if (template.includes(HELMET_PLACEHOLDER)) {
+        html = html.replace(HELMET_PLACEHOLDER, helmetHeadString(helmetContext))
+      }
       const outPath = urlToFilePath(url)
       fs.mkdirSync(path.dirname(outPath), { recursive: true })
       fs.writeFileSync(outPath, html, 'utf-8')
@@ -90,8 +108,12 @@ async function main() {
 
   // Pre-render NotFound for GitHub Pages 404 fallback (unknown paths)
   try {
-    const notFoundHtml = render('/_no_match_')
-    const notFoundFull = template.replace(SSR_PLACEHOLDER, notFoundHtml)
+    const notFoundHelmetContext = {}
+    const notFoundHtml = render('/_no_match_', notFoundHelmetContext)
+    let notFoundFull = template.replace(SSR_PLACEHOLDER, notFoundHtml)
+    if (template.includes(HELMET_PLACEHOLDER)) {
+      notFoundFull = notFoundFull.replace(HELMET_PLACEHOLDER, helmetHeadString(notFoundHelmetContext))
+    }
     fs.writeFileSync(path.join(distPath, '404.html'), notFoundFull, 'utf-8')
     console.log('prerender: 404.html (NotFound)')
   } catch (err) {

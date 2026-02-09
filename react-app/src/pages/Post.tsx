@@ -8,10 +8,126 @@ import publicPostsData from '@/content/posts/posts.json'
 import { usePostSSR } from '@/contexts/PostSSRContext'
 import { stripLinksFromExcerpt } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
 
+/** X (formerly Twitter) logo for share button. */
+function XLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden {...props}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
+}
+
+/** Hacker News Y logo for share button. */
+function HNLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" className={className} aria-hidden {...props}>
+      <path fillRule="evenodd" clipRule="evenodd" d="M62.176 23.743H72.686L54.395 51.652V76.94h-8.79V51.655L27.314 23.743h10.509L49.999 42.323 62.176 23.743Z" />
+    </svg>
+  )
+}
+
+/** Reddit (snoo) logo for share button. */
+function RedditLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden {...props}>
+      <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.88-7.004 4.88-3.874 0-7.004-2.186-7.004-4.88 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.323.323 0 0 0 0 .457c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.322.322 0 0 0-.001-.457.326.326 0 0 0-.232-.095c-.08 0-.159.032-.218.09a1.903 1.903 0 0 1-2.437 0 .295.295 0 0 0-.218-.09z" />
+    </svg>
+  )
+}
+
+/** Extract plain text from React node(s) for heading slug. */
+function getHeadingText(children: React.ReactNode): string {
+  const parts: string[] = []
+  React.Children.forEach(children, (child) => {
+    if (typeof child === 'string') parts.push(child)
+    else if (React.isValidElement(child) && child.props?.children != null)
+      parts.push(getHeadingText(child.props.children))
+  })
+  return parts.join('')
+}
+
+/** URL-safe id from heading text (lowercase, spaces to hyphens, strip non-alphanumeric). */
+function slugifyHeading(text: string): string {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '') || 'section'
+}
+
+/** Wraps markdown tables with horizontal scroll and shows a hint when table overflows viewport. */
+function PostTableWrapper({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const [isScrollable, setIsScrollable] = useState(false)
+  const [scrollDir, setScrollDir] = useState<'left' | 'right' | 'both'>(() => 'right')
+  useEffect(() => {
+    const el = wrapperRef.current
+    if (!el) return
+    const update = () => {
+      const scrollable = el.scrollWidth > el.clientWidth
+      setIsScrollable(scrollable)
+      if (scrollable) {
+        const left = el.scrollLeft > 4
+        const right = el.scrollLeft < el.scrollWidth - el.clientWidth - 4
+        setScrollDir(left && right ? 'both' : left ? 'left' : 'right')
+      }
+    }
+    update()
+    el.addEventListener('scroll', update, { passive: true })
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => {
+      el.removeEventListener('scroll', update)
+      ro.disconnect()
+    }
+  }, [])
+  return (
+    <div className={`my-6 rounded-lg border border-border table-scroll-outer${isScrollable ? ' table-scrollable' : ''}`}>
+      <div
+        ref={wrapperRef}
+        className="overflow-x-auto table-scroll-viewport"
+      >
+        <div className="table-scroll-inner">
+          <table {...props}>{children}</table>
+        </div>
+      </div>
+      {isScrollable && (
+        <div className="table-scroll-edge" aria-hidden="true">
+          <span className="table-scroll-hint">
+            {scrollDir === 'left' && (
+              <>
+                <ChevronsLeft className="h-4 w-4" />
+                Scroll left
+              </>
+            )}
+            {scrollDir === 'right' && (
+              <>
+                Scroll right
+                <ChevronsRight className="h-4 w-4" />
+              </>
+            )}
+            {scrollDir === 'both' && (
+              <>
+                <ChevronsLeft className="h-4 w-4" />
+                Scroll
+                <ChevronsRight className="h-4 w-4" />
+              </>
+            )}
+          </span>
+        </div>
+      )}
+    </div>
+  )
+}
+
 const SITE_BASE = 'https://markmhendrickson.com'
+/** Always use for share bar and copy-link so shared URLs are production, not dev origin. */
+const PROD_SITE_BASE = 'https://markmhendrickson.com'
 const OG_DEFAULT_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
 const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
@@ -52,6 +168,102 @@ interface Post {
   body?: string
   /** Draft share tweet (dev only, from .tweet.md / parquet). */
   shareTweet?: string
+  /** URL of the post's tweet on X (shown in footer when set). */
+  linkedTweetUrl?: string
+  /** URL of an X profile or list timeline to embed (see https://help.x.com/en/using-x/embed-x-feed). */
+  xTimelineUrl?: string
+}
+
+/** Share bar: common platforms + content strategy targets (X, LinkedIn, Facebook, HN, Reddit, Email, Copy link). */
+function PostShareBar({
+  shareUrl,
+  title,
+  onCopyFeedback,
+  copySuccess,
+}: {
+  shareUrl: string
+  title: string
+  onCopyFeedback: () => void
+  copySuccess: boolean
+}) {
+  const encodedUrl = encodeURIComponent(shareUrl)
+  const encodedTitle = encodeURIComponent(title)
+  const shareLinks = [
+    {
+      label: 'X',
+      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      icon: XLogo,
+    },
+    {
+      label: 'LinkedIn',
+      href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`,
+      icon: Linkedin,
+    },
+    {
+      label: 'Facebook',
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      icon: Facebook,
+    },
+    {
+      label: 'Hacker News',
+      href: 'https://news.ycombinator.com/submit',
+      icon: HNLogo,
+      title: 'Opens HN submit page. Use the Copy button above, then paste the link into the URL field.',
+    },
+    {
+      label: 'Reddit',
+      href: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+      icon: RedditLogo,
+    },
+    {
+      label: 'Email',
+      href: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+      icon: Mail,
+    },
+  ]
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+      onCopyFeedback()
+    } catch {
+      // ignore
+    }
+  }
+
+  return (
+    <div className="mt-6 pt-6 border-t border-[#eee]">
+      <span className="text-[13px] text-[#999] font-medium uppercase tracking-wide block mb-3">Share</span>
+      <div className="flex flex-wrap items-center gap-2">
+        {shareLinks.map(({ label, href, icon: Icon, title: linkTitle }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-9 h-9 rounded-lg border border-[#e0e0e0] text-[#555] hover:bg-[#f5f5f5] hover:border-[#ccc] transition-colors"
+            aria-label={linkTitle ?? `Share on ${label}`}
+            title={linkTitle ?? `Share on ${label}`}
+          >
+            <Icon className="w-4 h-4" />
+          </a>
+        ))}
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="flex items-center justify-center w-9 h-9 rounded-lg border border-[#e0e0e0] text-[#555] hover:bg-[#f5f5f5] hover:border-[#ccc] transition-colors"
+          aria-label="Copy link"
+          title="Copy link"
+        >
+          {copySuccess ? (
+            <span className="text-[11px] text-green-600 font-medium">OK</span>
+          ) : (
+            <Copy className="w-4 h-4" />
+          )}
+        </button>
+      </div>
+    </div>
+  )
 }
 
 /** Build a map from primary + alternative slugs to post (for resolving URL slug to canonical post). */
@@ -335,6 +547,32 @@ export default function Post({ slug: slugProp }: PostProps) {
   }, [content])
 
   const [imageViewer, setImageViewer] = useState<{ open: boolean; index: number }>({ open: false, index: 0 })
+  const [copyLinkSuccess, setCopyLinkSuccess] = useState(false)
+  const tweetEmbedRef = useRef<HTMLDivElement>(null)
+  const timelineEmbedRef = useRef<HTMLDivElement>(null)
+
+  // Load X (Twitter) widgets script when linkedTweetUrl or xTimelineUrl is set
+  useEffect(() => {
+    if (!post?.linkedTweetUrl && !post?.xTimelineUrl) return
+    const runWidgets = () => {
+      const twttr = (window as unknown as { twttr?: { widgets?: { load: (el?: HTMLElement) => void } } }).twttr
+      twttr?.widgets?.load()
+    }
+    const existing = document.querySelector('script[src="https://platform.twitter.com/widgets.js"]')
+    if (existing) {
+      // Script already on page; defer so blockquote is in DOM (React may not have committed yet)
+      const t = setTimeout(runWidgets, 150)
+      return () => clearTimeout(t)
+    }
+    const script = document.createElement('script')
+    script.src = 'https://platform.twitter.com/widgets.js'
+    script.async = true
+    script.onload = () => {
+      setTimeout(runWidgets, 100)
+    }
+    document.body.appendChild(script)
+    return () => { /* script stays for other embeds */ }
+  }, [post?.linkedTweetUrl, post?.xTimelineUrl])
 
   // For barcelona-guest-floor, split content so we can render amenity cards between "What this place offers" and the next section
   const barcelonaContentSplit = useMemo(() => {
@@ -740,11 +978,31 @@ export default function Post({ slug: slugProp }: PostProps) {
               </div>
             )}
             {(() => {
+              const makeHeading = (Tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') =>
+                ({ children, ...props }: React.ComponentPropsWithoutRef<typeof Tag>) => {
+                  const slug = slugifyHeading(getHeadingText(children))
+                  return (
+                    <Tag id={slug} className="group scroll-mt-6" {...props}>
+                      {children}
+                      <a
+                        href={`#${slug}`}
+                        className="post-heading-anchor ml-2 inline-flex align-middle opacity-40 group-hover:opacity-70 hover:opacity-100 text-[#999] hover:text-[#333] no-underline"
+                        aria-label="Link to section"
+                      >
+                        <LinkIcon className="h-4 w-4" />
+                      </a>
+                    </Tag>
+                  )
+                }
               const markdownComponents = {
+                h1: makeHeading('h1'),
+                h2: makeHeading('h2'),
+                h3: makeHeading('h3'),
+                h4: makeHeading('h4'),
+                h5: makeHeading('h5'),
+                h6: makeHeading('h6'),
                 table: ({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) => (
-                  <div className="overflow-x-auto my-6 rounded-lg border border-border">
-                    <table {...props}>{children}</table>
-                  </div>
+                  <PostTableWrapper {...props}>{children}</PostTableWrapper>
                 ),
                 p: ({ children, ...props }: React.ComponentPropsWithoutRef<'p'>) => {
                   const arr = React.Children.toArray(children)
@@ -814,7 +1072,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
           {post.heroImageStyle === 'float-right' && <div className="clear-both"></div>}
 
-          {(post.showMetadata !== false) && (
+          {(post.published || post.showMetadata !== false) && (
             <footer className="mt-12 pt-8 border-t border-[#e0e0e0]">
               {!post.published && isDev && (
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -836,9 +1094,52 @@ export default function Post({ slug: slugProp }: PostProps) {
                   <span className="capitalize">{post.category}</span>
                 )}
               </div>
+              <PostShareBar
+                shareUrl={`${PROD_SITE_BASE}/posts/${post.slug}`}
+                title={post.title}
+                onCopyFeedback={() => {
+                  setCopyLinkSuccess(true)
+                  setTimeout(() => setCopyLinkSuccess(false), 2000)
+                }}
+                copySuccess={copyLinkSuccess}
+              />
             </footer>
           )}
         </article>
+
+        {post.linkedTweetUrl && (
+          <section className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Related post on X">
+            <h2 className="text-[13px] text-muted-foreground font-medium uppercase tracking-wide mb-4">
+              Related post on X
+            </h2>
+            <div ref={tweetEmbedRef} className="flex flex-col items-center gap-3">
+              <blockquote className="twitter-tweet" data-dnt="true">
+                <a href={post.linkedTweetUrl}>Post on X</a>
+              </blockquote>
+              <a
+                href={post.linkedTweetUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                View on X
+              </a>
+            </div>
+          </section>
+        )}
+
+        {post.xTimelineUrl && (
+          <section className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="X timeline">
+            <h2 className="text-[13px] text-muted-foreground font-medium uppercase tracking-wide mb-4">
+              Follow on X
+            </h2>
+            <div ref={timelineEmbedRef} className="flex flex-col items-center">
+              <blockquote className="twitter-timeline" data-dnt="true">
+                <a href={post.xTimelineUrl}>Tweets</a>
+              </blockquote>
+            </div>
+          </section>
+        )}
 
         {isDev && displayTweet && (
           <Alert className="mt-12 pt-8 border-t border-[#e0e0e0]" aria-label="Share tweet draft">

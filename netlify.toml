@@ -22,6 +22,12 @@
   to = "/api/agent.json"
   status = 302
 
+# Permanent redirect: old /social path to /links
+[[redirects]]
+  from = "/social"
+  to = "/links"
+  status = 301
+
 # Rewrite /api/newsletter/* to Netlify functions
 [[redirects]]
   from = "/api/newsletter/subscribe"
