@@ -44,7 +44,7 @@ Example: If you can ship deterministic workflows, cross-domain entity resolution
 
 ## Neotoma as a case study
 
-I'm building [Neotoma](https://github.com/markmhendrickson/neotoma) as a privacy-first, deterministic memory substrate for AI tools. It demonstrates all five barriers.
+I'm building [Neotoma](/posts/truth-layer-agent-memory) ([GitHub](https://github.com/markmhendrickson/neotoma)) as a privacy-first, deterministic memory substrate for AI tools. It demonstrates all five barriers.
 
 **Privacy-first architecture (incentive misalignment).** Model providers make money from telemetry, training data, and platform lock-in. A system where users own their memory and can use any model directly conflicts with their revenue model. They could build it, but they'd be undermining their existing business.
 

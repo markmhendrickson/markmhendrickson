@@ -132,12 +132,16 @@ const OG_DEFAULT_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
 const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
 
-/** In dev, load private cache so draft posts can be viewed by slug. */
+/** In dev, load private cache so draft posts can be viewed by slug.
+ * Merge in any draft from posts.json that is not already in the private list (e.g. new drafts not yet in parquet/cache). */
 async function loadPostsDataForSlug(includeDrafts: boolean): Promise<Post[]> {
   if (!includeDrafts || import.meta.env.PROD) return publicPostsData as Post[]
   try {
     const privateData = await import('@/content/posts/posts.private.json')
-    return (privateData.default ?? privateData) as Post[]
+    const privateList = (privateData.default ?? privateData) as Post[]
+    const privateSlugs = new Set(privateList.map((p) => p.slug).filter(Boolean))
+    const publicDrafts = (publicPostsData as Post[]).filter((p) => !p.published && p.slug && !privateSlugs.has(p.slug))
+    return [...privateList, ...publicDrafts]
   } catch {
     return publicPostsData as Post[]
   }

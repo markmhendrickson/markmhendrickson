@@ -13,6 +13,41 @@ interface LinkWithIcon extends Omit<LinkData, 'icon'> {
   icon: LucideIcon
 }
 
+// Branded icons (Simple Icons paths)
+function BrandedIcon({
+  className,
+  size = 24,
+  path,
+  ...props
+}: React.SVGProps<SVGSVGElement> & { path: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="currentColor"
+      {...props}
+    >
+      <path d={path} />
+    </svg>
+  )
+}
+
+const SubstackIcon = (p: React.SVGProps<SVGSVGElement>) => (
+  <BrandedIcon path="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z" {...p} />
+)
+const HackerNewsIcon = (p: React.SVGProps<SVGSVGElement>) => (
+  <BrandedIcon path="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z" {...p} />
+)
+const IndieHackersIcon = (p: React.SVGProps<SVGSVGElement>) => (
+  <BrandedIcon path="M0 0h24v24H0V0Zm5.4 17.2h2.4V6.8H5.4v10.4Zm4.8 0h2.4v-4h3.6v4h2.4V6.8h-2.4v4h-3.6v-4h-2.4v10.4Z" {...p} />
+)
+const XIcon = (p: React.SVGProps<SVGSVGElement>) => (
+  <BrandedIcon path="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" {...p} />
+)
+
 // Map icon names to actual icon components
 const iconMap: Record<string, LucideIcon> = {
   Github,
@@ -22,7 +57,11 @@ const iconMap: Record<string, LucideIcon> = {
   Facebook,
   Youtube,
   Mail,
-  Globe
+  Globe,
+  Substack: SubstackIcon as LucideIcon,
+  HackerNews: HackerNewsIcon as LucideIcon,
+  IndieHackers: IndieHackersIcon as LucideIcon,
+  X: XIcon as LucideIcon
 }
 
 // Transform JSON data to include icon components

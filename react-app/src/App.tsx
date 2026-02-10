@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { StaticRouter } from 'react-router-dom/server'
 import { Layout } from './components/Layout'
 import ErrorBoundary from '@shared/components/ErrorBoundary'
@@ -18,6 +18,7 @@ const isDev = import.meta.env.DEV
 const routes = (
   <Routes>
     <Route path="/" element={<Layout><Post slug="professional-mission" /></Layout>} />
+    <Route path="/about" element={<Navigate to="/" replace />} />
     <Route path="/timeline" element={<Layout><Timeline /></Layout>} />
     <Route path="/newsletter" element={<Layout><Newsletter /></Layout>} />
     <Route path="/newsletter/confirm" element={<Layout><NewsletterConfirm /></Layout>} />

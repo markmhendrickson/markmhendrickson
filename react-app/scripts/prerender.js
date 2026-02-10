@@ -121,6 +121,24 @@ async function main() {
     throw err
   }
 
+  // GitHub Pages redirect: /about -> / (no server-side redirects on static hosting)
+  const redirectHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/">
+  <link rel="canonical" href="/">
+  <title>Redirecting...</title>
+</head>
+<body>
+  <script>window.location.replace("/");</script>
+  <p>Redirecting to <a href="/">home</a>...</p>
+</body>
+</html>`
+  fs.mkdirSync(path.join(distPath, 'about'), { recursive: true })
+  fs.writeFileSync(path.join(distPath, 'about', 'index.html'), redirectHtml, 'utf-8')
+  console.log('prerender: about -> / (redirect)')
+
   console.log('prerender: done,', allRoutes.length, 'routes')
 }
 

@@ -1,0 +1,5 @@
+- Neotoma is open as a developer release: a truth layer for persistent agent memory that AI tools read and write via MCP.
+- You can run it locally with minimal config and no cloud dependency; the post walks through setup and verification.
+- Raw input flows through interpretation into resolved entities, with full traceability and typed links between entities.
+- You store files or structured data through a single entry point; corrections and re-runs preserve provenance instead of overwriting.
+- The repo ships with schema evolution, timeline and graph querying, MCP auth, CLI, and tests plus health checks.
