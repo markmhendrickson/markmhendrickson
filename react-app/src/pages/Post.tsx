@@ -636,19 +636,23 @@ export default function Post({ slug: slugProp }: PostProps) {
     return (a.slug || '').localeCompare(b.slug || '')
   }
 
+  /** Only published posts (exclude drafts). Used for latest link and prev/next footer. */
+  const publishedOnly = useMemo(
+    () =>
+      (publicPostsData as Post[])
+        .filter((p) => p.published === true && !p.excludeFromListing)
+        .sort(publishedListOrder),
+    []
+  )
+
   const latestPost = useMemo(() => {
-    const list = (publicPostsData as Post[])
-      .filter((p) => p.published && !p.excludeFromListing && p.slug !== (resolvedCanonicalSlug ?? ''))
-      .sort(publishedListOrder)
+    const list = publishedOnly.filter((p) => p.slug !== (resolvedCanonicalSlug ?? ''))
     return list[0] ?? null
-  }, [resolvedCanonicalSlug])
+  }, [publishedOnly, resolvedCanonicalSlug])
 
   const { prevPost, nextPost } = useMemo(() => {
-    const raw = (publicPostsData as Post[])
-      .filter((p) => p.published && !p.excludeFromListing)
-      .sort(publishedListOrder)
     const seen = new Set<string>()
-    const list = raw.filter((p) => {
+    const list = publishedOnly.filter((p) => {
       if (seen.has(p.slug)) return false
       seen.add(p.slug)
       return true
@@ -664,7 +668,7 @@ export default function Post({ slug: slugProp }: PostProps) {
       prevPost: list[idx + 1] ?? null,
       nextPost: list[idx - 1] ?? null,
     }
-  }, [resolvedCanonicalSlug])
+  }, [publishedOnly, resolvedCanonicalSlug])
 
   useEffect(() => {
     const loadPost = async () => {

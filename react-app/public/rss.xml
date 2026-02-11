@@ -115,14 +115,14 @@
   <item>
     <title>Syncing Foursquare / Swarm checkins to my website</title>
     <link>https://markmhendrickson.com/posts/foursquare-swarm-checkins-sync</link>
-    <description>Neotoma now backs up all of my Foursquare / Swarm check-ins to my Dropbox account whereupon they’re republished instantly to my website on a new check-ins page.</description>
+    <description>Neotoma now backs up all of my Foursquare / Swarm check-ins to my Dropbox account whereupon they&apos;re republished instantly to my website on a new check-ins page.</description>
     <pubDate>Mon, 13 Nov 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/foursquare-swarm-checkins-sync</guid>
   </item>
   <item>
     <title>Dropbox API v2 fix for Neotoma sync server</title>
     <link>https://markmhendrickson.com/posts/sync-server-dropbox-api-version-2-fix</link>
-    <description>As part of my working sprint at IndieWebCamp Berlin today, I managed to fix a show-stopping bug that’s been in production for sync-server on Neotoma and run a backup job for my latest Foursquare / Swarm check-ins.</description>
+    <description>As part of my working sprint at IndieWebCamp Berlin today, I managed to fix a show-stopping bug that&apos;s been in production for sync-server on Neotoma and run a backup job for my latest Foursquare / Swarm check-ins.</description>
     <pubDate>Sun, 05 Nov 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/sync-server-dropbox-api-version-2-fix</guid>
   </item>
@@ -136,14 +136,14 @@
   <item>
     <title>New Node.js repos for environment management, deployment and proxying</title>
     <link>https://markmhendrickson.com/posts/park-ranger-grunt-hoist-proxy</link>
-    <description>While working more or less full-time on Neotoma since last summer, I’ve created a few repositories that are hopefully useful as modules to other Node.js apps in general.</description>
+    <description>While working more or less full-time on Neotoma since last summer, I&apos;ve created a few repositories that are hopefully useful as modules to other Node.js apps in general.</description>
     <pubDate>Tue, 04 Apr 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/park-ranger-grunt-hoist-proxy</guid>
   </item>
   <item>
     <title>Touch Bar Autosuggest</title>
     <link>https://markmhendrickson.com/posts/touch-bar-autosuggest</link>
-    <description>“Hmmm what I’ve been doing is that I wanted to be a good friend to my life and my life is so far away” - My Touch Bar autosuggest</description>
+    <description>&quot;Hmmm what I&apos;ve been doing is that I wanted to be a good friend to my life and my life is so far away&quot; - My Touch Bar autosuggest</description>
     <pubDate>Thu, 02 Mar 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/touch-bar-autosuggest</guid>
   </item>
@@ -157,7 +157,7 @@
   <item>
     <title>Bringing it all back home</title>
     <link>https://markmhendrickson.com/posts/bringing-it-all-back-home</link>
-    <description>&gt; &quot;Now, I been in jail when all my mail showed, that a man can’t give his address out to bad company&quot; - Bob Dylan, Absolutely Sweet Marie Last summer...</description>
+    <description>&gt; &quot;Now, I been in jail when all my mail showed, that a man can&apos;t give his address out to bad company&quot; - Bob Dylan, Absolutely Sweet Marie Last summer...</description>
     <pubDate>Thu, 30 Jan 2014 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/bringing-it-all-back-home</guid>
   </item>
@@ -311,7 +311,7 @@
   <item>
     <title>Getting the lay of the land</title>
     <link>https://markmhendrickson.com/posts/getting-the-lay-of-the-land</link>
-    <description>As Erick Schonfeld was kind enough to announce in a post on TechCrunchhttp://www.techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ last...</description>
+    <description>As Erick Schonfeld was kind enough to announce in a post on TechCrunch last week, I&apos;ve left my position at TechCrunch to build and run my own startup.</description>
     <pubDate>Tue, 17 Mar 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/getting-the-lay-of-the-land</guid>
   </item>

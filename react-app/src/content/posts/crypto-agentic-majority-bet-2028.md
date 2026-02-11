@@ -1,6 +1,6 @@
 I have a bet with an industry friend: by February 2028, will the **majority** of crypto transactions be **transmitted by AI agents**, i.e. initiated via agentic interfaces (chat, policy, or agent API) rather than by humans tapping buttons in traditional wallet UIs? I'm on the yes side. He's on the no. Stakes: one beer, to be collected in Spain.
 
-This post lays out the bet, the adoption curves I used to think it through, and what has to be true for it to resolve cleanly.
+This post lays out the bet, the adoption curve I use to think it through, and what has to be true for it to resolve cleanly.
 
 ## The bet, precisely
 
@@ -16,37 +16,17 @@ The bet is **not** about which company wins (MetaMask vs new entrants). It's abo
 
 We also need to fix: which chains, count vs volume, and the data source (e.g. Dune, or vendor/ecosystem stats) for estimating agent vs non-agent share.
 
-## Two adoption curves
+## Where this sits in the crypto+AI landscape
 
-I used two views of the same question: (1) a curve from a long-form analysis I ran in a chat (agentic interfaces across verticals, then crypto specifically), and (2) a more conservative curve that I'd stand behind as my own.
+Vitalik Buterin's 2024 post on crypto+AI intersections ("[The promise and challenges of crypto + AI applications](https://vitalik.eth.limo/general/2024/01/30/crypto_ai.html)") splits the space into four categories: **AI as a player** in on-chain games (e.g. arbitrage, MEV, prediction-market AIs), **AI as an interface** to the game (agents helping users reason and execute, with the user approving), **AI as the rules** of the game (protocols or DAOs calling into AIs for subjective decisions), and **AI as the objective** of the game (mechanisms designed to build or govern AIs). This bet is about the second category. Agentic wallets (like [the Bitcoin/Stacks MCP I built](/posts/agentic-wallets-mcp-bitcoin)) are "AI as interface": the agent is the primary way the user interacts with the chain; the user approves, the agent constructs and submits. We're not betting on "AI as player" (that's already a large share of volume) unless we define "agent-transmitted" broadly. Locking the definition is what determines whether we're measuring interface adoption only or interface plus existing player volume.
 
-### Curve from the analysis (optimistic central case)
+Vitalik's main caveat for "AI as interface" is adversarial machine learning: if the assistant is open or widely used, attackers can optimize scams and flows that bypass its safeguards. My bet doesn't assume that risk away. If we hit a majority by 2028, that same adoption makes the caveat more salient. The upside is friction drop and a larger addressable market for self-custody; the downside is that success and attack surface scale together. I'm betting the upside wins on the timeline we set.
+
+## Adoption curve
+
+I ran a long-form analysis in a chat (agentic interfaces across verticals, then crypto specifically) and got a curve that argued crypto will go agentic faster than other industries because it's already API-native, automation-friendly, and a lot of volume is already machine-driven. The main bottleneck it stressed is trust and deterministic state; without that, adoption plateaus at power users. I shade the numbers down from that run and stand behind the following as my central case.
 
 **Share of crypto interactions via agentic interfaces:**
-
-| Timeframe   | % via agentic | % via human-centric | Dominant UX model                          |
-|------------|----------------|---------------------|--------------------------------------------|
-| 2026-2027  | 20-40%         | 60-80%              | Agents as power-user layer on wallets      |
-| 2028-2030  | 50-75%         | 25-50%              | Agent-orchestrated DeFi and trading        |
-| 2031-2035  | 75-90%         | 10-25%              | Agent-first financial systems              |
-| 2035+      | 85-95%         | 5-15%               | Intent-based programmable finance          |
-
-**Probability agents dominate core crypto tasks, by year:**
-
-| Year | Probability |
-|------|-------------|
-| 2027 | ~35%        |
-| 2030 | ~65%        |
-| 2035 | ~85%        |
-| 2040 | ~90%+       |
-
-That analysis argued crypto will go agentic faster than other industries because it's already API-native, automation-friendly, and a lot of volume is already machine-driven. It also stressed that the main bottleneck is trust and deterministic state. Without that, adoption plateaus at power users.
-
-### My recommended curve (conservative central case)
-
-I'd shade the numbers down a bit and treat the first curve as an optimistic central case. My own ranges:
-
-**Share of crypto interactions via agentic interfaces (recommended):**
 
 | Timeframe   | % via agentic | % via human-centric | Dominant UX model                          |
 |------------|----------------|---------------------|--------------------------------------------|
@@ -55,7 +35,7 @@ I'd shade the numbers down a bit and treat the first curve as an optimistic cent
 | 2030-2032  | 55-75%         | 25-45%              | Agent-first in many core flows             |
 | 2033+      | 70-90%         | 10-30%              | Intent-based; UI for inspection only      |
 
-**Probability agents dominate core crypto tasks, by year (recommended):**
+**Probability agents dominate core crypto tasks, by year:**
 
 | Year | Probability | Note                          |
 |------|-------------|-------------------------------|
@@ -77,6 +57,7 @@ So by my numbers, February 2028 is right on the cusp: 40-50% is plausible, and a
 
 - **Slower adoption:** Majority of txns stay human-initiated (traditional UI, buttons, manual sign). Copilots and power-user agents grow, but don't cross 50% by the cutoff.
 - **Trust or regulatory shocks:** A high-profile agent-wallet failure or regulatory clampdown could flatten the curve; the tables above don't build in that downside.
+- **Adversarial and interface risk:** If agent interfaces get exploited at scale (e.g. optimized scams that bypass agent safeguards), trust in "AI as interface" could stall or reverse before we hit the cutoff.
 - **Strict definition:** If "transmitted by AI agents" is defined narrowly (e.g. only explicit chat/agent UI, excluding existing bots/scripts), the measured share stays lower and 50% is harder to reach.
 
 ## Why I'm taking the yes side

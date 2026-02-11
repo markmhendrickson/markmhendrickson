@@ -256,7 +256,7 @@ export default function Posts({ draft = false }: PostsProps) {
               placeholder="Search posts"
               value={searchInput}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="max-w-sm h-9 text-sm"
+              className="max-w-sm h-9 text-base md:text-sm"
               aria-label="Search posts"
             />
           </div>

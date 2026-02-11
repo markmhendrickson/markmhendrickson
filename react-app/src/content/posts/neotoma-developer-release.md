@@ -39,7 +39,7 @@ If `type-check` passes (source install), dependencies are fine.
 
 **2. Configure environment.**
 
-Create `.env` in the project root (see `env.example`). For local storage (no Supabase), set these four; the repo's env.example is Supabase-oriented, so for SQLite-only runs use:
+Create `.env` in the project root (see [env.example](https://github.com/markmhendrickson/neotoma/blob/main/env.example)). For local storage no env vars are required; the app uses defaults. To override paths, set:
 
 ```bash
 NEOTOMA_STORAGE_BACKEND=local
@@ -48,7 +48,7 @@ NEOTOMA_SQLITE_PATH=./data/neotoma.db
 NEOTOMA_RAW_STORAGE_DIR=./data/sources
 ```
 
-Check the repo docs and env.example for the current list and any defaults. Optional for all setups: `PORT=3000`, `HTTP_PORT=8080`, `ACTIONS_BEARER_TOKEN` for the API; `OPENAI_API_KEY` if you use embeddings or interpretation.
+Check the repo [getting started](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md) and [env.example](https://github.com/markmhendrickson/neotoma/blob/main/env.example) for other variables and defaults.
 
 **3. Run tests and servers.**
 
@@ -74,6 +74,8 @@ npm run setup:cli  # build and link so `neotoma` is available globally
 
 After global install or link, if `neotoma` is not found, add npm's global bin to your PATH (e.g. `export PATH="$(npm config get prefix)/bin:$PATH"`). Example commands: `neotoma entities list`, `neotoma sources list`, `neotoma timeline list --limit 10`.
 
+Full setup guide (troubleshooting, optional scripts): [docs/developer/getting_started.md](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md).
+
 ## Repo functionality in detail
 
 ### Data model: source to snapshot
@@ -98,14 +100,14 @@ Idempotency is supported via `idempotency_key`. Storing is content-addressed so 
 
 ### Entity resolution and schema registry
 
-Entity IDs are deterministic (hash-based from type and normalizable identifiers). The schema registry defines entity types and their fields. Built-in types include contact, person, company, task, invoice, transaction, receipt, note, contract, event, and others (see `docs/subsystems/schema_snapshots/` in the repo). You can register new types or new versions; user-specific schemas override global ones when configured.
+Entity IDs are deterministic (hash-based from type and normalizable identifiers). The schema registry defines entity types and their fields. Built-in types include contact, person, company, task, invoice, transaction, receipt, note, contract, event, and others (see [docs/subsystems/schema_snapshots/](https://github.com/markmhendrickson/neotoma/blob/main/docs/subsystems/schema_snapshots/) in the repo). You can register new types or new versions; user-specific schemas override global ones when configured.
 
 Unknown fields in structured input are stored in `raw_fragments`. The system can analyze these and suggest or auto-promote fields to the schema (e.g. high confidence, consistent type). Schema tools: `analyze_schema_candidates`, `get_schema_recommendations`, `update_schema_incremental`, `register_schema`.
 
 ### Correction and reinterpretation
 
-- **Correct.** When the AI mis-extracts something, you fix it with `correct`: entity ID, entity type, field name, and corrected value. That creates a high-priority observation; the reducer uses it so the snapshot reflects the correction.
-- **Reinterpret.** Run interpretation again on an existing source with new config (e.g. different model or prompt). New observations are created; existing ones stay. Useful for improving extractions without losing history.
+- **`correct`.** When the AI mis-extracts something, you fix it with `correct`: entity ID, entity type, field name, and corrected value. That creates a high-priority observation; the reducer uses it so the snapshot reflects the correction.
+- **`reinterpret`.** Run interpretation again on an existing source with new config (e.g. different model or prompt). New observations are created; existing ones stay. Useful for improving extractions without losing history.
 
 ### Retrieval and graph
 
@@ -118,7 +120,7 @@ Unknown fields in structured input are stored in `raw_fragments`. The system can
 ### File access and auth
 
 - **Files:** `retrieve_file_url` returns a URL for a source; with local storage the server uses path-based or served access.
-- **Auth:** For local dev the server uses a built-in dev stub (`neotoma auth login --dev-stub`). The repo has MCP setup docs for Cursor, Claude Code, and ChatGPT.
+- **Auth:** For local dev the server uses a built-in dev stub (`neotoma auth login --dev-stub`). The repo has [MCP setup docs](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/) for Cursor, Claude Code, and ChatGPT.
 
 ### MCP action catalog (summary)
 
@@ -133,7 +135,7 @@ The MCP server also exposes **resources** under the `neotoma://` URI scheme: ent
 
 ### API
 
-The HTTP API serves MCP over HTTP and WebSocket for clients that do not use stdio. OpenAPI spec is in the repo (`openapi.yaml`).
+The HTTP API serves MCP over HTTP and WebSocket for clients that do not use stdio. OpenAPI spec is in the repo ([openapi.yaml](https://github.com/markmhendrickson/neotoma/blob/main/openapi.yaml)).
 
 ### Testing and tooling
 
@@ -149,7 +151,7 @@ The HTTP API serves MCP over HTTP and WebSocket for clients that do not use stdi
 
 ## Current status and next steps
 
-Version is v0.3.0 (reconciliation release). Implemented: sources-first architecture, content-addressed storage, dual-path storing, observations and reducers, entity resolution, schema registry, timeline generation, MCP integration, provenance, CLI. Roadmap and release notes live in `docs/releases/` in the repo.
+Version is v0.3.0 (reconciliation release). Implemented: sources-first architecture, content-addressed storage, dual-path storing, observations and reducers, entity resolution, schema registry, timeline generation, MCP integration, provenance, CLI. Roadmap and release notes live in [docs/releases/](https://github.com/markmhendrickson/neotoma/blob/main/docs/releases/) in the repo.
 
 If you want to run it locally, clone the repo, set `NEOTOMA_STORAGE_BACKEND=local`, create a minimal `.env`, run `npm test`, then `npm run watch` or `npm run watch:server`. For MCP setup from another workspace (e.g. Cursor), see the repo's [Cursor MCP setup](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/mcp_cursor_setup.md) and [getting started](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md) docs.
 

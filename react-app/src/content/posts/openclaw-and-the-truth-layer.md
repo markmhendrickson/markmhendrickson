@@ -1,6 +1,10 @@
 ## What OpenClaw gets right
 
-OpenClaw (and the broader Claw/Clawdbot wave) is the first time a lot of people have felt like they have a real personal AI. It runs on your machine. It has persistent memory. It can read your texts, manage your calendar, browse the web, fill forms, and build skills that get better as you use it. Brandon Wang's [bull case](https://brandon.wang/2026/clawdbot) is a good read: promise extraction from texts into calendar events, price alerts with complex criteria (e.g. "pullout bed OK if not in the same room as another bed"), freezer inventory from photos into Notion, Resy booking that intersects your calendar with restaurant availability. The agent *does* things. It also *remembers* things. Context accumulates. That's the "sweet elixir of context" he talks about.
+OpenClaw (and the broader Claw/Clawdbot wave) is the first time a lot of people have felt like they have a real personal AI. It runs on your machine. It has persistent memory. It can read your texts, manage your calendar, browse the web, fill forms, and build skills that get better as you use it.
+
+Brandon Wang's [bull case](https://brandon.wang/2026/clawdbot) is a good read: promise extraction from texts into calendar events, price alerts with complex criteria (e.g. "pullout bed OK if not in the same room as another bed"), freezer inventory from photos into Notion, Resy booking that intersects your calendar with restaurant availability.
+
+The agent *does* things. It also *remembers* things. Context accumulates. That's the "sweet elixir of context" he talks about.
 
 So on the axis of "can the agent act on my behalf and learn my preferences," the answer is yes. The gap I care about is the other axis: how that memory is stored and whether it's something you can trust, replay, and fix when it goes wrong.
 

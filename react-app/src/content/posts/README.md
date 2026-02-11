@@ -4,7 +4,15 @@ This directory contains cache files and markdown files for blog posts and essays
 
 ## Source of Truth
 
-**Posts are stored in Parquet MCP storage** (`$DATA_DIR/posts/posts.parquet`). The JSON files in this directory are **generated cache files** created during the build process.
+**Website data (posts, links, timeline) is hosted in Neotoma.** Neotoma is the source of truth. The JSON files in this directory are **generated cache files** created during the build process.
+
+The website build uses only Neotoma. Export posts, links, and timeline from Neotoma MCP to a JSON file with shape `{"posts": [...], "links": [...], "timeline": [...]}`, then run the cache script. Default path: `data/tmp/neotoma_website_export.json`. If the export has only posts, merge links and timeline with `execution/scripts/build_neotoma_website_export.py --links <path> --timeline <path>` (or add them manually), then run:
+
+```bash
+python3 execution/scripts/generate_posts_cache.py --from-neotoma-json /path/to/neotoma_export.json
+```
+
+If the export file is missing, the script exits with an error (no Parquet fallback).
 
 ## Structure
 
@@ -17,19 +25,19 @@ This directory contains cache files and markdown files for blog posts and essays
 
 **Build Process:**
 1. `npm run build` triggers prebuild script
-2. Prebuild script (`generate_posts_cache.py`) syncs body from `{slug}.md`, key takeaways from `{slug}.summary.md`, and share tweet from `{slug}.tweet.md` into parquet; pulls missing summaries/tweets from parquet into `.summary.md`/`.tweet.md`
-3. Cache JSON file is generated from parquet
+2. Prebuild script (`generate_posts_cache.py`) loads from the Neotoma export JSON (default `data/tmp/neotoma_website_export.json`); pulls missing summaries/tweets from export into `.summary.md`/`.tweet.md`
+3. Cache JSON files are generated (posts, links, timeline)
 4. Vite builds the React app using cache files
 
-**When updating posts:** Always regenerate the cache after changing posts (e.g. via parquet MCP or editing markdown): `python3 execution/scripts/generate_posts_cache.py` from repo root. The site reads from the cache files, not parquet directly.
+**When updating posts:** Regenerate the cache after changing posts. From repo root: `python3 execution/scripts/generate_posts_cache.py` (uses default export path) or `python3 execution/scripts/generate_posts_cache.py --from-neotoma-json <path>`. The site reads from the cache files only.
 
 ## Share tweet (drafts)
 
-For draft posts, add `drafts/{slug}.tweet.md` with the share tweet text (e.g. for Twitter/X). Always include relevant URLs (e.g. link to the post, project links) and @ mentions (people or accounts relevant to the post). Stay under 280 characters. The cache script syncs the file to parquet (`share_tweet`). In dev, the tweet is displayed below the post on the post page. Run `python3 execution/scripts/generate_posts_cache.py` after adding or editing the file.
+For draft posts, add `drafts/{slug}.tweet.md` with the share tweet text (e.g. for Twitter/X). Always include relevant URLs (e.g. link to the post, project links) and @ mentions (people or accounts relevant to the post). Stay under 280 characters. The cache script syncs the file to Parquet when using Parquet (share_tweet). In dev, the tweet is displayed below the post on the post page. Run `python3 execution/scripts/generate_posts_cache.py` after adding or editing the file.
 
 ## X timeline embed
 
-To show an embedded X (Twitter) feed below a post, set the post’s `x_timeline_url` in parquet to a **profile URL** (e.g. `https://x.com/username`) or a **list URL**. The site renders it using X’s timeline widget (same script as single-tweet embeds). See [How to embed a timeline](https://help.x.com/en/using-x/embed-x-feed). Regenerate the cache after changing the value.
+To show an embedded X (Twitter) feed below a post, set the post’s `x_timeline_url` in Neotoma (or Parquet) to a **profile URL** (e.g. `https://x.com/username`) or a **list URL**. The site renders it using X’s timeline widget (same script as single-tweet embeds). See [How to embed a timeline](https://help.x.com/en/using-x/embed-x-feed). Regenerate the cache after changing the value.
 
 ## Hero Images
 
@@ -51,7 +59,7 @@ Hero images are optional and can be added to any post:
 - `float-right` — image floats to the right of the body text, square crop
 - (omit or leave empty) — default: full-width, square crop
 
-Example: `truth-layer-agent-memory-hero-style.txt` containing `keep-proportions`. Synced to parquet on cache generation.
+Example: `truth-layer-agent-memory-hero-style.txt` containing `keep-proportions`. Hero metadata is read from the Neotoma export (ensure export includes hero_image / hero_image_style).
 
 Supported image formats: JPG, PNG, WebP, etc. (any format supported by browsers)
 
@@ -108,7 +116,7 @@ Output: `public/images/og-default-1200x630.jpg` (from `public/profile.jpg`).
 npm run generate:og:post -- <slug>
 ```
 
-The script prefers a dedicated OG source when present: `public/images/posts/<slug>-hero-og.png` (composed for 1200×630, cover fit). Otherwise it uses the hero image (contain fit). Output: `public/images/og/<slug>-1200x630.jpg`. The cache script automatically sets `ogImage` to `og/<slug>-1200x630.jpg` when that file exists. You can also set `og_image` in parquet or add a custom image (e.g. from Figma/Canva) under `public/images/` and reference it via parquet `og_image` or the same file convention.
+The script prefers a dedicated OG source when present: `public/images/posts/<slug>-hero-og.png` (composed for 1200×630, cover fit). Otherwise it uses the hero image (contain fit). Output: `public/images/og/<slug>-1200x630.jpg`. The cache script automatically sets `ogImage` to `og/<slug>-1200x630.jpg` when that file exists. You can also set `og_image` in Neotoma/Parquet or add a custom image (e.g. from Figma/Canva) under `public/images/` and reference it via parquet `og_image` or the same file convention.
 
 **OG title:** For social previews, 50–60 characters is optimal. Shorter titles (e.g. 47 chars) can be lengthened in post metadata if desired.
 
@@ -116,37 +124,31 @@ The script prefers a dedicated OG source when present: `public/images/posts/<slu
 
 ## Adding a New Post
 
-**Important:** Posts are now stored in Parquet MCP. Use the parquet MCP `add_record` tool to add new posts.
+**Important:** Posts are stored in Neotoma (source of truth). Use Neotoma MCP `store` or `store_structured` with `entity_type: "post"` to add new posts. When Neotoma is not available, Parquet MCP can be used as fallback; then migrate to Neotoma per repo migration rules.
 
-### Method 1: Using Parquet MCP (Recommended)
+### Method 1: Using Neotoma MCP (Recommended)
 
-Use the parquet MCP `add_record` tool to add a new post directly:
+Store the post as a structured entity with `entity_type: "post"`. Include all fields (slug, title, excerpt, body, published, published_date, category, read_time, tags, hero_image, created_date, updated_date, etc.). The canonical identifier for posts in Neotoma is `slug`.
 
-```python
-# Example using ParquetMCPClient
-from parquet_client import ParquetMCPClient
+### Method 2: Using Parquet MCP (Fallback)
 
-client = ParquetMCPClient()
-client.call_tool_sync("add_record", {
-    "data_type": "posts",
-    "record": {
-        "slug": "my-new-post",
-        "title": "My New Post Title",
-        "excerpt": "Brief description of the post...",
-        "published": False,
-        "published_date": None,
-        "category": "essay",
-        "read_time": 5,
-        "tags": '["tag1", "tag2"]',  # JSON string
-        "hero_image": "my-hero-image.jpg",
-        "body": "Full markdown content here...",
-        "created_date": "2025-01-19",
-        "updated_date": "2025-01-19"
-    }
-})
-```
+Store the post in Neotoma via Neotoma MCP; then regenerate the export and run the cache script.
 
-### Method 2: Manual Workflow (Legacy)
+### Parquet to Neotoma migration (bulk completion)
+
+To migrate all website posts from Parquet to Neotoma in one go:
+
+1. **Export full records:** From repo root, run:
+   ```bash
+   python3 execution/scripts/migrate_website_parquet_to_neotoma.py --write-batches
+   ```
+   This writes deduped posts to `data/tmp/website_posts_for_neotoma_export.json` and batch files `data/tmp/website_posts_batch_N.json`. Optionally use `--output /path/to/file.json`, `--slugs slug1,slug2,...`, or `--batch-size N`.
+
+2. **Ingest into Neotoma:** Each batch file has `{"entities": [...]}` with `entity_type: "post"` set. Call Neotoma MCP `store_structured` for each batch with a unique `idempotency_key` (e.g. `website-posts-batch-1` through `website-posts-batch-20`).
+
+3. **After verification:** When all posts are in Neotoma, delete website post rows from Parquet via Parquet MCP `delete_records` (e.g. by slug or in batches) per `docs/neotoma_parquet_migration_rules.mdc`.
+
+### Method 3: Manual Workflow (Legacy)
 
 If you need to add posts manually:
 
@@ -181,8 +183,7 @@ Key takeaways for each post are editable in markdown, like the post body.
 
 - **File**: `{slug}.summary.md` next to `{slug}.md` (or in `drafts/` for drafts)
 - **Content**: Markdown (typically a bullet list) shown in the "Key takeaways" box on the post page
-- **Sync**: On build or when running `generate_posts_cache.py`, body and summary are synced from `.md` / `.summary.md` into parquet, then cache JSON is generated. If a post has a summary in parquet but no `.summary.md` file yet, the script creates one from parquet so you can edit it in md.
-- **Single post**: `python3 execution/scripts/apply_post_md_to_parquet.py <slug>` applies both `{slug}.md` and `{slug}.summary.md` to parquet and regenerates cache.
+- **Sync**: Cache is generated from the Neotoma export. If a post has a summary in the export but no `.summary.md` file yet, the cache script writes it to `.summary.md` so you can edit it in markdown.
 
 ## Post Outlines
 
@@ -193,14 +194,14 @@ Key takeaways for each post are editable in markdown, like the post body.
 
 ## Draft Posts
 
-- **Storage**: Drafts are stored in parquet with `published: false`
+- **Storage**: Drafts are stored in Neotoma with `published: false`
 - **Visibility**: Drafts are only visible when running `npm run dev` (development mode)
 - **Production**: In production builds, drafts are automatically hidden (filtered by React app)
 - **Cache**: `posts.json` excludes drafts
 
 ### Publishing a Draft
 
-To publish a draft, use the parquet MCP `update_records` tool:
+To publish a draft, use Neotoma MCP (e.g. correct or store with updated fields) or Parquet MCP `update_records`:
 
 ```python
 from parquet_client import ParquetMCPClient
@@ -221,7 +222,7 @@ Then regenerate cache files: `python3 execution/scripts/generate_posts_cache.py`
 
 ## Updating Posts
 
-To update an existing post, use the parquet MCP `update_records` tool:
+To update an existing post, use Neotoma MCP (correct/store) or Parquet MCP `update_records`:
 
 ```python
 from parquet_client import ParquetMCPClient
@@ -242,7 +243,7 @@ Then regenerate cache files: `python3 execution/scripts/generate_posts_cache.py`
 
 ## Querying Posts
 
-To query posts from parquet:
+To query posts, use Neotoma MCP first (e.g. `retrieve_entities` entity_type=post). Fallback: Parquet MCP:
 
 ```python
 from parquet_client import ParquetMCPClient
@@ -265,11 +266,11 @@ result = client.call_tool_sync("read_parquet", {
 ## Migration History
 
 - **January 2025**: Migrated posts from markdown/JSON to Parquet MCP storage
-- **Source of truth**: Changed from `posts.json` to `$DATA_DIR/posts/posts.parquet`
-- **Build process**: Automated cache generation from parquet on build
+- **Later**: Website data (posts, links, timeline) source of truth moved to Neotoma
+- **Source of truth**: Neotoma; cache is generated only from Neotoma export (`--from-neotoma-json` or default path)
 - **Scripts**:
-  - Migration: `execution/scripts/migrate_posts_to_parquet.py`
-  - Cache generation: `execution/scripts/generate_posts_cache.py`
+  - Cache generation: `execution/scripts/generate_posts_cache.py` (supports `--from-neotoma-json <path>`)
+  - Legacy migration: `execution/scripts/migrate_posts_to_parquet.py`
 
 ## Content Strategy
 
