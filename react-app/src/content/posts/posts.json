@@ -109,6 +109,7 @@
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "article",
+    "excludeFromListing": true,
     "readTime": null,
     "tags": [
       "barcelona",
@@ -173,6 +174,7 @@
     "published": true,
     "publishedDate": "2025-01-01",
     "category": "essay",
+    "excludeFromListing": true,
     "readTime": 2,
     "tags": [],
     "heroImage": "profile.jpg",
