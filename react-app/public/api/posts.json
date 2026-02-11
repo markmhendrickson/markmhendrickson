@@ -30,6 +30,7 @@
     },
     {
       "slug": "why-agent-memory-needs-more-than-rag",
+      "alternativeSlugs": ["agent-memory-rag"],
       "title": "Why agent memory needs more than RAG",
       "excerpt": "Retrieval for agent memory should be driven by structure, not similarity. Learned hierarchies beat RAG but are brittle. Schema-first design gives the same advantage without putting the LLM in the critical path.",
       "published": true,
