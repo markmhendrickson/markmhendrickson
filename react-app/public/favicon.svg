@@ -1,4 +1,9 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
   <rect width="64" height="64" fill="#000"/>
-  <text x="32" y="46" font-family="system-ui, -apple-system, sans-serif" font-size="40" font-weight="700" fill="#fff" text-anchor="middle">M</text>
+  <!-- Scale the centered M path to match the visual size of the previously committed favicon -->
+  <path
+    transform="translate(32 32) scale(0.7375 0.70625) translate(-32 -32)"
+    fill="#fff"
+    d="M12 12 L12 52 L20 52 L20 28 L28 52 L36 52 L44 28 L44 52 L52 52 L52 12 L40 12 L32 34 L24 12 Z"
+  />
 </svg>

@@ -80,7 +80,9 @@ Per Neotoma MCP instructions, to store image files in Neotoma and link them to a
    - `target_entity_id`: image/media entity id
    - Optional metadata: `caption`, `order`
 
-Access later: `retrieve_file_url` returns a URL for a stored source. The **website** currently uses the simpler approach: image files on disk in `public/images/posts/` and post fields `hero_image` (filename) and `hero_image_style` in the export; no image bytes in Neotoma for hero assets.
+Access later: `retrieve_file_url` returns a URL for a stored source (by default a `file://` URL when using local Neotoma storage).
+
+**Migration to Neotoma storage:** Run `python execution/scripts/migrate_website_images_to_neotoma.py` to generate a manifest (`data/tmp/website_hero_manifest.json`). Post slug→entity_id map (99 posts) is in `data/tmp/post_entity_ids.json`. **Done:** Six hero images are stored in Neotoma (openclaw-and-the-truth-layer, neotoma-developer-release, dhh-clankers-truth-layer, truth-layer-agent-memory, agentic-search-and-the-truth-layer) with image entities. **Limitation:** `create_relationship(EMBEDS, post_entity_id, image_entity_id)` currently fails at the Neotoma API; once supported, link posts to images using the post map. Remaining manifest entries (hero_square, hero_og, og) can be migrated the same way: `store_unstructured` (idempotency `website-{role}-{slug}`), then `store_structured` (image entity with `source_id`, `role`, `slug`, `filename`). Skip slug `404` for post linking. The website continues to serve images from static paths; Neotoma holds the canonical copy for provenance and future URL resolution.
 
 ### Hero Image Style Guide (MANDATORY)
 

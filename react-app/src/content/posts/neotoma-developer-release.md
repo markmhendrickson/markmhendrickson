@@ -20,13 +20,29 @@ Those enable an immutable audit trail, time-travel queries, entity resolution ac
 
 ## Getting started in a local environment
 
-Prerequisites: Node.js v18.x or v20.x (LTS), npm v9+, and Git.
+Prerequisites: Node.js v18.x or v20.x (LTS), npm v9+, and Git (only for development from source).
 
 **1. Install.**
 
-Preferred: install the package. Run `npm install neotoma` (or `npm install -g neotoma` for the global CLI). Then configure `.env` and run as below.
+**From npm (recommended):** Install globally, then initialize. Init creates data directories, SQLite database, and optional config.
 
-Or from source:
+```bash
+npm install -g neotoma
+neotoma init
+# Or with encryption: neotoma init --generate-keys
+```
+
+Then start the API and configure MCP for your AI tool:
+
+```bash
+neotoma api start
+neotoma mcp config
+neotoma api status   # check status
+```
+
+Data defaults to `~/neotoma/data/` (or `--data-dir` when you run `neotoma init`). Config: `~/.config/neotoma/config.json`.
+
+**Or from source (for development):**
 
 ```bash
 git clone https://github.com/markmhendrickson/neotoma.git
@@ -35,11 +51,11 @@ npm install
 npm run type-check
 ```
 
-If `type-check` passes (source install), dependencies are fine.
+If `type-check` passes, dependencies are fine. When developing from a clone, data defaults to `./data/` in the project directory.
 
-**2. Configure environment.**
+**2. Configure environment (from source only).**
 
-Create `.env` in the project root (see [env.example](https://github.com/markmhendrickson/neotoma/blob/main/env.example)). For local storage no env vars are required; the app uses defaults. To override paths, set:
+When using a clone, create `.env` in the project root (see [env.example](https://github.com/markmhendrickson/neotoma/blob/main/env.example)). For local storage no env vars are required; the app uses defaults. To override paths, set:
 
 ```bash
 NEOTOMA_STORAGE_BACKEND=local
@@ -50,7 +66,7 @@ NEOTOMA_RAW_STORAGE_DIR=./data/sources
 
 Check the repo [getting started](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md) and [env.example](https://github.com/markmhendrickson/neotoma/blob/main/env.example) for other variables and defaults.
 
-**3. Run tests and servers.**
+**3. Run tests and servers (from source).**
 
 ```bash
 npm test
@@ -64,7 +80,7 @@ Then start what you need:
 
 Development uses port 8080 by default.
 
-**4. CLI (optional).**
+**4. CLI (optional, from source).**
 
 ```bash
 npm run cli        # run without global install
@@ -153,6 +169,6 @@ The HTTP API serves MCP over HTTP and WebSocket for clients that do not use stdi
 
 Version is v0.3.0 (reconciliation release). Implemented: sources-first architecture, content-addressed storage, dual-path storing, observations and reducers, entity resolution, schema registry, timeline generation, MCP integration, provenance, CLI. Roadmap and release notes live in [docs/releases/](https://github.com/markmhendrickson/neotoma/blob/main/docs/releases/) in the repo.
 
-If you want to run it locally, clone the repo, set `NEOTOMA_STORAGE_BACKEND=local`, create a minimal `.env`, run `npm test`, then `npm run watch` or `npm run watch:server`. For MCP setup from another workspace (e.g. Cursor), see the repo's [Cursor MCP setup](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/mcp_cursor_setup.md) and [getting started](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md) docs.
+To run locally: use `npm install -g neotoma`, `neotoma init`, then `neotoma api start` and `neotoma mcp config`; or clone the repo, run `npm test`, then `npm run watch` or `npm run watch:server`. For MCP setup from another workspace (e.g. Cursor), see the repo's [Cursor MCP setup](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/mcp_cursor_setup.md) and [getting started](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md) docs.
 
 Repo: [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma).

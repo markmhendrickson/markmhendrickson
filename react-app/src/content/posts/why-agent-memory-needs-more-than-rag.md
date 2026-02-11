@@ -1,16 +1,18 @@
-[RAG (retrieval-augmented generation)](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) augments an LLM by retrieving relevant passages from an external corpus, often via embeddings and similarity search, then feeding them as context so the model can answer from up-to-date or domain-specific data. It works well for document search. For agent memory, it falls apart.
+[RAG (retrieval-augmented generation)](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) augments an LLM by retrieving relevant passages from an external corpus, often via embeddings and similarity search, then feeding them as context so the model can answer from up-to-date or domain-specific data.
+
+It works well for document search. For agent memory, it falls apart.
 
 A new paper, "Beyond RAG for Agent Memory: Retrieval by Decoupling and Aggregation" (Hu et al., Feb 2026; [see paper](https://arxiv.org/abs/2602.02007)), from King's College London and the Alan Turing Institute, explains why and points to a better approach.
 
 ## Why RAG falls short for agent memory
 
-Standard RAG assumes a large, mixed corpus: embed text, retrieve [top-k](https://en.wikipedia.org/wiki/Nearest_neighbor_search) by similarity, concatenate as context. Agent memory is the opposite: a bounded, coherent stream where the same fact appears in many phrasings. Applying RAG here creates three problems.
+Standard RAG assumes a large, mixed corpus: embed text, retrieve [top-k](https://en.wikipedia.org/wiki/Nearest_neighbor_search) by similarity, concatenate as context.
 
-**Redundant top-k.** You ask "When did I last see the dentist?" In a document corpus, top-k might return a few relevant paragraphs from different sources. In agent memory, many chunks say almost the same thing ("Scheduled dentist March 15," "Dentist appointment March 15," "Booked dentist for March 15"). Top-k fills with repetition. The paper calls this "collapse into a single dense region." Similarity fails to separate what is *needed* from what is merely *similar*.
+Agent memory is the opposite: a bounded, coherent stream where the same fact appears in many phrasings. Applying RAG here creates three problems:
 
-**Pruning breaks evidence chains.** You ask "Did we resolve the invoice dispute?" The answer depends on a chain: "Invoice #123 was disputed," then "We agreed to a partial refund," then "Paid the agreed amount." Post-hoc pruning might keep "Paid invoice #123" and drop the earlier turns. The model then answers "Yes, resolved" without knowing there was a dispute. Pruning fragments temporally linked evidence and produces wrong answers.
-
-**Similarity ignores structure.** You ask "What's the status of the Barcelona trip?" You need the project, the task (e.g. book flights), and the outcome. Similarity returns chunks that mention "Barcelona" or "trip": maybe a random mention, a past trip, a task from a different project. You needed a structural path (this project, these tasks, these outcomes). Similarity doesn't encode that. Structure does.
+1. **Redundant top-k.** You ask "When did I last see the dentist?" In a document corpus, top-k might return a few relevant paragraphs from different sources. In agent memory, many chunks say almost the same thing ("Scheduled dentist March 15," "Dentist appointment March 15," "Booked dentist for March 15"). Top-k fills with repetition. The paper calls this "collapse into a single dense region." Similarity fails to separate what is *needed* from what is merely *similar*.
+2. **Pruning breaks evidence chains.** You ask "Did we resolve the invoice dispute?" The answer depends on a chain: "Invoice #123 was disputed," then "We agreed to a partial refund," then "Paid the agreed amount." Post-hoc pruning might keep "Paid invoice #123" and drop the earlier turns. The model then answers "Yes, resolved" without knowing there was a dispute. Pruning fragments temporally linked evidence and produces wrong answers.
+3. **Similarity ignores structure.** You ask "What's the status of the Barcelona trip?" You need the project, the task (e.g. book flights), and the outcome. Similarity returns chunks that mention "Barcelona" or "trip": maybe a random mention, a past trip, a task from a different project. You needed a structural path (this project, these tasks, these outcomes). Similarity doesn't encode that. Structure does.
 
 ## Structure over similarity
 

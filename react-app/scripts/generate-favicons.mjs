@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Generate favicons from favicon.svg (black block with M) to 16, 32, 48 PNG.
- * Output: public/favicon-16.png, public/favicon-32.png, public/favicon-48.png
+ * Generate favicons from favicon.svg (black block with M).
+ * Sizes: 16, 32, 48 (small), 96, 128, 180 (Apple touch), 192, 512 (PWA/large).
+ * Output: public/favicon-{size}.png
  * Run: node scripts/generate-favicons.mjs
  */
 import sharp from 'sharp'
@@ -13,7 +14,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
 const svgPath = join(root, 'public', 'favicon.svg')
 
-for (const size of [16, 32, 48]) {
+const sizes = [16, 32, 48, 96, 128, 180, 192, 512]
+for (const size of sizes) {
   const outPath = join(root, 'public', `favicon-${size}.png`)
   const buffer = await sharp(svgPath)
     .resize(size, size)
