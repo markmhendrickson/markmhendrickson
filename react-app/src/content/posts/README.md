@@ -63,6 +63,25 @@ Example: `truth-layer-agent-memory-hero-style.txt` containing `keep-proportions`
 
 Supported image formats: JPG, PNG, WebP, etc. (any format supported by browsers)
 
+### Storing images in Neotoma (MCP)
+
+Per Neotoma MCP instructions, to store image files in Neotoma and link them to a post:
+
+1. **Store the file** via `store` (unstructured):
+   - Provide **either** `file_content` (base64-encoded) + `mime_type` (e.g. `image/png`, `image/jpeg`) **or** `file_path` (local path when the MCP server has filesystem access).
+   - Do not interpret or extract data from the file; pass it as-is. The server stores the source (content-addressed, SHA-256 dedup) and can run interpretation if `interpret: true`.
+   - Use a unique `idempotency_key` (e.g. `hero-{slug}`). Response includes the created source (e.g. `source_id`).
+
+2. **Create an image/media entity** that references that source (e.g. entity with `source_id` or equivalent linking to the stored file). Use `store` with `entities: [{ "entity_type": "image" or "media", ... }]` per Neotoma schema.
+
+3. **Link to the post** via `create_relationship`:
+   - `relationship_type`: `EMBEDS`
+   - `source_entity_id`: post (container) entity id
+   - `target_entity_id`: image/media entity id
+   - Optional metadata: `caption`, `order`
+
+Access later: `retrieve_file_url` returns a URL for a stored source. The **website** currently uses the simpler approach: image files on disk in `public/images/posts/` and post fields `hero_image` (filename) and `hero_image_style` in the export; no image bytes in Neotoma for hero assets.
+
 ### Hero Image Style Guide (MANDATORY)
 
 **MANDATORY:** All hero images for blog posts MUST follow this style. Reference: `truth-layer-agent-memory-hero.png`, `agentic-search-and-the-truth-layer-hero.png`.

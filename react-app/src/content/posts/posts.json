@@ -74,7 +74,7 @@
   },
   {
     "slug": "agentic-search-and-the-truth-layer",
-    "title": "Agentic retrieval infers. It doesn't guarantee",
+    "title": "Agentic retrieval infers. It doesn't guarantee.",
     "excerpt": "Your AI finds things. It also misses things, overwrites them, and often can't say where an answer came from. Why that happens and what would fix it.",
     "published": true,
     "publishedDate": "2026-02-04",
@@ -122,7 +122,7 @@
   },
   {
     "slug": "openclaw-and-the-truth-layer",
-    "title": "OpenClaw is powerful at doing but could use some help remembering",
+    "title": "OpenClaw is powerful at doing but could use some help remembering.",
     "excerpt": "OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.",
     "published": true,
     "publishedDate": "2026-02-04",
