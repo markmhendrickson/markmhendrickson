@@ -94,6 +94,14 @@
   .post-prose .footnotes p {
     @apply text-[13px] leading-[1.65] mb-2 text-[#666];
   }
+
+  /* Postscript: smaller, gray text (overrides .post-prose p when both apply) */
+  .postscript-prose p {
+    @apply text-sm leading-relaxed mb-4 text-[#666];
+  }
+  .postscript-prose strong {
+    @apply font-normal text-[#666];
+  }
   .post-prose .footnotes ol {
     @apply list-decimal list-outside ml-5 space-y-2;
   }

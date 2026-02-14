@@ -20,6 +20,7 @@ If the export file is missing, the script exits with an error (no Parquet fallba
 - `*.md` - Markdown files for post body (source of truth for content; synced to parquet on build)
 - `*.summary.md` - Key takeaways for each post (source of truth when present; synced to parquet on build)
 - `*.tweet.md` - Share tweet for each post (draft tweets in `drafts/{slug}.tweet.md`; synced to parquet as `share_tweet`; shown in dev below post)
+- `*.postscript.md` - Optional postscript (e.g. notes on how the post came to be). Rendered after the body when present; editable like body/summary. Drafts: `drafts/{slug}.postscript.md`.
 - `drafts/` - Directory for draft posts (gitignored, not committed to version control)
 - `drafts/outlines/` - Directory for post outlines (gitignored, private planning documents)
 
@@ -191,7 +192,7 @@ If you need to add posts manually:
 - `tags`: JSON string array (e.g., `'["tag1", "tag2"]'`)
 - `hero_image`: (Optional) Filename of hero image stored in `/public/images/posts/`
 - `hero_image_style`: (Optional) CSS style for hero image
-- `exclude_from_listing`: (Optional) Exclude from posts listing
+- `exclude_from_listing`: (Optional) Exclude from posts listing. Can be set in Neotoma or via **listing_overrides.json** (see below).
 - `show_metadata`: (Optional) Show metadata on post page
 - `body`: Full markdown content (synced from `{slug}.md`)
 - `summary`: Key takeaways, markdown (synced from `{slug}.summary.md` when file exists)
@@ -219,6 +220,18 @@ Key takeaways for each post are editable in markdown, like the post body.
 - **Visibility**: Drafts are only visible when running `npm run dev` (development mode)
 - **Production**: In production builds, drafts are automatically hidden (filtered by React app)
 - **Cache**: `posts.json` excludes drafts
+
+## Listing overrides
+
+To hide specific published posts from the index (e.g. the Barcelona guest floor page or the professional mission essay) without unpublishing them, use **listing_overrides.json** in this directory:
+
+```json
+{
+  "exclude_from_listing": ["barcelona-guest-floor", "professional-mission"]
+}
+```
+
+The cache script applies these slugs when generating `posts.json`, so they stay excluded after re-running `generate_posts_cache.py`. Add or remove slugs as needed.
 
 ### Publishing a Draft
 

@@ -87,6 +87,7 @@ export function Layout({ children }: LayoutProps) {
         <Helmet>
           <title>{defaultTitle}</title>
           <meta name="description" content={defaultDescription} />
+          <meta name="author" content="Mark Hendrickson" />
           <link rel="canonical" href={defaultUrl} />
           <link rel="alternate" type="application/rss+xml" title={`${defaultTitle} RSS`} href="https://markmhendrickson.com/rss.xml" />
           <meta property="og:type" content="website" />

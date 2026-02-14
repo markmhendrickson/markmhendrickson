@@ -1,0 +1,5 @@
+- Using AI to prototype and ship code as a non-"engineer" GM felt like a transgression in 2025, but that mode of work is now industry standard.
+- Delegating low-level execution to AI frees you to work at a higher level: design, strategy, direction, and philosophy.
+- The same cultural anxiety about authenticity is playing out for AI-assisted writing as it did for coding.
+- The human contribution is meaning, values, judgment, and direction, not typing every word.
+- Embracing the centaur model (half human, half AI) with intention beats doing it reluctantly or apologetically.

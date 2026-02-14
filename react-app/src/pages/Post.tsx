@@ -133,15 +133,15 @@ const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
 
 /** In dev, load private cache so draft posts can be viewed by slug.
- * Merge in any draft from posts.json that is not already in the private list (e.g. new drafts not yet in parquet/cache). */
+ * Merge in any post from posts.json that is not already in the private list (e.g. new or file-only posts not yet in Neotoma export). */
 async function loadPostsDataForSlug(includeDrafts: boolean): Promise<Post[]> {
   if (!includeDrafts || import.meta.env.PROD) return publicPostsData as Post[]
   try {
     const privateData = await import('@/content/posts/posts.private.json')
     const privateList = (privateData.default ?? privateData) as Post[]
     const privateSlugs = new Set(privateList.map((p) => p.slug).filter(Boolean))
-    const publicDrafts = (publicPostsData as Post[]).filter((p) => !p.published && p.slug && !privateSlugs.has(p.slug))
-    return [...privateList, ...publicDrafts]
+    const fromPublicOnly = (publicPostsData as Post[]).filter((p) => p.slug && !privateSlugs.has(p.slug))
+    return [...privateList, ...fromPublicOnly]
   } catch {
     return publicPostsData as Post[]
   }
@@ -535,6 +535,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const [post, setPost] = useState<Post | null>(ssrPost ?? null)
   const [content, setContent] = useState(ssrPost?.body ?? '')
   const [summaryContent, setSummaryContent] = useState<string | undefined>(undefined)
+  const [postscriptContent, setPostscriptContent] = useState<string | undefined>(undefined)
   const [tweetContent, setTweetContent] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(!ssrPost)
   const [animationPhase, setAnimationPhase] = useState<'title' | 'excerpt' | 'heroImage' | 'content' | 'complete' | null>(null)
@@ -760,6 +761,25 @@ export default function Post({ slug: slugProp }: PostProps) {
           }
         }
 
+        const tryLoadPostscriptMarkdown = async (): Promise<string | null> => {
+          const loadSlug = canonicalSlug ?? slug
+          try {
+            let mod: { default: string }
+            if (!postMeta.published && isDev) {
+              try {
+                mod = await import(`@/content/posts/drafts/${loadSlug}.postscript.md?raw`) as { default: string }
+              } catch {
+                mod = await import(`@/content/posts/${loadSlug}.postscript.md?raw`) as { default: string }
+              }
+            } else {
+              mod = await import(`@/content/posts/${loadSlug}.postscript.md?raw`) as { default: string }
+            }
+            return mod.default?.trim() ?? null
+          } catch {
+            return null
+          }
+        }
+
         if (isDev) {
           // Dev preview: markdown takes priority over parquet content
           content = await tryLoadMarkdown()
@@ -768,6 +788,8 @@ export default function Post({ slug: slugProp }: PostProps) {
           }
           const summaryFromMd = await tryLoadSummaryMarkdown()
           setSummaryContent(summaryFromMd ?? undefined)
+          const postscriptFromMd = await tryLoadPostscriptMarkdown()
+          setPostscriptContent(postscriptFromMd ?? undefined)
           if (!postMeta.published) {
             const tweetFromCache = (postMeta as Post).shareTweet?.trim()
             const tweetFromMd = await tryLoadTweetMarkdown()
@@ -777,6 +799,8 @@ export default function Post({ slug: slugProp }: PostProps) {
           }
         } else {
           setSummaryContent(undefined)
+          const postscriptFromMd = await tryLoadPostscriptMarkdown()
+          setPostscriptContent(postscriptFromMd ?? undefined)
           setTweetContent(undefined)
           // Production: parquet cache takes priority
           if (postMeta.body) {
@@ -868,6 +892,7 @@ export default function Post({ slug: slugProp }: PostProps) {
       <Helmet>
         <title>{!post.title ? (isTweetPost ? 'X Post — Mark Hendrickson' : 'Mark Hendrickson') : (post.title === 'Mark Hendrickson' ? post.title : `${post.title} — Mark Hendrickson`)}</title>
         <meta name="description" content={desc} />
+        <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.title || (isTweetPost ? 'X Post' : '')} />
@@ -917,7 +942,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           })}
         </script>
       </Helmet>
-    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
+    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8 overflow-x-hidden">
       <div className="max-w-[600px] w-full">
         {isHome && latestPost && (
           <Link
@@ -988,7 +1013,13 @@ export default function Post({ slug: slugProp }: PostProps) {
           })()}
 
           {post.heroImage && !isTweetPost && post.heroImageStyle !== 'float-right' && (
-            <div className="mb-8 md:-mx-8">
+            <div
+              className={
+                post.heroImageStyle === 'keep-proportions'
+                  ? 'mb-8 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-none'
+                  : 'mb-8 md:-mx-8'
+              }
+            >
               <img
                 src={getPostImageSrc(post.heroImage)}
                 alt={post.title}
@@ -1103,6 +1134,12 @@ export default function Post({ slug: slugProp }: PostProps) {
               );
             })()}
           </div>
+
+          {postscriptContent && (
+            <div className="post-prose postscript-prose prose prose-sm max-w-none mt-12 pt-8 border-t border-[#e0e0e0]">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{postscriptContent}</ReactMarkdown>
+            </div>
+          )}
 
           {isTweetPost && post.tweetMetadata?.images && post.tweetMetadata.images.length > 0 && (
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">

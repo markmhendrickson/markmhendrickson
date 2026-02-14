@@ -83,6 +83,7 @@ export default function SocialMedia() {
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDesc} />
+        <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />

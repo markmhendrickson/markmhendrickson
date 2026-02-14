@@ -33,7 +33,7 @@ interface PostsProps {
 }
 
 /** In dev, load private cache (includes drafts) so we can show "View drafts" and /posts/draft.
- * Merge in any draft from posts.json that is not already in the private list (e.g. new drafts not yet in parquet/cache). */
+ * Merge in any post from posts.json that is not already in the private list (e.g. new or file-only posts not yet in Neotoma export). */
 async function loadPostsData(includeDrafts: boolean): Promise<Post[]> {
   if (!includeDrafts) return publicPostsData as Post[]
   if (import.meta.env.PROD) return publicPostsData as Post[]
@@ -41,8 +41,8 @@ async function loadPostsData(includeDrafts: boolean): Promise<Post[]> {
     const privateData = await import('@/content/posts/posts.private.json')
     const privateList = (privateData.default ?? privateData) as Post[]
     const privateSlugs = new Set(privateList.map((p) => p.slug).filter(Boolean))
-    const publicDrafts = (publicPostsData as Post[]).filter((p) => !p.published && p.slug && !privateSlugs.has(p.slug))
-    return [...privateList, ...publicDrafts]
+    const fromPublicOnly = (publicPostsData as Post[]).filter((p) => p.slug && !privateSlugs.has(p.slug))
+    return [...privateList, ...fromPublicOnly]
   } catch {
     return publicPostsData as Post[]
   }
@@ -203,6 +203,7 @@ export default function Posts({ draft = false }: PostsProps) {
       <Helmet>
         <title>{pageTitle} — Mark Hendrickson</title>
         <meta name="description" content={pageDesc} />
+        <meta name="author" content="Mark Hendrickson" />
         <meta property="og:title" content={`${pageTitle} — Mark Hendrickson`} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content="https://markmhendrickson.com/posts" />
