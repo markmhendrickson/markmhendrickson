@@ -1,5 +1,28 @@
 [
   {
+    "slug": "we-are-all-centaurs-now",
+    "title": "We're all centaurs now",
+    "excerpt": "We're all centaurs now. The humanness isn't in typing every word. It's in deciding what's worth saying.",
+    "published": true,
+    "publishedDate": "2026-02-14",
+    "category": "essay",
+    "readTime": 6,
+    "tags": [
+      "ai",
+      "writing",
+      "centaurs",
+      "build-in-public"
+    ],
+    "heroImage": "we-are-all-centaurs-now-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "we-are-all-centaurs-now-hero-square.png",
+    "showMetadata": null,
+    "createdDate": "2026-02-14",
+    "updatedDate": "2026-02-14",
+    "summary": "- Using AI to prototype and ship code as a non-\"engineer\" GM felt like a transgression in 2025, but that mode of work is now industry standard.\n- Delegating low-level execution to AI frees you to work at a higher level: design, strategy, direction, and philosophy.\n- The same cultural anxiety about authenticity is playing out for AI-assisted writing as it did for coding.\n- The human contribution is meaning, values, judgment, and direction, not typing every word.\n- Embracing the centaur model (half human, half AI) with intention beats doing it reluctantly or apologetically.",
+    "ogImage": "og/we-are-all-centaurs-now-1200x630.jpg"
+  },
+  {
     "slug": "agentic-wallets-mcp-bitcoin",
     "title": "A Bitcoin wallet MCP server for L1 and L2",
     "excerpt": "The future of crypto wallets is agentic. Wallets that expose execution surfaces let agents monitor, reason, and execute within policy while you keep sovereignty and approve only what exceeds your limits.",
