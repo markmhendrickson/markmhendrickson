@@ -16,7 +16,6 @@
     "heroImage": "we-are-all-centaurs-now-hero.png",
     "heroImageStyle": "keep-proportions",
     "heroImageSquare": "we-are-all-centaurs-now-hero-square.png",
-    "showMetadata": null,
     "createdDate": "2026-02-14",
     "updatedDate": "2026-02-14",
     "summary": "- Using AI to prototype and ship code as a non-\"engineer\" GM felt like a transgression in 2025, but that mode of work is now industry standard.\n- Delegating low-level execution to AI frees you to work at a higher level: design, strategy, direction, and philosophy.\n- The same cultural anxiety about authenticity is playing out for AI-assisted writing as it did for coding.\n- The human contribution is meaning, values, judgment, and direction, not typing every word.\n- Embracing the centaur model (half human, half AI) with intention beats doing it reluctantly or apologetically.",
@@ -29,7 +28,7 @@
     "published": true,
     "publishedDate": "2026-02-09",
     "category": "technical",
-    "readTime": null,
+    "readTime": 6,
     "tags": [
       "agentic-wallets",
       "mcp",
@@ -40,7 +39,6 @@
     "heroImage": "agentic-wallets-mcp-bitcoin-hero.png",
     "heroImageStyle": "keep-proportions",
     "heroImageSquare": "agentic-wallets-mcp-bitcoin-hero-square.png",
-    "showMetadata": null,
     "createdDate": "2026-02-07",
     "updatedDate": "2026-02-09",
     "summary": "- I built an experimental MCP server with 93 tools for Bitcoin L1 and Stacks L2, one mnemonic for both.\n- Same two chains as human wallets, but agent-callable: less friction for people who want to hold their own keys without the full cognitive load.\n- L1 covers core Bitcoin, Ordinals and inscriptions, tx management, and Ledger; L2 covers STX, Clarity, swaps, sBTC bridge, stacking, BNS, market data, mempool monitoring, block explorer, contract events, token metadata, network stats, and enriched stacking cycle progress.\n- Destructive actions default to dry run; no keys or mnemonics are ever returned; preview and env limits keep execution policy-gated.\n- The wallet MCP is an execution adapter in my three-layer stack; I define strategy, agents execute, I approve when actions exceed my limits.",
@@ -53,7 +51,7 @@
     "published": true,
     "publishedDate": "2026-02-06",
     "category": "Technical",
-    "readTime": null,
+    "readTime": 5,
     "tags": [
       "neotoma",
       "agent-memory",
@@ -64,7 +62,6 @@
     "heroImage": "why-agent-memory-needs-more-than-rag-hero.png",
     "heroImageStyle": "keep-proportions",
     "heroImageSquare": "why-agent-memory-needs-more-than-rag-hero-square.png",
-    "showMetadata": null,
     "createdDate": "2026-02-05",
     "updatedDate": "2026-02-06",
     "ogImage": "og/why-agent-memory-needs-more-than-rag-1200x630.jpg",
@@ -87,7 +84,6 @@
     "heroImage": "building-structural-barriers-hero.png",
     "heroImageStyle": "keep-proportions",
     "heroImageSquare": "building-structural-barriers-hero-square.png",
-    "showMetadata": null,
     "createdDate": "2026-02-05",
     "updatedDate": "2026-02-10",
     "summary": "- Incumbents face structural constraints that prevent them from copying certain architectures, even if they have more resources.\n- Effective barriers arise from incentive misalignment, architectural constraints, business model conflicts, distribution mismatch, and timing windows.\n- Neotoma demonstrates these principles: privacy-first architecture directly conflicts with incumbent revenue models, deterministic workflows require complete rewrites, and cross-platform support undermines lock-in strategies.\n- The goal is not to outrun replication through speed or secrecy, but to construct systems whose value compounds through principles incumbents are structurally disincentivized to pursue.\n- When evaluating defensibility, ask: would copying hurt their existing revenue, require non-incremental architectural changes, or demand a different customer relationship they can't serve?",
@@ -100,7 +96,7 @@
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "essay",
-    "readTime": null,
+    "readTime": 5,
     "tags": [
       "neotoma",
       "agentic-search",
@@ -110,7 +106,6 @@
     "heroImage": "agentic-search-and-the-truth-layer-hero.png",
     "heroImageStyle": "keep-proportions",
     "heroImageSquare": "agentic-search-and-the-truth-layer-hero-square.png",
-    "showMetadata": null,
     "createdDate": "2026-02-04",
     "updatedDate": "2026-02-09",
     "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes.",
@@ -123,7 +118,7 @@
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "article",
-    "readTime": null,
+    "readTime": 4,
     "tags": [
       "barcelona",
       "rental",
@@ -132,7 +127,6 @@
     ],
     "heroImage": "barcelona-guest-floor-hero.jpg",
     "heroImageStyle": "keep-proportions",
-    "showMetadata": null,
     "createdDate": "2026-02-04",
     "updatedDate": "2026-02-04",
     "excludeFromListing": true
@@ -144,11 +138,10 @@
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "essay",
-    "readTime": null,
+    "readTime": 5,
     "tags": [],
     "heroImage": "openclaw-and-the-truth-layer-hero.png",
     "heroImageStyle": "keep-proportions",
-    "showMetadata": null,
     "createdDate": "2026-02-04",
     "updatedDate": "2026-02-09",
     "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg",
@@ -161,7 +154,7 @@
     "published": true,
     "publishedDate": "2026-02-02",
     "category": "essay",
-    "readTime": null,
+    "readTime": 6,
     "tags": [
       "neotoma",
       "agent-memory",
@@ -171,7 +164,6 @@
     "heroImage": "truth-layer-agent-memory-hero.png",
     "heroImageStyle": "keep-proportions",
     "heroImageSquare": "truth-layer-agent-memory-hero-square.png",
-    "showMetadata": null,
     "createdDate": "2026-02-02",
     "updatedDate": "2026-02-04",
     "summary": "- What keeps breaking AI-based automation is trust, not intelligence. Memory changes implicitly, context drifts, and you can't see what changed or replay it.\n- When agents act, personal data becomes state. The missing primitive is explicit, inspectable, replayable personal state. Other domains have it (DBs, event logs, ledgers). Personal data didn't need it until agents.\n- Doing it right adds friction: named operations, visible inputs, reconstructable history. Convenience-first and agent-safe pull in opposite directions.\n- Neotoma is the \"truth\" layer I'm building. Contract-first, deterministic (same input, same output), immutable queryable state, one graph for documents and agent-written data.\n- The agentic web is emerging. We need user-controlled, inspectable memory, not opaque platforms. I'm building Neotoma as that substrate.\n- MCP and CLI-first, local-first, explicit ingestion only. Cross-platform and privacy-first. Not a note-taking app, provider memory, or vector store. Not reliable yet.\n- Developer preview next. I'm dogfooding it in my own agentic operating system.",
@@ -188,10 +180,10 @@
     "tags": [],
     "heroImage": "profile.jpg",
     "heroImageStyle": "float-right",
-    "showMetadata": null,
+    "excludeFromListing": true,
+    "showMetadata": 0,
     "createdDate": "2026-01-19",
-    "updatedDate": "2026-01-19",
-    "excludeFromListing": true
+    "updatedDate": "2026-01-19"
   },
   {
     "slug": "the-flip-side",
@@ -202,7 +194,8 @@
     "category": "essay",
     "readTime": 1,
     "tags": [],
-    "showMetadata": null,
+    "excludeFromListing": 1,
+    "showMetadata": 0,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -215,7 +208,7 @@
     "category": "essay",
     "readTime": 1,
     "tags": [],
-    "showMetadata": null,
+    "showMetadata": 1,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -226,9 +219,8 @@
     "published": true,
     "publishedDate": "2018-03-20",
     "category": "technical",
-    "readTime": null,
+    "readTime": 2,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -239,9 +231,8 @@
     "published": true,
     "publishedDate": "2018-02-28",
     "category": "technical",
-    "readTime": null,
+    "readTime": 8,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -254,7 +245,7 @@
     "category": "essay",
     "readTime": 1,
     "tags": [],
-    "showMetadata": null,
+    "showMetadata": 1,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -267,7 +258,7 @@
     "category": "technical",
     "readTime": 1,
     "tags": [],
-    "showMetadata": null,
+    "showMetadata": 1,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -280,7 +271,7 @@
     "category": "essay",
     "readTime": 1,
     "tags": [],
-    "showMetadata": null,
+    "showMetadata": 1,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -293,7 +284,7 @@
     "category": "technical",
     "readTime": 2,
     "tags": [],
-    "showMetadata": null,
+    "showMetadata": 1,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -306,7 +297,7 @@
     "category": "technical",
     "readTime": 2,
     "tags": [],
-    "showMetadata": null,
+    "showMetadata": 1,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -319,7 +310,6 @@
     "category": "technical",
     "readTime": 6,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -332,7 +322,6 @@
     "category": "technical",
     "readTime": 3,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -345,7 +334,6 @@
     "category": "essay",
     "readTime": 1,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -358,7 +346,6 @@
     "category": "article",
     "readTime": 29,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -369,9 +356,8 @@
     "published": true,
     "publishedDate": "2014-01-30",
     "category": "technical",
-    "readTime": null,
+    "readTime": 6,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -382,9 +368,8 @@
     "published": true,
     "publishedDate": "2013-12-06",
     "category": "essay",
-    "readTime": null,
+    "readTime": 6,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -395,9 +380,8 @@
     "published": true,
     "publishedDate": "2012-12-11",
     "category": "technical",
-    "readTime": null,
+    "readTime": 6,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -408,9 +392,8 @@
     "published": true,
     "publishedDate": "2012-12-05",
     "category": "essay",
-    "readTime": null,
+    "readTime": 6,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -421,9 +404,8 @@
     "published": true,
     "publishedDate": "2012-11-29",
     "category": "technical",
-    "readTime": null,
+    "readTime": 6,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -436,7 +418,6 @@
     "category": "technical",
     "readTime": 4,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -449,7 +430,6 @@
     "category": "technical",
     "readTime": 3,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -462,7 +442,6 @@
     "category": "technical",
     "readTime": 13,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -475,7 +454,6 @@
     "category": "technical",
     "readTime": 4,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -488,7 +466,6 @@
     "category": "technical",
     "readTime": 10,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -499,9 +476,8 @@
     "published": true,
     "publishedDate": "2011-07-07",
     "category": "technical",
-    "readTime": null,
+    "readTime": 5,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -512,9 +488,8 @@
     "published": true,
     "publishedDate": "2011-06-04",
     "category": "technical",
-    "readTime": null,
+    "readTime": 5,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -525,9 +500,8 @@
     "published": true,
     "publishedDate": "2011-05-02",
     "category": "essay",
-    "readTime": null,
+    "readTime": 5,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -538,9 +512,8 @@
     "published": true,
     "publishedDate": "2010-09-26",
     "category": "technical",
-    "readTime": null,
+    "readTime": 5,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -551,9 +524,8 @@
     "published": true,
     "publishedDate": "2010-01-18",
     "category": "essay",
-    "readTime": null,
+    "readTime": 5,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -564,9 +536,8 @@
     "published": true,
     "publishedDate": "2009-11-15",
     "category": "technical",
-    "readTime": null,
+    "readTime": 2,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -577,9 +548,8 @@
     "published": true,
     "publishedDate": "2009-07-31",
     "category": "technical",
-    "readTime": null,
+    "readTime": 2,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -590,9 +560,8 @@
     "published": true,
     "publishedDate": "2009-06-21",
     "category": "technical",
-    "readTime": null,
+    "readTime": 2,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -603,9 +572,8 @@
     "published": true,
     "publishedDate": "2009-05-19",
     "category": "technical",
-    "readTime": null,
+    "readTime": 2,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -616,9 +584,8 @@
     "published": true,
     "publishedDate": "2009-05-18",
     "category": "article",
-    "readTime": null,
+    "readTime": 2,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -629,9 +596,8 @@
     "published": true,
     "publishedDate": "2009-03-30",
     "category": "technical",
-    "readTime": null,
+    "readTime": 4,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -642,9 +608,8 @@
     "published": true,
     "publishedDate": "2009-03-22",
     "category": "technical",
-    "readTime": null,
+    "readTime": 4,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   },
@@ -655,9 +620,8 @@
     "published": true,
     "publishedDate": "2009-03-17",
     "category": "technical",
-    "readTime": null,
+    "readTime": 4,
     "tags": [],
-    "showMetadata": null,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"
   }
