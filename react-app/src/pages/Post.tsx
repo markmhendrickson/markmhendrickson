@@ -38,6 +38,15 @@ function RedditLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>)
   )
 }
 
+/** Bluesky butterfly logo for share button (from Simple Icons). */
+function BlueskyLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden {...props}>
+      <path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026" />
+    </svg>
+  )
+}
+
 /** Extract plain text from React node(s) for heading slug. */
 function getHeadingText(children: React.ReactNode): string {
   const parts: string[] = []
@@ -197,38 +206,15 @@ function PostShareBar({
 }) {
   const encodedUrl = encodeURIComponent(shareUrl)
   const encodedTitle = encodeURIComponent(title)
+  const blueskyText = `${title} ${shareUrl}`
   const shareLinks = [
-    {
-      label: 'X',
-      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
-      icon: XLogo,
-    },
-    {
-      label: 'LinkedIn',
-      href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`,
-      icon: Linkedin,
-    },
-    {
-      label: 'Facebook',
-      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      icon: Facebook,
-    },
-    {
-      label: 'Hacker News',
-      href: 'https://news.ycombinator.com/submit',
-      icon: HNLogo,
-      title: 'Opens HN submit page. Use the Copy button above, then paste the link into the URL field.',
-    },
-    {
-      label: 'Reddit',
-      href: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
-      icon: RedditLogo,
-    },
-    {
-      label: 'Email',
-      href: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
-      icon: Mail,
-    },
+    { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${encodeURIComponent(blueskyText)}`, icon: BlueskyLogo },
+    { label: 'Email', href: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`, icon: Mail },
+    { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, icon: Facebook },
+    { label: 'Hacker News', href: 'https://news.ycombinator.com/submit', icon: HNLogo, title: 'Opens HN submit page. Use the Copy button above, then paste the link into the URL field.' },
+    { label: 'LinkedIn', href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`, icon: Linkedin },
+    { label: 'Reddit', href: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`, icon: RedditLogo },
+    { label: 'X', href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`, icon: XLogo },
   ]
 
   async function handleCopy() {
@@ -1013,13 +999,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           })()}
 
           {post.heroImage && !isTweetPost && post.heroImageStyle !== 'float-right' && (
-            <div
-              className={
-                post.heroImageStyle === 'keep-proportions'
-                  ? 'mb-8 relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-none'
-                  : 'mb-8 md:-mx-8'
-              }
-            >
+            <div className="mb-8 w-full">
               <img
                 src={getPostImageSrc(post.heroImage)}
                 alt={post.title}

@@ -56,6 +56,10 @@ export default defineConfig({
       // Allow serving files from shared directory
       allow: ['..'],
     },
+    watch: {
+      // Ignore node_modules and dist to reduce file watcher CPU (Vite + Cursor both watch otherwise)
+      ignored: ['**/node_modules/**', '**/dist/**'],
+    },
   },
   optimizeDeps: {
     // Include shared components in dependency optimization
