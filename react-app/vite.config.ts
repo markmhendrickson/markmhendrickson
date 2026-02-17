@@ -35,6 +35,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@cache': path.resolve(__dirname, './cache'),
       '@shared': path.resolve(__dirname, '../shared/src'),
       // Resolve shared package deps from app node_modules (shared has no node_modules)
       'lucide-react': path.resolve(__dirname, 'node_modules/lucide-react'),
@@ -52,6 +53,12 @@ export default defineConfig({
     target: 'node',
   },
   server: {
+    proxy: {
+      '/api/newsletter': {
+        target: 'http://localhost:3456',
+        changeOrigin: true,
+      },
+    },
     fs: {
       // Allow serving files from shared directory
       allow: ['..'],

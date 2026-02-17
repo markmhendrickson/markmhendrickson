@@ -40,7 +40,7 @@ const STATIC_ROUTES = [
 ]
 
 function getPostSlugs() {
-  const postsPath = path.resolve(__dirname, '..', 'src', 'content', 'posts', 'posts.json')
+  const postsPath = path.resolve(__dirname, '..', 'cache', 'posts.json')
   if (!fs.existsSync(postsPath)) return []
   const raw = fs.readFileSync(postsPath, 'utf-8')
   const posts = JSON.parse(raw)

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async'
-import timelineData from '@/data/timeline.json'
+import timelineData from '@cache/timeline.json'
 
 interface TimelineItem {
   role: string

@@ -1,5 +1,1360 @@
 [
   {
+    "slug": "degen-culture-crypto-ai-builders-patience",
+    "title": "Degen culture in crypto and AI delivers signal at a cost to patient builders",
+    "excerpt": "The same channels that surface early signal during tech shifts also reward hype-hopping and undermine builders who want to build for an audience that stays.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": null,
+    "tags": [],
+    "body": "<!--\nSuggested metadata when adding to Neotoma:\ntitle: Degen culture in crypto and AI delivers signal at a cost to patient builders\nexcerpt: The same channels that surface early signal during tech shifts also reward hype-hopping and undermine builders who want to build for an audience that stays.\nslug: degen-culture-crypto-ai-builders-patience\ncategory: essay\npublished: false\n-->\n\nDegen culture shows up in crypto and, increasingly, in AI. It works as a fast-moving information layer during tech advances. It also creates a toxic psychological dynamic for builders who want to build with patience for an audience that intends to stay, not jump ship for the next hype cycle. The tradeoff is real: you get signal and shared context, but the same norms that move information fast also push builders and audiences toward short-term, hype-based decisions. That undermines patient building and the kind of audience relationship that doesn't depend on the new hot thing.\n\n## Where degen culture shows up\n\nIn crypto it's familiar. Alpha groups, CT, narrative cycles. People chase the next token, the next narrative, the next \"wave.\" Speed of information is high. In-group language and FOMO drive attention. The same pattern has taken root in AI. Model drops, agent frameworks, \"the next paradigm\" discourse. Same behaviors: alpha-chasing, rapid pivot to whatever is trending, shared belief that if you're not on the new thing you're behind.\n\nI've seen it in both. The channels that surface useful early signal are the same ones that normalize abandoning projects and audiences when the next hot thing appears. That's not a coincidence. It's the same culture.\n\n## The upside\n\nThere is real value. During tech shifts, degen culture moves information fast. You get early signal. Shared context. Rapid iteration on ideas. If you're trying to stay current, these channels help. They compress time between \"something changed\" and \"here's what people are doing about it.\" I draw on that. I don't want to pretend the upside isn't there.\n\n## The downside\n\nThe cost is psychological and strategic. Builders who ship slowly and care about sustained audience relationship get framed as \"missing the wave\" or \"not moving fast enough.\" The pressure is to pivot, ship fast and shallow, align with hype. That undermines the ability to build with patience. It also trains the audience. When the culture rewards leaving for the next hot thing, audiences learn to leave. Not on merit. On hype.\n\nSo builders who could serve a long-term audience instead optimize for degen attention. They chase narrative. They burn out or lose the very users who wanted something stable. The wrong assumption is that \"moving with the crowd\" is the only way to get signal, or that patient building is naive. It isn't. It's a choice the culture makes invisible.\n\n## Audience and long-term relationship\n\nMany users want a product or creator they can rely on over time. They don't want to rebuild context every six months when the ecosystem has \"pivoted.\" Degen culture pushes both builders and audiences toward short-term, hype-based decisions. That's a choice. It's not a law. The cost is when builders and audiences internalize degen norms as the only way to operate.\n\n## What this doesn't mean\n\nI'm not saying ignore crypto or AI discourse. I'm not saying never participate in fast-moving communities. The precision is this: the cost appears when you let the dynamic dictate your building or your audience strategy. When you notice you're optimizing for hype instead of for the people who want to stay, that's the moment to recalibrate.\n\n## Using the signal without becoming the dynamic\n\nYou can use the signal without letting it run you. Read the channels. Stay current. Then build for the audience you want. If that audience intends to establish a long-term relationship with what you make, build for that. Don't let the culture that rewards hype-hopping convince you that patient building is a mistake. It's not. The culture is optimized for speed of information. Your product and your audience might be optimized for something else.\n",
+    "createdDate": "2026-02-13",
+    "updatedDate": "2026-02-13",
+    "summary": "- Degen culture in crypto and AI delivers fast-moving information during tech shifts but also rewards hype-hopping and short-term decisions.\n- The same channels that surface early signal normalize abandoning projects and audiences when the next hot thing appears.\n- Builders who want to build with patience for a long-term audience get framed as \"missing the wave\" or \"not moving fast enough.\"\n- Many users want a product or creator they can rely on over time; degen culture pushes both builders and audiences toward hype-based churn.\n- You can use the signal without letting the dynamic dictate your building or audience strategy."
+  },
+  {
+    "slug": "what-vs-how-truth-layer-context-graphs",
+    "title": "Why the Truth Layer is about what exists, not how work gets done",
+    "excerpt": "Personal memory stays deterministic and execution-agnostic because the Truth Layer models what exists, not how work gets done. Enterprise context graphs do the opposite.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "neotoma",
+      "truth-layer",
+      "architecture",
+      "positioning",
+      "build-in-public"
+    ],
+    "body": "[Full body omitted for length - 8000+ chars; will store via correct or second store if needed]",
+    "createdDate": "2026-02-10",
+    "updatedDate": "2026-02-10",
+    "summary": "# Key takeaways: Why the Truth Layer is about what exists, not how work gets done\n\n- Enterprise context graphs (e.g. Glean) model how work gets done; the Truth Layer models what exists (canonical state, entities, provenance). Conflating them leads to probabilistic state and tight coupling to orchestration.\n- The \"what vs how\" distinction is architectural. \"What exists\" is deterministic and execution-agnostic. \"How work gets done\" needs process traces, next-step prediction, and often joint ownership with the execution layer.\n- Arvind Jain's context-graph framing and Glean validate the category (graph plus time) but clarify the fork. Personal memory needs determinism and user scope. Enterprise context needs aggregation and probabilistic patterns.\n- Positioning the Truth Layer as \"what exists\" lets any agent host (Cursor, ChatGPT, Claude) consume it via MCP without the graph drifting when you switch tools. The graph is not owned jointly with orchestration.\n- The same person can use both: a personal Truth Layer for \"my docs, my entities, my timeline\" and an employer context graph for \"how we work.\" They are complements, not competitors.",
+    "shareTweet": "Why the Truth Layer is about what exists, not how work gets done.\n\nEnterprise context graphs model process and next-step prediction. Personal memory needs canonical state and provenance. Different problems, different designs.\n\nhttps://markmhendrickson.com/posts/what-vs-how-truth-layer-context-graphs H/t @jainarvind"
+  },
+  {
+    "slug": "foundation-shared-development-processes",
+    "title": "Shared development processes I use across repos",
+    "excerpt": "I maintain a single submodule for workflow, conventions, and agent instructions so every repo gets the same behavior without copy-paste.",
+    "published": false,
+    "publishedDate": null,
+    "category": "technical",
+    "readTime": 4,
+    "tags": [
+      "foundation",
+      "development-workflow",
+      "cursor-rules",
+      "build-in-public"
+    ],
+    "body": "I maintain a git submodule called [Foundation](https://github.com/markmhendrickson/foundation) that I use across my repositories. It holds shared development processes, conventions, and agent instructions so I don't repeat the same setup in every project.\n\n## Why I built it\n\nI work across several repos: ateles (this site and my agentic stack), Neotoma (the truth layer), and others. Each one needed the same basics: branch strategy, PR process, code conventions, testing standards, security checks, and Cursor rules so agents behave consistently. Copy-pasting that into every repo was brittle. Updating a convention meant editing N copies. I wanted one place that could be pulled in as a submodule and configured per repo.\n\nFoundation is that place. It's composable and configurable. I enable only what each repo needs via `foundation-config.yaml`. Feature Units, release workflow, strategy frameworks, and validation are optional. The core (workflow, conventions, security, agent instructions) is what I use everywhere.\n\n## What's in it\n\n**Development workflow.** Git branch strategy, PR process, worktree setup, Feature Unit workflow, release orchestration. I follow the same flow whether I'm shipping a feature in ateles or a release in Neotoma.\n\n**Code and documentation conventions.** Naming patterns, style guides for TypeScript, SQL, YAML, shell. Documentation structure and writing style. One source of truth so I don't have to remember which repo uses snake_case and which uses kebab-case.\n\n**Security.** Pre-commit audits, protected paths, credential handling. Repo-specific config for what must never be committed.\n\n**Agent instructions.** Cursor rules and commands live in Foundation. Consuming repos run a setup script that symlinks `.cursor/rules/` and `.cursor/commands/` to the submodule. When I update a rule in Foundation, I pull the submodule in each repo and the change applies everywhere. That's how ateles gets its rules: many are foundation rules, plus repo-specific rules in `docs/`.\n\n**Self-adaptive behavior.** Foundation includes a rule that asks agents to learn from interventions. When I resolve a stopping point (e.g. \"yes, always update related tasks for financial transactions\"), the agent can suggest a new rule or skill, I approve it, and it gets added. Over time the same questions come up less often because the behavior is encoded.\n\n## How I'm approaching the build\n\nI use Foundation in ateles as the primary source for generic agent constraints, risk management, document loading order, and cursor rules sync. Ateles extends with repo-specific rules (persistence, data, email triage, content style, MCP access). The split is deliberate: global behavior in Foundation, domain and repo specifics in ateles.\n\nI keep Foundation generic on purpose. It doesn't reference ateles, Neotoma, or any specific product. That way I can add it to a new repo, set `foundation-config.yaml`, run the setup script, and get consistent workflow and agent behavior without editing Foundation itself.\n\nSubmodule updates are manual. When I change Foundation I commit and push from the submodule, then in each consuming repo I run `git submodule update --remote foundation` (or the sync script). I'm not trying to version-pin Foundation tightly; I want the latest processes everywhere unless I explicitly hold a repo back.\n\n## What I'm learning\n\nThe main tension is between \"one size fits all\" and \"this repo is special.\" So far, configuration and repo adapters handle it. Repo adapters in `foundation/config/repo_adapters/` let me override conventions or security paths per repo name. Most of the time the default is fine. When it isn't, I add an adapter or put the override in the repo's own `foundation-config.yaml`.\n\nAgent instructions are the highest-leverage part. Once a rule exists in Foundation and is symlinked, every repo that uses Foundation gets it. Fixing a rule once fixes it everywhere. The self-adaptive rule amplifies that: good interventions get turned into standing rules so I don't have to repeat them.\n\n## Where it lives\n\nRepository: [github.com/markmhendrickson/foundation](https://github.com/markmhendrickson/foundation). MIT licensed. I use it as a submodule; the README has install and sync instructions. If you run multiple repos and want shared workflow and agent behavior without maintaining N copies, the pattern is worth copying.\n",
+    "heroImage": "foundation-shared-development-processes-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "foundation-shared-development-processes-hero-square.png",
+    "createdDate": "2026-02-10",
+    "updatedDate": "2026-02-10",
+    "summary": "- I use a single git submodule (Foundation) for workflow, conventions, security, and agent instructions across multiple repos so I don't maintain N copies.\n- Foundation is composable and configurable: I enable only what each repo needs via foundation-config.yaml; Feature Units, release workflow, and strategy frameworks are optional.\n- Cursor rules and commands live in Foundation; consuming repos symlink .cursor/ to the submodule so one rule update applies everywhere after a submodule pull.\n- A self-adaptive rule lets agents suggest new rules or skills when I resolve a stopping point; I approve and the behavior is encoded for future sessions.\n- Repo adapters and foundation-config.yaml handle the tension between shared defaults and repo-specific overrides without forking Foundation.",
+    "shareTweet": "I maintain Foundation, a shared dev-processes submodule I use across repos: workflow, conventions, security, Cursor rules. One place, configurable per repo. https://github.com/markmhendrickson/foundation",
+    "ogImage": "og/foundation-shared-development-processes-1200x630.jpg"
+  },
+  {
+    "slug": "neotoma-developer-release",
+    "title": "Neotoma developer release",
+    "excerpt": "The Neotoma truth layer is now available as a developer release. This post explains what it is, how to run it locally, and what the repo actually does.",
+    "published": false,
+    "publishedDate": null,
+    "category": "technical",
+    "readTime": 10,
+    "tags": [
+      "neotoma",
+      "truth-layer",
+      "mcp",
+      "agent-memory",
+      "build-in-public"
+    ],
+    "body": "[TRUNCATED - full body in parquet]",
+    "heroImage": "neotoma-developer-release-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "neotoma-developer-release-hero-square.png",
+    "createdDate": "2026-02-10",
+    "updatedDate": "2026-02-10",
+    "summary": "- Neotoma is open as a developer release: a truth layer for persistent agent memory that AI tools read and write via MCP.\n- Local setup uses Node 18/20, npm install, .env with NEOTOMA_STORAGE_BACKEND=local, then npm test and npm run watch or watch:full; no Supabase required.\n- The data model is source to interpretation to observation to entity snapshot, with hash-based entity resolution and typed relationships.\n- One unified store action accepts files (base64 + mime) or structured entities; correction and reinterpretation keep provenance and history.\n- The repo includes schema registry, timeline events, graph retrieval, OAuth for MCP, React frontend, CLI, and full test and health tooling.",
+    "shareTweet": "Neotoma developer release: truth layer for persistent agent memory, exposed via MCP. Local setup, data model (source → observation → entity snapshot), and full action catalog in the post. https://github.com/markmhendrickson/neotoma",
+    "ogImage": "og/neotoma-developer-release-1200x630.jpg"
+  },
+  {
+    "slug": "focus-on-work-you-love-delegate-the-rest",
+    "title": "Focus on the work you love and delegate the rest",
+    "excerpt": "The highest-leverage move is to do more of what you enjoy and hand the rest to agents. I tell everyone the same thing: start incrementally and you buy back time and get better at the work you do not love.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 3,
+    "tags": [
+      "agents",
+      "delegation",
+      "productivity"
+    ],
+    "body": "- Figure out the part of your work you actually enjoy and wish you could focus on full time.\n- Use agents to delegate everything else. Start incrementally.\n- You buy back time for the work you love and get more efficient at the rest.\n- The advice holds up: comparative advantage and sustainability both favor it.\n- The only nuance is to delegate the right things. Judgment and relationship work stay with you.\n\nI tell everyone the same thing. It sounds like productivity advice but it is really a positioning move. If you do not choose what to focus on, your calendar and your attention will be chosen for you. The default is that everything that can land on you will land on you. Inbox, admin, follow-ups, formatting, research rabbit holes. The work you love gets whatever is left.\n\n## The cost of not choosing\n\nThe cost of not choosing is that you spend more time on the work you do not love and less on the work you do. That drags down both sustainability and leverage. You burn out on the wrong things. You get better at the wrong things. The part of your job that only you can do well, and that you actually care about, stays underinvested.\n\nSo the rule is simple: name the high-level slice of your job that you really enjoy. Then treat everything else as delegation surface. Not \"I will get to it later.\" Delegation. To other humans where it makes sense, and to agents where it makes sense. Email triage, drafting, summarization, data entry, routine research, formatting, scheduling. Agents are good at well-defined, repetitive, or pattern-heavy work. Use them for that. Keep judgment, relationships, and open-ended creativity with you.\n\n## One rule\n\nThe advice is valid. Comparative advantage says specialize in what you are relatively best at; enjoyment and skill compound there. Sustainability says focus on what you can keep doing without burning out. Delegating the rest, incrementally, gives you both. The only caveat is to delegate the right things. Some tasks degrade when handed off: nuanced judgment, relationship-building, creativity under real constraints. So \"everything else\" means \"everything that is appropriate to delegate,\" not literally every task you dislike. You revisit that boundary as tools and your role change.\n\n## What I'm doing in practice\n\nIn my setup I run agents over a clear stack: a truth layer (structured memory), a strategy layer (goals and constraints), and an execution layer (email, calendar, DNS, wallet, and other side effects). I define the strategy. Agents read from the truth layer and call tools to execute. I triage inbox with an agent that drafts replies and suggests data to save. I delegate scheduling, follow-ups, and routine data entry. I keep the work I care about: architecture, writing, product direction, and the parts of building that are exploratory rather than repetitive. The split is not perfect. Some things I still do by hand because the agent surface is not there yet or because the task is too fuzzy. But the direction is consistent. More of what I love, less of what I do not.\n\n## How I'm approaching it\n\nI treat delegation as incremental. I do not try to hand off everything at once. I add one workflow at a time: email triage, then task and contact persistence, then calendar, then something else. Each time I see what breaks, what needs guardrails, and what I can safely stop doing myself. I also revisit the boundary. Some tasks I thought were delegatable turned out to need a human in the loop. Some tasks I used to do myself are now fully delegated. The goal is to keep shifting the mix toward the work I want to be doing and to keep the rest running reliably in the background.\n",
+    "heroImage": "focus-on-work-you-love-delegate-the-rest-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "createdDate": "2026-02-09",
+    "updatedDate": "2026-02-09",
+    "summary": "- Name the part of your work you enjoy and wish you could focus on full time, then delegate the rest.\n- Use agents incrementally for well-defined, repetitive, or pattern-heavy work so you buy back time and reduce burnout.\n- Keep judgment, relationship-building, and open-ended creativity with you; delegate the right things, not everything you dislike.\n- Revisit the boundary between what you do and what you delegate as tools and your role change.\n- If you do not choose what to focus on, your calendar and attention will be chosen for you; treat delegation as a positioning move."
+  },
+  {
+    "slug": "api-cli-first-agentic-products",
+    "title": "Build API and CLI first so agents can consume your product",
+    "excerpt": "Value on the agentic web accrues to infrastructure that lets agents do things, not to chat interfaces. Products that expose APIs and CLIs will be the ones agents and builders use.",
+    "published": false,
+    "publishedDate": null,
+    "category": "",
+    "readTime": 3,
+    "tags": [
+      "api",
+      "cli",
+      "agents",
+      "product",
+      "mcp"
+    ],
+    "body": "- Value on the agentic web accrues to those who enable agents to perform a wider range of jobs, not to those who control the primary chat interfaces.\n- Model access is commoditized. Differentiation happens in what agents can actually do, not which model they use.\n- Building human UI first optimizes for the wrong consumer. Agents will be the main consumers of many products, and they need APIs and CLIs, not screens.\n- Agentic creation is most efficient and autonomous when there is no human UI in the loop. Direct programmatic access reduces friction and scales.\n- The value is in the connection layer: MCP servers, tool providers, memory systems, and infrastructure that make agents reliable and auditable.\n- The web did not belong to the browser makers. It belonged to those who enabled new capabilities. The agentic web will follow the same pattern.\n- If your agents cannot do anything meaningful, owning the chat interface means nothing. Build API and CLI first so agents can consume your product.\n\nOn the agentic web, value accrues to those who enable agents to perform a wider range of jobs. Not to those who try to control the primary agentic interfaces. I wrote that in a [tweet](https://x.com/markymark/status/2019370921245417911) earlier this year, and it still captures how I think about product strategy. The implication for builders is straightforward: create products as API or CLI first. Not only because agentic creation is most efficient when there is no human UI involved, but because agents themselves will be the main consumers.\n\n## Why agents are the primary consumer\n\nModel access is already commoditized. Claude, GPT, Gemini, Llama. The models themselves are becoming interchangeable utilities. The differentiation happens in what agents can actually do. A product that only offers a chat UI or a dashboard is invisible to an agent. A product that exposes an API or a CLI can be called, composed, and automated. When the primary interface is a text box and the value is in what happens after you hit send, the products that get used are the ones that sit behind that send: databases, transaction processors, calendars, email, task systems, memory layers. Agents do not click through wizards. They call tools.\n\nSo if you are building for the future, you are building for agent consumption. That does not mean you never build a human UI. It means you design the surface that agents use first. The human UI, when you add it, becomes one client of the same backend. API and CLI are not afterthoughts. They are the primary surface.\n\n## Efficiency and autonomy without human UI\n\nAgentic creation is most efficient when there is no human in the loop. Every click, every form, every approval step is a bottleneck. When an agent can read from a memory layer, reason over strategy, and execute via MCP or API calls, the same workflow that would take a human twenty steps becomes a single chain of tool calls. Autonomy follows. The user sets policy and approves exceptions. The agent operates within that policy. Products that only offer a human UI force the agent to simulate a human (browser automation, screen scraping). That is fragile and slow. Products that offer an API or CLI let the agent behave like an agent. Fast, deterministic, composable.\n\nChatGPT tried to become the interface layer. But users do not want a walled garden. They want agents that can write to their databases, execute transactions, manage their infrastructure, and integrate with their existing tools. The value is moving to the connection layer. MCP servers that give agents access to APIs. Tool providers that let agents execute real operations. Memory systems that make agents contextually aware. Infrastructure that makes agents reliable and auditable. None of that requires a proprietary chat UI. It requires surfaces that agents can call.\n\n## What I see in my own stack\n\nThe model I use matters less. What matters is whether my agents can read my files and documents, send transactions, query my calendar and email, or update my task list. A memory layer gives them reliable state across conversations. The interface is just a text box. The value is in what happens after I hit send. I run agents that combine wallet MCPs, calendar, email, and a structured truth layer. None of those are chat products. They are APIs, CLIs, and MCP servers. The chat is the place where I prompt and approve. The work is done by the connection layer.\n\n## The web did not belong to the browser makers\n\nCompanies building narrow AI chat products are optimizing for yesterday's paradigm. The web did not belong to the browser makers. It belonged to those who enabled new capabilities: Google made information discoverable, Facebook connected people, Amazon built commerce infrastructure, AWS hosted applications, Stripe processed payments. The agentic web will follow the same pattern. Owning the chat interface means nothing if your agents cannot do anything meaningful. Value concentrates in the infrastructure that enables agent capabilities.\n\nSo build API and CLI first. Assume agents will be the main consumers. Make your product callable, composable, and policy-friendly. Add a human UI when it serves discovery or one-off use. The agents will use the API. The humans will use whatever interface you give them. But the product that wins is the one that both can use, and the one that agents can use without a human in the loop.\n",
+    "heroImage": "api-cli-first-agentic-products-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "api-cli-first-agentic-products-hero-square.png",
+    "createdDate": "2026-02-09",
+    "updatedDate": "2026-02-09",
+    "ogImage": "og/api-cli-first-agentic-products-1200x630.jpg",
+    "summary": "- Value on the agentic web accrues to those who enable agents to do more jobs, not to those who own the chat interface.\n- Model access is commoditized. Differentiation is in what agents can actually do, so products need API and CLI surfaces.\n- Agents will be the main consumers of many products. Building human UI first optimizes for the wrong consumer.\n- Agentic creation is most efficient and autonomous when there is no human UI in the loop. APIs and CLIs reduce friction and scale.\n- The connection layer (MCP servers, tool providers, memory systems, infrastructure) is where value concentrates.\n- The web belonged to enablers (Google, Stripe, AWS), not browser makers. The agentic web will follow the same pattern.\n- Build API and CLI first. Add human UI when it serves discovery or one-off use. Assume agents will call your product."
+  },
+  {
+    "slug": "enrollment-sponsoring-ecosystem-purchases-contract",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "Got sBTC? \n\n\n@LeatherBTC\n is sponsoring all Stacks contract calls that involve sBTC (swaps, app purchases, rewards enrollment and more) so you don't even need STX in your wallet.\n\nAccess the entire Stacks ecosystem with just bitcoin",
+    "createdDate": "2024-12-20",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/2019370921245417911"
+  },
+  {
+    "slug": "ecosystem-bitcoin-good-app-dev",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "Very good for the Bitcoin app dev ecosystem 👏👏👏",
+    "createdDate": "2024-12-19",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/2019370921245417911"
+  },
+  {
+    "slug": "live-56-v6",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "Now live in v6.56.0 ⚡️",
+    "createdDate": "2024-12-19",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
+    "tweetMetadata": {
+      "likes": 15578,
+      "retweets": 2963,
+      "replies": 363,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "accessing-protocols-category-stacking-bitcoin",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "Earn BTC with your BTC! \n\nI'm very excited about \"Bitcoin yield\" as a general category, and proud to launch this unified portal for accessing sBTC rewards, Stacking and other yield protocols to come via our trusted \n@LeatherBTC\n brand",
+    "createdDate": "2024-12-18",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
+    "tweetMetadata": {
+      "likes": 15578,
+      "retweets": 2963,
+      "replies": 363,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "tweet",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "👀🧑‍🌾₿ @LeatherBTC https://t.co/pP0tHSjFtr",
+    "createdDate": "2024-12-17",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
+    "tweetMetadata": {
+      "likes": 15578,
+      "retweets": 2963,
+      "replies": 363,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "tweet-1",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "👀🌉₿ @LeatherBTC https://t.co/g03t5rmLmo",
+    "createdDate": "2024-12-16",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
+    "tweetMetadata": {
+      "likes": 15578,
+      "retweets": 2963,
+      "replies": 363,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "functionality-prototypes-prompting-prompting-designer",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 3,
+    "tags": [
+      "tweet"
+    ],
+    "body": "If you're a software engineer, you should be prompting for functionality far more than editing, writing or even viewing code these days. If you're a designer, you should be prompting for live prototypes far more than pushing pixels in Figma.",
+    "createdDate": "2026-02-06",
+    "updatedDate": "2026-02-09"
+  },
+  {
+    "slug": "interchangeable-commoditized-interfaces-themselves-becoming",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "On the agentic web, value accrues to those who enable agents to perform a wider range of jobs. Not to those who try to control the primary agentic interfaces.\n\nModel access is already commoditized. Claude, GPT, Gemini, Llama. The models themselves are becoming interchangeable utilities. The differentiation happens in what agents can actually do.\n\nChatGPT tried to become the interface layer. But users don't want a walled garden. They want agents that can write to their databases, execute transactions, manage their infrastructure, and integrate with their existing tools.\n\nThe value is moving to the connection layer. MCP servers that give agents access to APIs. Tool providers that let agents execute real operations. Memory systems that make agents contextually aware. Infrastructure that makes agents reliable and auditable.\n\nI see this in my own stack. The model I use matters less. What matters is whether my agents can read my files and documents, send transactions, query my calendar and email, or update my task list. Neotoma gives them reliable memory across conversations. The interface is just a text box. The value is in what happens after I hit send.\n\nCompanies building narrow AI chat products are optimizing for yesterday's paradigm. The web didn't belong to the browser makers. It belonged to those who enabled new capabilities: Google made information discoverable, Facebook connected people, Amazon built commerce infrastructure, AWS hosted applications, Stripe processed payments.\n\nThe agentic web will follow the same pattern. Owning the chat interface means nothing if your agents can't do anything meaningful. Value concentrates in the infrastructure that enables agent capabilities.",
+    "createdDate": "2026-02-05",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/2019370921245417911"
+  },
+  {
+    "slug": "broadcasting-interactions-transaction-interfaces-operations",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "Crypto and AI need each other to overcome legacy systems and UX patterns.\n\nI've begun migrating all my crypto interactions to agentic interfaces. They handle both \"write\" operations (like transaction signing and broadcasting) and complex \"read\" operations far better than I can.\n\nAsk an agent to collect and synthesize on-chain data for understanding DeFi protocols, staking dynamics, or complex asset classes. The kind of analysis that takes exorbitant amounts of time to do right and makes most human heads spin.\n\nConversational UX beats human point-and-click UI for financial strategy and execution. It synthesizes complex inputs and external context. It personalizes recommendations. It implements plans and handles bookkeeping automatically.\n\nThe reverse is also true. Crypto gives AI agents what traditional systems can't.\n\nAgents move more efficiently on transparent, permissionless rails. Every transaction is auditable. Every protocol is composable. No permission gates or approval workflows.\n\nTradFi was designed to slow humans and block bots. It lacks APIs. It requires phone calls and paperwork. Crypto treats agents as first-class citizens.\n\nProgrammable money on open rails means agents can execute complex financial strategies without human intervention. They can rebalance portfolios, stake assets, provide liquidity, and manage treasury operations at speeds and scales impossible in traditional finance.\n\nThis creates a feedback loop. Better agent UX brings more users to crypto. More users create demand for agent-native infrastructure. That infrastructure makes crypto more useful for agents. The systems evolve together.",
+    "createdDate": "2026-02-05",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/2019370921245417911"
+  },
+  {
+    "slug": "reliability-generally-staleness-security-versions",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "Early versions of Claude Code used RAG + a local vector db, but we found pretty quickly that agentic search generally works better. It is also simpler and doesn't have the same issues around security, privacy, staleness, and reliability.",
+    "createdDate": "2026-02-04",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/2019370921245417911"
+  },
+  {
+    "slug": "rt",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @karpathy: https://t.co/Lb6T42n5jl",
+    "createdDate": "Thu Jan 01",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
+    "tweetMetadata": {
+      "likes": 15578,
+      "retweets": 2963,
+      "replies": 363,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "announce-bitflow-excited-trading-first",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @bsdmoney: 🚨 sBTC/BSD trading pool is live on @bitflow\n\nVery excited to announce our first trading pool. Bitflow will give BSD more liqu…",
+    "createdDate": "Wed Dec 10",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
+    "tweetMetadata": {
+      "likes": 45,
+      "retweets": 13,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "happening-bitcoin-circle-launch-stacks",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @Stacks: gm @circle 🟠\n\nCircle's first move into Bitcoin DeFi is happening on Stacks, the only Bitcoin Layer 2 in their pilot launch of C…",
+    "createdDate": "Tue Nov 18",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
+    "tweetMetadata": {
+      "likes": 45,
+      "retweets": 13,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "synthetic-bitcoin-digital-private-dollar",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @bsdmoney: The Bitcoin Synthetic Dollar (BSD or \"Based Dollar\") is live on Stacks. Our private beta starts today.\n\nBSD is a digital doll…",
+    "createdDate": "Mon Nov 17",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
+    "tweetMetadata": {
+      "likes": 45,
+      "retweets": 13,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "smoother-browser-leather-faster-mobile",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @LeatherBTC: Leather mobile just got a major glow up ✨\n\nOur in app Browser is now smoother, faster, and packed with more magic.\n\n🧡 Explo…",
+    "createdDate": "Wed Aug 06",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
+    "tweetMetadata": {
+      "likes": 45,
+      "retweets": 13,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "available-android-leather-wallet-apple",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @TheApeBitcoiner: leather Wallet @LeatherBTC is now a available on Apple App Store and Android play store 🔥",
+    "createdDate": "Thu Jun 05",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
+    "tweetMetadata": {
+      "likes": 45,
+      "retweets": 13,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "leather-rebuild-ground-mobile-about",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @LeatherBTC: In Ep. 55, we talk with @markymark about what makes the new Leather Mobile app a true rebuild from the ground up.\n\nPlus, @R…",
+    "createdDate": "Thu Jun 05",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 8,
+      "replies": 5,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "wherever-mobile-bitco-alex-take",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @ALEXLabBTC: 🚀 @LeatherBTC  just went mobile📱🔥\n\nNow you can take ALEX, @Brotocol_xyz and @LisaLab_BTC with you wherever you go 🏃 \n\nBitco…",
+    "createdDate": "Tue Jun 03",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 8,
+      "replies": 5,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "great-looks",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "Looks great!",
+    "createdDate": "Fri May 30",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 8,
+      "replies": 5,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "screenshot-giveaway-holding-leather-random",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @Dilletantte: Giveaway: 1 random winner \n\n🏆: @LeoCoinSTX NFT in leather hat.\n\nHow to enter: 👇\n\n1️⃣ show a screenshot of you holding $FLA…",
+    "createdDate": "Thu May 29",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 8,
+      "replies": 5,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "tweet-2",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "https://t.co/JMjcn6x3Pt",
+    "createdDate": "Mon Feb 09",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 8,
+      "replies": 5,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "mobile-people-booth-find-http",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @marshallmixing: THE NEXT 5 PEOPLE WHO FIND ME AT THE @STACKS BOOTH AND SHOW ME THEIR @LEATHERBTC MOBILE APP WILL GET $10 IN sBTC 🖤 http…",
+    "createdDate": "Thu May 29",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
+    "tweetMetadata": {
+      "likes": 52,
+      "retweets": 7,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "dropped-leather-diving-lounge-mobile",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @LeatherBTC: Leather's new mobile app just dropped, and we're diving deep with @markymark on today's Leather Lounge!\n\n🔸 Unlock BTC yield…",
+    "createdDate": "Wed May 28",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
+    "tweetMetadata": {
+      "likes": 52,
+      "retweets": 7,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "leather-big-day",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "A big day for Leather! 🚀",
+    "createdDate": "Wed May 28",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
+    "tweetMetadata": {
+      "likes": 52,
+      "retweets": 7,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "rt-1",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @LeatherBTC: 📲",
+    "createdDate": "Wed May 28",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
+    "tweetMetadata": {
+      "likes": 52,
+      "retweets": 7,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "eliminates-impressive-dashboard-provides-stacking",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @mrwagmibtc: The new @LeatherBTC @Stacks Stacking GUI provides an impressive dashboard that eliminates the need to have a million browse…",
+    "createdDate": "Tue May 27",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
+    "tweetMetadata": {
+      "likes": 52,
+      "retweets": 7,
+      "replies": 6,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "vegas-anon-see-rt",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @LeatherBTC: See you in Vegas, anon 🖤 https://t.co/z7xOMhXiBF",
+    "createdDate": "Mon May 26",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
+    "tweetMetadata": {
+      "likes": 103,
+      "retweets": 21,
+      "replies": 29,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "bitcoin-browser-landing-leather-mobile",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @godfred_xcuz: GET LEATHER ON YOUR BROWSER AND MOBILE AND GROW YOUR BITCOIN\n\nNew @LeatherBTC Landing Page is 🔥 \n\nhttps://t.co/8z9oFT3Df7…",
+    "createdDate": "Thu May 22",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
+    "tweetMetadata": {
+      "likes": 103,
+      "retweets": 21,
+      "replies": 29,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "comprehensive-experience-generating-integrated-seamlessly",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "We've released an entirely new experience for @LeatherBTC today, just in time for the opening of sBTC Cap-3.\n\nEnjoy the most comprehensive place to pursue yield-generating strategies with BTC and STX on Stacks, all in one place, seamlessly integrated with your wallet.",
+    "createdDate": "Thu May 22",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
+    "tweetMetadata": {
+      "likes": 103,
+      "retweets": 21,
+      "replies": 29,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "hendrickson-revealed-leather-release-mark",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @LeatherBTC: Ep 53 - Leather's Next Big Release Revealed! With Mark Hendrickson https://t.co/s3gUsfeHTh",
+    "createdDate": "Wed May 21",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
+    "tweetMetadata": {
+      "likes": 103,
+      "retweets": 21,
+      "replies": 29,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "misunderstood-explores-aspects-bitcoin-relatio",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @longstreetBTC: In honor of Earth Day, today's @LeatherBTC Lounge explores one of the most misunderstood aspects of Bitcoin: its relatio…",
+    "createdDate": "Tue Apr 22",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
+    "tweetMetadata": {
+      "likes": 103,
+      "retweets": 21,
+      "replies": 29,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "monetization-deorganized-giveaways-takeover-creator",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @LeatherBTC: Ep 48 - The DeOrganized Takeover: Creator Monetization, Web3 Gaming, and BTC On-Air Giveaways https://t.co/2W7nYJfSea",
+    "createdDate": "Tue Apr 15",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 37,
+      "replies": 3,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "moderating-thrilled-legends-stacked-during",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @marshallmixing: The most STACKED STACKS panel ever?!\n\nI'm thrilled to be moderating this panel of @Stacks legends during the How Stacks…",
+    "createdDate": "Sat Apr 12",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 37,
+      "replies": 3,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "hendrickson-designing-bitcoin-beyond-future",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @melbelle_btc: Bitcoin and Beyond Ep11: Designing the Future of Money with Mark Hendrickson https://t.co/PKzZMdcH7D",
+    "createdDate": "Fri Apr 11",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 37,
+      "replies": 3,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "breakthroughs-liquidity-bitcoin-episode-taproot",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @LeatherBTC: Ep 47 - Bitcoin DeFi Breakthroughs: Hadan from ALEX Labs Talks AI UX, DAMM Liquidity, and USDT via Taproot\n\nIn this episode…",
+    "createdDate": "Thu Apr 10",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 37,
+      "replies": 3,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "designing-nietzsche-studying-bitcoin-episode",
+    "title": "",
+    "excerpt": "",
+    "published": false,
+    "publishedDate": null,
+    "category": "tweet",
+    "readTime": 1,
+    "tags": [
+      "tweet"
+    ],
+    "body": "RT @melbelle_btc: From studying Nietzsche to designing a Bitcoin wallet.\n\nIn this week's episode of Bitcoin and Beyond, I talk to @markymar…",
+    "createdDate": "Tue Apr 08",
+    "updatedDate": "2026-02-09",
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
+    "tweetMetadata": {
+      "likes": 30,
+      "retweets": 37,
+      "replies": 3,
+      "quote_count": 0,
+      "bookmark_count": 0,
+      "is_reply": false,
+      "is_retweet": false,
+      "is_quote": false,
+      "lang": "",
+      "author_name": "",
+      "images": []
+    }
+  },
+  {
+    "slug": "stacks-market-opportunity-leather-lesson",
+    "title": "Stacks' Market Opportunity Is Developer- and Institutional-Led (A Lesson from Leading Leather)",
+    "excerpt": "Bitcoin and L2 adoption turn on a market vs government split: Stacks' opportunity is developer- and institutional-led, not consumer narrative or regulatory rescue. One of my key errors at Leather was over-investing in the consumer story instead of that layer.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 3,
+    "tags": [
+      "stacks",
+      "bitcoin",
+      "leather",
+      "crypto",
+      "product-strategy"
+    ],
+    "body": "Market vs government frame. Stacks opportunity is developer- and institutional-led. Leather lesson: over-invested in consumer.",
+    "createdDate": "2026-02-07",
+    "updatedDate": "2026-02-07"
+  },
+  {
+    "slug": "agentic-wallets-and-the-truth-layer",
+    "title": "Agentic Wallets and the Truth Layer",
+    "excerpt": "Agentic wallets as execution layer: commands in, domain events out, truth layer underneath. Why execution without a memory substrate is fire-and-forget—and how to get action with accountability.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "agentic",
+      "truth-layer",
+      "neotoma",
+      "wallets",
+      "execution"
+    ],
+    "body": "Wallet as execution adapter. Domain events flow to truth layer. Strategy Layer, Execution Layer, Truth Layer architecture.",
+    "createdDate": "2026-02-07",
+    "updatedDate": "2026-02-07",
+    "summary": "- **Agentic wallet** as execution layer: takes commands, performs side effects via adapters, emits domain events—never mutates truth directly.\n- Truth layer under the wallet: every execution becomes events → reducers → updated state; execution is auditable, queryable, recoverable.\n- \"Wallet an agent can call\" (tool) vs \"wallet as executor above a truth layer\": the second gives accountability and provenance.\n- Neotoma architecture: Strategy Layer (what should happen) → Execution Layer (Agentic Wallet + domain agents) → domain events → Neotoma reducers.\n- Dogfooding in Ateles: BTC wallet MCP as one execution adapter; goal is for outcomes to flow as domain events into a single truth layer.\n- Trust: agentic wallets without a truth layer are fire-and-forget; with it, you get action with accountability—trace, audit, fix."
+  },
+  {
+    "slug": "dhh-clankers-truth-layer",
+    "title": "Do AI agents need specialized tools?",
+    "excerpt": "DHH showed agents can act with zero MCPs. The question is whether that generalizes. An analysis of execution vs memory, and where specialized tools still matter.",
+    "published": false,
+    "publishedDate": "2026-02-06",
+    "category": "building",
+    "readTime": 5,
+    "tags": [
+      "dhh",
+      "truth-layer",
+      "agent-memory",
+      "neotoma"
+    ],
+    "body": "# Do AI agents need specialized tools?\n\nDavid Heinemeier Hansson ran an AI agent on OpenClaw with zero accommodations: no skills, no MCPs, no APIs. The agent signed up for HEY, created a Fizzy board with five idea cards and web-sourced images, joined Basecamp via invite, and completed every step without corrections. He used Claude Opus 4.5 in an isolated Proxmox VM, separate from his personal data.\n\nHis argument: agent-specific tooling (MCPs, CLIs, APIs) is a temporary crutch. The future is agents using human affordances (web, email, standard UIs). Like self-driving cars that eventually won't need special equipment. Human interfaces will be enough.\n\nThe demo is convincing. The question is whether it generalizes. Do agents need specialized tools or not?\n\n## The case against specialized tools\n\nDHH's experiment is strong evidence for execution. The interfaces agents use to do things (click, submit, call services, automate the browser) may not need to be agent-specific. Agents can navigate human UIs. They don't obviously need a separate API for every product. If that holds, a lot of execution-layer tooling (browser automation, API wrappers, product-specific MCPs) could indeed be a crutch that disappears as models get better at using the same interfaces humans use.\n\nSo for doing things, the answer tilts toward no. Agents may not need specialized execution tools.\n\n## The distinction: execution vs memory\n\nSpecialized tools aren't one category. Execution tools let the agent act. Memory tools let the agent (or the user) read and write structured state: entities, timelines, canonical records, provenance. No clicking, no form-filling. Just: what does the user know, in a form that can be queried and updated?\n\nThe question \"do agents need specialized tools?\" splits. For execution, DHH's thesis says maybe not. For memory, the question is different. Is there a human interface that gives an agent (or a human) a single, cross-source view of structured truth? If not, then for that job there is no human UI to navigate. Something has to provide that view.\n\n## What human interfaces don't provide\n\nHuman interfaces are per-source. Gmail has its UI. Drive has its UI. Notion, local files, calendar, each has its own. There is no human interface that shows:\n\n- All my entities across all my data.\n- Timeline of events from every source.\n- A resolved canonical list of people and companies.\n\nThose are aggregated, normalized views. They don't exist in any single app. The agent's options are: navigate every source each time and infer structure itself (costly, inconsistent, no single source of truth), or read from something that already does that aggregation. A specialized interface for cross-source structured memory isn't a substitute for a human UI. It's a substitute for the agent re-crawling and re-deriving structure from dozens of human UIs every time.\n\nSo for memory, the answer tilts toward yes. Agents (and users) need a way to get a view that no single human UI provides.\n\n## What the experiment didn't test\n\nDHH's demo was one agent, one platform, in a sandbox. The agent created new accounts. It didn't reason over existing personal data: invoices, contacts, documents scattered across tools. For \"agent reasons over my fragmented data,\" there is no single human UI. You either re-query everything each time or you have a layer that holds normalized, queryable state.\n\nThe demo was signup and collaboration. It didn't address \"reason over my tax documents,\" \"who are all my vendors across my files,\" or \"timeline of my contracts.\" For those, structured, queryable, provenance-backed memory is the requirement. Human UIs are per-app. They don't aggregate.\n\nHe also isolated the agent from his data. That pattern (bounded access instead of full machine access) implies a controlled interface to approved data. Not \"the agent surfs my whole machine,\" but \"the agent reads and writes through a defined layer.\" That's still a form of specialized interface.\n\n## Where specialized interfaces still matter\n\nSynthesis: agents may not need specialized tools for execution. They can use human affordances. For cross-source structured memory, and for bounded access to the user's data, they do. No single human UI gives the aggregated view. And \"give the agent a bounded memory layer you control\" is a different design than \"let the agent use only human UIs with no intermediate layer.\"\n\nMulti-tool users (Cursor, ChatGPT, Claude, OpenClaw) add another wrinkle. If \"what I know\" lives only inside each platform's context, it's siloed. One truth layer that any agent can read and write is again a specialized interface: it's the way to get a view that doesn't exist in any one app.\n\nSo the analysis lands here. Execution: specialized tools may be optional as agents get better at human UIs. Memory and bounded access: specialized tools (or a dedicated layer with an interface) still matter, because the view they provide doesn't exist elsewhere.\n\n## What I'm building\n\nThis framing is why I'm building [Neotoma](https://github.com/markmhendrickson/neotoma). It's a user-owned, cross-platform, structured truth layer. Not execution. Memory. The MCP (or whatever interface) is the way in to a view only a dedicated layer can provide: canonical entities, timelines, provenance, one place that any agent can query and update. Agents that use human affordances for doing things still need something like this for cross-source truth. I'm keeping that distinction explicit in all messaging: memory MCP vs execution MCP. Execution tooling may get simpler. The need for a place that holds cross-source truth does not.\n\nIf this analysis resonates, the work is in the open at the link above.\n",
+    "heroImage": "dhh-clankers-truth-layer-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "dhh-clankers-truth-layer-hero-square.png",
+    "createdDate": "2026-02-06",
+    "updatedDate": "2026-02-06",
+    "ogImage": "og/dhh-clankers-truth-layer-1200x630.jpg",
+    "summary": "- DHH ran an agent with zero MCPs or APIs; it used only human UIs (HEY, Fizzy, Basecamp). The question is whether agents need specialized tools at all.\n- For execution (click, submit, automate), the answer tilts no. Agents can navigate human interfaces; execution-layer tooling may be a temporary crutch.\n- Specialized tools split into execution vs memory. Memory is structured state: entities, timelines, canonical records. No single human UI provides a cross-source view of that.\n- Human interfaces are per-app. No app shows \"all my entities,\" \"timeline from every source,\" or \"resolved list of people and companies.\" Those views require a dedicated layer or interface.\n- DHH's demo was one agent, sandbox data, signup and collaboration. It didn't test reasoning over existing fragmented data (invoices, vendors, contracts). For that, structured memory is required.\n- Bounded access (agent isolated from user data) implies a controlled interface to approved data. That's still a form of specialized interface.\n- Synthesis: execution tools may become optional; memory and bounded-access tools still matter because the view they provide doesn't exist in any single human UI.\n- I'm building Neotoma as that memory layer: user-owned, cross-source, one place any agent can query and update. Memory MCP vs execution MCP."
+  },
+  {
+    "slug": "how-im-running-my-new-venture-as-ai-first",
+    "title": "How I'm running my new venture as AI-first",
+    "excerpt": "How I run Neotoma and the venture as AI-first: three-layer architecture (Truth/Strategy/Execution), agents via MCP, deterministic frameworks, content workflow, sovereignty.",
+    "published": false,
+    "publishedDate": null,
+    "category": "draft idea",
+    "readTime": 4,
+    "tags": [],
+    "body": "# How I'm running my new venture as AI-first\n\n- I run the venture (Neotoma, and the personal ops layer around it) as an AI-first operation: agents read memory, reason over strategy, and execute workflows. I intervene for irreversible decisions and high-level direction.\n- The system has three layers—Truth (memory), Strategy (reasoning), Execution (action)—each exposed to agents via MCP. Data stays local, typed, and provenance-tracked.\n- Content, ops, and product work flow through the same loop: context loading, AI-assisted generation, human refinement. I use audio notes, transcripts, and line-level feedback instead of writing from scratch.\n- Deterministic frameworks (decision rules, quarterly cadences, import protocols) constrain agent behavior so outputs are consistent and auditable. Same inputs yield same decisions.\n- Sovereignty is non-negotiable: I own the ledger, control what agents see, and avoid lock-in to any single model or UI. The stack is built for cross-platform agent access.\n\nMost ventures treat AI as a feature or a sidekick. You use ChatGPT for drafts, maybe an AI coding assistant, and otherwise run operations the old way: manual triage, human-only planning, tools that assume a single user at a keyboard. I'm taking the opposite approach. The new venture is run as an AI-first operation. Agents are not bolted on; they're the default interface to memory, strategy, and execution.\n\nThe cost of the default is friction. You repeat context, re-enter data, and personally gate every decision. As the sole founder, that doesn't scale. I need leverage: fewer reactive tasks, more deterministic processes, and a single source of truth that both I and the agents can use.\n\n## Three layers, one protocol\n\nThe architecture is three layers—Truth, Strategy, Execution—each cleanly separated and each accessible to AI via the MCP protocol.\n\n**Truth** is the memory substrate. In my setup that's 60+ normalized data types, 35,000+ records, with full provenance. Transactions, tasks, contacts, fitness logs, strategy docs: all of it lives in a typed, queryable store. Agents read it through MCP. They don't get a fuzzy summary; they get structured records, filters, and semantic search. When I ask about spending patterns or task load, the agent queries the ledger and reasons over real data.\n\n**Strategy** is the reasoning layer. Canonical strategy, tactics, and operations documents live here. Decision frameworks (e.g. liquidity regime scoring, prioritization rules) are explicit. Agents are instructed to consult these before making recommendations. That keeps behavior consistent and traceable: same situation, same framework, same output.\n\n**Execution** is the action layer. Data imports, PDF automation, sync jobs, form filling, calendar and task sync. Many of these run as scripts or services. Agents can trigger them, but irreversible actions (payments, sends, deletes) require confirmation. The rest runs autonomously within the defined protocols.\n\nThe important part: all of this is exposed through MCP. Whether I'm in Cursor, Claude, or ChatGPT, the agent connects to the same Truth, Strategy, and Execution surfaces. No custom integration per tool. The protocol is the contract.\n\n## How work actually gets done\n\nContent is a concrete example. I don't write essays from a blank page. I follow an AI-first content workflow: context loading (strategy docs, architecture, positioning), raw input (often voice notes, then transcription), then AI-assisted first draft. I edit with line-level feedback—\"This is vague, replace with X\"—and iterate until it sounds like me and matches the strategy. What used to take four to six hours for a long piece now lands in roughly one to two, with higher consistency.\n\nThe same pattern applies to ops. Task triage, financial review, and data imports are guided by written protocols. Agents load the right docs, apply the rules, and propose actions. I confirm or correct. The heavy lifting is in the frameworks and the data; the agent is the interface.\n\n## Determinism and sovereignty\n\nDeterminism matters. Ad-hoc agent behavior is hard to trust and harder to audit. So the system leans on deterministic workflows: same inputs, same process, same class of outputs. Strategy documents define the rules; agents apply them. When something goes wrong, we can trace it back to the rule or the data.\n\nSovereignty is the other pillar. The memory ledger is mine. It's stored locally, in formats I control, with full audit trails. No provider trains on it. No single model or UI is required. MCP lets different agents and front ends use the same Truth and Execution layers. That keeps the venture resilient to platform changes and aligned with how I want to run it: high leverage, minimal lock-in, human in the loop only where it matters.\n\n## What this enables\n\nRunning AI-first changes the baseline. Routine ingestion, triage, and reporting can run without me. Strategic choices—what to build, how to position, where to focus—still flow through me, but they're informed by agents that have full context. I get to act as architect and strategist instead of full-time operator.\n\nThe venture is small by design. The leverage comes from the stack: typed memory, explicit strategy, protocol-based access, and deterministic workflows. AI-first isn't about replacing the founder; it's about making the founder's time count.\n",
+    "createdDate": "2026-01-27",
+    "updatedDate": "2026-02-04"
+  },
+  {
+    "slug": "truth-layer-agent-memory-old",
+    "title": "Building a truth layer for persistent agent memory",
+    "excerpt": "Agent memory is forgetful. Why I am building inspectable, structured memory for trustworthy agentic systems.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 4,
+    "tags": [
+      "neotoma",
+      "agents",
+      "personal-data"
+    ],
+    "body": "Neotoma: inspectable, replayable, user-controlled memory substrate. MCP and CLI-first. Cross-platform and privacy-first.",
+    "createdDate": "2026-02-02",
+    "updatedDate": "2026-02-04"
+  },
+  {
+    "slug": "why-neotoma-exists",
+    "title": "Why Neotoma exists",
+    "excerpt": "AI systems have crossed a threshold. They increasingly act on personal data. That state is fundamentally untrustworthy. Neotoma is an attempt to treat personal data the way production systems treat state.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 4,
+    "tags": [
+      "neotoma",
+      "ai",
+      "memory",
+      "truth-layer",
+      "determinism"
+    ],
+    "body": "Personal data as operational state. Schema-first, contract-driven, explicit mutations, full provenance, replay as first-class.",
+    "createdDate": "2026-02-02",
+    "updatedDate": "2026-02-02"
+  },
+  {
+    "slug": "neotoma-developer-preview",
+    "title": "Neotoma developer preview",
+    "excerpt": "Developer preview exposing CLI and MCP backed by OpenAPI. A contract-first system for ingesting fragmented personal data into structured, queryable state.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 4,
+    "tags": [
+      "neotoma",
+      "developer-preview",
+      "mcp",
+      "cli",
+      "openapi"
+    ],
+    "body": "Deterministic truth layer for personal data. CLI for humans, MCP for agents, OpenAPI as contract. No web UI. Infrastructure, not note-taking.",
+    "createdDate": "2026-02-02",
+    "updatedDate": "2026-02-02"
+  },
+  {
+    "slug": "why-ai-memory-fails-without-truth-layer",
+    "title": "Why AI memory fails without a truth layer and what Neotoma provides instead",
+    "excerpt": "AI agents need persistent memory that works across platforms and survives session resets. Neotoma delivers this as a privacy-first, deterministic truth layer with cryptographic integrity, the missing foundation for reliable agent reasoning.",
+    "published": false,
+    "publishedDate": null,
+    "category": "technical",
+    "readTime": 8,
+    "tags": [
+      "neotoma",
+      "ai",
+      "memory",
+      "truth-layer",
+      "mcp"
+    ],
+    "body": "- Provider memory systems are platform-locked and ephemeral. They disappear when you switch tools or when providers reset sessions.\n- Personal data is fragmented across email attachments, cloud drives, and conversations. Current systems can't unify this data into queryable memory.\n- I'm building Neotoma to solve this as a privacy-first, deterministic, cross-platform truth layer. It transforms fragmented personal data into structured, queryable memory with three defensible differentiators: user-controlled ledger (no provider access), deterministic extraction (same input → same output), and cross-platform access via MCP protocol (Model Context Protocol, an open standard for connecting AI tools to external data sources).\n- This creates a verifiable domain that compensates for LLM inconsistency. The same operation always produces the same final state, creating objective, non-gameable results that agents can depend on.\n- Competitors can't pursue this path due to structural constraints: privacy-first conflicts with training-data business models, deterministic extraction conflicts with ML-first organizational identity, and cross-platform conflicts with lock-in revenue.\n- Neotoma enables the agentic web. It provides persistent, structured memory that agents read from and write to across sessions, tools, and platforms.\n- This is foundational infrastructure, not a productivity app. Neotoma serves as the substrate beneath agent-driven layers, similar to how operating systems provide the foundation for applications.\n\n**The fragmentation problem**\n\nIf you rely on provider memory systems, you're building on sand. ChatGPT memory disappears when OpenAI resets your session. Claude memory is locked to Anthropic's platform. You can't export it, verify it, or use it with other tools.\n\nWorse, your personal data is fragmented. Financial transactions live in email attachments. Fitness logs are in cloud drives. Calendar entries are in Google Calendar. Conversations are scattered across Slack, email, and chat interfaces. No system unifies this into queryable memory.\n\nWhen you ask an AI agent to analyze your spending patterns, it can't access your transaction history because that data lives in email attachments the agent never saw. When you switch from ChatGPT to Claude, you lose all context from previous conversations. When you use Cursor for coding, it can't access the financial data you discussed with ChatGPT.\n\nThis fragmentation prevents AI agents from reasoning across your complete information landscape. They operate in isolated silos with partial context. The result is inconsistent, unreliable agent behavior that can't be verified or reproduced.\n\n**The truth layer**\n\nI'm building Neotoma as a truth layer: a privacy-first, deterministic, cross-platform memory substrate that transforms fragmented personal data into structured, queryable memory with cryptographic integrity.\n\nI'm enforcing idempotence (the property that the same operation always produces the same result) through three mechanisms:\n\n1. **Canonicalization**: Normalize, sort, and round data consistently before processing. This ensures \"Ibercaja Bank\" and \"Ibercaja\" are treated identically.\n2. **Hashing**: Create deterministic identity from canonicalized data using cryptographic hash functions. The same input always produces the same hash.\n3. **Deduplication**: Prevent duplicate observations from the same source by comparing hashes.\n\nThe same operation always produces the same final state. This creates objective, non-gameable results that agents can depend on. It addresses the jagged intelligence problem (where LLMs excel in verifiable domains but struggle with consistency elsewhere) by creating a verifiable domain where consistency is guaranteed.\n\n**How it works**\n\nI'm using entity resolution via hash-based canonical IDs. When you mention \"Ibercaja\" in an email and \"Ibercaja Bank\" in a transaction record, Neotoma resolves both to the same entity using deterministic hashing (cryptographic functions that always produce the same output for the same input). This works across all data sources: email attachments, cloud drives, conversations, and manual entries.\n\nThe event-sourced architecture (a pattern where all changes are stored as a sequence of events, rather than updating records in place) creates an immutable audit trail. Every piece of memory is an event in a ledger you own. If you tell Claude about a crypto transaction, that's an event. If you upload a fitness log, that's a series of events. Events are facts about what happened, not interpretations. You can reconstruct the world-state at any point in time.\n\nCross-platform access works via MCP protocol (Model Context Protocol, an open standard that enables AI tools like ChatGPT, Claude, and Cursor to connect to external data sources). The same Neotoma memory works with ChatGPT, Claude, Cursor, and other AI tools. You can discuss a financial transaction with ChatGPT, then query the same data with Claude via MCP, then use it in Cursor for code generation. The memory persists across all interactions.\n\nI'm building Neotoma to support dual-path ingestion: file uploads where users explicitly provide documents for processing, and agent interactions where agents can store structured data via MCP actions. Memory grows incrementally as agent usage scales, creating a persistent knowledge graph that survives individual conversations and tool sessions.\n\n**When it doesn't work**\n\nNeotoma doesn't work if you need real-time collaboration features. It's designed for personal data, not shared workspaces. If you need Google Docs-style collaborative editing, use Google Docs.\n\nIt's not a replacement for provider memory systems. Provider memory is useful for conversation context within a single platform. Neotoma complements provider memory by providing persistent, cross-platform memory that survives session resets.\n\nThe deterministic approach requires upfront schema design. If you need rapid prototyping with unstructured data, you might prefer a more flexible system. Neotoma's strength is verifiable consistency, not flexibility.\n\nIt doesn't solve the LLM consistency problem entirely. LLMs will still hallucinate and make errors. Neotoma provides a verifiable substrate that compensates for LLM inconsistency, but it doesn't eliminate it.\n\n**How I'm approaching the build**\n\n1. **Building for ateles integration**: I'm building Neotoma to replace parquet MCP in my ateles project (a sovereign agentic operating system for personal workflow automation that uses a three-layer architecture: Truth Layer for memory, Strategy Layer for reasoning, and Execution Layer for actions). This gives me a real use case to validate the architecture with 60+ normalized data types and 35,000+ records.\n\n2. **MCP integration first**: I'm focusing on MCP integration patterns to ensure cross-platform access works correctly. Testing with ChatGPT, Claude, and Cursor to verify the same memory works across all tools.\n\n3. **Deterministic extraction**: I'm implementing rule-based extraction with deterministic hashing to ensure the same input always produces the same output. This is critical for the truth layer foundation.\n\n4. **Entity resolution**: I'm building entity resolution to unify fragmented data across sources. Testing with real data (transactions, contacts, events) to verify deterministic hashing works correctly.\n\n5. **Event-sourced architecture**: I'm using event-sourcing to create an immutable audit trail. Every piece of memory is an event, allowing reconstruction of world-state at any point in time.\n\n6. **Privacy-first from the start**: I'm building user-controlled isolation via Row-Level Security (RLS, a database security feature that restricts access to rows based on user identity) from MVP. No provider access, no training data usage.\n\n7. **Validating through usage**: I'm dogfooding Neotoma in ateles to validate the architecture works in practice. Real usage reveals edge cases and validates technical decisions.\n\n**Unresolved questions**\n\nI'm building Neotoma v1.0.0 with per-user isolation via Row-Level Security (RLS, a database security feature that restricts access to rows based on user identity). Team workspaces and shared memory are planned for v1.x to support small teams (2-20 people). The open question: how do we enable collaborative agent reasoning across team members while preserving privacy? Can we build a truth layer that allows agents to reason across shared team data without exposing individual user data?\n\nThe event-sourced architecture creates an immutable audit trail, but what's the retention policy? Do we keep all events forever, or do we need a compaction strategy? How do we handle GDPR right-to-deletion requests when data is cryptographically linked across events?\n\nThe deterministic approach compensates for LLM inconsistency, but what about LLM bias? If the canonicalization rules encode bias, the deterministic system will amplify it. How do we detect and correct bias in the truth layer itself?",
+    "showMetadata": 1,
+    "createdDate": "2025-01-15",
+    "updatedDate": "2026-01-19"
+  },
+  {
+    "slug": "three-layer-architecture-truth-strategy-execution",
+    "title": "The Three-Layer Architecture: Truth, Strategy, Execution",
+    "excerpt": "Most personal data systems mix concerns. The three-layer architecture separates what happened, what you want to achieve, and what actions to take.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 4,
+    "tags": [
+      "architecture",
+      "systems-design",
+      "neotoma"
+    ],
+    "body": "Most personal data systems mix concerns. They store financial data next to tasks next to contacts, with no clear separation between what happened, what you want to achieve, and what actions to take.\n\nThis creates complexity. It's hard to query across domains. It's hard to maintain consistency. It's hard to build reliable automation.\n\nThe three-layer architecture separates concerns:\n\n- **Truth Layer**: What actually happened (events, facts, immutable records)\n- **Strategy Layer**: What you want to achieve (goals, plans, desired outcomes)\n- **Execution Layer**: What actions to take (tasks, workflows, automation)\n\n## Truth Layer\n\nThe truth layer stores immutable facts about what happened. Financial transactions, health records, property documents, communication logs. These are events that occurred, not opinions or plans.\n\nThis layer is event-sourced. Each fact is a typed event with provenance. You can query it to understand current state. You can verify claims by checking the event log.\n\n## Strategy Layer\n\nThe strategy layer stores goals, plans, and desired outcomes. Budget targets, fitness goals, project milestones. These are what you want to achieve, not what happened.\n\nThis layer references the truth layer. Goals are measured against actual events. Plans are adjusted based on reality.\n\n## Execution Layer\n\nThe execution layer stores actions and workflows. Tasks, reminders, automation rules. These are what to do, not what happened or what you want.\n\nThis layer connects strategy to truth. Tasks move you toward goals. Workflows respond to events. Automation executes based on both current state and desired outcomes.\n\n## Benefits\n\n- **Clear separation**: Each layer has a distinct purpose\n- **Queryable**: Easy to ask questions across layers\n- **Composable**: Layers work together without tight coupling\n- **Maintainable**: Changes in one layer don't break others\n\nThe three-layer architecture provides structure for personal data systems that need to handle complexity while maintaining clarity.\n",
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
+  },
+  {
+    "slug": "sovereignty-in-ai-cryptographic-assurances",
+    "title": "Sovereignty in AI: Cryptographic Assurances and Local-First Architecture",
+    "excerpt": "AI tools control your data. Sovereign AI systems use cryptographic assurances and local-first architecture to return control to users.",
+    "published": false,
+    "publishedDate": "2026-04-02",
+    "category": "essay",
+    "readTime": 4,
+    "tags": [
+      "sovereignty",
+      "privacy",
+      "crypto",
+      "ai",
+      "local-first"
+    ],
+    "body": "AI tools control your data. They store it on their servers. They use it to train models. They decide when to delete it. You have no control, no ownership, no sovereignty.\n\nThis is a problem when you're using AI for sensitive work. Financial planning, health decisions, legal analysis. You need systems where you control the data, not the provider.\n\nSovereign AI systems use cryptographic assurances and local-first architecture to return control to users.\n\n## The Problem with Provider-Controlled Data\n\nMost AI tools store data on provider servers:\n\n- Providers control access\n- Data can be used for training\n- No way to export or delete\n- No cryptographic guarantees\n\nThis creates lock-in. You can't switch providers without losing context. You can't verify what data is stored. You can't control how it's used.\n\n## Cryptographic Assurances\n\nSovereign AI systems use cryptography to provide guarantees:\n\n- **Encryption**: Data is encrypted at rest and in transit\n- **Signatures**: Events are cryptographically signed\n- **Verification**: You can verify data integrity\n- **Ownership**: Cryptographic keys prove ownership\n\nThese assurances mean you can trust the system. You can verify data hasn't been tampered with. You can prove ownership. You can control access.\n\n## Local-First Architecture\n\nSovereign AI systems use local-first architecture:\n\n- **Local storage**: Data stored on your devices\n- **Sync when needed**: Data syncs across devices\n- **Offline capable**: Works without internet\n- **User-controlled**: You decide what to sync and where\n\nThis architecture returns control to users. You own the data. You control where it's stored. You decide what to sync.\n\n## Benefits\n\n- **Control**: You own and control your data\n- **Privacy**: Data isn't on provider servers\n- **Portability**: You can export and move data\n- **Trust**: Cryptographic guarantees provide assurance\n\nSovereign AI systems enable AI workflows where users maintain control, privacy, and ownership of their data.\n",
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
+  },
+  {
+    "slug": "building-systems-that-restore-self-sovereignty",
+    "title": "Our agentic future needs user-owned memory",
+    "excerpt": "After encountering AI memory limitations that led to platform lock-in and unreliable agent behavior, I'm building Neotoma—an autonomous cognitive substrate for sovereign users. This essay explains the personal need, Neotoma's goals and principles, and how I'm using it in Ateles, which I intend to open source.",
+    "published": false,
+    "publishedDate": "2026-01-29",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "self-sovereignty",
+      "neotoma",
+      "mission",
+      "crypto",
+      "ai"
+    ],
+    "body": "# Why AI Agents Fail Without User-Owned Memory—and How to Fix It\n\n## Executive Synthesis\n\n- Current AI agents (ChatGPT, Claude) have effective short-term memory that falls off quickly and isn't accessible across platforms\n- The failure mode isn't \"I don't know\"—agents hallucinate memories, giving wrong answers and making wrong decisions\n- Without autonomous, user-owned data systems, we risk platform lock-in and delegating responsibilities to agents that can't execute reliably\n- Neotoma is an autonomous cognitive substrate that provides typed, event-sourced memory with full provenance, accessible via MCP protocol from any AI platform\n- The three-layer architecture (Truth → Strategy → Execution) enables sovereign agentic systems where users own the durable memory substrate, not platforms\n- Ateles demonstrates this in practice: 60+ normalized data types, 35,000+ records, agents that can read, reason, and execute while maintaining user sovereignty\n\n## Problem Framing (Stakes)\n\nIf you use AI agents without user-owned memory systems, you'll hit three failure modes:\n\n**Platform lock-in:** Memory trapped in one provider's system. Switch platforms, lose context. Move between tools, start over sharing context. You become dependent on a single provider's infrastructure.\n\n**Unreliable delegation:** Agents forget critical context (personal finances, tasks, communications, property, health records). You can't delegate responsibilities with confidence because agents hallucinate memories instead of saying \"I don't know.\" They take actions based on partial or hallucinated memories of your current and historical state.\n\n**Loss of sovereignty:** Platforms optimize for lock-in, telemetry, and single-model usage. You lose control over your data, your memory, your ability to reason across time and domains. Your agents can't remember what happened last month, last year, or in a different tool.\n\nThe common wrong assumption: \"AI providers will solve memory reliability.\" They won't. Their incentives align with lock-in, not portability. Their memory systems are designed for retention within their ecosystem, not cross-platform continuity.\n\n## Core Claim\n\n**Neotoma Model:** User-owned, deterministic memory substrate that persists independently of models, interfaces, and corporate ecosystems. It's the kernel of personal AI agency.\n\nThe rational equilibrium: Partner on inference and interfaces (use ChatGPT, Claude, Cursor for what they're good at), but own the durable, typed memory substrate and automation surfaces that all models and apps can use.\n\nNeotoma applies blockchain-like thinking to AI memory. Users incrementally build a shared view of their reality—personally and professionally, within companies or projects. Agents access this view no matter what tool they're using. If one agent from one platform does a job today, another agent from another platform three years from now can use the learnings or context of that first agent's work.\n\n## Evidence & Specifics\n\n**Personal experience:** I spent months providing context (personal finances, tasks, communications, property, health records) to agents that kept forgetting it. I couldn't delegate responsibilities with confidence. Moving between tools meant starting over sharing context.\n\n**Ateles implementation:** Three-layer architecture demonstrating Neotoma in practice:\n- **Truth Layer (Neotoma):** Currently using Parquet MCP provisionally with 60+ normalized data types, 35,000+ records. Planned migration to Neotoma for enhanced capabilities (entity resolution, event sourcing, graph relationships, timeline reconstruction, cross-domain joins).\n- **Strategy Layer:** Canonical strategy/tactics/operations documents, deterministic decision-making frameworks, strategic plans, quarterly reviews, portfolio reasoning, liquidity analysis. Reads from Truth Layer to reason about plans and decisions.\n- **Execution Layer:** Financial transactions, form submissions, external system sync, data import pipelines, background services, scheduled workflows, PDF automation, task synchronization. Acts on data from Truth Layer to carry out actions.\n\n**Concrete use cases:** Financial autonomy (agents track transactions, analyze portfolios, execute decisions), task orchestration (agents import, score, classify, sync tasks bidirectionally), administrative automation (form filling, contact extraction, document processing), health tracking (exercise data, workouts, meals, health reports), strategic planning (agents read strategy documents, apply frameworks, generate plans).\n\n**Timeline:** Started working on Neotoma in November 2025 after a sabbatical. Two months in, foundation is set.\n\n## Counter-Arguments & Limits\n\n**This doesn't apply if:**\n- You only use one AI platform and never plan to switch\n- You don't delegate critical decisions to agents\n- You're comfortable with platform lock-in and provider-controlled memory\n- You don't need cross-domain reasoning or long-term memory continuity\n\n**Known tradeoffs:**\n- Requires upfront setup and data ingestion (not instant like ChatGPT memory)\n- You own the infrastructure, which means you're responsible for backups, security, maintenance\n- Cross-platform capability requires MCP protocol adoption (not all tools support it yet)\n- Deterministic systems are less flexible than provider-optimized memory (but more reliable)\n\n**When this fails:**\n- If you need real-time collaboration across multiple users (Neotoma is personal-first, not collaborative)\n- If you require provider-managed compliance (HIPAA, SOC2) without self-hosting\n- If you want zero setup time (Neotoma requires initial configuration and data migration)\n\n**Architectural constraints:**\n- Event-sourced architecture means all data is immutable (good for auditability, requires different mental model than mutable databases)\n- Schema-first approach requires upfront schema design (not as flexible as schema-less systems)\n- Entity resolution via hash-based IDs means you can't change entity identities after creation (immutability requirement)\n\n## Actionable Steps\n\n1. **Assess your agent memory pain points:** List the contexts you repeatedly provide to agents (finances, tasks, communications, health, property). Document which platforms you use and how often you re-share context.\n\n2. **Evaluate MCP protocol support:** Check if your current AI tools (ChatGPT, Claude, Cursor) support MCP protocol. If not, identify which tools you'd need to switch to or wait for MCP adoption.\n\n3. **Start with provisional memory layer:** Use Parquet MCP or similar typed storage to begin normalizing your data. Extract 5-10 key data types from your current workflows (transactions, tasks, contacts, documents).\n\n4. **Design your three-layer architecture:** Map your current workflows to Truth Layer (what data), Strategy Layer (what decisions), Execution Layer (what actions). Identify which decisions and actions depend on which data.\n\n5. **Migrate one domain first:** Choose one domain (finances, tasks, or health) and migrate it to the memory substrate. Use it with agents for 2-4 weeks to validate the approach before expanding.\n\n6. **Set up entity resolution:** Create hash-based canonical IDs for your key entities (people, companies, properties, accounts). This enables cross-domain joins and unified entity model.\n\n7. **Build audit trail:** Ensure all data writes include provenance (source document, timestamp, agent/tool that created it). This enables full traceability from source documents to derived insights.\n\n## Open Loop\n\nHow do we handle collaborative memory when multiple users need shared context? Neotoma is personal-first, but teams and companies also need shared memory substrates. What does entity resolution look like when entities span multiple users' data? How do we maintain sovereignty while enabling collaboration?\n\nWhat happens when AI providers adopt MCP protocol but still optimize for lock-in through proprietary memory layers? Will they support user-owned memory, or will they create hybrid systems that default to provider control?\n\nHow do we scale entity resolution and graph relationships as personal data grows from 35,000 records to 350,000 or 3.5 million? At what point does the graph become too complex for real-time queries, and what are the architectural patterns for managing that complexity?\n\nThe transition to Neotoma was a return to the principles that initially drew me to Stacks: user-owned data, self-sovereign identity, direct relationships between individuals and applications. Two months in, the foundation is set. The work ahead will show what this mission looks like in practice—not just for me, but for others building sovereign agentic systems.\n",
+    "showMetadata": 1,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
+  },
+  {
+    "slug": "event-sourced-memory-for-agentic-systems",
+    "title": "Event-Sourced Memory for Agentic Systems",
+    "excerpt": "AI agents have a memory problem. They remember recent conversations, but context fades quickly. Cross-platform memory does not exist. Event-sourced memory solves this by storing typed events that represent what actually happened.",
+    "published": false,
+    "publishedDate": "2026-02-05",
+    "category": "technical",
+    "readTime": 4,
+    "tags": [
+      "neotoma",
+      "ai",
+      "memory",
+      "event-sourcing"
+    ],
+    "body": "AI agents have a memory problem. They remember recent conversations, but context fades quickly. Cross-platform memory doesn't exist. Agents in one tool can't access what agents in another tool learned.\n\nThis creates a fundamental limitation: you can't build reliable agentic workflows if agents forget context between sessions, platforms, and tools.\n\nEvent-sourced memory solves this. Instead of storing conversation transcripts, we store typed events that represent what actually happened. Agents can query this event log to reconstruct context, verify claims, and build on previous work.\n\n## The Problem with Current Memory Systems\n\nMost AI tools use conversation-based memory. They store chat history, but this approach has limitations:\n\n- Context fades after a few conversations\n- Memory is locked to a single platform\n- No way to verify what actually happened\n- No cross-tool memory sharing\n\n## Event-Sourced Architecture\n\nEvent-sourced memory stores typed events instead of conversations. Each event represents a discrete action or state change:\n\n- Financial transaction recorded\n- Task created or completed\n- Contact added or updated\n- Document processed\n\nAgents query these events to understand current state and historical context. They can verify claims by checking the event log. They can build on previous work by reading relevant events.\n\n## Benefits\n\n- **Persistent**: Events don't fade like conversation memory\n- **Cross-platform**: Any agent can query the same event log\n- **Verifiable**: Events provide provenance for claims\n- **Composable**: Agents can build on each other's work\n\nEvent-sourced memory enables reliable agentic workflows where agents remember context, verify information, and collaborate across tools.\n",
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
+  },
+  {
+    "slug": "deterministic-workflows-reproducibility",
+    "title": "Deterministic Workflows: Reproducibility in Crypto Analytics",
+    "excerpt": "Crypto analytics tools are unreliable. They give different answers at different times. Deterministic workflows use typed schemas and event-sourced data to ensure consistency.",
+    "published": false,
+    "publishedDate": null,
+    "category": "technical",
+    "readTime": 4,
+    "tags": [
+      "crypto",
+      "determinism",
+      "analytics",
+      "reproducibility"
+    ],
+    "body": "Crypto analytics tools are unreliable. They give different answers at different times. They can't reproduce results. They make decisions based on incomplete or inconsistent data.\n\nThis is a problem when you're managing significant assets. You need systems that produce the same outputs for the same inputs, every time.\n\nDeterministic workflows solve this. They use typed schemas, event-sourced data, and reproducible queries to ensure consistency.\n\n## The Problem with Non-Deterministic Systems\n\nMost crypto tools are non-deterministic:\n\n- API responses vary\n- Calculations depend on timing\n- Results can't be reproduced\n- No way to verify correctness\n\nThis makes it hard to trust the outputs. You can't verify calculations. You can't reproduce analysis. You can't build reliable automation.\n\n## Deterministic Architecture\n\nDeterministic workflows use:\n\n- **Typed schemas**: Data structures are explicitly defined\n- **Event sourcing**: All changes are recorded as events\n- **Reproducible queries**: Same query, same data, same result\n- **Verification**: Results can be checked against source events\n\n## Benefits\n\n- **Reproducible**: Same inputs always produce same outputs\n- **Verifiable**: Results can be checked against source data\n- **Reliable**: No surprises, no inconsistencies\n- **Automated**: Systems can make decisions with confidence\n\nDeterministic workflows enable reliable crypto analytics where you can trust the outputs, verify calculations, and build automation that works consistently.\n",
+    "showMetadata": 1,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
+  },
+  {
+    "slug": "building-ai-first-personal-operating-systems",
+    "title": "Building AI-First Personal Operating Systems",
+    "excerpt": "Personal productivity tools weren't designed for AI. AI-first personal operating systems are designed for agentic workflows from the ground up.",
+    "published": false,
+    "publishedDate": "2026-10-14",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "ai",
+      "productivity",
+      "automation",
+      "agentic-workflows"
+    ],
+    "body": "Personal productivity tools weren't designed for AI. They assume manual input, human decision-making, and linear workflows. They don't support agentic automation, context sharing, or cross-tool memory.\n\nThis creates friction. You spend time entering data, making decisions, and coordinating workflows that AI agents could handle. You lose time, mental bandwidth, and autonomy to tools that don't support your actual workflow.\n\nAI-first personal operating systems are designed for agentic workflows from the ground up. They support context sharing, cross-tool memory, and automated decision-making.\n\n## The Problem with Traditional Tools\n\nTraditional productivity tools assume:\n\n- Manual data entry\n- Human decision-making\n- Single-tool workflows\n- No context sharing\n\nThis doesn't work when you're using AI agents. Agents need context. They need to share memory across tools. They need to make decisions autonomously.\n\n## AI-First Architecture\n\nAI-first systems are designed for agents:\n\n- **Context sharing**: Agents can access shared context\n- **Cross-tool memory**: Memory works across all tools\n- **Automated workflows**: Agents can execute workflows autonomously\n- **Event sourcing**: All actions are recorded as events\n\nThis architecture enables agentic workflows where agents handle routine work, share context, and make decisions based on complete information.\n\n## Benefits\n\n- **Automation**: Agents handle routine work\n- **Context**: Agents have access to full context\n- **Efficiency**: Less manual work, more automation\n- **Capability**: Agents can handle complex workflows\n\nAI-first personal operating systems enable workflows where agents do the routine work, you do the strategic thinking, and the system handles the coordination.\n",
+    "showMetadata": 1,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
+  },
+  {
     "slug": "we-are-all-centaurs-now",
     "title": "We're all centaurs now",
     "excerpt": "The humanness isn't in typing every word. It's in deciding what's worth saying.",
@@ -20,6 +1375,7 @@
     "createdDate": "2026-02-14",
     "updatedDate": "2026-02-14",
     "summary": "- Using AI to prototype and ship code as a non-\"engineer\" GM felt like a transgression in 2025, but that mode of work is now industry standard.\n- Delegating low-level execution to AI frees you to work at a higher level: design, strategy, direction, and philosophy.\n- The same cultural anxiety about authenticity is playing out for AI-assisted writing as it did for coding.\n- The human contribution is meaning, values, judgment, and direction, not typing every word.\n- Embracing the centaur model (half human, half AI) with intention beats doing it reluctantly or apologetically.",
+    "shareTweet": "We're all centaurs now. The humanness isn't in typing every word. It's in deciding what's worth saying.\n\nhttps://markmhendrickson.com/posts/we-are-all-centaurs-now",
     "ogImage": "og/we-are-all-centaurs-now-1200x630.jpg"
   },
   {
@@ -44,6 +1400,7 @@
     "createdDate": "2026-02-07",
     "updatedDate": "2026-02-09",
     "summary": "- I built an experimental MCP server with 93 tools for Bitcoin L1 and Stacks L2, one mnemonic for both.\n- Same two chains as human wallets, but agent-callable: less friction for people who want to hold their own keys without the full cognitive load.\n- L1 covers core Bitcoin, Ordinals and inscriptions, tx management, and Ledger; L2 covers STX, Clarity, swaps, sBTC bridge, stacking, BNS, market data, mempool monitoring, block explorer, contract events, token metadata, network stats, and enriched stacking cycle progress.\n- Destructive actions default to dry run; no keys or mnemonics are ever returned; preview and env limits keep execution policy-gated.\n- The wallet MCP is an execution adapter in my three-layer stack; I define strategy, agents execute, I approve when actions exceed my limits.",
+    "shareTweet": "This weekend I pulled together an MCP server (i.e. tools for AI agents) for a Bitcoin wallet. It supports extensive L1 functionality: PSBTs, UTXOs, Ordinals, Ledger. It also supports L2 with Stacks: sBTC bridging, Clarity, Stacking, swaps.",
     "ogImage": "og/agentic-wallets-mcp-bitcoin-1200x630.jpg"
   },
   {
@@ -91,30 +1448,25 @@
     "createdDate": "2026-02-05",
     "updatedDate": "2026-02-10",
     "summary": "- Incumbents face structural constraints that prevent them from copying certain architectures, even if they have more resources.\n- Effective barriers arise from incentive misalignment, architectural constraints, business model conflicts, distribution mismatch, and timing windows.\n- Neotoma demonstrates these principles: privacy-first architecture directly conflicts with incumbent revenue models, deterministic workflows require complete rewrites, and cross-platform support undermines lock-in strategies.\n- The goal is not to outrun replication through speed or secrecy, but to construct systems whose value compounds through principles incumbents are structurally disincentivized to pursue.\n- When evaluating defensibility, ask: would copying hurt their existing revenue, require non-incremental architectural changes, or demand a different customer relationship they can't serve?",
+    "shareTweet": "My dad asked: \"How do you protect your IP when Big Guys could copy you?\"\n\nShort answer: you don't protect through secrecy or patents. You build something they structurally can't pursue.\n\nFive barriers that actually work: https://markmhendrickson.com/posts/building-structural-barriers",
     "ogImage": "og/building-structural-barriers-1200x630.jpg"
   },
   {
-    "slug": "agentic-search-and-the-truth-layer",
-    "title": "Agentic retrieval infers. It doesn't guarantee.",
-    "excerpt": "Your AI finds things. It also misses things, overwrites them, and often can't say where an answer came from. Why that happens and what would fix it.",
+    "slug": "openclaw-and-the-truth-layer",
+    "title": "OpenClaw is powerful at doing but could use some help remembering.",
+    "excerpt": "OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.",
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "essay",
     "readTime": 5,
-    "tags": [
-      "neotoma",
-      "agentic-search",
-      "truth-layer",
-      "rag"
-    ],
-    "body": "[Boris Cherny (creator of Claude Code at Anthropic) tweeted](https://x.com/bcherny/status/2017824286489383315) that Claude Code moved from RAG plus local vector DB to agentic search. It works better, he said, and is simpler, with fewer issues around security and privacy. Other tools take a different path. Cursor, for example, uses cloud-based embeddings to index the codebase and search by semantic similarity.\n\nSo we have at least two retrieval paradigms: embedding-based search (pre-indexed, vector similarity) and agentic search (on-demand tool use). They are not the same. Each has different tradeoffs. Both are retrieval strategies. A truth layer is something else. It persists canonical entities, maintains provenance, and supports deterministic queries. It's about state, not retrieval. This post compares a truth layer to both retrieval models. It also ties in the limits I've hit when relying on retrieval alone.\n\n## Where I've hit limits\n\nI use Cursor as my central interface for all of my digital workflows, not just coding. Email triage, task management, finance queries, content planning, transactions, contacts. They all run through the same agent with access to the same repo. Agentic search across files often works well. The agent finds context, infers connections, and gets things done.\n\nBut I've hit limits. The agent infers; it doesn't guarantee. Here's what that looks like:\n\n- **Large datasets, incomplete recall.** On-demand search misses things or truncates across thousands of transactions or hundreds of contacts. Retrieval re-derives each time. There's no structured store to query for complete results.\n- **Irrecoverable overwrites.** An agent overwrites a contact or task and the previous state is gone. No rollback. Writes are in-place. There's no versioning or append-only trail to trace and roll back.\n- **No cross-tool access.** I can't use the same records from Claude.ai or ChatGPT. Retrieval is provider-bound.\n- **Non-reproducible answers.** Same question, different answer. I can't reproduce a result for verification or debugging. Retrieval is non-deterministic.\n- **No traceability.** When the agent gives a wrong number or claim, I can't trace it back to source files or records. Retrieval has no provenance.\n- **Unstable canonical identity.** The agent may treat \"Acme Corp\" and \"ACME CORP\" as the same in one session and different in the next. Retrieval re-infers each time. There are no persistent canonical IDs or merge rules.\n\n## Two retrieval paradigms, one state paradigm\n\nEmbedding-based search and agentic search both get information to an agent. They are not the same. Embedding-based search (e.g. Cursor) pre-indexes a corpus and answers via vector similarity. The index can be cloud-hosted and updated. Agentic search (e.g. Claude Code) skips a persistent index and uses tools to search and read on demand. Different implementations, different tradeoffs: privacy, staleness, simplicity.\n\nWhat they share is retrieval. The agent finds things at query time. A truth layer is not retrieval. It is persistent, structured state: canonical entities, provenance, deterministic queries.\n\nWe're comparing one state paradigm (truth layer) to two retrieval paradigms (embedding-based and agentic). The table below lines up all three. Where both retrieval columns share a limit (e.g. no provenance), that's a similarity between them relative to a truth layer. It's not an equation of the two.\n\n| Domain | Embedding-based search | Agentic search | Truth layer |\n|--------|------------------------|----------------|-------------|\n| Document retrieval | Pre-indexed similarity, semantic match | On-demand search, inference | Entity resolution, dedup, provenance |\n| Multi-source aggregation | Index scope and freshness depend on build | Live search across sources | Unified graph, deterministic merge |\n| Entity lookup | Similarity over embeddings; no canonical ID | Per-session inference | Canonical IDs, rule-based merge |\n| Timeline queries | Only if indexed; no native time model | On-demand assembly | Pre-computed, schema-driven |\n| Provenance and audit | None | None | Immutable audit trail |\n| Cross-platform | Tied to provider/index | Provider-specific tools | Same data across tools |\n\nBoth retrieval approaches optimize for convenience and flexibility. A truth layer optimizes for consistency and verifiability.\n\n## What a truth layer provides\n\nA structured memory layer is built around different primitives:\n\n1. **Persistent canonical identity.** Stable entity IDs across sessions and tools.\n2. **Deterministic merge logic.** Rule-based combination of observations, not per-session LLM inference.\n3. **Provenance and audit.** Traceable lineage from source to answer.\n4. **Idempotence.** Same inputs yield same outputs.\n5. **Cross-platform truth.** Same memory across ChatGPT, Claude, Cursor.\n6. **Clear privacy model.** User control, no provider training use, clear data boundaries.\n\nThese are not incremental improvements over agentic search. They are a different design. Best-effort retrieval and orchestration versus verifiable, replayable state. The choice depends on what you need.\n\n## What retrieval can approximate (agentic or embedding-based)\n\nThree examples show retrieval (agentic or embedding-based) approximating the capabilities above. In each example, the agent gets something that looks right for the moment. In each, the same limits show up: no persistent canonical identity, no provenance, no guarantee that \"same query\" yields \"same result\" across sessions or index rebuilds. The examples below use agentic terms (tools, on-demand search). Embedding-based retrieval can approximate the same behaviors via semantic search over an index and hits the same limits.\n\n**Example 1: Session-scoped entity resolution.** The agent has tools to search files, email, and cloud. It has instructions to treat mentions of the same entity as one. You ask: \"What's my total spend with Acme Corp?\" The agent searches bank exports, receipts, invoices. It finds \"Acme Corp\", \"ACME CORP\", \"Acme Corporation\", infers same entity, sums amounts. That looks like entity resolution for this query and session. What goes wrong: ask again tomorrow and the number may differ. The agent may miss a file (truncated search, wrong path) and undercount. Or it may treat \"Acme Corp\" and \"Acme Industries\" as the same and overcount. No way to verify. No audit trail, no stable IDs. Different sessions may disagree.\n\n**Example 2: On-demand timeline assembly.** The agent has broad file and date access. You ask: \"What were my major expenses in Q3 2024?\" The agent searches, parses dates, assembles a chronological list, filters by \"major.\" You get a timeline-like answer without a dedicated timeline system. What goes wrong: \"Major\" is inferred each time. One session excludes a €500 item. The next includes it. Documents with non-standard date formats get dropped or misordered. The agent may truncate (\"here are the top 10\") when there were 15. Same query, different results, every time.\n\n**Example 3: Hybrid memory layer.** A provider ships agentic search plus lightweight memory. The agent extracts structured snippets, stores them, and retrieves them later. It processes a receipt, stores `{vendor: \"Acme Corp\", amount: 150, date: \"2024-07-15\"}`. A later session retrieves this and merges with live search results. That looks like structured memory. What goes wrong: a later extraction overwrites the snippet. No versioning, no rollback. The same vendor appears as \"Acme Corp\" in stored memory and \"ACME CORP\" in a fresh search. Duplicates accumulate. The provider changes the feature or schema and your stored snippets vanish. No way to trace a wrong number back to its source.\n\nIn each example, the behavior approximates what a truth layer provides. The limits are inherent to retrieval. Whether the agent uses embedding search or agentic search, you still get session scope and inference-based merge. You still get no provenance and no cross-platform guarantee. A truth layer addresses those by persisting state instead of re-retrieving it.\n\n## When retrieval excels (agentic or embedding-based)\n\n**Exploratory discovery.** \"Find anything in my downloads or notes about the Barcelona apartment.\" You don't know where it lives or what it's called. Agentic search across files, folders, and formats surfaces relevant snippets. No schema required. The agent infers and assembles.\n\n**Rapid cross-source summarization.** \"What did we decide in the last three emails with the contractor?\" Search inbox, extract thread, summarize. One session, one answer. You don't need that summary to persist or match exactly next time.\n\n**Ad hoc code and docs traversal.** \"Where do we handle Stripe webhooks?\" Search codebase, README, internal docs. Layout varies by repo. Agentic search adapts. No unified graph needed.\n\n**Single-document or single-thread triage.** \"Summarize this PDF\" or \"What's the ask in this email?\" Context is bounded. Inference is sufficient. No entity resolution or cross-session state.\n\n## When a truth layer excels\n\n**Complete recall over large datasets.** \"List every transaction with vendor X in the last two years.\" With thousands of rows, agentic search may miss records, truncate, or hallucinate aggregates. A truth layer queries a structured store. You get all matching records or a precise count.\n\n**Cross-session consistency.** The agent creates a follow-up task in session one. You open a new session tomorrow. The task must be there, linked to the right contact and email. Agentic search has no persistent graph. A truth layer does.\n\n**Audit and provenance.** \"Where did this number come from?\" Trace it to source records, import dates, and derivation rules. Agentic search returns inferred answers. A truth layer returns answers with lineage.\n\n**Entity resolution at scale.** Hundreds of contacts, some duplicates (name variations, merged companies). Thousands of transactions referencing the same vendor under different spellings. A truth layer maintains canonical IDs and merge rules. Agentic search re-infers each session and may disagree.\n\n**Deterministic replay.** Same query, same result, every time. Critical for reporting, compliance, or debugging. Agentic search is non-deterministic. A truth layer is idempotent.\n\n**Recoverability from bad writes.** An agent overwrites a contact, merges two tasks into one, or \"corrects\" a transaction based on wrong inference. With agentic search and direct file writes, the previous state is gone. No undo. A truth layer uses append-only or versioned writes. You can trace what changed and roll back. Mutations are explicit operations, not silent overwrites.\n\n## Why the distinction matters\n\nRetrieval (embedding-based or agentic) is session-bound. It doesn't by itself give you persistent identity, provenance, or cross-session consistency. Its value is flexible, on-demand access. A truth layer's value is persistent, cross-session truth. Deterministic, auditable entity resolution is hard. Neither embedding similarity nor ad hoc agentic search is equivalent. Provider-hosted agents face incentives that conflict with user-controlled, privacy-first memory. Their memory and tools tend to be product-specific.\n\nThe Cherny tweet reflects a real shift. RAG plus vector DB was complex and had privacy implications. Agentic search simplified retrieval for Claude Code. Cursor and others take a different retrieval path (cloud embeddings). Both retrieval paradigms solve \"how does the agent find things?\" Neither solves \"how do we get stable identity, provenance, and verification?\" A truth layer targets the latter. Retrieval and state layers will coexist. They solve different problems.\n\n## What I'm building\n\nI'm building [Neotoma](https://github.com/markmhendrickson/neotoma), a structured memory layer that takes the truth layer approach: entity resolution, timelines, provenance, determinism, cross-platform via MCP. I'm dogfooding it in my own agentic stack to see where these primitives matter in practice. Embedding-based search and agentic search are two retrieval strategies. Neither gives you persistent identity or verifiable state. A truth layer does. I'm building the latter.\n",
-    "heroImage": "agentic-search-and-the-truth-layer-hero.png",
+    "tags": [],
+    "body": "## What OpenClaw gets right\n\nOpenClaw (and the broader Claw/Clawdbot wave) is the first time a lot of people have felt like they have a real personal AI. It runs on your machine. It has persistent memory. It can read your texts, manage your calendar, browse the web, fill forms, and build skills that get better as you use it.\n\nBrandon Wang's [bull case](https://brandon.wang/2026/clawdbot) is a good read: promise extraction from texts into calendar events, price alerts with complex criteria (e.g. \"pullout bed OK if not in the same room as another bed\"), freezer inventory from photos into Notion, Resy booking that intersects your calendar with restaurant availability.\n\nThe agent *does* things. It also *remembers* things. Context accumulates. That's the \"sweet elixir of context\" he talks about.\n\nSo on the axis of \"can the agent act on my behalf and learn my preferences,\" the answer is yes. The gap I care about is the other axis: how that memory is stored and whether it's something you can trust, replay, and fix when it goes wrong.\n\n## Where \"more context\" hits the same ceiling\n\nI run a lot of my life through [one agent (Cursor plus MCP): email, tasks, finance, contacts, content](/posts/agentic-search-and-the-truth-layer). I've hit limits that aren't about retrieval or model size. They're about state.\n\n- **Overwrites with no undo.** The agent updates a contact or merges two tasks. The previous state is gone. There's no versioning, no rollback. Writes are in-place.\n- **No provenance.** When the agent gives a wrong number or a wrong total, I can't trace it back to a specific record or import. I don't know which observation led to which answer.\n- **No canonical identity.** \"Acme Corp\" in one session and \"ACME CORP\" in the next may or may not be treated as the same entity. The agent re-infers each time. There are no stable IDs or merge rules.\n- **Non-deterministic answers.** Same question (\"what's my total spend with vendor X?\"), different answer tomorrow. Missed files, truncated search, or different entity resolution. No way to reproduce or verify.\n- **Tool-bound memory.** What the agent \"knows\" lives inside that tool's memory or that provider's context. I can't use the same contacts and tasks from Claude.ai or ChatGPT. The memory isn't shared across the tools I use.\n\nThose limits don't go away when the agent gets *more* capable or *more* context. They get sharper. The more the agent does (calendar, contacts, tasks, transactions), the more you need a place where that state is first-class: identity, lineage, and the ability to query it deterministically and roll it back when something breaks.\n\n## What a truth layer adds under an agent like Claw\n\nA [truth layer](/posts/agentic-search-and-the-truth-layer) isn't a replacement for the agent. It's the layer *under* it. The agent keeps doing: reading texts, browsing, filling forms, making calendar events, building skills. The layer is where the resulting state lives and how it's queried.\n\n- **Persistent canonical identity.** Contacts, tasks, transactions, events get stable IDs. \"Acme Corp\" and \"ACME CORP\" resolve to one entity by rule, not by per-session inference.\n- **Provenance and audit.** Every record can be traced to a source (import, agent action, user edit) and a time. When a number is wrong, you can see where it came from.\n- **Deterministic queries.** \"Every transaction with vendor X in the last two years\" or \"all tasks for project Y\" hit a structured store. Same query, same result. No re-search, no truncation, no re-inference.\n- **Recoverability.** When the agent overwrites a contact or merges two tasks by mistake, you have versioning and an audit trail. You can see what changed and roll back. Mutations are explicit; they're not silent overwrites.\n- **Cross-tool truth.** The same contacts, tasks, and execution plans are available to Cursor, Claude, ChatGPT, or Claw, via something like MCP. One memory substrate, many agents.\n\nSo Claw (or any Claw-style agent) would still own the \"do\" part: interpret intent, browse, fill forms, create events, learn workflows. The truth layer would own the \"remember\" part: canonical entities, timelines, provenance, and idempotent, replayable queries. The agent writes into the layer and reads from it. You get the lift of an agent that does things *and* a memory that doesn't drift, overwrite without trace, or disagree across sessions or tools.\n\n## Concrete picture\n\nImagine Claw creating a follow-up task after you promise something in a text. Today that might live in the agent's memory or in a local list. With a truth layer, that task is a first-class entity: linked to the conversation that created it, to the contact if relevant, and to any project or execution plan. You can query \"all follow-ups from last week\" or \"tasks linked to this contact\" from any tool that talks to the layer. If the agent later merges two tasks by mistake, you have a history of changes and can revert.\n\nOr: Claw helps you track spending with a vendor. Without a structured store, it re-searches exports and emails each time and re-infers entity resolution. Totals can change. With a truth layer, transactions are normalized and tied to a canonical vendor ID. \"Total spend with vendor X\" is a query, not a one-off assembly. Same question, same answer. And if the agent \"corrects\" a transaction based on wrong inference, you have an audit trail and the option to roll back.\n\nBrandon mentions writing workflows to Notion so he can see what Claw has learned. That's visibility into behavior. A truth layer adds visibility into *state*: what entities exist, how they're linked, where they came from, and how they changed. That's the complement to \"the agent did something.\" \"The agent did something, and here's the state it wrote, with lineage and the ability to fix it.\"\n\n## Why I'm building Neotoma this way\n\nI'm building [Neotoma](https://github.com/markmhendrickson/neotoma) as a structured memory layer with those primitives: entity resolution, timelines, provenance, determinism, and cross-platform access via MCP. I'm dogfooding it in my own agentic stack to see where they matter. The lesson from that work is that [retrieval (embedding-based or agentic)](/posts/agentic-search-and-the-truth-layer) and \"more context\" don't by themselves give you stable identity, verifiable state, or recoverability. Something that does has to sit underneath. OpenClaw and its ecosystem are proving that agents can do a lot. I think the next step is making sure what they do is grounded in a memory layer that you can trust, query, and fix. That's the layer I'm building.\n",
+    "heroImage": "openclaw-and-the-truth-layer-hero.png",
     "heroImageStyle": "keep-proportions",
-    "heroImageSquare": "agentic-search-and-the-truth-layer-hero-square.png",
     "createdDate": "2026-02-04",
     "updatedDate": "2026-02-09",
-    "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes.",
-    "ogImage": "og/agentic-search-and-the-truth-layer-1200x630.jpg"
+    "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg",
+    "summary": "- OpenClaw and Claw-style agents excel at doing (calendar, texts, browsing, forms, skills). The gap is remembering in a way that is verifiable, consistent, and recoverable.\n- More context does not fix overwrites, missing provenance, unstable canonical identity, non-deterministic answers, or tool-bound memory. Those limits are about state, not retrieval.\n- A truth layer sits under the agent: the agent keeps doing; the layer keeps state with canonical identity, provenance, deterministic queries, recoverability, and cross-tool access.\n- With a truth layer, tasks and transactions become first-class entities with lineage. Same query yields same result; bad writes can be rolled back; the same data is available to Cursor, Claude, ChatGPT, or Claw via MCP.\n- Visibility into what the agent learned (e.g. workflows in Notion) is behavior. A truth layer adds visibility into state: what entities exist, how they are linked, where they came from, and how they changed."
   },
   {
     "slug": "barcelona-guest-floor",
@@ -138,21 +1490,27 @@
     "excludeFromListing": true
   },
   {
-    "slug": "openclaw-and-the-truth-layer",
-    "title": "OpenClaw is powerful at doing but could use some help remembering.",
-    "excerpt": "OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.",
+    "slug": "agentic-search-and-the-truth-layer",
+    "title": "Agentic retrieval infers. It doesn't guarantee.",
+    "excerpt": "Your AI finds things. It also misses things, overwrites them, and often can't say where an answer came from. Why that happens and what would fix it.",
     "published": true,
     "publishedDate": "2026-02-04",
     "category": "essay",
     "readTime": 5,
-    "tags": [],
-    "body": "## What OpenClaw gets right\n\nOpenClaw (and the broader Claw/Clawdbot wave) is the first time a lot of people have felt like they have a real personal AI. It runs on your machine. It has persistent memory. It can read your texts, manage your calendar, browse the web, fill forms, and build skills that get better as you use it.\n\nBrandon Wang's [bull case](https://brandon.wang/2026/clawdbot) is a good read: promise extraction from texts into calendar events, price alerts with complex criteria (e.g. \"pullout bed OK if not in the same room as another bed\"), freezer inventory from photos into Notion, Resy booking that intersects your calendar with restaurant availability.\n\nThe agent *does* things. It also *remembers* things. Context accumulates. That's the \"sweet elixir of context\" he talks about.\n\nSo on the axis of \"can the agent act on my behalf and learn my preferences,\" the answer is yes. The gap I care about is the other axis: how that memory is stored and whether it's something you can trust, replay, and fix when it goes wrong.\n\n## Where \"more context\" hits the same ceiling\n\nI run a lot of my life through [one agent (Cursor plus MCP): email, tasks, finance, contacts, content](/posts/agentic-search-and-the-truth-layer). I've hit limits that aren't about retrieval or model size. They're about state.\n\n- **Overwrites with no undo.** The agent updates a contact or merges two tasks. The previous state is gone. There's no versioning, no rollback. Writes are in-place.\n- **No provenance.** When the agent gives a wrong number or a wrong total, I can't trace it back to a specific record or import. I don't know which observation led to which answer.\n- **No canonical identity.** \"Acme Corp\" in one session and \"ACME CORP\" in the next may or may not be treated as the same entity. The agent re-infers each time. There are no stable IDs or merge rules.\n- **Non-deterministic answers.** Same question (\"what's my total spend with vendor X?\"), different answer tomorrow. Missed files, truncated search, or different entity resolution. No way to reproduce or verify.\n- **Tool-bound memory.** What the agent \"knows\" lives inside that tool's memory or that provider's context. I can't use the same contacts and tasks from Claude.ai or ChatGPT. The memory isn't shared across the tools I use.\n\nThose limits don't go away when the agent gets *more* capable or *more* context. They get sharper. The more the agent does (calendar, contacts, tasks, transactions), the more you need a place where that state is first-class: identity, lineage, and the ability to query it deterministically and roll it back when something breaks.\n\n## What a truth layer adds under an agent like Claw\n\nA [truth layer](/posts/agentic-search-and-the-truth-layer) isn't a replacement for the agent. It's the layer *under* it. The agent keeps doing: reading texts, browsing, filling forms, making calendar events, building skills. The layer is where the resulting state lives and how it's queried.\n\n- **Persistent canonical identity.** Contacts, tasks, transactions, events get stable IDs. \"Acme Corp\" and \"ACME CORP\" resolve to one entity by rule, not by per-session inference.\n- **Provenance and audit.** Every record can be traced to a source (import, agent action, user edit) and a time. When a number is wrong, you can see where it came from.\n- **Deterministic queries.** \"Every transaction with vendor X in the last two years\" or \"all tasks for project Y\" hit a structured store. Same query, same result. No re-search, no truncation, no re-inference.\n- **Recoverability.** When the agent overwrites a contact or merges two tasks by mistake, you have versioning and an audit trail. You can see what changed and roll back. Mutations are explicit; they're not silent overwrites.\n- **Cross-tool truth.** The same contacts, tasks, and execution plans are available to Cursor, Claude, ChatGPT, or Claw, via something like MCP. One memory substrate, many agents.\n\nSo Claw (or any Claw-style agent) would still own the \"do\" part: interpret intent, browse, fill forms, create events, learn workflows. The truth layer would own the \"remember\" part: canonical entities, timelines, provenance, and idempotent, replayable queries. The agent writes into the layer and reads from it. You get the lift of an agent that does things *and* a memory that doesn't drift, overwrite without trace, or disagree across sessions or tools.\n\n## Concrete picture\n\nImagine Claw creating a follow-up task after you promise something in a text. Today that might live in the agent's memory or in a local list. With a truth layer, that task is a first-class entity: linked to the conversation that created it, to the contact if relevant, and to any project or execution plan. You can query \"all follow-ups from last week\" or \"tasks linked to this contact\" from any tool that talks to the layer. If the agent later merges two tasks by mistake, you have a history of changes and can revert.\n\nOr: Claw helps you track spending with a vendor. Without a structured store, it re-searches exports and emails each time and re-infers entity resolution. Totals can change. With a truth layer, transactions are normalized and tied to a canonical vendor ID. \"Total spend with vendor X\" is a query, not a one-off assembly. Same question, same answer. And if the agent \"corrects\" a transaction based on wrong inference, you have an audit trail and the option to roll back.\n\nBrandon mentions writing workflows to Notion so he can see what Claw has learned. That's visibility into behavior. A truth layer adds visibility into *state*: what entities exist, how they're linked, where they came from, and how they changed. That's the complement to \"the agent did something.\" \"The agent did something, and here's the state it wrote, with lineage and the ability to fix it.\"\n\n## Why I'm building Neotoma this way\n\nI'm building [Neotoma](https://github.com/markmhendrickson/neotoma) as a structured memory layer with those primitives: entity resolution, timelines, provenance, determinism, and cross-platform access via MCP. I'm dogfooding it in my own agentic stack to see where they matter. The lesson from that work is that [retrieval (embedding-based or agentic)](/posts/agentic-search-and-the-truth-layer) and \"more context\" don't by themselves give you stable identity, verifiable state, or recoverability. Something that does has to sit underneath. OpenClaw and its ecosystem are proving that agents can do a lot. I think the next step is making sure what they do is grounded in a memory layer that you can trust, query, and fix. That's the layer I'm building.\n",
-    "heroImage": "openclaw-and-the-truth-layer-hero.png",
+    "tags": [
+      "neotoma",
+      "agentic-search",
+      "truth-layer",
+      "rag"
+    ],
+    "body": "[Boris Cherny (creator of Claude Code at Anthropic) tweeted](https://x.com/bcherny/status/2017824286489383315) that Claude Code moved from RAG plus local vector DB to agentic search. It works better, he said, and is simpler, with fewer issues around security and privacy. Other tools take a different path. Cursor, for example, uses cloud-based embeddings to index the codebase and search by semantic similarity.\n\nSo we have at least two retrieval paradigms: embedding-based search (pre-indexed, vector similarity) and agentic search (on-demand tool use). They are not the same. Each has different tradeoffs. Both are retrieval strategies. A truth layer is something else. It persists canonical entities, maintains provenance, and supports deterministic queries. It's about state, not retrieval. This post compares a truth layer to both retrieval models. It also ties in the limits I've hit when relying on retrieval alone.\n\n## Where I've hit limits\n\nI use Cursor as my central interface for all of my digital workflows, not just coding. Email triage, task management, finance queries, content planning, transactions, contacts. They all run through the same agent with access to the same repo. Agentic search across files often works well. The agent finds context, infers connections, and gets things done.\n\nBut I've hit limits. The agent infers; it doesn't guarantee. Here's what that looks like:\n\n- **Large datasets, incomplete recall.** On-demand search misses things or truncates across thousands of transactions or hundreds of contacts. Retrieval re-derives each time. There's no structured store to query for complete results.\n- **Irrecoverable overwrites.** An agent overwrites a contact or task and the previous state is gone. No rollback. Writes are in-place. There's no versioning or append-only trail to trace and roll back.\n- **No cross-tool access.** I can't use the same records from Claude.ai or ChatGPT. Retrieval is provider-bound.\n- **Non-reproducible answers.** Same question, different answer. I can't reproduce a result for verification or debugging. Retrieval is non-deterministic.\n- **No traceability.** When the agent gives a wrong number or claim, I can't trace it back to source files or records. Retrieval has no provenance.\n- **Unstable canonical identity.** The agent may treat \"Acme Corp\" and \"ACME CORP\" as the same in one session and different in the next. Retrieval re-infers each time. There are no persistent canonical IDs or merge rules.\n\n## Two retrieval paradigms, one state paradigm\n\nEmbedding-based search and agentic search both get information to an agent. They are not the same. Embedding-based search (e.g. Cursor) pre-indexes a corpus and answers via vector similarity. The index can be cloud-hosted and updated. Agentic search (e.g. Claude Code) skips a persistent index and uses tools to search and read on demand. Different implementations, different tradeoffs: privacy, staleness, simplicity.\n\nWhat they share is retrieval. The agent finds things at query time. A truth layer is not retrieval. It is persistent, structured state: canonical entities, provenance, deterministic queries.\n\nWe're comparing one state paradigm (truth layer) to two retrieval paradigms (embedding-based and agentic). The table below lines up all three. Where both retrieval columns share a limit (e.g. no provenance), that's a similarity between them relative to a truth layer. It's not an equation of the two.\n\n| Domain | Embedding-based search | Agentic search | Truth layer |\n|--------|------------------------|----------------|-------------|\n| Document retrieval | Pre-indexed similarity, semantic match | On-demand search, inference | Entity resolution, dedup, provenance |\n| Multi-source aggregation | Index scope and freshness depend on build | Live search across sources | Unified graph, deterministic merge |\n| Entity lookup | Similarity over embeddings; no canonical ID | Per-session inference | Canonical IDs, rule-based merge |\n| Timeline queries | Only if indexed; no native time model | On-demand assembly | Pre-computed, schema-driven |\n| Provenance and audit | None | None | Immutable audit trail |\n| Cross-platform | Tied to provider/index | Provider-specific tools | Same data across tools |\n\nBoth retrieval approaches optimize for convenience and flexibility. A truth layer optimizes for consistency and verifiability.\n\n## What a truth layer provides\n\nA structured memory layer is built around different primitives:\n\n1. **Persistent canonical identity.** Stable entity IDs across sessions and tools.\n2. **Deterministic merge logic.** Rule-based combination of observations, not per-session LLM inference.\n3. **Provenance and audit.** Traceable lineage from source to answer.\n4. **Idempotence.** Same inputs yield same outputs.\n5. **Cross-platform truth.** Same memory across ChatGPT, Claude, Cursor.\n6. **Clear privacy model.** User control, no provider training use, clear data boundaries.\n\nThese are not incremental improvements over agentic search. They are a different design. Best-effort retrieval and orchestration versus verifiable, replayable state. The choice depends on what you need.\n\n## What retrieval can approximate (agentic or embedding-based)\n\nThree examples show retrieval (agentic or embedding-based) approximating the capabilities above. In each example, the agent gets something that looks right for the moment. In each, the same limits show up: no persistent canonical identity, no provenance, no guarantee that \"same query\" yields \"same result\" across sessions or index rebuilds. The examples below use agentic terms (tools, on-demand search). Embedding-based retrieval can approximate the same behaviors via semantic search over an index and hits the same limits.\n\n**Example 1: Session-scoped entity resolution.** The agent has tools to search files, email, and cloud. It has instructions to treat mentions of the same entity as one. You ask: \"What's my total spend with Acme Corp?\" The agent searches bank exports, receipts, invoices. It finds \"Acme Corp\", \"ACME CORP\", \"Acme Corporation\", infers same entity, sums amounts. That looks like entity resolution for this query and session. What goes wrong: ask again tomorrow and the number may differ. The agent may miss a file (truncated search, wrong path) and undercount. Or it may treat \"Acme Corp\" and \"Acme Industries\" as the same and overcount. No way to verify. No audit trail, no stable IDs. Different sessions may disagree.\n\n**Example 2: On-demand timeline assembly.** The agent has broad file and date access. You ask: \"What were my major expenses in Q3 2024?\" The agent searches, parses dates, assembles a chronological list, filters by \"major.\" You get a timeline-like answer without a dedicated timeline system. What goes wrong: \"Major\" is inferred each time. One session excludes a €500 item. The next includes it. Documents with non-standard date formats get dropped or misordered. The agent may truncate (\"here are the top 10\") when there were 15. Same query, different results, every time.\n\n**Example 3: Hybrid memory layer.** A provider ships agentic search plus lightweight memory. The agent extracts structured snippets, stores them, and retrieves them later. It processes a receipt, stores `{vendor: \"Acme Corp\", amount: 150, date: \"2024-07-15\"}`. A later session retrieves this and merges with live search results. That looks like structured memory. What goes wrong: a later extraction overwrites the snippet. No versioning, no rollback. The same vendor appears as \"Acme Corp\" in stored memory and \"ACME CORP\" in a fresh search. Duplicates accumulate. The provider changes the feature or schema and your stored snippets vanish. No way to trace a wrong number back to its source.\n\nIn each example, the behavior approximates what a truth layer provides. The limits are inherent to retrieval. Whether the agent uses embedding search or agentic search, you still get session scope and inference-based merge. You still get no provenance and no cross-platform guarantee. A truth layer addresses those by persisting state instead of re-retrieving it.\n\n## When retrieval excels (agentic or embedding-based)\n\n**Exploratory discovery.** \"Find anything in my downloads or notes about the Barcelona apartment.\" You don't know where it lives or what it's called. Agentic search across files, folders, and formats surfaces relevant snippets. No schema required. The agent infers and assembles.\n\n**Rapid cross-source summarization.** \"What did we decide in the last three emails with the contractor?\" Search inbox, extract thread, summarize. One session, one answer. You don't need that summary to persist or match exactly next time.\n\n**Ad hoc code and docs traversal.** \"Where do we handle Stripe webhooks?\" Search codebase, README, internal docs. Layout varies by repo. Agentic search adapts. No unified graph needed.\n\n**Single-document or single-thread triage.** \"Summarize this PDF\" or \"What's the ask in this email?\" Context is bounded. Inference is sufficient. No entity resolution or cross-session state.\n\n## When a truth layer excels\n\n**Complete recall over large datasets.** \"List every transaction with vendor X in the last two years.\" With thousands of rows, agentic search may miss records, truncate, or hallucinate aggregates. A truth layer queries a structured store. You get all matching records or a precise count.\n\n**Cross-session consistency.** The agent creates a follow-up task in session one. You open a new session tomorrow. The task must be there, linked to the right contact and email. Agentic search has no persistent graph. A truth layer does.\n\n**Audit and provenance.** \"Where did this number come from?\" Trace it to source records, import dates, and derivation rules. Agentic search returns inferred answers. A truth layer returns answers with lineage.\n\n**Entity resolution at scale.** Hundreds of contacts, some duplicates (name variations, merged companies). Thousands of transactions referencing the same vendor under different spellings. A truth layer maintains canonical IDs and merge rules. Agentic search re-infers each session and may disagree.\n\n**Deterministic replay.** Same query, same result, every time. Critical for reporting, compliance, or debugging. Agentic search is non-deterministic. A truth layer is idempotent.\n\n**Recoverability from bad writes.** An agent overwrites a contact, merges two tasks into one, or \"corrects\" a transaction based on wrong inference. With agentic search and direct file writes, the previous state is gone. No undo. A truth layer uses append-only or versioned writes. You can trace what changed and roll back. Mutations are explicit operations, not silent overwrites.\n\n## Why the distinction matters\n\nRetrieval (embedding-based or agentic) is session-bound. It doesn't by itself give you persistent identity, provenance, or cross-session consistency. Its value is flexible, on-demand access. A truth layer's value is persistent, cross-session truth. Deterministic, auditable entity resolution is hard. Neither embedding similarity nor ad hoc agentic search is equivalent. Provider-hosted agents face incentives that conflict with user-controlled, privacy-first memory. Their memory and tools tend to be product-specific.\n\nThe Cherny tweet reflects a real shift. RAG plus vector DB was complex and had privacy implications. Agentic search simplified retrieval for Claude Code. Cursor and others take a different retrieval path (cloud embeddings). Both retrieval paradigms solve \"how does the agent find things?\" Neither solves \"how do we get stable identity, provenance, and verification?\" A truth layer targets the latter. Retrieval and state layers will coexist. They solve different problems.\n\n## What I'm building\n\nI'm building [Neotoma](https://github.com/markmhendrickson/neotoma), a structured memory layer that takes the truth layer approach: entity resolution, timelines, provenance, determinism, cross-platform via MCP. I'm dogfooding it in my own agentic stack to see where these primitives matter in practice. Embedding-based search and agentic search are two retrieval strategies. Neither gives you persistent identity or verifiable state. A truth layer does. I'm building the latter.\n",
+    "heroImage": "agentic-search-and-the-truth-layer-hero.png",
     "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "agentic-search-and-the-truth-layer-hero-square.png",
     "createdDate": "2026-02-04",
     "updatedDate": "2026-02-09",
-    "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg",
-    "summary": "- OpenClaw and Claw-style agents excel at doing (calendar, texts, browsing, forms, skills). The gap is remembering in a way that is verifiable, consistent, and recoverable.\n- More context does not fix overwrites, missing provenance, unstable canonical identity, non-deterministic answers, or tool-bound memory. Those limits are about state, not retrieval.\n- A truth layer sits under the agent: the agent keeps doing; the layer keeps state with canonical identity, provenance, deterministic queries, recoverability, and cross-tool access.\n- With a truth layer, tasks and transactions become first-class entities with lineage. Same query yields same result; bad writes can be rolled back; the same data is available to Cursor, Claude, ChatGPT, or Claw via MCP.\n- Visibility into what the agent learned (e.g. workflows in Notion) is behavior. A truth layer adds visibility into state: what entities exist, how they are linked, where they came from, and how they changed."
+    "summary": "- Retrieval (embedding-based or agentic) infers; it doesn't guarantee. A truth layer is persistent, structured state: canonical entities, provenance, deterministic queries. It's about state, not retrieval.\n- Two retrieval paradigms (pre-indexed similarity vs on-demand tool use) share the same limits relative to a truth layer: no persistent canonical identity, no provenance, no cross-session consistency, no cross-platform access.\n- In practice, retrieval leads to incomplete recall at scale, irrecoverable overwrites, non-reproducible answers, no traceability, and unstable canonical identity (e.g. \"Acme Corp\" vs \"ACME CORP\" across sessions).\n- A truth layer provides persistent canonical identity, deterministic merge logic, provenance and audit, idempotence, cross-platform truth, and a clear privacy model. Different design goals, not a spectrum.\n- Retrieval can approximate entity resolution, timelines, and structured memory within a session but re-derives each time; a truth layer persists state instead of re-retrieving it.\n- The choice depends on whether you need best-effort retrieval and orchestration or verifiable, replayable state. Retrieval excels at exploratory discovery and ad hoc summarization; a truth layer excels at complete recall, cross-session consistency, audit, and recoverability from bad writes.",
+    "ogImage": "og/agentic-search-and-the-truth-layer-1200x630.jpg"
   },
   {
     "slug": "truth-layer-agent-memory",
@@ -264,20 +1622,6 @@
     "updatedDate": "2026-01-19"
   },
   {
-    "slug": "the-outline",
-    "title": "The Outline",
-    "excerpt": "This is the most impressive media website I've seen in a while, from a creative design and construction quality point of view:...",
-    "published": true,
-    "publishedDate": "2017-12-10",
-    "category": "technical",
-    "readTime": 1,
-    "tags": [],
-    "body": "This is the most impressive media website I've seen in a while, from a creative design and construction quality point of view: [https://theoutline.com](https://theoutline.com)",
-    "showMetadata": 1,
-    "createdDate": "2026-01-19",
-    "updatedDate": "2026-01-19"
-  },
-  {
     "slug": "tutor-catala",
     "title": "Tutor Catala",
     "excerpt": "Algú coneix a un tutor de català bo? Estic buscant un per a fer classes d'una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la...",
@@ -287,6 +1631,20 @@
     "readTime": 1,
     "tags": [],
     "body": "Algú coneix a un tutor de català bo? Estic buscant un per a fer classes d'una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la feina cada setmana. Tinc un nivell básic però vull parlar amb fluïdesa 🤓",
+    "showMetadata": 1,
+    "createdDate": "2026-01-19",
+    "updatedDate": "2026-01-19"
+  },
+  {
+    "slug": "the-outline",
+    "title": "The Outline",
+    "excerpt": "This is the most impressive media website I've seen in a while, from a creative design and construction quality point of view:...",
+    "published": true,
+    "publishedDate": "2017-12-10",
+    "category": "technical",
+    "readTime": 1,
+    "tags": [],
+    "body": "This is the most impressive media website I've seen in a while, from a creative design and construction quality point of view: [https://theoutline.com](https://theoutline.com)",
     "showMetadata": 1,
     "createdDate": "2026-01-19",
     "updatedDate": "2026-01-19"

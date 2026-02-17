@@ -4,7 +4,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import publicPostsData from '@/content/posts/posts.json'
+import publicPostsData from '@cache/posts.json'
 import { usePostSSR } from '@/contexts/PostSSRContext'
 import { stripLinksFromExcerpt, getPostImageSrc } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -146,7 +146,7 @@ const OG_IMAGE_HEIGHT = 630
 async function loadPostsDataForSlug(includeDrafts: boolean): Promise<Post[]> {
   if (!includeDrafts || import.meta.env.PROD) return publicPostsData as Post[]
   try {
-    const privateData = await import('@/content/posts/posts.private.json')
+    const privateData = await import('@cache/posts.private.json')
     const privateList = (privateData.default ?? privateData) as Post[]
     const privateSlugs = new Set(privateList.map((p) => p.slug).filter(Boolean))
     const fromPublicOnly = (publicPostsData as Post[]).filter((p) => p.slug && !privateSlugs.has(p.slug))

@@ -3,7 +3,7 @@ import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, Share2, Clock, Bot } from 'lucide-react'
-import publicPostsData from '@/content/posts/posts.json'
+import publicPostsData from '@cache/posts.json'
 
 interface Post {
   slug: string

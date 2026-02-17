@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { Github, Linkedin, Instagram, Twitter, Facebook, Youtube, Mail, Globe, type LucideIcon } from 'lucide-react'
-import linksData from '@/data/links.json'
+import linksData from '@cache/links.json'
 
 interface LinkData {
   name: string

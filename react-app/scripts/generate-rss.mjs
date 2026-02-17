@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates public/rss.xml from src/content/posts/posts.json.
+ * Generates public/rss.xml from cache/posts.json.
  * Run from react-app directory (or repo root with correct paths).
  * Output: public/rss.xml (Vite copies to dist on build).
  */
@@ -11,7 +11,7 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const reactAppRoot = path.resolve(__dirname, '..')
-const postsPath = path.join(reactAppRoot, 'src', 'content', 'posts', 'posts.json')
+const postsPath = path.join(reactAppRoot, 'cache', 'posts.json')
 const outPath = path.join(reactAppRoot, 'public', 'rss.xml')
 
 const SITE_BASE = 'https://markmhendrickson.com'

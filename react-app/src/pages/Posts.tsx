@@ -2,7 +2,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Search } from 'lucide-react'
-import publicPostsData from '@/content/posts/posts.json'
+import publicPostsData from '@cache/posts.json'
 import { stripLinksFromExcerpt, getPostImageSrc } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 
@@ -38,7 +38,7 @@ async function loadPostsData(includeDrafts: boolean): Promise<Post[]> {
   if (!includeDrafts) return publicPostsData as Post[]
   if (import.meta.env.PROD) return publicPostsData as Post[]
   try {
-    const privateData = await import('@/content/posts/posts.private.json')
+    const privateData = await import('@cache/posts.private.json')
     const privateList = (privateData.default ?? privateData) as Post[]
     const privateSlugs = new Set(privateList.map((p) => p.slug).filter(Boolean))
     const fromPublicOnly = (publicPostsData as Post[]).filter((p) => p.slug && !privateSlugs.has(p.slug))

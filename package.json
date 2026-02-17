@@ -7,6 +7,6 @@
   "dependencies": {
     "@netlify/blobs": "^4.0.0",
     "@netlify/functions": "^2.0.0",
-    "resend": "^4.0.0"
+    "@sendgrid/mail": "^8.1.0"
   }
 }

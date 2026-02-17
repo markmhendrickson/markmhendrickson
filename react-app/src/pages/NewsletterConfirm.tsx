@@ -47,7 +47,13 @@ export default function NewsletterConfirm() {
   useEffect(() => {
     if (!email) {
       navigate('/newsletter')
+      return
     }
+    void fetch('/api/newsletter/confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    }).catch(() => {})
   }, [email, navigate])
 
   const handleCheckboxChange = (value: string) => {

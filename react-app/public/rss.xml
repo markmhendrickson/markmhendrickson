@@ -5,8 +5,15 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Feb 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Feb 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>We&apos;re all centaurs now</title>
+    <link>https://markmhendrickson.com/posts/we-are-all-centaurs-now</link>
+    <description>The humanness isn&apos;t in typing every word. It&apos;s in deciding what&apos;s worth saying.</description>
+    <pubDate>Sat, 14 Feb 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/we-are-all-centaurs-now</guid>
+  </item>
   <item>
     <title>A Bitcoin wallet MCP server for L1 and L2</title>
     <link>https://markmhendrickson.com/posts/agentic-wallets-mcp-bitcoin</link>

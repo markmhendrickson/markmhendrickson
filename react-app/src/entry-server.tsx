@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server'
 import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import { PostSSRProvider } from './contexts/PostSSRContext'
-import publicPostsData from './content/posts/posts.json'
+import publicPostsData from '@cache/posts.json'
 
 export interface HelmetContext {
   helmet?: {

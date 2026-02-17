@@ -40,3 +40,15 @@
   to = "/.netlify/functions/newsletter_update_survey"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/api/newsletter/confirm"
+  to = "/.netlify/functions/newsletter_confirm"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/newsletter/subscribers"
+  to = "/.netlify/functions/newsletter_subscribers"
+  status = 200
+  force = true

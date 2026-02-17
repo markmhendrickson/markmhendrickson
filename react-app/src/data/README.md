@@ -17,8 +17,8 @@ All static data for the website (posts, links, timeline, etc.) MUST be stored in
 Import JSON files directly in components:
 
 ```javascript
-import linksData from '@/data/links.json'
-import timelineData from '@/data/timeline.json'
+import linksData from '@cache/links.json'
+import timelineData from '@cache/timeline.json'
 ```
 
 ## Adding New Static Data
@@ -40,6 +40,6 @@ import timelineData from '@/data/timeline.json'
 - Format: Array of objects with `role`, `company`, `date`, `description`
 
 ### Posts
-- File: `content/posts/posts.json` (separate directory for posts)
+- Cache: `cache/posts.json`, `cache/links.json`, `cache/timeline.json` (generated from Neotoma export at build time)
 - Used in: `pages/Posts.jsx`, `pages/Post.jsx`
 - Format: Array of post metadata objects

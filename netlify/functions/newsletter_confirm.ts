@@ -15,41 +15,13 @@ function corsHeaders(origin?: string | null): Record<string, string> {
   }
 }
 
-function jsonResponse(body: object, status: number, headers = corsHeaders()) {
+function jsonResponse(body: object, status: number, headers: Record<string, string>) {
   return new Response(JSON.stringify(body), { status, headers })
 }
 
 function validateEmail(email: string): boolean {
   const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   return pattern.test(email)
-}
-
-async function sendConfirmationEmail(email: string): Promise<boolean> {
-  const apiKey = process.env.SENDGRID_API_KEY
-  const fromEmail = process.env.SENDGRID_SENDER_EMAIL
-  const name = process.env.NEWSLETTER_NAME || 'Mark Hendrickson Newsletter'
-  if (!apiKey || !fromEmail) return false
-
-  const confirmationUrl = `https://markmhendrickson.com/newsletter/confirm?email=${encodeURIComponent(email)}`
-
-  try {
-    const sgMail = (await import('@sendgrid/mail')).default
-    sgMail.setApiKey(apiKey)
-    await sgMail.send({
-      to: email,
-      from: { email: fromEmail, name },
-      subject: `Confirm your subscription to ${name}`,
-      html: `
-        <h2>Welcome to ${name}</h2>
-        <p>Thank you for subscribing! Please confirm your email address by clicking the link below:</p>
-        <p><a href="${confirmationUrl}">Confirm Subscription</a></p>
-        <p>If you didn't subscribe, you can safely ignore this email.</p>
-      `,
-    })
-    return true
-  } catch {
-    return false
-  }
 }
 
 export default async function handler(req: Request, _context: Context): Promise<Response> {
@@ -64,7 +36,7 @@ export default async function handler(req: Request, _context: Context): Promise<
     return jsonResponse({ error: 'Method not allowed' }, 405, headers)
   }
 
-  let body: { email?: string; survey?: Record<string, unknown> }
+  let body: { email?: string }
   try {
     body = await req.json()
   } catch {
@@ -72,7 +44,6 @@ export default async function handler(req: Request, _context: Context): Promise<
   }
 
   const email = (body.email || '').toString().trim().toLowerCase()
-  const survey = body.survey && typeof body.survey === 'object' ? body.survey : {}
 
   if (!email) {
     return jsonResponse({ error: 'Email address is required' }, 400, headers)
@@ -82,31 +53,21 @@ export default async function handler(req: Request, _context: Context): Promise<
   }
 
   const subscribers = await loadSubscribers()
-  const now = new Date().toISOString()
   const existing = subscribers.find((s) => s.email === email)
 
-  if (existing) {
-    existing.survey = { ...existing.survey, ...survey }
-    existing.updated_at = now
-  } else {
-    subscribers.push({
-      email,
-      survey,
-      subscribed_at: now,
-      updated_at: now,
-      status: 'subscribed',
-    })
+  if (!existing) {
+    return jsonResponse({ error: 'Subscriber not found' }, 404, headers)
   }
 
+  const now = new Date().toISOString()
+  existing.confirmed_at = existing.confirmed_at || now
+  existing.updated_at = now
   await saveSubscribers(subscribers)
-  const emailSent = await sendConfirmationEmail(email)
 
   return jsonResponse(
     {
       success: true,
-      message: 'Successfully subscribed',
-      email,
-      email_sent: emailSent,
+      message: 'Confirmation recorded',
     },
     200,
     headers

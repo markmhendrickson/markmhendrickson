@@ -1,8 +1,5 @@
-import { getStore } from '@netlify/blobs'
 import type { Context } from '@netlify/functions'
-
-const STORE_NAME = 'newsletter-subscribers'
-const BLOB_KEY = 'subscribers'
+import { loadSubscribers, saveSubscribers } from './newsletter_storage'
 
 function corsHeaders(origin?: string | null): Record<string, string> {
   const allowed =
@@ -25,25 +22,6 @@ function jsonResponse(body: object, status: number, headers: Record<string, stri
 function validateEmail(email: string): boolean {
   const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   return pattern.test(email)
-}
-
-async function loadSubscribers(): Promise<{ email: string; survey: Record<string, unknown> }[]> {
-  const store = getStore({ name: STORE_NAME })
-  const raw = await store.get(BLOB_KEY)
-  if (!raw) return []
-  try {
-    const arr = JSON.parse(raw)
-    return Array.isArray(arr) ? arr : []
-  } catch {
-    return []
-  }
-}
-
-async function saveSubscribers(
-  subscribers: { email: string; survey: Record<string, unknown> }[]
-): Promise<void> {
-  const store = getStore({ name: STORE_NAME })
-  await store.set(BLOB_KEY, JSON.stringify(subscribers, null, 2))
 }
 
 export default async function handler(req: Request, _context: Context): Promise<Response> {
