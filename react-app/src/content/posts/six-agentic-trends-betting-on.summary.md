@@ -1,0 +1,6 @@
+- Agents will become stateful economic actors and memory will become system state, enabling long-horizon plans and coordination at scale.
+- Agentic errors will become economically visible and tolerance for approximate memory will erode as the bar for defensibility and audit rises.
+- Audit and compliance will drift down-market and the pressure to prove how work was produced will reach consultants, agencies, and small teams.
+- Platform memory will remain opaque and a trust gap will grow between those who need guarantees and those who rely on platform convenience.
+- Tool fragmentation will persist and state fragmentation will matter more than interface fragmentation, with memory as a protocol beneath it.
+- Agentic usage will become metered and deterministic memory will enable replay over regeneration, turning memory into an optimization surface.
