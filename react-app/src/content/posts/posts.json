@@ -23,6 +23,23 @@
     "ogImage": "og/we-are-all-centaurs-now-1200x630.jpg"
   },
   {
+    "slug": "claude-memory-and-the-truth-layer",
+    "title": "Claude Memory and the truth layer",
+    "excerpt": "What Claude Memory is, where file-based and search-based memory still fall short, and how that compares to a structured truth layer like Neotoma.",
+    "published": false,
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "claude",
+      "neotoma",
+      "truth-layer",
+      "agent-memory",
+      "build-in-public"
+    ],
+    "createdDate": "2026-02-18",
+    "updatedDate": "2026-02-18"
+  },
+  {
     "slug": "agentic-wallets-mcp-bitcoin",
     "title": "A Bitcoin wallet MCP server for L1 and L2",
     "excerpt": "The future of crypto wallets is agentic. Wallets that expose execution surfaces let agents monitor, reason, and execute within policy while you keep sovereignty and approve only what exceeds your limits.",

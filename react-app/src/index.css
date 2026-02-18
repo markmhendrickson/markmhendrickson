@@ -108,6 +108,10 @@
   .post-prose .footnotes li {
     @apply text-[13px] leading-[1.65] text-[#666];
   }
+  .post-prose hr {
+    @apply border-0 border-t border-[#e0e0e0] my-8 w-full;
+  }
+
   .post-prose .footnotes hr {
     @apply hidden;
   }

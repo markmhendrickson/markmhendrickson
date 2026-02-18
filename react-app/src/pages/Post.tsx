@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import publicPostsData from '@cache/posts.json'
 import { usePostSSR } from '@/contexts/PostSSRContext'
-import { stripLinksFromExcerpt, getPostImageSrc } from '@/lib/utils'
+import { stripLinksFromExcerpt, getPostImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
@@ -43,6 +43,15 @@ function BlueskyLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden {...props}>
       <path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026" />
+    </svg>
+  )
+}
+
+/** Mastodon (M) logo for share button (from Simple Icons). */
+function MastodonLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden {...props}>
+      <path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z" />
     </svg>
   )
 }
@@ -189,7 +198,7 @@ interface Post {
   tweetMetadata?: { images?: string[] }
 }
 
-/** Share bar: common platforms + content strategy targets (X, LinkedIn, Facebook, HN, Reddit, Email, Copy link). */
+/** Share bar: common platforms + content strategy targets (Bluesky, Mastodon, X, LinkedIn, Facebook, HN, Reddit, Email, Copy link). */
 function PostShareBar({
   shareUrl,
   title,
@@ -207,12 +216,14 @@ function PostShareBar({
   const encodedUrl = encodeURIComponent(shareUrl)
   const encodedTitle = encodeURIComponent(title)
   const blueskyText = `${title} ${shareUrl}`
+  const mastodonText = `${title} ${shareUrl}`
   const shareLinks = [
     { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${encodeURIComponent(blueskyText)}`, icon: BlueskyLogo },
     { label: 'Email', href: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`, icon: Mail },
     { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`, icon: Facebook },
     { label: 'Hacker News', href: 'https://news.ycombinator.com/submit', icon: HNLogo, title: 'Opens HN submit page. Use the Copy button above, then paste the link into the URL field.' },
     { label: 'LinkedIn', href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`, icon: Linkedin },
+    { label: 'Mastodon', href: `https://mastodonshare.com/?url=${encodedUrl}&text=${encodeURIComponent(mastodonText)}`, icon: MastodonLogo },
     { label: 'Reddit', href: `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`, icon: RedditLogo },
     { label: 'X', href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`, icon: XLogo },
   ]
@@ -523,6 +534,8 @@ export default function Post({ slug: slugProp }: PostProps) {
   const [summaryContent, setSummaryContent] = useState<string | undefined>(undefined)
   const [postscriptContent, setPostscriptContent] = useState<string | undefined>(undefined)
   const [tweetContent, setTweetContent] = useState<string | undefined>(undefined)
+  const [excerptFromMd, setExcerptFromMd] = useState<string | undefined>(undefined)
+  const [titleFromMd, setTitleFromMd] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(!ssrPost)
   const [animationPhase, setAnimationPhase] = useState<'title' | 'excerpt' | 'heroImage' | 'content' | 'complete' | null>(null)
   const [contentParagraphIndex, setContentParagraphIndex] = useState(0)
@@ -706,7 +719,8 @@ export default function Post({ slug: slugProp }: PostProps) {
 
         const tryLoadMarkdown = async (): Promise<string | null> => {
           try {
-            return await loadMarkdownContent()
+            const raw = await loadMarkdownContent()
+            return stripFrontmatter(raw)
           } catch (error) {
             console.error('Error loading post content from markdown:', error)
             return null
@@ -771,6 +785,15 @@ export default function Post({ slug: slugProp }: PostProps) {
           content = await tryLoadMarkdown()
           if (content === null && postMeta.body) {
             content = postMeta.body
+          }
+          // In dev, always show excerpt (and title) from draft frontmatter when present
+          try {
+            const raw = await loadMarkdownContent()
+            const fm = parseFrontmatter(raw)
+            if (fm.excerpt !== undefined) setExcerptFromMd(fm.excerpt)
+            if (fm.title !== undefined) setTitleFromMd(fm.title)
+          } catch {
+            // ignore
           }
           const summaryFromMd = await tryLoadSummaryMarkdown()
           setSummaryContent(summaryFromMd ?? undefined)
@@ -854,15 +877,18 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   /** Only treat as tweet post when category is tweet; linkedTweetUrl is for footer "share" link. */
   const isTweetPost = post.category === 'tweet'
+  const displayTitle = titleFromMd ?? post.title
+  const displayExcerpt = excerptFromMd ?? post.excerpt
   const metaDescription = post.shareDescription
     ? post.shareDescription
-    : post.excerpt
-      ? stripLinksFromExcerpt(post.excerpt)
+    : displayExcerpt
+      ? stripLinksFromExcerpt(displayExcerpt)
       : (post.summary && post.summary.replace(/\s+/g, ' ').replace(/^[-*]\s*/gm, '').trim().slice(0, 160))
-  const desc = (metaDescription || post.title || (post.body ?? '')).slice(0, 160)
+  const desc = (metaDescription || displayTitle || (post.body ?? '')).slice(0, 160)
   const isHome = location.pathname === '/'
   const canonicalUrl = isHome ? `${SITE_BASE}/` : `${SITE_BASE}/posts/${post.slug}`
-  const displaySummary = summaryContent !== undefined ? summaryContent : (post.summary ?? '')
+  const summaryBulletLimit = post.slug === 'six-agentic-trends-betting-on' ? 6 : 5
+  const displaySummary = limitSummaryToFiveBullets(summaryContent !== undefined ? summaryContent : (post.summary ?? ''), summaryBulletLimit)
   const displayTweet = (post.shareTweet ?? '').trim() || (tweetContent ?? '').trim()
   // Default OG image only on home; post pages use post-specific image or none
   const ogImage = post.ogImage
@@ -876,12 +902,12 @@ export default function Post({ slug: slugProp }: PostProps) {
   return (
     <>
       <Helmet>
-        <title>{!post.title ? (isTweetPost ? 'X Post — Mark Hendrickson' : 'Mark Hendrickson') : (post.title === 'Mark Hendrickson' ? post.title : `${post.title} — Mark Hendrickson`)}</title>
+        <title>{!displayTitle ? (isTweetPost ? 'X Post — Mark Hendrickson' : 'Mark Hendrickson') : (displayTitle === 'Mark Hendrickson' ? displayTitle : `${displayTitle} — Mark Hendrickson`)}</title>
         <meta name="description" content={desc} />
         <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.title || (isTweetPost ? 'X Post' : '')} />
+        <meta property="og:title" content={displayTitle || (isTweetPost ? 'X Post' : '')} />
         <meta property="og:description" content={desc} />
         <meta property="og:url" content={canonicalUrl} />
         {ogImage != null && <meta property="og:image" content={ogImage} />}
@@ -899,13 +925,13 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta property="article:author" content={SITE_BASE} />
         <meta property="og:article:author" content="Mark Hendrickson" />
         <meta name="twitter:creator" content="@markmhendrickson" />
-        <meta name="twitter:title" content={post.title || (isTweetPost ? 'X Post' : '')} />
+        <meta name="twitter:title" content={displayTitle || (isTweetPost ? 'X Post' : '')} />
         <meta name="twitter:description" content={desc} />
         <script type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Article',
-            headline: post.title || (isTweetPost ? (post.body ?? '').slice(0, 100) : ''),
+            headline: displayTitle || (isTweetPost ? (post.body ?? '').slice(0, 100) : ''),
             description: desc,
             url: canonicalUrl,
             mainEntityOfPage: canonicalUrl,
@@ -923,7 +949,7 @@ export default function Post({ slug: slugProp }: PostProps) {
             itemListElement: [
               { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_BASE },
               { '@type': 'ListItem', position: 2, name: 'Posts', item: `${SITE_BASE}/posts` },
-              { '@type': 'ListItem', position: 3, name: post.title || (isTweetPost ? 'X Post' : post.slug), item: canonicalUrl },
+              { '@type': 'ListItem', position: 3, name: displayTitle || (isTweetPost ? 'X Post' : post.slug), item: canonicalUrl },
             ],
           })}
         </script>
@@ -970,11 +996,11 @@ export default function Post({ slug: slugProp }: PostProps) {
           {!isTweetPost && (
           <header className="mb-8">
             <h1 className="text-[28px] font-medium mb-2 tracking-tight">
-              {post.title}
+              {displayTitle}
             </h1>
-            {post.excerpt && (
+            {displayExcerpt && (
               <p className="text-[15px] leading-[1.75] text-[#666] mb-4">
-                {stripLinksFromExcerpt(post.excerpt)}
+                {stripLinksFromExcerpt(displayExcerpt)}
               </p>
             )}
           </header>
@@ -982,7 +1008,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
           {displaySummary && (() => {
             const normalizedSummary = displaySummary.trim().replace(/\s+/g, ' ')
-            const normalizedExcerpt = post.excerpt ? post.excerpt.trim().replace(/\s+/g, ' ') : ''
+            const normalizedExcerpt = displayExcerpt ? displayExcerpt.trim().replace(/\s+/g, ' ') : ''
             const repeatsExcerpt = normalizedExcerpt && normalizedSummary === normalizedExcerpt
             return !repeatsExcerpt && (
             <Alert className="mb-8">
@@ -1002,11 +1028,11 @@ export default function Post({ slug: slugProp }: PostProps) {
             <div className="mb-8 w-full">
               <img
                 src={getPostImageSrc(post.heroImage)}
-                alt={post.title}
+                alt={displayTitle}
                 className={
                   post.heroImageStyle === 'keep-proportions'
-                    ? 'w-full max-h-[70vh] h-auto object-contain'
-                    : 'w-full aspect-square object-cover'
+                    ? 'w-full max-h-[70vh] h-auto object-contain rounded'
+                    : 'w-full aspect-square object-cover rounded'
                 }
               />
             </div>
@@ -1017,7 +1043,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               <div className="w-full mb-8 md:mb-4 md:float-right md:ml-8 md:max-w-[300px]">
                 <img
                   src={getPostImageSrc(post.heroImage)}
-                  alt={post.title}
+                  alt={displayTitle}
                   className="w-full aspect-square object-cover rounded"
                 />
               </div>
@@ -1166,7 +1192,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               )}
               <PostShareBar
                 shareUrl={isHome ? `${PROD_SITE_BASE}/` : `${PROD_SITE_BASE}/posts/${post.slug}`}
-                title={post.title}
+                title={displayTitle}
                 onCopyFeedback={() => {
                   setCopyLinkSuccess(true)
                   setTimeout(() => setCopyLinkSuccess(false), 2000)

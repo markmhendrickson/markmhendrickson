@@ -30,7 +30,7 @@ If the export file is missing, the script exits with an error (no Parquet fallba
 3. Cache JSON files are generated (posts, links, timeline)
 4. Vite builds the React app using cache files
 
-**When updating posts:** Regenerate the cache after changing posts. From repo root: `python3 execution/scripts/generate_posts_cache.py` (uses default export path) or `python3 execution/scripts/generate_posts_cache.py --from-neotoma-json <path>`. The site reads from the cache files only.
+**When updating posts:** Always (1) update Neotoma so the post entity reflects your changes (source of truth), and (2) regenerate the website cache so the site shows them. From repo root: `python3 execution/scripts/generate_posts_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json` (or `python3 execution/scripts/generate_website_cache.py` for default path). The site reads from the cache files only. **Dev server:** When cache JSON changes, the Vite dev server triggers a full reload so updates appear; if they don’t, do a hard refresh (Cmd+Shift+R) or restart `npm run dev`.
 
 ## Share tweet (drafts)
 
@@ -216,10 +216,10 @@ Key takeaways for each post are editable in markdown, like the post body.
 
 ## Draft Posts
 
-- **Storage**: Drafts are stored in Neotoma with `published: false`
-- **Visibility**: Drafts are only visible when running `npm run dev` (development mode)
-- **Production**: In production builds, drafts are automatically hidden (filtered by React app)
-- **Cache**: `posts.json` excludes drafts
+- **Always draft in Neotoma first.** Store the post in Neotoma with `published: false` (Neotoma MCP `store_structured`, `entity_type: "post"`). The site cache is generated from the Neotoma export; the private cache includes all posts (including drafts) so dev preview can show them.
+- **Cache and dev preview:** When making post changes, always update Neotoma and regenerate the cache. Export posts from Neotoma to the website export JSON, then run `python3 execution/scripts/generate_posts_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json`. The script writes `posts.json` (published only) and `posts.private.json` (all posts including drafts). In dev (`npm run dev`) the site loads the private cache, so drafts are visible. Drafts that exist only as `drafts/*.md` (not yet in the export) are merged into the private cache as draft-only so they appear in dev without re-exporting.
+- **Visibility:** Drafts are only visible when running `npm run dev`. In production builds, drafts are hidden (site uses public cache only).
+- **Cache:** `posts.json` excludes drafts; `posts.private.json` includes them for dev.
 
 ## Listing overrides
 
@@ -252,11 +252,11 @@ client.call_tool_sync("update_records", {
 })
 ```
 
-Then regenerate cache files: `python3 execution/scripts/generate_posts_cache.py`
+Then update Neotoma with the new published state and regenerate cache: `python3 execution/scripts/generate_posts_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json`
 
 ## Updating Posts
 
-To update an existing post, use Neotoma MCP (correct/store) or Parquet MCP `update_records`:
+When updating post content (title, excerpt, body, summary, hero, etc.): (1) update Neotoma (MCP correct/store or Parquet `update_records`) so the export reflects the change, and (2) regenerate the website cache. To update an existing post in Neotoma/Parquet:
 
 ```python
 from parquet_client import ParquetMCPClient
@@ -273,7 +273,7 @@ client.call_tool_sync("update_records", {
 })
 ```
 
-Then regenerate cache files: `python3 execution/scripts/generate_posts_cache.py`
+Then regenerate the website cache: `python3 execution/scripts/generate_posts_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json`
 
 ## Querying Posts
 

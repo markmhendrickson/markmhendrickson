@@ -4,12 +4,29 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const cacheDir = path.resolve(__dirname, 'cache')
 
 const GA_MEASUREMENT_ID = process.env.VITE_GA_MEASUREMENT_ID || 'G-5CWQZTEN9S'
+
+/** When cache/*.json changes (e.g. after generate_posts_cache.py), trigger full reload so dev shows new data. */
+function cacheReloadPlugin() {
+  return {
+    name: 'cache-reload',
+    configureServer(server) {
+      server.watcher.add([path.join(cacheDir, '*.json'), path.join(cacheDir, 'api', '*.json')])
+      server.watcher.on('change', (file) => {
+        if (file.startsWith(cacheDir) && file.endsWith('.json')) {
+          server.ws.send({ type: 'full-reload', path: '*' })
+        }
+      })
+    },
+  }
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    cacheReloadPlugin(),
     react(),
     // Inject gtag in production only (head, before app) so GA detects the tag
     {
