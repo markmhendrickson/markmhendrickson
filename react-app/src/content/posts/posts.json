@@ -24,11 +24,11 @@
   },
   {
     "slug": "claude-memory-and-the-truth-layer",
-    "title": "Claude Memory and the truth layer",
-    "excerpt": "What Claude Memory is, where file-based and search-based memory still fall short, and how that compares to a structured truth layer like Neotoma.",
+    "title": "Claude's memory tool stores files. A truth layer stores state.",
+    "excerpt": "Anthropic's Memory Tool lets Claude persist context by writing files. That solves the context window problem and introduces a different set of limits.",
     "published": false,
     "category": "essay",
-    "readTime": 5,
+    "readTime": 6,
     "tags": [
       "claude",
       "neotoma",
@@ -36,6 +36,10 @@
       "agent-memory",
       "build-in-public"
     ],
+    "heroImage": "claude-memory-and-the-truth-layer-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "claude-memory-and-the-truth-layer-hero-square.png",
+    "ogImage": "og/claude-memory-and-the-truth-layer-1200x630.jpg",
     "createdDate": "2026-02-18",
     "updatedDate": "2026-02-18"
   },

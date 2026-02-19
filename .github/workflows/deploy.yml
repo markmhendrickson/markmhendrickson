@@ -31,10 +31,22 @@ jobs:
         working-directory: react-app
         run: npm ci
 
-      - name: Ensure posts.private.json exists for build
+      - name: Write Neotoma export JSON (from secret)
+        working-directory: react-app
+        env:
+          NEOTOMA_WEBSITE_EXPORT_JSON: ${{ secrets.NEOTOMA_WEBSITE_EXPORT_JSON }}
+        run: |
+          if [ -z "${NEOTOMA_WEBSITE_EXPORT_JSON:-}" ]; then
+            echo "Missing NEOTOMA_WEBSITE_EXPORT_JSON secret." >&2
+            exit 1
+          fi
+          mkdir -p data/tmp
+          printf '%s' "$NEOTOMA_WEBSITE_EXPORT_JSON" | base64 --decode > data/tmp/neotoma_website_export.json
+
+      - name: Generate cache from Neotoma export
         working-directory: react-app
         run: |
-          cp src/content/posts/posts.json src/content/posts/posts.private.json || true
+          python3 scripts/generate_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
 
       - name: Build
         working-directory: react-app

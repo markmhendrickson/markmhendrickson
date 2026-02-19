@@ -38,6 +38,9 @@ function BrandedIcon({
 const SubstackIcon = (p: React.SVGProps<SVGSVGElement>) => (
   <BrandedIcon path="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z" {...p} />
 )
+const MediumIcon = (p: React.SVGProps<SVGSVGElement>) => (
+  <BrandedIcon path="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0-3.54-1.51-6.42-3.38-6.42-1.87 0-3.38 2.88-3.38 6.42s1.51 6.42 3.38 6.42 3.38-2.88 3.38-6.42zM24 12c0-3.17-.53-5.75-1.19-5.75-.66 0-1.13 2.58-1.19 5.75 0 3.17.53 5.75 1.19 5.75.66 0 1.13-2.58 1.19-5.75z" {...p} />
+)
 const HackerNewsIcon = (p: React.SVGProps<SVGSVGElement>) => (
   <BrandedIcon path="M0 24V0h24v24H0zM6.951 5.896l4.112 7.708v5.064h1.583v-4.972l4.148-7.799h-1.749l-2.457 4.875c-.372.745-.688 1.434-.688 1.434s-.297-.708-.651-1.434L8.831 5.896h-1.88z" {...p} />
 )
@@ -62,6 +65,7 @@ const iconMap: Record<string, LucideIcon> = {
   Mail,
   Globe,
   Substack: SubstackIcon as LucideIcon,
+  Medium: MediumIcon as LucideIcon,
   HackerNews: HackerNewsIcon as LucideIcon,
   IndieHackers: IndieHackersIcon as LucideIcon,
   X: XIcon as LucideIcon,

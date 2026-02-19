@@ -17,6 +17,14 @@ react-app/node_modules
 react-app/dist
 react-app/dist-ssr
 
+# Website data cache (deploy artifact) is committed:
+# - react-app/cache/*.json
+# - react-app/cache/api/*.json
+
+# Local data (never committed)
+data/
+react-app/data/tmp/
+
 # Draft posts (not committed to version control)
 react-app/src/content/posts/drafts/
 

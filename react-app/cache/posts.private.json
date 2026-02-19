@@ -1,9 +1,33 @@
 [
   {
     "slug": "claude-memory-and-the-truth-layer",
-    "title": "Anthropic launched Claude Memory in September 2025 and expanded it to Pro and Ma",
+    "title": "Claude's memory tool stores files. A truth layer stores state.",
+    "excerpt": "Anthropic's Memory Tool lets Claude persist context by writing files. That solves the context window problem and introduces a different set of limits.",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": 6,
+    "tags": [
+      "claude",
+      "neotoma",
+      "truth-layer",
+      "agent-memory",
+      "build-in-public"
+    ],
+    "heroImage": "claude-memory-and-the-truth-layer-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "claude-memory-and-the-truth-layer-hero-square.png",
+    "createdDate": "2026-02-18",
+    "updatedDate": "2026-02-18",
+    "ogImage": "og/claude-memory-and-the-truth-layer-1200x630.jpg",
+    "summary": "- Anthropic's new Memory Tool (`memory_20250818`) is a client-side developer API feature that lets Claude read and write files in a `/memories` directory across sessions; you implement the storage backend and Claude makes tool calls to operate on it.\n- Because it's file-based, it inherits every limit of file-based memory: no canonical IDs, no provenance, in-place writes with no rollback, session-dependent file structure that can drift, a global store that risks cross-contamination, and unstructured retrieval.\n- The Memory Tool pairs well with context editing for long-running workflows where session continuity and context-window management are the main problems; it's not designed for complete recall, structured queries, or cross-platform access.\n- A truth layer (e.g. Neotoma) is a different design: typed entities, canonical IDs, deterministic merge, full provenance, rollback, and cross-platform access via MCP; it answers different questions than file-based memory.\n- Both have a place: the Memory Tool for session continuity inside a Claude API agent; a truth layer for stable, queryable, portable state across all agents and tools in a stack.",
+    "body": "Anthropic shipped the Memory Tool on September 29, 2025 as part of its context management announcement for the Claude Developer Platform ([Managing context on the Claude Developer Platform](https://claude.com/blog/context-management)). The tool itself is documented here: [Memory tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool).\n\nIt's a new tool type (`memory_20250818`) that lets Claude create, read, update, and delete files in a `/memories` directory across conversations. When you include it, Claude automatically checks that directory before starting any task, reads relevant files, writes what it learns, and picks up where it left off next session. You implement the backend (file system, database, cloud storage) and Claude makes tool calls to operate on it.\n\nFor developers building long-running agents or recurring workflows, that's a real step forward. This post explains what it is and how it works, then goes through where file-based memory still falls short, and how that compares to building a structured truth layer instead.\n\n## What the Memory Tool is\n\nThe Memory Tool is a client-side developer API feature, not the product-level Claude Memory that rolled out to Pro and Max users last year. You opt in per request by including `{\"type\": \"memory_20250818\", \"name\": \"memory\"}` in your tools list. Claude is prompted to check `/memories` first, then write what it learns during the session.\n\n**File operations.** The tool supports `view` (directory listing or file contents with line numbers), `create`, `str_replace`, `insert`, `delete`, and `rename`. Claude writes structured files, typically XML, with learned context, guidelines, and notes.\n\n**Developer control.** Because it's client-side, you control the storage backend. You implement the handlers. You can use encrypted files, a database, cloud storage, or anything you want. This is also Zero Data Retention eligible. Data isn't retained after the API response.\n\n**Works with context management.** Anthropic also recently released context editing, which clears old tool results when a conversation approaches the context window limit. The Memory Tool and context editing pair well: Claude writes important state to memory files before tool results are cleared, then reads those files when it needs to reconstruct context. This enables long-running workflows that would otherwise hit context limits.\n\n**Models.** Available on Claude Opus 4.x, Sonnet 4.x, and Haiku 4.5.\n\nA concrete example from the [Memory tool docs](https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool): you ask Claude to help with a customer service ticket. Claude calls `view /memories`, finds `customer_service_guidelines.xml` and `refund_policies.xml`, reads both, then incorporates what it learned into the response. Next session, those files are still there.\n\n## Where file-based memory falls short\n\nThe Memory Tool is file-based. That's also the source of every limit that applies to it. The same shortcomings that come up in analysis of file-based memory for Claude Code ([Maisum Hashim](https://www.maisumhashim.com/blog/claude-code-memory-crisis-persistent-context-systems), [Backnotprop](https://backnotprop.com/blog/file-system-as-memory/)) apply here, because the mechanism is the same: text files, read and written by an LLM.\n\n**No canonical identity.** Claude writes whatever it decides is worth storing. If your vendor is \"Acme Corp\" in one session and \"ACME CORPORATION\" in a later XML file, there's no merge rule to reconcile them. No canonical ID exists. The next query that reads both files will get two representations of the same entity and may treat them as the same or different depending on context. There's no way to force one answer.\n\n**No provenance.** Memory files accumulate facts without lineage. If Claude writes a number into `/memories/budget.xml`, you cannot trace where that number came from, which session, which document, which inference. When the number is wrong, you have no audit trail to follow back.\n\n**In-place writes, no rollback.** `str_replace` modifies a file directly. `delete` removes it. There's no append-only record of what changed. If Claude \"corrects\" a stored fact based on bad inference in session N, the previous value is gone. No versioning, no undo.\n\n**Session-dependent structure.** What Claude writes to memory varies by session. The XML schema it chooses, the granularity of facts, the filenames, none of these are enforced by a schema. Memory files can drift in format. Retrieval reliability depends on whatever structure Claude produced in the last session that touched that file.\n\n**Global store tension.** All memories live in one `/memories` directory. If you're building agents that work across multiple projects or users, you either namespace everything carefully (and rely on Claude respecting namespaces) or you risk cross-contamination: facts from project A surfacing when working on project B. The docs flag this as a security concern (path traversal protection) but also as a practical storage concern. Track file sizes, expire stale files, prevent unbounded growth.\n\n**Provider-bound.** The Memory Tool is a Claude API feature. The memory it writes is only readable by Claude via the same implementation. You can't expose the same memory to a ChatGPT agent, a Cursor extension, or any other tool unless you build a bridge yourself. Your memory layer is tied to this API.\n\n**Size and retrieval are unstructured.** Reading memory means reading files. Claude decides what to `view` and when. There's no index, no schema-driven query, no way to say \"give me all tasks due before Friday\" or \"show all mentions of vendor X.\" Retrieval is inference over text.\n\nNone of this makes the Memory Tool bad for what it's designed for: picking up context across sessions, learning from past interactions, maintaining project-level guidelines. For those uses it works well. The limits show up when you need deterministic answers, complete recall across large datasets, or verifiable state.\n\n## Comparison with a truth layer (Neotoma)\n\nA truth layer is a different design from the ground up. Rather than writing unstructured files and relying on the LLM to recall them, it maintains typed entities with canonical IDs, persists provenance with every observation, and answers queries deterministically.\n\nThe table below lines up the Memory Tool directly against a truth layer so the differences are concrete.\n\n| Domain | Memory Tool (file-based) | Truth layer (e.g. Neotoma) |\n|--------|--------------------------|----------------------------|\n| Storage | Files in `/memories` directory | Typed entities with schemas |\n| Identity | No canonical IDs; LLM re-infers | Stable entity IDs; rule-based merge |\n| Retrieval | LLM reads files; unstructured inference | Deterministic queries by schema, ID, relationship, time |\n| Provenance | None; file contents overwritten | Full lineage; every observation traced to source |\n| Rollback | No; writes are in-place | Yes; append-only or versioned; rollback to prior state |\n| Cross-platform | Claude API only | Same memory via MCP in ChatGPT, Claude, Cursor, etc. |\n| Determinism | Same question can produce different answers | Same inputs and schema yield the same snapshot |\n| Schema | None enforced; structure drifts by session | Explicit schema; unknown fields preserved, not lost |\n| Structured queries | No; full-text over files | Yes; filter by entity type, ID, relationship, date |\n\n**When the Memory Tool is the right choice.** You're building a Claude API agent, your use case is continuity within recurring workflows (guidelines, learned preferences, progress tracking), and you don't need cross-tool access or audit. You want simple implementation: implement file handlers, get persistent context. Works well for session-to-session handoff in a single provider context.\n\n**When a truth layer is the right choice.** You need the same state accessible from ChatGPT, Claude, Cursor, or other MCP clients. You need complete recall over structured data. For example, \"all transactions with vendor X in 2024,\" not \"what do my memory files say about vendor X.\" You need to trace an answer back to its source. You need rollback when an agent writes something wrong. You want schema-enforced structure that doesn't drift by session.\n\nThe Memory Tool addresses the context-window limitation elegantly. That's a real and important problem. Long-running agents lose state when context clears. File-based memory solves that by moving state outside the context window. What it doesn't solve is identity, provenance, or cross-platform access. Those require a different layer.\n\n## What I'm building\n\nI'm building [Neotoma](https://github.com/markmhendrickson/neotoma) as a structured memory layer that takes the truth layer approach: typed entities, canonical IDs, deterministic merge, provenance, and cross-platform access via MCP. I'm running it alongside the Memory Tool in my own stack to see where the boundary sits in practice. The Memory Tool is a good fit for session continuity inside a Claude API agent. A truth layer is a good fit when you need the same facts to be stable, queryable, and portable across all the agents and tools in your stack. Both have a place; they solve different problems.\n"
+  },
+  {
+    "slug": "six-agentic-trends-betting-on.thread",
+    "title": "# X – Single tweet (all six + link)",
     "excerpt": "",
-    "body": "Anthropic launched Claude Memory in September 2025 and expanded it to Pro and Max subscribers in October. For many users it was the first time an assistant could automatically remember project details, preferences, and work context across conversations without being told again each session. This post explains what Claude Memory is and how to think about it, then looks at where it still falls short (including recent criticism of file-based and search-based memory) and how that compares to a structured truth layer like Neotoma.\n\n## What Claude Memory is\n\nClaude Memory is project-scoped, automatic memory inside Claude. Each project has its own memory, so confidential work and side projects stay separate. The system remembers things like project context, team processes, and your stated preferences and surfaces them in later conversations in that project. You don't have to re-explain.\n\n**Controls.** Memory is optional. You can view a summary of what Claude has stored, edit or delete specific memories, and use an incognito-style chat so that conversation is not saved to memory. Anthropic ran safety testing before rollout on sensitive topics and on whether memory could reinforce harmful patterns or bypass safeguards.\n\n**Who has it.** Memory launched for Team and Enterprise in September 2025, then rolled out to Pro and Max. The [Claude Developer Platform](https://www.anthropic.com/news/context-management) also gained context management and a memory tool for long-running agents around the same time.\n\nFor day-to-day use, that means: start a project, tell Claude what matters once, and in later chats in that project it can draw on that context. No need to paste the same instructions or recap the same decisions every time. Helpful for onboarding and for staying consistent within a project.\n\n## Where it still falls short\n\nRecent analysis of file-based and search-based memory (e.g. [Maisum Hashim on Claude Code memory](https://www.maisumhashim.com/blog/claude-code-memory-crisis-persistent-context-systems), [Backnotprop on the file system as memory](https://backnotprop.com/blog/file-system-as-memory/)) highlights limits that apply beyond Claude Code and that also show up when provider-hosted memory (like Claude Memory) is the only layer:\n\n**Context and retrieval limits.** When memory is backed by search over files or by retrieval over stored snippets, you run into context-window pressure (loading too much) or incomplete recall (missing or truncating results). Search is best-effort. It doesn't guarantee \"all records that match\" or \"same question, same result.\" That holds whether the search is over your repo, over a provider index, or over a single global store shared across projects.\n\n**Project isolation and cross-contamination.** Strict project scoping (one memory per project) avoids leakage between projects but creates silos. You can't query \"all tasks across projects\" or \"every mention of vendor X\" in one place. Conversely, when systems use a single global store (as in some file-based setups), unrelated project history can mix into retrieval and you get irrelevant or conflicting results. So you either isolate and can't aggregate, or you share a store and risk contamination.\n\n**No provenance or rollback.** If the model (or an agent using memory) overwrites a preference, a decision, or a fact, the previous value is usually gone. There's no built-in audit trail or versioning. You can't trace where a number came from or roll back a bad update. That's fine for throwaway context; it's a problem when the \"memory\" is the only record of a decision or a relationship.\n\n**Provider-bound and product-specific.** Claude Memory lives inside Anthropic's product. You can't read or write the same memories from ChatGPT, Cursor, or another tool. Your workflows are tied to one provider. If you need one canonical set of contacts, tasks, or transactions across agents and UIs, provider memory doesn't give you that.\n\n**Session-bound inference.** What gets stored and how it's merged is decided at runtime. Same input in two sessions can lead to different stored facts or different answers when recalled. There are no stable canonical IDs (e.g. one entity for \"Acme Corp\" across spellings) and no deterministic merge rules. So you get \"good enough for this session\" rather than \"same every time.\"\n\nNone of that is unique to Claude. It's the nature of retrieval-based and provider-hosted memory. It's very useful for convenience and continuity inside one product. It doesn't by itself give you persistent identity, cross-tool truth, or verifiable state.\n\n## Comparison with a truth layer (Neotoma)\n\nA truth layer is a different design. It's not \"better retrieval.\" It's persistent, structured state: canonical entities, provenance, and deterministic queries. The table below lines up provider memory (e.g. Claude Memory) with a truth layer so you can see where they diverge.\n\n| Domain | Provider memory (e.g. Claude Memory) | Truth layer (e.g. Neotoma) |\n|--------|-------------------------------------|----------------------------|\n| Scope | Project- or product-scoped | User-scoped; same data across tools |\n| Identity | Inferred per session; no canonical IDs | Stable entity IDs; rule-based merge |\n| Retrieval | Best-effort search/similarity | Deterministic queries by schema, ID, relationship, time |\n| Provenance | None | Full lineage; trace to source |\n| Cross-platform | Tied to one provider | Same memory via MCP in ChatGPT, Claude, Cursor, etc. |\n| Mutations | In-place updates; no versioning | Append-only or versioned; rollback and audit |\n| Determinism | Same question can yield different answers | Same inputs and schema yield same snapshot |\n\nProvider memory optimizes for convenience and continuity inside a single product. A truth layer optimizes for consistency, auditability, and portability across products.\n\n**When provider memory is enough.** You work mainly in one tool (e.g. Claude), care about not repeating yourself within that tool, and don't need to share the same facts with other agents or to audit or replay exactly. Exploratory work, drafts, and project-local preferences fit here.\n\n**When a truth layer pays off.** You need the same contacts, tasks, transactions, or decisions across ChatGPT, Claude, Cursor, or other MCP clients. You care about \"list every transaction with X\" or \"all tasks in project Y\" with complete, reproducible results. You want to trace a number back to its source or roll back a bad write. You want one canonical identity for an entity (e.g. one company record) instead of re-inferring each session.\n\nI'm building [Neotoma](https://github.com/markmhendrickson/neotoma) as a truth layer: schema-first, event-sourced, with provenance and cross-platform access via MCP. Claude Memory and Neotoma solve different problems. Claude Memory improves continuity inside Claude. Neotoma is for when you need one persistent, queryable, auditable memory layer that every agent and tool can use the same way.\n",
+    "body": "# X – Single tweet (all six + link)\n\nOne tweet. May exceed default view; full text shows on expand/click. Same content as LinkedIn for consistency.\n\n---\n\nIf you're building with AI, you can't stay agnostic about where the industry is going. You have to pick a set of theses and work towards them, knowing some might be wrong.\n\nI've identified the six structural trends I'm betting on, as well as what would falsify them:\n\n1. Agents will become stateful economic actors and memory will become system state, enabling long-horizon plans and coordination at scale.\n2. Agentic errors will become economically visible and tolerance for approximate memory will erode as the bar for defensibility and audit rises.\n3. Audit and compliance will drift down-market and the pressure to prove how work was produced will reach consultants, agencies, and small teams.\n4. Platform memory will remain opaque and a trust gap will grow between those who need guarantees and those who rely on platform convenience.\n5. Tool fragmentation will persist and state fragmentation will matter more than interface fragmentation, with memory as a protocol beneath it.\n6. Agentic usage will become metered and deterministic memory will enable replay over regeneration, turning memory into an optimization surface.\n\nRead more in depth: https://markmhendrickson.com/posts/six-agentic-trends-betting-on\n",
     "published": false,
     "publishedDate": null,
     "category": "essay",
@@ -11,14 +35,14 @@
     "tags": [],
     "createdDate": "2026-02-18",
     "updatedDate": "2026-02-18",
-    "summary": "- Claude Memory (Sept/Oct 2025) is project-scoped, automatic memory inside Claude with view/edit/delete and incognito; it reduces re-explaining context within a project.\n- Recent analysis of file-based and search-based memory shows limits: context/retrieval trade-offs, project isolation or cross-contamination, no provenance or rollback, provider-bound access, and session-bound inference (no canonical IDs or deterministic merge).\n- A truth layer (e.g. Neotoma) is persistent structured state with canonical entities, provenance, and deterministic queries; it is cross-platform via MCP and supports audit and rollback.\n- Provider memory fits single-tool continuity; a truth layer fits when you need the same facts across tools, complete reproducible queries, and verifiable state.",
-    "shareTweet": "Claude Memory: what it is, where file-based/search-based memory still falls short, and how that compares to a truth layer. [post URL]"
+    "summary": "",
+    "shareTweet": ""
   },
   {
     "slug": "six-agentic-trends-betting-on.linkedin",
     "title": "# LinkedIn post (draft)",
     "excerpt": "",
-    "body": "# LinkedIn post (draft)\n\n**Hook (use as post opening):**\n\nIf you're building with AI, you can't stay agnostic about where the industry is going. You have to pick a set of theses and build against them—knowing some will be wrong.\n\nI wrote down the six structural trends I'm betting on and what would falsify them.\n\n**Body:**\n\nHere are the six structural trends I'm betting on for the agentic future.\n\n1. Agents will become stateful economic actors and memory will become system state, enabling long-horizon plans and coordination at scale.\n2. Agentic errors will become economically visible and tolerance for approximate memory will erode as the bar for defensibility and audit rises.\n3. Audit and compliance will drift down-market and the pressure to prove how work was produced will reach consultants, agencies, and small teams.\n4. Platform memory will remain opaque and a trust gap will grow between those who need guarantees and those who rely on platform convenience.\n5. Tool fragmentation will persist and state fragmentation will matter more than interface fragmentation, with memory as a protocol beneath it.\n6. Agentic usage will become metered and deterministic memory will enable replay over regeneration and turn memory into an optimization surface.\n\nI also spelled out what would prove this wrong and how my work on a truth layer fits in.\n\n[Six agentic trends I'm betting on (and how I might be wrong)](https://markmhendrickson.com/posts/six-agentic-trends-betting-on)\n\n---\n\n**Tweet (current in .tweet.md):**\n\nSix trends I'm betting on for the agentic future.\n1. Stateful agents\n2. Priced errors\n3. Audit down-market\n4. Opaque platform memory\n5. Tool fragmentation\n6. Metered usage\nI spelled out what would prove me wrong. https://markmhendrickson.com/posts/six-agentic-trends-betting-on\n\n---\n\n**Short LinkedIn version (if you prefer a tighter post):**\n\nI wrote down the six structural trends I'm betting on for the agentic future.\n\n1. Stateful agents\n2. Priced errors\n3. Audit down-market\n4. Opaque platform memory\n5. Tool fragmentation\n6. Metered usage\n\nI also spelled out what would prove me wrong. Link in comments.\n",
+    "body": "# LinkedIn post (draft)\n\n**Copy-ready post:**\n\nIf you're building with AI, you can't stay agnostic about where the industry is going. You have to pick a set of theses and work towards them, knowing some might be wrong.\n\nI've identified the six structural trends I'm betting on, as well as what would falsify them:\n\n1. Agents will become stateful economic actors and memory will become system state, enabling long-horizon plans and coordination at scale.\n2. Agentic errors will become economically visible and tolerance for approximate memory will erode as the bar for defensibility and audit rises.\n3. Audit and compliance will drift down-market and the pressure to prove how work was produced will reach consultants, agencies, and small teams.\n4. Platform memory will remain opaque and a trust gap will grow between those who need guarantees and those who rely on platform convenience.\n5. Tool fragmentation will persist and state fragmentation will matter more than interface fragmentation, with memory as a protocol beneath it.\n6. Agentic usage will become metered and deterministic memory will enable replay over regeneration, turning memory into an optimization surface.\n\nRead more in depth: https://markmhendrickson.com/posts/six-agentic-trends-betting-on\n\n---\n\n**X – Short single tweet (under 280):** six-agentic-trends-betting-on.tweet.md  \n**X – Long single tweet (all six + link, same as LinkedIn):** six-agentic-trends-betting-on.thread.md\n\n---\n\n**Short LinkedIn version (if you prefer a tighter post):**\n\nSix trends I'm betting on for the agentic future.\n\n1. Agents will become stateful economic actors and memory will become system state, enabling long-horizon plans and coordination at scale.\n2. Agentic errors will become economically visible and tolerance for approximate memory will erode as the bar for defensibility and audit rises.\n3. Audit and compliance will drift down-market and the pressure to prove how work was produced will reach consultants, agencies, and small teams.\n4. Platform memory will remain opaque and a trust gap will grow between those who need guarantees and those who rely on platform convenience.\n5. Tool fragmentation will persist and state fragmentation will matter more than interface fragmentation, with memory as a protocol beneath it.\n6. Agentic usage will become metered and deterministic memory will enable replay over regeneration, turning memory into an optimization surface.\n\nI spelled out what would prove me wrong. Link in comments.\n",
     "published": false,
     "publishedDate": null,
     "category": "essay",
@@ -30,19 +54,25 @@
     "shareTweet": ""
   },
   {
-    "slug": "show-me-all-documents-involving-company-x",
-    "title": "If you work with hundreds of documents across projects, you've hit this wall. A ",
-    "excerpt": "",
-    "body": "If you work with hundreds of documents across projects, you've hit this wall. A partner asks for everything you have on Company X. You need due diligence, legal research, or a client brief. You run search. You get fragments: some contracts, maybe an email or two, a note from a call. You miss the memo that spelled the name \"ACME CORP,\" the annex that only said \"the counterparty,\" the report that referenced the deal by code name. You hand over an incomplete set or spend hours manually collating. Either way, the query \"show me all documents involving Company X\" never quite lands.\n\nThe failure isn't search quality in the abstract. It's that search runs over raw text. There is no single notion of \"Company X.\" There are strings. Your tools can't unify \"Acme,\" \"Acme Corp,\" and \"ACME CORP\" into one entity, or link that entity to contracts, emails, and notes across folders and tools. So retrieval is best-effort. You get what matches the string, not what belongs to the entity.\n\n## What would have to be true for that query to work\n\nFor \"show me all documents involving Company X\" to return a complete, coherent set, three things have to be true.\n\n**First, you need entity resolution.** Every document that mentions the company has to contribute to the same canonical entity. That entity gets a stable ID. Whether the source says \"Acme,\" \"Acme Corp,\" or \"ACME CORP,\" the system maps it to that ID. No duplicate \"companies\" that are really the same. No manual spreadsheets to track who is who.\n\n**Second, you need a single place those documents (or their extracted facts) live.** If contracts are in one tool, emails in another, and notes in a third, no search layer can reliably join them. The join has to happen in a store that already holds the resolved entities and the links from documents to those entities. That store is the memory layer.\n\n**Third, you need to query by structure, not only by keyword.** You want \"all documents involving entity ID X\" or \"all events where this company appears.\" That's a structural query: filter by entity, by relationship, by time range. Keyword search can approximate it. It can't guarantee it. Structure can.\n\nTogether, that's a structured memory layer with entity resolution and stable IDs. Documents are ingested once. Entities are resolved and linked. Queries run against that graph. Same question, same store, same result.\n\n## How Neotoma fits\n\nI'm building [Neotoma](https://github.com/markmhendrickson/neotoma) as a [truth layer](/posts/truth-layer-agent-memory) for AI tools: a place where typed, structured state lives with full provenance and deterministic updates. It's not a search engine. It's the layer underneath.\n\nWhen you upload or ingest documents, Neotoma extracts entities (people, companies, locations, events) and resolves them to canonical IDs. The same company in different formats and documents maps to one entity. Relationships (this contract involves this company, this email is from this contact) are first-class. So are timelines: when things happened, in what order.\n\nOnce that exists, \"show me all documents involving Company X\" becomes a real operation. You're not searching for a string. You're querying by entity ID and by the relationships that link documents to that entity. The system returns everything that references that canonical company, regardless of how the name was spelled or abbreviated in the source. You get one coherent set. You can then ask the AI to summarize it, compare terms, or build a timeline. The AI reads from the same graph. No re-upload, no re-paste, no manual reconciliation.\n\nThat turns into time saved on due diligence, legal research, and client work. You stop collating by hand. You stop missing the annex or the memo. You run a query and get an answer you can stand behind.\n\n## The tradeoff\n\nGetting there requires putting documents (or their extracted content) into a structured store and running entity resolution. That's ingestion and schema. It's more upfront than \"point search at a folder.\" The payoff is that the next query, and every query after, is deterministic and complete for that entity. You're not betting on keyword luck. You're querying state.\n\nFor analysts, researchers, consultants, and lawyers who already drown in document volume, that tradeoff is the one that actually scales. The a-ha is the moment \"show me all documents involving Company X\" works the first time, and you realize you can stop doing it the old way.\n\nNeotoma is in developer preview. I'm dogfooding it in my own workflows and building toward the use case above: one graph, entity resolution, and queries that run against structure instead of raw text. If that's the problem you have, that's the direction I'm building in.\n",
+    "slug": "agentic-future-betting-on",
+    "title": "The agentic future I'm betting on (and how I might be wrong)",
+    "excerpt": "I'm betting on stateful agents, priced errors, and opaque platform memory. Here's why, and how I might be wrong.",
     "published": false,
     "publishedDate": null,
     "category": "essay",
-    "readTime": null,
-    "tags": [],
+    "readTime": 8,
+    "tags": [
+      "ai",
+      "agents",
+      "neotoma",
+      "build-in-public",
+      "memory"
+    ],
+    "body": "Everyone involved in AI right now is, implicitly or explicitly, trying to predict where things are going and how those changes will reshape our lives and work. The volume of speculation is enormous, and much of it is contradictory. That is unavoidable. No one can know with confidence what the next couple of years will bring. The space is moving too quickly, the interactions between technologies are too complex, and second-order effects dominate in ways that are difficult to model ahead of time.\n\nStill, if you are operating in this space, especially if you are building something with AI or for AI, it is not enough to remain agnostic. You have to choose a set of core theses about how the world is likely to evolve and build coherently around them, knowing that some will be wrong and others will matter more than expected. These theses are less about precise prediction and more about identifying structural pressures that seem unlikely to reverse.\n\nWhat follows are the central assumptions I am currently operating under. They are not claims about inevitability, and they are not meant to cover every possible future. They are the trends that, if they continue even partially, shape how I think AI systems will be used, where friction will accumulate, and what kinds of infrastructure will become necessary. Neotoma is best understood as a response to these assumptions. It is not the reason for them, but it is built in anticipation of the world they imply.\n\n## Agents will become stateful economic actors\n\nOver the next two years, agents are likely to move beyond assistive, prompt-centric interactions and become meaningfully stateful actors. This does not require a breakthrough in general intelligence. It only requires cheaper inference, more capable tool APIs, and broader tolerance for agents running unattended.\n\nSocietally, the shift matters because stateful agents blur lines of accountability and delegation. We are used to tools that do nothing until we act. When agents persist goals, coordinate with each other, and take irreversible actions over time, the question of who is responsible for an outcome becomes harder to answer. Labor and identity shift too: more work is delegated to non-human actors, and the boundary between \"I did this\" and \"my agent did this\" softens. Norms around trust, liability, and dependency will have to adapt. The technology enables the change; society has to decide how to live with it.\n\nThe structural reason this trend is likely is that the marginal cost of keeping agents alive is collapsing faster than the cost of rebuilding context. As inference becomes cheaper and orchestration frameworks mature, it is more efficient to persist an agent's state than to constantly reconstruct it from scratch. Tool APIs increasingly assume continuity: credentials, caches, intermediate artifacts. That implicitly rewards persistence over statelessness.\n\nAs agents begin to persist goals across time, execute multi-step plans without constant supervision, coordinate with other agents, and leave irreversible side effects, memory ceases to be a convenience feature. It becomes part of the system's state, comparable to a database rather than a chat log.\n\nOnce resetting an agent is no longer trivial, fuzzy or opaque memory turns into a source of systemic failure rather than mild annoyance. Debugging becomes archaeology unless prior decisions, assumptions, and facts can be reconstructed deterministically.\n\nNeotoma becomes relevant here because it treats memory as explicit system state. Information is captured as typed entities, events, and relationships in a deterministic graph rather than as prompt residue or embedding similarity. That allows an agent's history to be replayed, inspected, and reasoned about as part of the system itself.\n\n**What to watch over the next year:**\n\n1. Agent frameworks advertising long-running, background, or resumable execution as a core feature.\n2. Teams discussing agent state corruption or drift as a distinct bug class rather than restarting agents as a fix.\n3. Product interfaces exposing agent history as something inspectable rather than ephemeral.\n\n## Errors will become economically visible\n\nAs AI output increasingly flows directly into billing, compliance, client deliverables, and automated workflows, the cost of errors is likely to shift. What is currently a diffuse inconvenience becomes explicit economic impact.\n\nWhen errors start to show up in postmortems, contracts, and court filings, society gains a sharper picture of who bears the cost and who gets blamed. Organizations will face pressure to prove how decisions were made and what the system knew at the time. That pressure will ripple into professional norms, insurance, and regulation. Individuals and small teams may be held to standards that were originally designed for large institutions with audit trails. The upside is more accountability and fewer silent failures. The downside is that the bar for \"explainable\" and \"auditable\" may rise faster than many are ready for.\n\nThe structural reason this trend is likely is that AI is moving closer to decision-making edges, not just advisory layers. As AI output becomes embedded downstream in systems that trigger payments, commitments, or external communication, errors inherit the cost structure of those systems. Organizations cannot continue treating failures as \"model quirks\" once they propagate into irreversible actions.\n\nToday, mistakes are often shrugged off with regeneration or prompt tweaks. Tomorrow, those same mistakes will waste money, damage reputation, or create legal exposure.\n\nWhen errors become priced, organizations stop asking whether outputs were helpful. They start asking how those outputs were produced, what information they relied on, and whether the process can be replayed or audited.\n\nNeotoma aligns with this shift by enforcing provenance at the memory layer. Facts are stored with source attribution, timestamps, and ingestion events. Corrections are additive rather than destructive, allowing teams to reconstruct exactly what an agent knew at the time of a decision instead of guessing based on partial logs.\n\n**What to watch over the next year:**\n\n1. AI-related failures appearing in postmortems, client disputes, or legal contexts.\n2. Teams explicitly asking \"what did the agent know at the time?\" after mistakes.\n3. Traceability or audit requirements being added to AI workflows retroactively.\n\n## Platform memory will remain opaque\n\nLarge AI platforms are likely to continue shipping memory features that are useful but fundamentally opaque. Their incentives favor engagement, retention, and model optimization rather than user-controlled provenance or guarantees of correctness.\n\nThe societal effect is a split between those who can afford to care and those who cannot. People and organizations that need strong guarantees (audit, correctness, portability) will either pay for alternatives, build their own, or accept risk. Everyone else will rely on platform memory and live with the trust gap. That divide can reinforce existing inequalities: the well-resourced get transparent, portable memory; everyone else gets convenience with opaque terms. Over time, norms about what \"my data\" and \"my history\" mean may diverge by context and by who you are. Civic and professional expectations (e.g. that you can show your work or export your records) may apply only to some.\n\nThe structural reason this persists is incentive misalignment. Platforms optimize for aggregate outcomes across millions of users, not for the correctness guarantees required by any individual workflow. Exposing memory semantics, correction rules, or replay guarantees constrains iteration speed and increases liability. Opaqueness is not accidental. It is protective.\n\nMemory may improve, but it will remain difficult to inspect, export, replay, or reason about formally, especially across tools. Corrections will often be silent, implicit, or model-specific.\n\nThis creates a growing trust gap. Users may rely on platform memory for convenience while simultaneously distrusting it in contexts where consequences matter.\n\nNeotoma only matters if this misalignment persists. Its local, inspectable, user-controlled design is the alternative for workflows where correctness and provenance matter. If platforms opened their memory semantics and offered strong guarantees, the need for a separate substrate would shrink.\n\n**What to watch over the next year:**\n\n1. Memory features that improve recall but stay undocumented or non-exportable.\n2. Users asking for \"my data\" or \"what the system knows\" and getting no clear answer.\n3. Workarounds (exports, third-party sync, manual replication) growing rather than shrinking.\n\n## How I might be wrong\n\nI could be wrong in both directions. The trends could accelerate faster than I expect: stateful agents and priced errors become the norm within a year, and the demand for deterministic memory jumps early. Or they could stall. Agents stay assistive, errors stay cheap to fix, and platform memory stays good enough for most people. The trust gap never widens enough to create a market for an alternative.\n\nI am building on the middle path. These theses are the ones that, if they hold even partly, make a substrate like Neotoma necessary. If they do not hold, the build was still a useful way to learn. Time will tell.",
     "createdDate": "2026-02-17",
     "updatedDate": "2026-02-17",
-    "summary": "",
-    "shareTweet": ""
+    "summary": "- Agents will become stateful economic actors as the cost of persisting state falls below the cost of rebuilding context; memory becomes system state, not chat residue. Society will have to adapt norms around accountability, delegation, and who is responsible when agents act over time.\n- Errors will become economically visible as AI output moves into billing and compliance; provenance and replay will matter when mistakes have real cost. That visibility will reshape who bears cost and blame and push professional and regulatory norms toward auditability.\n- Platform memory will stay opaque because incentives favor engagement over user-controlled correctness; local, inspectable alternatives matter only if that persists. The split between those who can afford strong guarantees and those who rely on platform memory may reinforce existing inequalities.\n- Neotoma is built in anticipation of these trends; if they stall or reverse, the build was still a useful way to learn.",
+    "shareTweet": "The agentic future I'm betting on: stateful agents, priced errors, and opaque platform memory. Why I'm building for that world, and how I might be wrong. https://markmhendrickson.com/posts/agentic-future-betting-on"
   },
   {
     "slug": "degen-culture-crypto-ai-builders-patience",
@@ -57,6 +87,25 @@
     "createdDate": "2026-02-13",
     "updatedDate": "2026-02-13",
     "summary": "- Degen culture in crypto and AI delivers fast-moving information during tech shifts but also rewards hype-hopping and short-term decisions.\n- The same channels that surface early signal normalize abandoning projects and audiences when the next hot thing appears.\n- Builders who want to build with patience for a long-term audience get framed as \"missing the wave\" or \"not moving fast enough.\"\n- Many users want a product or creator they can rely on over time; degen culture pushes both builders and audiences toward hype-based churn.\n- You can use the signal without letting the dynamic dictate your building or audience strategy."
+  },
+  {
+    "slug": "show-me-all-documents-involving-company-x",
+    "title": "Show me all documents involving Company X",
+    "excerpt": "For analysts and researchers drowning in document volume, the query never quite works. The fix is a structured memory layer with entity resolution and stable IDs, not better search.",
+    "published": false,
+    "publishedDate": null,
+    "category": "technical",
+    "readTime": 5,
+    "tags": [
+      "neotoma",
+      "truth-layer",
+      "entity-resolution",
+      "documents",
+      "build-in-public"
+    ],
+    "createdDate": "2026-02-11",
+    "updatedDate": "2026-02-11",
+    "body": "If you work with hundreds of documents across projects, you've hit this wall. A partner asks for everything you have on Company X. You need due diligence, legal research, or a client brief. You run search. You get fragments: some contracts, maybe an email or two, a note from a call. You miss the memo that spelled the name \"ACME CORP,\" the annex that only said \"the counterparty,\" the report that referenced the deal by code name. You hand over an incomplete set or spend hours manually collating. Either way, the query \"show me all documents involving Company X\" never quite lands.\n\nThe failure isn't search quality in the abstract. It's that search runs over raw text. There is no single notion of \"Company X.\" There are strings. Your tools can't unify \"Acme,\" \"Acme Corp,\" and \"ACME CORP\" into one entity, or link that entity to contracts, emails, and notes across folders and tools. So retrieval is best-effort. You get what matches the string, not what belongs to the entity.\n\n## What would have to be true for that query to work\n\nFor \"show me all documents involving Company X\" to return a complete, coherent set, three things have to be true.\n\n**First, you need entity resolution.** Every document that mentions the company has to contribute to the same canonical entity. That entity gets a stable ID. Whether the source says \"Acme,\" \"Acme Corp,\" or \"ACME CORP,\" the system maps it to that ID. No duplicate \"companies\" that are really the same. No manual spreadsheets to track who is who.\n\n**Second, you need a single place those documents (or their extracted facts) live.** If contracts are in one tool, emails in another, and notes in a third, no search layer can reliably join them. The join has to happen in a store that already holds the resolved entities and the links from documents to those entities. That store is the memory layer.\n\n**Third, you need to query by structure, not only by keyword.** You want \"all documents involving entity ID X\" or \"all events where this company appears.\" That's a structural query: filter by entity, by relationship, by time range. Keyword search can approximate it. It can't guarantee it. Structure can.\n\nTogether, that's a structured memory layer with entity resolution and stable IDs. Documents are ingested once. Entities are resolved and linked. Queries run against that graph. Same question, same store, same result.\n\n## How Neotoma fits\n\nI'm building [Neotoma](https://github.com/markmhendrickson/neotoma) as a [truth layer](/posts/truth-layer-agent-memory) for AI tools: a place where typed, structured state lives with full provenance and deterministic updates. It's not a search engine. It's the layer underneath.\n\nWhen you upload or ingest documents, Neotoma extracts entities (people, companies, locations, events) and resolves them to canonical IDs. The same company in different formats and documents maps to one entity. Relationships (this contract involves this company, this email is from this contact) are first-class. So are timelines: when things happened, in what order.\n\nOnce that exists, \"show me all documents involving Company X\" becomes a real operation. You're not searching for a string. You're querying by entity ID and by the relationships that link documents to that entity. The system returns everything that references that canonical company, regardless of how the name was spelled or abbreviated in the source. You get one coherent set. You can then ask the AI to summarize it, compare terms, or build a timeline. The AI reads from the same graph. No re-upload, no re-paste, no manual reconciliation.\n\nThat turns into time saved on due diligence, legal research, and client work. You stop collating by hand. You stop missing the annex or the memo. You run a query and get an answer you can stand behind.\n\n## The tradeoff\n\nGetting there requires putting documents (or their extracted content) into a structured store and running entity resolution. That's ingestion and schema. It's more upfront than \"point search at a folder.\" The payoff is that the next query, and every query after, is deterministic and complete for that entity. You're not betting on keyword luck. You're querying state.\n\nFor analysts, researchers, consultants, and lawyers who already drown in document volume, that tradeoff is the one that actually scales. The a-ha is the moment \"show me all documents involving Company X\" works the first time, and you realize you can stop doing it the old way.\n\nNeotoma is in developer preview. I'm dogfooding it in my own workflows and building toward the use case above: one graph, entity resolution, and queries that run against structure instead of raw text. If that's the problem you have, that's the direction I'm building in.\n"
   },
   {
     "slug": "what-vs-how-truth-layer-context-graphs",
@@ -218,20 +267,7 @@
     "body": "Now live in v6.56.0 ⚡️",
     "createdDate": "2024-12-19",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
-    "tweetMetadata": {
-      "likes": 15578,
-      "retweets": 2963,
-      "replies": 363,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998"
   },
   {
     "slug": "accessing-protocols-category-stacking-bitcoin",
@@ -247,20 +283,7 @@
     "body": "Earn BTC with your BTC! \n\nI'm very excited about \"Bitcoin yield\" as a general category, and proud to launch this unified portal for accessing sBTC rewards, Stacking and other yield protocols to come via our trusted \n@LeatherBTC\n brand",
     "createdDate": "2024-12-18",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
-    "tweetMetadata": {
-      "likes": 15578,
-      "retweets": 2963,
-      "replies": 363,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998"
   },
   {
     "slug": "tweet",
@@ -276,20 +299,7 @@
     "body": "👀🧑‍🌾₿ @LeatherBTC https://t.co/pP0tHSjFtr",
     "createdDate": "2024-12-17",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
-    "tweetMetadata": {
-      "likes": 15578,
-      "retweets": 2963,
-      "replies": 363,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998"
   },
   {
     "slug": "tweet-1",
@@ -305,20 +315,7 @@
     "body": "👀🌉₿ @LeatherBTC https://t.co/g03t5rmLmo",
     "createdDate": "2024-12-16",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
-    "tweetMetadata": {
-      "likes": 15578,
-      "retweets": 2963,
-      "replies": 363,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998"
   },
   {
     "slug": "functionality-prototypes-prompting-prompting-designer",
@@ -397,20 +394,7 @@
     "body": "RT @karpathy: https://t.co/Lb6T42n5jl",
     "createdDate": "Thu Jan 01",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998",
-    "tweetMetadata": {
-      "likes": 15578,
-      "retweets": 2963,
-      "replies": 363,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1869661216974749998"
   },
   {
     "slug": "announce-bitflow-excited-trading-first",
@@ -426,20 +410,7 @@
     "body": "RT @bsdmoney: 🚨 sBTC/BSD trading pool is live on @bitflow\n\nVery excited to announce our first trading pool. Bitflow will give BSD more liqu…",
     "createdDate": "Wed Dec 10",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
-    "tweetMetadata": {
-      "likes": 45,
-      "retweets": 13,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982"
   },
   {
     "slug": "happening-bitcoin-circle-launch-stacks",
@@ -455,20 +426,7 @@
     "body": "RT @Stacks: gm @circle 🟠\n\nCircle's first move into Bitcoin DeFi is happening on Stacks, the only Bitcoin Layer 2 in their pilot launch of C…",
     "createdDate": "Tue Nov 18",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
-    "tweetMetadata": {
-      "likes": 45,
-      "retweets": 13,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982"
   },
   {
     "slug": "synthetic-bitcoin-digital-private-dollar",
@@ -484,20 +442,7 @@
     "body": "RT @bsdmoney: The Bitcoin Synthetic Dollar (BSD or \"Based Dollar\") is live on Stacks. Our private beta starts today.\n\nBSD is a digital doll…",
     "createdDate": "Mon Nov 17",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
-    "tweetMetadata": {
-      "likes": 45,
-      "retweets": 13,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982"
   },
   {
     "slug": "smoother-browser-leather-faster-mobile",
@@ -513,20 +458,7 @@
     "body": "RT @LeatherBTC: Leather mobile just got a major glow up ✨\n\nOur in app Browser is now smoother, faster, and packed with more magic.\n\n🧡 Explo…",
     "createdDate": "Wed Aug 06",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
-    "tweetMetadata": {
-      "likes": 45,
-      "retweets": 13,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982"
   },
   {
     "slug": "available-android-leather-wallet-apple",
@@ -542,20 +474,7 @@
     "body": "RT @TheApeBitcoiner: leather Wallet @LeatherBTC is now a available on Apple App Store and Android play store 🔥",
     "createdDate": "Thu Jun 05",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982",
-    "tweetMetadata": {
-      "likes": 45,
-      "retweets": 13,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1998816587869310982"
   },
   {
     "slug": "leather-rebuild-ground-mobile-about",
@@ -571,20 +490,7 @@
     "body": "RT @LeatherBTC: In Ep. 55, we talk with @markymark about what makes the new Leather Mobile app a true rebuild from the ground up.\n\nPlus, @R…",
     "createdDate": "Thu Jun 05",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 8,
-      "replies": 5,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974"
   },
   {
     "slug": "wherever-mobile-bitco-alex-take",
@@ -600,20 +506,7 @@
     "body": "RT @ALEXLabBTC: 🚀 @LeatherBTC  just went mobile📱🔥\n\nNow you can take ALEX, @Brotocol_xyz and @LisaLab_BTC with you wherever you go 🏃 \n\nBitco…",
     "createdDate": "Tue Jun 03",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 8,
-      "replies": 5,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974"
   },
   {
     "slug": "great-looks",
@@ -629,20 +522,7 @@
     "body": "Looks great!",
     "createdDate": "Fri May 30",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 8,
-      "replies": 5,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974"
   },
   {
     "slug": "screenshot-giveaway-holding-leather-random",
@@ -658,20 +538,7 @@
     "body": "RT @Dilletantte: Giveaway: 1 random winner \n\n🏆: @LeoCoinSTX NFT in leather hat.\n\nHow to enter: 👇\n\n1️⃣ show a screenshot of you holding $FLA…",
     "createdDate": "Thu May 29",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 8,
-      "replies": 5,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974"
   },
   {
     "slug": "tweet-2",
@@ -687,20 +554,7 @@
     "body": "https://t.co/JMjcn6x3Pt",
     "createdDate": "Mon Feb 09",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 8,
-      "replies": 5,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1930501448833355974"
   },
   {
     "slug": "mobile-people-booth-find-http",
@@ -716,20 +570,7 @@
     "body": "RT @marshallmixing: THE NEXT 5 PEOPLE WHO FIND ME AT THE @STACKS BOOTH AND SHOW ME THEIR @LEATHERBTC MOBILE APP WILL GET $10 IN sBTC 🖤 http…",
     "createdDate": "Thu May 29",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
-    "tweetMetadata": {
-      "likes": 52,
-      "retweets": 7,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456"
   },
   {
     "slug": "dropped-leather-diving-lounge-mobile",
@@ -745,20 +586,7 @@
     "body": "RT @LeatherBTC: Leather's new mobile app just dropped, and we're diving deep with @markymark on today's Leather Lounge!\n\n🔸 Unlock BTC yield…",
     "createdDate": "Wed May 28",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
-    "tweetMetadata": {
-      "likes": 52,
-      "retweets": 7,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456"
   },
   {
     "slug": "leather-big-day",
@@ -774,20 +602,7 @@
     "body": "A big day for Leather! 🚀",
     "createdDate": "Wed May 28",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
-    "tweetMetadata": {
-      "likes": 52,
-      "retweets": 7,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456"
   },
   {
     "slug": "rt-1",
@@ -803,20 +618,7 @@
     "body": "RT @LeatherBTC: 📲",
     "createdDate": "Wed May 28",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
-    "tweetMetadata": {
-      "likes": 52,
-      "retweets": 7,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456"
   },
   {
     "slug": "eliminates-impressive-dashboard-provides-stacking",
@@ -832,20 +634,7 @@
     "body": "RT @mrwagmibtc: The new @LeatherBTC @Stacks Stacking GUI provides an impressive dashboard that eliminates the need to have a million browse…",
     "createdDate": "Tue May 27",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456",
-    "tweetMetadata": {
-      "likes": 52,
-      "retweets": 7,
-      "replies": 6,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1928037433003618456"
   },
   {
     "slug": "vegas-anon-see-rt",
@@ -861,20 +650,7 @@
     "body": "RT @LeatherBTC: See you in Vegas, anon 🖤 https://t.co/z7xOMhXiBF",
     "createdDate": "Mon May 26",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
-    "tweetMetadata": {
-      "likes": 103,
-      "retweets": 21,
-      "replies": 29,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072"
   },
   {
     "slug": "bitcoin-browser-landing-leather-mobile",
@@ -890,20 +666,7 @@
     "body": "RT @godfred_xcuz: GET LEATHER ON YOUR BROWSER AND MOBILE AND GROW YOUR BITCOIN\n\nNew @LeatherBTC Landing Page is 🔥 \n\nhttps://t.co/8z9oFT3Df7…",
     "createdDate": "Thu May 22",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
-    "tweetMetadata": {
-      "likes": 103,
-      "retweets": 21,
-      "replies": 29,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072"
   },
   {
     "slug": "comprehensive-experience-generating-integrated-seamlessly",
@@ -919,20 +682,7 @@
     "body": "We've released an entirely new experience for @LeatherBTC today, just in time for the opening of sBTC Cap-3.\n\nEnjoy the most comprehensive place to pursue yield-generating strategies with BTC and STX on Stacks, all in one place, seamlessly integrated with your wallet.",
     "createdDate": "Thu May 22",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
-    "tweetMetadata": {
-      "likes": 103,
-      "retweets": 21,
-      "replies": 29,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072"
   },
   {
     "slug": "hendrickson-revealed-leather-release-mark",
@@ -948,20 +698,7 @@
     "body": "RT @LeatherBTC: Ep 53 - Leather's Next Big Release Revealed! With Mark Hendrickson https://t.co/s3gUsfeHTh",
     "createdDate": "Wed May 21",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
-    "tweetMetadata": {
-      "likes": 103,
-      "retweets": 21,
-      "replies": 29,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072"
   },
   {
     "slug": "misunderstood-explores-aspects-bitcoin-relatio",
@@ -977,20 +714,7 @@
     "body": "RT @longstreetBTC: In honor of Earth Day, today's @LeatherBTC Lounge explores one of the most misunderstood aspects of Bitcoin: its relatio…",
     "createdDate": "Tue Apr 22",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072",
-    "tweetMetadata": {
-      "likes": 103,
-      "retweets": 21,
-      "replies": 29,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1927008687052186072"
   },
   {
     "slug": "monetization-deorganized-giveaways-takeover-creator",
@@ -1006,20 +730,7 @@
     "body": "RT @LeatherBTC: Ep 48 - The DeOrganized Takeover: Creator Monetization, Web3 Gaming, and BTC On-Air Giveaways https://t.co/2W7nYJfSea",
     "createdDate": "Tue Apr 15",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 37,
-      "replies": 3,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659"
   },
   {
     "slug": "moderating-thrilled-legends-stacked-during",
@@ -1035,20 +746,7 @@
     "body": "RT @marshallmixing: The most STACKED STACKS panel ever?!\n\nI'm thrilled to be moderating this panel of @Stacks legends during the How Stacks…",
     "createdDate": "Sat Apr 12",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 37,
-      "replies": 3,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659"
   },
   {
     "slug": "hendrickson-designing-bitcoin-beyond-future",
@@ -1064,20 +762,7 @@
     "body": "RT @melbelle_btc: Bitcoin and Beyond Ep11: Designing the Future of Money with Mark Hendrickson https://t.co/PKzZMdcH7D",
     "createdDate": "Fri Apr 11",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 37,
-      "replies": 3,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659"
   },
   {
     "slug": "breakthroughs-liquidity-bitcoin-episode-taproot",
@@ -1093,20 +778,7 @@
     "body": "RT @LeatherBTC: Ep 47 - Bitcoin DeFi Breakthroughs: Hadan from ALEX Labs Talks AI UX, DAMM Liquidity, and USDT via Taproot\n\nIn this episode…",
     "createdDate": "Thu Apr 10",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 37,
-      "replies": 3,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659"
   },
   {
     "slug": "designing-nietzsche-studying-bitcoin-episode",
@@ -1122,20 +794,7 @@
     "body": "RT @melbelle_btc: From studying Nietzsche to designing a Bitcoin wallet.\n\nIn this week's episode of Bitcoin and Beyond, I talk to @markymar…",
     "createdDate": "Tue Apr 08",
     "updatedDate": "2026-02-09",
-    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659",
-    "tweetMetadata": {
-      "likes": 30,
-      "retweets": 37,
-      "replies": 3,
-      "quote_count": 0,
-      "bookmark_count": 0,
-      "is_reply": false,
-      "is_retweet": false,
-      "is_quote": false,
-      "lang": "",
-      "author_name": "",
-      "images": []
-    }
+    "linkedTweetUrl": "https://x.com/markymark/status/1912169637258608659"
   },
   {
     "slug": "stacks-market-opportunity-leather-lesson",
@@ -1418,7 +1077,7 @@
     "slug": "six-agentic-trends-betting-on",
     "title": "Six agentic trends I'm betting on (and how I might be wrong)",
     "excerpt": "The structural pressures that underpin my work, and what would invalidate them as the AI industry evolves.",
-    "body": "Everyone involved in AI right now is, implicitly or explicitly, trying to predict where things are going and how those changes will reshape our lives and work. The volume of speculation is enormous, and much of it is contradictory. That is unavoidable. No one can know with confidence what the next couple of years will bring. The space is moving too quickly, the interactions between technologies are too complex, and second-order effects dominate in ways that are difficult to model ahead of time.\n\nStill, if you are operating in this space, especially if you are building something with AI or for AI, it is not enough to remain agnostic. You have to choose a set of core theses about how the world is likely to evolve and build coherently around them, knowing that some will be wrong and others will matter more than expected. These theses are less about precise prediction and more about identifying structural pressures that seem unlikely to reverse.\n\nWhat follows are the central assumptions I am currently operating under. They are not claims about inevitability, and they are not meant to cover every possible future. They are the trends that, if they continue even partially, shape how I think AI systems will be used, where friction will accumulate, and what kinds of infrastructure will become necessary. My work ([Neotoma](/posts/truth-layer-agent-memory), a truth layer) is best understood as a response to these assumptions. It is not the reason for them, but it is built in anticipation of the world they imply.\n\n---\n\n## 1. Agents will become stateful economic actors\n\nOver the next two years, agents are likely to move beyond assistive, prompt-centric interactions and become meaningfully stateful actors. No breakthrough in general intelligence is required. Cheaper inference, more capable tool APIs, and broader tolerance for agents running unattended are enough.\n\nThe societal shift is real. We are used to tools that do nothing until we act. When agents persist goals, coordinate with each other, and take irreversible actions over time, the question of who is responsible becomes harder to answer. More work is delegated to non-human actors; [the boundary](/posts/we-are-all-centaurs-now) between \"I did this\" and \"my agent did this\" softens. Norms around trust, liability, and dependency will have to adapt. The technology enables the change; society has to decide how to live with it.\n\nWhy is this trend likely? The marginal cost of keeping agents alive is collapsing faster than the cost of rebuilding context. As inference gets cheaper and orchestration matures, it is more efficient to persist an agent's state than to reconstruct it from scratch. Tool APIs increasingly assume continuity: credentials, caches, intermediate artifacts. Persistence is rewarded over statelessness.\n\nIn that world, memory ceases to be a convenience feature. It becomes part of the system's state, comparable to a database rather than a chat log. When that state is proper and trustworthy, new things become possible at scale: long-horizon plans that span days or weeks, coordination across many agents and tools, and delegated work that is only feasible when state can be trusted and extended over time.\n\nNeotoma is built for that. It treats memory as explicit system state: typed entities, events, and relationships in a deterministic graph, not prompt residue or embedding similarity. An agent's history can be replayed, inspected, and reasoned about as part of the system itself.\n\nWhat to watch over the next year:\n1. Agent frameworks advertising long-running, background, or resumable execution as a core feature.\n2. Teams discussing agent state corruption or drift as a distinct bug class rather than restarting agents as a fix.\n3. Product interfaces exposing agent history as something inspectable rather than ephemeral.\n4. Teams running multiple agents that need a single source of truth for entities and decisions.\n\n---\n\n## 2. Agentic errors will become economically visible\n\nAs AI output increasingly flows directly into billing, compliance, client deliverables, and automated workflows, the cost of errors is likely to shift. What is currently a diffuse inconvenience becomes explicit economic impact.\n\nWhen errors start to show up in postmortems, contracts, and court filings, society gains a sharper picture of who bears the cost and who gets blamed. Organizations will face pressure to prove how decisions were made and what the system knew at the time. That pressure will ripple into professional norms, insurance, and regulation. Individuals and small teams may be held to standards that were originally designed for large institutions with audit trails. The upside is more accountability and fewer silent failures. The downside is that the bar for \"explainable\" and \"auditable\" may rise faster than many are ready for.\n\nThe structural reason this trend is likely is that AI is moving closer to decision-making edges, not just advisory layers. As AI output becomes embedded downstream in systems that trigger payments, commitments, or external communication, errors inherit the cost structure of those systems. Organizations cannot continue treating failures as \"model quirks\" once they propagate into irreversible actions.\n\nToday, mistakes are often shrugged off with regeneration or prompt tweaks. Tomorrow, those same mistakes will waste money, damage reputation, or create legal exposure.\n\nWhen errors become priced, organizations stop asking whether outputs were helpful. They start asking how those outputs were produced, what information they relied on, and whether the process can be replayed or audited.\n\nAs a corollary, tolerance for approximate or ambiguous memory erodes. The bar for what counts as good enough rises first where harm is visible, then that standard drifts outward. Once mistakes are costly, memory that you can correct and trace becomes infrastructure, not a convenience.\n\nNeotoma aligns with this shift by enforcing provenance at the memory layer. Facts are stored with source attribution, timestamps, and ingestion events. Corrections are additive rather than destructive, allowing teams to reconstruct exactly what an agent knew at the time of a decision instead of guessing based on partial logs.\n\nWhat to watch over the next year:\n1. AI-related failures appearing in postmortems, client disputes, or legal contexts.\n2. Teams explicitly asking \"what did the agent know at the time?\" after mistakes.\n3. Traceability or audit requirements being added to AI workflows retroactively.\n4. Public incidents attributed to AI memory errors; language shifting from \"hallucination\" to \"system failure\" in postmortems.\n5. Teams asking for \"undo this fact\" or \"revert what the agent believes\" without full resets.\n6. \"What does the system believe and how has it evolved?\" framed as a query over a consistent graph rather than a RAG call.\n\n---\n\n## 3. Audit and compliance will drift down-market\n\nA related trend: the pressure to prove how work was produced and what the system knew will not stay confined to large enterprises. Wherever errors carry a real cost—economic, legal, or reputational—the demand for defensibility and record-keeping follows. As AI becomes embedded in professional work, consultants, agencies, regulated freelancers, and small AI-native teams will face the same expectations.\n\nThe structural reason is liability diffusion. As AI use becomes normalized, responsibility does not disappear. It spreads. Clients, insurers, and regulators respond by seeking compensating controls. Audit pressure moves down-market not because small teams want it, but because risk follows usage.\n\nOnce questions about how work was produced become routine, memory without provenance becomes a liability rather than a convenience. Structured timelines, entity-level recall, and source attribution start to function as defensive infrastructure.\n\nNeotoma aligns with this shift by treating memory as something that can be reconstructed in time rather than inferred retrospectively. Entity resolution, temporal ordering, and provenance are not add-ons. They are core to the model.\n\nWhat to watch over the next year:\n1. AI usage disclosures appearing in contracts, statements of work, or professional guidelines.\n2. Requests for documentation of AI-assisted decisions from clients or insurers.\n3. Individuals or small teams proactively storing AI interaction records defensively.\n4. Regulation that explicitly requires record-keeping or explainability for certain AI uses.\n\n---\n\n## 4. Platform memory will remain opaque\n\nLarge AI platforms are likely to continue shipping memory features that are useful but fundamentally opaque. Their incentives favor engagement, retention, and model optimization rather than user-controlled provenance or guarantees of correctness.\n\nThe societal effect is a split between those who can afford to care and those who cannot. People and organizations that need strong guarantees (audit, correctness, portability) will either pay for alternatives, build their own, or accept risk. Everyone else will rely on platform memory and live with the trust gap. That divide can reinforce existing inequalities. The well-resourced get transparent, portable memory; everyone else gets convenience with opaque terms. Over time, norms about what \"my data\" and \"my history\" mean may diverge by context and by who you are. Civic and professional expectations (e.g. that you can show your work or export your records) may apply only to some.\n\nThe structural reason this persists is incentive misalignment. Platforms optimize for aggregate outcomes across millions of users, not for the correctness guarantees required by any individual workflow. Exposing memory semantics, correction rules, or replay guarantees constrains iteration speed and increases liability. Opaqueness is not accidental. It is protective.\n\nMemory may improve, but it will remain difficult to inspect, export, replay, or reason about formally, especially across tools. Corrections will often be silent, implicit, or model-specific.\n\nThis creates a growing trust gap. Users may rely on platform memory for convenience while simultaneously distrusting it in contexts where consequences matter.\n\nData sovereignty adds a separate pressure: enterprises and individuals are increasingly insisting that agent memory stay in their environment, either on-prem, in their tenant, or under their control, rather than in a vendor's cloud.\n\nNeotoma is built for that gap. Its local, inspectable, user-controlled design is the alternative for workflows where correctness and provenance matter. You own the data and the semantics; you can export, correct, and reason about what the system knows.\n\nWhat to watch over the next year:\n1. Memory features that improve recall but stay undocumented or non-exportable.\n2. Users asking for \"my data\" or \"what the system knows\" and getting no clear answer.\n3. Workarounds (exports, third-party sync, manual replication) growing rather than shrinking.\n4. RFPs or requirements specifying that agent memory must stay on-prem or in the user's tenant.\n\n---\n\n## 5. Tool fragmentation will persist\n\nDespite recurring narratives about consolidation into a single AI platform or workspace, knowledge work is likely to remain fragmented. Professionals already operate across multiple models, editors, copilots, document systems, and agent frameworks.\n\nThe structural reason is that AI tools are complements, not substitutes. Each optimizes for a different part of the workflow: ideation, execution, coding, retrieval, communication. Marginal improvements do not collapse the stack. Low switching costs and rapid model iteration further discourage consolidation.\n\nAs tool sprawl increases, the core problem shifts from interface fragmentation to state fragmentation. Context lives in too many places at once, and no single surface can realistically own it.\n\nNeotoma sits beneath this fragmentation rather than trying to resolve it. By exposing memory through a protocol interface rather than a single UI, it allows multiple tools and agents to read from and write to the same underlying state without forcing convergence on a single workflow or vendor.\n\nWhat to watch over the next year:\n1. Professionals switching models or tools mid-task without migrating context cleanly.\n2. Repeated complaints about \"losing context\" between tools.\n3. Teams standardizing workflows that explicitly span multiple AI products.\n\n---\n\n## 6. Agentic usage will become metered\n\nAgent execution is also likely to become increasingly constrained by cost. The structural reason is straightforward: compute is becoming a visible line item. No radical economic restructuring is required.\n\nAs AI spend grows, organizations introduce budgeting, attribution, and optimization. Once costs are visible, metering follows naturally.\n\nWhen usage is priced, inefficiency and drift stop being abstract concerns. Recomputing context, misremembering prior decisions, or repeating work becomes visible waste.\n\nNeotoma's deterministic memory model becomes relevant here because it separates durable memory from transient context. By enabling replay instead of regeneration, it treats memory as an optimization surface rather than a side effect of inference.\n\nWhat to watch over the next year:\n1. Teams tracking agent or model usage costs per task or workflow.\n2. Budget-aware agents that alter behavior based on remaining spend.\n3. Optimization efforts focused on reducing redundant inference rather than improving prompts.\n\n---\n\n## How these trends impact key demographics\n\nThese trends act as activation conditions for distinct impacted demographics. Neotoma does not become important through persuasion. It becomes important when reality removes alternatives.\n\n**AI-native individual operators and high-context knowledge workers** are the first: founders, consultants, researchers, and solo builders using AI deeply across thinking and execution. Adoption is gated by stateful agents, economically visible errors, and dissatisfaction with opaque platform memory. Once outputs matter externally (to clients, collaborators, or revenue), the inability to answer \"what did the system know when this was produced?\" becomes untenable. Neotoma becomes attractive as a personal system of record that can coexist with multiple tools.\n\n**AI-native small teams and hybrid product or operations teams** are the second. Individuals can compensate for fuzzy memory. Teams cannot. Once each person's agents remember slightly different facts or assumptions, coordination costs compound. Tool fragmentation accelerates this, audit pressure legitimizes shared memory, and metered usage converts drift into budget waste. In this environment, Neotoma functions less as a productivity layer and more as shared cognitive infrastructure.\n\n**Developer integrators and AI tool builders** who embed agents into products or platforms are the third. For them, memory failure is a production failure. As agents become autonomous, opaque recall becomes untestable and unacceptable. When memory errors are reframed as system failures rather than quirks, builders begin looking for memory primitives that behave like databases rather than conversations. Neotoma becomes relevant here as a substrate, not a feature.\n\nAcross all these demographics, adoption is conditional and stepwise, not hype-driven.\n\n---\n\n## What would falsify this view\n\nAny serious vision of the future should be falsifiable. Without clear signals that would prove it wrong, it is not a thesis but a belief. This matters directly for product strategy, because building toward a future that does not materialize leads to elegant irrelevance rather than adoption.\n\nThe most significant falsifier would be large AI platforms delivering memory that is genuinely portable, inspectable, replayable, and trusted across tools. Not memory in a marketing sense, but memory that is user-owned, exportable, semantically explicit, and stable across contexts. If platform-native memory becomes authoritative in practice (meaning users and organizations trust it as the canonical record of what was known and when), the need for an external truth layer collapses. In that world, Neotoma's core differentiation erodes rather than compounds.\n\nA second falsifier would be meaningful consolidation into a single dominant AI workspace that owns execution, memory, and tooling end-to-end. If fragmentation pressure disappears because one surface successfully absorbs the stack, the leverage of shared memory substrates declines sharply.\n\nA third falsifier would be agents remaining short-lived, tightly supervised, and cheap to reset, with failures continuing to be handled primarily by restarting rather than diagnosing state. If long-running agents do not materialize and resetting remains the dominant recovery strategy, deterministic memory remains optional rather than necessary.\n\nFinally, if audit and liability pressure fail to move down-market (if AI remains advisory rather than consequential for most professionals), then provenance-heavy memory remains overkill for longer than anticipated.\n\nWatching for these counter-signals is as important as watching for confirmation. They provide early warning that the assumptions driving adoption are weakening and that strategy should adapt accordingly. A vision that cannot be falsified cannot be corrected, and a product built on such a vision risks becoming well-designed for a world that never arrives.\n\n---\n\n## Memory as critical, open infrastructure\n\nThis is not a prediction that the world becomes more philosophically committed to truth or correctness.\n\nIt is a prediction that agents become stateful, errors become expensive, platforms remain opaque, tools remain fragmented, audit pressure spreads, and usage becomes priced.\n\nIf even part of this trajectory holds, memory stops being a UX feature and becomes infrastructure that is necessarily open. In that world, systems that treat memory as deterministic, inspectable state are no longer visionary. They are simply the cheapest way to keep complex systems from failing in opaque and irrecoverable ways.\n\nNeotoma is not the driver of that change. It is one plausible response to it.\n",
+    "body": "Everyone involved in AI right now is, implicitly or explicitly, trying to predict where things are going and how those changes will reshape our lives and work. The volume of speculation is enormous, and much of it is contradictory. That is unavoidable. No one can know with confidence what the next couple of years will bring. The space is moving too quickly, the interactions between technologies are too complex, and second-order effects dominate in ways that are difficult to model ahead of time.\n\nStill, if you are operating in this space, especially if you are building something with AI or for AI, it is not enough to remain agnostic. You have to choose a set of core theses about how the world is likely to evolve and build coherently around them, knowing that some will be wrong and others will matter more than expected. These theses are less about precise prediction and more about identifying structural pressures that seem unlikely to reverse.\n\nWhat follows are the central assumptions I am currently operating under. They are not claims about inevitability, and they are not meant to cover every possible future. They are the trends that, if they continue even partially, shape how I think AI systems will be used, where friction will accumulate, and what kinds of infrastructure will become necessary. My work ([Neotoma](/posts/truth-layer-agent-memory), a truth layer) is best understood as a response to these assumptions. It is not the reason for them, but it is built in anticipation of the world they imply.\n\n---\n\n## 1. Agents will become stateful economic actors\n\nOver the next two years, agents are likely to move beyond assistive, prompt-centric interactions and become meaningfully stateful actors. No breakthrough in general intelligence is required. Cheaper inference, more capable tool APIs, and broader tolerance for agents running unattended are enough.\n\nThe societal shift is real. We are used to tools that do nothing until we act. When agents persist goals, coordinate with each other, and take irreversible actions over time, the question of who is responsible becomes harder to answer. More work is delegated to non-human actors; [the boundary](/posts/we-are-all-centaurs-now) between \"I did this\" and \"my agent did this\" softens. Norms around trust, liability, and dependency will have to adapt. The technology enables the change; society has to decide how to live with it.\n\nWhy is this trend likely? The marginal cost of keeping agents alive is collapsing faster than the cost of rebuilding context. As inference gets cheaper and orchestration matures, it is more efficient to persist an agent's state than to reconstruct it from scratch. Tool APIs increasingly assume continuity: credentials, caches, intermediate artifacts. Persistence is rewarded over statelessness.\n\nIn that world, memory ceases to be a convenience feature. It becomes part of the system's state, comparable to a database rather than a chat log. When that state is proper and trustworthy, new things become possible at scale: long-horizon plans that span days or weeks, coordination across many agents and tools, and delegated work that is only feasible when state can be trusted and extended over time.\n\nNeotoma is built for that. It treats memory as explicit system state: typed entities, events, and relationships in a deterministic graph, not prompt residue or embedding similarity. An agent's history can be replayed, inspected, and reasoned about as part of the system itself.\n\nWhat to watch over the next year:\n1. Agent frameworks advertising long-running, background, or resumable execution as a core feature.\n2. Teams discussing agent state corruption or drift as a distinct bug class rather than restarting agents as a fix.\n3. Product interfaces exposing agent history as something inspectable rather than ephemeral.\n4. Teams running multiple agents that need a single source of truth for entities and decisions.\n\n---\n\n## 2. Agentic errors will become economically visible\n\nAs AI output increasingly flows directly into billing, compliance, client deliverables, and automated workflows, the cost of errors is likely to shift. What is currently a diffuse inconvenience becomes explicit economic impact.\n\nWhen errors start to show up in postmortems, contracts, and court filings, society gains a sharper picture of who bears the cost and who gets blamed. Organizations will face pressure to prove how decisions were made and what the system knew at the time. That pressure will ripple into professional norms, insurance, and regulation. Individuals and small teams may be held to standards that were originally designed for large institutions with audit trails. The upside is more accountability and fewer silent failures. The downside is that the bar for \"explainable\" and \"auditable\" may rise faster than many are ready for.\n\nThe structural reason this trend is likely is that AI is moving closer to decision-making edges, not just advisory layers. As AI output becomes embedded downstream in systems that trigger payments, commitments, or external communication, errors inherit the cost structure of those systems. Organizations cannot continue treating failures as \"model quirks\" once they propagate into irreversible actions.\n\nToday, mistakes are often shrugged off with regeneration or prompt tweaks. Tomorrow, those same mistakes will waste money, damage reputation, or create legal exposure.\n\nWhen errors become priced, organizations stop asking whether outputs were helpful. They start asking how those outputs were produced, what information they relied on, and whether the process can be replayed or audited.\n\nAs a corollary, tolerance for approximate or ambiguous memory erodes. The bar for what counts as good enough rises first where harm is visible, then that standard drifts outward. Once mistakes are costly, memory that you can correct and trace becomes infrastructure, not a convenience.\n\nNeotoma aligns with this shift by enforcing provenance at the memory layer. Facts are stored with source attribution, timestamps, and ingestion events. Corrections are additive rather than destructive, allowing teams to reconstruct exactly what an agent knew at the time of a decision instead of guessing based on partial logs.\n\nWhat to watch over the next year:\n1. AI-related failures appearing in postmortems, client disputes, or legal contexts.\n2. Teams explicitly asking \"what did the agent know at the time?\" after mistakes.\n3. Traceability or audit requirements being added to AI workflows retroactively.\n4. Public incidents attributed to AI memory errors; language shifting from \"hallucination\" to \"system failure\" in postmortems.\n5. Teams asking for \"undo this fact\" or \"revert what the agent believes\" without full resets.\n6. \"What does the system believe and how has it evolved?\" framed as a query over a consistent graph rather than a RAG call.\n\n---\n\n## 3. Audit and compliance will drift down-market\n\nA related trend: the pressure to prove how work was produced and what the system knew will not stay confined to large enterprises. Wherever errors carry a real cost—economic, legal, or reputational—the demand for defensibility and record-keeping follows. As AI becomes embedded in professional work, consultants, agencies, regulated freelancers, and small AI-native teams will face the same expectations.\n\nThe structural reason is liability diffusion. As AI use becomes normalized, responsibility does not disappear. It spreads. Clients, insurers, and regulators respond by seeking compensating controls. Audit pressure moves down-market not because small teams want it, but because risk follows usage.\n\nOnce questions about how work was produced become routine, memory without provenance becomes a liability rather than a convenience. Structured timelines, entity-level recall, and source attribution start to function as defensive infrastructure.\n\nNeotoma aligns with this shift by treating memory as something that can be reconstructed in time rather than inferred retrospectively. Entity resolution, temporal ordering, and provenance are not add-ons. They are core to the model.\n\nWhat to watch over the next year:\n1. AI usage disclosures appearing in contracts, statements of work, or professional guidelines.\n2. Requests for documentation of AI-assisted decisions from clients or insurers.\n3. Individuals or small teams proactively storing AI interaction records defensively.\n4. Regulation that explicitly requires record-keeping or explainability for certain AI uses.\n\n---\n\n## 4. Platform memory will remain opaque\n\nLarge AI platforms are likely to continue shipping memory features that are useful but fundamentally opaque. Their incentives favor engagement, retention, and model optimization rather than user-controlled provenance or guarantees of correctness.\n\nThe societal effect is a split between those who can afford to care and those who cannot. People and organizations that need strong guarantees (audit, correctness, portability) will either pay for alternatives, build their own, or accept risk. Everyone else will rely on platform memory and live with the trust gap. That divide can reinforce existing inequalities. The well-resourced get transparent, portable memory; everyone else gets convenience with opaque terms. Over time, norms about what \"my data\" and \"my history\" mean may diverge by context and by who you are. Civic and professional expectations (e.g. that you can show your work or export your records) may apply only to some.\n\nThe structural reason this persists is incentive misalignment. Platforms optimize for aggregate outcomes across millions of users, not for the correctness guarantees required by any individual workflow. Exposing memory semantics, correction rules, or replay guarantees constrains iteration speed and increases liability. Opaqueness is not accidental. It is protective.\n\nMemory may improve, but it will remain difficult to inspect, export, replay, or reason about formally, especially across tools. Corrections will often be silent, implicit, or model-specific.\n\nThis creates a growing trust gap. Users may rely on platform memory for convenience while simultaneously distrusting it in contexts where consequences matter.\n\nData sovereignty adds a separate pressure: enterprises and individuals are increasingly insisting that agent memory stay in their environment, either on-prem, in their tenant, or under their control, rather than in a vendor's cloud.\n\nNeotoma is built for that gap. Its local, inspectable, user-controlled design is the alternative for workflows where correctness and provenance matter. You own the data and the semantics; you can export, correct, and reason about what the system knows.\n\nWhat to watch over the next year:\n1. Memory features that improve recall but stay undocumented or non-exportable.\n2. Users asking what the system actually knows – such as a comprehensive view of what it believes, remembers, and has inferred, not just raw chat or exports – and getting no clear answer.\n3. Workarounds (e.g. exports, third-party sync, manual replication) growing rather than shrinking.\n4. RFPs or requirements specifying that agent memory must stay on-prem or in the user's tenant.\n\n---\n\n## 5. Tool fragmentation will persist\n\nDespite recurring narratives about consolidation into a single AI platform or workspace, knowledge work is likely to remain fragmented. Professionals already operate across multiple models, editors, copilots, document systems, and agent frameworks.\n\nThe structural reason is that AI tools are complements, not substitutes. Each optimizes for a different part of the workflow: ideation, execution, coding, retrieval, communication. Marginal improvements do not collapse the stack. Low switching costs and rapid model iteration further discourage consolidation.\n\nAs tool sprawl increases, the core problem shifts from interface fragmentation to state fragmentation. Context lives in too many places at once, and no single surface can realistically own it.\n\nNeotoma sits beneath this fragmentation rather than trying to resolve it. By exposing memory through a protocol interface rather than a single UI, it allows multiple tools and agents to read from and write to the same underlying state without forcing convergence on a single workflow or vendor.\n\nWhat to watch over the next year:\n1. Professionals switching models or tools mid-task without migrating context cleanly.\n2. Repeated complaints about \"losing context\" between tools.\n3. Teams standardizing workflows that explicitly span multiple AI products.\n\n---\n\n## 6. Agentic usage will become metered\n\nAgent execution is also likely to become increasingly constrained by cost. The structural reason is straightforward: compute is becoming a visible line item. No radical economic restructuring is required.\n\nAs AI spend grows, organizations introduce budgeting, attribution, and optimization. Once costs are visible, metering follows naturally.\n\nWhen usage is priced, inefficiency and drift stop being abstract concerns. Recomputing context, misremembering prior decisions, or repeating work becomes visible waste.\n\nNeotoma's deterministic memory model becomes relevant here because it separates durable memory from transient context. By enabling replay instead of regeneration, it treats memory as an optimization surface rather than a side effect of inference.\n\nWhat to watch over the next year:\n1. Teams tracking agent or model usage costs per task or workflow.\n2. Budget-aware agents that alter behavior based on remaining spend.\n3. Optimization efforts focused on reducing redundant inference rather than improving prompts.\n\n---\n\n## How these trends impact key demographics\n\nThese trends act as activation conditions for distinct impacted demographics. Neotoma does not become important through persuasion. It becomes important when reality removes alternatives.\n\n**AI-native individual operators and high-context knowledge workers** are the first: founders, consultants, researchers, and solo builders using AI deeply across thinking and execution. Adoption is gated by stateful agents, economically visible errors, and dissatisfaction with opaque platform memory. Once outputs matter externally (to clients, collaborators, or revenue), the inability to answer \"what did the system know when this was produced?\" becomes untenable. Neotoma becomes attractive as a personal system of record that can coexist with multiple tools.\n\n**AI-native small teams and hybrid product or operations teams** are the second. Individuals can compensate for fuzzy memory. Teams cannot. Once each person's agents remember slightly different facts or assumptions, coordination costs compound. Tool fragmentation accelerates this, audit pressure legitimizes shared memory, and metered usage converts drift into budget waste. In this environment, Neotoma functions less as a productivity layer and more as shared cognitive infrastructure.\n\n**Developer integrators and AI tool builders** who embed agents into products or platforms are the third. For them, memory failure is a production failure. As agents become autonomous, opaque recall becomes untestable and unacceptable. When memory errors are reframed as system failures rather than quirks, builders begin looking for memory primitives that behave like databases rather than conversations. Neotoma becomes relevant here as a substrate, not a feature.\n\nAcross all these demographics, adoption is conditional and stepwise, not hype-driven.\n\n---\n\n## What would falsify this view\n\nAny serious vision of the future should be falsifiable. Without clear signals that would prove it wrong, it is not a thesis but a belief. This matters directly for product strategy, because building toward a future that does not materialize leads to elegant irrelevance rather than adoption.\n\nThe most significant falsifier would be large AI platforms delivering memory that is genuinely portable, inspectable, replayable, and trusted across tools. Not memory in a marketing sense, but memory that is user-owned, exportable, semantically explicit, and stable across contexts. If platform-native memory becomes authoritative in practice (meaning users and organizations trust it as the canonical record of what was known and when), the need for an external truth layer collapses. In that world, Neotoma's core differentiation erodes rather than compounds.\n\nA second falsifier would be meaningful consolidation into a single dominant AI workspace that owns execution, memory, and tooling end-to-end. If fragmentation pressure disappears because one surface successfully absorbs the stack, the leverage of shared memory substrates declines sharply.\n\nA third falsifier would be agents remaining short-lived, tightly supervised, and cheap to reset, with failures continuing to be handled primarily by restarting rather than diagnosing state. If long-running agents do not materialize and resetting remains the dominant recovery strategy, deterministic memory remains optional rather than necessary.\n\nFinally, if audit and liability pressure fail to move down-market (if AI remains advisory rather than consequential for most professionals), then provenance-heavy memory remains overkill for longer than anticipated.\n\nWatching for these counter-signals is as important as watching for confirmation. They provide early warning that the assumptions driving adoption are weakening and that strategy should adapt accordingly. A vision that cannot be falsified cannot be corrected, and a product built on such a vision risks becoming well-designed for a world that never arrives.\n\n---\n\n## Memory as critical, open infrastructure\n\nThis is not a prediction that the world becomes more philosophically committed to truth or correctness.\n\nIt is a prediction that agents become stateful, errors become expensive, platforms remain opaque, tools remain fragmented, audit pressure spreads, and usage becomes priced.\n\nIf even part of this trajectory holds, memory stops being a UX feature and becomes infrastructure that is necessarily open. In that world, systems that treat memory as deterministic, inspectable state are no longer visionary. They are simply the cheapest way to keep complex systems from failing in opaque and irrecoverable ways.\n\nNeotoma is not the driver of that change. It is one plausible response to it.\n",
     "published": true,
     "publishedDate": "2026-02-18",
     "category": "essay",
@@ -1426,8 +1085,8 @@
     "tags": [],
     "createdDate": "2026-02-18",
     "updatedDate": "2026-02-18",
-    "summary": "- Agents will become stateful economic actors and memory will become system state, enabling long-horizon plans and coordination at scale.\n- Agentic errors will become economically visible and tolerance for approximate memory will erode as the bar for defensibility and audit rises.\n- Audit and compliance will drift down-market and the pressure to prove how work was produced will reach consultants, agencies, and small teams.\n- Platform memory will remain opaque and a trust gap will grow between those who need guarantees and those who rely on platform convenience.\n- Tool fragmentation will persist and state fragmentation will matter more than interface fragmentation, with memory as a protocol beneath it.\n- Agentic usage will become metered and deterministic memory will enable replay over regeneration and turn memory into an optimization surface.",
-    "shareTweet": "Six trends I'm betting on for the agentic future.\n1. Stateful agents\n2. Priced errors\n3. Audit down-market\n4. Opaque platform memory\n5. Tool fragmentation\n6. Metered usage\nI spelled out what would prove me wrong. https://markmhendrickson.com/posts/six-agentic-trends-betting-on",
+    "summary": "- Agents will become stateful economic actors and memory will become system state, enabling long-horizon plans and coordination at scale.\n- Agentic errors will become economically visible and tolerance for approximate memory will erode as the bar for defensibility and audit rises.\n- Audit and compliance will drift down-market and the pressure to prove how work was produced will reach consultants, agencies, and small teams.\n- Platform memory will remain opaque and a trust gap will grow between those who need guarantees and those who rely on platform convenience.\n- Tool fragmentation will persist and state fragmentation will matter more than interface fragmentation, with memory as a protocol beneath it.\n- Agentic usage will become metered and deterministic memory will enable replay over regeneration, turning memory into an optimization surface.",
+    "shareTweet": "Six trends I'm betting on for the agentic future. Key takeaways in the post—and what would prove me wrong. https://markmhendrickson.com/posts/six-agentic-trends-betting-on",
     "heroImage": "six-agentic-trends-betting-on-hero.png",
     "heroImageStyle": "keep-proportions",
     "alternativeSlugs": [
