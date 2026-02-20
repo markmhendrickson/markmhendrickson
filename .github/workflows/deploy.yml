@@ -36,17 +36,22 @@ jobs:
         env:
           NEOTOMA_WEBSITE_EXPORT_JSON: ${{ secrets.NEOTOMA_WEBSITE_EXPORT_JSON }}
         run: |
-          if [ -z "${NEOTOMA_WEBSITE_EXPORT_JSON:-}" ]; then
-            echo "Missing NEOTOMA_WEBSITE_EXPORT_JSON secret." >&2
-            exit 1
-          fi
           mkdir -p data/tmp
-          printf '%s' "$NEOTOMA_WEBSITE_EXPORT_JSON" | base64 --decode > data/tmp/neotoma_website_export.json
+          if [ -n "${NEOTOMA_WEBSITE_EXPORT_JSON:-}" ]; then
+            printf '%s' "$NEOTOMA_WEBSITE_EXPORT_JSON" | base64 --decode > data/tmp/neotoma_website_export.json
+            echo "Using Neotoma export from secret."
+          else
+            echo "NEOTOMA_WEBSITE_EXPORT_JSON secret not set; using committed cache."
+          fi
 
       - name: Generate cache from Neotoma export
         working-directory: react-app
         run: |
-          python3 scripts/generate_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
+          if [ -f data/tmp/neotoma_website_export.json ]; then
+            python3 scripts/generate_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
+          else
+            echo "No export file; skipping cache generation (using committed cache/*.json)."
+          fi
 
       - name: Build
         working-directory: react-app
