@@ -1,4 +1,4 @@
-I've been working on something called **[Neotoma](https://github.com/markmhendrickson/neotoma)**.[^1]
+I've been working on something called **[Neotoma](/posts/truth-layer-agent-memory)**.[^1]
 
 There's nothing to try yet. This isn't a launch post, and I'm not announcing a product or asking for signups. The problem has been bothering me for a while, and more importantly, it's been actively getting in the way of work I've been trying to do.
 

@@ -23,6 +23,22 @@
     "ogImage": "og/we-are-all-centaurs-now-1200x630.jpg"
   },
   {
+    "slug": "prevent-protocol-capture-founders",
+    "title": "How to prevent protocol capture by founders",
+    "excerpt": "Protocol capture means founders or a small group end up controlling what was supposed to be decentralized. You can't prevent it entirely, but you can raise the cost and align incentives so the structure doesn't rely on you being good.",
+    "published": false,
+    "category": "essay",
+    "readTime": 4,
+    "tags": [
+      "governance",
+      "startups",
+      "decentralization",
+      "protocol-capture"
+    ],
+    "createdDate": "2026-02-19",
+    "updatedDate": "2026-02-19"
+  },
+  {
     "slug": "claude-memory-and-the-truth-layer",
     "title": "Claude's memory tool stores files. A truth layer stores state.",
     "excerpt": "Anthropic's Memory Tool lets Claude persist context by writing files. That solves the context window problem and introduces a different set of limits.",

@@ -14,6 +14,25 @@ python3 execution/scripts/generate_posts_cache.py --from-neotoma-json /path/to/n
 
 If the export file is missing, the script exits with an error (no Parquet fallback).
 
+### Deploy without Neotoma secret (commit cache, GitHub uses it)
+
+GitHub Actions does not need to call Neotoma or use `NEOTOMA_WEBSITE_EXPORT_JSON`. Rebuild the cache from Neotoma locally, commit it, and push; the deploy workflow uses the committed cache.
+
+1. **Export from Neotoma** to `data/tmp/neotoma_website_export.json` (from ateles repo root). Use Neotoma MCP (e.g. `retrieve_entities` for posts, then build `{"posts": [...], "links": [...], "timeline": [...]}`) or your existing export script.
+2. **Rebuild cache** from ateles repo root:
+   ```bash
+   ./execution/scripts/rebuild_website_cache_for_deploy.sh
+   ```
+   Or with a custom export path: `./execution/scripts/rebuild_website_cache_for_deploy.sh /path/to/export.json`. This writes `execution/website/markmhendrickson/react-app/cache/*.json` and `cache/api/*.json`.
+3. **Commit and push** the website repo (e.g. `execution/website/markmhendrickson`):
+   ```bash
+   cd execution/website/markmhendrickson
+   git add react-app/cache/*.json react-app/cache/api/*.json
+   git commit -m "Rebuild cache from Neotoma"
+   git push origin main
+   ```
+   The deploy workflow will use these committed cache files; no secret required.
+
 ## Structure
 
 - `posts.json` - **Generated cache** of public posts only (published: true) - auto-generated on build
@@ -122,6 +141,28 @@ For each post with a hero image, create **three composed assets** (do not crop; 
 
 The cache auto-detects `-hero-square.png` and `og/{slug}-1200x630.jpg` when present. All three assets share the same visual style (black background, white line-art, no typography).
 
+### Format: memory & truth-layer series
+
+Posts in the "memory and truth layer" series (e.g. Claude Memory Tool, OpenAI API, ChatGPT Memory, Claude app Memory) share a **flexible pattern** so readers know what to expect without every post reading the same.
+
+**Recurring beats (order and depth can vary):**
+
+1. **Opening** — What this thing is (product or API), one-line contrast if needed (e.g. "not the developer tool"), and a sentence that sets the post’s scope: "This post explains X, Y, Z and when a truth layer fits."
+2. **What [it] is** — Definition, how it works, key mechanisms, and controls. Enough concrete detail that the reader knows exactly what they’re reading about.
+3. **Where it excels** — Honest strengths (bullets or short paragraphs). Product- or API-specific.
+4. **Where it falls short** — Honest limits (opaque, platform-bound, no provenance, no rollback, not structured, etc.). Use the section heading that fits: "Where it falls short," "What's missing," "Where the Memory Tool falls short."
+5. **When a truth layer makes sense** — Clear criteria; optional comparison table (Memory vs truth layer) when it adds clarity.
+6. **Optional** — "How configuration works" (developer posts), FAQ only when it really helps.
+7. **What I'm building** — One short paragraph: Neotoma, what it does, and how it fits ("both have a place" or "use X for Y, truth layer for Z").
+
+**How to avoid cookie-cutter:**
+
+- **Length and depth** vary by audience and product (developer posts can be longer with tables and FAQ; user posts can be tighter with a "comparison at a glance" table).
+- **Section titles** are product-specific, not fixed ("What's missing" vs "Where it falls short" vs "Where the Memory Tool falls short").
+- **Include only what fits** — e.g. "Where the current setup works" only when it clarifies (e.g. OpenAI API); skip when redundant.
+- **Voice** stays consistent; examples and specifics are always product-specific. No filler phrases repeated verbatim.
+- **Tables** when they help; don’t force one in every post.
+
 ## Share (OG) Images
 
 Social previews use a default 1200×630 image under 600 KB (WhatsApp limit). Generate it once:
@@ -168,7 +209,7 @@ To migrate all website posts from Parquet to Neotoma in one go:
 
 2. **Ingest into Neotoma:** Each batch file has `{"entities": [...]}` with `entity_type: "post"` set. Call Neotoma MCP `store_structured` for each batch with a unique `idempotency_key` (e.g. `website-posts-batch-1` through `website-posts-batch-20`).
 
-3. **After verification:** When all posts are in Neotoma, delete website post rows from Parquet via Parquet MCP `delete_records` (e.g. by slug or in batches) per `docs/neotoma_parquet_migration_rules.mdc`.
+3. **After verification:** When all posts are in Neotoma, delete website post rows from Parquet via Parquet MCP `delete_records` (e.g. by slug or in batches) per `.cursor/rules/neotoma_parquet_migration.mdc`.
 
 ### Method 3: Manual Workflow (Legacy)
 

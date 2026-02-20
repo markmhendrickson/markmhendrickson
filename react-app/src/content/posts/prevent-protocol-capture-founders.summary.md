@@ -1,0 +1,5 @@
+- Protocol capture is when founders or a small group end up controlling what was supposed to be decentralized or community-owned.
+- Define capture concretely for your context (tokens, keys, cap table, IP) and distribute power and value flows early so one party can't easily seize control.
+- Make governance costly to capture with time locks, vesting, quorum rules, and public documentation of ownership and value flows.
+- You can't prevent capture entirely; you can raise the cost and design so the structure doesn't rely on you being good.
+- Credibility comes from public commitment to parameters and consistent follow-through when you change them.
