@@ -83,7 +83,7 @@ Large AI platforms are likely to continue shipping memory features that are usef
 
 The societal effect is a split between those who can afford to care and those who cannot. People and organizations that need strong guarantees (audit, correctness, portability) will either pay for alternatives, build their own, or accept risk. Everyone else will rely on platform memory and live with the trust gap. That divide can reinforce existing inequalities. The well-resourced get transparent, portable memory; everyone else gets convenience with opaque terms. Over time, norms about what "my data" and "my history" mean may diverge by context and by who you are. Civic and professional expectations (e.g. that you can show your work or export your records) may apply only to some.
 
-The structural reason this persists is incentive misalignment. Platforms optimize for aggregate outcomes across millions of users, not for the correctness guarantees required by any individual workflow. Exposing memory semantics, correction rules, or replay guarantees constrains iteration speed and increases liability. Opaqueness is not accidental. It is protective.
+The structural reason this persists is [incentive misalignment](/posts/building-structural-barriers). Platforms optimize for aggregate outcomes across millions of users, not for the correctness guarantees required by any individual workflow. Exposing memory semantics, correction rules, or replay guarantees constrains iteration speed and increases liability. Opaqueness is not accidental. It is protective.
 
 Memory may improve, but it will remain difficult to inspect, export, replay, or reason about formally, especially across tools. Corrections will often be silent, implicit, or model-specific.
 

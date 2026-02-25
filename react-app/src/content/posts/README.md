@@ -33,6 +33,8 @@ GitHub Actions does not need to call Neotoma or use `NEOTOMA_WEBSITE_EXPORT_JSON
    ```
    The deploy workflow will use these committed cache files; no secret required.
 
+When `NEOTOMA_WEBSITE_EXPORT_JSON` is set in GitHub, the workflow generates cache from it, copies `cache/api/*.json` to `public/api/`, then builds; the live endpoints (e.g. `https://markmhendrickson.com/api/posts.json`) are updated on every deploy.
+
 ## Structure
 
 - `posts.json` - **Generated cache** of public posts only (published: true) - auto-generated on build
@@ -116,6 +118,8 @@ Access later: `retrieve_file_url` returns a URL for a stored source (by default 
 - **Composition:** Elements in lower portion of frame. Generous negative (black) space above.
 - **Aesthetic:** Stylized, iconic, minimalist. Not realistic or photorealistic.
 - **No typography:** No text, labels, or captions within the image.
+
+**Focal brand:** When a post has a brand as the focal point (e.g. Notion, Claude, OpenAI), focus the hero image on that brand. Use recognizable brand-associated shapes, motifs, or product cues in the same white line-art style (no logos or wordmarks). The hero should read as "this post is about X" at a glance.
 
 **Layout:** Use `keep-proportions` in `{slug}-hero-style.txt` so the image displays without cropping (max height 70vh).
 

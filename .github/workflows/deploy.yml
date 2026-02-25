@@ -53,6 +53,15 @@ jobs:
             echo "No export file; skipping cache generation (using committed cache/*.json)."
           fi
 
+      # Copy cache/api/*.json to public/api/ so Vite includes them in dist; live /api/* endpoints stay in sync
+      - name: Copy API cache to public
+        working-directory: react-app
+        run: |
+          mkdir -p public/api
+          for f in cache/api/posts.json cache/api/links.json cache/api/timeline.json; do
+            [ -f "$f" ] && cp "$f" public/api/
+          done
+
       - name: Build
         working-directory: react-app
         env:
