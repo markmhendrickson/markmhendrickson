@@ -1,4 +1,4 @@
-Neotoma developer release: a truth layer for agent memory. Install via npm, connect ChatGPT/Claude/Cursor via MCP, run locally. One graph, typed entities, full provenance. Try it, break it.
+Neotoma is now available as developer release. Structured agent memory you can inspect, replay, and trust. Open-source, local-first, via npm for ChatGPT, Claude, and Cursor. Try it and tell me where it breaks.
 
-https://neotoma.io
 https://markmhendrickson.com/posts/neotoma-developer-release
+https://neotoma.io

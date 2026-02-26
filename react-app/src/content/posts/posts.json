@@ -4,7 +4,7 @@
     "title": "Agent memory has a truth problem",
     "excerpt": "Retrieval fits coding and is cheap; it breaks on completeness, consistency, and provenance. Why convergence to structured state is hard, and how Neotoma is designed for it.",
     "published": true,
-    "publishedDate": "2026-02-26",
+    "publishedDate": "2026-02-25",
     "category": "essay",
     "readTime": 10,
     "tags": [
@@ -15,8 +15,8 @@
     ],
     "heroImage": "agent-memory-truth-problem-hero.png",
     "heroImageStyle": "keep-proportions",
-    "createdDate": "2026-02-26",
-    "updatedDate": "2026-02-26"
+    "createdDate": "2026-02-25",
+    "updatedDate": "2026-02-25"
   },
   {
     "slug": "neotoma-developer-release",
