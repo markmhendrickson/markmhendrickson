@@ -40,9 +40,19 @@ async function loadPostsData(includeDrafts: boolean): Promise<Post[]> {
   try {
     const privateData = await import('@cache/posts.private.json')
     const privateList = (privateData.default ?? privateData) as Post[]
-    const privateSlugs = new Set(privateList.map((p) => p.slug).filter(Boolean))
-    const fromPublicOnly = (publicPostsData as Post[]).filter((p) => p.slug && !privateSlugs.has(p.slug))
-    return [...privateList, ...fromPublicOnly]
+    const mergedBySlug = new Map<string, Post>()
+    for (const post of privateList) {
+      if (post.slug) mergedBySlug.set(post.slug, post)
+    }
+    for (const post of publicPostsData as Post[]) {
+      if (!post.slug) continue
+      const existing = mergedBySlug.get(post.slug)
+      // If private cache has a draft but public cache has published content, prefer published.
+      if (!existing || (!existing.published && post.published)) {
+        mergedBySlug.set(post.slug, post)
+      }
+    }
+    return Array.from(mergedBySlug.values())
   } catch {
     return publicPostsData as Post[]
   }

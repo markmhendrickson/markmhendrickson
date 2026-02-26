@@ -186,6 +186,85 @@ def draft_slugs_from_markdown() -> List[Path]:
     return out
 
 
+CONTENT_MANIFEST_JSON = WEBSITE_POSTS_DIR / "posts.json"
+
+
+def metadata_for_content_only_drafts(export_slugs: set) -> List[Dict[str, Any]]:
+    """Drafts that live in content/posts (not drafts/) and are listed in content posts.json but not in the export."""
+    if not CONTENT_MANIFEST_JSON.exists():
+        return []
+    raw = _safe_read(CONTENT_MANIFEST_JSON)
+    if not raw:
+        return []
+    try:
+        manifest = json.loads(raw)
+    except Exception:
+        return []
+    if not isinstance(manifest, list):
+        return []
+    out: List[Dict[str, Any]] = []
+    for entry in manifest:
+        slug = entry.get("slug") if isinstance(entry, dict) else None
+        if not slug or slug in export_slugs:
+            continue
+        if entry.get("published", False):
+            continue
+        body_path = WEBSITE_POSTS_DIR / f"{slug}.md"
+        if not body_path.exists():
+            continue
+        raw_body = _safe_read(body_path)
+        if raw_body is None:
+            continue
+        frontmatter, body = _parse_frontmatter(raw_body)
+        title = (frontmatter.get("title") or entry.get("title") or "").strip()
+        excerpt = (frontmatter.get("excerpt") or entry.get("excerpt") or "").strip()
+        if not title:
+            for line in body.splitlines():
+                s = line.strip()
+                if not s:
+                    continue
+                if s.startswith("## "):
+                    title = s[3:].strip()
+                else:
+                    title = s[:80] if len(s) > 80 else s
+                break
+        if not title:
+            title = slug.replace("-", " ").title()
+        summary_raw = _safe_read(WEBSITE_POSTS_DIR / f"{slug}.summary.md")
+        tweet_path = WEBSITE_POSTS_DIR / "drafts" / f"{slug}.tweet.md"
+        tweet_raw = _safe_read(tweet_path) if tweet_path.exists() else None
+        try:
+            mtime = body_path.stat().st_mtime
+            updated = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d")
+        except Exception:
+            updated = entry.get("updatedDate") or entry.get("createdDate") or ""
+        meta: Dict[str, Any] = {
+            "slug": slug,
+            "title": title,
+            "excerpt": excerpt,
+            "body": body,
+            "published": False,
+            "publishedDate": None,
+            "category": entry.get("category") or "essay",
+            "readTime": entry.get("readTime"),
+            "tags": entry.get("tags") or [],
+            "createdDate": entry.get("createdDate") or updated,
+            "updatedDate": entry.get("updatedDate") or updated,
+            "summary": (summary_raw or "").strip(),
+            "shareTweet": (tweet_raw or "").strip(),
+        }
+        hero_path = PUBLIC_POSTS_IMAGES / f"{slug}-hero.png"
+        if hero_path.exists():
+            meta["heroImage"] = f"{slug}-hero.png"
+            style_raw = _safe_read(PUBLIC_POSTS_IMAGES / f"{slug}-hero-style.txt")
+            meta["heroImageStyle"] = (style_raw or "").strip() or "keep-proportions"
+            square_path = PUBLIC_POSTS_IMAGES / f"{slug}-hero-square.png"
+            if square_path.exists():
+                meta["heroImageSquare"] = f"{slug}-hero-square.png"
+        out.append(meta)
+    return out
+
+
 def metadata_for_draft_only_slugs(export_slugs: set) -> List[Dict[str, Any]]:
     drafts_paths = draft_slugs_from_markdown()
     draft_slugs = sorted({p.stem for p in drafts_paths} - set(export_slugs))
@@ -337,8 +416,13 @@ def convert_post_to_metadata(post: Dict[str, Any], include_body: bool, include_s
 
 def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
     if not posts:
-        export_slugs: set = set()
-        draft_only_metadata = metadata_for_draft_only_slugs(export_slugs)
+        export_slugs_empty: set = set()
+        draft_only_metadata = metadata_for_draft_only_slugs(export_slugs_empty)
+        content_only_drafts = metadata_for_content_only_drafts(export_slugs_empty)
+        draft_only_slugs = {m.get("slug") for m in draft_only_metadata if m.get("slug")}
+        for m in content_only_drafts:
+            if m.get("slug") and m.get("slug") not in draft_only_slugs:
+                draft_only_metadata.append(m)
 
         published_metadata = [m for m in draft_only_metadata if m.get("published")]
         published_metadata.sort(key=lambda m: (m.get("slug") or ""))
@@ -393,6 +477,11 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
 
     export_slugs = {p.get("slug") for p in posts if p.get("slug")}
     draft_only_metadata = metadata_for_draft_only_slugs(export_slugs)
+    content_only_drafts = metadata_for_content_only_drafts(export_slugs)
+    draft_only_slugs = {m.get("slug") for m in draft_only_metadata if m.get("slug")}
+    for m in content_only_drafts:
+        if m.get("slug") and m.get("slug") not in draft_only_slugs:
+            draft_only_metadata.append(m)
     published_metadata.extend(m for m in draft_only_metadata if m.get("published"))
 
     published_metadata.sort(key=lambda m: (m.get("slug") or ""))

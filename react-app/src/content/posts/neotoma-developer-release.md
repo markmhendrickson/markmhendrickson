@@ -1,174 +1,100 @@
-# Neotoma developer release
+---
+title: Neotoma is now available as developer release
+excerpt: Structured agent memory you can inspect, replay, and trust. Open-source, local-first, available via npm for ChatGPT, Claude, and Cursor.
+published: true
+published_date: "2026-02-26"
+---
+Neotoma is a structured memory layer for AI agents. It treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries. This developer release is available now. Install via npm, connect your AI tools via MCP, and run it on your machine.
 
-The Neotoma truth layer is now available as a developer release. Neotoma is the truth layer I use for persistent agent memory: an explicit, inspectable substrate that AI tools read and write via the Model Context Protocol (MCP). This post announces the release, walks through local setup, and outlines what the repo actually does.
+Docs and setup: [neotoma.io](https://neotoma.io). Repo: [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma).
 
-**What Neotoma is.** Neotoma is not an app or a workflow engine. It is the lowest-level canonical source of truth for personal data that agents use. You upload documents (PDFs, receipts, contracts) or share information in conversation; agents structure and store it. Neotoma resolves entities across all sources, builds timelines from date fields, and keeps every fact traceable to its source. One graph connects people, companies, events, and relationships. ChatGPT, Claude, and Cursor talk to it over MCP.
+## The problem
 
-**What it is not.** Not a note-taking app or "second brain." Not provider-controlled ChatGPT Memory or Claude Projects (those are conversation-only and platform-locked). Not a vector store or RAG layer. Not an autonomous agent. It is the memory layer agents read and write; you control what goes in.
+I've spent the past year running workflows through AI agents: email, tasks, finance, contacts, content. The agents are capable. The problem is trust.
 
-For more on Neotoma and the truth layer, see the post [Truth layer agent memory](/posts/truth-layer-agent-memory).
+Memory changes implicitly. Context drifts. The agent gives a different answer to the same question in a new session. It overwrites a contact and the previous state is gone. I can't trace a wrong number back to its source. I can't use the same records from a different tool.
 
-## Three foundations
+These aren't edge cases. They show up as soon as agents handle ongoing state: tasks, transactions, commitments, relationships. The more I delegate, the sharper the limits get.
 
-The architecture rests on three choices that provider memory does not offer:
+The thing that keeps breaking is not intelligence. It's trust. I first wrote about this in [Building a truth layer for persistent agent memory](/posts/truth-layer-agent-memory).
 
-1. **Privacy-first.** User-controlled memory, row-level security, never used for training. Your data stays yours.
-2. **Deterministic.** Same input produces same output. Schema-first extraction, hash-based entity IDs, full provenance. No randomness in core components.
-3. **Cross-platform.** Works with ChatGPT, Claude, Cursor, and Claude Code via MCP. One memory system across tools.
+## Where current memory falls short
 
-Those enable an immutable audit trail, time-travel queries, entity resolution across documents and agent data, timeline generation, and dual-path storing (files plus agent interactions) without context-window limits.
+Most agent memory today is retrieval: RAG, agentic search, embedding similarity, provider-controlled memory. Retrieval works for exploration and one-off questions. It falls apart for ongoing state.
 
-## Getting started in a local environment
+[RAG fills with redundant results](/posts/why-agent-memory-needs-more-than-rag) when agent memory is a bounded, coherent stream. Top-k returns repetition instead of what you need. Pruning fragments evidence chains. Similarity ignores structure.
 
-Prerequisites: Node.js v18.x or v20.x (LTS), npm v9+, and Git (only for development from source).
+Provider memory (ChatGPT Memory, Claude Projects) is conversation-only and platform-bound. It's opaque, has no provenance or rollback, and doesn't work across tools. You can't query it deterministically or trace a fact to its source.
 
-**1. Install.**
+[Agentic search](/posts/agentic-search-and-the-truth-layer) re-infers each session. No persistent canonical identity, no guarantee the same question yields the same result. It works for coding and exploration. For tasks, contacts, transactions, and events, you need the same answer next week, full sets, and audit trails. Retrieval doesn't deliver that.
 
-**From npm (recommended):** Install globally, then initialize. Init creates data directories, SQLite database, and optional config.
+The [useful split](/posts/agent-memory-truth-problem) is retrieval versus structured state, not graph versus markdown. Retrieval optimizes for relevance and discovery. Structured state optimizes for consistency, completeness, and provenance. The major projects (Zep, Mem0, Letta, LangMem) are adding structure, but full convergence faces architectural barriers. When agents act on your behalf, you need the latter.
 
-```bash
-npm install -g neotoma
-neotoma init
-# Or with encryption: neotoma init --generate-keys
-```
+I've written separately about the [six structural trends](/posts/six-agentic-trends-betting-on) that make this gap wider over time: agents becoming stateful, errors becoming priced, platforms staying opaque, tools staying fragmented.
 
-Then start the API and configure MCP for your AI tool:
+## What Neotoma is
 
-```bash
-neotoma api start
-neotoma mcp config
-neotoma api status   # check status
-```
+Neotoma is a truth layer: the memory substrate that sits under your agents. Agents keep doing what they do (browsing, writing, calling tools). Neotoma owns the state they read and write.
 
-Data defaults to `~/neotoma/data/` (or `--data-dir` when you run `neotoma init`). Config: `~/.config/neotoma/config.json`.
+You upload documents or share information in agent conversations. Neotoma resolves entities across sources. People, companies, tasks, invoices, events get stable IDs. Every fact traces to its origin. Timelines come from date fields. Corrections preserve history instead of overwriting it.
 
-**Or from source (for development):**
+The graph is execution-agnostic. It models what exists, not how work gets done. The same data is available from Cursor, ChatGPT, Claude, or any MCP client. When you [switch tools](/posts/openclaw-and-the-truth-layer), the memory doesn't drift.
 
-```bash
-git clone https://github.com/markmhendrickson/neotoma.git
-cd neotoma
-npm install
-npm run type-check
-```
+What it is not. Not a note-taking app or "second brain." Not provider-controlled memory. Not a vector store or RAG layer. Not an autonomous agent. It's schema-first structured state you control.
 
-If `type-check` passes, dependencies are fine. When developing from a clone, data defaults to `./data/` in the project directory.
+## What this release includes
 
-**2. Configure environment (from source only).**
+This developer release exposes the core contract:
 
-When using a clone, create `.env` in the project root (see [env.example](https://github.com/markmhendrickson/neotoma/blob/main/env.example)). For local storage no env vars are required; the app uses defaults. To override paths, set:
+- **CLI** for humans.
+- **MCP** for agents (ChatGPT, Claude, Cursor, Claude Code).
+- **OpenAPI** as the single source of truth.
 
-```bash
-NEOTOMA_STORAGE_BACKEND=local
-NEOTOMA_DATA_DIR=./data
-NEOTOMA_SQLITE_PATH=./data/neotoma.db
-NEOTOMA_RAW_STORAGE_DIR=./data/sources
-```
+Concrete functionality:
 
-Check the repo [getting started](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md) and [env.example](https://github.com/markmhendrickson/neotoma/blob/main/env.example) for other variables and defaults.
+- **Dual-path storing.** Upload files or write structured data from agent conversations into one graph.
+- **Entity resolution.** Hash-based canonical IDs unify the same entity across all sources.
+- **Schema registry.** Typed entities and typed relationships. Schemas evolve as data does.
+- **Timelines.** Automatic timeline generation from date fields across entities.
+- **Full provenance.** Every record traces to its source. Corrections create new observations, not overwrites.
+- **Structural retrieval.** Query by entity type, ID, relationship, or time range. Graph neighborhood for cross-entity reasoning.
 
-**3. Run tests and servers (from source).**
+There is no web app. This is infrastructure, not a product. The interfaces are CLI, MCP, and API.
 
-```bash
-npm test
-```
+## Principles and why local-first
 
-Then start what you need:
+Three foundations shape the design:
 
-- **MCP server (stdio):** `npm run watch`.
-- **API only:** `npm run watch:server`.
-- **Production-style API (port 8082):** `npm run watch:prod`.
+**Privacy-first.** Your data stays on your machine. Local storage only: SQLite and local files. No cloud dependency. Never used for training. You control what goes in and what stays.
 
-Development uses port 8080 by default.
+**Deterministic.** Same input, same output. Hash-based entity IDs. Schema-first extraction. No LLM in the critical path for storage or retrieval. Full provenance on every record.
 
-**4. CLI (optional, from source).**
+**Cross-platform.** One memory layer across tools. ChatGPT, Claude, Cursor, and Claude Code connect via MCP. No provider lock-in. Switch tools and the memory stays the same.
 
-```bash
-npm run cli        # run without global install
-npm run cli:dev    # dev mode, picks up source changes
-npm run setup:cli  # build and link so `neotoma` is available globally
-```
-
-After global install or link, if `neotoma` is not found, add npm's global bin to your PATH (e.g. `export PATH="$(npm config get prefix)/bin:$PATH"`). Example commands: `neotoma entities list`, `neotoma sources list`, `neotoma timeline list --limit 10`.
-
-Full setup guide (troubleshooting, optional scripts): [docs/developer/getting_started.md](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md).
-
-## Repo functionality in detail
-
-### Data model: source to snapshot
-
-Neotoma uses a four-layer model:
-
-1. **Source.** A single unit of input: a stored file (content-addressed) or a structured payload (e.g. from an agent). Sources are immutable; content hash drives deduplication.
-2. **Interpretation.** For unstructured sources, an optional AI interpretation step produces structured extractions. Interpretations are versioned; you can run `reinterpret` with different config without losing history.
-3. **Observation.** Each extracted fact is an observation: a field-level claim (e.g. "this invoice has amount 500 EUR") tied to a source and interpretation. Observations have priority; corrections create high-priority observations that override earlier ones.
-4. **Entity and entity snapshot.** Entities are the resolved "things" (person, company, invoice, task, etc.). They get hash-based canonical IDs so the same real-world thing is one entity across sources. Reducers merge observations into the current entity snapshot. Snapshots are what you read when you ask for an entity.
-
-Sources come in; interpretations run (for files), observations are created, reducers compute entity snapshots. The graph connects entities via typed relationships (e.g. PART_OF, REFERS_TO, SETTLES).
-
-### Storing: unified `store` action
-
-All writes go through one MCP action, `store`.
-
-- **Unstructured (files):** Send `file_content` (base64) and `mime_type`. Optionally `original_filename`. The server stores the source and can run interpretation (`interpret: true` by default). You do not pre-extract or infer structure; the server does it.
-- **Structured (agent data):** Send an `entities` array. Each item has `entity_type` (e.g. `contact`, `task`, `invoice`) and the field set for that type. Schema fields become observations; unknown fields go to `raw_fragments` for later schema promotion. You can omit `original_filename` for agent-originated data.
-
-Idempotency is supported via `idempotency_key`. Storing is content-addressed so duplicate content does not create duplicate sources.
-
-### Entity resolution and schema registry
-
-Entity IDs are deterministic (hash-based from type and normalizable identifiers). The schema registry defines entity types and their fields. Built-in types include contact, person, company, task, invoice, transaction, receipt, note, contract, event, and others (see [docs/subsystems/schema_snapshots/](https://github.com/markmhendrickson/neotoma/blob/main/docs/subsystems/schema_snapshots/) in the repo). You can register new types or new versions; user-specific schemas override global ones when configured.
-
-Unknown fields in structured input are stored in `raw_fragments`. The system can analyze these and suggest or auto-promote fields to the schema (e.g. high confidence, consistent type). Schema tools: `analyze_schema_candidates`, `get_schema_recommendations`, `update_schema_incremental`, `register_schema`.
-
-### Correction and reinterpretation
-
-- **`correct`.** When the AI mis-extracts something, you fix it with `correct`: entity ID, entity type, field name, and corrected value. That creates a high-priority observation; the reducer uses it so the snapshot reflects the correction.
-- **`reinterpret`.** Run interpretation again on an existing source with new config (e.g. different model or prompt). New observations are created; existing ones stay. Useful for improving extractions without losing history.
-
-### Retrieval and graph
-
-- **Entity lookup:** `retrieve_entity_snapshot` (one entity with provenance), `retrieve_entities` (filtered list), `retrieve_entity_by_identifier` (e.g. by name or email).
-- **Graph:** `retrieve_related_entities` (n-hop relationships), `retrieve_graph_neighborhood` (entities, relationships, sources, and events around a node).
-- **Provenance:** `list_observations` for an entity, `retrieve_field_provenance` to trace a field back to source.
-- **Relationships:** `create_relationship` (typed edge between two entities), `list_relationships`, `get_relationship_snapshot`.
-- **Timeline:** `list_timeline_events` (events derived from date fields across sources, with filters).
-
-### File access and auth
-
-- **Files:** `retrieve_file_url` returns a URL for a source; with local storage the server uses path-based or served access.
-- **Auth:** For local dev the server uses a built-in dev stub (`neotoma auth login --dev-stub`). The repo has [MCP setup docs](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/) for Cursor, Claude Code, and ChatGPT.
-
-### MCP action catalog (summary)
-
-- **Storing:** `store` (unified for files and structured entities).
-- **Entity operations:** `retrieve_entity_snapshot`, `retrieve_entities`, `retrieve_entity_by_identifier`, `retrieve_related_entities`, `retrieve_graph_neighborhood`, `list_entity_types`, `merge_entities`.
-- **Observations and relationships:** `list_observations`, `retrieve_field_provenance`, `create_relationship`, `list_relationships`, `get_relationship_snapshot`, `list_timeline_events`.
-- **Correction and interpretation:** `correct`, `reinterpret`.
-- **Schema:** `analyze_schema_candidates`, `get_schema_recommendations`, `update_schema_incremental`, `register_schema`.
-- **Files and auth:** `retrieve_file_url`, `get_authenticated_user`.
-
-The MCP server also exposes **resources** under the `neotoma://` URI scheme: entity collections, entity types, timeline by year/month, sources, and relationships. Clients can browse and discover data via these resources in addition to calling actions.
-
-### API
-
-The HTTP API serves MCP over HTTP and WebSocket for clients that do not use stdio. OpenAPI spec is in the repo ([openapi.yaml](https://github.com/markmhendrickson/neotoma/blob/main/openapi.yaml)).
-
-### Testing and tooling
-
-- **Tests:** `npm test` (unit and integration), `npm run test:integration`, `npm run test:e2e`, `npm run test:agent-mcp`. Type-check: `npm run type-check`. Lint: `npm run lint`.
-- **Health:** `npm run doctor` checks environment and database.
+This release is local-only by design. Trust starts with control. Before adding remote infrastructure, the contract and the guarantees need to be solid. Local-only means you can verify everything the system does. That's the right starting point for a layer that claims to be trustworthy.
 
 ## Who this is for
 
-- People who use ChatGPT, Claude, or Cursor and want one persistent memory layer across sessions and tools.
-- Knowledge workers who need cross-document and cross-agent entity unification (contracts, invoices, tasks).
-- Small teams that want a shared truth layer with user isolation.
-- Builders of agentic systems who need a deterministic memory and provenance layer for agents and toolchains.
+Developers and agent builders comfortable with CLI-first workflows. People building or operating agentic systems who need persistent memory across sessions and tools. Anyone who treats personal data like production infrastructure.
 
-## Current status and next steps
+Not for (yet): UI-first users, casual note-taking, or anyone expecting stability guarantees today. Breaking changes should be expected. This release exists to pressure-test the foundations.
 
-Version is v0.3.0 (reconciliation release). Implemented: sources-first architecture, content-addressed storage, dual-path storing, observations and reducers, entity resolution, schema registry, timeline generation, MCP integration, provenance, CLI. Roadmap and release notes live in [docs/releases/](https://github.com/markmhendrickson/neotoma/blob/main/docs/releases/) in the repo.
+## Install and connect
 
-To run locally: use `npm install -g neotoma`, `neotoma init`, then `neotoma api start` and `neotoma mcp config`; or clone the repo, run `npm test`, then `npm run watch` or `npm run watch:server`. For MCP setup from another workspace (e.g. Cursor), see the repo's [Cursor MCP setup](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/mcp_cursor_setup.md) and [getting started](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/getting_started.md) docs.
+```bash
+npm install -g neotoma # install
+neotoma init # initialize
+neotoma # start interactive session
+```
+
+Full setup, API docs, MCP configuration, and schema reference: [neotoma.io](https://neotoma.io).
 
 Repo: [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma).
+
+## Try it, break it, tell me
+
+I'd like your help hardening this. Run it. Hit edge cases. Report bugs, confusing behavior, or missing pieces.
+
+Feedback I value most: where the guarantees fail, where the contract gets in the way, where the design makes the wrong tradeoff. Open issues on GitHub, submit patches, or start a discussion.
+
+This release is rough on purpose. Reliability comes from real usage and real feedback, not from polishing in isolation.

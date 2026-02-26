@@ -7,6 +7,7 @@
     "generate:favicons": "node scripts/generate-favicons.mjs",
     "generate:og": "node scripts/generate-og-image.mjs",
     "generate:og:post": "node scripts/generate-post-og-image.mjs",
+    "generate:secondary": "node scripts/generate-all-secondary-from-hero.mjs",
     "generate:rss": "node scripts/generate-rss.mjs",
     "predev": "python3 ../../../scripts/generate_website_cache.py; test -f cache/posts.private.json || cp cache/posts.json cache/posts.private.json; npm run generate:rss",
     "dev": "vite",

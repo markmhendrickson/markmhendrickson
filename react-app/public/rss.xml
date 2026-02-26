@@ -5,8 +5,22 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Feb 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 26 Feb 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>Agent memory has a truth problem</title>
+    <link>https://markmhendrickson.com/posts/agent-memory-truth-problem</link>
+    <description>Retrieval fits coding and is cheap; it breaks on completeness, consistency, and provenance. Why convergence to structured state is hard, and how Neotoma is designed for it.</description>
+    <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-memory-truth-problem</guid>
+  </item>
+  <item>
+    <title>Neotoma is now available as developer release</title>
+    <link>https://markmhendrickson.com/posts/neotoma-developer-release</link>
+    <description>Structured agent memory you can inspect, replay, and trust. Open-source, local-first, available via npm for ChatGPT, Claude, and Cursor.</description>
+    <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-developer-release</guid>
+  </item>
   <item>
     <title>Agent command centers need one source of truth</title>
     <link>https://markmhendrickson.com/posts/agent-command-centers-source-of-truth</link>

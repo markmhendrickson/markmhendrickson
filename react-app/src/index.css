@@ -49,6 +49,12 @@
   .post-prose thead th {
     @apply text-left font-medium py-3 px-4 border-b border-border bg-muted text-foreground;
   }
+  .post-prose thead th:first-child {
+    @apply rounded-tl-lg;
+  }
+  .post-prose thead th:last-child {
+    @apply rounded-tr-lg;
+  }
   .post-prose tbody td {
     @apply py-3 px-4 border-b border-border text-foreground;
   }

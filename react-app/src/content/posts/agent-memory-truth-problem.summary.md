@@ -1,0 +1,5 @@
+- Retrieval dominates agent memory because it fits coding well and is cheap to add; it breaks when agents handle ongoing state (completeness, consistency, provenance).
+- The major projects (Zep, Mem0, Letta, LangMem) are adding structure, but full convergence faces barriers: schema-first vs similarity-first queries, deterministic identity, append-only provenance, local-first control.
+- Structured state wins on complete sets, same-answer-next-week, provenance, rollback, and cross-tool consistency; retrieval wins on exploration, summarization, and low upfront cost.
+- Structured state has real costs (schema overhead, ingestion complexity, cold start); Neotoma mitigates them with evolving schema, hash-based IDs, and dual-path ingestion but doesn't eliminate them.
+- Neotoma is a complement to retrieval, not a replacement: schema-first queries, canonical IDs, append-only observations, cross-tool MCP, local-first by default.
