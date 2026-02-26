@@ -35,7 +35,8 @@
     "createdDate": "2026-02-26",
     "updatedDate": "2026-02-26",
     "heroImage": "neotoma-developer-release-hero.png",
-    "heroImageStyle": "keep-proportions"
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/neotoma-developer-release-1200x630.jpg"
   },
   {
     "slug": "we-are-all-centaurs-now",

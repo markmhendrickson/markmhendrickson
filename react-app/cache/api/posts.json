@@ -22,7 +22,8 @@
       "shareTweet": "Neotoma developer release: truth layer for persistent agent memory, exposed via MCP. Local setup, data model (source → observation → entity snapshot), and full action catalog in the post. https://github.com/markmhendrickson/neotoma",
       "heroImage": "neotoma-developer-release-hero.png",
       "heroImageStyle": "keep-proportions",
-      "heroImageSquare": "neotoma-developer-release-hero-square.png"
+      "heroImageSquare": "neotoma-developer-release-hero-square.png",
+      "ogImage": "og/neotoma-developer-release-1200x630.jpg"
     },
     {
       "slug": "agent-memory-truth-problem",
@@ -45,7 +46,8 @@
       "shareTweet": "Retrieval is the default for agent memory. The major projects are adding structure, but full convergence faces real barriers: schema-first vs similarity-first, identity, provenance, determinism, local-first. Where retrieval breaks and what's structurally hard to retrofit. https://markmhendrickson.com/posts/database-vs-linked-docs-agent-memory",
       "heroImage": "agent-memory-truth-problem-hero.png",
       "heroImageStyle": "keep-proportions",
-      "heroImageSquare": "agent-memory-truth-problem-hero-square.png"
+      "heroImageSquare": "agent-memory-truth-problem-hero-square.png",
+      "ogImage": "og/agent-memory-truth-problem-1200x630.jpg"
     },
     {
       "slug": "agent-command-centers-source-of-truth",
