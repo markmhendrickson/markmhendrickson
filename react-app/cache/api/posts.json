@@ -23,7 +23,8 @@
       "heroImage": "neotoma-developer-release-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "neotoma-developer-release-hero-square.png",
-      "ogImage": "og/neotoma-developer-release-1200x630.jpg"
+      "ogImage": "og/neotoma-developer-release-1200x630.jpg",
+      "alternativeSlugs": ["developer-release-neotoma"]
     },
     {
       "slug": "agent-memory-truth-problem",
