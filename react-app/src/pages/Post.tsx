@@ -973,11 +973,13 @@ export default function Post({ slug: slugProp }: PostProps) {
           >
             <Alert className="mb-8 flex flex-col md:flex-row items-stretch gap-4 cursor-pointer">
               {latestPost.heroImage && (
-                <img
-                  src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? '')}
-                  alt=""
-                  className="order-1 md:order-2 w-full aspect-[2/1] md:w-[148px] md:h-[148px] md:shrink-0 rounded object-cover object-center"
-                />
+                <div className="order-1 md:order-2 w-full aspect-[2/1] md:w-[148px] md:h-[148px] md:aspect-auto md:shrink-0 rounded overflow-hidden flex items-center justify-center">
+                  <img
+                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? '')}
+                    alt=""
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
               )}
               <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
                 <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
