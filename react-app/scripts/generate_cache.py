@@ -40,6 +40,10 @@ SITE_BASE = "https://markmhendrickson.com"
 LISTING_OVERRIDES_JSON = WEBSITE_POSTS_DIR / "listing_overrides.json"
 ALTERNATIVE_SLUGS_JSON = WEBSITE_POSTS_DIR / "alternative_slugs.json"
 
+# Slugs that must always use body/title/excerpt from repo markdown (overwrite export).
+# Ensures the homepage and other repo-owned content stay correct when cache is regenerated from Neotoma.
+REPO_OVERRIDE_SLUGS = {"professional-mission"}
+
 
 def write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -172,6 +176,76 @@ def overlay_body_from_markdown(metadata_list: List[Dict[str, Any]]) -> None:
             meta["title"] = frontmatter["title"].strip()
         if frontmatter.get("excerpt"):
             meta["excerpt"] = frontmatter["excerpt"].strip()
+
+
+def _manifest_entry_for_slug(slug: str) -> Optional[Dict[str, Any]]:
+    if not CONTENT_MANIFEST_JSON.exists():
+        return None
+    try:
+        manifest = json.loads(CONTENT_MANIFEST_JSON.read_text(encoding="utf-8"))
+        for m in manifest if isinstance(manifest, list) else []:
+            if isinstance(m, dict) and m.get("slug") == slug:
+                return m
+    except Exception:
+        pass
+    return None
+
+
+def ensure_repo_override_posts(metadata_list: List[Dict[str, Any]]) -> None:
+    """For REPO_OVERRIDE_SLUGS, force body/title/excerpt from repo markdown. Inject if missing."""
+    slugs_in_list = {m.get("slug") for m in metadata_list if m.get("slug")}
+    for slug in REPO_OVERRIDE_SLUGS:
+        path = body_md_path(slug, True)
+        if not path.exists():
+            path = body_md_path(slug, False)
+        if not path.exists():
+            continue
+        raw = _safe_read(path)
+        if raw is None:
+            continue
+        frontmatter, body = _parse_frontmatter(raw)
+        title = (frontmatter.get("title") or "").strip()
+        excerpt = (frontmatter.get("excerpt") or "").strip()
+        manifest_entry = _manifest_entry_for_slug(slug)
+        if not title and manifest_entry:
+            title = (manifest_entry.get("title") or "").strip()
+        if not excerpt and manifest_entry:
+            excerpt = (manifest_entry.get("excerpt") or "").strip()
+        if slug in slugs_in_list:
+            for meta in metadata_list:
+                if meta.get("slug") == slug:
+                    meta["body"] = body
+                    if title:
+                        meta["title"] = title
+                    if excerpt:
+                        meta["excerpt"] = excerpt
+                    break
+        else:
+            # Inject from repo: use CONTENT_MANIFEST for metadata if present
+            entry: Dict[str, Any] = {
+                "slug": slug,
+                "title": title or "Mark Hendrickson",
+                "excerpt": excerpt,
+                "body": body,
+                "published": True,
+                "publishedDate": "2025-01-01",
+                "category": "essay",
+                "readTime": 2,
+                "tags": [],
+                "excludeFromListing": True,
+                "showMetadata": False,
+            }
+            if manifest_entry:
+                entry["title"] = (title or manifest_entry.get("title") or entry["title"]).strip()
+                entry["excerpt"] = (excerpt or manifest_entry.get("excerpt") or entry["excerpt"]).strip()
+                entry["heroImage"] = manifest_entry.get("heroImage")
+                entry["heroImageStyle"] = manifest_entry.get("heroImageStyle")
+                entry["excludeFromListing"] = manifest_entry.get("excludeFromListing", True)
+            if (REACT_APP_ROOT / "public" / "profile.jpg").exists() and entry.get("heroImage") is None:
+                entry["heroImage"] = "profile.jpg"
+                entry["heroImageStyle"] = "float-right"
+            metadata_list.append(entry)
+            metadata_list.sort(key=lambda m: (m.get("publishedDate") or "0000-01-01"), reverse=True)
 
 
 def draft_slugs_from_markdown() -> List[Path]:
@@ -429,6 +503,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
         published_metadata.sort(key=lambda m: (m.get("publishedDate") or "0000-01-01"), reverse=True)
         overlay_summaries_from_markdown(published_metadata)
         overlay_body_from_markdown(published_metadata)
+        ensure_repo_override_posts(published_metadata)
         overlay_listing_excludes(published_metadata)
         overlay_alternative_slugs(published_metadata)
         write_json(POSTS_JSON, published_metadata)
@@ -445,6 +520,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
         )
         overlay_summaries_from_markdown(all_metadata)
         overlay_body_from_markdown(all_metadata)
+        ensure_repo_override_posts(all_metadata)
         overlay_listing_excludes(all_metadata)
         overlay_alternative_slugs(all_metadata)
         write_json(POSTS_PRIVATE_JSON, all_metadata)
@@ -488,6 +564,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
     published_metadata.sort(key=lambda m: (m.get("publishedDate") or "0000-01-01"), reverse=True)
     overlay_summaries_from_markdown(published_metadata)
     overlay_body_from_markdown(published_metadata)
+    ensure_repo_override_posts(published_metadata)
     overlay_listing_excludes(published_metadata)
     overlay_alternative_slugs(published_metadata)
 
@@ -506,6 +583,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
     all_metadata.sort(key=private_sort_key, reverse=True)
     overlay_summaries_from_markdown(all_metadata)
     overlay_body_from_markdown(all_metadata)
+    ensure_repo_override_posts(all_metadata)
     overlay_listing_excludes(all_metadata)
     overlay_alternative_slugs(all_metadata)
     write_json(POSTS_PRIVATE_JSON, all_metadata)
