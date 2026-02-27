@@ -313,7 +313,10 @@
     "updatedDate": "2026-02-10",
     "summary": "- Agents are capable but memory is the weak point: implicit changes, no provenance, no rollback, and no cross-tool access make ongoing delegation unreliable.\n- Current approaches (RAG, provider memory, agentic search) optimize for retrieval. Structured state with canonical IDs, provenance, and deterministic queries is what ongoing agent work needs.\n- This developer release exposes CLI, MCP, and OpenAPI with local-only storage: entity resolution, schema registry, timelines, dual-path storing, and full audit trail.\n- Three design foundations: privacy first (your data on your machine), deterministic (same input, same output), and cross-platform (one memory layer across ChatGPT, Claude, Cursor via MCP).\n- Install via npm, connect your tools, and help harden the foundations. Feedback on where the guarantees fail is the most valuable input right now.",
     "shareTweet": "Neotoma developer release: truth layer for persistent agent memory, exposed via MCP. Local setup, data model (source → observation → entity snapshot), and full action catalog in the post. https://github.com/markmhendrickson/neotoma",
-    "ogImage": "og/neotoma-developer-release-1200x630.jpg"
+    "ogImage": "og/neotoma-developer-release-1200x630.jpg",
+    "alternativeSlugs": [
+      "developer-release-neotoma"
+    ]
   },
   {
     "slug": "focus-on-work-you-love-delegate-the-rest",

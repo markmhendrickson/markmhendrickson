@@ -11,17 +11,17 @@ export default function Home() {
             />
             <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark Hendrickson</h1>
             <div className="text-[17px] text-[#666] mb-12 font-normal tracking-wide">
-              Building sovereign systems at the intersection of crypto and AI
+              Building structured memory for the agentic era
             </div>
 
             <div className="text-[15px] leading-[1.75] font-light">
-              <p className="mb-6">I build systems that restore sovereignty, clarity, and long-range capability to individuals in a world defined by complexity, centralized control, and cognitive overload.</p>
+              <p className="mb-6">I'm building <a href="https://neotoma.io" className="underline hover:text-black transition-colors">Neotoma</a>, a structured memory layer for AI agents. The core problem: agents are increasingly stateful&mdash;handling tasks, contacts, transactions, and commitments over time&mdash;but their memory is built for retrieval, not truth. It drifts between sessions, overwrites without history, and can't be traced or replayed. Neotoma treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries. Local-first, cross-platform via MCP, and entirely user-controlled.</p>
 
-              <p className="mb-6">My technology transforms chaos into structure, volatility into signal, and information abundance into actionable leverage, empowering people to operate with more agency, creativity, and strategic independence.</p>
+              <p className="mb-6">The principle underneath is the same one that's driven all of my work: people should control their own data, memory, and digital infrastructure&mdash;not rent it from platforms that optimize for engagement over truth.</p>
 
-              <p className="mb-6">My work centers on designing personal infrastructure that is open, privacy-preserving, and fundamentally user-owned. Through data ingestion, contextual modeling, and automation, I eliminate friction and restore the time, mental bandwidth, and autonomy lost to modern digital and institutional systems. This gives people the structural foundation to think more deeply, act more decisively, and build more freely.</p>
+              <p className="mb-6">I work as a solo founder in Barcelona, operating with AI agents as a team rather than as tools. Every workflow&mdash;email, finance, content, product&mdash;runs through a shared repo and a shared source of truth. The agents follow the same playbook I do. That only works because the state layer is explicit and inspectable, which is exactly the contract Neotoma is designed to provide.</p>
 
-              <p>I take an antifragile approach: systems grow stronger through disruption, not weaker. The tools I build help people thrive under uncertainty, adapt intelligently to changing conditions, and make decisions from clarity rather than reactivity.</p>
+              <p>Before this chapter, I spent nearly two decades building products across consumer web, crypto, and startups: writing and shipping at TechCrunch, co-founding Plancast (acquired by Active Network), co-founding KITE Solutions, advising and building with early-stage startups, leading user experience at Hiro for the Stacks blockchain, and running Leather at Trust Machines. You can see the full arc on my <a href="/timeline" className="underline hover:text-black transition-colors">timeline</a>.</p>
             </div>
           </div>
         </div>

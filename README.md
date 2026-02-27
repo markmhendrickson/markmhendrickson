@@ -1,12 +1,14 @@
 # Hi, I'm Mark
 
-I build systems that restore sovereignty, clarity, and long-range capability to individuals in a world defined by complexity, centralized control, and cognitive overload.
+Building structured memory for the agentic era.
 
-My technology transforms chaos into structure, volatility into signal, and information abundance into actionable leverage, empowering people to operate with more agency, creativity, and strategic independence.
+I'm building [Neotoma](https://neotoma.io), a structured memory layer for AI agents. The core problem: agents are increasingly stateful—handling tasks, contacts, transactions, and commitments over time—but their memory is built for retrieval, not truth. Neotoma treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries. Local-first, cross-platform via MCP, and entirely user-controlled.
 
-My work centers on designing personal infrastructure that is open, privacy-preserving, and fundamentally user-owned. Through data ingestion, contextual modeling, and automation, I eliminate friction and restore the time, mental bandwidth, and autonomy lost to modern digital and institutional systems. This gives people the structural foundation to think more deeply, act more decisively, and build more freely.
+The principle underneath is the same one that's driven all of my work: people should control their own data, memory, and digital infrastructure—not rent it from platforms that optimize for engagement over truth.
 
-I take an antifragile approach: systems grow stronger through disruption, not weaker. The tools I build help people thrive under uncertainty, adapt intelligently to changing conditions, and make decisions from clarity rather than reactivity.
+I work as a solo founder in Barcelona, operating with AI agents as a team rather than as tools. Every workflow runs through a shared repo and a shared source of truth.
+
+Before this chapter, I spent nearly two decades building products across consumer web, crypto, and startups: writing and shipping at TechCrunch, co-founding Plancast (acquired by Active Network), co-founding KITE Solutions, advising and building with early-stage startups, leading user experience at Hiro for the Stacks blockchain, and running Leather at Trust Machines. You can see the full arc on my [timeline](https://markmhendrickson.com/timeline).
 
 **Currently:**
 - **[Neotoma](https://github.com/markmhendrickson/neotoma)** — user-owned memory layer for AI agents (MCP, structured data, provenance)
