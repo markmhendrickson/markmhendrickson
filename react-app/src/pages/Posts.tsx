@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Search } from 'lucide-react'
 import publicPostsData from '@cache/posts.json'
-import { stripLinksFromExcerpt, getPostImageSrc } from '@/lib/utils'
+import { stripLinksFromExcerpt, getPostImageSrc, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 
 interface Post {
@@ -12,7 +12,7 @@ interface Post {
   excerpt?: string
   body?: string
   summary?: string
-  published: boolean
+  published: boolean | number | string
   publishedDate?: string
   updatedDate?: string
   createdDate?: string
@@ -23,7 +23,7 @@ interface Post {
   heroImage?: string
   heroImageSquare?: string
   heroImageStyle?: string
-  excludeFromListing?: boolean
+  excludeFromListing?: boolean | number | string
   showMetadata?: boolean
   tweetMetadata?: { images?: string[] }
 }
@@ -48,7 +48,7 @@ async function loadPostsData(includeDrafts: boolean): Promise<Post[]> {
       if (!post.slug) continue
       const existing = mergedBySlug.get(post.slug)
       // If private cache has a draft but public cache has published content, prefer published.
-      if (!existing || (!existing.published && post.published)) {
+      if (!existing || (!isPublishedPost(existing) && isPublishedPost(post))) {
         mergedBySlug.set(post.slug, post)
       }
     }
@@ -153,14 +153,14 @@ export default function Posts({ draft = false }: PostsProps) {
       const postsData: Post[] = await loadPostsData(isDev)
 
       if (isDev) {
-        const drafts = postsData.filter(post => !post.published)
+        const drafts = postsData.filter(post => !isPublishedPost(post))
         setDraftCount(drafts.length)
       }
 
       // Index list: draft route shows only drafts; /posts shows only published, excluding excludeFromListing
       const filtered = postsData
-        .filter(post => !post.excludeFromListing)
-        .filter(post => draft ? !post.published : post.published)
+        .filter(post => !isExcludedFromListing(post))
+        .filter(post => draft ? !isPublishedPost(post) : isPublishedPost(post))
 
       // Sort: published list by publishedDate desc (newest first), slug asc for ties. Must match Post.tsx publishedListOrder and cache script.
       const sorted = [...filtered].sort((a, b) => {
@@ -177,7 +177,7 @@ export default function Posts({ draft = false }: PostsProps) {
       // Search pool: all published posts (including excludeFromListing) for search results only
       if (!draft) {
         const allPublished = postsData
-          .filter(post => post.published)
+          .filter(post => isPublishedPost(post))
           .sort((a, b) => {
             const tA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
             const tB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0
@@ -290,11 +290,14 @@ export default function Posts({ draft = false }: PostsProps) {
                     to={`/posts/${post.slug}`}
                     className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
                   >
-                    <img
-                      src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.tweetMetadata?.images?.[0] ?? '')}
-                      alt=""
-                      className="w-full aspect-square object-cover rounded md:w-[148px] md:h-[148px]"
-                    />
+                    <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                      <img
+                        src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.tweetMetadata?.images?.[0] ?? '')}
+                        alt=""
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                        style={{ objectPosition: 'center center' }}
+                      />
+                    </div>
                   </Link>
                 )}
                 <div className="order-2 md:order-1 min-w-0 flex-1">

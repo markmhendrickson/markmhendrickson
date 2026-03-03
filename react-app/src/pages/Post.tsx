@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import publicPostsData from '@cache/posts.json'
 import { usePostSSR } from '@/contexts/PostSSRContext'
-import { stripLinksFromExcerpt, getPostImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter } from '@/lib/utils'
+import { stripLinksFromExcerpt, getPostImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
@@ -165,7 +165,7 @@ async function loadPostsDataForSlug(includeDrafts: boolean): Promise<Post[]> {
       if (!post.slug) continue
       const existing = mergedBySlug.get(post.slug)
       // If private cache has a draft but public cache has published content, prefer published.
-      if (!existing || (!existing.published && post.published)) {
+      if (!existing || (!isPublishedPost(existing) && isPublishedPost(post))) {
         mergedBySlug.set(post.slug, post)
       }
     }
@@ -186,7 +186,7 @@ interface Post {
   shareDescription?: string
   /** Optional path (under public/images/) to a 1200x630, under 600KB og:image for this post (e.g. og/foo.jpg). */
   ogImage?: string
-  published: boolean
+  published: boolean | number | string
   publishedDate?: string
   updatedDate?: string
   category?: string
@@ -195,7 +195,7 @@ interface Post {
   heroImage?: string
   heroImageSquare?: string
   heroImageStyle?: string
-  excludeFromListing?: boolean
+  excludeFromListing?: boolean | number | string
   showMetadata?: boolean
   body?: string
   /** Draft share tweet (dev only, from .tweet.md / parquet). */
@@ -650,7 +650,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const publishedOnly = useMemo(
     () =>
       (publicPostsData as Post[])
-        .filter((p) => p.published === true && !p.excludeFromListing)
+        .filter((p) => isPublishedPost(p) && !isExcludedFromListing(p))
         .sort(publishedListOrder),
     []
   )
@@ -698,7 +698,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         }
 
         // Check if post is published (or if we're in dev mode)
-        if (!postMeta.published && !isDev) {
+        if (!isPublishedPost(postMeta) && !isDev) {
           // Only navigate away if we have a slug param (not for home route)
           if (slugParam) {
             navigate('/posts', { replace: true })
@@ -715,7 +715,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         const loadMarkdownContent = async (): Promise<string> => {
           const loadSlug = canonicalSlug ?? slug
           let markdownModule: { default: string }
-          if (!postMeta.published && isDev) {
+          if (!isPublishedPost(postMeta) && isDev) {
             try {
               markdownModule = await import(`@/content/posts/drafts/${loadSlug}.md?raw`) as { default: string }
             } catch (draftError) {
@@ -741,7 +741,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           const loadSlug = canonicalSlug ?? slug
           try {
             let mod: { default: string }
-            if (!postMeta.published && isDev) {
+            if (!isPublishedPost(postMeta) && isDev) {
               try {
                 mod = await import(`@/content/posts/drafts/${loadSlug}.summary.md?raw`) as { default: string }
               } catch {
@@ -775,7 +775,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           const loadSlug = canonicalSlug ?? slug
           try {
             let mod: { default: string }
-            if (!postMeta.published && isDev) {
+            if (!isPublishedPost(postMeta) && isDev) {
               try {
                 mod = await import(`@/content/posts/drafts/${loadSlug}.postscript.md?raw`) as { default: string }
               } catch {
@@ -809,7 +809,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           setSummaryContent(summaryFromMd ?? undefined)
           const postscriptFromMd = await tryLoadPostscriptMarkdown()
           setPostscriptContent(postscriptFromMd ?? undefined)
-          if (!postMeta.published) {
+          if (!isPublishedPost(postMeta)) {
             const tweetFromCache = (postMeta as Post).shareTweet?.trim()
             const tweetFromMd = await tryLoadTweetMarkdown()
             setTweetContent((tweetFromCache || tweetFromMd) ?? undefined)
@@ -977,7 +977,8 @@ export default function Post({ slug: slugProp }: PostProps) {
                   <img
                     src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? '')}
                     alt=""
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-cover object-center min-w-0 min-h-0"
+                    style={{ objectPosition: 'center center' }}
                   />
                 </div>
               )}
@@ -1176,9 +1177,9 @@ export default function Post({ slug: slugProp }: PostProps) {
 
           {post.heroImageStyle === 'float-right' && <div className="clear-both"></div>}
 
-          {(post.published || post.showMetadata !== false) && (
+          {(isPublishedPost(post) || post.showMetadata !== false) && (
             <footer className="mt-12 pt-8 border-t border-[#e0e0e0]">
-              {!post.published && isDev && (
+              {!isPublishedPost(post) && isDev && (
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="px-2 py-1 text-[11px] font-medium bg-yellow-100 text-yellow-800 rounded">
                     Draft
@@ -1305,7 +1306,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           </div>
         )}
 
-        {!isHome && !post?.excludeFromListing && (prevPost || nextPost) && (
+        {!isHome && !isExcludedFromListing(post) && (prevPost || nextPost) && (
           <nav
             className="mt-8 flex flex-col gap-4"
             aria-label="Previous and next posts"
@@ -1337,11 +1338,14 @@ export default function Post({ slug: slugProp }: PostProps) {
                     </AlertDescription>
                   </div>
                   {(nextPost.heroImage || nextPost.tweetMetadata?.images?.[0]) && (
-                    <img
-                      src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
-                      alt=""
-                      className="shrink-0 w-[148px] h-[148px] rounded object-cover"
-                    />
+                    <div className="shrink-0 w-[148px] h-[148px] rounded overflow-hidden flex items-center justify-center">
+                      <img
+                        src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
+                        alt=""
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                        style={{ objectPosition: 'center center' }}
+                      />
+                    </div>
                   )}
                 </Alert>
               </Link>
@@ -1373,11 +1377,14 @@ export default function Post({ slug: slugProp }: PostProps) {
                     </AlertDescription>
                   </div>
                   {(prevPost.heroImage || prevPost.tweetMetadata?.images?.[0]) && (
-                    <img
-                      src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
-                      alt=""
-                      className="shrink-0 w-[148px] h-[148px] rounded object-cover"
-                    />
+                    <div className="shrink-0 w-[148px] h-[148px] rounded overflow-hidden flex items-center justify-center">
+                      <img
+                        src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
+                        alt=""
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                        style={{ objectPosition: 'center center' }}
+                      />
+                    </div>
                   )}
                 </Alert>
               </Link>
