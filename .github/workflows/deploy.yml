@@ -38,8 +38,13 @@ jobs:
         run: |
           mkdir -p data/tmp
           if [ -n "${NEOTOMA_WEBSITE_EXPORT_JSON:-}" ]; then
-            printf '%s' "$NEOTOMA_WEBSITE_EXPORT_JSON" | base64 --decode > data/tmp/neotoma_website_export.json
-            echo "Using Neotoma export from secret."
+            # Never fail deploy on malformed secret; fall back to committed cache instead.
+            if printf '%s' "$NEOTOMA_WEBSITE_EXPORT_JSON" | base64 --decode > data/tmp/neotoma_website_export.json 2>/dev/null; then
+              echo "Using Neotoma export from secret."
+            else
+              rm -f data/tmp/neotoma_website_export.json
+              echo "NEOTOMA_WEBSITE_EXPORT_JSON is not valid base64; using committed cache."
+            fi
           else
             echo "NEOTOMA_WEBSITE_EXPORT_JSON secret not set; using committed cache."
           fi
