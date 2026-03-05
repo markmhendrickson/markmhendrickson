@@ -1,0 +1,5 @@
+- Spain is facing a structural housing pressure problem, not a temporary cycle.
+- Migration demand can support growth, but unmanaged demand can accelerate displacement.
+- Spain needs a coordinated policy package that links housing supply, rental enforcement, and migration design.
+- Local legitimacy depends on visible reinvestment in neighborhoods under the most pressure.
+- The goal is disciplined openness that protects social cohesion while preserving economic dynamism.

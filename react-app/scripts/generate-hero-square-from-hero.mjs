@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Create {slug}-hero-square.png from {slug}-hero.png by fitting into a square with black background.
- * Matches hero conceptual style: same line-art, contain fit, position bottom, solid black fill.
+ * Create {slug}-hero-square.png from {slug}-hero.png using a centered square crop.
+ * Prior behavior used bottom-aligned contain, which pushed focal content low in listings.
  * Usage: node scripts/generate-hero-square-from-hero.mjs <slug>
  */
 import sharp from 'sharp'
@@ -29,9 +29,8 @@ if (!existsSync(heroPath)) {
 const outPath = join(postsImagesDir, `${slug}-hero-square.png`)
 const buffer = await sharp(heroPath)
   .resize(SIZE, SIZE, {
-    fit: 'contain',
-    position: 'bottom',
-    background: { r: 0, g: 0, b: 0, alpha: 1 }
+    fit: 'cover',
+    position: 'attention'
   })
   .png()
   .toBuffer()

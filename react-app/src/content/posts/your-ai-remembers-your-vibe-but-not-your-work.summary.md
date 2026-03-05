@@ -1,0 +1,5 @@
+- Platform memory stores profile snippets, not work detail. Claude and ChatGPT remember that you care about fitness or finance but not the specific data, tasks, or decisions from your conversations.
+- Portability claims break under testing. ChatGPT exported stale entries from 2024 on the first attempt, refused the same prompt on subsequent tries, and blocked export entirely from project-based chats.
+- The market is collapsing two things under one word. Convenience memory smooths chat interactions. Durable operational memory is typed, auditable state that survives tool changes and workflow boundaries. Both matter but they are not interchangeable.
+- Neotoma stores structured entities with provenance, not natural language summaries. Every fact is typed, traceable, and accessible to any MCP-compatible agent without export steps or platform gating.
+- Truth layers will appear underneath the chat layer. Platform memory improves conversation quality but does not yet provide a dependable substrate for cross-context, long-horizon agent work.

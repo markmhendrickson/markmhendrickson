@@ -51,13 +51,23 @@ export function Layout({ children }: LayoutProps) {
   const [postTitle, setPostTitle] = useState<string | null>(null)
   const isHome = location.pathname === '/'
 
-  // Load post title if we're on a post page (resolve primary or alternative slug)
+  // Load post title if we're on a post page (resolve primary or alternative slug).
+  // In dev, also resolve from private cache so draft post titles show in the breadcrumb.
   useEffect(() => {
     if (params.slug) {
       const publicMap = buildSlugToPostMap(publicPostsData as Post[])
-      let post = publicMap.get(params.slug)
-
-      setPostTitle(post ? post.title : null)
+      const post = publicMap.get(params.slug)
+      if (post) {
+        setPostTitle(post.title)
+      } else if (import.meta.env.DEV) {
+        import('@cache/posts.private.json').then((mod: { default: Post[] }) => {
+          const privateMap = buildSlugToPostMap(mod.default)
+          const draftPost = privateMap.get(params.slug!)
+          setPostTitle(draftPost ? draftPost.title : null)
+        }).catch(() => setPostTitle(null))
+      } else {
+        setPostTitle(null)
+      }
     } else {
       setPostTitle(null)
     }

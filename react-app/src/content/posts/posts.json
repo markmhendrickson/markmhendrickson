@@ -19,6 +19,24 @@
     "updatedDate": "2026-02-25"
   },
   {
+    "slug": "your-ai-remembers-your-vibe-but-not-your-work",
+    "alternativeSlugs": ["when-platform-memory-fails-under-context-shifts"],
+    "title": "Your AI remembers your vibe but not your work",
+    "excerpt": "Claude and ChatGPT now offer memory for free, but what they store are profile snippets, not the details of what you actually worked on. My testing showed stale exports, one-shot access, and platform-gated portability. That is why I am building a truth layer underneath.",
+    "published": true,
+    "publishedDate": "2026-03-05",
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "neotoma",
+      "truth-layer",
+      "agent-memory",
+      "build-in-public"
+    ],
+    "createdDate": "2026-03-05",
+    "updatedDate": "2026-03-05"
+  },
+  {
     "slug": "neotoma-developer-release",
     "title": "Neotoma is now available as developer release",
     "excerpt": "Structured agent memory you can inspect, replay, and trust. Open-source, local-first, available via npm for ChatGPT, Claude, and Cursor.",
@@ -219,7 +237,7 @@
   {
     "slug": "professional-mission",
     "title": "Mark Hendrickson",
-    "excerpt": "Building structured memory for the agentic era",
+    "excerpt": "Building sovereign systems at the intersection of crypto and AI",
     "published": true,
     "publishedDate": "2025-01-01",
     "category": "essay",
@@ -745,5 +763,22 @@
     ],
     "createdDate": "2026-02-19",
     "updatedDate": "2026-02-19"
+  },
+  {
+    "slug": "spain-at-a-crossroads-on-housing-and-migration",
+    "title": "Spain is at a crossroads on housing and migration",
+    "excerpt": "Spain can remain open and still protect affordability, but only if housing policy and migration policy are designed as one system.",
+    "published": false,
+    "category": "essay",
+    "readTime": 5,
+    "tags": [
+      "spain",
+      "housing",
+      "migration",
+      "policy",
+      "gentrification"
+    ],
+    "createdDate": "2026-02-27",
+    "updatedDate": "2026-02-27"
   }
 ]

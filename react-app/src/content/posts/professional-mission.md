@@ -1,6 +1,6 @@
 I'm building [Neotoma](https://neotoma.io), a structured memory layer for AI agents. The core problem: agents are increasingly stateful, handling tasks, contacts, transactions, and commitments over time, but their memory is built for retrieval, not truth. It drifts between sessions, overwrites without history, and cannot be traced or replayed. Neotoma treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries. Local-first, cross-platform via MCP, and entirely user-controlled.
 
-The principle underneath is the same one that's driven all of my work: people should control their own data, memory, and digital infrastructure, not rent it from platforms that optimize for engagement over truth.
+The principle underneath is the same one that's driven all of my work: people should control their own data, memory, money, and digital infrastructure, not cede it to platforms that optimize for engagement over truth.
 
 I work as a solo founder in Barcelona, operating with AI agents as a team rather than as tools. Every workflow, email, finance, content, and product, runs through a shared repo and a shared source of truth. The agents follow the same playbook I do. That only works because the state layer is explicit and inspectable, which is exactly the contract Neotoma is designed to provide.
 

@@ -971,13 +971,13 @@ export default function Post({ slug: slugProp }: PostProps) {
             to={`/posts/${latestPost.slug}`}
             className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
           >
-            <Alert className="mb-8 flex flex-col md:flex-row items-stretch gap-4 cursor-pointer">
-              {latestPost.heroImage && (
-                <div className="order-1 md:order-2 w-full aspect-[2/1] md:w-[148px] md:h-[148px] md:aspect-auto md:shrink-0 rounded overflow-hidden flex items-center justify-center">
+            <Alert className="mb-8 flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
+              {(latestPost.heroImage || latestPost.tweetMetadata?.images?.[0]) && (
+                <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                   <img
-                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? '')}
+                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
                     alt=""
-                    className="w-full h-full object-cover object-center min-w-0 min-h-0"
+                    className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                     style={{ objectPosition: 'center center' }}
                   />
                 </div>
@@ -1090,10 +1090,12 @@ export default function Post({ slug: slugProp }: PostProps) {
                 ),
                 p: ({ children, ...props }: React.ComponentPropsWithoutRef<'p'>) => {
                   const arr = React.Children.toArray(children)
-                  const allImg = arr.length >= 1 && arr.every((c) => React.isValidElement(c) && (c.type === 'img' || c.type === 'button'))
+                  const nonEmpty = arr.filter((c) => !(typeof c === 'string' && c.trim() === ''))
+                  const allImg = nonEmpty.length >= 1 && nonEmpty.every((c) => React.isValidElement(c) && (c.type === 'img' || c.type === 'button'))
                   if (allImg) {
+                    const cols = nonEmpty.length === 2 ? 2 : 3
                     return (
-                      <div className="grid grid-cols-3 gap-3 my-4" {...props}>
+                      <div className={`grid gap-3 my-4 ${cols === 2 ? 'grid-cols-2' : 'grid-cols-3'}`} {...props}>
                         {children}
                       </div>
                     )
@@ -1103,11 +1105,35 @@ export default function Post({ slug: slugProp }: PostProps) {
                 img: ({ src, alt, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
                   const index = postImages.findIndex((im) => im.src === src)
                   const safeIndex = index >= 0 ? index : 0
+                  const showFullFrame = post.slug === 'your-ai-remembers-your-vibe-but-not-your-work'
                   if (postImages.length === 0) {
                     return (
-                      <div className="aspect-square w-full overflow-hidden rounded-lg">
-                        <img src={src} alt={alt ?? ''} className="w-full h-full object-cover block" loading="lazy" {...props} />
+                      <div className={showFullFrame ? 'w-full' : 'aspect-square w-full overflow-hidden rounded-lg'}>
+                        <img
+                          src={src}
+                          alt={alt ?? ''}
+                          className={showFullFrame ? 'w-full h-auto max-h-[85vh] object-contain block rounded-lg' : 'w-full h-full object-cover block'}
+                          loading="lazy"
+                          {...props}
+                        />
                       </div>
+                    )
+                  }
+                  if (showFullFrame) {
+                    return (
+                      <button
+                        type="button"
+                        onClick={() => openImageViewer(safeIndex)}
+                        className="w-full text-left rounded-2xl overflow-hidden border border-[#e0e0e0] hover:border-[#999] p-4 bg-[#fafafa] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors cursor-zoom-in"
+                      >
+                        <img
+                          src={src}
+                          alt={alt ?? ''}
+                          className="w-full h-auto max-h-[85vh] object-contain block rounded-2xl"
+                          loading="lazy"
+                          {...props}
+                        />
+                      </button>
                     )
                   }
                   return (
@@ -1316,8 +1342,18 @@ export default function Post({ slug: slugProp }: PostProps) {
                 to={`/posts/${nextPost.slug}`}
                 className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
               >
-                <Alert className="flex flex-row items-stretch gap-4 cursor-pointer h-full">
-                  <div className="min-w-0 flex-1 flex flex-col gap-1">
+                <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
+                  {(nextPost.heroImage || nextPost.tweetMetadata?.images?.[0]) && (
+                    <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                      <img
+                        src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
+                        alt=""
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                        style={{ objectPosition: 'center center' }}
+                      />
+                    </div>
+                  )}
+                  <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
                     <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
                       Next post
                     </AlertTitle>
@@ -1337,16 +1373,6 @@ export default function Post({ slug: slugProp }: PostProps) {
                       </span>
                     </AlertDescription>
                   </div>
-                  {(nextPost.heroImage || nextPost.tweetMetadata?.images?.[0]) && (
-                    <div className="shrink-0 w-[148px] h-[148px] rounded overflow-hidden flex items-center justify-center">
-                      <img
-                        src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
-                        alt=""
-                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
-                        style={{ objectPosition: 'center center' }}
-                      />
-                    </div>
-                  )}
                 </Alert>
               </Link>
             )}
@@ -1355,8 +1381,18 @@ export default function Post({ slug: slugProp }: PostProps) {
                 to={`/posts/${prevPost.slug}`}
                 className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
               >
-                <Alert className="flex flex-row items-stretch gap-4 cursor-pointer h-full">
-                  <div className="min-w-0 flex-1 flex flex-col gap-1">
+                <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
+                  {(prevPost.heroImage || prevPost.tweetMetadata?.images?.[0]) && (
+                    <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                      <img
+                        src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
+                        alt=""
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                        style={{ objectPosition: 'center center' }}
+                      />
+                    </div>
+                  )}
+                  <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
                     <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
                       Previous post
                     </AlertTitle>
@@ -1376,16 +1412,6 @@ export default function Post({ slug: slugProp }: PostProps) {
                       </span>
                     </AlertDescription>
                   </div>
-                  {(prevPost.heroImage || prevPost.tweetMetadata?.images?.[0]) && (
-                    <div className="shrink-0 w-[148px] h-[148px] rounded overflow-hidden flex items-center justify-center">
-                      <img
-                        src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
-                        alt=""
-                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
-                        style={{ objectPosition: 'center center' }}
-                      />
-                    </div>
-                  )}
                 </Alert>
               </Link>
             )}

@@ -4,7 +4,7 @@ excerpt: Structured agent memory you can inspect, replay, and trust. Open-source
 published: true
 published_date: "2026-02-26"
 ---
-Neotoma is a structured memory layer for AI agents. It treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries. This developer release is available now. Install via npm, connect your AI tools via MCP, and run it on your machine.
+The Neotoma is a structured memory layer for AI agents. It treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries. This developer release is available now. Install via npm, connect your AI tools via MCP, and run it on your machine.
 
 Docs and setup: [neotoma.io](https://neotoma.io). Repo: [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma).
 
@@ -40,14 +40,14 @@ You upload documents or share information in agent conversations. Neotoma resolv
 
 The graph is execution-agnostic. It models what exists, not how work gets done. The same data is available from Cursor, ChatGPT, Claude, or any MCP client. When you [switch tools](/posts/openclaw-and-the-truth-layer), the memory doesn't drift.
 
-What it is not. Not a note-taking app or "second brain." Not provider-controlled memory. Not a vector store or RAG layer. Not an autonomous agent. It's schema-first structured state you control.
+It's not a note-taking app or "second brain." Not provider-controlled memory. Not a vector store or RAG layer. Not an autonomous agent. It's schema-first structured state you control.
 
 ## What this release includes
 
 This developer release exposes the core contract:
 
 - **CLI** for humans.
-- **MCP** for agents (ChatGPT, Claude, Cursor, Claude Code).
+- **MCP** for agents (ChatGPT, Claude, Cursor, Claude Code); agents use MCP as backup.
 - **OpenAPI** as the single source of truth.
 
 Concrete functionality:
@@ -90,6 +90,12 @@ neotoma # start interactive session
 Full setup, API docs, MCP configuration, and schema reference: [neotoma.io](https://neotoma.io).
 
 Repo: [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma).
+
+## Takeaways
+
+- **Privacy-first.** Your data on your machine; local-only, no cloud, never used for training.
+- **CLI, MCP, OpenAPI.** One contract for humans and agents.
+- **Schema-first structured state.** Typed entities, full provenance, deterministic queries.
 
 ## Try it, break it, tell me
 
