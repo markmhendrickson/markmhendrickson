@@ -17,6 +17,8 @@ Both Claude and ChatGPT use the word "memory" in a way that leads people to assu
 
 What these systems store is closer to condensed profile snippets. They observe your conversations and distill a handful of facts about who you are and how you prefer to work. Claude seems to do this best. For every chat, it produces a few observations, mostly about your identity as a professional, your style preferences, how you like to interact with AI. ChatGPT, at least in my experience, tends to save these snippets only when you explicitly prompt it to.
 
+![Claude memory export showing profile-level snippets with no dates](/images/posts/your-ai-remembers-your-vibe-but-not-your-work-claude-memory-export.png)
+
 These features do not capture granular detail about the things you have actually worked on.
 
 If I have a conversation about my fitness routine, the exercises I have been doing, the body composition stats I have been tracking, the system will summarize that I am "into fitness." It will not store the actual data about my health evolution. If I work through a financial analysis or a set of project tasks, the system might note that I care about those domains. It will not retain the specifics.
