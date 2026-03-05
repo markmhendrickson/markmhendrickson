@@ -59,7 +59,7 @@ The second is retrieval-augmented memory. Some platforms already do this to some
 
 The third is durable operational memory. It is typed, deterministic, and auditable state that can survive tool changes, platform switches, and workflow boundaries. It is what you need when agents start handling recurring tasks, contacts, commitments, and transactions on your behalf.
 
-All three matter. They are not interchangeable. I have written separately about [the truth problem](/posts/agent-memory-truth-problem) that emerges when the market treats them as one.
+All three matter. They are not interchangeable, and collapsing them into one word creates a [truth problem](/posts/agent-memory-truth-problem) as soon as you depend on any of them for real work.
 
 Convenience memory wins the chat experience. Retrieval wins exploratory, one-off questions. Durable memory wins the state layer underneath.
 

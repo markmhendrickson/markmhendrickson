@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import publicPostsData from '@cache/posts.json'
 import { usePostSSR } from '@/contexts/PostSSRContext'
-import { stripLinksFromExcerpt, getPostImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
+import { stripLinksFromExcerpt, getPostImageSrc, getZoomImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
@@ -566,6 +566,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   }, [content])
 
   const [imageViewer, setImageViewer] = useState<{ open: boolean; index: number }>({ open: false, index: 0 })
+  const [zoomFallbackIndexes, setZoomFallbackIndexes] = useState<Set<number>>(new Set())
   const [copyLinkSuccess, setCopyLinkSuccess] = useState(false)
   const timelineEmbedRef = useRef<HTMLDivElement>(null)
 
@@ -609,7 +610,10 @@ export default function Post({ slug: slugProp }: PostProps) {
   const openImageViewer = (index: number) => {
     setImageViewer({ open: true, index })
   }
-  const closeImageViewer = () => setImageViewer((v) => ({ ...v, open: false }))
+  const closeImageViewer = () => {
+    setImageViewer((v) => ({ ...v, open: false }))
+    setZoomFallbackIndexes(new Set())
+  }
   const goPrev = () => setImageViewer((v) => ({ ...v, index: Math.max(0, v.index - 1) }))
   const goNext = () => setImageViewer((v) => ({ ...v, index: Math.min(postImages.length - 1, v.index + 1) }))
 
@@ -1334,9 +1338,14 @@ export default function Post({ slug: slugProp }: PostProps) {
             )}
             <div className="max-w-[90vw] max-h-[90vh] flex items-center justify-center p-12" onClick={(e) => e.stopPropagation()}>
               <img
-                src={postImages[imageViewer.index].src}
+                src={
+                  zoomFallbackIndexes.has(imageViewer.index)
+                    ? postImages[imageViewer.index].src
+                    : getZoomImageSrc(postImages[imageViewer.index].src)
+                }
                 alt={postImages[imageViewer.index].alt}
                 className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded"
+                onError={() => setZoomFallbackIndexes((s) => new Set(s).add(imageViewer.index))}
               />
             </div>
             <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">

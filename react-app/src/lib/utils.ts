@@ -14,6 +14,12 @@ export function getPostImageSrc(pathOrUrl: string): string {
   return `/images/posts/${pathOrUrl}`
 }
 
+/** Path to use for zoom/lightbox when an -original asset exists (e.g. .../name.png -> .../name-original.png). */
+export function getZoomImageSrc(embedPath: string): string {
+  if (!embedPath || typeof embedPath !== 'string') return embedPath
+  return embedPath.replace(/(\.(png|jpg|jpeg|gif|webp))$/i, '-original$1')
+}
+
 /** Return markdown summary with at most the first N bullet points (key takeaways limit). Default 5; pass maxBullets to allow more for specific posts (e.g. 6 for six-agentic-trends-betting-on). */
 export function limitSummaryToFiveBullets(summary: string, maxBullets: number = 5): string {
   if (!summary || typeof summary !== 'string') return summary
