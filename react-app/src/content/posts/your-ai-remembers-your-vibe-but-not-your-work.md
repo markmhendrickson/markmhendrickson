@@ -63,7 +63,7 @@ Convenience memory wins the chat experience. Retrieval wins exploratory, one-off
 
 ## How Neotoma handles this differently
 
-I am building Neotoma for the second category. I have written before about [building a truth layer for persistent agent memory](/posts/truth-layer-agent-memory).
+I am building Neotoma for the third category. I have written before about [building a truth layer for persistent agent memory](/posts/truth-layer-agent-memory).
 
 The core design difference is that Neotoma treats memory as explicit, user-owned data infrastructure rather than an opaque byproduct of chat interactions.
 

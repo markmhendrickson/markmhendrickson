@@ -1091,11 +1091,24 @@ export default function Post({ slug: slugProp }: PostProps) {
                 p: ({ children, ...props }: React.ComponentPropsWithoutRef<'p'>) => {
                   const arr = React.Children.toArray(children)
                   const nonEmpty = arr.filter((c) => !(typeof c === 'string' && c.trim() === ''))
-                  const allImg = nonEmpty.length >= 1 && nonEmpty.every((c) => React.isValidElement(c) && (c.type === 'img' || c.type === 'button'))
+                  const allImg = nonEmpty.length >= 1 && nonEmpty.every((c) => {
+                    if (!React.isValidElement(c)) return false
+                    const elementProps = c.props as { src?: string } | undefined
+                    return c.type === 'img' || c.type === 'button' || typeof elementProps?.src === 'string'
+                  })
                   if (allImg) {
-                    const cols = nonEmpty.length === 2 ? 2 : 3
+                    if (nonEmpty.length === 1) {
+                      return <p {...props}>{children}</p>
+                    }
+                    if (nonEmpty.length === 2) {
+                      return (
+                        <div className="grid grid-cols-2 gap-3 my-4" {...props}>
+                          {children}
+                        </div>
+                      )
+                    }
                     return (
-                      <div className={`grid gap-3 my-4 ${cols === 2 ? 'grid-cols-2' : 'grid-cols-3'}`} {...props}>
+                      <div className="grid grid-cols-3 gap-3 my-4" {...props}>
                         {children}
                       </div>
                     )
