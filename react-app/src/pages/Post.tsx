@@ -685,9 +685,16 @@ export default function Post({ slug: slugProp }: PostProps) {
   }, [publishedOnly, resolvedCanonicalSlug])
 
   useEffect(() => {
+    let isCancelled = false
+
     const loadPost = async () => {
       try {
+        setLoading(true)
+        setExcerptFromMd(undefined)
+        setTitleFromMd(undefined)
+
         const postsData: Post[] = await loadPostsDataForSlug(isDev)
+        if (isCancelled) return
 
         const slugToPost = buildSlugToPostMap(postsData)
         const postMeta = slug ? slugToPost.get(slug) ?? postsData.find(p => p.slug === slug) : undefined
@@ -804,18 +811,24 @@ export default function Post({ slug: slugProp }: PostProps) {
           try {
             const raw = await loadMarkdownContent()
             const fm = parseFrontmatter(raw)
-            if (fm.excerpt !== undefined) setExcerptFromMd(fm.excerpt)
-            if (fm.title !== undefined) setTitleFromMd(fm.title)
+            if (isCancelled) return
+            setExcerptFromMd(fm.excerpt !== undefined ? fm.excerpt : undefined)
+            setTitleFromMd(fm.title !== undefined ? fm.title : undefined)
           } catch {
-            // ignore
+            if (isCancelled) return
+            setExcerptFromMd(undefined)
+            setTitleFromMd(undefined)
           }
           const summaryFromMd = await tryLoadSummaryMarkdown()
+          if (isCancelled) return
           setSummaryContent(summaryFromMd ?? undefined)
           const postscriptFromMd = await tryLoadPostscriptMarkdown()
+          if (isCancelled) return
           setPostscriptContent(postscriptFromMd ?? undefined)
           if (!isPublishedPost(postMeta)) {
             const tweetFromCache = (postMeta as Post).shareTweet?.trim()
             const tweetFromMd = await tryLoadTweetMarkdown()
+            if (isCancelled) return
             setTweetContent((tweetFromCache || tweetFromMd) ?? undefined)
           } else {
             setTweetContent(undefined)
@@ -823,6 +836,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         } else {
           setSummaryContent(undefined)
           const postscriptFromMd = await tryLoadPostscriptMarkdown()
+          if (isCancelled) return
           setPostscriptContent(postscriptFromMd ?? undefined)
           setTweetContent(undefined)
           // Production: parquet cache takes priority
@@ -830,8 +844,10 @@ export default function Post({ slug: slugProp }: PostProps) {
             content = postMeta.body
           } else {
             content = await tryLoadMarkdown()
+            if (isCancelled) return
           }
         }
+        if (isCancelled) return
 
         if (content) {
           setContent(content)
@@ -850,18 +866,24 @@ export default function Post({ slug: slugProp }: PostProps) {
           contentParagraphsRef.current = []
         }
       } catch (error) {
+        if (isCancelled) return
         console.error('Error loading post:', error)
         // Only navigate away if we have a slug param (not for home route)
         if (slugParam) {
           navigate('/posts', { replace: true })
         }
       } finally {
+        if (isCancelled) return
         setLoading(false)
       }
     }
 
     if (slug) {
       loadPost()
+    }
+
+    return () => {
+      isCancelled = true
     }
   }, [slug, slugParam, navigate, isDev])
 
