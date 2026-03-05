@@ -13,7 +13,7 @@ The harder question is what "memory" actually means once you depend on it for re
 
 ## What memory actually stores
 
-Both Claude and ChatGPT use the word "memory" in a way that leads people to assume full retention of meaningful detail across conversations. The reality is different. [Agent memory has a truth problem](/posts/agent-memory-truth-problem): retrieval breaks on completeness, consistency, and provenance.
+Both Claude and ChatGPT use the word "memory" in a way that leads people to assume full retention of meaningful detail across conversations. The reality is different. What these platforms call memory is closer to a profile than a record of what you worked on.
 
 What these systems store is closer to condensed profile snippets. They observe your conversations and distill a handful of facts about who you are and how you prefer to work. Claude seems to do this best. For every chat, it produces a few observations, mostly about your identity as a professional, your style preferences, how you like to interact with AI. ChatGPT, at least in my experience, tends to save these snippets only when you explicitly prompt it to.
 
