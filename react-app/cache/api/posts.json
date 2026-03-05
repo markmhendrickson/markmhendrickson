@@ -23,7 +23,11 @@
       "heroImage": "your-ai-remembers-your-vibe-but-not-your-work-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "your-ai-remembers-your-vibe-but-not-your-work-hero-square.png",
-      "ogImage": "og/your-ai-remembers-your-vibe-but-not-your-work-1200x630.jpg"
+      "ogImage": "og/your-ai-remembers-your-vibe-but-not-your-work-1200x630.jpg",
+      "alternativeSlugs": [
+        "when-platform-memory-fails-under-context-shifts",
+        "ai-remembers-vibe-not-work"
+      ]
     },
     {
       "slug": "neotoma-developer-release",
