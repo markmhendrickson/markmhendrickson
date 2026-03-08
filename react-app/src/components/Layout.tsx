@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
-import { Home, FileText, Share2, Clock, Bot } from 'lucide-react'
+import { Home, FileText, Share2, Clock, Bot, CalendarPlus } from 'lucide-react'
 import publicPostsData from '@cache/posts.json'
 
 interface Post {
@@ -29,6 +29,7 @@ const routeNames: Record<string, string> = {
   'timeline': 'Timeline',
   'newsletter': 'Newsletter',
   'links': 'Links',
+  'schedule': 'Meet',
   'agent': 'Agent',
   'test-error': 'Test Error',
 }
@@ -38,6 +39,7 @@ const menuItems = [
   { path: '/posts', label: 'Posts', icon: FileText },
   { path: '/timeline', label: 'Timeline', icon: Clock },
   { path: '/agent', label: 'Agent', icon: Bot },
+  { path: '/schedule', label: 'Meet', icon: CalendarPlus },
   { path: '/links', label: 'Links', icon: Share2 },
 ]
 

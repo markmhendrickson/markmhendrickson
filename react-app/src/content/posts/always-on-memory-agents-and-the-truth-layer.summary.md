@@ -1,0 +1,5 @@
+- Google's Always-On Memory Agent validates that persistent agent memory is a real category. It ditches vector databases for LLM-only read/think/write over SQLite, with timer-based consolidation that finds connections across memories.
+- The two projects make opposite design choices on every axis: automatic vs explicit ingestion, LLM-driven vs deterministic extraction, consolidation that mutates memory vs immutable event-sourced truth, single-platform vs cross-platform MCP access.
+- The clearest distinction is role. The Always-On Memory Agent is an agent with its own reasoning loop. Neotoma is a substrate that stores deterministic state with provenance and lets agents reason on top.
+- When the agent is wrong, the distinction matters. Without a deterministic substrate underneath, the consolidation agent is the truth. With a truth layer, you can trace what the agent read, what it wrote, and revert.
+- Active consolidation and deterministic truth are complementary. A consolidation agent running on top of a truth layer via MCP gets pattern discovery with verifiable, auditable, rollback-capable state underneath.

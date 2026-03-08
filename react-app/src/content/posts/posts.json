@@ -2,7 +2,7 @@
   {
     "slug": "always-on-memory-agents-and-the-truth-layer",
     "title": "Always-on memory agents and the truth layer",
-    "excerpt": "Google open-sourced an always-on memory agent that ditches vector databases for LLM consolidation. The enterprise reaction focused on governance, not capability. That distinction maps to the core difference between memory that thinks and memory you can trust.",
+    "excerpt": "Google open-sourced an always-on memory agent that ditches vector databases for LLM consolidation. It validates persistent agent memory as a real category, but makes opposite architectural choices from a truth layer on every axis: automatic vs explicit, probabilistic vs deterministic, agent vs substrate.",
     "published": false,
     "category": "essay",
     "readTime": 7,
