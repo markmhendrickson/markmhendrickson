@@ -1,16 +1,16 @@
-A Google PM [open-sourced an Always-On Memory Agent](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/gemini/agents/always-on-memory-agent) last week as part of the GCP generative-ai repo. It is a persistent memory system that runs 24/7 as a background process, ingesting files, consolidating on a timer, and answering queries. No vector database. No embeddings. Just an LLM that reads, thinks, and writes structured memory to SQLite.
+[Shubham Saboo](https://x.com/Saboo_Shubham_) (a Google PM) [open-sourced an Always-On Memory Agent](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/gemini/agents/always-on-memory-agent) last week as part of the GCP generative-ai repo. [VentureBeat covered it](https://venturebeat.com/orchestration/google-pm-open-sources-always-on-memory-agent-ditching-vector-databases-for) as a signal about where agent infrastructure is headed. It is a persistent memory system that runs 24/7 as a background process, ingesting files, consolidating on a timer, and answering queries. No vector database. No embeddings. Just an LLM that reads, thinks, and writes structured memory to SQLite.
 
 The project validates something I have been building toward with [Neotoma](https://github.com/markmhendrickson/neotoma): persistent memory for agents is a real and growing need. But the two projects make opposite architectural choices. This post compares them.
 
 ## What the Always-On Memory Agent is
 
-The project is a reference implementation built with Google ADK (Agent Development Kit) and Gemini 3.1 Flash-Lite. It runs as a lightweight background process with three specialist subagents: one for ingestion, one for consolidation, and one for query.
+The project is a reference implementation built with [Google ADK (Agent Development Kit)](https://google.github.io/adk-docs/) and [Gemini 3.1 Flash-Lite](https://ai.google.dev/gemini-api/docs/models). It runs as a lightweight background process with three specialist subagents: one for ingestion, one for consolidation, and one for query.
 
-**Ingestion.** A file watcher monitors an inbox directory. Drop a file in and the agent picks it up. It also accepts input via HTTP POST. It handles text, images, audio, video, and PDF. The LLM extracts summaries, entities, topics, and importance scores.
+1. **Ingestion.** A file watcher monitors an inbox directory. Drop a file in and the agent picks it up. It also accepts input via HTTP POST. It handles text, images, audio, video, and PDF. The LLM extracts summaries, entities, topics, and importance scores.
 
-**Consolidation.** On a timer, the consolidation agent reads all stored memories, finds connections and patterns across them, compresses related items, and writes new synthesized insights. This runs in the background without prompting.
+2. **Consolidation.** On a timer, the consolidation agent reads all stored memories, finds connections and patterns across them, compresses related items, and writes new synthesized insights. This runs in the background without prompting.
 
-**Query.** You ask a question. The query agent reads relevant memories and consolidated insights, synthesizes an answer, and returns it with citations to specific memory records.
+3. **Query.** You ask a question. The query agent reads relevant memories and consolidated insights, synthesizes an answer, and returns it with citations to specific memory records.
 
 Storage is SQLite. No vector database, no embedding index. The architecture bets that an LLM can handle retrieval directly over structured text records without needing similarity search.
 
@@ -26,17 +26,35 @@ Storage is SQLite. No vector database, no embedding index. The architecture bets
 
 The Always-On Memory Agent and Neotoma share a goal (persistent agent memory) but diverge on almost every design decision. The divergences are not incidental. They reflect different starting premises about what memory should optimize for.
 
-**Automatic vs explicit ingestion.** The file watcher is automatic. Whatever lands in the inbox gets processed. There is no approval step, no schema-first validation, no user confirmation before the LLM extracts and stores. Neotoma takes the opposite approach: nothing enters the system unless an agent or user explicitly writes it through MCP. For personal notes, automatic ingestion is convenient. For anything with privacy or compliance requirements, explicit control is the safer default.
+### Automatic vs explicit ingestion
 
-**LLM-driven vs deterministic extraction.** The Always-On Memory Agent uses the LLM for everything: extracting entities, assigning importance, generating summaries. Run the same extraction on the same file twice and the results may differ. Neotoma uses [schema-first deterministic extraction](/posts/truth-layer-agent-memory). Same input produces the same entities, the same canonical IDs, the same relationships. Optional LLM interpretation runs on top of that deterministic layer, not in place of it.
+The file watcher is automatic. Whatever lands in the inbox gets processed. There is no approval step, no schema-first validation, no user confirmation before the LLM extracts and stores. Neotoma takes the opposite approach: nothing enters the system unless an agent or user explicitly writes it through MCP. For personal notes, automatic ingestion is convenient. For anything with privacy or compliance requirements, explicit control is the safer default.
 
-**Consolidation vs immutable truth.** The consolidation agent decides what to merge, what connections to draw, and what to compress. It mutates memory over time. Old memories get absorbed into new synthesized insights. Neotoma does not consolidate. It appends. Every observation is immutable. History is event-sourced. If you need to see what changed, when, and why, the full trail is there. Nothing is overwritten or compressed away.
+### Who decides what to remember
 
-**Single-platform vs cross-platform.** The project is built on Gemini and Google ADK. Memory lives in a local SQLite file accessible only through this specific agent stack. Neotoma exposes memory through MCP, which means the same entities are accessible from ChatGPT, Claude, Cursor, and any other MCP-compatible tool. One memory layer, multiple consumers.
+Neotoma relies on the client agent to call memory storage. The agent you are talking to (ChatGPT, Claude, Cursor) decides what is worth remembering and how to structure it. When it concludes that a fact, contact, or task should persist, it invokes the store operation via MCP. The responsibility for "what to remember" stays in the agent layer, in the same process as your conversation.
 
-**No provenance vs full lineage.** Memory records in the Always-On Memory Agent contain summaries and extracted entities but do not trace back to the specific file, line, or session that produced them. If a consolidated insight is wrong, there is no audit trail to follow. In Neotoma, every field on every entity traces to a source observation. You can audit any fact back to where it came from.
+The Always-On Memory Agent splits that responsibility across specialist subagents. The ingestion agent decides what to extract from files. The consolidation agent decides what to merge and what connections to draw. The query agent decides what to return. "What is worth remembering" and "how" are distributed across these subagents, which run independently of the conversation. The user does not approve each decision. The subagents make them in the background.
 
-**Scale tradeoffs.** Without embeddings or a vector index, the system reads structured text records directly using the LLM. This works at small scale. As memory stores grow, the approach may not hold. Removing the vector DB does not remove retrieval design. It moves the complexity into the LLM context window. Neotoma uses structured queries over typed entities, which scale independently of LLM context limits.
+### LLM-driven vs deterministic extraction
+
+The Always-On Memory Agent uses the LLM for everything: extracting entities, assigning importance, generating summaries. Run the same extraction on the same file twice and the results may differ. Neotoma uses [schema-first deterministic extraction](/posts/truth-layer-agent-memory). Same input produces the same entities, the same canonical IDs, the same relationships. Optional LLM interpretation runs on top of that deterministic layer, not in place of it.
+
+### Consolidation vs immutable truth
+
+The consolidation agent decides what to merge, what connections to draw, and what to compress. It mutates memory over time. Old memories get absorbed into new synthesized insights. Neotoma does not consolidate. It appends. Every observation is immutable. History is event-sourced. If you need to see what changed, when, and why, the full trail is there. Nothing is overwritten or compressed away.
+
+### Single-platform vs cross-platform
+
+The project is built on Gemini and Google ADK. Memory lives in a local SQLite file accessible only through this specific agent stack. Neotoma exposes memory through MCP, which means the same entities are accessible from ChatGPT, Claude, Cursor, and any other MCP-compatible tool. One memory layer, multiple consumers.
+
+### No provenance vs full lineage
+
+Memory records in the Always-On Memory Agent contain summaries and extracted entities but do not trace back to the specific file, line, or session that produced them. If a consolidated insight is wrong, there is no audit trail to follow. In Neotoma, every field on every entity traces to a source observation. You can audit any fact back to where it came from.
+
+### Scale tradeoffs
+
+Without embeddings or a vector index, the system reads structured text records directly using the LLM. This works at small scale. As memory stores grow, the approach may not hold. Removing the vector DB does not remove retrieval design. It moves the complexity into the LLM context window. Neotoma uses structured queries over typed entities, which scale independently of LLM context limits.
 
 ## Substrate vs agent
 
@@ -48,11 +66,10 @@ This matters because of what happens when the agent is wrong. If the Always-On M
 
 With a truth layer underneath, you can trace what the agent read, when it read it, and what it wrote back. If the new insight is wrong, you can revert. The consolidation agent's output is an observation on top of deterministic state, not a mutation of it.
 
-A consolidation agent running on top of Neotoma via MCP is a valid pattern. The agent reads from the truth layer, finds connections, and writes new entities back. The difference is that the truth layer underneath maintains deterministic state, provenance, and rollback. The agent adds intelligence. The substrate maintains trust.
-
 | Dimension | Always-On Memory Agent | Truth layer (Neotoma) |
 |-----------|------------------------|------------------------|
 | Role | Agent with reasoning loop | Substrate with no agent behavior |
+| Who decides what to store | Specialist subagents (ingestion, consolidation) | Client agent (via MCP) |
 | Ingestion | Automatic (file watcher, API) | Explicit only (MCP, CLI, upload) |
 | Extraction | LLM-driven; probabilistic | Schema-first; deterministic |
 | Consolidation | Timer-based LLM consolidation | None; immutable truth, event-sourced updates |
@@ -62,11 +79,23 @@ A consolidation agent running on top of Neotoma via MCP is a valid pattern. The 
 | Rollback | No; memory is mutated by consolidation | Yes; append-only, versioned, revertible |
 | Scale model | LLM reads all records; bounded by context | Structured queries over typed entities |
 
+## How they could work together
+
+The two approaches are not mutually exclusive. A consolidation agent and a truth layer solve different problems. One finds patterns. The other maintains trust. The interesting architecture combines both.
+
+The sketch is straightforward. A consolidation agent (like the one in the Always-On Memory Agent) reads entities from a truth layer via MCP. It has access to the full structured state: typed entities, relationships, timelines, provenance. It runs its pattern-finding loop over that state, looking for connections, gaps, or insights the user did not ask for. When it finds something, it writes the result back to the truth layer as a new observation, tagged with its source entities and reasoning.
+
+The truth layer treats that insight the same way it treats any other write. It records it as an observation with full provenance: which entities the agent read, when, what it concluded. The insight becomes part of the entity graph. If the insight is wrong, you can see exactly what the agent consumed, trace the reasoning, and revert the observation without affecting the underlying entities it read from.
+
+This is different from how consolidation works in the Always-On Memory Agent today. There, the consolidation agent mutates memory directly. Old memories get absorbed into new synthesized records. The previous state is gone. If the synthesis was wrong, there is no separate layer to compare against.
+
+With a truth layer underneath, consolidation becomes a non-destructive operation. The agent adds a layer of interpretation on top of deterministic state. The state itself stays immutable. You get the benefits of active pattern discovery (the Always-On Memory Agent's strength) with the benefits of auditability and rollback (the truth layer's strength). Intelligence above, trust below.
+
 ## What this validates
 
-The Always-On Memory Agent is a reference implementation, not a product. It matters less as competition and more as confirmation. The demand for persistent, dynamic agent memory is real. "Vector DB plus RAG" is not the only retrieval model. The project signals that the industry is moving toward always-on memory systems that go beyond simple storage and retrieval.
+The Always-On Memory Agent is a reference implementation, not a product. What it confirms is that the demand for persistent, dynamic agent memory is real. "[Vector DB plus RAG](/posts/why-agent-memory-needs-more-than-rag)" is not the only retrieval model. The [structural trends driving this](/posts/six-agentic-trends-betting-on) are clear: agents are becoming stateful, errors are getting priced, and platforms remain opaque. The project signals that the industry is moving toward always-on memory systems that go beyond simple storage and retrieval.
 
-Where the two projects agree: passive memory is not enough. Where they disagree: whether the memory layer itself should reason, or whether reasoning should happen in a separate layer on top of deterministic state. That is the core question in agent memory architecture right now. The market will likely support both approaches. I expect the architecture converges on consolidation agents that think, running on top of truth layers you can trust.
+Where the two projects agree: passive memory is not enough. Where they disagree: whether the memory layer itself should reason, or whether reasoning should happen in a separate layer on top of deterministic state. That is a core question in agent memory architecture right now. The market will likely support both approaches. I expect the architecture may converge on consolidation agents that think, running on top of truth layers you can trust.
 
 ## What I'm building
 

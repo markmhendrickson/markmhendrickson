@@ -37,6 +37,7 @@ const STATIC_ROUTES = [
   '/posts',
   '/links',
   '/songs',
+  '/meet',
 ]
 
 function getPostSlugs() {
@@ -138,6 +139,24 @@ async function main() {
   fs.mkdirSync(path.join(distPath, 'about'), { recursive: true })
   fs.writeFileSync(path.join(distPath, 'about', 'index.html'), redirectHtml, 'utf-8')
   console.log('prerender: about -> / (redirect)')
+
+  // /schedule -> /meet (alias)
+  const scheduleRedirectHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=/meet">
+  <link rel="canonical" href="/meet">
+  <title>Redirecting...</title>
+</head>
+<body>
+  <script>window.location.replace("/meet");</script>
+  <p>Redirecting to <a href="/meet">meet</a>...</p>
+</body>
+</html>`
+  fs.mkdirSync(path.join(distPath, 'schedule'), { recursive: true })
+  fs.writeFileSync(path.join(distPath, 'schedule', 'index.html'), scheduleRedirectHtml, 'utf-8')
+  console.log('prerender: schedule -> /meet (redirect)')
 
   console.log('prerender: done,', allRoutes.length, 'routes')
 }

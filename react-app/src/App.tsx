@@ -27,7 +27,8 @@ const routes = (
     <Route path="/posts/draft" element={isDev ? <Layout><Posts draft /></Layout> : <Layout><NotFound /></Layout>} />
     <Route path="/posts/:slug" element={<Layout><Post /></Layout>} />
     <Route path="/links" element={<Layout><SocialMedia /></Layout>} />
-    <Route path="/schedule" element={<Layout><Schedule /></Layout>} />
+    <Route path="/meet" element={<Layout><Schedule /></Layout>} />
+    <Route path="/schedule" element={<Navigate to="/meet" replace />} />
     <Route path="/songs" element={<Layout><Songs /></Layout>} />
     <Route path="/agent" element={<Layout><Mcp /></Layout>} />
     <Route path="/test-error" element={<Layout><TestError /></Layout>} />

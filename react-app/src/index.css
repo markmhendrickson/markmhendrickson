@@ -14,7 +14,7 @@
     @apply text-[20px] font-medium mb-3 mt-12 tracking-tight;
   }
   .post-prose h3 {
-    @apply text-[18px] font-medium mb-2 mt-8 tracking-tight;
+    @apply text-[16px] font-medium mb-2 mt-8 tracking-tight;
   }
   .post-prose ul {
     @apply list-disc list-outside mb-4 ml-6 space-y-3;

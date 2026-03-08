@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Create {slug}-hero-square.png from {slug}-hero.png using a centered square crop.
- * Prior behavior used bottom-aligned contain, which pushed focal content low in listings.
+ * Create {slug}-hero-square.png from {slug}-hero.png using a square crop.
+ * Hero images use lower-portion composition (elements in lower frame, negative space above).
+ * Bottom anchoring keeps the main subject in frame and focuses on its key features (e.g. bot head).
  * Usage: node scripts/generate-hero-square-from-hero.mjs <slug>
  */
 import sharp from 'sharp'
@@ -30,7 +31,7 @@ const outPath = join(postsImagesDir, `${slug}-hero-square.png`)
 const buffer = await sharp(heroPath)
   .resize(SIZE, SIZE, {
     fit: 'cover',
-    position: 'attention'
+    position: 'bottom'
   })
   .png()
   .toBuffer()

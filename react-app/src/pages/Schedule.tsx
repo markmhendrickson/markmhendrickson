@@ -9,7 +9,7 @@ const slots = [
 export default function Schedule() {
   const pageTitle = 'Meet with me — Mark Hendrickson'
   const pageDesc = 'Book a 30 or 60 minute slot with Mark.'
-  const canonicalUrl = 'https://markmhendrickson.com/schedule'
+  const canonicalUrl = 'https://markmhendrickson.com/meet'
   const defaultOgImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200
   const ogImageHeight = 630

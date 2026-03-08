@@ -29,7 +29,7 @@ const routeNames: Record<string, string> = {
   'timeline': 'Timeline',
   'newsletter': 'Newsletter',
   'links': 'Links',
-  'schedule': 'Meet',
+  'meet': 'Meet',
   'agent': 'Agent',
   'test-error': 'Test Error',
 }
@@ -39,7 +39,7 @@ const menuItems = [
   { path: '/posts', label: 'Posts', icon: FileText },
   { path: '/timeline', label: 'Timeline', icon: Clock },
   { path: '/agent', label: 'Agent', icon: Bot },
-  { path: '/schedule', label: 'Meet', icon: CalendarPlus },
+  { path: '/meet', label: 'Meet', icon: CalendarPlus },
   { path: '/links', label: 'Links', icon: Share2 },
 ]
 

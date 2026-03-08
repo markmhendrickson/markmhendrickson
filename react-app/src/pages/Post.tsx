@@ -664,7 +664,7 @@ export default function Post({ slug: slugProp }: PostProps) {
     return list[0] ?? null
   }, [publishedOnly, resolvedCanonicalSlug])
 
-  const { prevPost, nextPost } = useMemo(() => {
+  const { prevPost, prevPost2, nextPost } = useMemo(() => {
     const seen = new Set<string>()
     const list = publishedOnly.filter((p) => {
       if (seen.has(p.slug)) return false
@@ -675,11 +675,13 @@ export default function Post({ slug: slugProp }: PostProps) {
     if (idx < 0) {
       return {
         prevPost: list[0] ?? null,
+        prevPost2: list[1] ?? null,
         nextPost: null,
       }
     }
     return {
       prevPost: list[idx + 1] ?? null,
+      prevPost2: list[idx + 2] ?? null,
       nextPost: list[idx - 1] ?? null,
     }
   }, [publishedOnly, resolvedCanonicalSlug])
@@ -1376,7 +1378,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           </div>
         )}
 
-        {!isHome && !isExcludedFromListing(post) && (prevPost || nextPost) && (
+        {!isHome && !isExcludedFromListing(post) && (prevPost || nextPost || (!nextPost && prevPost2)) && (
           <nav
             className="mt-8 flex flex-col gap-4"
             aria-label="Previous and next posts"
@@ -1449,6 +1451,45 @@ export default function Post({ slug: slugProp }: PostProps) {
                       {prevPost.excerpt && (
                         <p className="mt-1 text-sm text-muted-foreground">
                           {stripLinksFromExcerpt(prevPost.excerpt)}
+                        </p>
+                      )}
+                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
+                        Read more →
+                      </span>
+                    </AlertDescription>
+                  </div>
+                </Alert>
+              </Link>
+            )}
+            {!nextPost && prevPost2 && (
+              <Link
+                to={`/posts/${prevPost2.slug}`}
+                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+              >
+                <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
+                  {(prevPost2.heroImage || prevPost2.tweetMetadata?.images?.[0]) && (
+                    <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                      <img
+                        src={getPostImageSrc(prevPost2.heroImageSquare ?? prevPost2.heroImage ?? prevPost2.tweetMetadata?.images?.[0] ?? '')}
+                        alt=""
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                        style={{ objectPosition: 'center center' }}
+                      />
+                    </div>
+                  )}
+                  <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
+                    <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                      Previous post
+                    </AlertTitle>
+                    <AlertDescription className="py-px">
+                      <span className="font-medium text-foreground">
+                        {prevPost2.category === 'tweet'
+                          ? (prevPost2.body ?? '').slice(0, 80) + ((prevPost2.body ?? '').length > 80 ? '…' : '')
+                          : prevPost2.title}
+                      </span>
+                      {prevPost2.excerpt && (
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {stripLinksFromExcerpt(prevPost2.excerpt)}
                         </p>
                       )}
                       <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
