@@ -5,8 +5,29 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Feb 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 09 Mar 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>When the chain becomes the product</title>
+    <link>https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</link>
+    <description>I joined Blockstack in 2018 for the off-chain developer tools. Over seven years I watched token economics reshape the product direction, push the perceived moment of value perpetually into the future, and replace empirical product development with narrative-driven roadmaps.</description>
+    <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</guid>
+  </item>
+  <item>
+    <title>Google&apos;s memory agent thinks for itself, trading determinism for insight</title>
+    <link>https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer</link>
+    <description>A new open-source memory agent from Google ditches vector databases for LLM consolidation, trading determinism for active pattern discovery. It makes opposite architectural choices from a truth layer on every axis. The strongest architecture may combine both: consolidation above, deterministic state you can audit and revert below.</description>
+    <pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer</guid>
+  </item>
+  <item>
+    <title>Your AI remembers your vibe but not your work</title>
+    <link>https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</link>
+    <description>Claude and ChatGPT now offer memory for free, but what they store are profile snippets, not the details of what you actually worked on. My testing showed stale exports, one-shot access, and platform-gated portability. That is why I am building a truth layer underneath.</description>
+    <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</guid>
+  </item>
   <item>
     <title>Neotoma is now available as developer release</title>
     <link>https://markmhendrickson.com/posts/neotoma-developer-release</link>
@@ -94,7 +115,7 @@
   <item>
     <title>Mark Hendrickson</title>
     <link>https://markmhendrickson.com/posts/professional-mission</link>
-    <description>Building sovereign systems at the intersection of crypto and AI</description>
+    <description>Building sovereign memory infrastructure for AI agents.</description>
     <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/professional-mission</guid>
   </item>

@@ -2,12 +2,15 @@ import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Home, FileText } from 'lucide-react'
 import { getPostImageSrc } from '@/lib/utils'
+import { useLocale } from '@/i18n/LocaleContext'
+import { localizePath } from '@/i18n/routing'
 
 const HERO_IMAGE = '404-hero.png'
 
 export default function NotFound() {
-  const pageTitle = 'Page not found — Mark Hendrickson'
-  const pageDesc = "This path isn't in the graph. Return to the homepage or browse posts."
+  const { locale, t } = useLocale()
+  const pageTitle = `${t.notFoundTitle} — Mark Hendrickson`
+  const pageDesc = t.notFoundDescription
   return (
     <>
       <Helmet>
@@ -24,31 +27,31 @@ export default function NotFound() {
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-[28px] font-medium mb-2 tracking-tight">404</h1>
-          <div className="text-[17px] text-[#666] mb-12 font-normal tracking-wide">
-            This path isn't in the graph
+          <h1 className="text-[28px] font-medium mb-2 tracking-tight">{t.notFoundTitle}</h1>
+          <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
+            {t.notFoundSubtitle}
           </div>
 
           <div className="text-[15px] leading-[1.75] font-light mb-8">
             <p className="mb-6">
-              The page you're looking for doesn't exist or has been moved. You can head back to the homepage or browse recent posts.
+              {t.notFoundDescription}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-3">
               <Link
-                to="/"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-[#e0e0e0] hover:border-[#999] hover:bg-[#fafafa] transition-all text-[15px] font-medium"
+                to={localizePath('/', locale)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border hover:border-muted-foreground hover:bg-muted transition-all text-[15px] font-medium text-foreground"
               >
                 <Home className="w-4 h-4" />
-                <span>Go home</span>
+                <span>{t.goHome}</span>
               </Link>
               <Link
-                to="/posts"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-[#e0e0e0] hover:border-[#999] hover:bg-[#fafafa] transition-all text-[15px] font-medium"
+                to={localizePath('/posts', locale)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border hover:border-muted-foreground hover:bg-muted transition-all text-[15px] font-medium text-foreground"
               >
                 <FileText className="w-4 h-4" />
-                <span>Browse posts</span>
+                <span>{t.browsePosts}</span>
               </Link>
           </div>
         </div>

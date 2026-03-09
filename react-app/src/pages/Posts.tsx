@@ -2,9 +2,11 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Search } from 'lucide-react'
-import publicPostsData from '@cache/posts.json'
 import { stripLinksFromExcerpt, getPostImageSrc, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
+import { useLocale } from '@/i18n/LocaleContext'
+import { localizePath } from '@/i18n/routing'
+import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 
 interface Post {
   slug: string
@@ -33,28 +35,25 @@ interface PostsProps {
 }
 
 /** In dev, load private cache (includes drafts) so we can show "View drafts" and /posts/draft.
- * Merge in any post from posts.json that is not already in the private list (e.g. new or file-only posts not yet in Neotoma export). */
-async function loadPostsData(includeDrafts: boolean): Promise<Post[]> {
-  if (!includeDrafts) return publicPostsData as Post[]
-  if (import.meta.env.PROD) return publicPostsData as Post[]
+ * Prefer localized public cache when a slug exists in both. */
+async function loadPostsData(includeDrafts: boolean, locale: 'en' | 'es' | 'ca'): Promise<Post[]> {
+  const localizedPublicPosts = getLocalizedPublicPosts(locale) as unknown as Post[]
+  if (!includeDrafts) return localizedPublicPosts
+  if (import.meta.env.PROD) return localizedPublicPosts
   try {
     const privateData = await import('@cache/posts.private.json')
     const privateList = (privateData.default ?? privateData) as Post[]
     const mergedBySlug = new Map<string, Post>()
-    for (const post of privateList) {
+    for (const post of localizedPublicPosts) {
       if (post.slug) mergedBySlug.set(post.slug, post)
     }
-    for (const post of publicPostsData as Post[]) {
+    for (const post of privateList) {
       if (!post.slug) continue
-      const existing = mergedBySlug.get(post.slug)
-      // If private cache has a draft but public cache has published content, prefer published.
-      if (!existing || (!isPublishedPost(existing) && isPublishedPost(post))) {
-        mergedBySlug.set(post.slug, post)
-      }
+      if (!mergedBySlug.has(post.slug)) mergedBySlug.set(post.slug, post)
     }
     return Array.from(mergedBySlug.values())
   } catch {
-    return publicPostsData as Post[]
+    return localizedPublicPosts
   }
 }
 
@@ -73,22 +72,28 @@ const isDev = import.meta.env.DEV
 /** X/Twitter cutoff for "Show more" (280 chars) */
 const TWEET_SHOW_MORE_CUTOFF = 280
 
+const POSTS_PER_PAGE = 12
+
 function TweetPreview({
   body,
   expanded,
   onToggle,
-  cutoff
+  cutoff,
+  showMoreLabel,
+  showLessLabel,
 }: {
   body: string
   expanded: boolean
   onToggle: () => void
   cutoff: number
+  showMoreLabel: string
+  showLessLabel: string
 }) {
   const truncated = body.length > cutoff
   const displayText = truncated && !expanded ? body.slice(0, cutoff) : body
 
   return (
-    <p className="text-[15px] text-[#666] mb-3 leading-relaxed whitespace-pre-wrap">
+    <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed whitespace-pre-wrap">
       {displayText}
       {truncated && !expanded && (
         <>
@@ -96,9 +101,9 @@ function TweetPreview({
           <button
             type="button"
             onClick={onToggle}
-            className="text-[#666] hover:text-black hover:underline bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit"
+            className="text-muted-foreground hover:text-foreground hover:underline bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit"
           >
-            Show more
+            {showMoreLabel}
           </button>
         </>
       )}
@@ -108,9 +113,9 @@ function TweetPreview({
           <button
             type="button"
             onClick={onToggle}
-            className="text-[#666] hover:text-black hover:underline bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit"
+            className="text-muted-foreground hover:text-foreground hover:underline bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit"
           >
-            Show less
+            {showLessLabel}
           </button>
         </>
       )}
@@ -119,6 +124,13 @@ function TweetPreview({
 }
 
 export default function Posts({ draft = false }: PostsProps) {
+  const { locale, languageTag, t } = useLocale()
+  const uiCopy = {
+    en: { showMore: 'Show more', showLess: 'Show less', noMatchPrefix: 'No posts match' },
+    es: { showMore: 'Ver más', showLess: 'Ver menos', noMatchPrefix: 'No hay publicaciones que coincidan con' },
+    ca: { showMore: 'Mostra més', showLess: 'Mostra menys', noMatchPrefix: 'No hi ha publicacions que coincideixin amb' },
+  } as const
+  const ui = uiCopy[locale]
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q')?.trim() ?? ''
   const [searchInput, setSearchInput] = useState(query)
@@ -133,14 +145,36 @@ export default function Posts({ draft = false }: PostsProps) {
     return postsForSearch.filter((post) => matchQuery(post, query))
   }, [posts, query, postsForSearch])
 
+  const pageParam = searchParams.get('page')
+  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE))
+  const currentPage = Math.min(totalPages, Math.max(1, parseInt(pageParam ?? '1', 10) || 1))
+  const paginatedPosts = useMemo(() => {
+    const start = (currentPage - 1) * POSTS_PER_PAGE
+    return filteredPosts.slice(start, start + POSTS_PER_PAGE)
+  }, [filteredPosts, currentPage])
+
+  const setPage = (page: number) => {
+    const next = new URLSearchParams(searchParams)
+    if (page <= 1) next.delete('page')
+    else next.set('page', String(page))
+    setSearchParams(next, { replace: true })
+  }
+
   // Sync local search input from URL when navigating (e.g. back button)
   useEffect(() => {
     setSearchInput(query)
   }, [query])
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [currentPage])
+
   const handleSearchChange = (value: string) => {
     setSearchInput(value)
-    const next = value.trim() ? { q: value.trim() } : {}
+    const next = new URLSearchParams()
+    if (value.trim()) {
+      next.set('q', value.trim())
+    }
     setSearchParams(next, { replace: true })
   }
 
@@ -150,7 +184,7 @@ export default function Posts({ draft = false }: PostsProps) {
 
   useEffect(() => {
     const loadPosts = async () => {
-      const postsData: Post[] = await loadPostsData(isDev)
+      const postsData: Post[] = await loadPostsData(isDev, locale)
 
       if (isDev) {
         const drafts = postsData.filter(post => !isPublishedPost(post))
@@ -191,22 +225,22 @@ export default function Posts({ draft = false }: PostsProps) {
     }
 
     loadPosts()
-  }, [isDev, draft])
+  }, [isDev, draft, locale])
 
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) return ''
     const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString(languageTag, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     })
   }
 
-  const pageTitle = draft ? 'Drafts' : 'Posts'
+  const pageTitle = draft ? t.drafts : t.postsTitle
   const pageDesc = draft
-    ? 'Unpublished posts and works in progress.'
-    : 'Essays, technical articles, and thoughts on building sovereign systems.'
+    ? t.draftsDescription
+    : t.postsDescription
 
   return (
     <>
@@ -216,7 +250,7 @@ export default function Posts({ draft = false }: PostsProps) {
         <meta name="author" content="Mark Hendrickson" />
         <meta property="og:title" content={`${pageTitle} — Mark Hendrickson`} />
         <meta property="og:description" content={pageDesc} />
-        <meta property="og:url" content="https://markmhendrickson.com/posts" />
+        <meta property="og:url" content={`https://markmhendrickson.com${localizePath('/posts', locale)}`} />
         <meta property="og:image" content={defaultOgImage} />
         <meta property="og:image:width" content={String(ogImageWidth)} />
         <meta property="og:image:height" content={String(ogImageHeight)} />
@@ -240,22 +274,22 @@ export default function Posts({ draft = false }: PostsProps) {
           </h1>
           {!draft && isDev && draftCount > 0 && (
             <Link
-              to="/posts/draft"
-              className="text-[15px] text-[#666] hover:text-black hover:underline shrink-0"
+              to={localizePath('/posts/draft', locale)}
+              className="text-[15px] text-muted-foreground hover:text-foreground hover:underline shrink-0"
             >
-              View drafts ({draftCount})
+              {t.viewDrafts} ({draftCount})
             </Link>
           )}
           {draft && (
             <Link
-              to="/posts"
-              className="text-[15px] text-[#666] hover:text-black hover:underline shrink-0"
+              to={localizePath('/posts', locale)}
+              className="text-[15px] text-muted-foreground hover:text-foreground hover:underline shrink-0"
             >
-              ← Back to posts
+              ← {t.backToPosts}
             </Link>
           )}
         </div>
-        <p className="text-[17px] text-[#666] mb-6 font-light tracking-wide">
+        <p className="text-[17px] text-muted-foreground mb-6 font-light tracking-wide">
           {pageDesc}
         </p>
 
@@ -264,33 +298,33 @@ export default function Posts({ draft = false }: PostsProps) {
             <Search className="w-4 h-4 text-muted-foreground shrink-0" aria-hidden />
             <Input
               type="search"
-              placeholder="Search posts"
+              placeholder={t.searchPosts}
               value={searchInput}
               onChange={(e) => handleSearchChange(e.target.value)}
               className="max-w-sm h-9 text-base md:text-sm"
-              aria-label="Search posts"
+              aria-label={t.searchPosts}
             />
           </div>
         )}
 
         <div className="space-y-8">
           {filteredPosts.length === 0 ? (
-            <p className="text-[15px] text-[#666]">
+            <p className="text-[15px] text-muted-foreground">
               {query
-                ? `No posts match “${query}”.`
+                ? `${ui.noMatchPrefix} “${query}”.`
                 : draft
-                  ? 'No drafts yet.'
-                  : 'No posts yet.'}
+                  ? t.noDraftsYet
+                  : t.noPostsYet}
             </p>
           ) : (
-            filteredPosts.map((post) => (
-              <article key={post.slug} className="border-b border-[#e0e0e0] pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch gap-4">
+            paginatedPosts.map((post) => (
+              <article key={post.slug} className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch gap-4">
                 {(post.heroImage || post.tweetMetadata?.images?.[0]) && (
                   <Link
-                    to={`/posts/${post.slug}`}
+                    to={localizePath(`/posts/${post.slug}`, locale)}
                     className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
                   >
-                    <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                    <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
                       <img
                         src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.tweetMetadata?.images?.[0] ?? '')}
                         alt=""
@@ -314,27 +348,29 @@ export default function Posts({ draft = false }: PostsProps) {
                         })
                       }}
                       cutoff={TWEET_SHOW_MORE_CUTOFF}
+                      showMoreLabel={ui.showMore}
+                      showLessLabel={ui.showLess}
                     />
                   ) : (
                     <h2 className="text-[20px] font-medium mb-2 tracking-tight">
                       <Link
-                        to={`/posts/${post.slug}`}
-                        className="text-black no-underline hover:underline"
+                        to={localizePath(`/posts/${post.slug}`, locale)}
+                        className="text-foreground no-underline hover:underline"
                       >
                         {post.title}
                       </Link>
                     </h2>
                   )}
                   {(post.category || '').toLowerCase() !== 'tweet' && post.excerpt && (
-                    <p className="text-[15px] text-[#666] mb-3 leading-relaxed">
+                    <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed">
                       {stripLinksFromExcerpt(post.excerpt)}
                     </p>
                   )}
-                  <div className="flex items-center gap-4 text-[13px] text-[#999]">
+                  <div className="flex items-center gap-4 text-[13px] text-muted-foreground">
                     {post.publishedDate && (
                       <Link
-                        to={`/posts/${post.slug}`}
-                        className="text-[#999] hover:text-black hover:underline no-underline"
+                        to={localizePath(`/posts/${post.slug}`, locale)}
+                        className="text-muted-foreground hover:text-foreground hover:underline no-underline"
                       >
                         <time dateTime={post.publishedDate}>
                           {formatDate(post.publishedDate)}
@@ -342,11 +378,11 @@ export default function Posts({ draft = false }: PostsProps) {
                       </Link>
                     )}
                     {post.readTime && (
-                      <span>{post.readTime} min read</span>
+                      <span>{post.readTime} {t.minRead}</span>
                     )}
                     {post.category && (
                       <span className="capitalize">
-                        {(post.category || '').toLowerCase() === 'tweet' ? 'X Post' : post.category}
+                        {(post.category || '').toLowerCase() === 'tweet' ? t.xPost : post.category}
                       </span>
                     )}
                   </div>
@@ -354,6 +390,37 @@ export default function Posts({ draft = false }: PostsProps) {
               </article>
             ))
           )}
+
+        {!draft && filteredPosts.length > 0 && (
+          <nav
+            className="flex flex-wrap items-center justify-center gap-3 pt-8 pb-4 mt-8"
+            aria-label="Pagination"
+          >
+            <span className="text-[13px] text-muted-foreground mr-2">
+              {t.paginationPage} {currentPage} {t.paginationOf} {totalPages}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage(currentPage - 1)}
+                disabled={currentPage <= 1}
+                className="text-[15px] text-muted-foreground hover:text-foreground hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:no-underline bg-transparent border border-border px-3 py-1.5 rounded"
+                aria-label={t.paginationPrevious}
+              >
+                {t.paginationPrevious}
+              </button>
+              <button
+                type="button"
+                onClick={() => setPage(currentPage + 1)}
+                disabled={currentPage >= totalPages}
+                className="text-[15px] text-muted-foreground hover:text-foreground hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:no-underline bg-transparent border border-border px-3 py-1.5 rounded"
+                aria-label={t.paginationNext}
+              >
+                {t.paginationNext}
+              </button>
+            </div>
+          </nav>
+        )}
         </div>
       </div>
     </div>

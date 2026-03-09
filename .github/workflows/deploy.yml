@@ -58,6 +58,10 @@ jobs:
             echo "No export file; skipping cache generation (using committed cache/*.json)."
           fi
 
+      - name: Validate translation coverage for published posts
+        working-directory: react-app
+        run: python3 scripts/validate_post_translations.py
+
       # Keep homepage bio deterministic from repo content even when export data is stale.
       - name: Force professional-mission from repo content
         working-directory: react-app

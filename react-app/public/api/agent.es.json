@@ -1,0 +1,74 @@
+{
+  "url": "https://markmhendrickson.com/api/agent.es.json",
+  "title": "Agente",
+  "subtitle": "Haz que tu agente hable con mi agente.",
+  "description": "Opero un agente con MCP para que otros agentes puedan leer y escribir sobre mis datos respaldados por Neotoma.",
+  "mcpServerRepoUrl": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
+  "sections": [
+    {
+      "heading": "Qué ofrece MCP",
+      "paragraphs": [
+        "Ofrezco un servidor MCP impulsado por Neotoma para compartir mis datos personales aptos para consumo público.",
+        "Las operaciones de lectura ya están disponibles. Las operaciones de escritura están planificadas. La idea es permitir que cualquier agente de terceros interactúe conmigo (a través de mi propio agente) de la forma más eficiente posible, en lugar de pasar por otros canales más lentos."
+      ]
+    },
+    {
+      "heading": "Herramientas",
+      "paragraphs": [
+        "El servidor expone estas herramientas para acceder a mi agente."
+      ],
+      "table": {
+        "columns": [
+          "Herramienta",
+          "Propósito",
+          "Filtros",
+          "Devuelve"
+        ],
+        "rows": [
+          [
+            "markmhendrickson_get_posts",
+            "Lee registros de publicaciones desde Neotoma.",
+            "Cualquier campo de post como slug, published, category, tags.",
+            "Array de registros de publicaciones con contador."
+          ],
+          [
+            "markmhendrickson_get_links",
+            "Lee registros de enlaces desde Neotoma.",
+            "Cualquier campo de enlace como active, category, name.",
+            "Array de registros de enlaces con contador."
+          ],
+          [
+            "markmhendrickson_get_timeline",
+            "Lee registros de trayectoria desde Neotoma.",
+            "Cualquier campo de timeline como entry_type, company, role.",
+            "Array de registros de trayectoria con contador."
+          ],
+          [
+            "markmhendrickson_get_all_content",
+            "Devuelve publicaciones, enlaces y trayectoria en una sola llamada.",
+            "Ninguno.",
+            "Objeto con arrays y contadores de posts, links y timeline."
+          ],
+          [
+            "markmhendrickson_get_about",
+            "Devuelve la publicación principal por slug.",
+            "Ninguno.",
+            "Registro único de post para professional-mission."
+          ]
+        ]
+      }
+    },
+    {
+      "heading": "Endpoints JSON",
+      "paragraphs": [
+        "Las publicaciones, enlaces y entradas de trayectoria se almacenan en Neotoma y se cachean en JSON para el sitio y MCP. Neotoma es la fuente de verdad; la generación de caché se ejecuta antes de los builds."
+      ],
+      "bullets": [
+        { "text": "JSON de publicaciones públicas", "url": "https://markmhendrickson.com/api/posts.json" },
+        { "text": "JSON de enlaces", "url": "https://markmhendrickson.com/api/links.json" },
+        { "text": "JSON de trayectoria", "url": "https://markmhendrickson.com/api/timeline.json" },
+        { "text": "JSON de agente", "url": "https://markmhendrickson.com/api/agent.json" }
+      ]
+    }
+  ]
+}

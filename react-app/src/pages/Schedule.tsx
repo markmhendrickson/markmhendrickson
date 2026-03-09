@@ -1,5 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 import { Calendar } from 'lucide-react'
+import { useLocale } from '@/i18n/LocaleContext'
+import { localizePath } from '@/i18n/routing'
 
 const slots = [
   { duration: '30 minutes', url: 'https://calendar.notion.so/meet/markmhendrickson/meeting', label: 'Meeting' },
@@ -7,9 +9,31 @@ const slots = [
 ]
 
 export default function Schedule() {
-  const pageTitle = 'Meet with me — Mark Hendrickson'
-  const pageDesc = 'Book a 30 or 60 minute slot with Mark.'
-  const canonicalUrl = 'https://markmhendrickson.com/meet'
+  const { locale } = useLocale()
+  const copy = {
+    en: {
+      title: 'Meet with me',
+      subtitle: 'Pick a time that works for you',
+      pageDesc: 'Book a 30 or 60 minute slot with Mark.',
+      bookVia: 'Book via Notion Calendar',
+    },
+    es: {
+      title: 'Reúnete conmigo',
+      subtitle: 'Elige una hora que te funcione',
+      pageDesc: 'Reserva una reunión de 30 o 60 minutos con Mark.',
+      bookVia: 'Reservar con Notion Calendar',
+    },
+    ca: {
+      title: "Reuneix-te amb mi",
+      subtitle: "Tria una hora que et vagi bé",
+      pageDesc: 'Reserva una reunió de 30 o 60 minuts amb en Mark.',
+      bookVia: 'Reserva amb Notion Calendar',
+    },
+  } as const
+  const text = copy[locale]
+  const pageTitle = `${text.title} — Mark Hendrickson`
+  const pageDesc = text.pageDesc
+  const canonicalUrl = `https://markmhendrickson.com${localizePath('/meet', locale)}`
   const defaultOgImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200
   const ogImageHeight = 630
@@ -36,9 +60,9 @@ export default function Schedule() {
       </Helmet>
       <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
         <div className="max-w-[600px] w-full">
-          <h1 className="text-[28px] font-medium mb-2 tracking-tight">Meet with me</h1>
-          <div className="text-[17px] text-[#666] mb-12 font-normal tracking-wide">
-            Pick a time that works for you
+          <h1 className="text-[28px] font-medium mb-2 tracking-tight">{text.title}</h1>
+          <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
+            {text.subtitle}
           </div>
 
           <div className="space-y-4">
@@ -48,16 +72,16 @@ export default function Schedule() {
                 href={slot.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-lg border border-[#e0e0e0] hover:border-[#999] hover:bg-[#fafafa] transition-all group"
+                className="flex items-center gap-4 p-4 rounded-lg border border-border hover:border-muted-foreground hover:bg-muted transition-all group"
               >
-                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-[#f5f5f5] flex items-center justify-center group-hover:bg-[#e8e8e8] transition-colors">
-                  <Calendar className="w-6 h-6 text-[#333]" />
+                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-muted flex items-center justify-center group-hover:bg-muted/80 transition-colors">
+                  <Calendar className="w-6 h-6 text-foreground" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[16px] font-medium text-[#333] mb-1">
+                  <div className="text-[16px] font-medium text-foreground mb-1">
                     {slot.duration}
                   </div>
-                  <div className="text-[13px] text-[#666]">Book via Notion Calendar</div>
+                  <div className="text-[13px] text-muted-foreground dark:text-foreground/80">{text.bookVia}</div>
                 </div>
               </a>
             ))}

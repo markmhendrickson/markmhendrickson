@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
+import { useLocale } from '@/i18n/LocaleContext'
+import { localizePath } from '@/i18n/routing'
 
 declare global {
   interface Window {
@@ -22,6 +24,7 @@ interface SurveyData {
 }
 
 export default function NewsletterConfirm() {
+  const { locale } = useLocale()
   const pageTitle = 'Newsletter confirmed — Mark Hendrickson'
   const pageDesc = 'Newsletter subscription confirmation and optional interest survey.'
   const canonicalUrl = 'https://markmhendrickson.com/newsletter/confirm'
@@ -46,7 +49,7 @@ export default function NewsletterConfirm() {
 
   useEffect(() => {
     if (!email) {
-      navigate('/newsletter')
+      navigate(localizePath('/newsletter', locale))
       return
     }
     void fetch('/api/newsletter/confirm', {
@@ -54,7 +57,7 @@ export default function NewsletterConfirm() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
     }).catch(() => {})
-  }, [email, navigate])
+  }, [email, navigate, locale])
 
   const handleCheckboxChange = (value: string) => {
     setSurveyData(prev => ({
@@ -127,10 +130,10 @@ export default function NewsletterConfirm() {
           <div className="max-w-[600px] w-full text-center">
             <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
             <h1 className="text-[28px] font-medium mb-4 tracking-tight">Thank You!</h1>
-            <p className="text-[17px] text-[#666] mb-8">
+            <p className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-8">
               Your subscription is confirmed. Check your email for a confirmation message.
             </p>
-            <Link to="/">
+            <Link to={localizePath('/', locale)}>
               <Button>Return to Home</Button>
             </Link>
           </div>
@@ -170,7 +173,7 @@ export default function NewsletterConfirm() {
           </Alert>
 
           <h2 className="text-[24px] font-medium mb-2 tracking-tight">Optional: Help Us Understand Your Interests</h2>
-          <p className="text-[15px] text-[#666] mb-8 leading-relaxed">
+          <p className="text-[15px] text-muted-foreground dark:text-foreground/80 mb-8 leading-relaxed">
             These questions help us tailor content to your needs. All responses are optional and stored privately.
           </p>
 
@@ -252,7 +255,7 @@ export default function NewsletterConfirm() {
             <Button type="submit" disabled={loading} className="flex-1">
               {loading ? 'Saving...' : 'Save Responses'}
             </Button>
-            <Link to="/">
+            <Link to={localizePath('/', locale)}>
               <Button type="button" variant="outline">Skip</Button>
             </Link>
           </div>

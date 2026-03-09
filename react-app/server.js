@@ -23,7 +23,14 @@ function helmetHeadString(helmetContext) {
 }
 
 const SITE_BASE = 'https://markmhendrickson.com'
-const STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet']
+const SUPPORTED_LOCALES = ['en', 'es', 'ca']
+const PREFIXED_LOCALES = ['es', 'ca']
+const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet']
+const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet']
+const LOCALIZED_STATIC_ROUTES = PREFIXED_LOCALES.flatMap((locale) =>
+  STATIC_ROUTE_SUFFIXES.map((suffix) => (suffix === '/' ? `/${locale}` : `/${locale}${suffix}`))
+)
+const STATIC_ROUTES = [...new Set([...LEGACY_STATIC_ROUTES, ...LOCALIZED_STATIC_ROUTES])]
 
 function getPosts() {
   const postsPath = path.resolve(__dirname, 'cache', 'posts.json')
@@ -51,8 +58,16 @@ function getPostSlugs() {
   for (const p of posts) {
     if (p.published === false || !p.slug) continue
     routes.add(`/posts/${p.slug}`)
+    for (const locale of PREFIXED_LOCALES) {
+      routes.add(`/${locale}/posts/${p.slug}`)
+    }
     for (const alt of p.alternativeSlugs ?? []) {
-      if (alt) routes.add(`/posts/${alt}`)
+      if (alt) {
+        routes.add(`/posts/${alt}`)
+        for (const locale of PREFIXED_LOCALES) {
+          routes.add(`/${locale}/posts/${alt}`)
+        }
+      }
     }
   }
   return [...routes]
@@ -67,10 +82,13 @@ function getPostEntries() {
   const seen = new Set()
   return posts
     .filter((p) => p.published !== false && p.slug)
-    .map((p) => {
-      const pathName = `/posts/${p.slug}`
+    .flatMap((p) => {
       const lastmod = p.updatedDate || p.publishedDate || null
-      return { pathName, lastmod }
+      const localized = PREFIXED_LOCALES.map((locale) => ({
+        pathName: `/${locale}/posts/${p.slug}`,
+        lastmod,
+      }))
+      return [{ pathName: `/posts/${p.slug}`, lastmod }, ...localized]
     })
     .filter((entry) => {
       if (seen.has(entry.pathName)) return false
@@ -121,7 +139,7 @@ const RSS_FEED_TITLE = 'Mark Hendrickson'
 const RSS_FEED_DESCRIPTION =
   'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.'
 
-function buildRssXml(posts) {
+function buildRssXml(posts, locale = 'en') {
   const published = posts
     .filter((p) => p.published !== false && p.slug)
     .sort((a, b) => {
@@ -134,7 +152,7 @@ function buildRssXml(posts) {
     : toRfc822Date(new Date().toISOString())
   const items = published
     .map((p) => {
-      const link = `${SITE_BASE}/posts/${p.slug}`
+      const link = `${SITE_BASE}/${locale}/posts/${p.slug}`
       const title = escapeXml(p.title || '')
       const description = escapeXml(p.excerpt || '')
       const pubDate = toRfc822Date(p.publishedDate || p.updatedDate)
@@ -147,15 +165,17 @@ function buildRssXml(posts) {
   </item>`
     })
     .join('\n')
+  const localeBasePath = locale === 'en' ? '/' : `/${locale}/`
+  const rssPath = locale === 'en' ? '/rss.xml' : `/${locale}/rss.xml`
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${escapeXml(RSS_FEED_TITLE)}</title>
-    <link>${SITE_BASE}/</link>
+    <link>${SITE_BASE}${localeBasePath}</link>
     <description>${escapeXml(RSS_FEED_DESCRIPTION)}</description>
-    <language>en-us</language>
+    <language>${locale}-us</language>
     <lastBuildDate>${latestDate}</lastBuildDate>
-    <atom:link href="${SITE_BASE}/rss.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${SITE_BASE}${rssPath}" rel="self" type="application/rss+xml"/>
 ${items}
   </channel>
 </rss>
@@ -192,7 +212,7 @@ async function runPrerender() {
   for (const url of allRoutes) {
     const helmetContext = {}
     const pathname = url.split('?')[0] || '/'
-    const postMatch = pathname.match(/^\/posts\/([^/]+)$/)
+    const postMatch = pathname.match(/^\/(?:[a-z]{2}\/)?posts\/([^/]+)$/)
     const canonicalSlug = postMatch ? resolveSlugToCanonical(postMatch[1]) : null
     const postBody = canonicalSlug ? readPostBody(canonicalSlug) : null
     const appHtml = render(url, helmetContext, postBody != null ? { postBody } : undefined)
@@ -216,12 +236,19 @@ async function runPrerender() {
   }
   fs.writeFileSync(path.join(distPath, '404.html'), notFoundFull, 'utf-8')
   console.log('prerender: 404.html')
-  const sitemapXml = buildSitemapXml(STATIC_ROUTES, getPostEntries())
+  const sitemapRoutes = [...new Set([...LEGACY_STATIC_ROUTES, ...LOCALIZED_STATIC_ROUTES])]
+  const sitemapXml = buildSitemapXml(sitemapRoutes, getPostEntries())
   fs.writeFileSync(path.join(distPath, 'sitemap.xml'), sitemapXml, 'utf-8')
   console.log('prerender: sitemap.xml')
-  const rssXml = buildRssXml(getPosts())
+  const rssXml = buildRssXml(getPosts(), 'en')
   fs.writeFileSync(path.join(distPath, 'rss.xml'), rssXml, 'utf-8')
   console.log('prerender: rss.xml')
+  for (const locale of ['es', 'ca']) {
+    const localizedRssXml = buildRssXml(getPosts(), locale)
+    fs.mkdirSync(path.join(distPath, locale), { recursive: true })
+    fs.writeFileSync(path.join(distPath, locale, 'rss.xml'), localizedRssXml, 'utf-8')
+    console.log(`prerender: ${locale}/rss.xml`)
+  }
   console.log('prerender: done,', allRoutes.length, 'routes')
 }
 

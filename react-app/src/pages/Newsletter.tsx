@@ -86,7 +86,7 @@ export default function Newsletter() {
       <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
         <div className="max-w-[600px] w-full">
           <h1 className="text-[28px] font-medium mb-2 tracking-tight">Subscribe to Newsletter</h1>
-          <p className="text-[17px] text-[#666] mb-12 font-normal tracking-wide">
+          <p className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
             Get technical deep-dives, Neotoma updates, and workflow templates delivered to your inbox.
           </p>
 
@@ -117,7 +117,7 @@ export default function Newsletter() {
               {loading ? 'Subscribing...' : 'Subscribe'}
             </Button>
 
-            <p className="text-sm text-[#666] leading-relaxed">
+            <p className="text-sm text-muted-foreground dark:text-foreground/80 leading-relaxed">
               <strong>Privacy & Sovereignty:</strong> Your email is stored in a user-owned database.
               We use this information to tailor content to your interests and identify qualified leads for Neotoma pilots.
               You can unsubscribe at any time.

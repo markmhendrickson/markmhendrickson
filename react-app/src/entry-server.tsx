@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server'
 import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import { PostSSRProvider } from './contexts/PostSSRContext'
-import publicPostsData from '@cache/posts.json'
+import { getLocalizedPublicPosts } from './lib/postsLocaleData'
 
 export interface HelmetContext {
   helmet?: {
@@ -28,10 +28,16 @@ function buildSlugToPostMap(posts: { slug: string; alternativeSlugs?: string[]; 
 
 function getSSRPostForUrl(url: string) {
   const pathname = (url.split('?')[0] || '/').replace(/\/$/, '')
-  const match = pathname.match(/^\/posts\/([^/]+)$/)
+  const match = pathname.match(/^\/(?:[a-z]{2}\/)?posts\/([^/]+)$/)
   const slug = match?.[1]
   if (!slug) return null
-  const posts = publicPostsData as { slug: string; alternativeSlugs?: string[]; published?: boolean }[]
+  const localeMatch = pathname.match(/^\/([a-z]{2})(?:\/|$)/)
+  const routeLocale = localeMatch?.[1]
+  const posts = (
+    routeLocale === 'en' || routeLocale === 'es' || routeLocale === 'ca'
+      ? getLocalizedPublicPosts(routeLocale)
+      : getLocalizedPublicPosts('en')
+  ) as { slug: string; alternativeSlugs?: string[]; published?: boolean }[]
   const slugToPost = buildSlugToPostMap(posts)
   const post = slugToPost.get(slug)
   return post && post.published !== false ? post : null

@@ -1,6 +1,8 @@
 import { Helmet } from 'react-helmet-async'
 import { Github, Linkedin, Instagram, Twitter, Facebook, Youtube, Mail, Globe, type LucideIcon } from 'lucide-react'
 import linksData from '@cache/links.json'
+import { useLocale } from '@/i18n/LocaleContext'
+import { localizePath } from '@/i18n/routing'
 
 interface LinkData {
   name: string
@@ -11,6 +13,43 @@ interface LinkData {
 
 interface LinkWithIcon extends Omit<LinkData, 'icon'> {
   icon: LucideIcon
+}
+
+function localizeLinkDescription(description: string, locale: 'en' | 'es' | 'ca'): string {
+  if (locale === 'en') return description
+  const map: Record<string, { es: string; ca: string }> = {
+    'Code repositories and open source projects': {
+      es: 'Repositorios de código y proyectos de código abierto',
+      ca: 'Repositoris de codi i projectes de codi obert',
+    },
+    'Professional network and career updates': {
+      es: 'Red profesional y actualizaciones de carrera',
+      ca: 'Xarxa professional i actualitzacions de carrera',
+    },
+    'Thoughts on tech, crypto, and AI': {
+      es: 'Reflexiones sobre tecnología, cripto e IA',
+      ca: 'Reflexions sobre tecnologia, cripto i IA',
+    },
+    'Building in public, indie products, and startup community': {
+      es: 'Construyendo en público, productos indie y comunidad startup',
+      ca: 'Construint en públic, productes indie i comunitat startup',
+    },
+    'Tech and startup discussions': {
+      es: 'Debates sobre tecnología y startups',
+      ca: 'Debats sobre tecnologia i startups',
+    },
+    'Personal photos, videos, and updates': {
+      es: 'Fotos personales, videos y actualizaciones',
+      ca: 'Fotos personals, vídeos i actualitzacions',
+    },
+    'Get in touch via email': {
+      es: 'Contacta por correo electrónico',
+      ca: 'Contacta per correu electrònic',
+    },
+  }
+  const entry = map[description]
+  if (!entry) return description
+  return locale === 'es' ? entry.es : entry.ca
 }
 
 // Branded icons (Simple Icons paths)
@@ -79,9 +118,28 @@ const links: LinkWithIcon[] = (linksData as LinkData[]).map(link => ({
 }))
 
 export default function SocialMedia() {
-  const pageTitle = 'Links — Mark Hendrickson'
-  const pageDesc = 'Links to profiles and contact channels.'
-  const canonicalUrl = 'https://markmhendrickson.com/links'
+  const { locale } = useLocale()
+  const copy = {
+    en: {
+      title: 'Links',
+      subtitle: 'Connect with me across platforms',
+      pageDesc: 'Links to profiles and contact channels.',
+    },
+    es: {
+      title: 'Enlaces',
+      subtitle: 'Conecta conmigo en distintas plataformas',
+      pageDesc: 'Enlaces a perfiles y canales de contacto.',
+    },
+    ca: {
+      title: 'Enllaços',
+      subtitle: 'Connecta amb mi a diferents plataformes',
+      pageDesc: "Enllaços a perfils i canals de contacte.",
+    },
+  } as const
+  const text = copy[locale]
+  const pageTitle = `${text.title} — Mark Hendrickson`
+  const pageDesc = text.pageDesc
+  const canonicalUrl = `https://markmhendrickson.com${localizePath('/links', locale)}`
   const defaultOgImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200
   const ogImageHeight = 630
@@ -108,9 +166,9 @@ export default function SocialMedia() {
       </Helmet>
       <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
         <div className="max-w-[600px] w-full">
-          <h1 className="text-[28px] font-medium mb-2 tracking-tight">Links</h1>
-          <div className="text-[17px] text-[#666] mb-12 font-normal tracking-wide">
-            Connect with me across platforms
+          <h1 className="text-[28px] font-medium mb-2 tracking-tight">{text.title}</h1>
+          <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
+            {text.subtitle}
           </div>
 
           <div className="space-y-4">
@@ -122,17 +180,17 @@ export default function SocialMedia() {
                   href={link.url}
                   target={link.url.startsWith('mailto:') ? undefined : '_blank'}
                   rel={link.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                  className="flex items-center gap-4 p-4 rounded-lg border border-[#e0e0e0] hover:border-[#999] hover:bg-[#fafafa] transition-all group"
+                  className="flex items-center gap-4 p-4 rounded-lg border border-border hover:border-muted-foreground hover:bg-muted transition-all group"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-[#f5f5f5] flex items-center justify-center group-hover:bg-[#e8e8e8] transition-colors">
-                    <Icon className="w-6 h-6 text-[#333]" />
+                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-muted flex items-center justify-center group-hover:bg-muted/80 transition-colors">
+                    <Icon className="w-6 h-6 text-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[16px] font-medium text-[#333] mb-1">
+                    <div className="text-[16px] font-medium text-foreground mb-1">
                       {link.name}
                     </div>
-                    <div className="text-[13px] text-[#666] line-clamp-1">
-                      {link.description}
+                    <div className="text-[13px] text-muted-foreground dark:text-foreground/80 line-clamp-1">
+                      {localizeLinkDescription(link.description, locale)}
                     </div>
                   </div>
                 </a>

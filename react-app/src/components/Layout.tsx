@@ -3,7 +3,10 @@ import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, Share2, Clock, Bot, CalendarPlus } from 'lucide-react'
-import publicPostsData from '@cache/posts.json'
+import { useLocale } from '@/i18n/LocaleContext'
+import { localeToOgLocale, localeToLanguageName } from '@/i18n/config'
+import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
+import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 
 interface Post {
   slug: string
@@ -22,27 +25,6 @@ function buildSlugToPostMap(posts: Post[]): Map<string, Post> {
   return map
 }
 
-// Route name mapping for friendly breadcrumb labels
-const routeNames: Record<string, string> = {
-  'posts': 'Posts',
-  'draft': 'Drafts',
-  'timeline': 'Timeline',
-  'newsletter': 'Newsletter',
-  'links': 'Links',
-  'meet': 'Meet',
-  'agent': 'Agent',
-  'test-error': 'Test Error',
-}
-
-const menuItems = [
-  { path: '/', label: 'Home', icon: Home },
-  { path: '/posts', label: 'Posts', icon: FileText },
-  { path: '/timeline', label: 'Timeline', icon: Clock },
-  { path: '/agent', label: 'Agent', icon: Bot },
-  { path: '/meet', label: 'Meet', icon: CalendarPlus },
-  { path: '/links', label: 'Links', icon: Share2 },
-]
-
 interface LayoutProps {
   children: React.ReactNode
 }
@@ -50,8 +32,10 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   const location = useLocation()
   const params = useParams()
+  const { locale, languageTag, t } = useLocale()
+  const publicPostsData = getLocalizedPublicPosts(locale) as Post[]
   const [postTitle, setPostTitle] = useState<string | null>(null)
-  const isHome = location.pathname === '/'
+  const isHome = location.pathname === localizePath('/', locale)
 
   // Load post title if we're on a post page (resolve primary or alternative slug).
   // In dev, also resolve from private cache so draft post titles show in the breadcrumb.
@@ -83,12 +67,44 @@ export function Layout({ children }: LayoutProps) {
     return null
   }
 
-  // Home (/) uses the default Helmet here; all other routes should supply their own Helmet.
-  const hasPageHelmet = location.pathname !== '/'
+  const routeNames: Record<string, string> = {
+    'posts': t.navPosts,
+    'draft': t.drafts,
+    'timeline': t.navTimeline,
+    'newsletter': 'Newsletter',
+    'links': t.navLinks,
+    'meet': t.navMeet,
+    'agent': t.navAgent,
+    'test-error': 'Test Error',
+  }
+
+  const menuItems = [
+    { path: localizePath('/', locale), label: t.navHome, icon: Home },
+    { path: localizePath('/posts', locale), label: t.navPosts, icon: FileText },
+    { path: localizePath('/timeline', locale), label: t.navTimeline, icon: Clock },
+    { path: localizePath('/agent', locale), label: t.navAgent, icon: Bot },
+    { path: localizePath('/meet', locale), label: t.navMeet, icon: CalendarPlus },
+    { path: localizePath('/links', locale), label: t.navLinks, icon: Share2 },
+  ]
+
+  const languageMenuItems = (['en', 'es', 'ca'] as const).map((nextLocale) => ({
+    path: localizePath(stripLocaleFromPath(location.pathname), nextLocale),
+    label: localeToLanguageName[nextLocale],
+    isActive: nextLocale === locale,
+    onSelect: () => saveLocale(nextLocale),
+  }))
+
+  // Home (/:locale) uses the default Helmet here; all other routes should supply their own Helmet.
+  const hasPageHelmet = !isHome
 
   const defaultTitle = 'Mark Hendrickson'
-  const defaultDescription = 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.'
-  const defaultUrl = 'https://markmhendrickson.com/'
+  const defaultDescriptions = {
+    en: 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.',
+    es: 'Ensayos sobre memoria de agentes controlada por el usuario, infraestructura personal y sistemas que restauran la soberanía en una era de IA, cripto y complejidad.',
+    ca: "Assajos sobre memòria d'agents controlada per l'usuari, infraestructura personal i sistemes que restauren la sobirania en una era d'IA, cripto i complexitat.",
+  } as const
+  const defaultDescription = defaultDescriptions[locale]
+  const defaultUrl = `https://markmhendrickson.com${localizePath('/', locale)}`
   const defaultImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200
   const ogImageHeight = 630
@@ -97,10 +113,16 @@ export function Layout({ children }: LayoutProps) {
     <>
       {!hasPageHelmet && (
         <Helmet>
+          <html lang={languageTag} />
           <title>{defaultTitle}</title>
           <meta name="description" content={defaultDescription} />
           <meta name="author" content="Mark Hendrickson" />
           <link rel="canonical" href={defaultUrl} />
+          <meta property="og:locale" content={localeToOgLocale[locale]} />
+          <link rel="alternate" hrefLang="en" href="https://markmhendrickson.com/" />
+          <link rel="alternate" hrefLang="es" href="https://markmhendrickson.com/es/" />
+          <link rel="alternate" hrefLang="ca" href="https://markmhendrickson.com/ca/" />
+          <link rel="alternate" hrefLang="x-default" href="https://markmhendrickson.com/" />
           <link rel="alternate" type="application/rss+xml" title={`${defaultTitle} RSS`} href="https://markmhendrickson.com/rss.xml" />
           <meta property="og:type" content="website" />
           <meta property="og:title" content={defaultTitle} />
@@ -130,6 +152,11 @@ export function Layout({ children }: LayoutProps) {
         menuItems={menuItems}
         routeNames={routeNames}
         getBreadcrumbLabel={getBreadcrumbLabel}
+        homeHref={localizePath('/', locale)}
+        homeLabel={t.navHome}
+        hiddenPathSegments={['en', 'es', 'ca']}
+        languageMenuItems={languageMenuItems}
+        languageMenuLabel={t.navLanguage}
       >
         {children}
       </SharedLayout>

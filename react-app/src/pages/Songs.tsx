@@ -86,33 +86,33 @@ export default function Songs() {
       <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
         <div className="max-w-[800px] w-full">
           <h1 className="text-[28px] font-medium mb-2 tracking-tight">Songs</h1>
-          <p className="text-[17px] text-[#666] mb-8 font-light tracking-wide">
+          <p className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-8 font-light tracking-wide">
             My favorite songs on Spotify
           </p>
 
           {/* Controls */}
           <div className="mb-8 flex gap-4 items-center flex-wrap">
             <div className="flex items-center gap-2">
-              <label className="text-[14px] text-[#666]">Sort by:</label>
+              <label className="text-[14px] text-muted-foreground dark:text-foreground/80">Sort by:</label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'title' | 'artist' | 'album')}
-                className="px-3 py-1.5 text-[14px] border border-[#e0e0e0] rounded bg-white focus:outline-none focus:border-[#999]"
+                className="px-3 py-1.5 text-[14px] border border-border rounded bg-background text-foreground focus:outline-none focus:border-muted-foreground"
               >
                 <option value="title">Title</option>
                 <option value="artist">Artist</option>
                 <option value="album">Album</option>
               </select>
             </div>
-            <div className="text-[14px] text-[#999]">
+            <div className="text-[14px] text-muted-foreground dark:text-foreground/80">
               {processedSongs.length} {processedSongs.length === 1 ? 'song' : 'songs'}
             </div>
           </div>
 
           {loading ? (
-            <p className="text-[15px] text-[#666]">Loading songs...</p>
+            <p className="text-[15px] text-muted-foreground dark:text-foreground/80">Loading songs...</p>
           ) : processedSongs.length === 0 ? (
-            <p className="text-[15px] text-[#666]">No songs found.</p>
+            <p className="text-[15px] text-muted-foreground dark:text-foreground/80">No songs found.</p>
           ) : (
             <div className="space-y-6">
               {processedSongs.map((song, index) => {
@@ -120,17 +120,17 @@ export default function Songs() {
                 return (
                   <div
                     key={song.song_id || index}
-                    className="border-b border-[#e0e0e0] pb-6 last:border-0 last:pb-0"
+                    className="border-b border-border pb-6 last:border-0 last:pb-0"
                   >
                     <div className="mb-3">
                       <h3 className="text-[18px] font-medium tracking-tight mb-1">
                         {song.title || 'Unknown Title'}
                       </h3>
-                      <p className="text-[15px] text-[#666] mb-1">
+                      <p className="text-[15px] text-muted-foreground dark:text-foreground/80 mb-1">
                         {song.artist || 'Unknown Artist'}
                       </p>
                       {song.album && (
-                        <p className="text-[14px] text-[#999] italic">
+                        <p className="text-[14px] text-muted-foreground dark:text-foreground/80 italic">
                           {song.album}
                         </p>
                       )}
@@ -157,7 +157,7 @@ export default function Songs() {
                         href={song.spotify_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block mt-2 text-[13px] text-[#666] hover:text-black underline"
+                        className="inline-block mt-2 text-[13px] text-muted-foreground hover:text-foreground underline"
                       >
                         Open in Spotify
                       </a>
