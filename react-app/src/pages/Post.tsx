@@ -1327,7 +1327,11 @@ export default function Post({ slug: slugProp }: PostProps) {
                   )}
                   {post.category && (
                     <span className="capitalize">
-                      {(post.category || '').toLowerCase() === 'tweet' ? t.xPost : post.category}
+                      {(post.category || '').toLowerCase() === 'tweet'
+                        ? t.xPost
+                        : (post.category || '').toLowerCase() === 'essay'
+                          ? t.categoryEssay
+                          : post.category}
                     </span>
                   )}
                 </div>

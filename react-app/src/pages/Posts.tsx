@@ -382,7 +382,11 @@ export default function Posts({ draft = false }: PostsProps) {
                     )}
                     {post.category && (
                       <span className="capitalize">
-                        {(post.category || '').toLowerCase() === 'tweet' ? t.xPost : post.category}
+                        {(post.category || '').toLowerCase() === 'tweet'
+                          ? t.xPost
+                          : (post.category || '').toLowerCase() === 'essay'
+                            ? t.categoryEssay
+                            : post.category}
                       </span>
                     )}
                   </div>

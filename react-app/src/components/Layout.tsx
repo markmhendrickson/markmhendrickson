@@ -157,6 +157,11 @@ export function Layout({ children }: LayoutProps) {
         hiddenPathSegments={['en', 'es', 'ca']}
         languageMenuItems={languageMenuItems}
         languageMenuLabel={t.navLanguage}
+        themeMenuLabel={t.themeMenuLabel}
+        themeMenuAriaLabel={t.themeMenuAriaLabel}
+        themeSystem={t.themeSystem}
+        themeLight={t.themeLight}
+        themeDark={t.themeDark}
       >
         {children}
       </SharedLayout>

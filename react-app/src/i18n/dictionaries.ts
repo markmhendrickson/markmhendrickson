@@ -33,6 +33,12 @@ type Dict = {
   paginationNext: string
   paginationPage: string
   paginationOf: string
+  themeMenuLabel: string
+  themeMenuAriaLabel: string
+  themeSystem: string
+  themeLight: string
+  themeDark: string
+  categoryEssay: string
 }
 
 const dictionaries: Record<SupportedLocale, Dict> = {
@@ -69,6 +75,12 @@ const dictionaries: Record<SupportedLocale, Dict> = {
     paginationNext: 'Next',
     paginationPage: 'Page',
     paginationOf: 'of',
+    themeMenuLabel: 'Theme',
+    themeMenuAriaLabel: 'Toggle theme menu',
+    themeSystem: 'System',
+    themeLight: 'Light',
+    themeDark: 'Dark',
+    categoryEssay: 'Essay',
   },
   es: {
     navHome: 'Inicio',
@@ -103,6 +115,12 @@ const dictionaries: Record<SupportedLocale, Dict> = {
     paginationNext: 'Siguiente',
     paginationPage: 'Página',
     paginationOf: 'de',
+    themeMenuLabel: 'Tema',
+    themeMenuAriaLabel: 'Abrir menú de tema',
+    themeSystem: 'Sistema',
+    themeLight: 'Claro',
+    themeDark: 'Oscuro',
+    categoryEssay: 'Ensayo',
   },
   ca: {
     navHome: 'Inici',
@@ -137,6 +155,12 @@ const dictionaries: Record<SupportedLocale, Dict> = {
     paginationNext: 'Següent',
     paginationPage: 'Pàgina',
     paginationOf: 'de',
+    themeMenuLabel: 'Tema',
+    themeMenuAriaLabel: 'Obrir menú de tema',
+    themeSystem: 'Sistema',
+    themeLight: 'Clar',
+    themeDark: 'Fosc',
+    categoryEssay: 'Assaig',
   },
 }
 
