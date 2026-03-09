@@ -1,5 +1,5 @@
 {
-  "url": "https://markmhendrickson.com/api/posts.json",
+  "url": "https://markmhendrickson.com/api/posts.en.json",
   "posts": [
     {
       "slug": "what-my-agentic-stack-actually-does",
@@ -24,7 +24,10 @@
       "heroImage": "what-my-agentic-stack-actually-does-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "what-my-agentic-stack-actually-does-hero-square.png",
-      "ogImage": "og/what-my-agentic-stack-actually-does-1200x630.jpg"
+      "ogImage": "og/what-my-agentic-stack-actually-does-1200x630.jpg",
+      "postId": "what-my-agentic-stack-actually-does",
+      "locale": "en",
+      "canonicalSlug": "what-my-agentic-stack-actually-does"
     },
     {
       "slug": "when-the-chain-becomes-the-product",
@@ -42,7 +45,10 @@
       "shareTweet": "I joined Blockstack in 2018 for the developer tools. Seven years later I left with a clear picture of what happens when token dynamics replace product feedback loops. Not a failure of people. A failure of incentive structure.\n\nhttps://markmhendrickson.com/posts/when-the-chain-becomes-the-product",
       "heroImage": "when-the-chain-becomes-the-product-hero.png",
       "heroImageStyle": "keep-proportions",
-      "heroImageSquare": "when-the-chain-becomes-the-product-hero-square.png"
+      "heroImageSquare": "when-the-chain-becomes-the-product-hero-square.png",
+      "postId": "when-the-chain-becomes-the-product",
+      "locale": "en",
+      "canonicalSlug": "when-the-chain-becomes-the-product"
     },
     {
       "slug": "always-on-memory-agents-and-the-truth-layer",
@@ -66,7 +72,10 @@
       "heroImage": "always-on-memory-agents-and-the-truth-layer-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "always-on-memory-agents-and-the-truth-layer-hero-square.png",
-      "ogImage": "og/always-on-memory-agents-and-the-truth-layer-1200x630.jpg"
+      "ogImage": "og/always-on-memory-agents-and-the-truth-layer-1200x630.jpg",
+      "postId": "always-on-memory-agents-and-the-truth-layer",
+      "locale": "en",
+      "canonicalSlug": "always-on-memory-agents-and-the-truth-layer"
     },
     {
       "slug": "your-ai-remembers-your-vibe-but-not-your-work",
@@ -94,7 +103,10 @@
       "alternativeSlugs": [
         "when-platform-memory-fails-under-context-shifts",
         "ai-remembers-vibe-not-work"
-      ]
+      ],
+      "postId": "your-ai-remembers-your-vibe-but-not-your-work",
+      "locale": "en",
+      "canonicalSlug": "your-ai-remembers-your-vibe-but-not-your-work"
     },
     {
       "slug": "neotoma-developer-release",
@@ -121,7 +133,10 @@
       "ogImage": "og/neotoma-developer-release-1200x630.jpg",
       "alternativeSlugs": [
         "developer-release-neotoma"
-      ]
+      ],
+      "postId": "neotoma-developer-release",
+      "locale": "en",
+      "canonicalSlug": "neotoma-developer-release"
     },
     {
       "slug": "agent-memory-truth-problem",
@@ -145,7 +160,10 @@
       "heroImage": "agent-memory-truth-problem-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "agent-memory-truth-problem-hero-square.png",
-      "ogImage": "og/agent-memory-truth-problem-1200x630.jpg"
+      "ogImage": "og/agent-memory-truth-problem-1200x630.jpg",
+      "postId": "agent-memory-truth-problem",
+      "locale": "en",
+      "canonicalSlug": "agent-memory-truth-problem"
     },
     {
       "slug": "agent-command-centers-source-of-truth",
@@ -163,7 +181,10 @@
       "shareTweet": "How a truth layer could power an agent command center: one durable state layer for tasks and visibility, so the dashboard and the agent share the same source of truth. https://github.com/markmhendrickson/neotoma",
       "heroImage": "agent-command-centers-source-of-truth-hero.png",
       "heroImageStyle": "keep-proportions",
-      "heroImageSquare": "agent-command-centers-source-of-truth-hero-square.png"
+      "heroImageSquare": "agent-command-centers-source-of-truth-hero-square.png",
+      "postId": "agent-command-centers-source-of-truth",
+      "locale": "en",
+      "canonicalSlug": "agent-command-centers-source-of-truth"
     },
     {
       "slug": "six-agentic-trends-betting-on",
@@ -184,7 +205,10 @@
       "heroImageSquare": "six-agentic-trends-betting-on-hero-square.png",
       "alternativeSlugs": [
         "agentic-future-betting-on"
-      ]
+      ],
+      "postId": "six-agentic-trends-betting-on",
+      "locale": "en",
+      "canonicalSlug": "six-agentic-trends-betting-on"
     },
     {
       "slug": "we-are-all-centaurs-now",
@@ -208,7 +232,10 @@
       "heroImage": "we-are-all-centaurs-now-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "we-are-all-centaurs-now-hero-square.png",
-      "ogImage": "og/we-are-all-centaurs-now-1200x630.jpg"
+      "ogImage": "og/we-are-all-centaurs-now-1200x630.jpg",
+      "postId": "we-are-all-centaurs-now",
+      "locale": "en",
+      "canonicalSlug": "we-are-all-centaurs-now"
     },
     {
       "slug": "agentic-wallets-mcp-bitcoin",
@@ -233,7 +260,10 @@
       "heroImage": "agentic-wallets-mcp-bitcoin-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "agentic-wallets-mcp-bitcoin-hero-square.png",
-      "ogImage": "og/agentic-wallets-mcp-bitcoin-1200x630.jpg"
+      "ogImage": "og/agentic-wallets-mcp-bitcoin-1200x630.jpg",
+      "postId": "agentic-wallets-mcp-bitcoin",
+      "locale": "en",
+      "canonicalSlug": "agentic-wallets-mcp-bitcoin"
     },
     {
       "slug": "why-agent-memory-needs-more-than-rag",
@@ -258,7 +288,10 @@
       "heroImage": "why-agent-memory-needs-more-than-rag-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "why-agent-memory-needs-more-than-rag-hero-square.png",
-      "ogImage": "og/why-agent-memory-needs-more-than-rag-1200x630.jpg"
+      "ogImage": "og/why-agent-memory-needs-more-than-rag-1200x630.jpg",
+      "postId": "why-agent-memory-needs-more-than-rag",
+      "locale": "en",
+      "canonicalSlug": "why-agent-memory-needs-more-than-rag"
     },
     {
       "slug": "building-structural-barriers",
@@ -282,7 +315,10 @@
       "heroImage": "building-structural-barriers-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "building-structural-barriers-hero-square.png",
-      "ogImage": "og/building-structural-barriers-1200x630.jpg"
+      "ogImage": "og/building-structural-barriers-1200x630.jpg",
+      "postId": "building-structural-barriers",
+      "locale": "en",
+      "canonicalSlug": "building-structural-barriers"
     },
     {
       "slug": "agentic-search-and-the-truth-layer",
@@ -306,7 +342,10 @@
       "heroImage": "agentic-search-and-the-truth-layer-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "agentic-search-and-the-truth-layer-hero-square.png",
-      "ogImage": "og/agentic-search-and-the-truth-layer-1200x630.jpg"
+      "ogImage": "og/agentic-search-and-the-truth-layer-1200x630.jpg",
+      "postId": "agentic-search-and-the-truth-layer",
+      "locale": "en",
+      "canonicalSlug": "agentic-search-and-the-truth-layer"
     },
     {
       "slug": "barcelona-guest-floor",
@@ -330,7 +369,10 @@
       "heroImage": "barcelona-guest-floor-hero.jpg",
       "heroImageStyle": "keep-proportions",
       "ogImage": "og/barcelona-guest-floor-1200x630.jpg",
-      "excludeFromListing": true
+      "excludeFromListing": true,
+      "postId": "barcelona-guest-floor",
+      "locale": "en",
+      "canonicalSlug": "barcelona-guest-floor"
     },
     {
       "slug": "openclaw-and-the-truth-layer",
@@ -349,7 +391,10 @@
       "heroImage": "openclaw-and-the-truth-layer-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "openclaw-and-the-truth-layer-hero-square.png",
-      "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg"
+      "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg",
+      "postId": "openclaw-and-the-truth-layer",
+      "locale": "en",
+      "canonicalSlug": "openclaw-and-the-truth-layer"
     },
     {
       "slug": "truth-layer-agent-memory",
@@ -373,7 +418,10 @@
       "heroImage": "truth-layer-agent-memory-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "truth-layer-agent-memory-hero-square.png",
-      "ogImage": "og/truth-layer-agent-memory-1200x630.jpg"
+      "ogImage": "og/truth-layer-agent-memory-1200x630.jpg",
+      "postId": "truth-layer-agent-memory",
+      "locale": "en",
+      "canonicalSlug": "truth-layer-agent-memory"
     },
     {
       "slug": "professional-mission",
@@ -391,7 +439,10 @@
       "shareTweet": "",
       "heroImage": "profile.jpg",
       "heroImageStyle": "float-right",
-      "excludeFromListing": true
+      "excludeFromListing": true,
+      "postId": "professional-mission",
+      "locale": "en",
+      "canonicalSlug": "professional-mission"
     },
     {
       "slug": "the-flip-side",
@@ -406,7 +457,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "the-flip-side",
+      "locale": "en",
+      "canonicalSlug": "the-flip-side"
     },
     {
       "slug": "yc-w19-web-developer-contract",
@@ -421,7 +475,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "yc-w19-web-developer-contract",
+      "locale": "en",
+      "canonicalSlug": "yc-w19-web-developer-contract"
     },
     {
       "slug": "facebook-police-state",
@@ -436,7 +493,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "facebook-police-state",
+      "locale": "en",
+      "canonicalSlug": "facebook-police-state"
     },
     {
       "slug": "finding-flow-beyond-distraction",
@@ -451,7 +511,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "finding-flow-beyond-distraction",
+      "locale": "en",
+      "canonicalSlug": "finding-flow-beyond-distraction"
     },
     {
       "slug": "alps-snowboarding-recommendations",
@@ -466,7 +529,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "alps-snowboarding-recommendations",
+      "locale": "en",
+      "canonicalSlug": "alps-snowboarding-recommendations"
     },
     {
       "slug": "the-outline",
@@ -481,7 +547,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "the-outline",
+      "locale": "en",
+      "canonicalSlug": "the-outline"
     },
     {
       "slug": "tutor-catala",
@@ -496,7 +565,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "tutor-catala",
+      "locale": "en",
+      "canonicalSlug": "tutor-catala"
     },
     {
       "slug": "foursquare-swarm-checkins-sync",
@@ -511,7 +583,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "foursquare-swarm-checkins-sync",
+      "locale": "en",
+      "canonicalSlug": "foursquare-swarm-checkins-sync"
     },
     {
       "slug": "sync-server-dropbox-api-version-2-fix",
@@ -526,7 +601,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "sync-server-dropbox-api-version-2-fix",
+      "locale": "en",
+      "canonicalSlug": "sync-server-dropbox-api-version-2-fix"
     },
     {
       "slug": "dropbox-website-publishing",
@@ -541,7 +619,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "dropbox-website-publishing",
+      "locale": "en",
+      "canonicalSlug": "dropbox-website-publishing"
     },
     {
       "slug": "park-ranger-grunt-hoist-proxy",
@@ -556,7 +637,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "park-ranger-grunt-hoist-proxy",
+      "locale": "en",
+      "canonicalSlug": "park-ranger-grunt-hoist-proxy"
     },
     {
       "slug": "touch-bar-autosuggest",
@@ -571,7 +655,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "touch-bar-autosuggest",
+      "locale": "en",
+      "canonicalSlug": "touch-bar-autosuggest"
     },
     {
       "slug": "spanish-non-lucrative-residence-visa",
@@ -586,7 +673,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "spanish-non-lucrative-residence-visa",
+      "locale": "en",
+      "canonicalSlug": "spanish-non-lucrative-residence-visa"
     },
     {
       "slug": "bringing-it-all-back-home",
@@ -601,7 +691,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "bringing-it-all-back-home",
+      "locale": "en",
+      "canonicalSlug": "bringing-it-all-back-home"
     },
     {
       "slug": "11-reasons-why-i-wont-click-on-your-link-bait",
@@ -616,7 +709,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "11-reasons-why-i-wont-click-on-your-link-bait",
+      "locale": "en",
+      "canonicalSlug": "11-reasons-why-i-wont-click-on-your-link-bait"
     },
     {
       "slug": "kanban",
@@ -631,7 +727,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "kanban",
+      "locale": "en",
+      "canonicalSlug": "kanban"
     },
     {
       "slug": "success-projection-for-startups",
@@ -646,7 +745,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "success-projection-for-startups",
+      "locale": "en",
+      "canonicalSlug": "success-projection-for-startups"
     },
     {
       "slug": "three-types-of-design",
@@ -661,7 +763,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "three-types-of-design",
+      "locale": "en",
+      "canonicalSlug": "three-types-of-design"
     },
     {
       "slug": "the-postmvp-fork-in-the-road",
@@ -676,7 +781,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "the-postmvp-fork-in-the-road",
+      "locale": "en",
+      "canonicalSlug": "the-postmvp-fork-in-the-road"
     },
     {
       "slug": "does-your-product-provide-instant-gratification",
@@ -691,7 +799,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "does-your-product-provide-instant-gratification",
+      "locale": "en",
+      "canonicalSlug": "does-your-product-provide-instant-gratification"
     },
     {
       "slug": "a-postmortem-for-plancast",
@@ -706,7 +817,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "a-postmortem-for-plancast",
+      "locale": "en",
+      "canonicalSlug": "a-postmortem-for-plancast"
     },
     {
       "slug": "share-frequency",
@@ -721,7 +835,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "share-frequency",
+      "locale": "en",
+      "canonicalSlug": "share-frequency"
     },
     {
       "slug": "homesteading-on-the-indie-web",
@@ -736,7 +853,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "homesteading-on-the-indie-web",
+      "locale": "en",
+      "canonicalSlug": "homesteading-on-the-indie-web"
     },
     {
       "slug": "content",
@@ -751,7 +871,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "content",
+      "locale": "en",
+      "canonicalSlug": "content"
     },
     {
       "slug": "relationship",
@@ -766,7 +889,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "relationship",
+      "locale": "en",
+      "canonicalSlug": "relationship"
     },
     {
       "slug": "three-pillars",
@@ -781,7 +907,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "three-pillars",
+      "locale": "en",
+      "canonicalSlug": "three-pillars"
     },
     {
       "slug": "how-to-pitch-a-tech-blogger",
@@ -796,7 +925,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "how-to-pitch-a-tech-blogger",
+      "locale": "en",
+      "canonicalSlug": "how-to-pitch-a-tech-blogger"
     },
     {
       "slug": "some-latenight-ideas-for-blippy",
@@ -811,7 +943,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "some-latenight-ideas-for-blippy",
+      "locale": "en",
+      "canonicalSlug": "some-latenight-ideas-for-blippy"
     },
     {
       "slug": "plancast-in-public-beta",
@@ -826,7 +961,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "plancast-in-public-beta",
+      "locale": "en",
+      "canonicalSlug": "plancast-in-public-beta"
     },
     {
       "slug": "facebooks-social-graph",
@@ -841,7 +979,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "facebooks-social-graph",
+      "locale": "en",
+      "canonicalSlug": "facebooks-social-graph"
     },
     {
       "slug": "worldly-developments",
@@ -856,7 +997,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "worldly-developments",
+      "locale": "en",
+      "canonicalSlug": "worldly-developments"
     },
     {
       "slug": "the-web-needs-its-own-app-store",
@@ -871,7 +1015,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "the-web-needs-its-own-app-store",
+      "locale": "en",
+      "canonicalSlug": "the-web-needs-its-own-app-store"
     },
     {
       "slug": "narrowing-scope",
@@ -886,7 +1033,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "narrowing-scope",
+      "locale": "en",
+      "canonicalSlug": "narrowing-scope"
     },
     {
       "slug": "the-unfolding-legacy-of-twitter-for-software-design",
@@ -901,7 +1051,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "the-unfolding-legacy-of-twitter-for-software-design",
+      "locale": "en",
+      "canonicalSlug": "the-unfolding-legacy-of-twitter-for-software-design"
     },
     {
       "slug": "my-first-week-as-an-entrepreneur",
@@ -916,7 +1069,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "my-first-week-as-an-entrepreneur",
+      "locale": "en",
+      "canonicalSlug": "my-first-week-as-an-entrepreneur"
     },
     {
       "slug": "getting-the-lay-of-the-land",
@@ -931,7 +1087,10 @@
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
       "summary": "",
-      "shareTweet": ""
+      "shareTweet": "",
+      "postId": "getting-the-lay-of-the-land",
+      "locale": "en",
+      "canonicalSlug": "getting-the-lay-of-the-land"
     }
   ]
 }
