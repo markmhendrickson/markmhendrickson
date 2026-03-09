@@ -42,7 +42,10 @@ ALTERNATIVE_SLUGS_JSON = WEBSITE_POSTS_DIR / "alternative_slugs.json"
 
 # Slugs that must always use body/title/excerpt from repo markdown (overwrite export).
 # Ensures the homepage and other repo-owned content stay correct when cache is regenerated from Neotoma.
-REPO_OVERRIDE_SLUGS = {"professional-mission"}
+REPO_OVERRIDE_SLUGS = {
+    "professional-mission",
+    "when-the-chain-becomes-the-product",
+}
 
 
 def write_json(path: Path, payload: Any) -> None:
