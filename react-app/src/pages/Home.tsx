@@ -27,30 +27,26 @@ export default function Home() {
   } as const
   const text = copy[locale as keyof typeof copy] ?? copy.en
   return (
-    <div className="min-h-content">
-      <div className="pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
-        <div className="flex justify-start">
-          <div className="max-w-[1200px] w-full">
-            <img
-              src="/profile.jpg"
-              alt="Mark Hendrickson"
-              className="float-right ml-12 mb-12 w-[400px] h-[400px] rounded-none object-cover"
-            />
-            <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark Hendrickson</h1>
-            <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
-              {text.subtitle}
-            </div>
+    <div className="w-full flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
+      <div className="w-full max-w-[1200px] min-w-0">
+        <img
+          src="/profile.jpg"
+          alt="Mark Hendrickson"
+          className="float-right ml-12 mb-12 w-[400px] h-[400px] rounded-none object-cover"
+        />
+        <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark Hendrickson</h1>
+        <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
+          {text.subtitle}
+        </div>
 
-            <div className="text-[15px] leading-[1.75] font-light">
-              <p className="mb-6">{text.p1}</p>
+        <div className="text-[15px] leading-[1.75] font-light">
+          <p className="mb-6">{text.p1}</p>
 
-              <p className="mb-6">{text.p2}</p>
+          <p className="mb-6">{text.p2}</p>
 
-              <p className="mb-6">{text.p3}</p>
+          <p className="mb-6">{text.p3}</p>
 
-              <p>{text.p4}</p>
-            </div>
-          </div>
+          <p>{text.p4}</p>
         </div>
       </div>
     </div>
