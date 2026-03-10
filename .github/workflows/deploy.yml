@@ -78,7 +78,7 @@ jobs:
           if [ -f data/tmp/neotoma_website_export.json ]; then
             python3 ../../../scripts/generate_website_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
           else
-            python3 ../../../scripts/generate_website_cache.py
+            echo "No export file; cache already sourced from committed cache/*.json for this run."
           fi
 
       - name: Validate translation coverage for published posts
