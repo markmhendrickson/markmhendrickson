@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CACHE_POSTS = ROOT / "cache" / "posts.json"
+EN_CACHE_POSTS = ROOT / "cache" / "posts.en.json"
 SUPPORTED_LOCALES = (
     "en",
     "es",
@@ -41,10 +42,28 @@ def _read_json(path: Path):
         raise RuntimeError(f"Failed to parse JSON at {path}: {exc}") from exc
 
 
+def _norm_text(value: str) -> str:
+    return " ".join(str(value or "").split()).strip().lower()
+
+
+def _looks_english(value: str) -> bool:
+    tokens = set(_norm_text(value).split())
+    if not tokens:
+        return False
+    english_markers = {"the", "and", "is", "to", "of", "in", "that", "with"}
+    return bool(tokens.intersection(english_markers))
+
+
 def main() -> int:
     posts = _read_json(CACHE_POSTS)
     if not isinstance(posts, list):
         raise RuntimeError(f"Expected list in {CACHE_POSTS}")
+    en_posts = _read_json(EN_CACHE_POSTS)
+    if not isinstance(en_posts, list):
+        raise RuntimeError(f"Expected list in {EN_CACHE_POSTS}")
+    en_by_slug = {
+        p.get("slug"): p for p in en_posts if isinstance(p, dict) and p.get("slug")
+    }
 
     published_slugs = sorted(
         {
@@ -66,6 +85,7 @@ def main() -> int:
 
         missing_entries: list[str] = []
         missing_fields: list[str] = []
+        untranslated_fields: list[str] = []
         for slug in published_slugs:
             entry = next(
                 (p for p in data if isinstance(p, dict) and p.get("canonicalSlug") == slug),
@@ -77,6 +97,22 @@ def main() -> int:
             missing = [f for f in REQUIRED_FIELDS if not str(entry.get(f, "")).strip()]
             if missing:
                 missing_fields.append(f"{slug} (missing: {', '.join(missing)})")
+                continue
+
+            # Guard against stale fallback where locale cache silently retains English source.
+            source = en_by_slug.get(slug)
+            if isinstance(source, dict):
+                unchanged = [
+                    f
+                    for f in REQUIRED_FIELDS
+                    if _norm_text(entry.get(f, "")) == _norm_text(source.get(f, ""))
+                ]
+                # Flag stale English fallback only when the full article body remains unchanged.
+                # Titles may intentionally stay identical for names/terms (e.g., "Kanban").
+                if "body" in unchanged and _looks_english(source.get("body", "")):
+                    untranslated_fields.append(
+                        f"{slug} (unchanged from en: {', '.join(unchanged)})"
+                    )
 
         if missing_entries:
             failures.append(
@@ -89,6 +125,12 @@ def main() -> int:
                 f"{locale}: missing required fields on {len(missing_fields)} post(s): "
                 + ", ".join(missing_fields[:20])
                 + (" ..." if len(missing_fields) > 20 else "")
+            )
+        if untranslated_fields:
+            failures.append(
+                f"{locale}: untranslated fallback content on {len(untranslated_fields)} post(s): "
+                + ", ".join(untranslated_fields[:20])
+                + (" ..." if len(untranslated_fields) > 20 else "")
             )
 
     if failures:

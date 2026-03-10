@@ -67,6 +67,10 @@ def _translate_text(text: str, translator: GoogleTranslator, cache: dict[str, st
     return translated
 
 
+def _norm_text(value: str) -> str:
+    return " ".join(str(value or "").split()).strip().lower()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate locale post translation overrides.")
     parser.parse_args()
@@ -97,11 +101,11 @@ def main() -> None:
             prior = existing.get(slug, {}) if isinstance(existing.get(slug), dict) else {}
             entry: dict[str, str] = {}
             for field in TRANSLATABLE_FIELDS:
+                source_value = str(post.get(field) or "").strip()
                 prior_value = str(prior.get(field) or "").strip()
-                if prior_value:
+                if prior_value and _norm_text(prior_value) != _norm_text(source_value):
                     entry[field] = prior_value
                     continue
-                source_value = str(post.get(field) or "")
                 entry[field] = _translate_text(source_value, translator, text_cache)
 
             if prior.get("slug"):

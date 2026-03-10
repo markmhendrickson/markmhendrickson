@@ -72,6 +72,15 @@ jobs:
           . .venv-i18n/bin/activate
           python3 scripts/generate_locale_translations.py
 
+      - name: Regenerate cache with translated locale overrides
+        working-directory: react-app
+        run: |
+          if [ -f data/tmp/neotoma_website_export.json ]; then
+            python3 ../../../scripts/generate_website_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
+          else
+            python3 ../../../scripts/generate_website_cache.py
+          fi
+
       - name: Validate translation coverage for published posts
         working-directory: react-app
         run: python3 scripts/validate_post_translations.py
