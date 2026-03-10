@@ -1,0 +1,86 @@
+{
+  "url": "https://markmhendrickson.com/api/agent.id.json",
+  "title": "Agen",
+  "subtitle": "Minta agen Anda berbicara dengan agen saya.",
+  "description": "Saya menjalankan agen yang didukung MCP sehingga agen lain dapat membaca dan menulis data saya yang didukung Neotoma.",
+  "mcpServerRepoUrl": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
+  "sections": [
+    {
+      "heading": "Apa yang disediakan MCP",
+      "paragraphs": [
+        "Saya menyediakan server MCP yang didukung oleh Neotoma dengan tujuan untuk membagikan semua data pribadi saya yang layak untuk dikonsumsi publik.",
+        "Operasi baca tersedia sekarang. Operasi tulis direncanakan. Idenya adalah untuk memungkinkan agen pihak ketiga mana pun berinteraksi dengan saya (melalui agen saya sendiri) seefisien mungkin daripada melalui saluran lain yang lebih lambat."
+      ]
+    },
+    {
+      "heading": "Peralatan",
+      "paragraphs": [
+        "Server memperlihatkan alat ini untuk akses ke agen saya."
+      ],
+      "table": {
+        "columns": [
+          "Alat",
+          "Tujuan",
+          "Filter",
+          "Kembali"
+        ],
+        "rows": [
+          [
+            "markmhendrickson_get_posts",
+            "Baca catatan posting dari Neotoma.",
+            "Bidang posting apa pun seperti siput, diterbitkan, kategori, tag.",
+            "Array catatan posting dengan hitungan."
+          ],
+          [
+            "markmhendrickson_get_links",
+            "Baca catatan tautan dari Neotoma.",
+            "Bidang tautan apa pun seperti aktif, kategori, nama.",
+            "Array catatan tautan dengan hitungan."
+          ],
+          [
+            "markmhendrickson_get_timeline",
+            "Baca catatan garis waktu dari Neotoma.",
+            "Bidang garis waktu apa pun seperti tipe_entri, perusahaan, peran.",
+            "Array catatan garis waktu dengan hitungan."
+          ],
+          [
+            "markmhendrickson_get_all_content",
+            "Kembalikan postingan, tautan, dan garis waktu dalam satu panggilan.",
+            "Tidak ada.",
+            "Objek dengan postingan, tautan, susunan garis waktu, dan jumlah."
+          ],
+          [
+            "markmhendrickson_get_about",
+            "Kembalikan pos beranda dengan siput.",
+            "Tidak ada.",
+            "Catatan posting tunggal untuk misi profesional."
+          ]
+        ]
+      }
+    },
+    {
+      "heading": "Titik akhir JSON",
+      "paragraphs": [
+        "Postingan, tautan, dan entri garis waktu disimpan di Neotoma dan di-cache ke JSON untuk situs dan MCP. Neotoma adalah sumber kebenaran; pembuatan cache dijalankan sebelum dibangun."
+      ],
+      "bullets": [
+        {
+          "text": "Postingan publik JSON",
+          "url": "https://markmhendrickson.com/api/posts.json"
+        },
+        {
+          "text": "Tautan JSON",
+          "url": "https://markmhendrickson.com/api/links.json"
+        },
+        {
+          "text": "JSON Garis Waktu",
+          "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "Agen JSON",
+          "url": "https://markmhendrickson.com/api/agent.json"
+        }
+      ]
+    }
+  ]
+}

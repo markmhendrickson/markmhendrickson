@@ -1,0 +1,86 @@
+{
+  "url": "https://markmhendrickson.com/api/agent.de.json",
+  "title": "Agent",
+  "subtitle": "Lassen Sie Ihren Agenten mit meinem Agenten sprechen.",
+  "description": "Ich führe einen MCP-gestützten Agenten aus, damit andere Agenten meine von Neotoma unterstützten Daten lesen und schreiben können.",
+  "mcpServerRepoUrl": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
+  "sections": [
+    {
+      "heading": "Was MCP bietet",
+      "paragraphs": [
+        "Ich stelle einen von Neotoma betriebenen MCP-Server zur Verfügung, um alle meine persönlichen Daten weiterzugeben, die für den öffentlichen Gebrauch geeignet sind.",
+        "Lesevorgänge sind jetzt verfügbar. Schreibvorgänge sind geplant. Die Idee besteht darin, es jedem Drittanbieter-Agenten zu ermöglichen, so effizient wie möglich mit mir (über meinen eigenen Agenten) zu interagieren, anstatt andere, langsamere Kanäle zu nutzen."
+      ]
+    },
+    {
+      "heading": "Werkzeuge",
+      "paragraphs": [
+        "Der Server stellt diese Tools für den Zugriff auf meinen Agenten bereit."
+      ],
+      "table": {
+        "columns": [
+          "Werkzeug",
+          "Zweck",
+          "Filter",
+          "Rückgaben"
+        ],
+        "rows": [
+          [
+            "markmhendrickson_get_posts",
+            "Lesen Sie Beitragsaufzeichnungen von Neotoma.",
+            "Beliebiges Beitragsfeld wie Slug, Veröffentlicht, Kategorie, Tags.",
+            "Array von Beitragsdatensätzen mit Anzahl."
+          ],
+          [
+            "markmhendrickson_get_links",
+            "Linkdatensätze von Neotoma lesen.",
+            "Beliebiges Linkfeld wie „Aktiv“, „Kategorie“, „Name“.",
+            "Array von Linkdatensätzen mit Anzahl."
+          ],
+          [
+            "markmhendrickson_get_timeline",
+            "Lesen Sie Zeitleistenaufzeichnungen von Neotoma.",
+            "Beliebiges Zeitleistenfeld wie „Entry_Type“, „Firma“, „Rolle“.",
+            "Array von Zeitachsendatensätzen mit Anzahl."
+          ],
+          [
+            "markmhendrickson_get_all_content",
+            "Geben Sie Beiträge, Links und Timeline in einem Anruf zurück.",
+            "Keiner.",
+            "Objekt mit Beiträgen, Links, Timeline-Arrays und Zählungen."
+          ],
+          [
+            "markmhendrickson_get_about",
+            "Schicken Sie die Post per Post zurück.",
+            "Keiner.",
+            "Einzelpostenaufzeichnung für Berufsmission."
+          ]
+        ]
+      }
+    },
+    {
+      "heading": "JSON-Endpunkte",
+      "paragraphs": [
+        "Beiträge, Links und Timeline-Einträge werden in Neotoma gespeichert und in JSON für die Site und MCP zwischengespeichert. Neotoma ist die Quelle der Wahrheit; Die Cache-Generierung wird vor den Builds ausgeführt."
+      ],
+      "bullets": [
+        {
+          "text": "Öffentliche Beiträge JSON",
+          "url": "https://markmhendrickson.com/api/posts.json"
+        },
+        {
+          "text": "Verknüpft JSON",
+          "url": "https://markmhendrickson.com/api/links.json"
+        },
+        {
+          "text": "Zeitleiste JSON",
+          "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "Agent-JSON",
+          "url": "https://markmhendrickson.com/api/agent.json"
+        }
+      ]
+    }
+  ]
+}

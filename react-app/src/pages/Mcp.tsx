@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useLocale } from '@/i18n/LocaleContext'
+import { supportedLocales } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
 
 const SITE_BASE = 'https://markmhendrickson.com'
@@ -90,31 +91,7 @@ function linkFirstMcpServer(
 }
 
 export default function Mcp() {
-  const { locale } = useLocale()
-  const pageCopy = {
-    en: {
-      fallbackTitle: 'Agent',
-      fallbackDesc: 'Have your agent talk to my agent.',
-      loadError: 'Could not load agent page',
-      ensureAvailable: 'Ensure this URL is available',
-      loading: 'Loading...',
-    },
-    es: {
-      fallbackTitle: 'Agente',
-      fallbackDesc: 'Haz que tu agente hable con mi agente.',
-      loadError: 'No se pudo cargar la página de agente',
-      ensureAvailable: 'Asegúrate de que esta URL esté disponible',
-      loading: 'Cargando...',
-    },
-    ca: {
-      fallbackTitle: 'Agent',
-      fallbackDesc: "Fes que el teu agent parli amb el meu agent.",
-      loadError: "No s'ha pogut carregar la pàgina d'agent",
-      ensureAvailable: 'Assegura que aquesta URL estigui disponible',
-      loading: 'Carregant...',
-    },
-  } as const
-  const text = pageCopy[locale]
+  const { locale, t } = useLocale()
   const agentJsonUrl = import.meta.env.DEV
     ? `/api/agent${locale === 'en' ? '' : `.${locale}`}.json`
     : `${SITE_BASE}/api/agent${locale === 'en' ? '' : `.${locale}`}.json`
@@ -147,8 +124,8 @@ export default function Mcp() {
   }, [agentJsonUrl])
 
   const canonicalUrl = `${SITE_BASE}${localizePath('/agent', locale)}`
-  const pageTitle = content ? `${content.title} — Mark Hendrickson` : `${text.fallbackTitle} — Mark Hendrickson`
-  const pageDesc = content?.description ?? text.fallbackDesc
+  const pageTitle = content ? `${content.title} — Mark Hendrickson` : `${t.mcpFallbackTitle} — Mark Hendrickson`
+  const pageDesc = content?.description ?? t.mcpFallbackDescription
 
   return (
     <>
@@ -157,6 +134,15 @@ export default function Mcp() {
         <meta name="description" content={pageDesc} />
         <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
+        {supportedLocales.map((altLocale) => (
+          <link
+            key={altLocale}
+            rel="alternate"
+            hrefLang={altLocale}
+            href={`${SITE_BASE}${localizePath('/agent', altLocale)}`}
+          />
+        ))}
+        <link rel="alternate" hrefLang="x-default" href={`${SITE_BASE}/agent`} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
@@ -174,11 +160,11 @@ export default function Mcp() {
         <div className="max-w-[42rem] w-full">
           {error && (
             <p className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed mb-4" role="alert">
-              {text.loadError}: {error}. {text.ensureAvailable}: {agentJsonUrl}.
+              {t.mcpLoadError}: {error}. {t.mcpEnsureAvailable}: {agentJsonUrl}.
             </p>
           )}
           {!content && !error && (
-            <p className="text-[15px] text-muted-foreground dark:text-foreground/80">{text.loading}</p>
+            <p className="text-[15px] text-muted-foreground dark:text-foreground/80">{t.mcpLoading}</p>
           )}
           {content && (
             <article className="agent-page">

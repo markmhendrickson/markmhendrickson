@@ -3,11 +3,6 @@ import { Calendar } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 
-const slots = [
-  { duration: '30 minutes', url: 'https://calendar.notion.so/meet/markmhendrickson/meeting', label: 'Meeting' },
-  { duration: '60 minutes', url: 'https://calendar.notion.so/meet/markmhendrickson/chat', label: 'Chat' },
-]
-
 export default function Schedule() {
   const { locale } = useLocale()
   const copy = {
@@ -16,21 +11,56 @@ export default function Schedule() {
       subtitle: 'Pick a time that works for you',
       pageDesc: 'Book a 30 or 60 minute slot with Mark.',
       bookVia: 'Book via Notion Calendar',
+      duration30: '30 minutes',
+      duration60: '60 minutes',
+      labelMeeting: 'Meeting',
+      labelChat: 'Chat',
     },
     es: {
       title: 'Reúnete conmigo',
       subtitle: 'Elige una hora que te funcione',
       pageDesc: 'Reserva una reunión de 30 o 60 minutos con Mark.',
       bookVia: 'Reservar con Notion Calendar',
+      duration30: '30 minutos',
+      duration60: '60 minutos',
+      labelMeeting: 'Reunión',
+      labelChat: 'Charla',
     },
     ca: {
       title: "Reuneix-te amb mi",
       subtitle: "Tria una hora que et vagi bé",
       pageDesc: 'Reserva una reunió de 30 o 60 minuts amb en Mark.',
       bookVia: 'Reserva amb Notion Calendar',
+      duration30: '30 minuts',
+      duration60: '60 minuts',
+      labelMeeting: 'Reunió',
+      labelChat: 'Xerrada',
+    },
+    zh: {
+      title: '与我会面',
+      subtitle: '选择一个适合你的时间',
+      pageDesc: '预订与 Mark 的 30 分钟或 60 分钟会面。',
+      bookVia: '通过 Notion Calendar 预约',
+      duration30: '30 分钟',
+      duration60: '60 分钟',
+      labelMeeting: '会议',
+      labelChat: '聊天',
     },
   } as const
-  const text = copy[locale]
+  const baseText = copy[locale as keyof typeof copy] ?? copy.en
+  const text = baseText
+  const slots = [
+    {
+      duration: text.duration30,
+      url: 'https://calendar.notion.so/meet/markmhendrickson/meeting',
+      label: text.labelMeeting,
+    },
+    {
+      duration: text.duration60,
+      url: 'https://calendar.notion.so/meet/markmhendrickson/chat',
+      label: text.labelChat,
+    },
+  ]
   const pageTitle = `${text.title} — Mark Hendrickson`
   const pageDesc = text.pageDesc
   const canonicalUrl = `https://markmhendrickson.com${localizePath('/meet', locale)}`

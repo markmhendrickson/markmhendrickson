@@ -1,0 +1,86 @@
+{
+  "url": "https://markmhendrickson.com/api/agent.fr.json",
+  "title": "Agent",
+  "subtitle": "Demandez à votre agent de parler à mon agent.",
+  "description": "J'exécute un agent basé sur MCP afin que d'autres agents puissent lire et écrire sur mes données sauvegardées par Neotoma.",
+  "mcpServerRepoUrl": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
+  "sections": [
+    {
+      "heading": "Ce que MCP propose",
+      "paragraphs": [
+        "Je fournis un serveur MCP alimenté par Neotoma dans le but de partager toutes mes données personnelles adaptées à la consommation publique.",
+        "Les opérations de lecture sont disponibles dès maintenant. Des opérations d'écriture sont prévues. L'idée est de permettre à tout agent tiers d'interagir avec moi (par l'intermédiaire de mon propre agent) aussi efficacement que possible au lieu de passer par d'autres canaux plus lents."
+      ]
+    },
+    {
+      "heading": "Outils",
+      "paragraphs": [
+        "Le serveur expose ces outils pour accéder à mon agent."
+      ],
+      "table": {
+        "columns": [
+          "Outil",
+          "But",
+          "Filtres",
+          "Retours"
+        ],
+        "rows": [
+          [
+            "markmhendrickson_get_posts",
+            "Lisez les enregistrements de publication de Neotoma.",
+            "Tout champ de publication tel que slug, publié, catégorie, balises.",
+            "Tableau d'enregistrements de publication avec nombre."
+          ],
+          [
+            "markmhendrickson_get_links",
+            "Lisez les enregistrements de liens de Neotoma.",
+            "Tout champ de lien tel que actif, catégorie, nom.",
+            "Tableau d'enregistrements de lien avec nombre."
+          ],
+          [
+            "markmhendrickson_get_timeline",
+            "Lisez les enregistrements chronologiques de Neotoma.",
+            "Tout champ de chronologie tel que type_entrée, entreprise, rôle.",
+            "Tableau d’enregistrements chronologiques avec nombre."
+          ],
+          [
+            "markmhendrickson_get_all_content",
+            "Renvoyez les publications, les liens et la chronologie en un seul appel.",
+            "Aucun.",
+            "Objet avec des publications, des liens, des tableaux de chronologie et des décomptes."
+          ],
+          [
+            "markmhendrickson_get_about",
+            "Renvoyez le courrier d'accueil par slug.",
+            "Aucun.",
+            "Fiche de poste unique pour mission professionnelle."
+          ]
+        ]
+      }
+    },
+    {
+      "heading": "Points de terminaison JSON",
+      "paragraphs": [
+        "Les publications, liens et entrées de chronologie sont stockés dans Neotoma et mis en cache dans JSON pour le site et MCP. Neotoma est la source de la vérité ; la génération du cache s'exécute avant les builds."
+      ],
+      "bullets": [
+        {
+          "text": "Publications publiques JSON",
+          "url": "https://markmhendrickson.com/api/posts.json"
+        },
+        {
+          "text": "Liens JSON",
+          "url": "https://markmhendrickson.com/api/links.json"
+        },
+        {
+          "text": "Chronologie JSON",
+          "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "AgentJSON",
+          "url": "https://markmhendrickson.com/api/agent.json"
+        }
+      ]
+    }
+  ]
+}

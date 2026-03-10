@@ -1,0 +1,68 @@
+{
+  "url": "https://markmhendrickson.com/api/meet.json",
+  "meet": [
+    {
+      "slug": "meet",
+      "title": "Meet with me",
+      "subtitle": "Pick a time that works for you",
+      "description": "Book a 30 or 60 minute slot with Mark.",
+      "bookingProvider": "Notion Calendar",
+      "slots": [
+        {
+          "type": "meeting",
+          "label": "Meeting",
+          "duration": "30 minutes",
+          "url": "https://calendar.notion.so/meet/markmhendrickson/meeting"
+        },
+        {
+          "type": "chat",
+          "label": "Chat",
+          "duration": "60 minutes",
+          "url": "https://calendar.notion.so/meet/markmhendrickson/chat"
+        }
+      ],
+      "locales": {
+        "en": {
+          "title": "Meet with me",
+          "subtitle": "Pick a time that works for you",
+          "description": "Book a 30 or 60 minute slot with Mark.",
+          "bookVia": "Book via Notion Calendar",
+          "duration30": "30 minutes",
+          "duration60": "60 minutes",
+          "labelMeeting": "Meeting",
+          "labelChat": "Chat"
+        },
+        "es": {
+          "title": "Reúnete conmigo",
+          "subtitle": "Elige una hora que te funcione",
+          "description": "Reserva una reunión de 30 o 60 minutos con Mark.",
+          "bookVia": "Reservar con Notion Calendar",
+          "duration30": "30 minutos",
+          "duration60": "60 minutos",
+          "labelMeeting": "Reunión",
+          "labelChat": "Charla"
+        },
+        "ca": {
+          "title": "Reuneix-te amb mi",
+          "subtitle": "Tria una hora que et vagi bé",
+          "description": "Reserva una reunió de 30 o 60 minuts amb en Mark.",
+          "bookVia": "Reserva amb Notion Calendar",
+          "duration30": "30 minuts",
+          "duration60": "60 minuts",
+          "labelMeeting": "Reunió",
+          "labelChat": "Xerrada"
+        },
+        "zh": {
+          "title": "与我会面",
+          "subtitle": "选择一个适合你的时间",
+          "description": "预订与 Mark 的 30 分钟或 60 分钟会面。",
+          "bookVia": "通过 Notion Calendar 预约",
+          "duration30": "30 分钟",
+          "duration60": "60 分钟",
+          "labelMeeting": "会议",
+          "labelChat": "聊天"
+        }
+      }
+    }
+  ]
+}

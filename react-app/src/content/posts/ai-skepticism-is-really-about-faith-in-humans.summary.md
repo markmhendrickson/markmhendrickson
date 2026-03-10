@@ -1,0 +1,5 @@
+- AI skeptics don't just see limitations. They conclude the limitations are reason to disengage, under the assumption that things won't improve fast enough to matter.
+- The enthusiasts encounter the same frustrations more directly, because they work with the tech daily. They treat the problems as the work itself, not as disqualifiers.
+- Embracing new technology is a litmus test for faith in human capability. The people who lean in believe humans can steer it. The people who pull back reveal doubt that we can.
+- The same dynamic has played out and continues to play out in crypto. Skeptics bet on existing institutions. Builders bet on human adaptability.
+- There is no determined future where AI or bots play any given role. The outcome depends on who shows up to shape it.

@@ -10,9 +10,25 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CACHE_POSTS = ROOT / "cache" / "posts.json"
-TRANSLATIONS = {
-    "es": ROOT / "src" / "content" / "posts" / "translations.es.json",
-    "ca": ROOT / "src" / "content" / "posts" / "translations.ca.json",
+SUPPORTED_LOCALES = (
+    "en",
+    "es",
+    "ca",
+    "zh",
+    "hi",
+    "ar",
+    "fr",
+    "pt",
+    "ru",
+    "bn",
+    "ur",
+    "id",
+    "de",
+)
+LOCALE_CACHES = {
+    locale: ROOT / "cache" / f"posts.{locale}.json"
+    for locale in SUPPORTED_LOCALES
+    if locale != "en"
 }
 # Require full-body localization so non-English locales never fall back to English post content.
 REQUIRED_FIELDS = ("title", "excerpt", "summary", "body")
@@ -39,16 +55,22 @@ def main() -> int:
     )
 
     failures: list[str] = []
-    for locale, path in TRANSLATIONS.items():
+    for locale, path in LOCALE_CACHES.items():
+        if not path.exists():
+            failures.append(f"{locale}: locale cache missing at {path}")
+            continue
         data = _read_json(path)
-        if not isinstance(data, dict):
-            failures.append(f"{locale}: expected object in {path}")
+        if not isinstance(data, list):
+            failures.append(f"{locale}: expected list in {path}")
             continue
 
         missing_entries: list[str] = []
         missing_fields: list[str] = []
         for slug in published_slugs:
-            entry = data.get(slug)
+            entry = next(
+                (p for p in data if isinstance(p, dict) and p.get("canonicalSlug") == slug),
+                None,
+            )
             if not isinstance(entry, dict):
                 missing_entries.append(slug)
                 continue
@@ -77,7 +99,7 @@ def main() -> int:
 
     print(
         "Translation validation passed for published posts "
-        f"({len(published_slugs)} slugs, locales: {', '.join(TRANSLATIONS.keys())})."
+        f"({len(published_slugs)} slugs, locales: {', '.join(LOCALE_CACHES.keys())})."
     )
     return 0
 

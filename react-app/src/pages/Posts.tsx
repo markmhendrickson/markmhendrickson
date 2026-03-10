@@ -5,6 +5,7 @@ import { Search } from 'lucide-react'
 import { stripLinksFromExcerpt, getPostImageSrc, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { useLocale } from '@/i18n/LocaleContext'
+import { supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 
@@ -36,7 +37,7 @@ interface PostsProps {
 
 /** In dev, load private cache (includes drafts) so we can show "View drafts" and /posts/draft.
  * Prefer localized public cache when a slug exists in both. */
-async function loadPostsData(includeDrafts: boolean, locale: 'en' | 'es' | 'ca'): Promise<Post[]> {
+async function loadPostsData(includeDrafts: boolean, locale: SupportedLocale): Promise<Post[]> {
   const localizedPublicPosts = getLocalizedPublicPosts(locale) as unknown as Post[]
   if (!includeDrafts) return localizedPublicPosts
   if (import.meta.env.PROD) return localizedPublicPosts
@@ -125,12 +126,6 @@ function TweetPreview({
 
 export default function Posts({ draft = false }: PostsProps) {
   const { locale, languageTag, t } = useLocale()
-  const uiCopy = {
-    en: { showMore: 'Show more', showLess: 'Show less', noMatchPrefix: 'No posts match' },
-    es: { showMore: 'Ver más', showLess: 'Ver menos', noMatchPrefix: 'No hay publicaciones que coincidan con' },
-    ca: { showMore: 'Mostra més', showLess: 'Mostra menys', noMatchPrefix: 'No hi ha publicacions que coincideixin amb' },
-  } as const
-  const ui = uiCopy[locale]
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q')?.trim() ?? ''
   const [searchInput, setSearchInput] = useState(query)
@@ -241,6 +236,7 @@ export default function Posts({ draft = false }: PostsProps) {
   const pageDesc = draft
     ? t.draftsDescription
     : t.postsDescription
+  const pagePath = draft ? '/posts/draft' : '/posts'
 
   return (
     <>
@@ -248,9 +244,19 @@ export default function Posts({ draft = false }: PostsProps) {
         <title>{pageTitle} — Mark Hendrickson</title>
         <meta name="description" content={pageDesc} />
         <meta name="author" content="Mark Hendrickson" />
+        <link rel="canonical" href={`https://markmhendrickson.com${localizePath(pagePath, locale)}`} />
+        {supportedLocales.map((altLocale) => (
+          <link
+            key={altLocale}
+            rel="alternate"
+            hrefLang={altLocale}
+            href={`https://markmhendrickson.com${localizePath(pagePath, altLocale)}`}
+          />
+        ))}
+        <link rel="alternate" hrefLang="x-default" href="https://markmhendrickson.com/posts" />
         <meta property="og:title" content={`${pageTitle} — Mark Hendrickson`} />
         <meta property="og:description" content={pageDesc} />
-        <meta property="og:url" content={`https://markmhendrickson.com${localizePath('/posts', locale)}`} />
+        <meta property="og:url" content={`https://markmhendrickson.com${localizePath(pagePath, locale)}`} />
         <meta property="og:image" content={defaultOgImage} />
         <meta property="og:image:width" content={String(ogImageWidth)} />
         <meta property="og:image:height" content={String(ogImageHeight)} />
@@ -311,7 +317,7 @@ export default function Posts({ draft = false }: PostsProps) {
           {filteredPosts.length === 0 ? (
             <p className="text-[15px] text-muted-foreground">
               {query
-                ? `${ui.noMatchPrefix} “${query}”.`
+                ? `${t.noMatchPrefix} “${query}”.`
                 : draft
                   ? t.noDraftsYet
                   : t.noPostsYet}
@@ -348,8 +354,8 @@ export default function Posts({ draft = false }: PostsProps) {
                         })
                       }}
                       cutoff={TWEET_SHOW_MORE_CUTOFF}
-                      showMoreLabel={ui.showMore}
-                      showLessLabel={ui.showLess}
+                      showMoreLabel={t.showMore}
+                      showLessLabel={t.showLess}
                     />
                   ) : (
                     <h2 className="text-[20px] font-medium mb-2 tracking-tight">

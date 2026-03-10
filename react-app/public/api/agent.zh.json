@@ -1,0 +1,86 @@
+{
+  "url": "https://markmhendrickson.com/api/agent.zh.json",
+  "title": "代理人",
+  "subtitle": "让你的经纪人和我的经纪人谈谈。",
+  "description": "我运行 MCP 支持的代理，以便其他代理可以读取和写入我的 Neotoma 支持的数据。",
+  "mcpServerRepoUrl": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
+  "sections": [
+    {
+      "heading": "MCP 提供什么",
+      "paragraphs": [
+        "我提供了一个由 Neotoma 提供支持的 MCP 服务器，用于共享我所有适合公众使用的个人数据。",
+        "现在可以进行读取操作。写入操作已计划。这个想法是让任何第三方代理能够尽可能有效地与我交互（通过我自己的代理），而不是通过其他较慢的渠道。"
+      ]
+    },
+    {
+      "heading": "工具",
+      "paragraphs": [
+        "服务器公开这些工具以访问我的代理。"
+      ],
+      "table": {
+        "columns": [
+          "工具",
+          "目的",
+          "过滤器",
+          "退货"
+        ],
+        "rows": [
+          [
+            "markmhendrickson_get_posts",
+            "阅读 Neotoma 的帖子记录。",
+            "任何帖子字段，例如 slug、已发布、类别、标签。",
+            "带计数的帖子记录数组。"
+          ],
+          [
+            "markmhendrickson_get_links",
+            "从 Neotoma 读取链接记录。",
+            "任何链接字段，例如活动、类别、名称。",
+            "带计数的链接记录数组。"
+          ],
+          [
+            "markmhendrickson_get_timeline",
+            "读取 Neotoma 的时间线记录。",
+            "任何时间线字段，例如entry_type、公司、角色。",
+            "具有计数的时间线记录数组。"
+          ],
+          [
+            "markmhendrickson_get_all_content",
+            "一次调用即可返回帖子、链接和时间表。",
+            "没有任何。",
+            "包含帖子、链接、时间线数组和计数的对象。"
+          ],
+          [
+            "markmhendrickson_get_about",
+            "通过 slug 返回主页。",
+            "没有任何。",
+            "专业任务的单一职位记录。"
+          ]
+        ]
+      }
+    },
+    {
+      "heading": "JSON 端点",
+      "paragraphs": [
+        "帖子、链接和时间线条目存储在 Neotoma 中，并缓存到站点和 MCP 的 JSON 中。 Neotoma 是真理的源泉；缓存生成在构建之前运行。"
+      ],
+      "bullets": [
+        {
+          "text": "公共帖子 JSON",
+          "url": "https://markmhendrickson.com/api/posts.json"
+        },
+        {
+          "text": "链接 JSON",
+          "url": "https://markmhendrickson.com/api/links.json"
+        },
+        {
+          "text": "时间轴 JSON",
+          "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "代理 JSON",
+          "url": "https://markmhendrickson.com/api/agent.json"
+        }
+      ]
+    }
+  ]
+}

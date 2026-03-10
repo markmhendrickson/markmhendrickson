@@ -14,6 +14,7 @@
       "build-in-public",
       "mcp"
     ],
+    "shareTweet": "I built an agentic stack to dogfood @neaborns. 12+ MCP servers where agents handle email, Bitcoin payments, and deploys. 1,000+ contacts, 600 tasks, 170 entity types in structured memory.\n\nWhat it does, and why I plan to open-source it.\n\nhttps://markmhendrickson.com/posts/what-my-agentic-stack-actually-does",
     "heroImage": "what-my-agentic-stack-actually-does-hero.png",
     "heroImageSquare": "what-my-agentic-stack-actually-does-hero-square.png",
     "heroImageStyle": "keep-proportions",
@@ -25,7 +26,7 @@
     "title": "When the chain becomes the product",
     "excerpt": "I joined Blockstack in 2018 for the off-chain developer tools. Over seven years I watched token economics reshape the product direction, push the perceived moment of value perpetually into the future, and replace empirical product development with narrative-driven roadmaps.",
     "published": true,
-    "publishedDate": "2026-03-09",
+    "publishedDate": "2026-03-08",
     "category": "essay",
     "readTime": 10,
     "tags": [

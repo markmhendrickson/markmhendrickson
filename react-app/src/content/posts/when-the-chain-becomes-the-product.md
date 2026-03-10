@@ -2,7 +2,7 @@
 title: When the chain becomes the product
 excerpt: I joined Blockstack in 2018 for the off-chain developer tools. Over seven years I watched token economics reshape the product direction, push the perceived moment of value perpetually into the future, and replace empirical product development with narrative-driven roadmaps.
 published: true
-published_date: "2026-03-09"
+published_date: "2026-03-08"
 hero_image: when-the-chain-becomes-the-product-hero.png
 hero_image_style: keep-proportions
 ---

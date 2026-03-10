@@ -19,6 +19,7 @@
     "build:ci": "npm run build && npm run build:ssr && NODE_ENV=production node server.js --prerender",
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "build:full": "npm run build && npm run build:ssr",
+    "test:i18n-smoke": "python3 scripts/smoke_i18n_locales.py",
     "preview": "vite preview",
     "preview:ssr": "NODE_ENV=production PORT=3002 node server.js"
   },

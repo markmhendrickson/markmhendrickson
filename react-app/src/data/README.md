@@ -9,7 +9,8 @@ All static data for the website (posts, links, timeline, etc.) MUST be stored in
 ## Structure
 
 - `links.json` - Links and profiles (social media, contact, etc.)
-- `timeline.json` - Career timeline data for the Home page
+- `timeline.json` - Career timeline data for the Home page (cache copy; generated from Neotoma)
+- `timeline_project_links.json` - Optional links for timeline entries: company site (`url`), site post (`postSlug`), or representative news/article URL. Keyed by exact `company` string; used on the Timeline page to make project/company names clickable.
 - Additional JSON files as needed for other static data
 
 ## Usage

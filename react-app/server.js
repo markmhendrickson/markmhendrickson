@@ -23,8 +23,9 @@ function helmetHeadString(helmetContext) {
 }
 
 const SITE_BASE = 'https://markmhendrickson.com'
-const SUPPORTED_LOCALES = ['en', 'es', 'ca']
-const PREFIXED_LOCALES = ['es', 'ca']
+const SUPPORTED_LOCALES = ['en', 'es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']
+const DEFAULT_LOCALE = 'en'
+const PREFIXED_LOCALES = SUPPORTED_LOCALES.filter((locale) => locale !== DEFAULT_LOCALE)
 const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet']
 const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet']
 const LOCALIZED_STATIC_ROUTES = PREFIXED_LOCALES.flatMap((locale) =>
@@ -32,8 +33,30 @@ const LOCALIZED_STATIC_ROUTES = PREFIXED_LOCALES.flatMap((locale) =>
 )
 const STATIC_ROUTES = [...new Set([...LEGACY_STATIC_ROUTES, ...LOCALIZED_STATIC_ROUTES])]
 
-function getPosts() {
-  const postsPath = path.resolve(__dirname, 'cache', 'posts.json')
+const localeToLanguageTag = {
+  en: 'en-US',
+  es: 'es-ES',
+  ca: 'ca-ES',
+  zh: 'zh-CN',
+  hi: 'hi-IN',
+  ar: 'ar',
+  fr: 'fr-FR',
+  pt: 'pt-PT',
+  ru: 'ru-RU',
+  bn: 'bn-BD',
+  ur: 'ur-PK',
+  id: 'id-ID',
+  de: 'de-DE',
+}
+
+function isSupportedLocale(locale) {
+  return SUPPORTED_LOCALES.includes(locale)
+}
+
+function getPosts(locale = DEFAULT_LOCALE) {
+  const localePath = path.resolve(__dirname, 'cache', `posts.${locale}.json`)
+  const fallbackPath = path.resolve(__dirname, 'cache', 'posts.json')
+  const postsPath = fs.existsSync(localePath) ? localePath : fallbackPath
   if (!fs.existsSync(postsPath)) return []
   const raw = fs.readFileSync(postsPath, 'utf-8')
   const posts = JSON.parse(raw)
@@ -53,20 +76,14 @@ function buildSlugToCanonical(posts) {
 
 /** All post URLs to prerender: canonical slug plus every alternativeSlug so crawlers (X, etc.) get correct meta for any shared URL. */
 function getPostSlugs() {
-  const posts = getPosts()
   const routes = new Set()
-  for (const p of posts) {
-    if (p.published === false || !p.slug) continue
-    routes.add(`/posts/${p.slug}`)
-    for (const locale of PREFIXED_LOCALES) {
-      routes.add(`/${locale}/posts/${p.slug}`)
-    }
-    for (const alt of p.alternativeSlugs ?? []) {
-      if (alt) {
-        routes.add(`/posts/${alt}`)
-        for (const locale of PREFIXED_LOCALES) {
-          routes.add(`/${locale}/posts/${alt}`)
-        }
+  for (const locale of SUPPORTED_LOCALES) {
+    const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
+    for (const p of getPosts(locale)) {
+      if (p.published === false || !p.slug) continue
+      routes.add(`${localePrefix}/posts/${p.slug}`)
+      for (const alt of p.alternativeSlugs ?? []) {
+        if (alt) routes.add(`${localePrefix}/posts/${alt}`)
       }
     }
   }
@@ -74,27 +91,24 @@ function getPostSlugs() {
 }
 
 function getPostEntries() {
-  const postsPath = path.resolve(__dirname, 'cache', 'posts.json')
-  if (!fs.existsSync(postsPath)) return []
-  const raw = fs.readFileSync(postsPath, 'utf-8')
-  const parsed = JSON.parse(raw)
-  const posts = Array.isArray(parsed) ? parsed : []
   const seen = new Set()
-  return posts
-    .filter((p) => p.published !== false && p.slug)
-    .flatMap((p) => {
+  const entries = []
+  for (const locale of SUPPORTED_LOCALES) {
+    const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
+    for (const p of getPosts(locale)) {
+      if (p.published === false || !p.slug) continue
       const lastmod = p.updatedDate || p.publishedDate || null
-      const localized = PREFIXED_LOCALES.map((locale) => ({
-        pathName: `/${locale}/posts/${p.slug}`,
-        lastmod,
-      }))
-      return [{ pathName: `/posts/${p.slug}`, lastmod }, ...localized]
-    })
-    .filter((entry) => {
-      if (seen.has(entry.pathName)) return false
-      seen.add(entry.pathName)
-      return true
-    })
+      const variants = [p.slug, ...(p.alternativeSlugs ?? [])]
+      for (const variant of variants) {
+        if (!variant) continue
+        const pathName = `${localePrefix}/posts/${variant}`
+        if (seen.has(pathName)) continue
+        seen.add(pathName)
+        entries.push({ pathName, lastmod })
+      }
+    }
+  }
+  return entries
 }
 
 function buildSitemapXml(staticRoutes, postEntries) {
@@ -165,15 +179,16 @@ function buildRssXml(posts, locale = 'en') {
   </item>`
     })
     .join('\n')
-  const localeBasePath = locale === 'en' ? '/' : `/${locale}/`
-  const rssPath = locale === 'en' ? '/rss.xml' : `/${locale}/rss.xml`
+  const localeBasePath = locale === DEFAULT_LOCALE ? '/' : `/${locale}/`
+  const rssPath = locale === DEFAULT_LOCALE ? '/rss.xml' : `/${locale}/rss.xml`
+  const languageTag = localeToLanguageTag[locale] || 'en-US'
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${escapeXml(RSS_FEED_TITLE)}</title>
     <link>${SITE_BASE}${localeBasePath}</link>
     <description>${escapeXml(RSS_FEED_DESCRIPTION)}</description>
-    <language>${locale}-us</language>
+    <language>${languageTag}</language>
     <lastBuildDate>${latestDate}</lastBuildDate>
     <atom:link href="${SITE_BASE}${rssPath}" rel="self" type="application/rss+xml"/>
 ${items}
@@ -188,8 +203,8 @@ function readPostBody(slug) {
   return fs.readFileSync(mdPath, 'utf-8')
 }
 
-function resolveSlugToCanonical(slug) {
-  const posts = getPosts()
+function resolveSlugToCanonical(slug, locale = DEFAULT_LOCALE) {
+  const posts = getPosts(locale)
   const slugToCanonical = buildSlugToCanonical(posts)
   return slugToCanonical.get(slug) ?? slug
 }
@@ -212,8 +227,12 @@ async function runPrerender() {
   for (const url of allRoutes) {
     const helmetContext = {}
     const pathname = url.split('?')[0] || '/'
-    const postMatch = pathname.match(/^\/(?:[a-z]{2}\/)?posts\/([^/]+)$/)
-    const canonicalSlug = postMatch ? resolveSlugToCanonical(postMatch[1]) : null
+    const segments = pathname.split('/').filter(Boolean)
+    const routeLocale = isSupportedLocale(segments[0]) ? segments[0] : DEFAULT_LOCALE
+    const offset = isSupportedLocale(segments[0]) ? 1 : 0
+    const isPostRoute = segments[offset] === 'posts'
+    const slug = isPostRoute ? segments[offset + 1] : null
+    const canonicalSlug = slug ? resolveSlugToCanonical(slug, routeLocale) : null
     const postBody = canonicalSlug ? readPostBody(canonicalSlug) : null
     const appHtml = render(url, helmetContext, postBody != null ? { postBody } : undefined)
     let html = template.replace(SSR_PLACEHOLDER, appHtml)
@@ -240,11 +259,11 @@ async function runPrerender() {
   const sitemapXml = buildSitemapXml(sitemapRoutes, getPostEntries())
   fs.writeFileSync(path.join(distPath, 'sitemap.xml'), sitemapXml, 'utf-8')
   console.log('prerender: sitemap.xml')
-  const rssXml = buildRssXml(getPosts(), 'en')
+  const rssXml = buildRssXml(getPosts(DEFAULT_LOCALE), DEFAULT_LOCALE)
   fs.writeFileSync(path.join(distPath, 'rss.xml'), rssXml, 'utf-8')
   console.log('prerender: rss.xml')
-  for (const locale of ['es', 'ca']) {
-    const localizedRssXml = buildRssXml(getPosts(), locale)
+  for (const locale of PREFIXED_LOCALES) {
+    const localizedRssXml = buildRssXml(getPosts(locale), locale)
     fs.mkdirSync(path.join(distPath, locale), { recursive: true })
     fs.writeFileSync(path.join(distPath, locale, 'rss.xml'), localizedRssXml, 'utf-8')
     console.log(`prerender: ${locale}/rss.xml`)

@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async'
 import { Github, Linkedin, Instagram, Twitter, Facebook, Youtube, Mail, Globe, type LucideIcon } from 'lucide-react'
 import linksData from '@cache/links.json'
 import { useLocale } from '@/i18n/LocaleContext'
+import { supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
 
 interface LinkData {
@@ -15,41 +16,51 @@ interface LinkWithIcon extends Omit<LinkData, 'icon'> {
   icon: LucideIcon
 }
 
-function localizeLinkDescription(description: string, locale: 'en' | 'es' | 'ca'): string {
+function localizeLinkDescription(description: string, locale: SupportedLocale): string {
   if (locale === 'en') return description
-  const map: Record<string, { es: string; ca: string }> = {
+  const map: Record<string, { es: string; ca: string; zh: string }> = {
     'Code repositories and open source projects': {
       es: 'Repositorios de código y proyectos de código abierto',
       ca: 'Repositoris de codi i projectes de codi obert',
+      zh: '代码仓库与开源项目',
     },
     'Professional network and career updates': {
       es: 'Red profesional y actualizaciones de carrera',
       ca: 'Xarxa professional i actualitzacions de carrera',
+      zh: '职业人脉与职业动态',
     },
     'Thoughts on tech, crypto, and AI': {
       es: 'Reflexiones sobre tecnología, cripto e IA',
       ca: 'Reflexions sobre tecnologia, cripto i IA',
+      zh: '关于科技、加密与 AI 的思考',
     },
     'Building in public, indie products, and startup community': {
       es: 'Construyendo en público, productos indie y comunidad startup',
       ca: 'Construint en públic, productes indie i comunitat startup',
+      zh: '公开构建、独立产品与创业社区',
     },
     'Tech and startup discussions': {
       es: 'Debates sobre tecnología y startups',
       ca: 'Debats sobre tecnologia i startups',
+      zh: '科技与创业讨论',
     },
     'Personal photos, videos, and updates': {
       es: 'Fotos personales, videos y actualizaciones',
       ca: 'Fotos personals, vídeos i actualitzacions',
+      zh: '个人照片、视频与动态',
     },
     'Get in touch via email': {
       es: 'Contacta por correo electrónico',
       ca: 'Contacta per correu electrònic',
+      zh: '通过电子邮件联系我',
     },
   }
   const entry = map[description]
   if (!entry) return description
-  return locale === 'es' ? entry.es : entry.ca
+  if (locale === 'es') return entry.es
+  if (locale === 'ca') return entry.ca
+  if (locale === 'zh') return entry.zh
+  return description
 }
 
 // Branded icons (Simple Icons paths)
@@ -118,27 +129,9 @@ const links: LinkWithIcon[] = (linksData as LinkData[]).map(link => ({
 }))
 
 export default function SocialMedia() {
-  const { locale } = useLocale()
-  const copy = {
-    en: {
-      title: 'Links',
-      subtitle: 'Connect with me across platforms',
-      pageDesc: 'Links to profiles and contact channels.',
-    },
-    es: {
-      title: 'Enlaces',
-      subtitle: 'Conecta conmigo en distintas plataformas',
-      pageDesc: 'Enlaces a perfiles y canales de contacto.',
-    },
-    ca: {
-      title: 'Enllaços',
-      subtitle: 'Connecta amb mi a diferents plataformes',
-      pageDesc: "Enllaços a perfils i canals de contacte.",
-    },
-  } as const
-  const text = copy[locale]
-  const pageTitle = `${text.title} — Mark Hendrickson`
-  const pageDesc = text.pageDesc
+  const { locale, t } = useLocale()
+  const pageTitle = `${t.linksTitle} — Mark Hendrickson`
+  const pageDesc = t.linksPageDescription
   const canonicalUrl = `https://markmhendrickson.com${localizePath('/links', locale)}`
   const defaultOgImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200
@@ -151,6 +144,15 @@ export default function SocialMedia() {
         <meta name="description" content={pageDesc} />
         <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
+        {supportedLocales.map((altLocale) => (
+          <link
+            key={altLocale}
+            rel="alternate"
+            hrefLang={altLocale}
+            href={`https://markmhendrickson.com${localizePath('/links', altLocale)}`}
+          />
+        ))}
+        <link rel="alternate" hrefLang="x-default" href="https://markmhendrickson.com/links" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDesc} />
@@ -166,9 +168,9 @@ export default function SocialMedia() {
       </Helmet>
       <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
         <div className="max-w-[600px] w-full">
-          <h1 className="text-[28px] font-medium mb-2 tracking-tight">{text.title}</h1>
+          <h1 className="text-[28px] font-medium mb-2 tracking-tight">{t.linksTitle}</h1>
           <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
-            {text.subtitle}
+            {t.linksSubtitle}
           </div>
 
           <div className="space-y-4">

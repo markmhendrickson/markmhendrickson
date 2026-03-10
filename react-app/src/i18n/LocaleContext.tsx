@@ -1,11 +1,12 @@
 import { createContext, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import { getDictionary } from './dictionaries'
-import { localeToLanguageTag, type SupportedLocale } from './config'
+import { localeToDirection, localeToLanguageTag, type SupportedLocale } from './config'
 
 type LocaleContextValue = {
   locale: SupportedLocale
   languageTag: string
+  direction: 'ltr' | 'rtl'
   t: ReturnType<typeof getDictionary>
 }
 
@@ -16,6 +17,7 @@ export function LocaleProvider({ locale, children }: { locale: SupportedLocale; 
     return {
       locale,
       languageTag: localeToLanguageTag[locale],
+      direction: localeToDirection[locale],
       t: getDictionary(locale),
     }
   }, [locale])

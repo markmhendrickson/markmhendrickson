@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { StaticRouter } from 'react-router-dom/server'
 import { Layout } from './components/Layout'
 import ErrorBoundary from '@shared/components/ErrorBoundary'
@@ -10,12 +10,17 @@ import Post from './pages/Post'
 import SocialMedia from './pages/SocialMedia'
 import Songs from './pages/Songs'
 import Mcp from './pages/Mcp'
+import Consulting from './pages/Consulting'
 import Schedule from './pages/Schedule'
 import NotFound from './pages/NotFound'
 import TestError from './pages/TestError'
-import { defaultLocale, type SupportedLocale } from './i18n/config'
+import {
+  defaultLocale,
+  nonDefaultLocales,
+  type SupportedLocale,
+} from './i18n/config'
 import { LocaleProvider, useLocale } from './i18n/LocaleContext'
-import { localizePath, stripLocaleFromPath } from './i18n/routing'
+import { localizePath, resolvePreferredLocale, stripLocaleFromPath } from './i18n/routing'
 
 const isDev = import.meta.env.DEV
 
@@ -32,6 +37,18 @@ function RedirectToLocalizedMeet() {
 function LegacyEnglishRedirect() {
   const location = useLocation()
   const target = stripLocaleFromPath(location.pathname || '/')
+  return <Navigate replace to={`${target}${location.search}${location.hash}`} />
+}
+
+function PreferredLocaleAppRoutes() {
+  const location = useLocation()
+  const preferredLocale = resolvePreferredLocale()
+
+  if (preferredLocale === defaultLocale) {
+    return <LocalizedAppRoutes locale={defaultLocale} />
+  }
+
+  const target = localizePath(location.pathname || '/', preferredLocale)
   return <Navigate replace to={`${target}${location.search}${location.hash}`} />
 }
 
@@ -52,6 +69,7 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
         <Route path="schedule" element={<Navigate to={localizePath('/meet', locale)} replace />} />
         <Route path="songs" element={<Layout><Songs /></Layout>} />
         <Route path="agent" element={<Layout><Mcp /></Layout>} />
+        <Route path="consulting" element={<Layout><Consulting /></Layout>} />
         <Route path="test-error" element={<Layout><TestError /></Layout>} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>
@@ -61,10 +79,11 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
 
 const routes = (
   <Routes>
-    <Route path="/en/*" element={<LegacyEnglishRedirect />} />
-    <Route path="/es/*" element={<LocalizedAppRoutes locale="es" />} />
-    <Route path="/ca/*" element={<LocalizedAppRoutes locale="ca" />} />
-    <Route path="/*" element={<LocalizedAppRoutes locale={defaultLocale} />} />
+    <Route path={`/${defaultLocale}/*`} element={<LegacyEnglishRedirect />} />
+    {nonDefaultLocales.map((locale) => (
+      <Route key={locale} path={`/${locale}/*`} element={<LocalizedAppRoutes locale={locale} />} />
+    ))}
+    <Route path="/*" element={<PreferredLocaleAppRoutes />} />
   </Routes>
 )
 

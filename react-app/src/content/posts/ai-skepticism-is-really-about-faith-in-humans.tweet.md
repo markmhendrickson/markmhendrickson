@@ -1,0 +1,1 @@
+The people I know who embrace AI encounter its problems more directly than anyone. But they have the most faith in human ingenuity to work through them. The real skepticism isn't about the machines. It's about us. https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans

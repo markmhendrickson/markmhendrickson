@@ -1,0 +1,672 @@
+{
+  "zh": {
+    "timeline": {
+      "roles": {
+        "Founder": "创始人",
+        "General Manager": "总经理",
+        "Product Lead": "产品负责人",
+        "Product Manager, Designer and Developer": "产品经理、设计师和开发人员",
+        "Head of Product and Co-Founder": "产品负责人兼联合创始人",
+        "CEO and Co-Founder": "首席执行官兼联合创始人",
+        "Project Manager, Designer and Writer": "项目经理、设计师和作家",
+        "Network Engineer": "网络工程师",
+        "Web Designer & Developer": "网页设计师和开发人员",
+        "BA, Government & Economics": "文学学士，政府与经济学",
+        "High School": "中学"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 年 – 至今 · 西班牙巴塞罗那",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · 西班牙巴塞罗那",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · 西班牙巴塞罗那",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · 西班牙巴塞罗那",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · 纽约市和巴塞罗那",
+        "2012 · San Francisco, California": "2012 · 加利福尼亚州旧金山",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · 加利福尼亚州旧金山",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · 阿瑟顿，加利福尼亚州",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · 缅因州不伦瑞克",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · 加利福尼亚州门洛帕克和缅因州不伦瑞克",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · 阿瑟顿，加利福尼亚州"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "构建 Neotoma（人工智能内存的真实层）和 Ateles（用于个人工作流程自动化的主权代理操作系统）。",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "专注于模式优先设计、事件源记忆和恢复个人主权和自主权的确定性工作流程。",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather 是一款比特币钱包，也是 Trust Machines 的子公司，致力于推动全球向基于比特币的数字经济转型。",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "通过使用 Stacks 区块链保护数字所有权和隐私，引导用户体验保护个人在线自由的产品。",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "曾与 Digit（被 Oportun 收购）、First Opinion（被 Curai 收购）和 STYLEBEE 等早期初创公司合作，研究产品市场契合度和可衡量的增长。",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "领导网络和移动市场的产品设计和开发，将品牌和机构与新兴技术连接起来。",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "领导 Lift 的产品设计，Lift 是一款带有网络伴侣的 iPhone 应用程序，用于跟踪和改善日常习惯。",
+        "Co-founded and ran Plancast, a social event discovery service.": "共同创立并运营 Plancast，这是一项社交活动发现服务。",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "领导产品开发、应用程序编程、前端设计； 2012年被Active Network收购。",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "领导重新设计 Crunchbase 和 TechCrunch 博客网络，同时撰写了 500 多篇有关新网络技术的文章。 TechCrunch 于 2010 年被 AOL 收购； Crunchbase 于 2015 年从 AOL 中分离出来，成为一家独立公司。",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "为学生和教师升级和维护校园网络。",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "为小型企业、非营利组织、学生组织和鲍登学院设计和开发网络项目。",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "双主修课程包括古典和现代政治理论、宪法和国际法以及经济学。",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "因研究尼采的道德理论《跨越人类》、《太人类》、《黎明》和《道德谱系》及其与叔本华和雷的关系而获得的荣誉论文。"
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "代码存储库和开源项目",
+        "Professional network and career updates": "专业网络和职业更新",
+        "Thoughts on tech, crypto, and AI": "关于科技、加密货币和人工智能的思考",
+        "Building in public, indie products, and startup community": "建立公共、独立产品和创业社区",
+        "Tech and startup discussions": "技术和创业讨论",
+        "Personal photos, videos, and updates": "个人照片、视频和更新",
+        "Get in touch via email": "通过电子邮件联系"
+      }
+    },
+    "schedule": {
+      "title": "与我见面",
+      "subtitle": "选择适合您的时间",
+      "pageDesc": "与 Mark 预订 30 或 60 分钟的时段。",
+      "bookVia": "通过 Notion Calendar 预订",
+      "duration30": "30分钟",
+      "duration60": "60分钟",
+      "labelMeeting": "会议",
+      "labelChat": "聊天"
+    }
+  },
+  "hi": {
+    "timeline": {
+      "roles": {
+        "Founder": "संस्थापक",
+        "General Manager": "महाप्रबंधक",
+        "Product Lead": "उत्पाद नेतृत्व",
+        "Product Manager, Designer and Developer": "उत्पाद प्रबंधक, डिज़ाइनर और डेवलपर",
+        "Head of Product and Co-Founder": "उत्पाद प्रमुख और सह-संस्थापक",
+        "CEO and Co-Founder": "सीईओ और सह-संस्थापक",
+        "Project Manager, Designer and Writer": "प्रोजेक्ट मैनेजर, डिज़ाइनर और लेखक",
+        "Network Engineer": "नेटवर्क इंजीनियर",
+        "Web Designer & Developer": "वेब डिज़ाइनर एवं डेवलपर",
+        "BA, Government & Economics": "बीए, सरकार और अर्थशास्त्र",
+        "High School": "हाई स्कूल"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 - वर्तमान · बार्सिलोना, स्पेन",
+        "2022 – 2025 · Barcelona, Spain": "2022 - 2025 · बार्सिलोना, स्पेन",
+        "2018 – 2022 · Barcelona, Spain": "2018 - 2022 · बार्सिलोना, स्पेन",
+        "2015 – 2018 · Barcelona, Spain": "2015 - 2018 · बार्सिलोना, स्पेन",
+        "2012 – 2015 · New York City & Barcelona": "2012 - 2015 · न्यूयॉर्क शहर और बार्सिलोना",
+        "2012 · San Francisco, California": "2012 · सैन फ्रांसिस्को, कैलिफ़ोर्निया",
+        "2009 – 2011 · San Francisco, California": "2009 - 2011 · सैन फ्रांसिस्को, कैलिफ़ोर्निया",
+        "2007 – 2009 · Atherton, California": "2007 - 2009 · एथरटन, कैलिफ़ोर्निया",
+        "2003 – 2007 · Brunswick, Maine": "2003 - 2007 · ब्रंसविक, मेन",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 - 2007 · मेनलो पार्क, कैलिफ़ोर्निया और ब्रंसविक, मेन",
+        "1999 – 2003 · Atherton, California": "1999 - 2003 · एथरटन, कैलिफ़ोर्निया"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "नियोटोमा का निर्माण, एआई मेमोरी के लिए एक सत्य परत, और एटेल्स, व्यक्तिगत वर्कफ़्लो स्वचालन के लिए एक सॉवरेन एजेंटिक ऑपरेटिंग सिस्टम।",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "स्कीमा-प्रथम डिज़ाइन, इवेंट-सोर्स्ड मेमोरी और नियतात्मक वर्कफ़्लो पर ध्यान केंद्रित किया गया है जो व्यक्तियों को संप्रभुता और स्वायत्तता बहाल करता है।",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "लेड लेदर, एक बिटकॉइन वॉलेट और ट्रस्ट मशीन्स की सहायक कंपनी ने बिटकॉइन पर निर्मित डिजिटल अर्थव्यवस्था में वैश्विक परिवर्तन को चलाने पर ध्यान केंद्रित किया है।",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "उन उत्पादों के लिए उपयोगकर्ता अनुभव का नेतृत्व करें जो स्टैक ब्लॉकचेन का उपयोग करके डिजिटल स्वामित्व और गोपनीयता को सुरक्षित करके व्यक्तियों की ऑनलाइन स्वतंत्रता की रक्षा करते हैं।",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "उत्पाद-बाज़ार में फिट और मापने योग्य विकास पर डिजिट (ओपोर्टुन द्वारा अधिग्रहीत), फर्स्ट ओपिनियन (क्यूराई द्वारा अधिग्रहीत), और स्टाइलबी सहित शुरुआती चरण के स्टार्टअप के साथ काम किया।",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "उभरती प्रौद्योगिकियों के साथ ब्रांडों और एजेंसियों को जोड़ने वाले वेब और मोबाइल बाज़ार के लिए उत्पाद डिजाइन और विकास का नेतृत्व किया।",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "लिफ्ट के लिए एलईडी उत्पाद डिज़ाइन, दैनिक आदतों पर नज़र रखने और उन्हें सुधारने के लिए वेब साथी के साथ एक iPhone ऐप।",
+        "Co-founded and ran Plancast, a social event discovery service.": "एक सामाजिक घटना खोज सेवा, प्लांकास्ट की सह-स्थापना और संचालन किया।",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "उत्पाद विकास का नेतृत्व किया, एप्लिकेशन को प्रोग्राम किया और फ्रंटएंड को डिज़ाइन किया; 2012 में एक्टिव नेटवर्क द्वारा अधिग्रहण किया गया।",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "नई वेब तकनीकों के बारे में 500 से अधिक लेख लिखते हुए क्रंचबेस और टेकक्रंच ब्लॉग नेटवर्क को फिर से डिज़ाइन करने के प्रयासों का नेतृत्व किया। 2010 में एओएल द्वारा टेकक्रंच का अधिग्रहण; क्रंचबेस 2015 में AOL से एक स्वतंत्र कंपनी के रूप में अलग हो गई।",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "छात्र निकाय और संकाय के लिए एक परिसर-व्यापी नेटवर्क को उन्नत और बनाए रखा गया।",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "छोटे व्यवसायों, गैर-लाभकारी संस्थाओं, छात्र संगठनों और बॉडॉइन कॉलेज के लिए वेब प्रोजेक्ट डिज़ाइन और विकसित किए गए।",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "शास्त्रीय और आधुनिक राजनीतिक सिद्धांत, संवैधानिक और अंतर्राष्ट्रीय कानून और अर्थशास्त्र में पाठ्यक्रम के साथ डबल मेजर।",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "ह्यूमन, ऑल टू ह्यूमन, डेब्रेक और ऑन द जेनेलॉजी ऑफ मोरल्स में नीत्शे के नैतिकता के सिद्धांत और शोपेनहावर और री के साथ इसके संबंध की जांच करने वाली ऑनर्स थीसिस के लिए सममा कम लाउड से सम्मानित किया गया।"
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "कोड रिपॉजिटरी और ओपन सोर्स प्रोजेक्ट",
+        "Professional network and career updates": "व्यावसायिक नेटवर्क और कैरियर अपडेट",
+        "Thoughts on tech, crypto, and AI": "तकनीक, क्रिप्टो और एआई पर विचार",
+        "Building in public, indie products, and startup community": "सार्वजनिक, इंडी उत्पादों और स्टार्टअप समुदाय में निर्माण",
+        "Tech and startup discussions": "टेक और स्टार्टअप चर्चाएँ",
+        "Personal photos, videos, and updates": "व्यक्तिगत फ़ोटो, वीडियो और अपडेट",
+        "Get in touch via email": "ईमेल के माध्यम से संपर्क करें"
+      }
+    },
+    "schedule": {
+      "title": "मुझसे मिलो",
+      "subtitle": "ऐसा समय चुनें जो आपके लिए उपयुक्त हो",
+      "pageDesc": "मार्क के साथ 30 या 60 मिनट का स्लॉट बुक करें।",
+      "bookVia": "नोशन कैलेंडर के माध्यम से बुक करें",
+      "duration30": "30 मिनट",
+      "duration60": "60 मिनट",
+      "labelMeeting": "बैठक",
+      "labelChat": "बात करना"
+    }
+  },
+  "ar": {
+    "timeline": {
+      "roles": {
+        "Founder": "مؤسس",
+        "General Manager": "المدير العام",
+        "Product Lead": "قائد المنتج",
+        "Product Manager, Designer and Developer": "مدير المنتج والمصمم والمطور",
+        "Head of Product and Co-Founder": "رئيس المنتج والمؤسس المشارك",
+        "CEO and Co-Founder": "الرئيس التنفيذي والمؤسس المشارك",
+        "Project Manager, Designer and Writer": "مدير المشروع والمصمم والكاتب",
+        "Network Engineer": "مهندس شبكات",
+        "Web Designer & Developer": "مصمم ومطور الويب",
+        "BA, Government & Economics": "بكالوريوس في الحكومة والاقتصاد",
+        "High School": "مدرسة ثانوية"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 – حتى الآن · برشلونة، إسبانيا",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · برشلونة، إسبانيا",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · برشلونة، إسبانيا",
+        "2015 – 2018 · Barcelona, Spain": "2015 - 2018 · برشلونة، إسبانيا",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · مدينة نيويورك وبرشلونة",
+        "2012 · San Francisco, California": "2012 · سان فرانسيسكو، كاليفورنيا",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · سان فرانسيسكو، كاليفورنيا",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · أثرتون، كاليفورنيا",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · برونزويك، مين",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · مينلو بارك، كاليفورنيا وبرونزويك، مين",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · أثرتون، كاليفورنيا"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "بناء Neotoma، وهي طبقة الحقيقة لذاكرة الذكاء الاصطناعي، وAteles، وهو نظام تشغيل وكيل ذو سيادة لأتمتة سير العمل الشخصي.",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "ركز على تصميم المخطط أولاً، والذاكرة من مصادر الأحداث، وسير العمل الحتمي الذي يعيد السيادة والاستقلالية للأفراد.",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "تركز Led Leather، وهي محفظة Bitcoin وشركة تابعة لشركة Trust Machines، على قيادة التحول العالمي إلى الاقتصاد الرقمي المبني على Bitcoin.",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "قيادة تجربة المستخدم للمنتجات التي تحمي حرية الأفراد عبر الإنترنت من خلال تأمين الملكية الرقمية والخصوصية باستخدام Stacks blockchain.",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "العمل مع الشركات الناشئة في مراحلها المبكرة بما في ذلك Digit (التي استحوذت عليها شركة Oportun)، وFirst Opinion (التي استحوذت عليها شركة Curai)، وSTYLEBEE على ملاءمة سوق المنتجات والنمو القابل للقياس.",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "قيادة تصميم المنتجات وتطويرها لسوق الويب والهواتف المحمولة الذي يربط العلامات التجارية والوكالات بالتقنيات الناشئة.",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "تصميم منتج Led لـ Lift، وهو تطبيق iPhone مع رفيق الويب لتتبع العادات اليومية وتحسينها.",
+        "Co-founded and ran Plancast, a social event discovery service.": "شارك في تأسيس وإدارة Plancast، وهي خدمة اكتشاف الأحداث الاجتماعية.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "قيادة تطوير المنتج، وبرمجة التطبيق، وتصميم الواجهة الأمامية؛ تم الاستحواذ عليها بواسطة Active Network في عام 2012.",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "قاد الجهود لإعادة تصميم Crunchbase وشبكة مدونات TechCrunch أثناء كتابة أكثر من 500 مقالة حول تقنيات الويب الجديدة. TechCrunch استحوذت عليها AOL في عام 2010؛ انفصلت Crunchbase عن AOL كشركة مستقلة في عام 2015.",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "ترقية وصيانة شبكة على مستوى الحرم الجامعي للهيئة الطلابية وأعضاء هيئة التدريس.",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "تصميم وتطوير مشاريع الويب للشركات الصغيرة والمنظمات غير الربحية والمنظمات الطلابية وكلية بودوين.",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "تخصص مزدوج مع الدورات الدراسية في النظرية السياسية الكلاسيكية والحديثة، والقانون الدستوري والدولي، والاقتصاد.",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "مُنح بامتياز مع مرتبة الشرف لأطروحته التي تدرس نظرية الأخلاق لنيتشه عبر الإنسان، والبشرية المفرطة، والفجر، وعلم أصول الأخلاق، وعلاقتها بشوبنهاور وري."
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "مستودعات التعليمات البرمجية والمشاريع مفتوحة المصدر",
+        "Professional network and career updates": "الشبكة المهنية والتحديثات المهنية",
+        "Thoughts on tech, crypto, and AI": "أفكار حول التكنولوجيا والتشفير والذكاء الاصطناعي",
+        "Building in public, indie products, and startup community": "بناء المنتجات العامة والمستقلة ومجتمع الشركات الناشئة",
+        "Tech and startup discussions": "المناقشات التقنية وبدء التشغيل",
+        "Personal photos, videos, and updates": "الصور الشخصية ومقاطع الفيديو والتحديثات",
+        "Get in touch via email": "تواصل معنا عبر البريد الإلكتروني"
+      }
+    },
+    "schedule": {
+      "title": "اجتمع معي",
+      "subtitle": "اختر الوقت المناسب لك",
+      "pageDesc": "احجز فترة 30 أو 60 دقيقة مع مارك.",
+      "bookVia": "احجز عبر Notion Calendar",
+      "duration30": "30 دقيقة",
+      "duration60": "60 دقيقة",
+      "labelMeeting": "مقابلة",
+      "labelChat": "محادثة"
+    }
+  },
+  "fr": {
+    "timeline": {
+      "roles": {
+        "Founder": "Fondateur",
+        "General Manager": "Directeur général",
+        "Product Lead": "Chef de produit",
+        "Product Manager, Designer and Developer": "Chef de produit, concepteur et développeur",
+        "Head of Product and Co-Founder": "Chef de produit et co-fondateur",
+        "CEO and Co-Founder": "PDG et co-fondateur",
+        "Project Manager, Designer and Writer": "Chef de projet, concepteur et rédacteur",
+        "Network Engineer": "Ingénieur Réseau",
+        "Web Designer & Developer": "Concepteur et développeur Web",
+        "BA, Government & Economics": "BA, gouvernement et économie",
+        "High School": "Lycée"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 – Aujourd'hui · Barcelone, Espagne",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · Barcelone, Espagne",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · Barcelone, Espagne",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · Barcelone, Espagne",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · New York et Barcelone",
+        "2012 · San Francisco, California": "2012 · San Francisco, Californie",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · San Francisco, Californie",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · Atherton, Californie",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · Brunswick, Maine",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · Menlo Park, Californie et Brunswick, Maine",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · Atherton, Californie"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "Création de Neotoma, une couche de vérité pour la mémoire de l'IA, et d'Ateles, un système d'exploitation agent souverain pour l'automatisation des flux de travail personnels.",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "Axé sur la conception axée sur les schémas, la mémoire événementielle et les flux de travail déterministes qui restaurent la souveraineté et l'autonomie des individus.",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather, un portefeuille Bitcoin et filiale de Trust Machines, se concentre sur la transition mondiale vers une économie numérique basée sur Bitcoin.",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "Direction de l'expérience utilisateur pour des produits qui protègent la liberté des individus en ligne en sécurisant la propriété numérique et la confidentialité à l'aide de la blockchain Stacks.",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "Travail avec des startups en démarrage, notamment Digit (acquise par Oportun), First Opinion (acquise par Curai) et STYLEBEE sur l'adéquation produit-marché et la croissance mesurable.",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "Dirigé la conception et le développement de produits pour un marché Web et mobile reliant les marques et les agences aux technologies émergentes.",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "Conception de produits dirigés pour Lift, une application iPhone avec compagnon Web pour suivre et améliorer les habitudes quotidiennes.",
+        "Co-founded and ran Plancast, a social event discovery service.": "Co-fondateur et directeur de Plancast, un service de découverte d'événements sociaux.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Dirigé le développement du produit, programmé l'application et conçu l'interface ; acquis par Active Network en 2012.",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "A dirigé les efforts de refonte de Crunchbase et du réseau de blogs TechCrunch tout en écrivant plus de 500 articles sur les nouvelles technologies Web. TechCrunch acquis par AOL en 2010 ; Crunchbase est issue d'AOL en tant que société indépendante en 2015.",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "Mise à niveau et maintenance d'un réseau à l'échelle du campus pour les étudiants et les professeurs.",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "Conception et développement de projets Web pour les petites entreprises, les organisations à but non lucratif, les organisations étudiantes et le Bowdoin College.",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "Double spécialisation avec des cours en théorie politique classique et moderne, en droit constitutionnel et international et en économie.",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "Récompensé summa cum laude pour sa thèse de spécialisation examinant la théorie de la moralité de Nietzsche à travers Human, All Too Human, Daybreak et On the Genealogy of Morals, et sa relation avec Schopenhauer et Rée."
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "Référentiels de code et projets open source",
+        "Professional network and career updates": "Réseau professionnel et mises à jour de carrière",
+        "Thoughts on tech, crypto, and AI": "Réflexions sur la technologie, la cryptographie et l'IA",
+        "Building in public, indie products, and startup community": "Construire des produits publics, indépendants et une communauté de startups",
+        "Tech and startup discussions": "Discussions sur la technologie et les startups",
+        "Personal photos, videos, and updates": "Photos personnelles, vidéos et mises à jour",
+        "Get in touch via email": "Contactez-nous par e-mail"
+      }
+    },
+    "schedule": {
+      "title": "Rencontre-moi",
+      "subtitle": "Choisissez un moment qui vous convient",
+      "pageDesc": "Réservez un créneau de 30 ou 60 minutes avec Mark.",
+      "bookVia": "Réservez via Notion Calendar",
+      "duration30": "30 minutes",
+      "duration60": "60 minutes",
+      "labelMeeting": "Réunion",
+      "labelChat": "Chat"
+    }
+  },
+  "pt": {
+    "timeline": {
+      "roles": {
+        "Founder": "Fundador",
+        "General Manager": "Director Geral",
+        "Product Lead": "Líder de produto",
+        "Product Manager, Designer and Developer": "Gerente de Produto, Designer e Desenvolvedor",
+        "Head of Product and Co-Founder": "Head de Produto e Cofundador",
+        "CEO and Co-Founder": "CEO e Cofundador",
+        "Project Manager, Designer and Writer": "Gerente de Projetos, Designer e Escritor",
+        "Network Engineer": "Engenheiro de Rede",
+        "Web Designer & Developer": "Web Designer e Desenvolvedor",
+        "BA, Government & Economics": "BA, Governo e Economia",
+        "High School": "Ensino médio"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 – Presente · Barcelona, ​​Espanha",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · Barcelona, ​​Espanha",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · Barcelona, ​​Espanha",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · Barcelona, ​​Espanha",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · Nova York e Barcelona",
+        "2012 · San Francisco, California": "2012 · São Francisco, Califórnia",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · São Francisco, Califórnia",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · Atherton, Califórnia",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · Brunswick, Maine",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · Menlo Park, Califórnia e Brunswick, Maine",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · Atherton, Califórnia"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "Construindo Neotoma, uma camada verdadeira para memória de IA, e Ateles, um sistema operacional de agente soberano para automação de fluxo de trabalho pessoal.",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "Focado no design que prioriza o esquema, memória originada de eventos e fluxos de trabalho determinísticos que restauram a soberania e a autonomia dos indivíduos.",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather, uma carteira Bitcoin e subsidiária da Trust Machines focada em impulsionar a transição global para uma economia digital baseada no Bitcoin.",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "Liderei a experiência do usuário para produtos que protegem a liberdade dos indivíduos on-line, garantindo a propriedade digital e a privacidade usando o blockchain Stacks.",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "Trabalhou com startups em estágio inicial, incluindo Digit (adquirida pela Oportun), First Opinion (adquirida pela Curai) e STYLEBEE no ajuste do produto ao mercado e no crescimento mensurável.",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "Liderei o design e desenvolvimento de produtos para um mercado web e móvel conectando marcas e agências com tecnologias emergentes.",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "Liderei o design de produto para Lift, um aplicativo para iPhone com companheiro web para monitorar e melhorar hábitos diários.",
+        "Co-founded and ran Plancast, a social event discovery service.": "Cofundou e dirigiu o Plancast, um serviço de descoberta de eventos sociais.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Liderei o desenvolvimento do produto, programei a aplicação e projetei o frontend; adquirida pela Active Network em 2012.",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "Liderei esforços para redesenhar o Crunchbase e a rede de blogs TechCrunch enquanto escrevia mais de 500 artigos sobre novas tecnologias da web. TechCrunch adquirido pela AOL em 2010; A Crunchbase saiu da AOL como uma empresa independente em 2015.",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "Atualizou e manteve uma rede em todo o campus para o corpo discente e docente.",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "Projetou e desenvolveu projetos web para pequenas empresas, organizações sem fins lucrativos, organizações estudantis e Bowdoin College.",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "Dupla especialização com cursos em teoria política clássica e moderna, direito constitucional e internacional e economia.",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "Premiado com summa cum laude pela tese com honras que examina a teoria da moralidade de Nietzsche em Humano, Demasiado Humano, Amanhecer e Sobre a Genealogia da Moral, e sua relação com Schopenhauer e Rée."
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "Repositórios de código e projetos de código aberto",
+        "Professional network and career updates": "Rede profissional e atualizações de carreira",
+        "Thoughts on tech, crypto, and AI": "Reflexões sobre tecnologia, criptografia e IA",
+        "Building in public, indie products, and startup community": "Construindo produtos públicos, independentes e comunidades de startups",
+        "Tech and startup discussions": "Discussões sobre tecnologia e startups",
+        "Personal photos, videos, and updates": "Fotos pessoais, vídeos e atualizações",
+        "Get in touch via email": "Entre em contato por e-mail"
+      }
+    },
+    "schedule": {
+      "title": "Encontre-se comigo",
+      "subtitle": "Escolha um horário que funcione para você",
+      "pageDesc": "Reserve um horário de 30 ou 60 minutos com Mark.",
+      "bookVia": "Reserve através do Notion Calendar",
+      "duration30": "30 minutos",
+      "duration60": "60 minutos",
+      "labelMeeting": "Reunião",
+      "labelChat": "Bater papo"
+    }
+  },
+  "ru": {
+    "timeline": {
+      "roles": {
+        "Founder": "Основатель",
+        "General Manager": "Главный управляющий",
+        "Product Lead": "Руководитель продукта",
+        "Product Manager, Designer and Developer": "Менеджер по продукту, дизайнер и разработчик",
+        "Head of Product and Co-Founder": "Руководитель продукта и соучредитель",
+        "CEO and Co-Founder": "Генеральный директор и соучредитель",
+        "Project Manager, Designer and Writer": "Менеджер проекта, дизайнер и писатель",
+        "Network Engineer": "Сетевой инженер",
+        "Web Designer & Developer": "Веб-дизайнер и разработчик",
+        "BA, Government & Economics": "Бакалавр государственного управления и экономики",
+        "High School": "Средняя школа"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 – настоящее время · Барселона, Испания",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · Барселона, Испания",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · Барселона, Испания",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · Барселона, Испания",
+        "2012 – 2015 · New York City & Barcelona": "2012–2015 · Нью-Йорк и Барселона",
+        "2012 · San Francisco, California": "2012 · Сан-Франциско, Калифорния",
+        "2009 – 2011 · San Francisco, California": "2009–2011 · Сан-Франциско, Калифорния",
+        "2007 – 2009 · Atherton, California": "2007–2009 · Атертон, Калифорния",
+        "2003 – 2007 · Brunswick, Maine": "2003–2007 · Брансуик, Мэн",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997–2007 · Менло-Парк, Калифорния и Брансуик, Мэн",
+        "1999 – 2003 · Atherton, California": "1999–2003 · Атертон, Калифорния"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "Создание Neotoma, уровня правды для памяти ИИ, и Ateles, независимой агентной операционной системы для автоматизации личных рабочих процессов.",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "Основное внимание уделяется проектированию схемы, памяти на основе событий и детерминированным рабочим процессам, которые восстанавливают суверенитет и автономию отдельных лиц.",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather, биткойн-кошелек и дочерняя компания Trust Machines, ориентированная на глобальный переход к цифровой экономике, основанной на биткойнах.",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "Руководил пользовательским опытом для продуктов, которые защищают свободу людей в Интернете, обеспечивая цифровую собственность и конфиденциальность с помощью блокчейна Stacks.",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "Работал со стартапами на ранней стадии, включая Digit (приобретено Oportun), First Opinion (приобретено Curai) и STYLEBEE, над соответствием продукта рынку и измеримым ростом.",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "Руководил дизайном и разработкой продуктов для интернет- и мобильного рынка, объединяя бренды и агентства с новыми технологиями.",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "Ведущий дизайн продукта для Lift, приложения для iPhone с веб-компаньоном для отслеживания и улучшения повседневных привычек.",
+        "Co-founded and ran Plancast, a social event discovery service.": "Соучредитель и управляющий Plancast, службой обнаружения социальных событий.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Руководил разработкой продукта, программировал приложение и проектировал интерфейс; приобретена Active Network в 2012 году.",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "Руководил усилиями по редизайну Crunchbase и сети блогов TechCrunch, а также написал более 500 статей о новых веб-технологиях. TechCrunch приобретен AOL в 2010 году; Crunchbase вышла из AOL как независимая компания в 2015 году.",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "Модернизирована и поддержана общекампусская сеть для студентов и преподавателей.",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "Спроектировал и разработал веб-проекты для малого бизнеса, некоммерческих организаций, студенческих организаций и колледжа Боудойн.",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "Двойная специализация с курсовой работой по классической и современной политической теории, конституционному и международному праву и экономике.",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "Награжден с отличием за диссертацию, исследующую теорию морали Ницше в «Человеческом», «Все слишком человеческом», «Рассвете» и «Генеалогия морали», а также ее связь с Шопенгауэром и Ре."
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "Репозитории кода и проекты с открытым исходным кодом",
+        "Professional network and career updates": "Профессиональная сеть и обновления карьеры",
+        "Thoughts on tech, crypto, and AI": "Мысли о технологиях, криптографии и искусственном интеллекте",
+        "Building in public, indie products, and startup community": "Создание публичного, независимого продукта и сообщества стартапов",
+        "Tech and startup discussions": "Обсуждения технологий и стартапов",
+        "Personal photos, videos, and updates": "Личные фотографии, видео и обновления",
+        "Get in touch via email": "Свяжитесь с нами по электронной почте"
+      }
+    },
+    "schedule": {
+      "title": "Встретимся со мной",
+      "subtitle": "Выберите время, которое подходит вам",
+      "pageDesc": "Забронируйте 30- или 60-минутное время с Марком.",
+      "bookVia": "Забронируйте через Notion Calendar",
+      "duration30": "30 минут",
+      "duration60": "60 минут",
+      "labelMeeting": "Встреча",
+      "labelChat": "Чат"
+    }
+  },
+  "bn": {
+    "timeline": {
+      "roles": {
+        "Founder": "প্রতিষ্ঠাতা",
+        "General Manager": "জেনারেল ম্যানেজার",
+        "Product Lead": "পণ্য লিড",
+        "Product Manager, Designer and Developer": "প্রোডাক্ট ম্যানেজার, ডিজাইনার এবং ডেভেলপার",
+        "Head of Product and Co-Founder": "পণ্যের প্রধান এবং সহ-প্রতিষ্ঠাতা",
+        "CEO and Co-Founder": "সিইও এবং সহ-প্রতিষ্ঠাতা",
+        "Project Manager, Designer and Writer": "প্রজেক্ট ম্যানেজার, ডিজাইনার এবং লেখক",
+        "Network Engineer": "নেটওয়ার্ক ইঞ্জিনিয়ার",
+        "Web Designer & Developer": "ওয়েব ডিজাইনার এবং ডেভেলপার",
+        "BA, Government & Economics": "বিএ, সরকার ও অর্থনীতি",
+        "High School": "উচ্চ বিদ্যালয়"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 - বর্তমান · বার্সেলোনা, স্পেন",
+        "2022 – 2025 · Barcelona, Spain": "2022 - 2025 · বার্সেলোনা, স্পেন",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · বার্সেলোনা, স্পেন",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · বার্সেলোনা, স্পেন",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · নিউ ইয়র্ক সিটি এবং বার্সেলোনা",
+        "2012 · San Francisco, California": "2012 · সান ফ্রান্সিসকো, ক্যালিফোর্নিয়া",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · সান ফ্রান্সিসকো, ক্যালিফোর্নিয়া",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · আথারটন, ক্যালিফোর্নিয়া",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · ব্রান্সউইক, মেইন",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · মেনলো পার্ক, ক্যালিফোর্নিয়া এবং ব্রান্সউইক, মেইন",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · আথারটন, ক্যালিফোর্নিয়া"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "বিল্ডিং নিওটোমা, এআই মেমরির জন্য একটি সত্য স্তর এবং অ্যাটেলস, ব্যক্তিগত ওয়ার্কফ্লো অটোমেশনের জন্য একটি সার্বভৌম এজেন্টিক অপারেটিং সিস্টেম।",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "স্কিমা-প্রথম ডিজাইন, ইভেন্ট-সোর্সড মেমরি, এবং ব্যক্তিদের সার্বভৌমত্ব এবং স্বায়ত্তশাসন পুনরুদ্ধারকারী নির্ধারক কর্মপ্রবাহের উপর ফোকাস করা।",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather, একটি বিটকয়েন ওয়ালেট এবং ট্রাস্ট মেশিনের সাবসিডিয়ারি বিটকয়েনের উপর নির্মিত একটি ডিজিটাল অর্থনীতিতে বৈশ্বিক রূপান্তর চালানোর উপর দৃষ্টি নিবদ্ধ করে।",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "স্ট্যাক ব্লকচেইন ব্যবহার করে ডিজিটাল মালিকানা এবং গোপনীয়তা সুরক্ষিত করে অনলাইনে ব্যক্তির স্বাধীনতা রক্ষা করে এমন পণ্যগুলির জন্য ব্যবহারকারীর অভিজ্ঞতার নেতৃত্ব দেয়।",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "ডিজিট (Oportun দ্বারা অর্জিত), ফার্স্ট ওপিনিয়ন (কুরাই দ্বারা অর্জিত), এবং পণ্য-বাজার উপযুক্ত এবং পরিমাপযোগ্য বৃদ্ধির বিষয়ে STYLEBEE সহ প্রাথমিক পর্যায়ের স্টার্টআপগুলির সাথে কাজ করেছে৷",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "উদীয়মান প্রযুক্তির সাথে ব্র্যান্ড এবং এজেন্সিগুলিকে সংযুক্ত করে একটি ওয়েব এবং মোবাইল মার্কেটপ্লেসের জন্য নেতৃত্বাধীন পণ্য ডিজাইন এবং বিকাশ।",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "লিফ্টের জন্য LED পণ্যের নকশা, দৈনন্দিন অভ্যাস ট্র্যাক এবং উন্নতির জন্য ওয়েব সঙ্গী সহ একটি আইফোন অ্যাপ।",
+        "Co-founded and ran Plancast, a social event discovery service.": "প্ল্যানকাস্ট সহ-প্রতিষ্ঠা ও চালায়, একটি সামাজিক ইভেন্ট আবিষ্কার পরিষেবা।",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "নেতৃত্বাধীন পণ্য উন্নয়ন, অ্যাপ্লিকেশন প্রোগ্রাম, এবং ফ্রন্টএন্ড ডিজাইন; 2012 সালে সক্রিয় নেটওয়ার্ক দ্বারা অর্জিত।",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "নতুন ওয়েব প্রযুক্তি সম্পর্কে 500 টিরও বেশি নিবন্ধ লেখার সময় Crunchbase এবং TechCrunch ব্লগ নেটওয়ার্ককে পুনরায় ডিজাইন করার প্রচেষ্টার নেতৃত্ব দিয়েছেন৷ 2010 সালে AOL দ্বারা অধিগ্রহণ করা TechCrunch; Crunchbase 2015 সালে একটি স্বাধীন কোম্পানি হিসেবে AOL থেকে বেরিয়ে এসেছে।",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "ছাত্র সংগঠন এবং শিক্ষকদের জন্য একটি ক্যাম্পাস-ব্যাপী নেটওয়ার্ক আপগ্রেড এবং বজায় রাখা হয়েছে।",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "ছোট ব্যবসা, অলাভজনক, ছাত্র সংগঠন, এবং Bowdoin কলেজের জন্য ডিজাইন ও তৈরি করা ওয়েব প্রকল্প।",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "শাস্ত্রীয় এবং আধুনিক রাজনৈতিক তত্ত্ব, সাংবিধানিক এবং আন্তর্জাতিক আইন এবং অর্থনীতিতে কোর্সওয়ার্ক সহ ডাবল মেজর।",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "হিউম্যান, অল টু হিউম্যান, ডেব্রেক এবং অন দ্য জেনেলজি অফ মোরালস জুড়ে নীটশের নৈতিকতার তত্ত্ব এবং শোপেনহাওয়ার এবং রে-এর সাথে এর সম্পর্ক পরীক্ষা করে অনার্স থিসিসের জন্য সুমা কাম লড পুরস্কৃত করা হয়েছে।"
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "কোড রিপোজিটরি এবং ওপেন সোর্স প্রকল্প",
+        "Professional network and career updates": "পেশাদার নেটওয়ার্ক এবং কর্মজীবন আপডেট",
+        "Thoughts on tech, crypto, and AI": "প্রযুক্তি, ক্রিপ্টো এবং এআই সম্পর্কে চিন্তাভাবনা",
+        "Building in public, indie products, and startup community": "পাবলিক, ইন্ডি প্রোডাক্ট এবং স্টার্টআপ কমিউনিটি তৈরি করা",
+        "Tech and startup discussions": "প্রযুক্তি এবং স্টার্টআপ আলোচনা",
+        "Personal photos, videos, and updates": "ব্যক্তিগত ফটো, ভিডিও এবং আপডেট",
+        "Get in touch via email": "ইমেলের মাধ্যমে যোগাযোগ করুন"
+      }
+    },
+    "schedule": {
+      "title": "আমার সাথে দেখা করুন",
+      "subtitle": "আপনার জন্য কাজ করে এমন একটি সময় বেছে নিন",
+      "pageDesc": "মার্কের সাথে একটি 30 বা 60 মিনিটের স্লট বুক করুন।",
+      "bookVia": "ধারণা ক্যালেন্ডারের মাধ্যমে বুক করুন",
+      "duration30": "30 মিনিট",
+      "duration60": "60 মিনিট",
+      "labelMeeting": "মিটিং",
+      "labelChat": "চ্যাট"
+    }
+  },
+  "ur": {
+    "timeline": {
+      "roles": {
+        "Founder": "بانی",
+        "General Manager": "جنرل منیجر",
+        "Product Lead": "مصنوعات کی قیادت",
+        "Product Manager, Designer and Developer": "پروڈکٹ مینیجر، ڈیزائنر اور ڈویلپر",
+        "Head of Product and Co-Founder": "پروڈکٹ کے سربراہ اور شریک بانی",
+        "CEO and Co-Founder": "سی ای او اور شریک بانی",
+        "Project Manager, Designer and Writer": "پروجیکٹ مینیجر، ڈیزائنر اور مصنف",
+        "Network Engineer": "نیٹ ورک انجینئر",
+        "Web Designer & Developer": "ویب ڈیزائنر اور ڈویلپر",
+        "BA, Government & Economics": "بی اے، گورنمنٹ اینڈ اکنامکس",
+        "High School": "ہائی سکول"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 - موجودہ · بارسلونا، اسپین",
+        "2022 – 2025 · Barcelona, Spain": "2022 - 2025 · بارسلونا، سپین",
+        "2018 – 2022 · Barcelona, Spain": "2018 - 2022 · بارسلونا، سپین",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · بارسلونا، سپین",
+        "2012 – 2015 · New York City & Barcelona": "2012 - 2015 · نیو یارک سٹی اور بارسلونا",
+        "2012 · San Francisco, California": "2012 · سان فرانسسکو، کیلیفورنیا",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · سان فرانسسکو، کیلیفورنیا",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · ایتھرٹن، کیلیفورنیا",
+        "2003 – 2007 · Brunswick, Maine": "2003 - 2007 · برنسوک، مین",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · مینلو پارک، کیلیفورنیا اور برنسوک، مین",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · ایتھرٹن، کیلیفورنیا"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "بلڈنگ Neotoma، AI میموری کے لیے ایک سچائی پرت، اور Ateles، ذاتی ورک فلو آٹومیشن کے لیے ایک خودمختار ایجنٹ آپریٹنگ سسٹم۔",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "اسکیما فرسٹ ڈیزائن، ایونٹ سے متعلق میموری، اور متعین ورک فلو پر توجہ مرکوز کی گئی ہے جو افراد کی خودمختاری اور خودمختاری کو بحال کرتے ہیں۔",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather، Bitcoin والیٹ اور ٹرسٹ مشینوں کا ذیلی ادارہ Bitcoin پر بنی ڈیجیٹل اکانومی کی طرف عالمی منتقلی پر توجہ مرکوز کرتا ہے۔",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "ان مصنوعات کے لیے صارف کے تجربے کی قیادت کریں جو Stacks blockchain کا ​​استعمال کرتے ہوئے ڈیجیٹل ملکیت اور رازداری کو محفوظ بنا کر آن لائن افراد کی آزادی کی حفاظت کرتے ہیں۔",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "ابتدائی مرحلے کے سٹارٹ اپس کے ساتھ کام کیا جس میں Digit (Oportun کے ذریعے حاصل کیا گیا)، فرسٹ اوپینین (Curai کے ذریعے حاصل کیا گیا)، اور STYLEBEE پروڈکٹ مارکیٹ میں فٹ اور قابل پیمائش نمو شامل ہیں۔",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "ابھرتی ہوئی ٹیکنالوجیز کے ساتھ برانڈز اور ایجنسیوں کو جوڑنے والے ویب اور موبائل مارکیٹ پلیس کے لیے لیڈ پروڈکٹ ڈیزائن اور ڈیولپمنٹ۔",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "لفٹ کے لیے لیڈ پروڈکٹ ڈیزائن، روزمرہ کی عادات کو ٹریک کرنے اور بہتر بنانے کے لیے ویب ساتھی کے ساتھ آئی فون ایپ۔",
+        "Co-founded and ran Plancast, a social event discovery service.": "پلانکاسٹ کی مشترکہ بنیاد رکھی اور چلائی، ایک سماجی تقریب کی دریافت کی خدمت۔",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "مصنوعات کی ترقی کی قیادت کی، ایپلی کیشن کو پروگرام کیا، اور فرنٹ اینڈ کو ڈیزائن کیا؛ 2012 میں ایکٹو نیٹ ورک کے ذریعے حاصل کیا گیا۔",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "نئی ویب ٹیکنالوجیز کے بارے میں 500 سے زیادہ مضامین لکھتے ہوئے Crunchbase اور TechCrunch بلاگ نیٹ ورک کو دوبارہ ڈیزائن کرنے کی کوششوں کی قیادت کی۔ 2010 میں AOL کے ذریعے حاصل کردہ TechCrunch؛ Crunchbase 2015 میں AOL سے ایک آزاد کمپنی کے طور پر نکلا۔",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "طلبہ کے جسم اور فیکلٹی کے لیے کیمپس کے وسیع نیٹ ورک کو اپ گریڈ اور برقرار رکھا۔",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "چھوٹے کاروباروں، غیر منافع بخش، طلباء تنظیموں، اور Bowdoin کالج کے لیے ویب پروجیکٹس کو ڈیزائن اور تیار کیا۔",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "کلاسیکی اور جدید سیاسی تھیوری، آئینی اور بین الاقوامی قانون اور معاشیات میں کورس ورک کے ساتھ ڈبل میجر۔",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "اعزازی مقالے کے لیے سما کم لاؤڈ سے نوازا گیا جس میں نطشے کے نظریہ اخلاقیات کی پوری ہیومن، آل ٹو ہیومن، ڈے بریک، اور آن دی جینالوجی آف مورلز، اور شوپن ہاور اور ری کے ساتھ اس کے تعلقات کا جائزہ لیا گیا۔"
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "کوڈ ریپوزٹریز اور اوپن سورس پروجیکٹس",
+        "Professional network and career updates": "پیشہ ورانہ نیٹ ورک اور کیریئر اپ ڈیٹس",
+        "Thoughts on tech, crypto, and AI": "ٹیک، کریپٹو، اور اے آئی کے بارے میں خیالات",
+        "Building in public, indie products, and startup community": "عوامی، انڈی پروڈکٹس، اور اسٹارٹ اپ کمیونٹی میں تعمیر",
+        "Tech and startup discussions": "ٹیک اور اسٹارٹ اپ ڈسکشنز",
+        "Personal photos, videos, and updates": "ذاتی تصاویر، ویڈیوز اور اپ ڈیٹس",
+        "Get in touch via email": "ای میل کے ذریعے رابطہ کریں۔"
+      }
+    },
+    "schedule": {
+      "title": "مجھ سے ملو",
+      "subtitle": "ایک ایسا وقت منتخب کریں جو آپ کے لیے کارآمد ہو۔",
+      "pageDesc": "مارک کے ساتھ 30 یا 60 منٹ کا سلاٹ بک کریں۔",
+      "bookVia": "تصور کیلنڈر کے ذریعے بک کریں۔",
+      "duration30": "30 منٹ",
+      "duration60": "60 منٹ",
+      "labelMeeting": "ملاقات",
+      "labelChat": "گپ شپ"
+    }
+  },
+  "id": {
+    "timeline": {
+      "roles": {
+        "Founder": "Pendiri",
+        "General Manager": "Manajer Umum",
+        "Product Lead": "Pimpinan Produk",
+        "Product Manager, Designer and Developer": "Manajer Produk, Desainer dan Pengembang",
+        "Head of Product and Co-Founder": "Kepala Produk dan Salah Satu Pendiri",
+        "CEO and Co-Founder": "CEO dan Salah Satu Pendiri",
+        "Project Manager, Designer and Writer": "Manajer Proyek, Desainer dan Penulis",
+        "Network Engineer": "Insinyur Jaringan",
+        "Web Designer & Developer": "Desainer & Pengembang Web",
+        "BA, Government & Economics": "BA, Pemerintahan & Ekonomi",
+        "High School": "Sekolah menengah atas"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 – Sekarang · Barcelona, ​​Spanyol",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · Barcelona, ​​Spanyol",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · Barcelona, ​​Spanyol",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · Barcelona, ​​Spanyol",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · Kota New York & Barcelona",
+        "2012 · San Francisco, California": "2012 · San Fransisco, Kalifornia",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · San Fransisco, Kalifornia",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · Atherton, Kalifornia",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · Brunswick, Maine",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · Menlo Park, California dan Brunswick, Maine",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · Atherton, Kalifornia"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "Membangun Neotoma, lapisan kebenaran untuk memori AI, dan Ateles, sistem operasi agen berdaulat untuk otomatisasi alur kerja pribadi.",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "Berfokus pada desain yang mengutamakan skema, memori yang bersumber dari peristiwa, dan alur kerja deterministik yang memulihkan kedaulatan dan otonomi individu.",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather, dompet Bitcoin dan anak perusahaan Trust Machines berfokus untuk mendorong transisi global menuju ekonomi digital yang dibangun berdasarkan Bitcoin.",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "Memimpin pengalaman pengguna untuk produk yang melindungi kebebasan individu secara online dengan mengamankan kepemilikan digital dan privasi menggunakan blockchain Stacks.",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "Bekerja dengan startup tahap awal termasuk Digit (diakuisisi oleh Oportun), First Opinion (diakuisisi oleh Curai), dan STYLEBEE mengenai kesesuaian pasar produk dan pertumbuhan yang terukur.",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "Memimpin desain dan pengembangan produk untuk pasar web dan seluler yang menghubungkan merek dan agensi dengan teknologi baru.",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "Memimpin desain produk untuk Lift, aplikasi iPhone dengan pendamping web untuk melacak dan meningkatkan kebiasaan sehari-hari.",
+        "Co-founded and ran Plancast, a social event discovery service.": "Mendirikan dan menjalankan Plancast, layanan penemuan acara sosial.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Memimpin pengembangan produk, memprogram aplikasi, dan merancang frontend; diakuisisi oleh Active Network pada tahun 2012.",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "Memimpin upaya untuk mendesain ulang Crunchbase dan jaringan blog TechCrunch sambil menulis lebih dari 500 artikel tentang teknologi web baru. TechCrunch diakuisisi oleh AOL pada tahun 2010; Crunchbase memisahkan diri dari AOL sebagai perusahaan independen pada tahun 2015.",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "Meningkatkan dan memelihara jaringan seluruh kampus untuk mahasiswa dan fakultas.",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "Merancang dan mengembangkan proyek web untuk usaha kecil, nirlaba, organisasi mahasiswa, dan Bowdoin College.",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "Jurusan ganda dengan kursus teori politik klasik dan modern, hukum konstitusional dan internasional, dan ekonomi.",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "Dianugerahi summa cum laude untuk tesis kehormatan yang meneliti teori moralitas Nietzsche dalam Human, All Too Human, Daybreak, dan On the Genealogy of Morals, dan hubungannya dengan Schopenhauer dan Rée."
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "Repositori kode dan proyek sumber terbuka",
+        "Professional network and career updates": "Jaringan profesional dan pembaruan karier",
+        "Thoughts on tech, crypto, and AI": "Pemikiran tentang teknologi, kripto, dan AI",
+        "Building in public, indie products, and startup community": "Membangun komunitas publik, produk indie, dan startup",
+        "Tech and startup discussions": "Diskusi teknologi dan startup",
+        "Personal photos, videos, and updates": "Foto pribadi, video, dan pembaruan",
+        "Get in touch via email": "Hubungi melalui email"
+      }
+    },
+    "schedule": {
+      "title": "Temui aku",
+      "subtitle": "Pilih waktu yang sesuai untuk Anda",
+      "pageDesc": "Pesan slot 30 atau 60 menit dengan Mark.",
+      "bookVia": "Pesan melalui Kalender Notion",
+      "duration30": "30 menit",
+      "duration60": "60 menit",
+      "labelMeeting": "Pertemuan",
+      "labelChat": "Mengobrol"
+    }
+  },
+  "de": {
+    "timeline": {
+      "roles": {
+        "Founder": "Gründer",
+        "General Manager": "Hauptgeschäftsführer",
+        "Product Lead": "Produktleiter",
+        "Product Manager, Designer and Developer": "Produktmanager, Designer und Entwickler",
+        "Head of Product and Co-Founder": "Produktleiter und Mitbegründer",
+        "CEO and Co-Founder": "CEO und Mitbegründer",
+        "Project Manager, Designer and Writer": "Projektmanager, Designer und Autor",
+        "Network Engineer": "Netzwerkingenieur",
+        "Web Designer & Developer": "Webdesigner und Entwickler",
+        "BA, Government & Economics": "BA, Regierung und Wirtschaft",
+        "High School": "Gymnasium"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 – Heute · Barcelona, ​​Spanien",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · Barcelona, ​​Spanien",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · Barcelona, ​​Spanien",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · Barcelona, ​​Spanien",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · New York City und Barcelona",
+        "2012 · San Francisco, California": "2012 · San Francisco, Kalifornien",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · San Francisco, Kalifornien",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · Atherton, Kalifornien",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · Brunswick, Maine",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · Menlo Park, Kalifornien und Brunswick, Maine",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · Atherton, Kalifornien"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "Aufbau von Neotoma, einer Wahrheitsschicht für KI-Speicher, und Ateles, einem souveränen Agenten-Betriebssystem für die Automatisierung persönlicher Arbeitsabläufe.",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "Konzentriert sich auf Schema-First-Design, ereignisbasiertes Gedächtnis und deterministische Arbeitsabläufe, die dem Einzelnen Souveränität und Autonomie zurückgeben.",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather, eine Bitcoin-Wallet und Tochtergesellschaft von Trust Machines, konzentriert sich darauf, den globalen Übergang zu einer auf Bitcoin basierenden digitalen Wirtschaft voranzutreiben.",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "Leitete das Benutzererlebnis für Produkte, die die Freiheit des Einzelnen im Internet schützen, indem sie mithilfe der Stacks-Blockchain digitales Eigentum und Privatsphäre sichern.",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "Arbeitete mit Startups im Frühstadium, darunter Digit (von Oportun übernommen), First Opinion (von Curai übernommen) und STYLEBEE, an der Produktmarktanpassung und messbarem Wachstum.",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "Leitete Produktdesign und -entwicklung für einen Web- und Mobilmarktplatz, der Marken und Agenturen mit neuen Technologien verbindet.",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "Leitung des Produktdesigns für Lift, eine iPhone-App mit Web-Begleiter zur Verfolgung und Verbesserung täglicher Gewohnheiten.",
+        "Co-founded and ran Plancast, a social event discovery service.": "Mitbegründer und Leiter von Plancast, einem Dienst zur Entdeckung gesellschaftlicher Veranstaltungen.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Leitung der Produktentwicklung, Programmierung der Anwendung und Gestaltung des Frontends; 2012 von Active Network übernommen.",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "Leitete Bemühungen zur Neugestaltung von Crunchbase und dem TechCrunch-Blognetzwerk und schrieb über 500 Artikel über neue Webtechnologien. TechCrunch wurde 2010 von AOL übernommen; Crunchbase ist 2015 als eigenständiges Unternehmen aus AOL hervorgegangen.",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "Modernisierung und Pflege eines campusweiten Netzwerks für Studenten und Lehrkräfte.",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "Entworfen und entwickelt Webprojekte für kleine Unternehmen, gemeinnützige Organisationen, Studentenorganisationen und das Bowdoin College.",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "Doppeltes Hauptfach mit Kursen in klassischer und moderner politischer Theorie, Verfassungs- und Völkerrecht sowie Wirtschaftswissenschaften.",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "Ausgezeichnet mit „summa cum laude“ für eine Abschlussarbeit, in der Nietzsches Theorie der Moral in „Human“, „All Too Human“, „Daybreak“ und „On the Genealogy of Morals“ sowie ihre Beziehung zu Schopenhauer und Rée untersucht wurde."
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "Code-Repositories und Open-Source-Projekte",
+        "Professional network and career updates": "Professionelles Netzwerk und Karriere-Updates",
+        "Thoughts on tech, crypto, and AI": "Gedanken zu Technologie, Krypto und KI",
+        "Building in public, indie products, and startup community": "Aufbau in der Öffentlichkeit, Indie-Produkten und der Startup-Community",
+        "Tech and startup discussions": "Tech- und Startup-Diskussionen",
+        "Personal photos, videos, and updates": "Persönliche Fotos, Videos und Updates",
+        "Get in touch via email": "Nehmen Sie Kontakt per E-Mail auf"
+      }
+    },
+    "schedule": {
+      "title": "Treffen Sie sich mit mir",
+      "subtitle": "Wählen Sie einen Zeitpunkt, der für Sie passt",
+      "pageDesc": "Buchen Sie einen 30- oder 60-minütigen Slot bei Mark.",
+      "bookVia": "Buchen Sie über Notion Calendar",
+      "duration30": "30 Minuten",
+      "duration60": "60 Minuten",
+      "labelMeeting": "Treffen",
+      "labelChat": "Chatten"
+    }
+  }
+}

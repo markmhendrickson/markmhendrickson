@@ -1,0 +1,86 @@
+{
+  "url": "https://markmhendrickson.com/api/agent.pt.json",
+  "title": "Agente",
+  "subtitle": "Peça ao seu agente para falar com o meu agente.",
+  "description": "Eu executo um agente apoiado por MCP para que outros agentes possam ler e gravar em meus dados apoiados por Neotoma.",
+  "mcpServerRepoUrl": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
+  "sections": [
+    {
+      "heading": "O que o MCP oferece",
+      "paragraphs": [
+        "Forneço um servidor MCP desenvolvido pela Neotoma com a finalidade de compartilhar todos os meus dados pessoais adequados para consumo público.",
+        "As operações de leitura já estão disponíveis. As operações de gravação são planejadas. A ideia é possibilitar que qualquer agente terceirizado interaja comigo (através do meu próprio agente) da maneira mais eficiente possível, em vez de passar por outros canais mais lentos."
+      ]
+    },
+    {
+      "heading": "Ferramentas",
+      "paragraphs": [
+        "O servidor expõe essas ferramentas para acesso ao meu agente."
+      ],
+      "table": {
+        "columns": [
+          "Ferramenta",
+          "Propósito",
+          "Filtros",
+          "Devoluções"
+        ],
+        "rows": [
+          [
+            "markmhendrickson_get_posts",
+            "Leia registros de postagem de Neotoma.",
+            "Qualquer campo de postagem, como slug, publicado, categoria, tags.",
+            "Matriz de registros de postagem com contagem."
+          ],
+          [
+            "markmhendrickson_get_links",
+            "Leia os registros de link do Neotoma.",
+            "Qualquer campo de link, como ativo, categoria, nome.",
+            "Matriz de registros de link com contagem."
+          ],
+          [
+            "markmhendrickson_get_timeline",
+            "Leia os registros da linha do tempo de Neotoma.",
+            "Qualquer campo da linha do tempo, como tipo_de_entrada, empresa, função.",
+            "Matriz de registros da linha do tempo com contagem."
+          ],
+          [
+            "markmhendrickson_get_all_content",
+            "Retorne postagens, links e linha do tempo em uma chamada.",
+            "Nenhum.",
+            "Objeto com postagens, links, matrizes de linha do tempo e contagens."
+          ],
+          [
+            "markmhendrickson_get_about",
+            "Devolva a postagem inicial por slug.",
+            "Nenhum.",
+            "Registro de postagem único para missão profissional."
+          ]
+        ]
+      }
+    },
+    {
+      "heading": "Pontos de extremidade JSON",
+      "paragraphs": [
+        "Postagens, links e entradas da linha do tempo são armazenados no Neotoma e armazenados em cache em JSON para o site e MCP. Neotoma é a fonte da verdade; a geração de cache é executada antes das compilações."
+      ],
+      "bullets": [
+        {
+          "text": "Postagens públicas JSON",
+          "url": "https://markmhendrickson.com/api/posts.json"
+        },
+        {
+          "text": "Ligações JSON",
+          "url": "https://markmhendrickson.com/api/links.json"
+        },
+        {
+          "text": "Linha do tempo JSON",
+          "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "Agente JSON",
+          "url": "https://markmhendrickson.com/api/agent.json"
+        }
+      ]
+    }
+  ]
+}

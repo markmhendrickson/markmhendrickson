@@ -53,14 +53,32 @@ jobs:
         working-directory: react-app
         run: |
           if [ -f data/tmp/neotoma_website_export.json ]; then
-            python3 scripts/generate_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
+            python3 ../../../scripts/generate_website_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
           else
             echo "No export file; skipping cache generation (using committed cache/*.json)."
           fi
 
+      - name: Install locale translation dependency
+        working-directory: react-app
+        run: |
+          python3 -m venv .venv-i18n
+          . .venv-i18n/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install deep-translator
+
+      - name: Auto-translate missing post locales
+        working-directory: react-app
+        run: |
+          . .venv-i18n/bin/activate
+          python3 scripts/generate_locale_translations.py
+
       - name: Validate translation coverage for published posts
         working-directory: react-app
         run: python3 scripts/validate_post_translations.py
+
+      - name: Run i18n smoke checks
+        working-directory: react-app
+        run: npm run test:i18n-smoke
 
       # Keep homepage bio deterministic from repo content even when export data is stale.
       - name: Force professional-mission from repo content
@@ -119,7 +137,7 @@ jobs:
         working-directory: react-app
         run: |
           mkdir -p public/api
-          for f in cache/api/posts.json cache/api/links.json cache/api/timeline.json; do
+          for f in cache/api/*.json; do
             [ -f "$f" ] && cp "$f" public/api/
           done
 

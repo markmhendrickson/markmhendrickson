@@ -1,10 +1,12 @@
 import type { SupportedLocale } from './config'
+import generatedDictionaries from './dictionaries.generated.json'
 
-type Dict = {
+export type Dict = {
   navHome: string
   navPosts: string
   navTimeline: string
   navAgent: string
+  navConsulting: string
   navMeet: string
   navLinks: string
   navLanguage: string
@@ -39,14 +41,48 @@ type Dict = {
   themeLight: string
   themeDark: string
   categoryEssay: string
+  newsletter: string
+  testError: string
+  defaultHomeDescription: string
+  showMore: string
+  showLess: string
+  noMatchPrefix: string
+  postLoading: string
+  linkToSection: string
+  relatedXPost: string
+  viewXPost: string
+  xTimeline: string
+  followOnX: string
+  xPosts: string
+  share: string
+  shareOn: string
+  copyLink: string
+  copied: string
+  imageViewer: string
+  close: string
+  previousImage: string
+  nextImage: string
+  previousAndNextPosts: string
+  footnotesHeading: string
+  footnoteBackLabel: string
+  timelineTitle: string
+  timelineDescription: string
+  linksTitle: string
+  linksSubtitle: string
+  linksPageDescription: string
+  mcpFallbackTitle: string
+  mcpFallbackDescription: string
+  mcpLoadError: string
+  mcpEnsureAvailable: string
+  mcpLoading: string
 }
 
-const dictionaries: Record<SupportedLocale, Dict> = {
-  en: {
+const enDict: Dict = {
     navHome: 'Home',
     navPosts: 'Posts',
     navTimeline: 'Timeline',
     navAgent: 'Agent',
+    navConsulting: 'Consulting',
     navMeet: 'Meet',
     navLinks: 'Links',
     navLanguage: 'Language',
@@ -81,12 +117,49 @@ const dictionaries: Record<SupportedLocale, Dict> = {
     themeLight: 'Light',
     themeDark: 'Dark',
     categoryEssay: 'Essay',
-  },
-  es: {
+    newsletter: 'Newsletter',
+    testError: 'Test Error',
+    defaultHomeDescription:
+      'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.',
+    showMore: 'Show more',
+    showLess: 'Show less',
+    noMatchPrefix: 'No posts match',
+    postLoading: 'Loading...',
+    linkToSection: 'Link to section',
+    relatedXPost: 'Related X post',
+    viewXPost: 'View X post',
+    xTimeline: 'X timeline',
+    followOnX: 'Follow on X',
+    xPosts: 'X Posts',
+    share: 'Share',
+    shareOn: 'Share on',
+    copyLink: 'Copy link',
+    copied: 'OK',
+    imageViewer: 'Image viewer',
+    close: 'Close',
+    previousImage: 'Previous image',
+    nextImage: 'Next image',
+    previousAndNextPosts: 'Previous and next posts',
+    footnotesHeading: 'Footnotes',
+    footnoteBackLabel: 'Back to content',
+    timelineTitle: 'Timeline',
+    timelineDescription: 'Career and education history',
+    linksTitle: 'Links',
+    linksSubtitle: 'Connect with me across platforms',
+    linksPageDescription: 'Links to profiles and contact channels.',
+    mcpFallbackTitle: 'Agent',
+    mcpFallbackDescription: 'Have your agent talk to my agent.',
+    mcpLoadError: 'Could not load agent page',
+    mcpEnsureAvailable: 'Ensure this URL is available',
+    mcpLoading: 'Loading...',
+}
+
+const esDict: Dict = {
     navHome: 'Inicio',
     navPosts: 'Publicaciones',
     navTimeline: 'Trayectoria',
     navAgent: 'Agente',
+    navConsulting: 'Consultoría',
     navMeet: 'Reunión',
     navLinks: 'Enlaces',
     navLanguage: 'Idioma',
@@ -121,12 +194,49 @@ const dictionaries: Record<SupportedLocale, Dict> = {
     themeLight: 'Claro',
     themeDark: 'Oscuro',
     categoryEssay: 'Ensayo',
-  },
-  ca: {
+    newsletter: 'Newsletter',
+    testError: 'Error de prueba',
+    defaultHomeDescription:
+      'Ensayos sobre memoria de agentes controlada por el usuario, infraestructura personal y sistemas que restauran la soberanía en una era de IA, cripto y complejidad.',
+    showMore: 'Ver más',
+    showLess: 'Ver menos',
+    noMatchPrefix: 'No hay publicaciones que coincidan con',
+    postLoading: 'Cargando...',
+    linkToSection: 'Enlace a la sección',
+    relatedXPost: 'Publicación relacionada en X',
+    viewXPost: 'Ver publicación en X',
+    xTimeline: 'Timeline de X',
+    followOnX: 'Seguir en X',
+    xPosts: 'Publicaciones en X',
+    share: 'Compartir',
+    shareOn: 'Compartir en',
+    copyLink: 'Copiar enlace',
+    copied: 'OK',
+    imageViewer: 'Visor de imágenes',
+    close: 'Cerrar',
+    previousImage: 'Imagen anterior',
+    nextImage: 'Siguiente imagen',
+    previousAndNextPosts: 'Publicación anterior y siguiente',
+    footnotesHeading: 'Notas al pie',
+    footnoteBackLabel: 'Volver al contenido',
+    timelineTitle: 'Trayectoria',
+    timelineDescription: 'Trayectoria profesional y educativa',
+    linksTitle: 'Enlaces',
+    linksSubtitle: 'Conecta conmigo en distintas plataformas',
+    linksPageDescription: 'Enlaces a perfiles y canales de contacto.',
+    mcpFallbackTitle: 'Agente',
+    mcpFallbackDescription: 'Haz que tu agente hable con mi agente.',
+    mcpLoadError: 'No se pudo cargar la página de agente',
+    mcpEnsureAvailable: 'Asegúrate de que esta URL esté disponible',
+    mcpLoading: 'Cargando...',
+}
+
+const caDict: Dict = {
     navHome: 'Inici',
     navPosts: 'Publicacions',
     navTimeline: 'Trajectòria',
     navAgent: 'Agent',
+    navConsulting: 'Consultoria',
     navMeet: 'Trobada',
     navLinks: 'Enllaços',
     navLanguage: 'Idioma',
@@ -161,9 +271,68 @@ const dictionaries: Record<SupportedLocale, Dict> = {
     themeLight: 'Clar',
     themeDark: 'Fosc',
     categoryEssay: 'Assaig',
-  },
+    newsletter: 'Butlletí',
+    testError: 'Error de prova',
+    defaultHomeDescription:
+      "Assajos sobre memòria d'agents controlada per l'usuari, infraestructura personal i sistemes que restauren la sobirania en una era d'IA, cripto i complexitat.",
+    showMore: 'Mostra més',
+    showLess: 'Mostra menys',
+    noMatchPrefix: 'No hi ha publicacions que coincideixin amb',
+    postLoading: 'Carregant...',
+    linkToSection: 'Enllaç a la secció',
+    relatedXPost: 'Publicació relacionada a X',
+    viewXPost: 'Veure publicació a X',
+    xTimeline: "Timeline d'X",
+    followOnX: 'Segueix a X',
+    xPosts: "Publicacions d'X",
+    share: 'Comparteix',
+    shareOn: 'Comparteix a',
+    copyLink: 'Copia enllaç',
+    copied: 'OK',
+    imageViewer: "Visor d'imatges",
+    close: 'Tanca',
+    previousImage: 'Imatge anterior',
+    nextImage: 'Imatge següent',
+    previousAndNextPosts: 'Publicació anterior i següent',
+    footnotesHeading: 'Notes al peu',
+    footnoteBackLabel: 'Tornar al contingut',
+    timelineTitle: 'Trajectòria',
+    timelineDescription: 'Trajectòria professional i educativa',
+    linksTitle: 'Enllaços',
+    linksSubtitle: 'Connecta amb mi a diferents plataformes',
+    linksPageDescription: 'Enllaços a perfils i canals de contacte.',
+    mcpFallbackTitle: 'Agent',
+    mcpFallbackDescription: 'Fes que el teu agent parli amb el meu agent.',
+    mcpLoadError: "No s'ha pogut carregar la pàgina d'agent",
+    mcpEnsureAvailable: 'Assegura que aquesta URL estigui disponible',
+    mcpLoading: 'Carregant...',
+}
+
+function withEnglishFallback(overrides: Partial<Dict>): Dict {
+  return { ...enDict, ...overrides }
+}
+
+function generatedLocaleDict(locale: string): Dict {
+  const generated = (generatedDictionaries as Record<string, Partial<Dict> | undefined>)[locale]
+  return generated ? withEnglishFallback(generated) : enDict
+}
+
+const dictionaries: Record<SupportedLocale, Dict> = {
+  en: enDict,
+  es: esDict,
+  ca: caDict,
+  zh: generatedLocaleDict('zh'),
+  hi: generatedLocaleDict('hi'),
+  ar: generatedLocaleDict('ar'),
+  fr: generatedLocaleDict('fr'),
+  pt: generatedLocaleDict('pt'),
+  ru: generatedLocaleDict('ru'),
+  bn: generatedLocaleDict('bn'),
+  ur: generatedLocaleDict('ur'),
+  id: generatedLocaleDict('id'),
+  de: generatedLocaleDict('de'),
 }
 
 export function getDictionary(locale: SupportedLocale): Dict {
-  return dictionaries[locale]
+  return dictionaries[locale] ?? enDict
 }

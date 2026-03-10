@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import { PostSSRProvider } from './contexts/PostSSRContext'
 import { getLocalizedPublicPosts } from './lib/postsLocaleData'
+import { defaultLocale, isSupportedLocale } from './i18n/config'
 
 export interface HelmetContext {
   helmet?: {
@@ -28,16 +29,17 @@ function buildSlugToPostMap(posts: { slug: string; alternativeSlugs?: string[]; 
 
 function getSSRPostForUrl(url: string) {
   const pathname = (url.split('?')[0] || '/').replace(/\/$/, '')
-  const match = pathname.match(/^\/(?:[a-z]{2}\/)?posts\/([^/]+)$/)
-  const slug = match?.[1]
+  const segments = pathname.split('/').filter(Boolean)
+  const offset = isSupportedLocale(segments[0]) ? 1 : 0
+  if (segments[offset] !== 'posts') return null
+  const slug = segments[offset + 1]
   if (!slug) return null
-  const localeMatch = pathname.match(/^\/([a-z]{2})(?:\/|$)/)
-  const routeLocale = localeMatch?.[1]
-  const posts = (
-    routeLocale === 'en' || routeLocale === 'es' || routeLocale === 'ca'
-      ? getLocalizedPublicPosts(routeLocale)
-      : getLocalizedPublicPosts('en')
-  ) as { slug: string; alternativeSlugs?: string[]; published?: boolean }[]
+  const routeLocale = isSupportedLocale(segments[0]) ? segments[0] : defaultLocale
+  const posts = getLocalizedPublicPosts(routeLocale) as {
+    slug: string
+    alternativeSlugs?: string[]
+    published?: boolean
+  }[]
   const slugToPost = buildSlugToPostMap(posts)
   const post = slugToPost.get(slug)
   return post && post.published !== false ? post : null

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
-import { Home, FileText, Share2, Clock, Bot, CalendarPlus } from 'lucide-react'
+import { Home, FileText, Share2, Clock, Bot, Briefcase, CalendarPlus } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
-import { localeToOgLocale, localeToLanguageName } from '@/i18n/config'
+import { localeToOgLocale, localeToLanguageName, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 
@@ -29,10 +29,12 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
+const primaryLanguageLocales = new Set(['en', 'es', 'ca'])
+
 export function Layout({ children }: LayoutProps) {
   const location = useLocation()
   const params = useParams()
-  const { locale, languageTag, t } = useLocale()
+  const { locale, languageTag, direction, t } = useLocale()
   const publicPostsData = getLocalizedPublicPosts(locale) as Post[]
   const [postTitle, setPostTitle] = useState<string | null>(null)
   const isHome = location.pathname === localizePath('/', locale)
@@ -71,11 +73,12 @@ export function Layout({ children }: LayoutProps) {
     'posts': t.navPosts,
     'draft': t.drafts,
     'timeline': t.navTimeline,
-    'newsletter': 'Newsletter',
+    'newsletter': t.newsletter,
     'links': t.navLinks,
     'meet': t.navMeet,
     'agent': t.navAgent,
-    'test-error': 'Test Error',
+    'consulting': t.navConsulting,
+    'test-error': t.testError,
   }
 
   const menuItems = [
@@ -83,27 +86,31 @@ export function Layout({ children }: LayoutProps) {
     { path: localizePath('/posts', locale), label: t.navPosts, icon: FileText },
     { path: localizePath('/timeline', locale), label: t.navTimeline, icon: Clock },
     { path: localizePath('/agent', locale), label: t.navAgent, icon: Bot },
+    { path: localizePath('/consulting', locale), label: t.navConsulting, icon: Briefcase },
     { path: localizePath('/meet', locale), label: t.navMeet, icon: CalendarPlus },
     { path: localizePath('/links', locale), label: t.navLinks, icon: Share2 },
   ]
 
-  const languageMenuItems = (['en', 'es', 'ca'] as const).map((nextLocale) => ({
-    path: localizePath(stripLocaleFromPath(location.pathname), nextLocale),
-    label: localeToLanguageName[nextLocale],
-    isActive: nextLocale === locale,
-    onSelect: () => saveLocale(nextLocale),
-  }))
+  const visibleLanguageLocales = import.meta.env.PROD
+    ? supportedLocales.filter((nextLocale) => primaryLanguageLocales.has(nextLocale))
+    : supportedLocales
+
+  const languageMenuItems = visibleLanguageLocales.map((nextLocale) => {
+    const isPrimaryLocale = primaryLanguageLocales.has(nextLocale)
+    return {
+      path: localizePath(stripLocaleFromPath(location.pathname), nextLocale),
+      label: localeToLanguageName[nextLocale],
+      isActive: nextLocale === locale,
+      onSelect: () => saveLocale(nextLocale),
+      className: !isPrimaryLocale && import.meta.env.DEV ? 'opacity-50' : undefined,
+    }
+  })
 
   // Home (/:locale) uses the default Helmet here; all other routes should supply their own Helmet.
   const hasPageHelmet = !isHome
 
   const defaultTitle = 'Mark Hendrickson'
-  const defaultDescriptions = {
-    en: 'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.',
-    es: 'Ensayos sobre memoria de agentes controlada por el usuario, infraestructura personal y sistemas que restauran la soberanía en una era de IA, cripto y complejidad.',
-    ca: "Assajos sobre memòria d'agents controlada per l'usuari, infraestructura personal i sistemes que restauren la sobirania en una era d'IA, cripto i complexitat.",
-  } as const
-  const defaultDescription = defaultDescriptions[locale]
+  const defaultDescription = t.defaultHomeDescription
   const defaultUrl = `https://markmhendrickson.com${localizePath('/', locale)}`
   const defaultImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
   const ogImageWidth = 1200
@@ -113,15 +120,20 @@ export function Layout({ children }: LayoutProps) {
     <>
       {!hasPageHelmet && (
         <Helmet>
-          <html lang={languageTag} />
+          <html lang={languageTag} dir={direction} />
           <title>{defaultTitle}</title>
           <meta name="description" content={defaultDescription} />
           <meta name="author" content="Mark Hendrickson" />
           <link rel="canonical" href={defaultUrl} />
           <meta property="og:locale" content={localeToOgLocale[locale]} />
-          <link rel="alternate" hrefLang="en" href="https://markmhendrickson.com/" />
-          <link rel="alternate" hrefLang="es" href="https://markmhendrickson.com/es/" />
-          <link rel="alternate" hrefLang="ca" href="https://markmhendrickson.com/ca/" />
+          {supportedLocales.map((altLocale) => (
+            <link
+              key={altLocale}
+              rel="alternate"
+              hrefLang={altLocale}
+              href={`https://markmhendrickson.com${localizePath('/', altLocale)}`}
+            />
+          ))}
           <link rel="alternate" hrefLang="x-default" href="https://markmhendrickson.com/" />
           <link rel="alternate" type="application/rss+xml" title={`${defaultTitle} RSS`} href="https://markmhendrickson.com/rss.xml" />
           <meta property="og:type" content="website" />
@@ -148,13 +160,14 @@ export function Layout({ children }: LayoutProps) {
         </Helmet>
       )}
       <SharedLayout
+        direction={direction}
         siteName="Mark Hendrickson"
         menuItems={menuItems}
         routeNames={routeNames}
         getBreadcrumbLabel={getBreadcrumbLabel}
         homeHref={localizePath('/', locale)}
         homeLabel={t.navHome}
-        hiddenPathSegments={['en', 'es', 'ca']}
+        hiddenPathSegments={supportedLocales}
         languageMenuItems={languageMenuItems}
         languageMenuLabel={t.navLanguage}
         themeMenuLabel={t.themeMenuLabel}

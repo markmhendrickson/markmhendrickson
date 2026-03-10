@@ -1,6 +1,7 @@
 import { defaultLocale, isSupportedLocale, type SupportedLocale } from './config'
 
 export const LOCALE_STORAGE_KEY = 'preferred_locale'
+const browserAutoDetectLocales: ReadonlySet<SupportedLocale> = new Set(['en', 'es', 'ca'])
 
 export function getLocaleFromPath(pathname: string): SupportedLocale | null {
   const [, first] = pathname.split('/')
@@ -43,7 +44,7 @@ export function resolvePreferredLocale(): SupportedLocale {
   const langs = navigator.languages?.length ? navigator.languages : [navigator.language]
   for (const lang of langs) {
     const primary = lang?.toLowerCase().split('-')[0]
-    if (isSupportedLocale(primary)) return primary
+    if (isSupportedLocale(primary) && browserAutoDetectLocales.has(primary)) return primary
   }
   return defaultLocale
 }

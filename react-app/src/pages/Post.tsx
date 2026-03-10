@@ -9,7 +9,7 @@ import { stripLinksFromExcerpt, getPostImageSrc, getZoomImageSrc, stripFrontmatt
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
-import { defaultLocale } from '@/i18n/config'
+import { defaultLocale, supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
@@ -155,7 +155,7 @@ const OG_IMAGE_HEIGHT = 630
 
 /** In dev, load private cache so draft posts can be viewed by slug.
  * Prefer localized public cache when a slug exists in both so es/ca get correct title/body. */
-async function loadPostsDataForSlug(includeDrafts: boolean, locale: 'en' | 'es' | 'ca'): Promise<Post[]> {
+async function loadPostsDataForSlug(includeDrafts: boolean, locale: SupportedLocale): Promise<Post[]> {
   const localizedPublicPosts = getLocalizedPublicPosts(locale) as unknown as Post[]
   if (!includeDrafts || import.meta.env.PROD) return localizedPublicPosts
   try {
@@ -179,6 +179,8 @@ async function loadPostsDataForSlug(includeDrafts: boolean, locale: 'en' | 'es' 
 
 interface Post {
   slug: string
+  postId?: string
+  canonicalSlug?: string
   /** Alternative URL slugs (e.g. short or share-friendly); canonical URL uses slug. */
   alternativeSlugs?: string[]
   title: string
@@ -543,69 +545,6 @@ export default function Post({ slug: slugProp }: PostProps) {
   const slug = slugProp || slugParam
   const navigate = useNavigate()
   const { locale, languageTag, t } = useLocale()
-  const ui = {
-    en: {
-      loading: 'Loading...',
-      linkToSection: 'Link to section',
-      relatedXPost: 'Related X post',
-      viewXPost: 'View X post',
-      xTimeline: 'X timeline',
-      followOnX: 'Follow on X',
-      xPosts: 'X Posts',
-      shareXPostDraft: 'Share X post draft',
-      shareXPost: 'Share X post',
-      imageViewer: 'Image viewer',
-      close: 'Close',
-      previousImage: 'Previous image',
-      nextImage: 'Next image',
-      previousAndNextPosts: 'Previous and next posts',
-      share: 'Share',
-      shareOn: 'Share on',
-      copyLink: 'Copy link',
-      copied: 'OK',
-    },
-    es: {
-      loading: 'Cargando...',
-      linkToSection: 'Enlace a la sección',
-      relatedXPost: 'Publicación relacionada en X',
-      viewXPost: 'Ver publicación en X',
-      xTimeline: 'Timeline de X',
-      followOnX: 'Seguir en X',
-      xPosts: 'Publicaciones en X',
-      shareXPostDraft: 'Compartir borrador para X',
-      shareXPost: 'Compartir en X',
-      imageViewer: 'Visor de imágenes',
-      close: 'Cerrar',
-      previousImage: 'Imagen anterior',
-      nextImage: 'Siguiente imagen',
-      previousAndNextPosts: 'Publicación anterior y siguiente',
-      share: 'Compartir',
-      shareOn: 'Compartir en',
-      copyLink: 'Copiar enlace',
-      copied: 'OK',
-    },
-    ca: {
-      loading: 'Carregant...',
-      linkToSection: "Enllaç a la secció",
-      relatedXPost: 'Publicació relacionada a X',
-      viewXPost: 'Veure publicació a X',
-      xTimeline: "Timeline d'X",
-      followOnX: 'Segueix a X',
-      xPosts: "Publicacions d'X",
-      shareXPostDraft: "Comparteix esborrany per a X",
-      shareXPost: 'Comparteix a X',
-      imageViewer: "Visor d'imatges",
-      close: 'Tanca',
-      previousImage: 'Imatge anterior',
-      nextImage: 'Imatge següent',
-      previousAndNextPosts: 'Publicació anterior i següent',
-      share: 'Comparteix',
-      shareOn: 'Comparteix a',
-      copyLink: 'Copia enllaç',
-      copied: 'OK',
-    },
-  } as const
-  const uiText = ui[locale]
   const publicPostsData = getLocalizedPublicPosts(locale) as unknown as Post[]
   const slugToPostPublic = useMemo(
     () => buildSlugToPostMap(publicPostsData as Post[]),
@@ -963,7 +902,7 @@ export default function Post({ slug: slugProp }: PostProps) {
     return (
       <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
         <div className="max-w-[600px] w-full">
-          <p className="text-[15px] text-muted-foreground dark:text-foreground/80">{uiText.loading}</p>
+          <p className="text-[15px] text-muted-foreground dark:text-foreground/80">{t.postLoading}</p>
         </div>
       </div>
     )
@@ -988,8 +927,26 @@ export default function Post({ slug: slugProp }: PostProps) {
   const canonicalUrl = isHome
     ? `${SITE_BASE}${localizePath('/', locale)}`
     : `${SITE_BASE}${localizePath(`/posts/${post.slug}`, locale)}`
+  const postIdentity = post.postId ?? post.canonicalSlug ?? post.slug
+  const localizedAlternateUrls = supportedLocales.map((altLocale) => {
+    const localizedPosts = getLocalizedPublicPosts(altLocale) as unknown as Post[]
+    const localizedPost = localizedPosts.find((candidate) =>
+      (candidate.postId && candidate.postId === postIdentity) ||
+      (candidate.canonicalSlug && candidate.canonicalSlug === postIdentity) ||
+      candidate.slug === postIdentity
+    )
+    const localizedSlug = localizedPost?.slug ?? post.slug
+    return {
+      locale: altLocale,
+      href: `${SITE_BASE}${localizePath(`/posts/${localizedSlug}`, altLocale)}`,
+    }
+  })
   const summaryBulletLimit = post.slug === 'six-agentic-trends-betting-on' ? 6 : 5
   const displaySummary = limitSummaryToFiveBullets(summaryContent !== undefined ? summaryContent : (post.summary ?? ''), summaryBulletLimit)
+  const markdownFootnoteOptions = {
+    footnoteLabel: t.footnotesHeading,
+    footnoteBackLabel: t.footnoteBackLabel,
+  }
   // Default OG image only on home; post pages use post-specific image or none
   const ogImage = post.ogImage
     ? `${SITE_BASE}/images/${post.ogImage}`
@@ -1006,6 +963,10 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta name="description" content={desc} />
         <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
+        {localizedAlternateUrls.map((alt) => (
+          <link key={alt.locale} rel="alternate" hrefLang={alt.locale} href={alt.href} />
+        ))}
+        <link rel="alternate" hrefLang="x-default" href={`${SITE_BASE}/`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={displayTitle || (isTweetPost ? 'X Post' : '')} />
         <meta property="og:description" content={desc} />
@@ -1120,7 +1081,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               </AlertTitle>
               <AlertDescription asChild>
                 <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{displaySummary}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions}>{displaySummary}</ReactMarkdown>
                 </div>
               </AlertDescription>
             </Alert>
@@ -1161,7 +1122,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                       <a
                         href={`#${slug}`}
                         className="post-heading-anchor ml-2 inline-flex align-middle opacity-40 group-hover:opacity-70 hover:opacity-100 text-muted-foreground hover:text-foreground no-underline"
-                        aria-label={uiText.linkToSection}
+                        aria-label={t.linkToSection}
                       >
                         <LinkIcon className="h-4 w-4" />
                       </a>
@@ -1260,6 +1221,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               <>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
+                  remarkRehypeOptions={markdownFootnoteOptions}
                   components={markdownComponents}
                 >
                   {barcelonaContentSplit.contentBefore}
@@ -1267,6 +1229,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 <AmenitiesCards />
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
+                  remarkRehypeOptions={markdownFootnoteOptions}
                   components={markdownComponents}
                 >
                   {barcelonaContentSplit.contentAfter}
@@ -1275,6 +1238,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               ) : (
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
+                  remarkRehypeOptions={markdownFootnoteOptions}
                   components={markdownComponents}
                 >
                   {content}
@@ -1285,7 +1249,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
           {postscriptContent && (
             <div className="post-prose postscript-prose prose prose-sm max-w-none mt-8 pt-6 border-t border-border">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{postscriptContent}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions}>{postscriptContent}</ReactMarkdown>
             </div>
           )}
 
@@ -1347,10 +1311,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                   copySuccess={copyLinkSuccess}
                   noTopBorder={isHome}
                   labels={{
-                    share: uiText.share,
-                    shareOn: uiText.shareOn,
-                    copyLink: uiText.copyLink,
-                    copied: uiText.copied,
+                    share: t.share,
+                    shareOn: t.shareOn,
+                    copyLink: t.copyLink,
+                    copied: t.copied,
                   }}
                 />
               )}
@@ -1359,7 +1323,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         </article>
 
         {post.linkedTweetUrl && (
-          <section className="mt-8 pt-6 border-t border-border" aria-label={uiText.relatedXPost}>
+          <section className="mt-8 pt-6 border-t border-border" aria-label={t.relatedXPost}>
             <a
               href={post.linkedTweetUrl}
               target="_blank"
@@ -1367,19 +1331,19 @@ export default function Post({ slug: slugProp }: PostProps) {
               className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5"
             >
               <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
-              {uiText.viewXPost}
+              {t.viewXPost}
             </a>
           </section>
         )}
 
         {post.xTimelineUrl && (
-          <section className="mt-8 pt-6 border-t border-border" aria-label={uiText.xTimeline}>
+          <section className="mt-8 pt-6 border-t border-border" aria-label={t.xTimeline}>
             <h2 className="text-[13px] text-muted-foreground font-medium uppercase tracking-wide mb-4">
-              {uiText.followOnX}
+              {t.followOnX}
             </h2>
             <div ref={timelineEmbedRef} className="flex flex-col items-center">
               <blockquote className="twitter-timeline" data-dnt="true">
-                <a href={post.xTimelineUrl}>{uiText.xPosts}</a>
+                <a href={post.xTimelineUrl}>{t.xPosts}</a>
               </blockquote>
             </div>
           </section>
@@ -1390,14 +1354,14 @@ export default function Post({ slug: slugProp }: PostProps) {
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
             role="dialog"
             aria-modal="true"
-            aria-label={uiText.imageViewer}
+            aria-label={t.imageViewer}
             onClick={closeImageViewer}
           >
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); closeImageViewer() }}
               className="absolute top-4 right-4 p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
-              aria-label={uiText.close}
+              aria-label={t.close}
             >
               <X className="w-6 h-6" />
             </button>
@@ -1406,7 +1370,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 type="button"
                 onClick={(e) => { e.stopPropagation(); goPrev() }}
                 className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
-                aria-label={uiText.previousImage}
+                aria-label={t.previousImage}
               >
                 <ChevronLeft className="w-8 h-8" />
               </button>
@@ -1416,7 +1380,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 type="button"
                 onClick={(e) => { e.stopPropagation(); goNext() }}
                 className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full text-white/80 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white"
-                aria-label={uiText.nextImage}
+                aria-label={t.nextImage}
               >
                 <ChevronRight className="w-8 h-8" />
               </button>
@@ -1442,7 +1406,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         {!isHome && !isExcludedFromListing(post) && (prevPost || nextPost || (!nextPost && prevPost2)) && (
           <nav
             className="mt-8 flex flex-col gap-4"
-            aria-label={uiText.previousAndNextPosts}
+            aria-label={t.previousAndNextPosts}
           >
             {nextPost && (
               <Link
