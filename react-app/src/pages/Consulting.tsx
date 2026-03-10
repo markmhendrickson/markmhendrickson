@@ -2,9 +2,18 @@ import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { CalendarPlus } from 'lucide-react'
+import linksData from '@cache/links.json'
 import { useLocale } from '@/i18n/LocaleContext'
 import { supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
+
+/** Same mailto as on Links page (from links.json). */
+const consultingMailto = (() => {
+  const emailLink = (linksData as { name: string; url: string }[]).find((l) => l.url.startsWith('mailto:'))
+  const base = emailLink?.url ?? 'mailto:'
+  const sep = base.includes('?') ? '&' : '?'
+  return `${base}${sep}subject=Consulting%20inquiry`
+})()
 
 const SITE_BASE = 'https://markmhendrickson.com'
 const DEFAULT_OG_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
@@ -494,7 +503,7 @@ export default function Consulting() {
                 <p className="max-w-[65ch]">{text.ctaParagraph}</p>
                 <p className="max-w-[65ch] font-medium text-foreground">
                   <a
-                    href="mailto:markmhendrickson@gmail.com?subject=Consulting%20inquiry"
+                    href={consultingMailto}
                     className={LINK_CLASS}
                   >
                     {text.ctaEmailLabel}
