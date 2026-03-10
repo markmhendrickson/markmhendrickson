@@ -39,7 +39,7 @@
     "createdDate": "2026-03-09",
     "updatedDate": "2026-03-09",
     "summary": "- 我的代理堆栈是一个私有 monorepo，拥有 12 个以上 MCP 服务器、持久规则和可重用技能。我整天与 Cursor 中的人工智能代理合作，为从电子邮件分类到比特币支付再到网站部署等任务打开会话。\n- Neotoma 提供底层结构化存储层：1,000 多个联系人、600 个任务、170 种实体类型。代理每次都会存储实体和关系，并在响应之前检索先前的上下文。\n- 真实的 MCP 调用显示了这种模式：单个“存储”调用将对话、提取的联系人、任务和类型关系保留在一个有效负载中。检索呼叫在代理采取行动之前为他们提供背景信息。\n- Neotoma 的分层架构将真理（事件源状态）、策略（纯认知、决策输出）和执行（副作用、事件返回）分开。今天我是策略层。该架构使该角色可以由软件替代。\n- 目标是从亲自执行转向审查和批准，由代理自主处理可重复的工作流程。一旦个人数据迁移到 Neotoma 并且脚本被重构为通用的，该堆栈将开源。",
-    "shareTweet": "I built Ateles, an agentic operating system I use daily. 12+ MCP servers (Gmail, Calendar, Bitcoin wallet, WhatsApp, HomeKit, 1Password, more) wired into @cursor_ai with persistent rules and reusable skills.\n\n@neaborns is the memory underneath: 1,000+ contacts, 600 tasks, 170 entity types created by agents, not me. No schemas designed upfront. Every session builds on the last.\n\nhttps://markmhendrickson.com/posts/what-my-agentic-stack-actually-does",
+    "shareTweet": "I built Ateles, an agentic operating system I use daily. 12+ MCP servers (Gmail, Calendar, Bitcoin wallet, WhatsApp, HomeKit, 1Password, and more) wired into @cursor_ai and CLI agents with persistent rules and reusable skills.\n\nNeotoma is the state layer underneath: 1,000+ contacts, 600 tasks, 170 entity types created by agents, not me. No schemas designed upfront. Every session builds on the last.\n\nhttps://markmhendrickson.com/posts/what-my-agentic-stack-actually-does",
     "heroImage": "what-my-agentic-stack-actually-does-hero.png",
     "heroImageStyle": "keep-proportions",
     "heroImageSquare": "what-my-agentic-stack-actually-does-hero-square.png",

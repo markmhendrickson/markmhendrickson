@@ -27,15 +27,15 @@ export default function Home() {
   } as const
   const text = copy[locale as keyof typeof copy] ?? copy.en
   return (
-    <div className="w-full flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
-      <div className="w-full max-w-[1200px] min-w-0">
+    <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
+      <div className="max-w-[600px] w-full">
         <img
           src="/profile.jpg"
           alt="Mark Hendrickson"
-          className="float-right ml-12 mb-12 w-[400px] h-[400px] rounded-none object-cover"
+          className="mb-8 h-[280px] w-[280px] rounded-none object-cover md:float-right md:ml-8 md:mb-8 md:h-[300px] md:w-[300px]"
         />
         <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark Hendrickson</h1>
-        <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
+        <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-8 font-normal tracking-wide">
           {text.subtitle}
         </div>
 
