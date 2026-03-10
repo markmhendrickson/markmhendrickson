@@ -24,6 +24,8 @@ react-app/dist-ssr
 # Local data (never committed)
 data/
 react-app/data/tmp/
+!react-app/src/data/
+!react-app/src/data/*.json
 
 # Draft posts (not committed to version control)
 react-app/src/content/posts/drafts/
