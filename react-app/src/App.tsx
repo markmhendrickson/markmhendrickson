@@ -7,6 +7,7 @@ import Newsletter from './pages/Newsletter'
 import NewsletterConfirm from './pages/NewsletterConfirm'
 import Posts from './pages/Posts'
 import Post from './pages/Post'
+import Home from './pages/Home'
 import SocialMedia from './pages/SocialMedia'
 import Songs from './pages/Songs'
 import Mcp from './pages/Mcp'
@@ -56,7 +57,7 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
   return (
     <LocaleProvider locale={locale}>
       <Routes>
-        <Route index element={<Layout><Post slug="professional-mission" /></Layout>} />
+        <Route index element={<Layout><Home /></Layout>} />
         <Route path="about" element={<Navigate to={localizePath('/', locale)} replace />} />
         <Route path="timeline" element={<Layout><Timeline /></Layout>} />
         <Route path="newsletter" element={<Layout><Newsletter /></Layout>} />

@@ -25,7 +25,7 @@ export default function Home() {
       p4: "Abans d'aquesta etapa, vaig passar gairebé dues dècades construint productes a la web de consum, cripto i startups: escrivint i publicant a TechCrunch, cofundant Plancast (adquirida per Active Network), cofundant KITE Solutions, assessorant i construint amb startups en fase inicial, liderant experiència d'usuari a Hiro per a la blockchain d'Stacks i dirigint Leather a Trust Machines. Pots veure tot el recorregut a la meva trajectòria.",
     },
   } as const
-  const text = copy[locale]
+  const text = copy[locale as keyof typeof copy] ?? copy.en
   return (
     <div className="min-h-content">
       <div className="pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
