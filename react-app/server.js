@@ -26,8 +26,8 @@ const SITE_BASE = 'https://markmhendrickson.com'
 const SUPPORTED_LOCALES = ['en', 'es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']
 const DEFAULT_LOCALE = 'en'
 const PREFIXED_LOCALES = SUPPORTED_LOCALES.filter((locale) => locale !== DEFAULT_LOCALE)
-const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet']
-const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet']
+const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting']
+const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting']
 const LOCALIZED_STATIC_ROUTES = PREFIXED_LOCALES.flatMap((locale) =>
   STATIC_ROUTE_SUFFIXES.map((suffix) => (suffix === '/' ? `/${locale}` : `/${locale}${suffix}`))
 )

@@ -38,6 +38,7 @@ const STATIC_ROUTES = [
   '/links',
   '/songs',
   '/meet',
+  '/consulting',
 ]
 
 function getPostSlugs() {
