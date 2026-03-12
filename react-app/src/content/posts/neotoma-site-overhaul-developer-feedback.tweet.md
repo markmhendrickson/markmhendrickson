@@ -1,29 +1,52 @@
-I overhauled the Neotoma site based on developer release feedback. The most common question from testers: "who is this for and why would I use it?" The single scrolling page is now 40+ pages of docs, integration guides, and architecture. Every change traces to something a tester said or got stuck on.
+I overhauled the @neotoma_dev site. The old single-page wall of text is now a visual presentation backed by full documentation, tool-specific integration guides, and architecture deep dives. Every change traces to something a tester said or got stuck on during the developer release.
 
+Image: /images/posts/neotoma-site-overhaul-home-hero.png
+
+---
+
+Most common feedback: "Who is this for and why would I use it?"
+
+One tester compared the old site to selling a vitamin instead of a painkiller. New site leads with what breaks without deterministic state and what that costs you.
+
+https://neotoma.io
+
+Image: /images/posts/neotoma-site-overhaul-before-after-section.png
+
+---
+
+The centerpiece: a memory guarantees table comparing platform memory (@AnthropicAI, @OpenAI), retrieval systems (@mem0ai, @zep_ai), file-based approaches, and @neotoma_dev across 12 properties. Each row links to a dedicated explanation with before/after examples.
+
+https://neotoma.io/memory-guarantees
+
+Image: /images/posts/neotoma-site-overhaul-memory-guarantees-table.png
+
+---
+
+Testers asked "does it work with X?" and "how do I set this up?" Six tool-specific integration guides now: @cursor_ai, @AnthropicAI (Claude, Claude Code), @OpenAI (ChatGPT, Codex), and @openclaw. Each walks through setup from install to first store.
+
+https://neotoma.io/install
+
+Image: /images/posts/neotoma-site-overhaul-integration-guide-claude-code.png
+
+---
+
+The install process is now agent-led. Copy one prompt, paste it into your AI tool, and the agent handles the rest. No configuration docs needed.
+
+Also added three use case pages so each audience can self-identify: AI infrastructure engineers, agent system builders, and AI-native operators.
+
+https://neotoma.io/ai-infrastructure-engineers
+https://neotoma.io/agentic-systems-builders
+https://neotoma.io/ai-native-operators
+
+Image: /images/posts/neotoma-site-overhaul-agent-install.png
+
+---
+
+The positive signal from testers: the core works. It stores and retrieves correctly. The site and onboarding needed to catch up. This overhaul is a first step in that direction.
+
+If you try the site or install, I want to know: is the positioning clear? Can you get from the home page to a working setup without hitting a wall?
+
+Full writeup with all the screenshots:
 https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback
 
----
-
-The centerpiece is a memory guarantees table. One tester pushed back that "general storage with schemas is unsolved." My response: here are 12 specific properties, here's where platform memory, retrieval, file-based, and Neotoma each deliver or fall short. Each row links to a deep dive.
-
-https://neotoma.io
-
----
-
-Testers asked "is this meant to replace my existing memory or sit alongside it?" and "how does ingestion work, regex or AI?" New developer walkthrough answers both: store a decision in session 1, retrieve it in session 2, handle a conflict in session 3, audit the trail. Real MCP examples, not pseudocode.
-
----
-
-One tester had Neotoma running but asked "so it doesn't work with OpenClaw?" because the old site was ambiguous. Now there are six tool-specific integration guides: Cursor, Claude, Claude Code, ChatGPT, Codex, and OpenClaw. Each from install to first store.
-
----
-
-Another tester said the framing was "too horizontal" and needed sharper persona segmentation. Three dedicated use case pages now: AI infrastructure engineers, agent system builders, and AI-native operators. Failure modes, data types, and schema patterns for each.
-
----
-
-The positive signal: testers got it working and confirmed it "stores stuff when I ask and can verify with the CLI." The core works. The site needed to catch up.
-
-Visit neotoma.io and try installing. I want to know: is the positioning clear now? Can you get from the home page to a working setup without hitting a wall?
-
-https://neotoma.io
+Image: /images/posts/neotoma-site-overhaul-developer-feedback-hero.png
