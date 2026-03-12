@@ -571,10 +571,12 @@ export default function Post({ slug: slugProp }: PostProps) {
   const postImages = useMemo(() => {
     if (!content) return []
     const list: { src: string; alt: string }[] = []
-    const re = /!\[([^\]]*)\]\(([^)]+)\)/g
+    // Match markdown image syntax and capture only the URL part (excluding optional title).
+    const re = /!\[([^\]]*)\]\(\s*(?:<([^>\s]+)>|(\S+?))(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)/g
     let m: RegExpExecArray | null
     while ((m = re.exec(content)) !== null) {
-      list.push({ alt: m[1] ?? '', src: m[2] ?? '' })
+      const src = m[2] ?? m[3] ?? ''
+      list.push({ alt: m[1] ?? '', src })
     }
     return list
   }, [content])
@@ -1039,7 +1041,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                   <img
                     src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
-                    alt=""
+                    alt={latestPost.title || ''}
                     className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                     style={{ objectPosition: 'center center' }}
                   />
@@ -1128,17 +1130,35 @@ export default function Post({ slug: slugProp }: PostProps) {
               const makeHeading = (Tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') =>
                 ({ children, ...props }: React.ComponentPropsWithoutRef<typeof Tag>) => {
                   const slug = slugifyHeading(getHeadingText(children))
-                  return (
+                  const showAnchor = Tag !== 'h3'
+                  const headingNode = (
                     <Tag id={slug} className="group scroll-mt-6" {...props}>
                       {children}
-                      <a
-                        href={`#${slug}`}
-                        className="post-heading-anchor ml-2 inline-flex align-middle opacity-40 group-hover:opacity-70 hover:opacity-100 text-muted-foreground hover:text-foreground no-underline"
-                        aria-label={t.linkToSection}
-                      >
-                        <LinkIcon className="h-4 w-4" />
-                      </a>
+                      {showAnchor && (
+                        <a
+                          href={`#${slug}`}
+                          className="post-heading-anchor ml-2 inline-flex align-middle opacity-40 group-hover:opacity-70 hover:opacity-100 text-muted-foreground hover:text-foreground no-underline"
+                          aria-label={t.linkToSection}
+                        >
+                          <LinkIcon className="h-4 w-4" />
+                        </a>
+                      )}
                     </Tag>
+                  )
+                  if (Tag === 'h2') {
+                    return (
+                      <>
+                        <div className="flex items-center gap-3 my-12" aria-hidden="true">
+                          <span className="h-px flex-1 bg-zinc-300 dark:bg-zinc-700" />
+                          <span className="text-[10px] leading-none text-zinc-500 dark:text-zinc-400">◆</span>
+                          <span className="h-px flex-1 bg-zinc-300 dark:bg-zinc-700" />
+                        </div>
+                        {headingNode}
+                      </>
+                    )
+                  }
+                  return (
+                    headingNode
                   )
                 }
               const markdownComponents = {
@@ -1178,35 +1198,44 @@ export default function Post({ slug: slugProp }: PostProps) {
                   }
                   return <p {...props}>{children}</p>
                 },
-                img: ({ src, alt, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
+                img: ({ src, alt, title, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
                   const index = postImages.findIndex((im) => im.src === src)
                   const safeIndex = index >= 0 ? index : 0
                   const showFullFrame = post.slug === 'your-ai-remembers-your-vibe-but-not-your-work'
+                  const screenshotHint = `${alt ?? ''} ${title ?? ''}`.toLowerCase()
+                  const isScreenshotEmbed =
+                    screenshotHint.includes('screenshot') ||
+                    (src?.includes('/screenshots/') ?? false)
                   if (postImages.length === 0) {
                     return (
-                      <div className={showFullFrame ? 'w-full' : 'aspect-square w-full overflow-hidden rounded-lg'}>
+                      <div className={showFullFrame || isScreenshotEmbed ? 'w-full' : 'aspect-square w-full overflow-hidden rounded-lg'}>
                         <img
                           src={src}
                           alt={alt ?? ''}
-                          className={showFullFrame ? 'w-full h-auto max-h-[85vh] object-contain block rounded-lg' : 'w-full h-full object-cover block'}
+                          className={showFullFrame || isScreenshotEmbed ? 'w-full h-auto max-h-[85vh] object-contain block rounded-lg' : 'w-full h-full object-cover block'}
                           loading="lazy"
+                          title={title}
                           {...props}
                         />
                       </div>
                     )
                   }
-                  if (showFullFrame) {
+                  if (showFullFrame || isScreenshotEmbed) {
                     return (
                       <button
                         type="button"
                         onClick={() => openImageViewer(safeIndex)}
-                        className="w-full text-left rounded-2xl overflow-hidden border border-border hover:border-muted-foreground p-4 bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors cursor-zoom-in"
+                        className={showFullFrame
+                          ? 'w-full text-left rounded-2xl overflow-hidden border border-border hover:border-muted-foreground p-4 bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors cursor-zoom-in'
+                          : 'not-prose block mx-auto w-[min(calc(100vw-3rem),900px)] max-w-full text-left rounded-2xl overflow-hidden border border-border hover:border-muted-foreground p-2 md:p-3 bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors cursor-zoom-in'
+                        }
                       >
                         <img
                           src={src}
                           alt={alt ?? ''}
                           className="w-full h-auto max-h-[85vh] object-contain block rounded-2xl"
                           loading="lazy"
+                          title={title}
                           {...props}
                         />
                       </button>
@@ -1223,6 +1252,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                         alt={alt ?? ''}
                         className="w-full h-full object-cover block"
                         loading="lazy"
+                        title={title}
                         {...props}
                       />
                     </button>
@@ -1271,7 +1301,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 <div key={i} className="aspect-square overflow-hidden rounded-lg border border-border">
                   <img
                     src={getPostImageSrc(url)}
-                    alt=""
+                    alt={`${t.xPost} ${i + 1}`}
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
@@ -1409,9 +1439,16 @@ export default function Post({ slug: slugProp }: PostProps) {
                 onError={() => setZoomFallbackIndexes((s) => new Set(s).add(imageViewer.index))}
               />
             </div>
-            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
-              {imageViewer.index + 1} / {postImages.length}
-            </span>
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 max-w-[90vw] px-4 text-center">
+              <span className="text-white/70 text-sm">
+                {imageViewer.index + 1} / {postImages.length}
+              </span>
+              {postImages[imageViewer.index].alt?.trim() && (
+                <span className="text-white/90 text-sm max-w-[85ch]">
+                  {postImages[imageViewer.index].alt}
+                </span>
+              )}
+            </div>
           </div>
         )}
 
@@ -1430,7 +1467,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
                         src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
-                        alt=""
+                        alt={nextPost.title || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
                       />
@@ -1469,7 +1506,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
                         src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
-                        alt=""
+                        alt={prevPost.title || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
                       />
@@ -1508,7 +1545,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
                         src={getPostImageSrc(prevPost2.heroImageSquare ?? prevPost2.heroImage ?? prevPost2.tweetMetadata?.images?.[0] ?? '')}
-                        alt=""
+                        alt={prevPost2.title || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
                       />

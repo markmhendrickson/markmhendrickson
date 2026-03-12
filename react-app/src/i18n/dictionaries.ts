@@ -8,8 +8,10 @@ export type Dict = {
   navAgent: string
   navConsulting: string
   navInvesting: string
+  navWisdom: string
   navMeet: string
   navLinks: string
+  navRss: string
   navLanguage: string
   drafts: string
   latestPost: string
@@ -85,8 +87,10 @@ const enDict: Dict = {
     navAgent: 'Agent',
     navConsulting: 'Consulting',
     navInvesting: 'Investing',
+    navWisdom: 'Wisdom',
     navMeet: 'Meet',
     navLinks: 'Links',
+    navRss: 'RSS feed',
     navLanguage: 'Language',
     drafts: 'Drafts',
     latestPost: 'Latest post',
@@ -122,7 +126,7 @@ const enDict: Dict = {
     newsletter: 'Newsletter',
     testError: 'Test Error',
     defaultHomeDescription:
-      'Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.',
+      'Building Neotoma, a structured memory layer for AI agents. Local-first, typed entities, full provenance, and deterministic queries via MCP.',
     showMore: 'Show more',
     showLess: 'Show less',
     noMatchPrefix: 'No posts match',
@@ -163,8 +167,10 @@ const esDict: Dict = {
     navAgent: 'Agente',
     navConsulting: 'Consultoría',
     navInvesting: 'Inversiones',
+    navWisdom: 'Sabiduría',
     navMeet: 'Reunión',
     navLinks: 'Enlaces',
+    navRss: 'Feed RSS',
     navLanguage: 'Idioma',
     drafts: 'Borradores',
     latestPost: 'Última publicación',
@@ -200,7 +206,7 @@ const esDict: Dict = {
     newsletter: 'Newsletter',
     testError: 'Error de prueba',
     defaultHomeDescription:
-      'Ensayos sobre memoria de agentes controlada por el usuario, infraestructura personal y sistemas que restauran la soberanía en una era de IA, cripto y complejidad.',
+      'Construyendo Neotoma, una capa de memoria estructurada para agentes de IA. Local-first, entidades tipadas, procedencia completa y consultas deterministas vía MCP.',
     showMore: 'Ver más',
     showLess: 'Ver menos',
     noMatchPrefix: 'No hay publicaciones que coincidan con',
@@ -241,8 +247,10 @@ const caDict: Dict = {
     navAgent: 'Agent',
     navConsulting: 'Consultoria',
     navInvesting: 'Inversions',
+    navWisdom: 'Saviesa',
     navMeet: 'Trobada',
     navLinks: 'Enllaços',
+    navRss: 'Feed RSS',
     navLanguage: 'Idioma',
     drafts: 'Esborranys',
     latestPost: 'Última publicació',
@@ -278,7 +286,7 @@ const caDict: Dict = {
     newsletter: 'Butlletí',
     testError: 'Error de prova',
     defaultHomeDescription:
-      "Assajos sobre memòria d'agents controlada per l'usuari, infraestructura personal i sistemes que restauren la sobirania en una era d'IA, cripto i complexitat.",
+      "Construint Neotoma, una capa de memòria estructurada per a agents d'IA. Local-first, entitats tipades, procedència completa i consultes deterministes via MCP.",
     showMore: 'Mostra més',
     showLess: 'Mostra menys',
     noMatchPrefix: 'No hi ha publicacions que coincideixin amb',

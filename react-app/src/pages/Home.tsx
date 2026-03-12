@@ -76,7 +76,7 @@ export default function Home() {
                 <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                   <img
                     src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
-                    alt=""
+                    alt={latestPost.title || ''}
                     className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                     style={{ objectPosition: 'center center' }}
                   />

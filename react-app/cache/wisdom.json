@@ -1,0 +1,1336 @@
+{
+  "generatedAt": "2026-03-12T11:56:41.525494+00:00",
+  "totalQuotes": 264,
+  "totalPosts": 39,
+  "entries": [
+    {
+      "slug": "the-diary-and-the-dance",
+      "title": "The diary and the dance",
+      "publishedDate": "2026-03-12",
+      "quotes": [
+        {
+          "quote": "The act of expressing your inner experience is reason enough.",
+          "context": "Creative expression and validation"
+        },
+        {
+          "quote": "The MVP is a continuum. Every version, however small, is an MVP.",
+          "context": "Startup methodology and MVP"
+        },
+        {
+          "quote": "What you actually do is expose yourself to the outside world and feed the response back into your internal state.",
+          "context": "Startup process and intuition"
+        },
+        {
+          "quote": "When the dance stops, that's when you know it's time to change direction.",
+          "context": "Intuition and direction in startups"
+        },
+        {
+          "quote": "Letting go of market size as a fixed target allows your creative efforts to resonate naturally.",
+          "context": "Market size and creative freedom"
+        },
+        {
+          "quote": "Writing is not an event; it's a continuous process embedded in daily living.",
+          "context": "Writing and self-expression"
+        },
+        {
+          "quote": "You don't need likes or views; the honest exposure of your inner world is already the thing.",
+          "context": "Value of self-expression"
+        }
+      ]
+    },
+    {
+      "slug": "ai-skepticism-is-really-about-faith-in-humans",
+      "title": "AI skepticism is really about faith in humans",
+      "publishedDate": "2026-03-10",
+      "quotes": [
+        {
+          "quote": "The skeptics observe from a distance and conclude the problems are disqualifying.",
+          "context": "Skepticism vs. engagement with technology"
+        },
+        {
+          "quote": "Those who proactively embrace the machines have the most faith in human ingenuity and creative control.",
+          "context": "Faith in human capability"
+        },
+        {
+          "quote": "The outcome depends on who shows up to shape it.",
+          "context": "Shaping the future of technology"
+        },
+        {
+          "quote": "The question isn't whether you have technical skills. It's whether you engage with the technology with a productive mindset.",
+          "context": "Engagement with technology"
+        },
+        {
+          "quote": "This is not the same as faith that replaces evidence.",
+          "context": "Distinction between faith and evidence"
+        },
+        {
+          "quote": "The optimism I'm describing isn't faith in any particular technology. It's faith in human technological capacity.",
+          "context": "Optimism about human potential"
+        }
+      ]
+    },
+    {
+      "slug": "always-on-memory-agents-and-the-truth-layer",
+      "title": "Google's memory agent thinks for itself, trading determinism for insight",
+      "publishedDate": "2026-03-08",
+      "quotes": [
+        {
+          "quote": "The demand for persistent, dynamic agent memory is real.",
+          "context": "Industry trends in agent memory"
+        },
+        {
+          "quote": "Removing the vector database reduces operational and conceptual complexity.",
+          "context": "Simplicity of the Always-On Memory Agent"
+        },
+        {
+          "quote": "This one actively connects, compresses, and synthesizes.",
+          "context": "Active consolidation in memory systems"
+        },
+        {
+          "quote": "If the Always-On Memory Agent's consolidation produces a bad insight, that insight is now part of memory.",
+          "context": "Risks of agent-driven memory"
+        },
+        {
+          "quote": "The interesting architecture combines both.",
+          "context": "Potential integration of approaches"
+        },
+        {
+          "quote": "Passive memory is not enough.",
+          "context": "Limitations of traditional memory systems"
+        },
+        {
+          "quote": "I expect the architecture may converge on consolidation agents that think, running on top of truth layers you can trust.",
+          "context": "Future of agent memory architecture"
+        }
+      ]
+    },
+    {
+      "slug": "when-the-chain-becomes-the-product",
+      "title": "When the chain becomes the product",
+      "publishedDate": "2026-03-08",
+      "quotes": [
+        {
+          "quote": "Token issuance flips that order. The market capitalizes future narratives before the product exists.",
+          "context": "Token economics and product development"
+        },
+        {
+          "quote": "When feedback latency is measured in years, narrative fills the gap.",
+          "context": "Narrative vs. feedback in crypto"
+        },
+        {
+          "quote": "Rejecting early adopters removes the only guide to what future users might actually need.",
+          "context": "Ignoring developer feedback"
+        },
+        {
+          "quote": "The incentive structure rewards producing the next milestone more than it rewards delivering on the last one.",
+          "context": "Incentive structures in token-funded projects"
+        },
+        {
+          "quote": "Good products come from tight cycles: ship something, listen to users, iterate.",
+          "context": "Product development principles"
+        },
+        {
+          "quote": "The best products I have used were built by teams that treated early users as the most important signal.",
+          "context": "Value of early user feedback"
+        },
+        {
+          "quote": "If the token price disappeared tomorrow, would the project still make sense? For most crypto ecosystems, the honest answer is no.",
+          "context": "Sustainability of crypto projects"
+        }
+      ]
+    },
+    {
+      "slug": "your-ai-remembers-your-vibe-but-not-your-work",
+      "title": "Your AI remembers your vibe but not your work",
+      "publishedDate": "2026-03-05",
+      "quotes": [
+        {
+          "quote": "What these platforms call memory is closer to a profile than a record of what you worked on.",
+          "context": "Understanding AI memory limitations"
+        },
+        {
+          "quote": "The result is something like a friend who forgets the details of everything you have talked about but has a vague sense of who you are as a person.",
+          "context": "AI memory functionality"
+        },
+        {
+          "quote": "If exports are partial, stale, and surface-dependent, 'portability' is best-effort transfer, not reliable state migration.",
+          "context": "Challenges of memory portability"
+        },
+        {
+          "quote": "The market is collapsing at least three distinct things under the word 'memory.'",
+          "context": "Categories of memory in AI"
+        },
+        {
+          "quote": "Convenience memory wins the chat experience. Retrieval wins exploratory, one-off questions. Durable memory wins the state layer underneath.",
+          "context": "Types of memory"
+        },
+        {
+          "quote": "Neotoma treats memory as explicit, user-owned data infrastructure rather than an opaque byproduct of chat interactions.",
+          "context": "Neotoma's approach to memory"
+        },
+        {
+          "quote": "When one model or interface changes, the underlying state does not drift with it.",
+          "context": "Stability of memory systems"
+        }
+      ]
+    },
+    {
+      "slug": "neotoma-developer-release",
+      "title": "Neotoma is now available as developer release",
+      "publishedDate": "2026-02-26",
+      "quotes": [
+        {
+          "quote": "The thing that keeps breaking is not intelligence. It's trust.",
+          "context": "Trust issues with AI agents"
+        },
+        {
+          "quote": "Retrieval works for exploration and one-off questions. It falls apart for ongoing state.",
+          "context": "Limitations of current memory systems"
+        },
+        {
+          "quote": "Neotoma is a truth layer: the memory substrate that sits under your agents.",
+          "context": "Introduction to Neotoma"
+        },
+        {
+          "quote": "Trust starts with control. Before adding remote infrastructure, the contract and the guarantees need to be solid.",
+          "context": "Local-first design philosophy"
+        },
+        {
+          "quote": "It's not a note-taking app or 'second brain.' It's schema-first structured state you control.",
+          "context": "Clarifying Neotoma's purpose"
+        },
+        {
+          "quote": "Privacy-first. Your data stays on your machine. Local storage only: SQLite and local files.",
+          "context": "Privacy principles"
+        },
+        {
+          "quote": "This release exists to pressure-test the foundations.",
+          "context": "Purpose of the developer release"
+        }
+      ]
+    },
+    {
+      "slug": "agent-memory-truth-problem",
+      "title": "Agent memory has a truth problem",
+      "publishedDate": "2026-02-25",
+      "quotes": [
+        {
+          "quote": "Memory design, not model capability, is now the limiting factor for long-lived agents.",
+          "context": "Agent memory limitations"
+        },
+        {
+          "quote": "Retrieval is also cheap to add... that is a real advantage, not just inertia.",
+          "context": "Advantages of retrieval systems"
+        },
+        {
+          "quote": "When you depend on agent memory for truth, the breaks show up.",
+          "context": "Truth issues in agent memory"
+        },
+        {
+          "quote": "Structured state means a store with typed entities, stable IDs, relationships, and timelines.",
+          "context": "Benefits of structured state"
+        },
+        {
+          "quote": "Retrieval's default access pattern is 'find similar things.' A structured store's default is 'query by type, ID, relationship, or time.'",
+          "context": "Differences between retrieval and structured state"
+        },
+        {
+          "quote": "Neotoma provides structural retrieval by type, ID, relationship, time range, and graph neighborhood.",
+          "context": "Neotoma's features"
+        },
+        {
+          "quote": "The field is converging on structured memory. The question is who builds the layer you trust with your data.",
+          "context": "Future of memory systems"
+        }
+      ]
+    },
+    {
+      "slug": "six-agentic-trends-betting-on",
+      "title": "Six agentic trends I'm betting on (and how I might be wrong)",
+      "publishedDate": "2026-02-18",
+      "quotes": [
+        {
+          "quote": "Agents will become stateful economic actors, softening the boundary between 'I did this' and 'my agent did this.'",
+          "context": "Agents as economic actors"
+        },
+        {
+          "quote": "When errors become priced, organizations stop asking whether outputs were helpful and start asking how those outputs were produced.",
+          "context": "Economic visibility of agentic errors"
+        },
+        {
+          "quote": "Audit pressure moves down-market not because small teams want it, but because risk follows usage.",
+          "context": "Audit and compliance trends"
+        },
+        {
+          "quote": "Large AI platforms are likely to continue shipping memory features that are useful but fundamentally opaque.",
+          "context": "Opacity of platform memory"
+        },
+        {
+          "quote": "AI tools are complements, not substitutes; marginal improvements do not collapse the stack.",
+          "context": "Tool fragmentation"
+        },
+        {
+          "quote": "Once costs are visible, metering follows naturally, making inefficiency and drift visible waste.",
+          "context": "Metered agent usage"
+        },
+        {
+          "quote": "Memory stops being a UX feature and becomes infrastructure that is necessarily open.",
+          "context": "Memory as critical infrastructure"
+        },
+        {
+          "quote": "A vision that cannot be falsified cannot be corrected, and a product built on such a vision risks becoming well-designed for a world that never arrives.",
+          "context": "Falsifiability of future predictions"
+        }
+      ]
+    },
+    {
+      "slug": "we-are-all-centaurs-now",
+      "title": "We're all centaurs now",
+      "publishedDate": "2026-02-14",
+      "quotes": [
+        {
+          "quote": "The humanness isn't in typing every word. It's in deciding what's worth saying.",
+          "context": "AI and creative authenticity"
+        },
+        {
+          "quote": "Delegating low-level details frees us to work at a higher level of abstraction.",
+          "context": "The Vindication"
+        },
+        {
+          "quote": "Every piece you create with AI gets you closer to understanding how to channel yourself through the technology more effectively.",
+          "context": "The Embrace"
+        },
+        {
+          "quote": "The future isn't about preserving some notion of pure, unassisted human creativity.",
+          "context": "The Pattern"
+        },
+        {
+          "quote": "We're all centaurs now. Half human, half AI.",
+          "context": "The Embrace"
+        },
+        {
+          "quote": "The risk of publishing something AI-assisted and imperfect is usually lower than we think.",
+          "context": "The Embrace"
+        },
+        {
+          "quote": "It's not that different from managing a team. When you lead people, you don't write every line of code yourself.",
+          "context": "The Vindication"
+        }
+      ]
+    },
+    {
+      "slug": "agentic-wallets-mcp-bitcoin",
+      "title": "A Bitcoin wallet MCP server for L1 and L2",
+      "publishedDate": "2026-02-09",
+      "quotes": [
+        {
+          "quote": "Human-facing self-custody wallets mostly reached people willing to absorb the attention and complexity.",
+          "context": "Challenges of traditional wallets"
+        },
+        {
+          "quote": "Agentic wallets change that. The friction drops and the set of people who can practically hold their own keys grows.",
+          "context": "Benefits of agentic wallets"
+        },
+        {
+          "quote": "This MCP server is experimental and not safe for meaningful funds.",
+          "context": "Safety and design"
+        },
+        {
+          "quote": "Destructive operations default to dry_run: true.",
+          "context": "Safety and design"
+        },
+        {
+          "quote": "I do not use point-and-click crypto UIs for routine operations.",
+          "context": "Personal workflow and automation"
+        },
+        {
+          "quote": "Agents would monitor, reason, and execute within policy.",
+          "context": "Future vision for automation"
+        },
+        {
+          "quote": "The wallet server is one execution adapter among many.",
+          "context": "Architecture of agent stack"
+        }
+      ]
+    },
+    {
+      "slug": "why-agent-memory-needs-more-than-rag",
+      "title": "Why agent memory needs more than RAG",
+      "publishedDate": "2026-02-06",
+      "quotes": [
+        {
+          "quote": "For agent memory, similarity over raw text fails.",
+          "context": "Limitations of similarity in agent memory"
+        },
+        {
+          "quote": "Pruning fragments temporally linked evidence and produces wrong answers.",
+          "context": "Challenges with pruning in retrieval"
+        },
+        {
+          "quote": "Structure often emerges in dialogue: 'add a task for that,' 'record that we agreed to pay 500.'",
+          "context": "Iterative structuring in conversation"
+        },
+        {
+          "quote": "A deterministic, schema-first path gives you the same structural advantage without that brittleness.",
+          "context": "Advantages of schema-first design"
+        },
+        {
+          "quote": "Retrieval has to be driven by structure: how you decompose and organise the stream.",
+          "context": "Importance of structure in retrieval"
+        },
+        {
+          "quote": "LLM-generated structure is brittle: formatting deviations, failed updates.",
+          "context": "Fragility of LLM-generated structures"
+        },
+        {
+          "quote": "The conversation is the primary object. Structure lives inside the hierarchy.",
+          "context": "Role of conversation in structuring"
+        },
+        {
+          "quote": "You can ask semantic-style questions when the data lives in the store.",
+          "context": "Capabilities of structured retrieval"
+        }
+      ]
+    },
+    {
+      "slug": "building-structural-barriers",
+      "title": "Building structural barriers that incumbents can't copy",
+      "publishedDate": "2026-02-05",
+      "quotes": [
+        {
+          "quote": "You build something they structurally can't pursue.",
+          "context": "Protecting intellectual property"
+        },
+        {
+          "quote": "Incumbents can't copy certain architectures because their existing business models make it structurally expensive or impossible.",
+          "context": "The myth of the copyable startup"
+        },
+        {
+          "quote": "Build something that would cannibalize a profitable revenue stream.",
+          "context": "Incentive misalignment"
+        },
+        {
+          "quote": "If they can add it as a feature, they will. If it requires a rewrite, you have time.",
+          "context": "Architectural constraints"
+        },
+        {
+          "quote": "Distribution advantage becomes distribution liability.",
+          "context": "Distribution mismatch"
+        },
+        {
+          "quote": "Speed matters, but it's speed of compounding, not speed of shipping features.",
+          "context": "Timing and focus windows"
+        },
+        {
+          "quote": "The goal is to build something they can't pursue without making choices they won't make.",
+          "context": "General principles for defensible startups"
+        },
+        {
+          "quote": "We built something that would require them to make structural changes they're incentivized not to make.",
+          "context": "Takeaway"
+        }
+      ]
+    },
+    {
+      "slug": "agentic-search-and-the-truth-layer",
+      "title": "Agentic retrieval infers. It doesn't guarantee.",
+      "publishedDate": "2026-02-04",
+      "quotes": [
+        {
+          "quote": "The agent infers; it doesn't guarantee.",
+          "context": "Limits of agentic search"
+        },
+        {
+          "quote": "A truth layer is not retrieval. It is persistent, structured state.",
+          "context": "Truth layer vs. retrieval paradigms"
+        },
+        {
+          "quote": "Both retrieval approaches optimize for convenience and flexibility. A truth layer optimizes for consistency and verifiability.",
+          "context": "Comparison of paradigms"
+        },
+        {
+          "quote": "Agentic search has no persistent graph. A truth layer does.",
+          "context": "Benefits of a truth layer"
+        },
+        {
+          "quote": "Retrieval is session-bound. It doesn't by itself give you persistent identity, provenance, or cross-session consistency.",
+          "context": "Importance of distinction"
+        },
+        {
+          "quote": "Neither embedding similarity nor ad hoc agentic search is equivalent.",
+          "context": "Limitations of retrieval methods"
+        },
+        {
+          "quote": "I'm building a structured memory layer that takes the truth layer approach.",
+          "context": "Future development plans"
+        }
+      ]
+    },
+    {
+      "slug": "openclaw-and-the-truth-layer",
+      "title": "OpenClaw is powerful at doing but could use some help remembering.",
+      "publishedDate": "2026-02-04",
+      "quotes": [
+        {
+          "quote": "The agent does things. It also remembers things.",
+          "context": "Capabilities of OpenClaw"
+        },
+        {
+          "quote": "Overwrites with no undo. The previous state is gone.",
+          "context": "Memory limitations"
+        },
+        {
+          "quote": "A truth layer isn't a replacement for the agent. It's the layer under it.",
+          "context": "Truth layer concept"
+        },
+        {
+          "quote": "When a number is wrong, you can see where it came from.",
+          "context": "Provenance and audit"
+        },
+        {
+          "quote": "You get the lift of an agent that does things and a memory that doesn't drift.",
+          "context": "Benefits of a truth layer"
+        },
+        {
+          "quote": "Retrieval and 'more context' don't by themselves give you stable identity.",
+          "context": "Building Neotoma"
+        },
+        {
+          "quote": "The agent did something, and here's the state it wrote, with lineage and the ability to fix it.",
+          "context": "State visibility"
+        },
+        {
+          "quote": "The more the agent does, the more you need a place where that state is first-class.",
+          "context": "Importance of memory management"
+        }
+      ]
+    },
+    {
+      "slug": "truth-layer-agent-memory",
+      "title": "Building a truth layer for persistent agent memory",
+      "publishedDate": "2026-02-02",
+      "quotes": [
+        {
+          "quote": "The thing that keeps breaking is not intelligence, but trust.",
+          "context": "Trust in AI systems"
+        },
+        {
+          "quote": "You cannot safely automate against data you can't inspect, diff, audit, or replay.",
+          "context": "Data management in automation"
+        },
+        {
+          "quote": "State changes can't be implicit.",
+          "context": "Explicit state management"
+        },
+        {
+          "quote": "Memory updates have to be named operations rather than side effects.",
+          "context": "Memory operation clarity"
+        },
+        {
+          "quote": "Those aren't conveniences; they're prerequisites for trust.",
+          "context": "Privacy and control in data"
+        },
+        {
+          "quote": "When those systems fail, and they will, the first question will be, 'How did this happen?'",
+          "context": "Accountability in agent systems"
+        },
+        {
+          "quote": "I'm building Neotoma to provide that: a substrate that is inspectable, replayable, and user-controlled.",
+          "context": "Purpose of Neotoma"
+        }
+      ]
+    },
+    {
+      "slug": "professional-mission",
+      "title": "Mark Hendrickson",
+      "publishedDate": "2025-01-01",
+      "quotes": [
+        {
+          "quote": "Agents are increasingly stateful, handling tasks, contacts, transactions, and commitments over time, but their memory is built for retrieval, not truth.",
+          "context": "Challenges of AI agent memory"
+        },
+        {
+          "quote": "People should control their own data, memory, money, and digital infrastructure, not cede it to platforms that optimize for engagement over truth.",
+          "context": "Data ownership principle"
+        },
+        {
+          "quote": "The agents follow the same playbook I do.",
+          "context": "Collaboration with AI agents"
+        },
+        {
+          "quote": "The state layer is explicit and inspectable, which is exactly the contract Neotoma is designed to provide.",
+          "context": "Neotoma's design philosophy"
+        },
+        {
+          "quote": "Neotoma treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries.",
+          "context": "Neotoma's approach to data"
+        },
+        {
+          "quote": "I work as a solo founder in Barcelona, operating with AI agents as a team rather than as tools.",
+          "context": "Solo founder experience"
+        }
+      ]
+    },
+    {
+      "slug": "facebook-police-state",
+      "title": "The Facebook police state",
+      "publishedDate": "2018-03-20",
+      "quotes": [
+        {
+          "quote": "Expecting Facebook to know what happens to data off-platform is an impossible expectation.",
+          "context": "Responsibility of Facebook"
+        },
+        {
+          "quote": "We risk characterizing Facebook as an omnipotent parental figure.",
+          "context": "Expectations of social networks"
+        },
+        {
+          "quote": "It’s madness to expect a company with billions of users to draw lines of social acceptability.",
+          "context": "Limitations of corporate governance"
+        },
+        {
+          "quote": "If we want to prevent companies from reselling data, we already have real governments to do that.",
+          "context": "Role of government in data privacy"
+        },
+        {
+          "quote": "The biggest shame would be pressuring Facebook into a totalitarian posture about data flow.",
+          "context": "Consequences of user distrust"
+        },
+        {
+          "quote": "Users will suffer from being treated as increasingly untrusted to share their data freely.",
+          "context": "Impact on user experience"
+        },
+        {
+          "quote": "We risk entering a cycle of losing progressively more liberty over our digital lives.",
+          "context": "Long-term implications of distrust"
+        }
+      ]
+    },
+    {
+      "slug": "finding-flow-beyond-distraction",
+      "title": "Finding flow beyond distraction",
+      "publishedDate": "2018-02-28",
+      "quotes": [
+        {
+          "quote": "The most durable peace and satisfaction derives from an active concentration in the present moment.",
+          "context": "Value of flow"
+        },
+        {
+          "quote": "Distraction is a near constant factor for many of us.",
+          "context": "Challenges of distraction"
+        },
+        {
+          "quote": "I turn off all phone notifications, entirely.",
+          "context": "Managing external distractions"
+        },
+        {
+          "quote": "Home is a place to recuperate, not to check messages.",
+          "context": "Phone usage at home"
+        },
+        {
+          "quote": "I use Asana religiously to track anything I feel I 'ought' to do.",
+          "context": "Organizing internal distractions"
+        },
+        {
+          "quote": "I apply a modified Pomodoro technique with Focuslist.",
+          "context": "Focus techniques"
+        },
+        {
+          "quote": "Having a comprehensive picture of my finances reduces stress.",
+          "context": "Financial organization"
+        },
+        {
+          "quote": "I simply take out a pen and piece of paper to jot down a rough outline of what keeps robbing my attention.",
+          "context": "Mental clarity techniques"
+        }
+      ]
+    },
+    {
+      "slug": "dropbox-website-publishing",
+      "title": "Publishing to my website instantly with Dropbox",
+      "publishedDate": "2017-11-03",
+      "quotes": [
+        {
+          "quote": "File organization provided me a sanctuary of sorts within a broader realm of adventure.",
+          "context": "Personal reflections on file organization"
+        },
+        {
+          "quote": "Each of us is a small publishing house and content producer.",
+          "context": "The role of individuals in content creation"
+        },
+        {
+          "quote": "We're terrible content managers and crafters, with either our public or private data.",
+          "context": "Challenges in content management"
+        },
+        {
+          "quote": "It'd be a lot more powerful to put it all at the immediate control of your fingertips.",
+          "context": "Control over personal content"
+        },
+        {
+          "quote": "My goal has been to hit the save button and immediately have any changes go live on my website.",
+          "context": "Seamless content publishing"
+        },
+        {
+          "quote": "Aggregated republishing onto one's own website is one of the main use cases for the Neotoma sync service.",
+          "context": "Purpose of Neotoma sync service"
+        },
+        {
+          "quote": "I want to focus on developing the sync service primarily for this use case, dogfooding it on my own website.",
+          "context": "Development focus for Neotoma"
+        }
+      ]
+    },
+    {
+      "slug": "spanish-non-lucrative-residence-visa",
+      "title": "Applying for the Spanish non-lucrative residence visa",
+      "publishedDate": "2014-10-26",
+      "quotes": [
+        {
+          "quote": "I booked a flight from San Francisco with little else in terms of preparation, an intentionally rash decision to experience what it would be like to land in a new country and improvise the establishment of a life there.",
+          "context": "Initial move to Spain"
+        },
+        {
+          "quote": "The non-lucrative residence visa application is a concise document, spanning a mere two pages. But therein lie a great number of details and potential pitfalls.",
+          "context": "Visa application overview"
+        },
+        {
+          "quote": "This basically means you can live in Spain and do whatever you want as long as you don’t work for a Spanish company.",
+          "context": "Understanding the non-lucrative visa"
+        },
+        {
+          "quote": "The time between submitting the application and receiving an approval notice ended up lasting only 19 days.",
+          "context": "Application processing time"
+        },
+        {
+          "quote": "It pays to put your best foot forward even if can’t manage to bring everything ready in time for your application appointment.",
+          "context": "Application preparation tips"
+        },
+        {
+          "quote": "Bureaucracy at its finest.",
+          "context": "Navigating government processes"
+        },
+        {
+          "quote": "The general theme seems to be reliable money in that the Spanish government doesn’t appear inclined to accept any type of income that may fluctuate.",
+          "context": "Financial requirements for the visa"
+        },
+        {
+          "quote": "Decide when you’d ideally like to move to Spain and then work backwards from there.",
+          "context": "Preparation strategy"
+        }
+      ]
+    },
+    {
+      "slug": "bringing-it-all-back-home",
+      "title": "Bringing it all back home",
+      "publishedDate": "2014-01-30",
+      "quotes": [
+        {
+          "quote": "The recording was not only an instantaneous way to share a bit of my journey, but also a breadcrumb trail of moments.",
+          "context": "Personal reflection and memory"
+        },
+        {
+          "quote": "I was giving my impressions away to three separate companies that would keep the memories in fragments on disparate servers.",
+          "context": "Data ownership and fragmentation"
+        },
+        {
+          "quote": "We live in the digital age but as individuals, the vast majority of us do not have proper digital homes.",
+          "context": "Digital identity and ownership"
+        },
+        {
+          "quote": "We should be empowered to own our personal online data, maintaining close control so we can use it and open it up to others as we please.",
+          "context": "Empowerment through data ownership"
+        },
+        {
+          "quote": "Dropbox is a beautiful tool because it bridges the local and network-based data realms.",
+          "context": "Cloud storage advantages"
+        },
+        {
+          "quote": "Asheville is intended to help make that possible for non-technical and technical people alike.",
+          "context": "Project goals and accessibility"
+        },
+        {
+          "quote": "If Dropbox were to disappear tomorrow, you would still have your files on your computer.",
+          "context": "Data redundancy and security"
+        }
+      ]
+    },
+    {
+      "slug": "11-reasons-why-i-wont-click-on-your-link-bait",
+      "title": "11 Reasons Why I Won't Click On Your Link Bait",
+      "publishedDate": "2013-12-06",
+      "quotes": [
+        {
+          "quote": "It blatantly panders to my predispositions.",
+          "context": "Critique of link bait"
+        },
+        {
+          "quote": "The format screams unoriginality and desperation for visibility.",
+          "context": "Critique of content format"
+        },
+        {
+          "quote": "You're dumbing society down, list-by-list.",
+          "context": "Impact on society"
+        },
+        {
+          "quote": "Who has time for sentences with conjunctions that encourage us to actually *think*?",
+          "context": "Critique of content consumption"
+        },
+        {
+          "quote": "You're making the rest of media envious of your apparent success.",
+          "context": "Impact on media"
+        },
+        {
+          "quote": "It irritated me enough to write this stupid rant of a parody.",
+          "context": "Personal reflection"
+        }
+      ]
+    },
+    {
+      "slug": "success-projection-for-startups",
+      "title": "Success projection for startups",
+      "publishedDate": "2012-12-05",
+      "quotes": [
+        {
+          "quote": "Startups often get so consumed by their day-to-day challenges that they do a poor job actually projecting their longer-term success.",
+          "context": "Challenges in startup success projection"
+        },
+        {
+          "quote": "Any projection of success should place valuation as its end goal and work backwards from there.",
+          "context": "Valuation as a success metric"
+        },
+        {
+          "quote": "A company's valuation is derived by the total amount of profit it will accumulate forever into the future, discounted to a present value.",
+          "context": "Understanding company valuation"
+        },
+        {
+          "quote": "You need to focus on how quickly you are accumulating active users and increasing their engagement.",
+          "context": "User engagement and growth"
+        },
+        {
+          "quote": "The number of active users for a product is determined primarily by its user acquisition rate, activation rate, and retention rate.",
+          "context": "Key metrics for user growth"
+        },
+        {
+          "quote": "Even if you're at a beta stage with only 50 testers, you can start projecting them one-by-one.",
+          "context": "Starting projections with limited data"
+        },
+        {
+          "quote": "It'll keep you honest about whether you truly have enough data to establish knowledge about the business's momentum.",
+          "context": "Data integrity in projections"
+        }
+      ]
+    },
+    {
+      "slug": "three-types-of-design",
+      "title": "Three types of design",
+      "publishedDate": "2012-11-29",
+      "quotes": [
+        {
+          "quote": "Design is not just a word; it's a spectrum of types.",
+          "context": "Introduction to design types"
+        },
+        {
+          "quote": "A good product designer is aware that prioritization is key to their work.",
+          "context": "Product design principles"
+        },
+        {
+          "quote": "The interface designer is most responsible for making the product as intuitively usable as possible.",
+          "context": "Interface design goals"
+        },
+        {
+          "quote": "Visual design is the most aesthetic and subjective design type, but it's also the most immediately recognizable one.",
+          "context": "Visual design significance"
+        },
+        {
+          "quote": "It's hard, if not impossible, to make up for shortcomings in product design with amazing interface or visual design.",
+          "context": "Interrelation of design types"
+        },
+        {
+          "quote": "The practical question that startups often face is how much attention to give each of these types of design.",
+          "context": "Balancing design types in startups"
+        }
+      ]
+    },
+    {
+      "slug": "the-postmvp-fork-in-the-road",
+      "title": "The Post-MVP Fork in the Road",
+      "publishedDate": "2012-11-28",
+      "quotes": [
+        {
+          "quote": "Most MVPs get released, however, this dream doesn't exactly pan out.",
+          "context": "Reality of MVP releases"
+        },
+        {
+          "quote": "If the MVP contained the most important kernel of the experience... then your fundamental thesis was wrong.",
+          "context": "Evaluating MVP viability"
+        },
+        {
+          "quote": "Adding extra features... is not going to change the main lesson you've already learnt.",
+          "context": "Limitations of iteration"
+        },
+        {
+          "quote": "Inertia is the reason you don't see many startups make this hard decision.",
+          "context": "Challenges in startup decision-making"
+        },
+        {
+          "quote": "The bravest and most critical thing that product managers can do is treat their products as the experiments they are.",
+          "context": "Mindset for product managers"
+        }
+      ]
+    },
+    {
+      "slug": "does-your-product-provide-instant-gratification",
+      "title": "Does your product provide instant gratification?",
+      "publishedDate": "2012-11-27",
+      "quotes": [
+        {
+          "quote": "If you can't pinpoint when new users achieve gratification, you have a structural problem.",
+          "context": "User experience and product design"
+        },
+        {
+          "quote": "No one feature in particular provides instant gratification.",
+          "context": "Instant gratification in product features"
+        },
+        {
+          "quote": "Your product's value needs to be singular and immediately available.",
+          "context": "Value proposition in tech products"
+        },
+        {
+          "quote": "Anticipating events imposes a good deal of psychological overhead, which isn't pleasurable.",
+          "context": "Psychological aspects of event services"
+        },
+        {
+          "quote": "Product designers often try to stuff several forms into one product.",
+          "context": "Challenges in product design"
+        },
+        {
+          "quote": "People mostly treat new internet services as nice-to-haves rather than needs.",
+          "context": "Market perception of internet services"
+        }
+      ]
+    },
+    {
+      "slug": "a-postmortem-for-plancast",
+      "title": "A Post-Mortem for Plancast",
+      "publishedDate": "2012-01-22",
+      "quotes": [
+        {
+          "quote": "Social networks are essentially systems for distributing content among people who care about each other.",
+          "context": "Definition of social networks"
+        },
+        {
+          "quote": "Most people simply don't go to that many events, and of those they do attend, many are not anticipated with a high degree of certainty.",
+          "context": "Challenges of event sharing"
+        },
+        {
+          "quote": "People fear missing out on worthwhile events but don't actually like to take the deliberate initiative to avoid such missed chances.",
+          "context": "Procrastination in planning"
+        },
+        {
+          "quote": "Most social networks feed primarily on vanity, in that they allow people to share and tailor online content that makes them look good.",
+          "context": "Incentives to share"
+        },
+        {
+          "quote": "Plans don't have a long shelf life; their value drops precipitously after the event occurs.",
+          "context": "Content lifespan"
+        },
+        {
+          "quote": "Geographic specificity is another inherent limitation to a plan's value.",
+          "context": "Limitations of event sharing"
+        },
+        {
+          "quote": "There's simply too much unearthed value to knowing about much of what our friends plan to do.",
+          "context": "Future of event sharing"
+        },
+        {
+          "quote": "I look forward to seeing how technological advancements overcome the aforementioned challenges to get us there.",
+          "context": "Looking forward"
+        }
+      ]
+    },
+    {
+      "slug": "homesteading-on-the-indie-web",
+      "title": "Homesteading on the indie web",
+      "publishedDate": "2011-07-30",
+      "quotes": [
+        {
+          "quote": "The indie web movement is rooted in a desire for digital freedom, primarily from monopolies that threaten to restrict and violate the common Internet user's online existence.",
+          "context": "Indie web movement overview"
+        },
+        {
+          "quote": "Most Internet users increasingly place their digital lives in the hands of proprietary services run by mostly private — and always self-interested — companies.",
+          "context": "User complacency"
+        },
+        {
+          "quote": "There's a moral tone to the indie web movement, not just an insistence that users ought to control their online identities.",
+          "context": "Moral implications"
+        },
+        {
+          "quote": "Downtime is frustrating but most people learn to work around it; shuttered services disappoint loyal users but most likely faced their demise due to popular disinterest.",
+          "context": "Challenges of user engagement"
+        },
+        {
+          "quote": "The idea here is that everyone should register their own second-level domain and put up a personal website of some sort.",
+          "context": "Decentralization proposal"
+        },
+        {
+          "quote": "The financial and time burden of using the tool to both set up and maintain a homestead needed to be minimized as much as possible.",
+          "context": "Tool requirements"
+        },
+        {
+          "quote": "The goal here is to have them engage with the setup process as painlessly as possible.",
+          "context": "User experience design"
+        },
+        {
+          "quote": "Once enough people have done so, it'll be much easier to weave an indie web between their homesteads and insulate them from the decisions or fate of any particular company.",
+          "context": "Future vision for indie web"
+        }
+      ]
+    },
+    {
+      "slug": "three-pillars",
+      "title": "Three pillars of social networking",
+      "publishedDate": "2011-05-02",
+      "quotes": [
+        {
+          "quote": "Social networking is a precondition for new modes of information exchange, not an end in and of itself.",
+          "context": "Definition of social networking"
+        },
+        {
+          "quote": "You care about the ways in which you can use it to interact with people you care about.",
+          "context": "Purpose of social networks"
+        },
+        {
+          "quote": "The differences are more important, if also more poorly understood, because they allow each of them to present unique ways of exchanging information.",
+          "context": "Importance of differences in networks"
+        },
+        {
+          "quote": "These categories form three pillars of effective social networks.",
+          "context": "Three pillars of social networking"
+        },
+        {
+          "quote": "Weaknesses can and inevitably will be tolerated within any given pillar, but each must be strong overall.",
+          "context": "Strength of pillars"
+        },
+        {
+          "quote": "New social networks must differentiate themselves by establishing at least one of these pillars differently.",
+          "context": "Differentiation in social networks"
+        }
+      ]
+    },
+    {
+      "slug": "how-to-pitch-a-tech-blogger",
+      "title": "How to pitch a tech blogger",
+      "publishedDate": "2010-09-26",
+      "quotes": [
+        {
+          "quote": "Bloggers dread the idea of someone coming along and justifiably saying 'so what?'.",
+          "context": "Importance of storytelling in pitches"
+        },
+        {
+          "quote": "The goal here is to help the blogger, not exploit them.",
+          "context": "Building relationships with bloggers"
+        },
+        {
+          "quote": "You should get out in front of this reaction by emphasizing the characteristics of your announcement that make it unique.",
+          "context": "Crafting a unique narrative"
+        },
+        {
+          "quote": "If you must, just ask the blogger to please not publish them and they won't, but you'll gain credibility in their eyes.",
+          "context": "Building trust with bloggers"
+        },
+        {
+          "quote": "Do not send them a press release; it will only insult their intelligence.",
+          "context": "Mechanics of delivering a pitch"
+        },
+        {
+          "quote": "Bloggers much prefer to work directly with executive-level representatives than PR firms.",
+          "context": "Direct communication with bloggers"
+        }
+      ]
+    },
+    {
+      "slug": "some-latenight-ideas-for-blippy",
+      "title": "Some late-night ideas for Blippy",
+      "publishedDate": "2010-01-18",
+      "quotes": [
+        {
+          "quote": "Blippy is hoping that people are ready to share their purchases with the world.",
+          "context": "Sharing personal data online"
+        },
+        {
+          "quote": "I'd prefer to check Blippy as often as I check Mint.",
+          "context": "User experience suggestions"
+        },
+        {
+          "quote": "Tell me what their biggest and smallest purchases were; their strangest purchases.",
+          "context": "Desire for detailed insights"
+        },
+        {
+          "quote": "Blow that up if it's available and give me context.",
+          "context": "Need for purchase information"
+        },
+        {
+          "quote": "I'd personally rather locate an interesting purchase *then* choose to view the comments around it.",
+          "context": "Comment management"
+        },
+        {
+          "quote": "Perhaps a 'I Want This' button would be more valuable.",
+          "context": "Feature enhancement ideas"
+        }
+      ]
+    },
+    {
+      "slug": "plancast-in-public-beta",
+      "title": "Plancast in public beta",
+      "publishedDate": "2009-11-15",
+      "quotes": [
+        {
+          "quote": "Imagine how awesome it would be if we all had a better idea of what everyone was up to in the next few hours, days, weeks, or months.",
+          "context": "Purpose of Plancast"
+        },
+        {
+          "quote": "Your plans will reach not only your subscribers on Plancast, but your friends on Twitter and Facebook as well.",
+          "context": "Sharing capabilities"
+        },
+        {
+          "quote": "It's been an amazingly fruitful journey getting to this point.",
+          "context": "Development journey"
+        },
+        {
+          "quote": "I'm truly lucky to have him, and I encourage you to get acquainted.",
+          "context": "Co-founder introduction"
+        },
+        {
+          "quote": "I suggest you get started by posting a few plans that may be tucked away in your personal calendar.",
+          "context": "User engagement"
+        },
+        {
+          "quote": "We're already seeing a broad range of people take a liking to it.",
+          "context": "User reception"
+        }
+      ]
+    },
+    {
+      "slug": "facebooks-social-graph",
+      "title": "Facebook's social graph",
+      "publishedDate": "2009-07-31",
+      "quotes": [
+        {
+          "quote": "The social graph is deteriorating on Facebook and starting to be reproduced elsewhere in better form.",
+          "context": "Deterioration of Facebook's social graph"
+        },
+        {
+          "quote": "Friend lists tend to get bloated over time because users have a harder time defriending each other virtually than in real life.",
+          "context": "Challenges of virtual friendships"
+        },
+        {
+          "quote": "Facebook's golden goose (the social graph) may not be so golden after all.",
+          "context": "Value of the social graph"
+        },
+        {
+          "quote": "When you sign up for Twitter, you can determine anew who you care about.",
+          "context": "Opportunity for alternative social networks"
+        },
+        {
+          "quote": "Facebook has hoisted this dynamic paradigm onto a user base that didn't expect it, didn't ask for it, and perhaps doesn't want it.",
+          "context": "User experience and expectations"
+        },
+        {
+          "quote": "Privacy and distribution controls simply aren't going to solve the problems of an over-encompassing social graph.",
+          "context": "Limitations of Facebook's controls"
+        }
+      ]
+    },
+    {
+      "slug": "worldly-developments",
+      "title": "Worldly Developments",
+      "publishedDate": "2009-06-21",
+      "quotes": [
+        {
+          "quote": "I've raised some (micro-)seed funding from fbFund.",
+          "context": "Startup funding announcement"
+        },
+        {
+          "quote": "It's a refreshing change of pace to work around like-minded people again.",
+          "context": "Collaboration and community"
+        },
+        {
+          "quote": "FbFund isn't just an investment vehicle; starting this summer, it's also an incubation program.",
+          "context": "Incubation and support"
+        },
+        {
+          "quote": "If you haven't visited East Asia, I highly encourage you to do so.",
+          "context": "Travel and cultural experiences"
+        }
+      ]
+    },
+    {
+      "slug": "the-web-needs-its-own-app-store",
+      "title": "The web needs its own App Store",
+      "publishedDate": "2009-05-19",
+      "quotes": [
+        {
+          "quote": "The internet industry is often mocked because it doesn't readily provide dependable answers.",
+          "context": "Challenges of monetizing web startups"
+        },
+        {
+          "quote": "Wouldn't it be great if we could just design sites that sell like iPhone apps?",
+          "context": "Vision for web monetization"
+        },
+        {
+          "quote": "Imagine visiting a site's landing page, getting a description and some screenshots, and then seeing a button that says '$1.99 for full access'.",
+          "context": "User experience in web payments"
+        },
+        {
+          "quote": "Apple has made things happen on the iPhone because they've created a closed system that makes it really easy for end users and developers alike.",
+          "context": "Apple's influence on app monetization"
+        },
+        {
+          "quote": "Why can't someone do this for the web?",
+          "context": "Call for innovation in web payments"
+        },
+        {
+          "quote": "Such a payment system could revolutionize how websites are monetized - and consequently, how they are made.",
+          "context": "Potential impact of web payment systems"
+        }
+      ]
+    },
+    {
+      "slug": "narrowing-scope",
+      "title": "Narrowing Scope",
+      "publishedDate": "2009-05-18",
+      "quotes": [
+        {
+          "quote": "It's hard to communicate the immediate value to users, especially ones that join the site before any of their friends.",
+          "context": "User onboarding challenges"
+        },
+        {
+          "quote": "Better to release something straightforward, see how users like it, and evolve by coupling user feedback with theory.",
+          "context": "Iterative development approach"
+        },
+        {
+          "quote": "There's an intrinsic value to building something simple.",
+          "context": "Simplicity in design"
+        },
+        {
+          "quote": "Users don't want to think too hard about how to use applications.",
+          "context": "User experience"
+        },
+        {
+          "quote": "When you release a web app these days, you need to market it effectively, otherwise you'll get drowned out by all the other options.",
+          "context": "Marketing strategy"
+        },
+        {
+          "quote": "It's easier to explain to other people what you're building once you've released something.",
+          "context": "Communication of vision"
+        }
+      ]
+    },
+    {
+      "slug": "the-unfolding-legacy-of-twitter-for-software-design",
+      "title": "The unfolding legacy of Twitter for software design",
+      "publishedDate": "2009-03-30",
+      "quotes": [
+        {
+          "quote": "Twitter stands out because it's a counter example to this trend, a company that's going mainstream and perplexing people all at the same time.",
+          "context": "Twitter's unique position in tech"
+        },
+        {
+          "quote": "The mark is both simple and profound, and it consists of demonstrating the potency of so-called 'microblogging' for the distribution of social information.",
+          "context": "Impact of microblogging"
+        },
+        {
+          "quote": "On Twitter, the users contribute directly into the news feed itself.",
+          "context": "User contribution and engagement"
+        },
+        {
+          "quote": "Twitter remains a stunningly simple application. That's its strength.",
+          "context": "Simplicity as a strength"
+        },
+        {
+          "quote": "Over the next few years, we are going to see social services across the spectrum appropriate and expand upon the basic functionality of Twitter.",
+          "context": "Future of social services"
+        },
+        {
+          "quote": "Microblogging is passive, it's distributed, and it's easy.",
+          "context": "Power of microblogging"
+        },
+        {
+          "quote": "Twitter has set the standard. It's currently proving that its model can appeal to mainstream audiences.",
+          "context": "Mainstream appeal of Twitter"
+        }
+      ]
+    },
+    {
+      "slug": "my-first-week-as-an-entrepreneur",
+      "title": "My first week as an entrepreneur",
+      "publishedDate": "2009-03-22",
+      "quotes": [
+        {
+          "quote": "A startup founder needs to be stubbornly optimistic, lest he or she succumb to the overwhelming number of doubts that may arise.",
+          "context": "Maintaining optimism as an entrepreneur"
+        },
+        {
+          "quote": "If you don't constantly question the core value proposition of your startup, you're bound to build something that people don't need or want.",
+          "context": "Evaluating startup ideas"
+        },
+        {
+          "quote": "It's immensely satisfying when people respond with 'wow cool, that sounds exactly like something I would use.'",
+          "context": "User feedback and validation"
+        },
+        {
+          "quote": "Keeping up morale is particularly important when you're flying solo, because you don't have a cofounder who will constantly reassure you.",
+          "context": "Challenges of solo entrepreneurship"
+        },
+        {
+          "quote": "When you're starting a company, the goals are not defined for you and you're wrapped up in the success or failure of the enterprise as a whole.",
+          "context": "The burden of entrepreneurship"
+        },
+        {
+          "quote": "There are definite benefits to working for yourself - and from home, as I currently am.",
+          "context": "Advantages of self-employment"
+        },
+        {
+          "quote": "Sometimes it feels a bit like I'm on vacation, but then I remember that I'm actually working longer and on weekends now.",
+          "context": "Work-life balance in startups"
+        }
+      ]
+    },
+    {
+      "slug": "getting-the-lay-of-the-land",
+      "title": "Getting the lay of the land",
+      "publishedDate": "2009-03-17",
+      "quotes": [
+        {
+          "quote": "Working there keeps you in constant connection with the consumer internet technology scene.",
+          "context": "Career transition and networking"
+        },
+        {
+          "quote": "The reassurance is that even if I fail, I will have learned and experienced much along the way.",
+          "context": "Startup challenges and learning"
+        },
+        {
+          "quote": "Questions like these are just begging to be answered by web services.",
+          "context": "Identifying market needs"
+        },
+        {
+          "quote": "I'm looking to set up a site that makes it easy for you to share information about who and what you know.",
+          "context": "Vision for the startup"
+        },
+        {
+          "quote": "No service does this to my satisfaction yet.",
+          "context": "Market gap analysis"
+        },
+        {
+          "quote": "The desire to meet people and learn about what's going on around you isn't new.",
+          "context": "Social connection motivation"
+        },
+        {
+          "quote": "It's great to see sites like Engage and Mixtt try to innovate by making things more social, but so far their efforts haven't worked out all that well.",
+          "context": "Critique of existing solutions"
+        }
+      ]
+    }
+  ]
+}

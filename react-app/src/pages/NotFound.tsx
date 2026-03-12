@@ -23,7 +23,7 @@ export default function NotFound() {
           <div className="w-full aspect-[16/10] rounded-lg mb-8 bg-black flex items-center justify-center overflow-hidden">
             <img
               src={getPostImageSrc(HERO_IMAGE)}
-              alt=""
+              alt={t.notFoundTitle}
               className="w-full h-full object-contain"
             />
           </div>

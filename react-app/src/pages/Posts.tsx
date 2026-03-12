@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Search } from 'lucide-react'
+import { Search, Rss } from 'lucide-react'
 import { stripLinksFromExcerpt, getPostImageSrc, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { useLocale } from '@/i18n/LocaleContext'
@@ -278,22 +278,36 @@ export default function Posts({ draft = false }: PostsProps) {
               </span>
             )}
           </h1>
-          {!draft && isDev && draftCount > 0 && (
-            <Link
-              to={localizePath('/posts/draft', locale)}
-              className="text-[15px] text-muted-foreground hover:text-foreground hover:underline shrink-0"
-            >
-              {t.viewDrafts} ({draftCount})
-            </Link>
-          )}
-          {draft && (
-            <Link
-              to={localizePath('/posts', locale)}
-              className="text-[15px] text-muted-foreground hover:text-foreground hover:underline shrink-0"
-            >
-              ← {t.backToPosts}
-            </Link>
-          )}
+          <div className="flex items-center gap-3 shrink-0">
+            {!draft && (
+              <a
+                href="https://markmhendrickson.com/rss.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-[15px] text-muted-foreground hover:text-foreground hover:underline"
+                aria-label={t.navRss}
+              >
+                <Rss className="w-4 h-4" aria-hidden />
+                <span>{t.navRss}</span>
+              </a>
+            )}
+            {!draft && isDev && draftCount > 0 && (
+              <Link
+                to={localizePath('/posts/draft', locale)}
+                className="text-[15px] text-muted-foreground hover:text-foreground hover:underline"
+              >
+                {t.viewDrafts} ({draftCount})
+              </Link>
+            )}
+            {draft && (
+              <Link
+                to={localizePath('/posts', locale)}
+                className="text-[15px] text-muted-foreground hover:text-foreground hover:underline"
+              >
+                ← {t.backToPosts}
+              </Link>
+            )}
+          </div>
         </div>
         <p className="text-[17px] text-muted-foreground mb-6 font-light tracking-wide">
           {pageDesc}
@@ -333,7 +347,7 @@ export default function Posts({ draft = false }: PostsProps) {
                     <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
                       <img
                         src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.tweetMetadata?.images?.[0] ?? '')}
-                        alt=""
+                        alt={post.title || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
                       />

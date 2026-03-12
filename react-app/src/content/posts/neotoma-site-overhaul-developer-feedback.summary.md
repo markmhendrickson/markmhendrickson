@@ -1,5 +1,5 @@
-- Testers consistently asked "who is this for?" and "how is this different from Mem0 or Zep?" The old single-page site didn't answer either question fast enough.
-- The home page now centers on a memory guarantees comparison table across 12 properties, responding to the challenge that "general storage with schemas is unsolved" by spelling out where each approach delivers and where it doesn't.
-- 40+ documentation pages replace the single scrolling page, including a developer walkthrough that directly answers "how does ingestion work?" with real MCP request/response examples across multiple sessions.
-- Six tool-specific integration guides (Cursor, Claude, Claude Code, ChatGPT, Codex, OpenClaw) address the most common setup friction, including a tester who had Neotoma running but didn't know it supported their tool.
-- The core works. Testers confirmed it "stores stuff when I ask and can verify with the CLI." The site needed to catch up to the product.
+- About a dozen testers got Neotoma working but consistently got stuck on the same questions: "who is this for?", "how is this different from platform memory or Mem0?", "does it work with my tool?", and "should it replace or complement my existing memory?"
+- The home page now leads with a memory guarantees comparison table across 12 properties and a before/after section showing concrete failure modes, directly addressing the "vitamin vs painkiller" critique.
+- Six tool-specific integration guides and a new agent-led install process replace the old buried setup instructions. You paste a prompt into your AI tool and the agent walks you through setup interactively.
+- Three upcoming changes respond to product gaps testers surfaced: agent-driven onboarding that reconstructs a timeline from your own files, markdown record export for developers who expect browsable files, and smoother remote access for ChatGPT and Claude.
+- The core works. Testers confirmed it stores and retrieves correctly. The site and onboarding flow needed to catch up.

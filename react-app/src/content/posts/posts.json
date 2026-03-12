@@ -1,13 +1,13 @@
 [
   {
     "slug": "neotoma-site-overhaul-developer-feedback",
-    "title": "Overhauling the Neotoma site from developer release feedback",
-    "excerpt": "The single scrolling page is now a full documentation site with 40+ pages, a memory guarantees comparison table, tool-specific integration guides, and architecture deep dives. All from feedback during the developer release.",
-    "published": false,
+    "published": true,
+    "title": "Overhauling the Neotoma site with developer release feedback",
+    "excerpt": "The single scrolling page is now a full documentation site with a memory guarantees comparison table, tool-specific integration guides, an agent-led install process, and architecture deep dives. All driven by what testers said or got stuck on during the developer release.",
     "publishedDate": "2026-03-12",
     "category": "essay",
-    "readTime": 7,
-    "tags": ["neotoma", "build-in-public", "developer-release", "documentation"],
+    "readTime": 10,
+    "tags": ["neotoma", "build-in-public", "developer-release", "onboarding"],
     "heroImage": "neotoma-site-overhaul-developer-feedback-hero.png",
     "heroImageSquare": "neotoma-site-overhaul-developer-feedback-hero-square.png",
     "heroImageStyle": "keep-proportions",

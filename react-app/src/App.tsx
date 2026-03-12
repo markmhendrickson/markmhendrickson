@@ -13,6 +13,7 @@ import Songs from './pages/Songs'
 import Mcp from './pages/Mcp'
 import Consulting from './pages/Consulting'
 import Investing from './pages/Investing'
+import Wisdom from './pages/Wisdom'
 import Schedule from './pages/Schedule'
 import NotFound from './pages/NotFound'
 import TestError from './pages/TestError'
@@ -73,6 +74,7 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
         <Route path="agent" element={<Layout><Mcp /></Layout>} />
         <Route path="consulting" element={<Layout><Consulting /></Layout>} />
         <Route path="investing" element={<Layout><Investing /></Layout>} />
+        <Route path="wisdom" element={<Layout><Wisdom /></Layout>} />
         <Route path="test-error" element={<Layout><TestError /></Layout>} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>

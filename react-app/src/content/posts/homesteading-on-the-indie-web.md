@@ -30,7 +30,7 @@ I established several main requirements for this tool:
 
 - Users couldn't be required to reenter their personal information or manually upload content they've already shared elsewhere.
 
-![]()
+![Wireframe of the homesteading tool's initial user experience]()
 
 The tool's initial user experience is outlined by the wireframe above. The marketing appeals directly to a person's need for control, since that's ultimately what users are expected to obtain in a decentralized system, it likely resonates with an underlying fear that their current online identity may be in disarray, and it's a vague enough proposition to allow many solution details.
 
@@ -38,17 +38,17 @@ The page then addresses four of the most identifiable needs under the tent of co
 
 To get started, the user needs to enter just their desired URL, an email address and a password (with the desired URL checked against a domain registrar's API, assuming one exists). Requests for other values, such as the user's name, are omitted since they can be gathered from the user later on. The goal here is to have them engage with the setup process as painlessly as possible.
 
-![]()
+![Wireframe of the service connection step]()
 
 Upon entering this basic information, the user is prompted to connect their new homestead to any number of their online services. A link to each of these services, once connected, will show up on the user's homestead. Content posted to them can also be pulled, either once or continually, for redisplay or simply backup on the user's homestead, depending on what kind of service it is.
 
 For example, when a user connects their Facebook account, they can choose to have all of their photos and status updates automatically republished to their homestead. Not shown are possible options to simply back up these but not republish them. By connecting with any of these services, the tool can also automatically determine the user's name, portrait and any other details to display on the homestead.
 
-![]()
+![Wireframe of the domain payment step]()
 
 The final setup step consists of actually paying for the desired URL, with the assumption that the tool could arrange for free hosting. This part of the mockup isn't fleshed out much, but basically the page would show the appropriate form once the user has chosen their preferred payment method.
 
-![]()
+![Wireframe of the resulting homestead profile page]()
 
 The result is a profile page not terribly unlike those you'd find on most social networking sites but hosted on the user's own domain and consisting of information about and from the user from a variety of sources. Their service profiles show up on the left along with their portrait and bio, and content they've decided to import into their homestead shows up aggregated on the right.
 

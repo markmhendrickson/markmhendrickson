@@ -8,6 +8,13 @@
     <lastBuildDate>Thu, 12 Mar 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Overhauling the Neotoma site with developer release feedback</title>
+    <link>https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</link>
+    <description>The single scrolling page is now a full documentation site with a memory guarantees comparison table, tool-specific integration guides, an agent-led install process, and architecture deep dives. All driven by what testers said or got stuck on during the developer release.</description>
+    <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</guid>
+  </item>
+  <item>
     <title>The diary and the dance</title>
     <link>https://markmhendrickson.com/posts/the-diary-and-the-dance</link>
     <description>Creation, whether a startup or a blog post, is a continuous habit of revealing your inner world and tuning into what comes back. The MVP is a continuum. So is everything else.</description>

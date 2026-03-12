@@ -79,6 +79,7 @@ export function Layout({ children }: LayoutProps) {
     'agent': t.navAgent,
     'consulting': t.navConsulting,
     'investing': t.navInvesting,
+    'wisdom': t.navWisdom,
     'test-error': t.testError,
   }
 
@@ -111,7 +112,7 @@ export function Layout({ children }: LayoutProps) {
   // Home (/:locale) uses the default Helmet here; all other routes should supply their own Helmet.
   const hasPageHelmet = !isHome
 
-  const defaultTitle = 'Mark Hendrickson'
+  const defaultTitle = 'Mark Hendrickson — Building structured memory for AI agents'
   const defaultDescription = t.defaultHomeDescription
   const defaultUrl = `https://markmhendrickson.com${localizePath('/', locale)}`
   const defaultImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
@@ -155,6 +156,7 @@ export function Layout({ children }: LayoutProps) {
               '@context': 'https://schema.org',
               '@type': 'WebSite',
               name: defaultTitle,
+              alternateName: 'Mark Hendrickson',
               url: defaultUrl,
               description: defaultDescription,
             })}
