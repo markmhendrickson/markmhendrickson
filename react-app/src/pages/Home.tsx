@@ -1,7 +1,32 @@
+import { Link } from 'react-router-dom'
 import { useLocale } from '@/i18n/LocaleContext'
+import { localizePath } from '@/i18n/routing'
+import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { getPostImageSrc, isExcludedFromListing, isPublishedPost, stripLinksFromExcerpt } from '@/lib/utils'
+
+interface Post {
+  slug: string
+  title: string
+  excerpt?: string
+  publishedDate?: string
+  category?: string
+  body?: string
+  heroImage?: string
+  heroImageSquare?: string
+  tweetMetadata?: { images?: string[] }
+}
 
 export default function Home() {
-  const { locale } = useLocale()
+  const { locale, languageTag, t } = useLocale()
+  const latestPost = (getLocalizedPublicPosts(locale) as Post[])
+    .filter((post) => isPublishedPost(post) && !isExcludedFromListing(post))
+    .sort((a, b) => {
+      const aTime = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
+      const bTime = b.publishedDate ? new Date(b.publishedDate).getTime() : 0
+      if (bTime !== aTime) return bTime - aTime
+      return (a.slug || '').localeCompare(b.slug || '')
+    })[0]
   const copy = {
     en: {
       subtitle: 'Building structured memory for AI agents.',
@@ -29,12 +54,51 @@ export default function Home() {
   return (
     <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
       <div className="max-w-[600px] w-full">
+        {latestPost && (
+          <Link
+            to={localizePath(`/posts/${latestPost.slug}`, locale)}
+            className="block mb-10 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+          >
+            <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
+              {(latestPost.heroImage || latestPost.tweetMetadata?.images?.[0]) && (
+                <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                  <img
+                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
+                    alt=""
+                    className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                    style={{ objectPosition: 'center center' }}
+                  />
+                </div>
+              )}
+              <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
+                <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                  {t.latestPost}
+                </AlertTitle>
+                <AlertDescription className="py-px">
+                  <span className="font-medium text-foreground">
+                    {latestPost.category === 'tweet'
+                      ? (latestPost.body ?? '').slice(0, 80) + ((latestPost.body ?? '').length > 80 ? '...' : '')
+                      : latestPost.title}
+                  </span>
+                  {latestPost.excerpt && (
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {stripLinksFromExcerpt(latestPost.excerpt)}
+                    </p>
+                  )}
+                  <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
+                    {t.readMore} →
+                  </span>
+                </AlertDescription>
+              </div>
+            </Alert>
+          </Link>
+        )}
         <img
           src="/profile.jpg"
           alt="Mark Hendrickson"
-          className="mb-8 h-[280px] w-[280px] rounded-none object-cover md:float-right md:ml-8 md:mb-8 md:h-[300px] md:w-[300px]"
+          className="mb-8 w-full h-auto aspect-square rounded-none object-cover lg:float-right lg:ml-8 lg:mb-8 lg:h-[300px] lg:w-[300px]"
         />
-        <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark Hendrickson</h1>
+        <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark&nbsp;Hendrickson</h1>
         <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-8 font-normal tracking-wide">
           {text.subtitle}
         </div>

@@ -204,6 +204,8 @@ interface Post {
   body?: string
   /** Draft share tweet (dev only, from .tweet.md / parquet). */
   shareTweet?: string
+  /** Optional locale-specific postscript markdown (e.g., disclosure/footnote blocks). */
+  postscript?: string
   /** URL of the post's tweet on X (shown in footer when set). */
   linkedTweetUrl?: string
   /** URL of an X profile or list timeline to embed (see https://help.x.com/en/using-x/embed-x-feed). */
@@ -832,14 +834,24 @@ export default function Post({ slug: slugProp }: PostProps) {
           const summaryFromMd = await tryLoadSummaryMarkdown()
           if (isCancelled) return
           setSummaryContent(locale === defaultLocale ? (summaryFromMd ?? undefined) : undefined)
-          const postscriptFromMd = await tryLoadPostscriptMarkdown()
-          if (isCancelled) return
-          setPostscriptContent(postscriptFromMd ?? undefined)
+          const shouldUseLocalizedPostscript = locale !== defaultLocale && isPublishedPost(postMeta)
+          if (shouldUseLocalizedPostscript && postMeta.postscript) {
+            setPostscriptContent(postMeta.postscript)
+          } else {
+            const postscriptFromMd = await tryLoadPostscriptMarkdown()
+            if (isCancelled) return
+            setPostscriptContent(postscriptFromMd ?? undefined)
+          }
         } else {
           setSummaryContent(undefined)
-          const postscriptFromMd = await tryLoadPostscriptMarkdown()
-          if (isCancelled) return
-          setPostscriptContent(postscriptFromMd ?? undefined)
+          const shouldUseLocalizedPostscript = locale !== defaultLocale && isPublishedPost(postMeta)
+          if (shouldUseLocalizedPostscript && postMeta.postscript) {
+            setPostscriptContent(postMeta.postscript)
+          } else {
+            const postscriptFromMd = await tryLoadPostscriptMarkdown()
+            if (isCancelled) return
+            setPostscriptContent(postscriptFromMd ?? undefined)
+          }
           // Production: parquet cache takes priority
           if (postMeta.body) {
             content = postMeta.body

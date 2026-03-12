@@ -5,35 +5,21 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Mar 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 07 Mar 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
-  <item>
-    <title>AI skepticism is really about faith in humans</title>
-    <link>https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</link>
-    <description>The people who embrace AI encounter its problems more directly than anyone. But they also have the most faith that humans can work through them. The real skepticism isn&apos;t about the machines.</description>
-    <pubDate>Tue, 10 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</guid>
-  </item>
-  <item>
-    <title>What my agentic stack actually does</title>
-    <link>https://markmhendrickson.com/posts/what-my-agentic-stack-actually-does</link>
-    <description>I built an agentic stack to dogfood Neotoma and accelerate my work. A private monorepo with 12+ MCP servers where I cowork with AI agents daily. Neotoma provides the structured memory underneath, letting agents build on prior work across every session.</description>
-    <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/what-my-agentic-stack-actually-does</guid>
-  </item>
-  <item>
-    <title>When the chain becomes the product</title>
-    <link>https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</link>
-    <description>I joined Blockstack in 2018 for the off-chain developer tools. Over seven years I watched token economics reshape the product direction, push the perceived moment of value perpetually into the future, and replace empirical product development with narrative-driven roadmaps.</description>
-    <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</guid>
-  </item>
   <item>
     <title>Google&apos;s memory agent thinks for itself, trading determinism for insight</title>
     <link>https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer</link>
     <description>A new open-source memory agent from Google ditches vector databases for LLM consolidation, trading determinism for active pattern discovery. It makes opposite architectural choices from a truth layer on every axis. The strongest architecture may combine both: consolidation above, deterministic state you can audit and revert below.</description>
     <pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer</guid>
+  </item>
+  <item>
+    <title>When the chain becomes the product</title>
+    <link>https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</link>
+    <description>I joined Blockstack in 2018 for the off-chain developer tools. Over seven years I watched token economics reshape the product direction, push the perceived moment of value perpetually into the future, and replace empirical product development with narrative-driven roadmaps.</description>
+    <pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</guid>
   </item>
   <item>
     <title>Your AI remembers your vibe but not your work</title>
@@ -55,20 +41,6 @@
     <description>Retrieval fits coding and is cheap; it breaks on completeness, consistency, and provenance. Why convergence to structured state is hard, and how Neotoma is designed for it.</description>
     <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-memory-truth-problem</guid>
-  </item>
-  <item>
-    <title>Agent command centers need one source of truth</title>
-    <link>https://markmhendrickson.com/posts/agent-command-centers-source-of-truth</link>
-    <description>Command centers for agents need a single, durable state layer for tasks and visibility. The UI is the dashboard; the layer it reads and writes is the substrate.</description>
-    <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-command-centers-source-of-truth</guid>
-  </item>
-  <item>
-    <title>Six agentic trends I&apos;m betting on (and how I might be wrong)</title>
-    <link>https://markmhendrickson.com/posts/six-agentic-trends-betting-on</link>
-    <description>The structural pressures that underpin my work, and what would invalidate them as the AI industry evolves.</description>
-    <pubDate>Wed, 18 Feb 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/six-agentic-trends-betting-on</guid>
   </item>
   <item>
     <title>We&apos;re all centaurs now</title>
