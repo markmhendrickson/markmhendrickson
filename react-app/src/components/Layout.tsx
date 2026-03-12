@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
-import { Home, FileText, Share2, Clock, Bot, Briefcase, CalendarPlus } from 'lucide-react'
+import { Home, FileText, Share2, Clock, Bot, Briefcase, TrendingUp, CalendarPlus } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
@@ -78,6 +78,7 @@ export function Layout({ children }: LayoutProps) {
     'meet': t.navMeet,
     'agent': t.navAgent,
     'consulting': t.navConsulting,
+    'investing': t.navInvesting,
     'test-error': t.testError,
   }
 
@@ -87,6 +88,7 @@ export function Layout({ children }: LayoutProps) {
     { path: localizePath('/timeline', locale), label: t.navTimeline, icon: Clock },
     { path: localizePath('/agent', locale), label: t.navAgent, icon: Bot },
     { path: localizePath('/consulting', locale), label: t.navConsulting, icon: Briefcase },
+    { path: localizePath('/investing', locale), label: t.navInvesting, icon: TrendingUp },
     { path: localizePath('/meet', locale), label: t.navMeet, icon: CalendarPlus },
     { path: localizePath('/links', locale), label: t.navLinks, icon: Share2 },
   ]

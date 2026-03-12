@@ -7,6 +7,7 @@ export type Dict = {
   navTimeline: string
   navAgent: string
   navConsulting: string
+  navInvesting: string
   navMeet: string
   navLinks: string
   navLanguage: string
@@ -83,6 +84,7 @@ const enDict: Dict = {
     navTimeline: 'Timeline',
     navAgent: 'Agent',
     navConsulting: 'Consulting',
+    navInvesting: 'Investing',
     navMeet: 'Meet',
     navLinks: 'Links',
     navLanguage: 'Language',
@@ -160,6 +162,7 @@ const esDict: Dict = {
     navTimeline: 'Trayectoria',
     navAgent: 'Agente',
     navConsulting: 'Consultoría',
+    navInvesting: 'Inversiones',
     navMeet: 'Reunión',
     navLinks: 'Enlaces',
     navLanguage: 'Idioma',
@@ -237,6 +240,7 @@ const caDict: Dict = {
     navTimeline: 'Trajectòria',
     navAgent: 'Agent',
     navConsulting: 'Consultoria',
+    navInvesting: 'Inversions',
     navMeet: 'Trobada',
     navLinks: 'Enllaços',
     navLanguage: 'Idioma',

@@ -26,8 +26,8 @@ const SITE_BASE = 'https://markmhendrickson.com'
 const SUPPORTED_LOCALES = ['en', 'es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']
 const DEFAULT_LOCALE = 'en'
 const PREFIXED_LOCALES = SUPPORTED_LOCALES.filter((locale) => locale !== DEFAULT_LOCALE)
-const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting']
-const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting']
+const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting', '/investing']
+const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting', '/investing']
 const LOCALIZED_STATIC_ROUTES = PREFIXED_LOCALES.flatMap((locale) =>
   STATIC_ROUTE_SUFFIXES.map((suffix) => (suffix === '/' ? `/${locale}` : `/${locale}${suffix}`))
 )
@@ -166,7 +166,8 @@ function buildRssXml(posts, locale = 'en') {
     : toRfc822Date(new Date().toISOString())
   const items = published
     .map((p) => {
-      const link = `${SITE_BASE}/${locale}/posts/${p.slug}`
+      const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
+      const link = `${SITE_BASE}${localePrefix}/posts/${p.slug}`
       const title = escapeXml(p.title || '')
       const description = escapeXml(p.excerpt || '')
       const pubDate = toRfc822Date(p.publishedDate || p.updatedDate)
