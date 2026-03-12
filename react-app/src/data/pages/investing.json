@@ -1,0 +1,89 @@
+{
+  "slug": "investing",
+  "copy": {
+    "en": {
+      "title": "Investing",
+      "subtitle": "Periodic investments in infrastructure for agents, deterministic state, and programmable commerce.",
+      "pageDesc": "Mark Hendrickson makes periodic investments in agent infrastructure, deterministic state systems, and machine-native commerce.",
+      "statusHeading": "Current status",
+      "statusParagraphs": [
+        "I am not actively investing in new projects right now. When I do invest, I focus on a small number of opportunities with deep technical overlap with the systems I build and operate daily.",
+        "My background spans consumer web, developer platforms, and crypto infrastructure. I build Neotoma, a structured memory layer for AI agents, and run a full agentic stack where agents function as collaborators. That hands-on context shapes what I look for and where I can be useful beyond capital."
+      ],
+      "interestsHeading": "Areas of interest",
+      "interests": [
+        "Agent infrastructure and autonomous systems",
+        "Deterministic state, provenance, and structured memory",
+        "Programmable payments and machine-native commerce",
+        "Agent-controlled wallets and custody",
+        "Developer tools for AI-native workflows"
+      ],
+      "ctaHeading": "Get in touch",
+      "ctaParagraph": "If you are building something in these areas and think there is genuine alignment, I am happy to hear about it.",
+      "ctaEmailLabel": "Email me",
+      "ctaInclude": [
+        "What you are building and the problem it solves",
+        "Current stage and traction",
+        "How much you are raising and on what terms",
+        "Why you think there is alignment with my areas of interest"
+      ],
+      "ctaButton": "Schedule a conversation"
+    },
+    "es": {
+      "title": "Inversiones",
+      "subtitle": "Inversiones periódicas en infraestructura para agentes, estado determinista y comercio programable.",
+      "pageDesc": "Mark Hendrickson realiza inversiones periódicas en infraestructura de agentes, sistemas de estado determinista y comercio nativo para máquinas.",
+      "statusHeading": "Estado actual",
+      "statusParagraphs": [
+        "No estoy invirtiendo activamente en nuevos proyectos en este momento. Cuando invierto, me concentro en un número reducido de oportunidades con fuerte conexión técnica con los sistemas que construyo y opero a diario.",
+        "Mi trayectoria abarca web de consumo, plataformas para desarrolladores e infraestructura cripto. Construyo Neotoma, una capa de memoria estructurada para agentes IA, y opero con un stack agéntico completo donde los agentes funcionan como colaboradores. Ese contexto práctico define lo que busco y dónde puedo aportar más allá del capital."
+      ],
+      "interestsHeading": "Áreas de interés",
+      "interests": [
+        "Infraestructura de agentes y sistemas autónomos",
+        "Estado determinista, procedencia y memoria estructurada",
+        "Pagos programables y comercio nativo para máquinas",
+        "Wallets controlados por agentes y custodia",
+        "Herramientas para desarrolladores en flujos de trabajo nativos de IA"
+      ],
+      "ctaHeading": "Contacto",
+      "ctaParagraph": "Si estás construyendo algo en estas áreas y crees que hay alineación genuina, estaré encantado de escucharte.",
+      "ctaEmailLabel": "Escríbeme",
+      "ctaInclude": [
+        "Qué estás construyendo y el problema que resuelve",
+        "Etapa actual y tracción",
+        "Cuánto estás levantando y en qué términos",
+        "Por qué crees que hay alineación con mis áreas de interés"
+      ],
+      "ctaButton": "Agendar una conversación"
+    },
+    "ca": {
+      "title": "Inversions",
+      "subtitle": "Inversions periòdiques en infraestructura per a agents, estat determinista i comerç programable.",
+      "pageDesc": "Mark Hendrickson fa inversions periòdiques en infraestructura d'agents, sistemes d'estat determinista i comerç natiu per a màquines.",
+      "statusHeading": "Estat actual",
+      "statusParagraphs": [
+        "No estic invertint activament en nous projectes en aquest moment. Quan inverteixo, em concentro en un nombre reduït d'oportunitats amb forta connexió tècnica amb els sistemes que construeixo i opero diàriament.",
+        "La meva trajectòria abasta web de consum, plataformes per a desenvolupadors i infraestructura cripto. Construeixo Neotoma, una capa de memòria estructurada per a agents IA, i opero amb un stack agèntic complet on els agents funcionen com a col·laboradors. Aquest context pràctic defineix què busco i on puc aportar més enllà del capital."
+      ],
+      "interestsHeading": "Àrees d'interès",
+      "interests": [
+        "Infraestructura d'agents i sistemes autònoms",
+        "Estat determinista, procedència i memòria estructurada",
+        "Pagaments programables i comerç natiu per a màquines",
+        "Wallets controlats per agents i custòdia",
+        "Eines per a desenvolupadors en fluxos de treball natius d'IA"
+      ],
+      "ctaHeading": "Contacte",
+      "ctaParagraph": "Si estàs construint alguna cosa en aquestes àrees i creus que hi ha alineació genuïna, estaré encantat d'escoltar-te.",
+      "ctaEmailLabel": "Envia'm un correu",
+      "ctaInclude": [
+        "Què estàs construint i el problema que resol",
+        "Etapa actual i tracció",
+        "Quant estàs aixecant i en quins termes",
+        "Per què creus que hi ha alineació amb les meves àrees d'interès"
+      ],
+      "ctaButton": "Programa una conversa"
+    }
+  }
+}
