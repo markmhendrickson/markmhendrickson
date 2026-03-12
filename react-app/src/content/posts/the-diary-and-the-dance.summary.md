@@ -1,0 +1,5 @@
+- Creation starts with revealing your inner world authentically, then tuning into the subtle feedback the external world gives back.
+- The MVP is not a fixed milestone but a continuum, and the feedback you receive is nuanced, not binary.
+- Building a startup is more art than science at the earliest stages, and the creator's intuition, fed by continuous external exposure, is the central processor.
+- Market size is something to develop a sense of over time, not a number to fix upfront as a prerequisite for starting.
+- Self-expression should be embedded in daily life, not treated as a formal event that requires the right moment or a guaranteed audience.

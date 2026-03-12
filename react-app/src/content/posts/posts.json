@@ -1,5 +1,19 @@
 [
   {
+    "slug": "the-diary-and-the-dance",
+    "title": "The diary and the dance",
+    "excerpt": "Creation, whether a startup or a blog post, is a continuous habit of revealing your inner world and tuning into what comes back. The MVP is a continuum. So is everything else.",
+    "published": true,
+    "publishedDate": "2026-03-12",
+    "category": "essay",
+    "readTime": 8,
+    "tags": ["creativity", "startups", "self-expression"],
+    "heroImage": "the-diary-and-the-dance-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "createdDate": "2026-03-12",
+    "updatedDate": "2026-03-12"
+  },
+  {
     "slug": "what-my-agentic-stack-actually-does",
     "title": "What my agentic stack actually does",
     "excerpt": "I built an agentic stack to dogfood Neotoma and accelerate my work. A private monorepo with 12+ MCP servers where I cowork with AI agents daily. Neotoma provides the structured memory underneath, letting agents build on prior work across every session.",

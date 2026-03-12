@@ -8,6 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      SKIP_WEBSITE_CACHE_REGEN: "1"
     permissions:
       contents: read
       pages: write
@@ -36,6 +38,11 @@ jobs:
         env:
           NEOTOMA_WEBSITE_EXPORT_JSON: ${{ secrets.NEOTOMA_WEBSITE_EXPORT_JSON }}
         run: |
+          if [ "${SKIP_WEBSITE_CACHE_REGEN}" = "1" ]; then
+            rm -f data/tmp/neotoma_website_export.json
+            echo "SKIP_WEBSITE_CACHE_REGEN=1; ignoring Neotoma export secret and using committed cache."
+            exit 0
+          fi
           mkdir -p data/tmp
           if [ -n "${NEOTOMA_WEBSITE_EXPORT_JSON:-}" ]; then
             # Never fail deploy on malformed secret; fall back to committed cache instead.
@@ -52,6 +59,10 @@ jobs:
       - name: Generate cache from Neotoma export
         working-directory: react-app
         run: |
+          if [ "${SKIP_WEBSITE_CACHE_REGEN}" = "1" ]; then
+            echo "SKIP_WEBSITE_CACHE_REGEN=1; using committed cache/*.json."
+            exit 0
+          fi
           if [ -f data/tmp/neotoma_website_export.json ]; then
             python3 ../../../scripts/generate_website_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
           else
@@ -75,6 +86,10 @@ jobs:
       - name: Regenerate cache with translated locale overrides
         working-directory: react-app
         run: |
+          if [ "${SKIP_WEBSITE_CACHE_REGEN}" = "1" ]; then
+            echo "SKIP_WEBSITE_CACHE_REGEN=1; skipping post-translation cache regeneration."
+            exit 0
+          fi
           if [ -f data/tmp/neotoma_website_export.json ]; then
             python3 ../../../scripts/generate_website_cache.py --from-neotoma-json data/tmp/neotoma_website_export.json
           else
