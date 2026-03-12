@@ -28,6 +28,12 @@
   to = "/links"
   status = 301
 
+# Trailing slash on posts: /posts/slug/ -> /posts/slug (canonical). Root-level /slug -> /posts/slug is generated at build time in dist/_redirects.
+[[redirects]]
+  from = "/posts/*/"
+  to = "/posts/:splat"
+  status = 301
+
 # Rewrite /api/newsletter/* to Netlify functions
 [[redirects]]
   from = "/api/newsletter/subscribe"

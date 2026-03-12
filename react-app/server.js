@@ -28,6 +28,8 @@ const DEFAULT_LOCALE = 'en'
 const PREFIXED_LOCALES = SUPPORTED_LOCALES.filter((locale) => locale !== DEFAULT_LOCALE)
 const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting', '/investing']
 const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting', '/investing']
+/** Root-level paths that must not be redirected to /posts/:slug */
+const RESERVED_ROOT_PATHS = new Set(['posts', 'timeline', 'newsletter', 'links', 'meet', 'schedule', 'songs', 'agent', 'consulting', 'investing', 'about'])
 const LOCALIZED_STATIC_ROUTES = PREFIXED_LOCALES.flatMap((locale) =>
   STATIC_ROUTE_SUFFIXES.map((suffix) => (suffix === '/' ? `/${locale}` : `/${locale}${suffix}`))
 )
@@ -210,6 +212,13 @@ function resolveSlugToCanonical(slug, locale = DEFAULT_LOCALE) {
   return slugToCanonical.get(slug) ?? slug
 }
 
+/** All slugs that should redirect from root to /posts/:slug (legacy HN-style URLs). */
+function getLegacyRootSlugRedirects() {
+  const posts = getPosts(DEFAULT_LOCALE)
+  const slugToCanonical = buildSlugToCanonical(posts)
+  return slugToCanonical
+}
+
 async function runPrerender() {
   const distPath = path.resolve(__dirname, 'dist')
   const templatePath = path.join(distPath, 'index.html')
@@ -269,6 +278,17 @@ async function runPrerender() {
     fs.writeFileSync(path.join(distPath, locale, 'rss.xml'), localizedRssXml, 'utf-8')
     console.log(`prerender: ${locale}/rss.xml`)
   }
+  // Netlify _redirects: root-level /slug -> /posts/canonical for every post (HN and legacy URLs)
+  const legacySlugs = getLegacyRootSlugRedirects()
+  const redirectLines = []
+  for (const [variant, canonical] of legacySlugs) {
+    if (RESERVED_ROOT_PATHS.has(variant)) continue
+    redirectLines.push(`/${variant}  /posts/${canonical}  301`)
+  }
+  if (redirectLines.length) {
+    fs.writeFileSync(path.join(distPath, '_redirects'), redirectLines.join('\n'), 'utf-8')
+    console.log('prerender: _redirects (' + redirectLines.length + ' legacy post redirects)')
+  }
   console.log('prerender: done,', allRoutes.length, 'routes')
 }
 
@@ -280,6 +300,28 @@ async function createServer() {
   if (fs.existsSync(cacheApiPath)) {
     app.use('/api', express.static(cacheApiPath))
   }
+
+  // Redirects for HN and legacy URL patterns (legacy root-level posts, trailing slash)
+  app.use((req, res, next) => {
+    const pathname = (req.path || '/').replace(/\/$/, '') || '/'
+    const segments = pathname.split('/').filter(Boolean)
+    const legacySlugs = getLegacyRootSlugRedirects()
+
+    // Root-level single segment: legacy /slug -> /posts/canonical (skip reserved paths)
+    if (segments.length === 1 && !RESERVED_ROOT_PATHS.has(segments[0])) {
+      const canonical = legacySlugs.get(segments[0])
+      if (canonical) {
+        return res.redirect(301, `/posts/${canonical}${req.url.slice(req.path.length) || ''}`)
+      }
+    }
+
+    // /posts/slug/ -> /posts/slug (canonical no trailing slash)
+    if (segments.length === 2 && segments[0] === 'posts' && req.path.endsWith('/') && req.path !== '/posts/') {
+      return res.redirect(301, `/posts/${segments[1]}${req.url.slice(req.path.length) || ''}`)
+    }
+
+    next()
+  })
 
   if (isProd) {
     // Production: serve static assets from dist, run SSR from built server bundle

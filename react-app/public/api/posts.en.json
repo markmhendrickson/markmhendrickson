@@ -1,5 +1,5 @@
 {
-  "url": "https://markmhendrickson.com/api/posts.json",
+  "url": "https://markmhendrickson.com/api/posts.en.json",
   "posts": [
     {
       "slug": "the-diary-and-the-dance",
@@ -17,7 +17,10 @@
       "shareTweet": "New post: The diary and the dance. Creation is a continuous habit of revealing your inner world and tuning into what comes back. There is no MVP. There is no right moment. There is only the practice. https://markmhendrickson.com/posts/the-diary-and-the-dance",
       "heroImage": "the-diary-and-the-dance-hero.png",
       "heroImageStyle": "keep-proportions",
-      "heroImageSquare": "the-diary-and-the-dance-hero-square.png"
+      "heroImageSquare": "the-diary-and-the-dance-hero-square.png",
+      "postId": "the-diary-and-the-dance",
+      "locale": "en",
+      "canonicalSlug": "the-diary-and-the-dance"
     },
     {
       "slug": "ai-skepticism-is-really-about-faith-in-humans",
@@ -35,7 +38,10 @@
       "shareTweet": "The people I know who embrace AI encounter its problems more directly than anyone. But they have the most faith in human ingenuity to work through them. The real skepticism isn't about the machines. It's about us. https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans",
       "heroImage": "ai-skepticism-is-really-about-faith-in-humans-hero.png",
       "heroImageStyle": "keep-proportions",
-      "heroImageSquare": "ai-skepticism-is-really-about-faith-in-humans-hero-square.png"
+      "heroImageSquare": "ai-skepticism-is-really-about-faith-in-humans-hero-square.png",
+      "postId": "ai-skepticism-is-really-about-faith-in-humans",
+      "locale": "en",
+      "canonicalSlug": "ai-skepticism-is-really-about-faith-in-humans"
     },
     {
       "slug": "what-my-agentic-stack-actually-does",
@@ -60,7 +66,10 @@
       "heroImage": "what-my-agentic-stack-actually-does-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "what-my-agentic-stack-actually-does-hero-square.png",
-      "ogImage": "og/what-my-agentic-stack-actually-does-1200x630.jpg"
+      "ogImage": "og/what-my-agentic-stack-actually-does-1200x630.jpg",
+      "postId": "what-my-agentic-stack-actually-does",
+      "locale": "en",
+      "canonicalSlug": "what-my-agentic-stack-actually-does"
     },
     {
       "slug": "when-the-chain-becomes-the-product",
@@ -78,7 +87,10 @@
       "shareTweet": "I joined Blockstack in 2018 for the developer tools. Seven years later I left with a clear picture of what happens when token dynamics replace product feedback loops. Not a failure of people. A failure of incentive structure.\n\nhttps://markmhendrickson.com/posts/when-the-chain-becomes-the-product",
       "heroImage": "when-the-chain-becomes-the-product-hero.png",
       "heroImageStyle": "keep-proportions",
-      "heroImageSquare": "when-the-chain-becomes-the-product-hero-square.png"
+      "heroImageSquare": "when-the-chain-becomes-the-product-hero-square.png",
+      "postId": "when-the-chain-becomes-the-product",
+      "locale": "en",
+      "canonicalSlug": "when-the-chain-becomes-the-product"
     },
     {
       "slug": "always-on-memory-agents-and-the-truth-layer",
@@ -102,7 +114,10 @@
       "heroImage": "always-on-memory-agents-and-the-truth-layer-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "always-on-memory-agents-and-the-truth-layer-hero-square.png",
-      "ogImage": "og/always-on-memory-agents-and-the-truth-layer-1200x630.jpg"
+      "ogImage": "og/always-on-memory-agents-and-the-truth-layer-1200x630.jpg",
+      "postId": "always-on-memory-agents-and-the-truth-layer",
+      "locale": "en",
+      "canonicalSlug": "always-on-memory-agents-and-the-truth-layer"
     },
     {
       "slug": "your-ai-remembers-your-vibe-but-not-your-work",
@@ -130,7 +145,10 @@
       "alternativeSlugs": [
         "when-platform-memory-fails-under-context-shifts",
         "ai-remembers-vibe-not-work"
-      ]
+      ],
+      "postId": "your-ai-remembers-your-vibe-but-not-your-work",
+      "locale": "en",
+      "canonicalSlug": "your-ai-remembers-your-vibe-but-not-your-work"
     },
     {
       "slug": "neotoma-developer-release",
@@ -157,7 +175,10 @@
       "ogImage": "og/neotoma-developer-release-1200x630.jpg",
       "alternativeSlugs": [
         "developer-release-neotoma"
-      ]
+      ],
+      "postId": "neotoma-developer-release",
+      "locale": "en",
+      "canonicalSlug": "neotoma-developer-release"
     },
     {
       "slug": "agent-memory-truth-problem",
@@ -181,7 +202,10 @@
       "heroImage": "agent-memory-truth-problem-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "agent-memory-truth-problem-hero-square.png",
-      "ogImage": "og/agent-memory-truth-problem-1200x630.jpg"
+      "ogImage": "og/agent-memory-truth-problem-1200x630.jpg",
+      "postId": "agent-memory-truth-problem",
+      "locale": "en",
+      "canonicalSlug": "agent-memory-truth-problem"
     },
     {
       "slug": "agent-command-centers-source-of-truth",
@@ -199,7 +223,10 @@
       "shareTweet": "How a truth layer could power an agent command center: one durable state layer for tasks and visibility, so the dashboard and the agent share the same source of truth. https://github.com/markmhendrickson/neotoma",
       "heroImage": "agent-command-centers-source-of-truth-hero.png",
       "heroImageStyle": "keep-proportions",
-      "heroImageSquare": "agent-command-centers-source-of-truth-hero-square.png"
+      "heroImageSquare": "agent-command-centers-source-of-truth-hero-square.png",
+      "postId": "agent-command-centers-source-of-truth",
+      "locale": "en",
+      "canonicalSlug": "agent-command-centers-source-of-truth"
     },
     {
       "slug": "six-agentic-trends-betting-on",
@@ -220,7 +247,10 @@
       "heroImageSquare": "six-agentic-trends-betting-on-hero-square.png",
       "alternativeSlugs": [
         "agentic-future-betting-on"
-      ]
+      ],
+      "postId": "six-agentic-trends-betting-on",
+      "locale": "en",
+      "canonicalSlug": "six-agentic-trends-betting-on"
     },
     {
       "slug": "we-are-all-centaurs-now",
@@ -244,7 +274,10 @@
       "heroImage": "we-are-all-centaurs-now-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "we-are-all-centaurs-now-hero-square.png",
-      "ogImage": "og/we-are-all-centaurs-now-1200x630.jpg"
+      "ogImage": "og/we-are-all-centaurs-now-1200x630.jpg",
+      "postId": "we-are-all-centaurs-now",
+      "locale": "en",
+      "canonicalSlug": "we-are-all-centaurs-now"
     },
     {
       "slug": "agentic-wallets-mcp-bitcoin",
@@ -269,7 +302,10 @@
       "heroImage": "agentic-wallets-mcp-bitcoin-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "agentic-wallets-mcp-bitcoin-hero-square.png",
-      "ogImage": "og/agentic-wallets-mcp-bitcoin-1200x630.jpg"
+      "ogImage": "og/agentic-wallets-mcp-bitcoin-1200x630.jpg",
+      "postId": "agentic-wallets-mcp-bitcoin",
+      "locale": "en",
+      "canonicalSlug": "agentic-wallets-mcp-bitcoin"
     },
     {
       "slug": "why-agent-memory-needs-more-than-rag",
@@ -294,7 +330,10 @@
       "heroImage": "why-agent-memory-needs-more-than-rag-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "why-agent-memory-needs-more-than-rag-hero-square.png",
-      "ogImage": "og/why-agent-memory-needs-more-than-rag-1200x630.jpg"
+      "ogImage": "og/why-agent-memory-needs-more-than-rag-1200x630.jpg",
+      "postId": "why-agent-memory-needs-more-than-rag",
+      "locale": "en",
+      "canonicalSlug": "why-agent-memory-needs-more-than-rag"
     },
     {
       "slug": "building-structural-barriers",
@@ -318,7 +357,10 @@
       "heroImage": "building-structural-barriers-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "building-structural-barriers-hero-square.png",
-      "ogImage": "og/building-structural-barriers-1200x630.jpg"
+      "ogImage": "og/building-structural-barriers-1200x630.jpg",
+      "postId": "building-structural-barriers",
+      "locale": "en",
+      "canonicalSlug": "building-structural-barriers"
     },
     {
       "slug": "agentic-search-and-the-truth-layer",
@@ -342,7 +384,10 @@
       "heroImage": "agentic-search-and-the-truth-layer-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "agentic-search-and-the-truth-layer-hero-square.png",
-      "ogImage": "og/agentic-search-and-the-truth-layer-1200x630.jpg"
+      "ogImage": "og/agentic-search-and-the-truth-layer-1200x630.jpg",
+      "postId": "agentic-search-and-the-truth-layer",
+      "locale": "en",
+      "canonicalSlug": "agentic-search-and-the-truth-layer"
     },
     {
       "slug": "barcelona-guest-floor",
@@ -361,12 +406,15 @@
       ],
       "createdDate": "2026-02-04",
       "updatedDate": "2026-02-04",
-      "summary": "",
+      "summary": "Your own floor in the heart of Barcelona. Quiet street in Gràcia, kitchen, king bed, rooftop terrace. Welcoming to all.",
       "shareTweet": "",
       "heroImage": "barcelona-guest-floor-hero.jpg",
       "heroImageStyle": "keep-proportions",
       "ogImage": "og/barcelona-guest-floor-1200x630.jpg",
-      "excludeFromListing": true
+      "excludeFromListing": true,
+      "postId": "barcelona-guest-floor",
+      "locale": "en",
+      "canonicalSlug": "barcelona-guest-floor"
     },
     {
       "slug": "openclaw-and-the-truth-layer",
@@ -385,7 +433,10 @@
       "heroImage": "openclaw-and-the-truth-layer-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "openclaw-and-the-truth-layer-hero-square.png",
-      "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg"
+      "ogImage": "og/openclaw-and-the-truth-layer-1200x630.jpg",
+      "postId": "openclaw-and-the-truth-layer",
+      "locale": "en",
+      "canonicalSlug": "openclaw-and-the-truth-layer"
     },
     {
       "slug": "truth-layer-agent-memory",
@@ -409,7 +460,10 @@
       "heroImage": "truth-layer-agent-memory-hero.png",
       "heroImageStyle": "keep-proportions",
       "heroImageSquare": "truth-layer-agent-memory-hero-square.png",
-      "ogImage": "og/truth-layer-agent-memory-1200x630.jpg"
+      "ogImage": "og/truth-layer-agent-memory-1200x630.jpg",
+      "postId": "truth-layer-agent-memory",
+      "locale": "en",
+      "canonicalSlug": "truth-layer-agent-memory"
     },
     {
       "slug": "professional-mission",
@@ -423,11 +477,14 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
+      "summary": "Building sovereign memory infrastructure for AI agents.",
       "shareTweet": "",
       "heroImage": "profile.jpg",
       "heroImageStyle": "float-right",
-      "excludeFromListing": true
+      "excludeFromListing": true,
+      "postId": "professional-mission",
+      "locale": "en",
+      "canonicalSlug": "professional-mission"
     },
     {
       "slug": "the-flip-side",
@@ -441,8 +498,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "I've been reading The Flip Side since October and find it's an incredibly effective and efficient way to encounter and digest thoughtful opinions...",
+      "shareTweet": "",
+      "postId": "the-flip-side",
+      "locale": "en",
+      "canonicalSlug": "the-flip-side"
     },
     {
       "slug": "yc-w19-web-developer-contract",
@@ -456,8 +516,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Web developers: The founder of a YC W19 company I know is looking to contract immediately for a project involving React, Node, and MongoDB with...",
+      "shareTweet": "",
+      "postId": "yc-w19-web-developer-contract",
+      "locale": "en",
+      "canonicalSlug": "yc-w19-web-developer-contract"
     },
     {
       "slug": "facebook-police-state",
@@ -471,8 +534,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Should Facebook really be responsible for policing the misuse of user datahttps://newsroom.fb.com/news/2018/03/forensic-audits-cambridge-analytica/...",
+      "shareTweet": "",
+      "postId": "facebook-police-state",
+      "locale": "en",
+      "canonicalSlug": "facebook-police-state"
     },
     {
       "slug": "finding-flow-beyond-distraction",
@@ -486,8 +552,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "One my highest priorities over the past several years has been to establish a more frequent state of flowhttps://en.wikipedia.org/wiki/Flowpsychology...",
+      "shareTweet": "",
+      "postId": "finding-flow-beyond-distraction",
+      "locale": "en",
+      "canonicalSlug": "finding-flow-beyond-distraction"
     },
     {
       "slug": "alps-snowboarding-recommendations",
@@ -501,8 +570,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Any recommendations on the best snowboarding destinations in the Alps with easy access from Barcelona and London? 🏂",
+      "shareTweet": "",
+      "postId": "alps-snowboarding-recommendations",
+      "locale": "en",
+      "canonicalSlug": "alps-snowboarding-recommendations"
     },
     {
       "slug": "the-outline",
@@ -516,8 +588,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "This is the most impressive media website I've seen in a while, from a creative design and construction quality point of view:...",
+      "shareTweet": "",
+      "postId": "the-outline",
+      "locale": "en",
+      "canonicalSlug": "the-outline"
     },
     {
       "slug": "tutor-catala",
@@ -531,8 +606,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Algú coneix a un tutor de català bo? Estic buscant un per a fer classes d'una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la...",
+      "shareTweet": "",
+      "postId": "tutor-catala",
+      "locale": "en",
+      "canonicalSlug": "tutor-catala"
     },
     {
       "slug": "foursquare-swarm-checkins-sync",
@@ -546,8 +624,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Neotoma now backs up all of my Foursquare / Swarm check-ins to my Dropbox account whereupon they're republished instantly to my website on a new check-ins page.",
+      "shareTweet": "",
+      "postId": "foursquare-swarm-checkins-sync",
+      "locale": "en",
+      "canonicalSlug": "foursquare-swarm-checkins-sync"
     },
     {
       "slug": "sync-server-dropbox-api-version-2-fix",
@@ -561,8 +642,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "As part of my working sprint at IndieWebCamp Berlin today, I managed to fix a show-stopping bug that's been in production for sync-server on Neotoma and run a backup job for my latest Foursquare / Swarm check-ins.",
+      "shareTweet": "",
+      "postId": "sync-server-dropbox-api-version-2-fix",
+      "locale": "en",
+      "canonicalSlug": "sync-server-dropbox-api-version-2-fix"
     },
     {
       "slug": "dropbox-website-publishing",
@@ -576,8 +660,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "My website's content is now populated automatically via Dropbox using Neotoma personal server and publishing software, reducing the friction to publishing, keeping data in sync, and paving the way for content aggregation.",
+      "shareTweet": "",
+      "postId": "dropbox-website-publishing",
+      "locale": "en",
+      "canonicalSlug": "dropbox-website-publishing"
     },
     {
       "slug": "park-ranger-grunt-hoist-proxy",
@@ -591,8 +678,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "While working more or less full-time on Neotoma since last summer, I've created a few repositories that are hopefully useful as modules to other Node.js apps in general.",
+      "shareTweet": "",
+      "postId": "park-ranger-grunt-hoist-proxy",
+      "locale": "en",
+      "canonicalSlug": "park-ranger-grunt-hoist-proxy"
     },
     {
       "slug": "touch-bar-autosuggest",
@@ -606,8 +696,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "\"Hmmm what I've been doing is that I wanted to be a good friend to my life and my life is so far away\" - My Touch Bar autosuggest",
+      "shareTweet": "",
+      "postId": "touch-bar-autosuggest",
+      "locale": "en",
+      "canonicalSlug": "touch-bar-autosuggest"
     },
     {
       "slug": "spanish-non-lucrative-residence-visa",
@@ -621,8 +714,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Just over a year ago, I moved to Barcelona in Spain to live abroad for the first time. I booked a flight from San Francisco with little else in terms of preparation, an intentionally rash decision to experience what it would be like to land in a new country and improvise the establishment of a life there.",
+      "shareTweet": "",
+      "postId": "spanish-non-lucrative-residence-visa",
+      "locale": "en",
+      "canonicalSlug": "spanish-non-lucrative-residence-visa"
     },
     {
       "slug": "bringing-it-all-back-home",
@@ -636,8 +732,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "> \"Now, I been in jail when all my mail showed, that a man can't give his address out to bad company\" - Bob Dylan, Absolutely Sweet Marie Last summer...",
+      "shareTweet": "",
+      "postId": "bringing-it-all-back-home",
+      "locale": "en",
+      "canonicalSlug": "bringing-it-all-back-home"
     },
     {
       "slug": "11-reasons-why-i-wont-click-on-your-link-bait",
@@ -651,8 +750,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "1. It blatantly panders to my predispositions. 2. I presume it was written by an underpaid intern. 3. I already saw the content on Reddit. 4. I'm...",
+      "shareTweet": "",
+      "postId": "11-reasons-why-i-wont-click-on-your-link-bait",
+      "locale": "en",
+      "canonicalSlug": "11-reasons-why-i-wont-click-on-your-link-bait"
     },
     {
       "slug": "kanban",
@@ -666,8 +768,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "One of the most important aspects of product design and management is prioritization. There are only so many resources at a company's disposal at any...",
+      "shareTweet": "",
+      "postId": "kanban",
+      "locale": "en",
+      "canonicalSlug": "kanban"
     },
     {
       "slug": "success-projection-for-startups",
@@ -681,8 +786,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Startups often get so consumed by their day-to-day challenges that they do a poor job actually projecting their longer-term success or lack thereof....",
+      "shareTweet": "",
+      "postId": "success-projection-for-startups",
+      "locale": "en",
+      "canonicalSlug": "success-projection-for-startups"
     },
     {
       "slug": "three-types-of-design",
@@ -696,8 +804,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "People tend to use the word \"design\" very loosely when talking about product, but it's actually quite important to distinguish between the types of...",
+      "shareTweet": "",
+      "postId": "three-types-of-design",
+      "locale": "en",
+      "canonicalSlug": "three-types-of-design"
     },
     {
       "slug": "the-postmvp-fork-in-the-road",
@@ -711,8 +822,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "A lot of startups rightly aim to release a minimum viable product MVP as their first initiative. The goal of an MVP helps a team rally around a...",
+      "shareTweet": "",
+      "postId": "the-postmvp-fork-in-the-road",
+      "locale": "en",
+      "canonicalSlug": "the-postmvp-fork-in-the-road"
     },
     {
       "slug": "does-your-product-provide-instant-gratification",
@@ -726,8 +840,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Over the past year, and mostly as a result of my Plancast post-mortem, I've spoken  with dozens of entrepreneurs who are working on events-related...",
+      "shareTweet": "",
+      "postId": "does-your-product-provide-instant-gratification",
+      "locale": "en",
+      "canonicalSlug": "does-your-product-provide-instant-gratification"
     },
     {
       "slug": "a-postmortem-for-plancast",
@@ -741,8 +858,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Nearly three years ago, I left my position at TechCrunchhttp://techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ to start my own Internet...",
+      "shareTweet": "",
+      "postId": "a-postmortem-for-plancast",
+      "locale": "en",
+      "canonicalSlug": "a-postmortem-for-plancast"
     },
     {
       "slug": "share-frequency",
@@ -756,8 +876,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "When designing a social network that depends on users to contribute content from which they'll collectively derive value, one must consider certain...",
+      "shareTweet": "",
+      "postId": "share-frequency",
+      "locale": "en",
+      "canonicalSlug": "share-frequency"
     },
     {
       "slug": "homesteading-on-the-indie-web",
@@ -771,8 +894,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "I had the pleasure of attending IndieWebCamphttp://indiewebcamp.com/ in Portland last month, a BarCamp-style conference where techies get together to...",
+      "shareTweet": "",
+      "postId": "homesteading-on-the-indie-web",
+      "locale": "en",
+      "canonicalSlug": "homesteading-on-the-indie-web"
     },
     {
       "slug": "content",
@@ -786,8 +912,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "People are particular about the forms of communication they employ when expressing themselves, through social networks or any other media, because...",
+      "shareTweet": "",
+      "postId": "content",
+      "locale": "en",
+      "canonicalSlug": "content"
     },
     {
       "slug": "relationship",
@@ -801,8 +930,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "When people connect with others on a given social network, they are conscientious about whom they will connect with, because an exchange of...",
+      "shareTweet": "",
+      "postId": "relationship",
+      "locale": "en",
+      "canonicalSlug": "relationship"
     },
     {
       "slug": "three-pillars",
@@ -816,8 +948,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Social networking is a precondition for new modes of information exchange, not an end in and of itself. By definition, a social network is simply a...",
+      "shareTweet": "",
+      "postId": "three-pillars",
+      "locale": "en",
+      "canonicalSlug": "three-pillars"
     },
     {
       "slug": "how-to-pitch-a-tech-blogger",
@@ -831,8 +966,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "I've been asked privately quite a few times over the last couple of years how one should pitch their startup to a tech blog like...",
+      "shareTweet": "",
+      "postId": "how-to-pitch-a-tech-blogger",
+      "locale": "en",
+      "canonicalSlug": "how-to-pitch-a-tech-blogger"
     },
     {
       "slug": "some-latenight-ideas-for-blippy",
@@ -846,8 +984,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "I feel a certain kinship towards the founders of Blippyhttp://blippy.com/. Not because I know them well I've met Philip Kaplan aka Pud only once but...",
+      "shareTweet": "",
+      "postId": "some-latenight-ideas-for-blippy",
+      "locale": "en",
+      "canonicalSlug": "some-latenight-ideas-for-blippy"
     },
     {
       "slug": "plancast-in-public-beta",
@@ -861,8 +1002,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "I'm happy to announce that the site I've been working on for the past half year or so - Plancasthttp://plancast.com/ - is now available in public...",
+      "shareTweet": "",
+      "postId": "plancast-in-public-beta",
+      "locale": "en",
+      "canonicalSlug": "plancast-in-public-beta"
     },
     {
       "slug": "facebooks-social-graph",
@@ -876,8 +1020,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "The social graph on Facebook has been the company's biggest asset, but over time it has become perhaps its biggest liability as well. When users want...",
+      "shareTweet": "",
+      "postId": "facebooks-social-graph",
+      "locale": "en",
+      "canonicalSlug": "facebooks-social-graph"
     },
     {
       "slug": "worldly-developments",
@@ -891,8 +1038,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "I'm happy to announce some exciting news regarding my startup. I've officially incorporated as Worldly Developmentshttp://worldlydevelopments.com/...",
+      "shareTweet": "",
+      "postId": "worldly-developments",
+      "locale": "en",
+      "canonicalSlug": "worldly-developments"
     },
     {
       "slug": "the-web-needs-its-own-app-store",
@@ -906,8 +1056,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "I've been thinking a bit about the Apple App Store recently, perhaps because I'm starting to think more about developing a mobile application that...",
+      "shareTweet": "",
+      "postId": "the-web-needs-its-own-app-store",
+      "locale": "en",
+      "canonicalSlug": "the-web-needs-its-own-app-store"
     },
     {
       "slug": "narrowing-scope",
@@ -921,8 +1074,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Since my last post, I've narrowed the scope of my project down a great deal. The main reason was to make it more accessible to first-time users who...",
+      "shareTweet": "",
+      "postId": "narrowing-scope",
+      "locale": "en",
+      "canonicalSlug": "narrowing-scope"
     },
     {
       "slug": "the-unfolding-legacy-of-twitter-for-software-design",
@@ -936,8 +1092,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "The immense amount of ink spilled for Twitter these days signals two main things. First, that web innovation in general is going through a...",
+      "shareTweet": "",
+      "postId": "the-unfolding-legacy-of-twitter-for-software-design",
+      "locale": "en",
+      "canonicalSlug": "the-unfolding-legacy-of-twitter-for-software-design"
     },
     {
       "slug": "my-first-week-as-an-entrepreneur",
@@ -951,8 +1110,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "Today marks the completion of my first week working on my first startup/getting-the-lay-of-the-land. So, I thought it would be a good time to share...",
+      "shareTweet": "",
+      "postId": "my-first-week-as-an-entrepreneur",
+      "locale": "en",
+      "canonicalSlug": "my-first-week-as-an-entrepreneur"
     },
     {
       "slug": "getting-the-lay-of-the-land",
@@ -966,8 +1128,11 @@
       "tags": [],
       "createdDate": "2026-01-19",
       "updatedDate": "2026-01-19",
-      "summary": "",
-      "shareTweet": ""
+      "summary": "As Erick Schonfeld was kind enough to announce in a post on TechCrunch last week, I've left my position at TechCrunch to build and run my own startup.",
+      "shareTweet": "",
+      "postId": "getting-the-lay-of-the-land",
+      "locale": "en",
+      "canonicalSlug": "getting-the-lay-of-the-land"
     }
   ]
 }

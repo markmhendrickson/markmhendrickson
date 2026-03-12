@@ -44,9 +44,9 @@
           ],
           [
             "markmhendrickson_get_all_content",
-            "Return posts, links, timeline, meet, and consulting in one call.",
+            "Return posts, links, timeline, pages, meet, consulting, and investing in one call.",
             "None.",
-            "Object with posts, links, timeline, meet, consulting arrays and counts."
+            "Object with posts, links, timeline, pages, meet, consulting, investing arrays and counts."
           ],
           [
             "markmhendrickson_get_about",
@@ -65,6 +65,18 @@
             "Return the consulting page content.",
             "None.",
             "Consulting page content object(s) with sections."
+          ],
+          [
+            "markmhendrickson_get_investing",
+            "Return the investing page content.",
+            "None.",
+            "Investing page content object(s) with sections."
+          ],
+          [
+            "markmhendrickson_get_pages",
+            "Return static page endpoint index.",
+            "None.",
+            "Page index object(s) with slug and endpoint URL."
           ]
         ]
       }
@@ -72,14 +84,16 @@
     {
       "heading": "JSON endpoints",
       "paragraphs": [
-        "Posts, links, and timeline entries are stored in Neotoma and cached into JSON for the site and MCP. Neotoma is the source of truth; cache generation runs before builds."
+        "Posts, links, timeline entries, and structured page data are stored in Neotoma or repo data and cached into JSON for the site and MCP. Neotoma remains the source of truth for content where available."
       ],
       "bullets": [
         { "text": "Public posts JSON", "url": "https://markmhendrickson.com/api/posts.json" },
         { "text": "Links JSON", "url": "https://markmhendrickson.com/api/links.json" },
         { "text": "Timeline JSON", "url": "https://markmhendrickson.com/api/timeline.json" },
+        { "text": "Pages JSON", "url": "https://markmhendrickson.com/api/pages.json" },
         { "text": "Meet JSON", "url": "https://markmhendrickson.com/api/meet.json" },
         { "text": "Consulting JSON", "url": "https://markmhendrickson.com/api/consulting.json" },
+        { "text": "Investing JSON", "url": "https://markmhendrickson.com/api/investing.json" },
         { "text": "Agent JSON", "url": "https://markmhendrickson.com/api/agent.json" }
       ]
     }

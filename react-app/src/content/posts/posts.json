@@ -1,5 +1,21 @@
 [
   {
+    "slug": "neotoma-site-overhaul-developer-feedback",
+    "title": "Overhauling the Neotoma site from developer release feedback",
+    "excerpt": "The single scrolling page is now a full documentation site with 40+ pages, a memory guarantees comparison table, tool-specific integration guides, and architecture deep dives. All from feedback during the developer release.",
+    "published": false,
+    "publishedDate": "2026-03-12",
+    "category": "essay",
+    "readTime": 7,
+    "tags": ["neotoma", "build-in-public", "developer-release", "documentation"],
+    "heroImage": "neotoma-site-overhaul-developer-feedback-hero.png",
+    "heroImageSquare": "neotoma-site-overhaul-developer-feedback-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/neotoma-site-overhaul-developer-feedback-1200x630.png",
+    "createdDate": "2026-03-12",
+    "updatedDate": "2026-03-12"
+  },
+  {
     "slug": "the-diary-and-the-dance",
     "title": "The diary and the dance",
     "excerpt": "Creation, whether a startup or a blog post, is a continuous habit of revealing your inner world and tuning into what comes back. The MVP is a continuum. So is everything else.",

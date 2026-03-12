@@ -1,0 +1,5 @@
+- Testers consistently asked "who is this for?" and "how is this different from Mem0 or Zep?" The old single-page site didn't answer either question fast enough.
+- The home page now centers on a memory guarantees comparison table across 12 properties, responding to the challenge that "general storage with schemas is unsolved" by spelling out where each approach delivers and where it doesn't.
+- 40+ documentation pages replace the single scrolling page, including a developer walkthrough that directly answers "how does ingestion work?" with real MCP request/response examples across multiple sessions.
+- Six tool-specific integration guides (Cursor, Claude, Claude Code, ChatGPT, Codex, OpenClaw) address the most common setup friction, including a tester who had Neotoma running but didn't know it supported their tool.
+- The core works. Testers confirmed it "stores stuff when I ask and can verify with the CLI." The site needed to catch up to the product.

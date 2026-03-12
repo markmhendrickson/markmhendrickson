@@ -1,0 +1,9 @@
+{
+  "url": "https://markmhendrickson.com/api/pages.json",
+  "pages": [
+    {
+      "slug": "investing",
+      "url": "https://markmhendrickson.com/api/investing.json"
+    }
+  ]
+}
