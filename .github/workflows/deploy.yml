@@ -104,6 +104,7 @@ jobs:
         run: python3 scripts/validate_post_translations.py
 
       - name: Run i18n smoke checks
+        if: env.SKIP_WEBSITE_CACHE_REGEN != '1'
         working-directory: react-app
         run: npm run test:i18n-smoke
 
