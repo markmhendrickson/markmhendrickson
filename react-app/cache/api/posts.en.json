@@ -1,5 +1,5 @@
 {
-  "url": "https://markmhendrickson.com/api/posts.json",
+  "url": "https://markmhendrickson.com/api/posts.en.json",
   "posts": [
     {
       "slug": "neotoma-site-overhaul-developer-feedback",
