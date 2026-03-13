@@ -1148,11 +1148,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                   if (Tag === 'h2') {
                     return (
                       <>
-                        <div className="flex items-center gap-3 my-12" aria-hidden="true">
-                          <span className="h-px flex-1 bg-zinc-300 dark:bg-zinc-700" />
-                          <span className="text-[10px] leading-none text-zinc-500 dark:text-zinc-400">◆</span>
-                          <span className="h-px flex-1 bg-zinc-300 dark:bg-zinc-700" />
-                        </div>
+                        <hr
+                          className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-zinc-300 to-transparent dark:via-zinc-700 relative overflow-visible before:content-['◆'] before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:px-2 before:text-[10px] before:leading-none before:text-zinc-500 before:bg-background dark:before:text-zinc-400 dark:before:bg-background"
+                          aria-hidden="true"
+                        />
                         {headingNode}
                       </>
                     )
@@ -1168,6 +1167,12 @@ export default function Post({ slug: slugProp }: PostProps) {
                 h4: makeHeading('h4'),
                 h5: makeHeading('h5'),
                 h6: makeHeading('h6'),
+                hr: (props: React.ComponentPropsWithoutRef<'hr'>) => (
+                  <hr
+                    {...props}
+                    className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-zinc-300 to-transparent dark:via-zinc-700 relative overflow-visible before:content-['◆'] before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:px-2 before:text-[10px] before:leading-none before:text-zinc-500 before:bg-background dark:before:text-zinc-400 dark:before:bg-background"
+                  />
+                ),
                 table: ({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) => (
                   <PostTableWrapper {...props}>{children}</PostTableWrapper>
                 ),

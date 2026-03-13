@@ -1,4 +1,4 @@
-export const supportedLocales = [
+export const availableLocales = [
   'en',
   'es',
   'ca',
@@ -14,13 +14,35 @@ export const supportedLocales = [
   'de',
 ] as const
 
-export type SupportedLocale = (typeof supportedLocales)[number]
+export type SupportedLocale = (typeof availableLocales)[number]
 
-export const defaultLocale: SupportedLocale = 'en'
+const AVAILABLE_LOCALE_SET = new Set<string>(availableLocales)
+
+function parseConfiguredLocales(raw: string | undefined): SupportedLocale[] {
+  if (!raw?.trim()) return [...availableLocales]
+  const parsed = raw
+    .split(',')
+    .map((part) => part.trim().toLowerCase())
+    .filter((part): part is SupportedLocale => AVAILABLE_LOCALE_SET.has(part))
+  return parsed.length > 0 ? Array.from(new Set(parsed)) : [...availableLocales]
+}
+
+export const supportedLocales = parseConfiguredLocales(import.meta.env.VITE_WEBSITE_LOCALES)
+
+function resolveDefaultLocale(locales: SupportedLocale[]): SupportedLocale {
+  const configured = (import.meta.env.VITE_WEBSITE_DEFAULT_LOCALE || '').trim().toLowerCase()
+  if (configured && locales.includes(configured as SupportedLocale)) {
+    return configured as SupportedLocale
+  }
+  if (locales.includes('en')) return 'en'
+  return locales[0] ?? 'en'
+}
+
+export const defaultLocale: SupportedLocale = resolveDefaultLocale(supportedLocales)
 
 export const nonDefaultLocales = supportedLocales.filter(
   (locale) => locale !== defaultLocale
-) as Exclude<SupportedLocale, typeof defaultLocale>[]
+) as SupportedLocale[]
 
 export const localeToLanguageTag: Record<SupportedLocale, string> = {
   en: 'en-US',
@@ -89,5 +111,5 @@ export const localeToDirection: Record<SupportedLocale, 'ltr' | 'rtl'> = {
 
 export function isSupportedLocale(value: string | undefined | null): value is SupportedLocale {
   if (!value) return false
-  return (supportedLocales as readonly string[]).includes(value.toLowerCase())
+  return supportedLocales.includes(value.toLowerCase() as SupportedLocale)
 }

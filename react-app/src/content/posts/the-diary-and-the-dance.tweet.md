@@ -1,1 +1,1 @@
-New post: The diary and the dance. Creation is a continuous habit of revealing your inner world and tuning into what comes back. There is no MVP. There is no right moment. There is only the practice. https://markmhendrickson.com/posts/the-diary-and-the-dance
+New post: The diary and the dance. Creation is a continuous habit of revealing your inner world and tuning into what comes back. The MVP is a continuum. So is everything else. https://markmhendrickson.com/posts/the-diary-and-the-dance

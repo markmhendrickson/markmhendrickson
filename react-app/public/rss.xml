@@ -15,387 +15,387 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</guid>
   </item>
   <item>
-    <title>The diary and the dance</title>
+    <title>El diario y el baile</title>
     <link>https://markmhendrickson.com/posts/the-diary-and-the-dance</link>
-    <description>Creation, whether a startup or a blog post, is a continuous habit of revealing your inner world and tuning into what comes back. The MVP is a continuum. So is everything else.</description>
+    <description>La creación, ya sea una startup o una publicación de blog, es un hábito continuo de revelar tu mundo interior y sintonizarte con lo que regresa. El MVP es un continuo. También lo es todo lo demás.</description>
     <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-diary-and-the-dance</guid>
   </item>
   <item>
-    <title>AI skepticism is really about faith in humans</title>
+    <title>El escepticismo sobre la IA tiene que ver realmente con la fe en los humanos</title>
     <link>https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</link>
-    <description>The people who embrace AI encounter its problems more directly than anyone. But they also have the most faith that humans can work through them. The real skepticism isn&apos;t about the machines.</description>
+    <description>Las personas que adoptan la IA se enfrentan a sus problemas más directamente que nadie. Pero también tienen la mayor fe en que los humanos puedan trabajar a través de ellos. El verdadero escepticismo no tiene que ver con las máquinas.</description>
     <pubDate>Tue, 10 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</guid>
   </item>
   <item>
-    <title>What my agentic stack actually does</title>
+    <title>Qué hace realmente mi pila agéntica</title>
     <link>https://markmhendrickson.com/posts/what-my-agentic-stack-actually-does</link>
-    <description>I built an agentic stack to dogfood Neotoma and accelerate my work. A private monorepo with 12+ MCP servers where I cowork with AI agents daily. Neotoma provides the structured memory underneath, letting agents build on prior work across every session.</description>
+    <description>Construí una pila agéntica para usar Neotoma en mi propio flujo y acelerar mi trabajo. Un monorepo privado con más de 12 servidores MCP donde trabajo a diario con agentes de IA. Neotoma aporta la memoria estructurada bajo todo ello, permitiendo que los agentes construyan sobre el trabajo previo en cada sesión.</description>
     <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/what-my-agentic-stack-actually-does</guid>
   </item>
   <item>
-    <title>When the chain becomes the product</title>
+    <title>Cuando la cadena se convierte en el producto</title>
     <link>https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</link>
-    <description>I joined Blockstack in 2018 for the off-chain developer tools. Over seven years I watched token economics reshape the product direction, push the perceived moment of value perpetually into the future, and replace empirical product development with narrative-driven roadmaps.</description>
+    <description>Me uní a Blockstack en 2018 por sus herramientas off-chain para desarrolladores. Durante siete años vi cómo la economía del token reorientó el producto, empujó el momento de valor percibido siempre hacia el futuro y reemplazó el desarrollo empírico por hojas de ruta guiadas por narrativa.</description>
     <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</guid>
   </item>
   <item>
-    <title>Google&apos;s memory agent thinks for itself, trading determinism for insight</title>
+    <title>El agente de memoria de Google piensa por sí mismo: menos determinismo, más descubrimiento</title>
     <link>https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer</link>
-    <description>A new open-source memory agent from Google ditches vector databases for LLM consolidation, trading determinism for active pattern discovery. It makes opposite architectural choices from a truth layer on every axis. The strongest architecture may combine both: consolidation above, deterministic state you can audit and revert below.</description>
+    <description>Un nuevo agente de memoria de código abierto de Google abandona las bases de datos vectoriales para la consolidación de LLM, intercambiando el determinismo por el descubrimiento activo de patrones. Toma decisiones arquitectónicas opuestas a partir de una capa de verdad en cada eje. La arquitectura más sólida puede combinar ambas: consolidación arriba, estado determinista que puede auditar y revertir abajo.</description>
     <pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer</guid>
   </item>
   <item>
-    <title>Your AI remembers your vibe but not your work</title>
+    <title>Tu IA recuerda tu vibra, pero no tu trabajo</title>
     <link>https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</link>
-    <description>Claude and ChatGPT now offer memory for free, but what they store are profile snippets, not the details of what you actually worked on. My testing showed stale exports, one-shot access, and platform-gated portability. That is why I am building a truth layer underneath.</description>
+    <description>Claude y ChatGPT ahora ofrecen memoria de forma gratuita, pero lo que almacenan son fragmentos de perfil, no los detalles de en qué trabajaste realmente. Mis pruebas mostraron exportaciones obsoletas, acceso único y portabilidad controlada por plataforma. Es por eso que estoy construyendo una capa de verdad debajo.</description>
     <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</guid>
   </item>
   <item>
-    <title>Neotoma is now available as developer release</title>
+    <title>Neotoma ya está disponible en versión para desarrolladores</title>
     <link>https://markmhendrickson.com/posts/neotoma-developer-release</link>
-    <description>Structured agent memory you can inspect, replay, and trust. Open-source, local-first, available via npm for ChatGPT, Claude, and Cursor.</description>
+    <description>Memoria de agente estructurada que puede inspeccionar, reproducir y en la que puede confiar. Código abierto, primero local, disponible a través de npm para ChatGPT, Claude y Cursor.</description>
     <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-developer-release</guid>
   </item>
   <item>
-    <title>Agent memory has a truth problem</title>
+    <title>La memoria de los agentes tiene un problema de verdad</title>
     <link>https://markmhendrickson.com/posts/agent-memory-truth-problem</link>
-    <description>Retrieval fits coding and is cheap; it breaks on completeness, consistency, and provenance. Why convergence to structured state is hard, and how Neotoma is designed for it.</description>
+    <description>La recuperación se ajusta a la codificación y es económica; se rompe en cuanto a integridad, coherencia y procedencia. Por qué es difícil la convergencia al estado estructurado y cómo está diseñado Neotoma para ello.</description>
     <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-memory-truth-problem</guid>
   </item>
   <item>
-    <title>Agent command centers need one source of truth</title>
+    <title>Centros de mando de agentes como fuente de verdad</title>
     <link>https://markmhendrickson.com/posts/agent-command-centers-source-of-truth</link>
-    <description>Command centers for agents need a single, durable state layer for tasks and visibility. The UI is the dashboard; the layer it reads and writes is the substrate.</description>
+    <description>Los centros de comando para agentes necesitan una capa de estado única y duradera para las tareas y la visibilidad. La interfaz de usuario es el tablero; la capa que lee y escribe es el sustrato.</description>
     <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-command-centers-source-of-truth</guid>
   </item>
   <item>
-    <title>Six agentic trends I&apos;m betting on (and how I might be wrong)</title>
+    <title>Seis tendencias agénticas por las que apuesto</title>
     <link>https://markmhendrickson.com/posts/six-agentic-trends-betting-on</link>
-    <description>The structural pressures that underpin my work, and what would invalidate them as the AI industry evolves.</description>
+    <description>Las presiones estructurales que sustentan mi trabajo y lo que las invalidaría a medida que evoluciona la industria de la IA.</description>
     <pubDate>Wed, 18 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/six-agentic-trends-betting-on</guid>
   </item>
   <item>
-    <title>We&apos;re all centaurs now</title>
+    <title>Ahora todos somos centauros</title>
     <link>https://markmhendrickson.com/posts/we-are-all-centaurs-now</link>
-    <description>The humanness isn&apos;t in typing every word. It&apos;s in deciding what&apos;s worth saying.</description>
+    <description>La humanidad no está en escribir cada palabra. Está en decidir qué vale la pena decir.</description>
     <pubDate>Sat, 14 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/we-are-all-centaurs-now</guid>
   </item>
   <item>
-    <title>A Bitcoin wallet MCP server for L1 and L2</title>
+    <title>Un servidor MCP de wallet de Bitcoin para L1 y L2</title>
     <link>https://markmhendrickson.com/posts/agentic-wallets-mcp-bitcoin</link>
-    <description>The future of crypto wallets is agentic. Wallets that expose execution surfaces let agents monitor, reason, and execute within policy while you keep sovereignty and approve only what exceeds your limits.</description>
+    <description>El futuro de las carteras criptográficas es agente. Las billeteras que exponen superficies de ejecución permiten a los agentes monitorear, razonar y ejecutar dentro de la política mientras usted mantiene la soberanía y aprueba solo lo que excede sus límites.</description>
     <pubDate>Mon, 09 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/agentic-wallets-mcp-bitcoin</guid>
   </item>
   <item>
-    <title>Why agent memory needs more than RAG</title>
+    <title>Por qué la memoria de agentes necesita más que RAG</title>
     <link>https://markmhendrickson.com/posts/why-agent-memory-needs-more-than-rag</link>
-    <description>Retrieval for agent memory should be driven by structure, not similarity. Learned hierarchies beat RAG but are brittle. Schema-first design gives the same advantage without putting the LLM in the critical path.</description>
+    <description>La recuperación de la memoria del agente debe estar impulsada por la estructura, no por la similitud. Las jerarquías aprendidas superan a RAG pero son frágiles. El diseño de esquema primero ofrece la misma ventaja sin poner al LLM en la ruta crítica.</description>
     <pubDate>Fri, 06 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/why-agent-memory-needs-more-than-rag</guid>
   </item>
   <item>
-    <title>Building structural barriers that incumbents can&apos;t copy</title>
+    <title>Construyendo barreras estructurales</title>
     <link>https://markmhendrickson.com/posts/building-structural-barriers</link>
-    <description>You don&apos;t protect it through secrecy or patents. You build something they structurally can&apos;t pursue.</description>
+    <description>No se protege mediante secretos ni patentes. Construyes algo que estructuralmente no pueden lograr.</description>
     <pubDate>Thu, 05 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/building-structural-barriers</guid>
   </item>
   <item>
-    <title>Agentic retrieval infers. It doesn&apos;t guarantee.</title>
+    <title>Búsqueda agéntica y capa de verdad</title>
     <link>https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer</link>
-    <description>Your AI finds things. It also misses things, overwrites them, and often can&apos;t say where an answer came from. Why that happens and what would fix it.</description>
+    <description>Tu IA encuentra cosas. También omite cosas, las sobrescribe y, a menudo, no puede decir de dónde vino la respuesta. Por qué sucede eso y qué lo solucionaría.</description>
     <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer</guid>
   </item>
   <item>
-    <title>Barcelona guest floor</title>
+    <title>Planta de invitados en Barcelona</title>
     <link>https://markmhendrickson.com/posts/barcelona-guest-floor</link>
-    <description>Your own floor in the heart of Barcelona. Quiet street in Gràcia, kitchen, king bed, rooftop terrace. Welcoming to all.</description>
+    <description>Tu propio piso en el corazón de Barcelona. Calle tranquila en Gràcia, cocina, cama king, terraza en la azotea. Bienvenida a todos.</description>
     <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/barcelona-guest-floor</guid>
   </item>
   <item>
-    <title>OpenClaw is powerful at doing but could use some help remembering.</title>
+    <title>OpenClaw y la capa de verdad</title>
     <link>https://markmhendrickson.com/posts/openclaw-and-the-truth-layer</link>
-    <description>OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.</description>
+    <description>OpenClaw se ejecuta en su máquina, limpia su bandeja de entrada y desarrolla habilidades. La brecha es la memoria que puedes verificar, consultar y corregir. Una capa de verdad debajo le brinda procedencia, retroceso y el mismo resultado cada vez que pregunta.</description>
     <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/openclaw-and-the-truth-layer</guid>
   </item>
   <item>
-    <title>Building a truth layer for persistent agent memory</title>
+    <title>Capa de verdad para la memoria de agentes</title>
     <link>https://markmhendrickson.com/posts/truth-layer-agent-memory</link>
-    <description>Agent memory is forgetful. Why I&apos;m building inspectable, structured memory for trustworthy agentic systems.</description>
+    <description>La memoria del agente es olvidadiza. Por qué estoy creando una memoria estructurada e inspeccionable para sistemas agentes confiables.</description>
     <pubDate>Mon, 02 Feb 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/truth-layer-agent-memory</guid>
   </item>
   <item>
     <title>Mark Hendrickson</title>
     <link>https://markmhendrickson.com/posts/professional-mission</link>
-    <description>Building sovereign memory infrastructure for AI agents.</description>
+    <description>Construyendo una infraestructura de memoria soberana para agentes de IA.</description>
     <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/professional-mission</guid>
   </item>
   <item>
-    <title>The Flip Side</title>
+    <title>La otra cara</title>
     <link>https://markmhendrickson.com/posts/the-flip-side</link>
-    <description>I&apos;ve been reading The Flip Side since October and find it&apos;s an incredibly effective and efficient way to encounter and digest thoughtful opinions...</description>
+    <description>He estado leyendo The Flip Side desde octubre y encuentro que es una manera increíblemente efectiva y eficiente de encontrar y digerir opiniones reflexivas...</description>
     <pubDate>Fri, 22 Mar 2019 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-flip-side</guid>
   </item>
   <item>
-    <title>Yc W19 Web Developer Contract</title>
+    <title>Contrato de desarrollador web Yc W19</title>
     <link>https://markmhendrickson.com/posts/yc-w19-web-developer-contract</link>
-    <description>Web developers: The founder of a YC W19 company I know is looking to contract immediately for a project involving React, Node, and MongoDB with...</description>
+    <description>Desarrolladores web: el fundador de una empresa YC W19 que conozco está buscando contratar de inmediato un proyecto que involucre React, Node y MongoDB con...</description>
     <pubDate>Wed, 05 Dec 2018 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/yc-w19-web-developer-contract</guid>
   </item>
   <item>
-    <title>The Facebook police state</title>
+    <title>El estado policial de Facebook</title>
     <link>https://markmhendrickson.com/posts/facebook-police-state</link>
-    <description>Should Facebook really be responsible for policing the misuse of user datahttps://newsroom.fb.com/news/2018/03/forensic-audits-cambridge-analytica/...</description>
+    <description>¿Debería Facebook realmente ser responsable de controlar el uso indebido de los datos de los usuarios? https://newsroom.fb.com/news/2018/03/forensic-audits-cambridge-analytica/...</description>
     <pubDate>Tue, 20 Mar 2018 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/facebook-police-state</guid>
   </item>
   <item>
-    <title>Finding flow beyond distraction</title>
+    <title>Encontrar el flujo más allá de la distracción</title>
     <link>https://markmhendrickson.com/posts/finding-flow-beyond-distraction</link>
-    <description>One my highest priorities over the past several years has been to establish a more frequent state of flowhttps://en.wikipedia.org/wiki/Flowpsychology...</description>
+    <description>Una de mis principales prioridades en los últimos años ha sido establecer un estado de flujo más frecuente https://en.wikipedia.org/wiki/Flowpsychology...</description>
     <pubDate>Wed, 28 Feb 2018 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/finding-flow-beyond-distraction</guid>
   </item>
   <item>
-    <title>Alps Snowboarding Recommendations</title>
+    <title>Recomendaciones de snowboard en los Alpes</title>
     <link>https://markmhendrickson.com/posts/alps-snowboarding-recommendations</link>
-    <description>Any recommendations on the best snowboarding destinations in the Alps with easy access from Barcelona and London? 🏂</description>
+    <description>¿Alguna recomendación sobre los mejores destinos para hacer snowboard en los Alpes con fácil acceso desde Barcelona y Londres? 🏂</description>
     <pubDate>Fri, 09 Feb 2018 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/alps-snowboarding-recommendations</guid>
   </item>
   <item>
-    <title>The Outline</title>
+    <title>El esquema</title>
     <link>https://markmhendrickson.com/posts/the-outline</link>
-    <description>This is the most impressive media website I&apos;ve seen in a while, from a creative design and construction quality point of view:...</description>
+    <description>Este es el sitio web de medios más impresionante que he visto en mucho tiempo, desde el punto de vista del diseño creativo y la calidad de la construcción:...</description>
     <pubDate>Sun, 10 Dec 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-outline</guid>
   </item>
   <item>
-    <title>Tutor Catala</title>
+    <title>Tutor Catalá</title>
     <link>https://markmhendrickson.com/posts/tutor-catala</link>
-    <description>Algú coneix a un tutor de català bo? Estic buscant un per a fer classes d&apos;una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la...</description>
+    <description>¿Algú coneix a un tutor de català bo? Estic buscando un per a fer schools d&apos;una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la...</description>
     <pubDate>Sun, 10 Dec 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/tutor-catala</guid>
   </item>
   <item>
-    <title>Syncing Foursquare / Swarm checkins to my website</title>
+    <title>Sincronizar registros de Foursquare/Swarm con mi sitio web</title>
     <link>https://markmhendrickson.com/posts/foursquare-swarm-checkins-sync</link>
-    <description>Neotoma now backs up all of my Foursquare / Swarm check-ins to my Dropbox account whereupon they&apos;re republished instantly to my website on a new check-ins page.</description>
+    <description>Neotoma ahora realiza una copia de seguridad de todos mis registros de Foursquare/Swarm en mi cuenta de Dropbox, tras lo cual se vuelven a publicar instantáneamente en mi sitio web en una nueva página de registros.</description>
     <pubDate>Mon, 13 Nov 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/foursquare-swarm-checkins-sync</guid>
   </item>
   <item>
-    <title>Dropbox API v2 fix for Neotoma sync server</title>
+    <title>Solución de Dropbox API v2 para el servidor de sincronización de Neotoma</title>
     <link>https://markmhendrickson.com/posts/sync-server-dropbox-api-version-2-fix</link>
-    <description>As part of my working sprint at IndieWebCamp Berlin today, I managed to fix a show-stopping bug that&apos;s been in production for sync-server on Neotoma and run a backup job for my latest Foursquare / Swarm check-ins.</description>
+    <description>Como parte de mi sprint de trabajo en IndieWebCamp Berlin hoy, logré corregir un error que detenía el espectáculo que estaba en producción para el servidor de sincronización en Neotoma y ejecuté un trabajo de respaldo para mis últimos registros de Foursquare/Swarm.</description>
     <pubDate>Sun, 05 Nov 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/sync-server-dropbox-api-version-2-fix</guid>
   </item>
   <item>
-    <title>Publishing to my website instantly with Dropbox</title>
+    <title>Publicar en mi sitio web al instante con Dropbox</title>
     <link>https://markmhendrickson.com/posts/dropbox-website-publishing</link>
-    <description>My website&apos;s content is now populated automatically via Dropbox using Neotoma personal server and publishing software, reducing the friction to publishing, keeping data in sync, and paving the way for content aggregation.</description>
+    <description>El contenido de mi sitio web ahora se completa automáticamente a través de Dropbox utilizando el servidor personal y el software de publicación Neotoma, lo que reduce la fricción con la publicación, mantiene los datos sincronizados y allana el camino para la agregación de contenido.</description>
     <pubDate>Fri, 03 Nov 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/dropbox-website-publishing</guid>
   </item>
   <item>
-    <title>New Node.js repos for environment management, deployment and proxying</title>
+    <title>Nuevos repositorios de Node.js para gestión, implementación y proxy del entorno</title>
     <link>https://markmhendrickson.com/posts/park-ranger-grunt-hoist-proxy</link>
-    <description>While working more or less full-time on Neotoma since last summer, I&apos;ve created a few repositories that are hopefully useful as modules to other Node.js apps in general.</description>
+    <description>Mientras trabajaba más o menos a tiempo completo en Neotoma desde el verano pasado, creé algunos repositorios que espero sean útiles como módulos para otras aplicaciones Node.js en general.</description>
     <pubDate>Tue, 04 Apr 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/park-ranger-grunt-hoist-proxy</guid>
   </item>
   <item>
-    <title>Touch Bar Autosuggest</title>
+    <title>Sugerencia automática de la barra táctil</title>
     <link>https://markmhendrickson.com/posts/touch-bar-autosuggest</link>
-    <description>&quot;Hmmm what I&apos;ve been doing is that I wanted to be a good friend to my life and my life is so far away&quot; - My Touch Bar autosuggest</description>
+    <description>&quot;Hmmm, lo que he estado haciendo es que quería ser un buen amigo de mi vida y mi vida está muy lejos&quot; - Autosugestión de My Touch Bar</description>
     <pubDate>Thu, 02 Mar 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/touch-bar-autosuggest</guid>
   </item>
   <item>
-    <title>Applying for the Spanish non-lucrative residence visa</title>
+    <title>Solicitar el visado español de residencia no lucrativa</title>
     <link>https://markmhendrickson.com/posts/spanish-non-lucrative-residence-visa</link>
-    <description>Just over a year ago, I moved to Barcelona in Spain to live abroad for the first time. I booked a flight from San Francisco with little else in terms of preparation, an intentionally rash decision to experience what it would be like to land in a new country and improvise the establishment of a life there.</description>
+    <description>Hace poco más de un año me mudé a Barcelona en España para vivir en el extranjero por primera vez. Reservé un vuelo desde San Francisco con poco más en términos de preparación, una decisión intencionalmente precipitada de experimentar cómo sería aterrizar en un nuevo país e improvisar el establecimiento de una vida allí.</description>
     <pubDate>Sun, 26 Oct 2014 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/spanish-non-lucrative-residence-visa</guid>
   </item>
   <item>
-    <title>Bringing it all back home</title>
+    <title>Trayendolo todo de regreso a casa</title>
     <link>https://markmhendrickson.com/posts/bringing-it-all-back-home</link>
-    <description>&gt; &quot;Now, I been in jail when all my mail showed, that a man can&apos;t give his address out to bad company&quot; - Bob Dylan, Absolutely Sweet Marie Last summer...</description>
+    <description>&gt; &quot;Ahora, estuve en la cárcel cuando todo mi correo mostraba que un hombre no puede dar su dirección a malas compañías&quot; - Bob Dylan, Absolutely Sweet Marie El verano pasado...</description>
     <pubDate>Thu, 30 Jan 2014 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/bringing-it-all-back-home</guid>
   </item>
   <item>
-    <title>11 Reasons Why I Won&apos;t Click On Your Link Bait</title>
+    <title>11 razones por las que no haré clic en tu enlace cebo</title>
     <link>https://markmhendrickson.com/posts/11-reasons-why-i-wont-click-on-your-link-bait</link>
-    <description>1. It blatantly panders to my predispositions. 2. I presume it was written by an underpaid intern. 3. I already saw the content on Reddit. 4. I&apos;m...</description>
+    <description>1. Consiente descaradamente mis predisposiciones. 2. Supongo que fue escrito por un pasante mal pagado. 3. Ya vi el contenido en Reddit. 4. Yo soy...</description>
     <pubDate>Fri, 06 Dec 2013 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/11-reasons-why-i-wont-click-on-your-link-bait</guid>
   </item>
   <item>
     <title>Kanban</title>
     <link>https://markmhendrickson.com/posts/kanban</link>
-    <description>One of the most important aspects of product design and management is prioritization. There are only so many resources at a company&apos;s disposal at any...</description>
+    <description>Uno de los aspectos más importantes del diseño y gestión de productos es la priorización. Hay una cantidad limitada de recursos a disposición de una empresa en cualquier...</description>
     <pubDate>Tue, 11 Dec 2012 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/kanban</guid>
   </item>
   <item>
-    <title>Success projection for startups</title>
+    <title>Proyección de éxito para startups</title>
     <link>https://markmhendrickson.com/posts/success-projection-for-startups</link>
-    <description>Startups often get so consumed by their day-to-day challenges that they do a poor job actually projecting their longer-term success or lack thereof....</description>
+    <description>Las empresas emergentes a menudo están tan consumidas por sus desafíos diarios que no hacen un buen trabajo al proyectar su éxito a largo plazo o la falta del mismo...</description>
     <pubDate>Wed, 05 Dec 2012 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/success-projection-for-startups</guid>
   </item>
   <item>
-    <title>Three types of design</title>
+    <title>Tres tipos de diseño</title>
     <link>https://markmhendrickson.com/posts/three-types-of-design</link>
-    <description>People tend to use the word &quot;design&quot; very loosely when talking about product, but it&apos;s actually quite important to distinguish between the types of...</description>
+    <description>La gente tiende a utilizar la palabra &quot;diseño&quot; de forma muy vaga cuando se habla de producto, pero en realidad es muy importante distinguir entre los tipos de...</description>
     <pubDate>Thu, 29 Nov 2012 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/three-types-of-design</guid>
   </item>
   <item>
-    <title>The Post-MVP Fork in the Road</title>
+    <title>La bifurcación en el camino posterior al MVP</title>
     <link>https://markmhendrickson.com/posts/the-postmvp-fork-in-the-road</link>
-    <description>A lot of startups rightly aim to release a minimum viable product MVP as their first initiative. The goal of an MVP helps a team rally around a...</description>
+    <description>Muchas startups pretenden, con razón, lanzar un MVP de producto mínimo viable como primera iniciativa. El objetivo de un MVP ayuda a un equipo a unirse en torno a un...</description>
     <pubDate>Wed, 28 Nov 2012 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-postmvp-fork-in-the-road</guid>
   </item>
   <item>
-    <title>Does your product provide instant gratification?</title>
+    <title>¿Su producto proporciona gratificación instantánea?</title>
     <link>https://markmhendrickson.com/posts/does-your-product-provide-instant-gratification</link>
-    <description>Over the past year, and mostly as a result of my Plancast post-mortem, I&apos;ve spoken  with dozens of entrepreneurs who are working on events-related...</description>
+    <description>Durante el año pasado, y principalmente como resultado de mi autopsia de Plancast, hablé con docenas de emprendedores que están trabajando en eventos relacionados...</description>
     <pubDate>Tue, 27 Nov 2012 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/does-your-product-provide-instant-gratification</guid>
   </item>
   <item>
-    <title>A Post-Mortem for Plancast</title>
+    <title>Una autopsia para Plancast</title>
     <link>https://markmhendrickson.com/posts/a-postmortem-for-plancast</link>
-    <description>Nearly three years ago, I left my position at TechCrunchhttp://techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ to start my own Internet...</description>
+    <description>Hace casi tres años, dejé mi puesto en TechCrunchhttp://techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ para iniciar mi propio Internet...</description>
     <pubDate>Sun, 22 Jan 2012 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/a-postmortem-for-plancast</guid>
   </item>
   <item>
-    <title>Share frequency</title>
+    <title>Compartir frecuencia</title>
     <link>https://markmhendrickson.com/posts/share-frequency</link>
-    <description>When designing a social network that depends on users to contribute content from which they&apos;ll collectively derive value, one must consider certain...</description>
+    <description>Al diseñar una red social que depende de que los usuarios aporten contenido del que obtendrán valor colectivamente, se deben considerar ciertas...</description>
     <pubDate>Fri, 12 Aug 2011 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/share-frequency</guid>
   </item>
   <item>
-    <title>Homesteading on the indie web</title>
+    <title>Homesteading en la web independiente</title>
     <link>https://markmhendrickson.com/posts/homesteading-on-the-indie-web</link>
-    <description>I had the pleasure of attending IndieWebCamphttp://indiewebcamp.com/ in Portland last month, a BarCamp-style conference where techies get together to...</description>
+    <description>Tuve el placer de asistir a IndieWebCamphttp://indiewebcamp.com/ en Portland el mes pasado, una conferencia estilo BarCamp donde los técnicos se reúnen para...</description>
     <pubDate>Sat, 30 Jul 2011 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/homesteading-on-the-indie-web</guid>
   </item>
   <item>
-    <title>Content</title>
+    <title>Contenido</title>
     <link>https://markmhendrickson.com/posts/content</link>
-    <description>People are particular about the forms of communication they employ when expressing themselves, through social networks or any other media, because...</description>
+    <description>Las personas son particulares en las formas de comunicación que emplean al momento de expresarse, a través de las redes sociales o cualquier otro medio, porque...</description>
     <pubDate>Thu, 07 Jul 2011 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/content</guid>
   </item>
   <item>
-    <title>Relationship</title>
+    <title>Relación</title>
     <link>https://markmhendrickson.com/posts/relationship</link>
-    <description>When people connect with others on a given social network, they are conscientious about whom they will connect with, because an exchange of...</description>
+    <description>Cuando las personas se conectan con otras en una determinada red social, son conscientes de con quién se conectarán, porque un intercambio de...</description>
     <pubDate>Sat, 04 Jun 2011 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/relationship</guid>
   </item>
   <item>
-    <title>Three pillars of social networking</title>
+    <title>Tres pilares de las redes sociales</title>
     <link>https://markmhendrickson.com/posts/three-pillars</link>
-    <description>Social networking is a precondition for new modes of information exchange, not an end in and of itself. By definition, a social network is simply a...</description>
+    <description>Las redes sociales son una condición previa para nuevos modos de intercambio de información, no un fin en sí mismo. Por definición, una red social es simplemente un...</description>
     <pubDate>Mon, 02 May 2011 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/three-pillars</guid>
   </item>
   <item>
-    <title>How to pitch a tech blogger</title>
+    <title>Cómo presentar un blogger de tecnología</title>
     <link>https://markmhendrickson.com/posts/how-to-pitch-a-tech-blogger</link>
-    <description>I&apos;ve been asked privately quite a few times over the last couple of years how one should pitch their startup to a tech blog like...</description>
+    <description>Me han preguntado en privado varias veces durante los últimos años cómo se debería presentar su startup en un blog de tecnología como...</description>
     <pubDate>Sun, 26 Sep 2010 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/how-to-pitch-a-tech-blogger</guid>
   </item>
   <item>
-    <title>Some late-night ideas for Blippy</title>
+    <title>Algunas ideas nocturnas para Blippy</title>
     <link>https://markmhendrickson.com/posts/some-latenight-ideas-for-blippy</link>
-    <description>I feel a certain kinship towards the founders of Blippyhttp://blippy.com/. Not because I know them well I&apos;ve met Philip Kaplan aka Pud only once but...</description>
+    <description>Siento cierto parentesco con los fundadores de Blippyhttp://blippy.com/. No porque los conozca bien, he visto a Philip Kaplan alias Pud sólo una vez, pero...</description>
     <pubDate>Mon, 18 Jan 2010 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/some-latenight-ideas-for-blippy</guid>
   </item>
   <item>
-    <title>Plancast in public beta</title>
+    <title>Plancast en beta pública</title>
     <link>https://markmhendrickson.com/posts/plancast-in-public-beta</link>
-    <description>I&apos;m happy to announce that the site I&apos;ve been working on for the past half year or so - Plancasthttp://plancast.com/ - is now available in public...</description>
+    <description>Me complace anunciar que el sitio en el que he estado trabajando durante el último medio año, Plancasthttp://plancast.com/, ya está disponible para el público...</description>
     <pubDate>Sun, 15 Nov 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/plancast-in-public-beta</guid>
   </item>
   <item>
-    <title>Facebook&apos;s social graph</title>
+    <title>Gráfico social de Facebook</title>
     <link>https://markmhendrickson.com/posts/facebooks-social-graph</link>
-    <description>The social graph on Facebook has been the company&apos;s biggest asset, but over time it has become perhaps its biggest liability as well. When users want...</description>
+    <description>El gráfico social en Facebook ha sido el mayor activo de la empresa, pero con el tiempo se ha convertido quizás también en su mayor pasivo. Cuando los usuarios quieren...</description>
     <pubDate>Fri, 31 Jul 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/facebooks-social-graph</guid>
   </item>
   <item>
-    <title>Worldly Developments</title>
+    <title>Desarrollos mundanos</title>
     <link>https://markmhendrickson.com/posts/worldly-developments</link>
-    <description>I&apos;m happy to announce some exciting news regarding my startup. I&apos;ve officially incorporated as Worldly Developmentshttp://worldlydevelopments.com/...</description>
+    <description>Me complace anunciar algunas noticias interesantes sobre mi startup. Me he incorporado oficialmente como Worldly Developments http://worldlydevelopments.com/...</description>
     <pubDate>Sun, 21 Jun 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/worldly-developments</guid>
   </item>
   <item>
-    <title>The web needs its own App Store</title>
+    <title>La web necesita su propia App Store</title>
     <link>https://markmhendrickson.com/posts/the-web-needs-its-own-app-store</link>
-    <description>I&apos;ve been thinking a bit about the Apple App Store recently, perhaps because I&apos;m starting to think more about developing a mobile application that...</description>
+    <description>He estado pensando un poco en la App Store de Apple recientemente, tal vez porque estoy empezando a pensar más en desarrollar una aplicación móvil que...</description>
     <pubDate>Tue, 19 May 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-web-needs-its-own-app-store</guid>
   </item>
   <item>
-    <title>Narrowing Scope</title>
+    <title>Reducción del alcance</title>
     <link>https://markmhendrickson.com/posts/narrowing-scope</link>
-    <description>Since my last post, I&apos;ve narrowed the scope of my project down a great deal. The main reason was to make it more accessible to first-time users who...</description>
+    <description>Desde mi última publicación, he reducido mucho el alcance de mi proyecto. El motivo principal era hacerlo más accesible para los usuarios nuevos que...</description>
     <pubDate>Mon, 18 May 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/narrowing-scope</guid>
   </item>
   <item>
-    <title>The unfolding legacy of Twitter for software design</title>
+    <title>El legado en desarrollo de Twitter para el diseño de software</title>
     <link>https://markmhendrickson.com/posts/the-unfolding-legacy-of-twitter-for-software-design</link>
-    <description>The immense amount of ink spilled for Twitter these days signals two main things. First, that web innovation in general is going through a...</description>
+    <description>La inmensa cantidad de tinta derramada sobre Twitter estos días indica dos cosas principales. Primero, que la innovación web en general está pasando por un...</description>
     <pubDate>Mon, 30 Mar 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-unfolding-legacy-of-twitter-for-software-design</guid>
   </item>
   <item>
-    <title>My first week as an entrepreneur</title>
+    <title>Mi primera semana como emprendedor</title>
     <link>https://markmhendrickson.com/posts/my-first-week-as-an-entrepreneur</link>
-    <description>Today marks the completion of my first week working on my first startup/getting-the-lay-of-the-land. So, I thought it would be a good time to share...</description>
+    <description>Hoy marca la finalización de mi primera semana trabajando en mi primera startup/conociendo-el-terreno. Así que pensé que sería un buen momento para compartir...</description>
     <pubDate>Sun, 22 Mar 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/my-first-week-as-an-entrepreneur</guid>
   </item>
   <item>
-    <title>Getting the lay of the land</title>
+    <title>Conociendo la disposición del terreno</title>
     <link>https://markmhendrickson.com/posts/getting-the-lay-of-the-land</link>
-    <description>As Erick Schonfeld was kind enough to announce in a post on TechCrunch last week, I&apos;ve left my position at TechCrunch to build and run my own startup.</description>
+    <description>Como Erick Schonfeld tuvo la amabilidad de anunciar en una publicación en TechCrunch la semana pasada, dejé mi puesto en TechCrunch para construir y administrar mi propia startup.</description>
     <pubDate>Tue, 17 Mar 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/getting-the-lay-of-the-land</guid>
   </item>

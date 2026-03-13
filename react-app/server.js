@@ -23,8 +23,32 @@ function helmetHeadString(helmetContext) {
 }
 
 const SITE_BASE = 'https://markmhendrickson.com'
-const SUPPORTED_LOCALES = ['en', 'es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']
-const DEFAULT_LOCALE = 'en'
+const AVAILABLE_LOCALES = ['en', 'es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']
+const AVAILABLE_LOCALE_SET = new Set(AVAILABLE_LOCALES)
+
+function parseConfiguredLocales(raw) {
+  if (!raw || !String(raw).trim()) return [...AVAILABLE_LOCALES]
+  const parsed = String(raw)
+    .split(',')
+    .map((part) => part.trim().toLowerCase())
+    .filter((locale) => AVAILABLE_LOCALE_SET.has(locale))
+  return parsed.length ? [...new Set(parsed)] : [...AVAILABLE_LOCALES]
+}
+
+const SUPPORTED_LOCALES = parseConfiguredLocales(
+  process.env.WEBSITE_LOCALES || process.env.VITE_WEBSITE_LOCALES
+)
+
+function resolveDefaultLocale(locales) {
+  const configured = (process.env.WEBSITE_DEFAULT_LOCALE || process.env.VITE_WEBSITE_DEFAULT_LOCALE || '')
+    .trim()
+    .toLowerCase()
+  if (configured && locales.includes(configured)) return configured
+  if (locales.includes('en')) return 'en'
+  return locales[0] || 'en'
+}
+
+const DEFAULT_LOCALE = resolveDefaultLocale(SUPPORTED_LOCALES)
 const PREFIXED_LOCALES = SUPPORTED_LOCALES.filter((locale) => locale !== DEFAULT_LOCALE)
 const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting', '/investing']
 const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting', '/investing']

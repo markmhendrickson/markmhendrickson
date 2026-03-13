@@ -84,7 +84,7 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
 
 const routes = (
   <Routes>
-    <Route path={`/${defaultLocale}/*`} element={<LegacyEnglishRedirect />} />
+    {defaultLocale === 'en' && <Route path="/en/*" element={<LegacyEnglishRedirect />} />}
     {nonDefaultLocales.map((locale) => (
       <Route key={locale} path={`/${locale}/*`} element={<LocalizedAppRoutes locale={locale} />} />
     ))}

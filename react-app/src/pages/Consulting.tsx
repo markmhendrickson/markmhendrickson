@@ -60,8 +60,8 @@ interface ConsultingCopy {
 const copy: Record<string, ConsultingCopy> = {
   en: {
     title: 'Advisory & consulting',
-    subtitle: 'Select engagements in agent infrastructure, deterministic state, and machine-native commerce.',
-    pageDesc: 'Mark Hendrickson offers select advisory and consulting in AI agent systems, deterministic state infrastructure, and machine-native commerce.',
+    subtitle: 'Helping teams debug and architect reliable AI agent systems and the infrastructure underneath.',
+    pageDesc: 'Mark Hendrickson helps teams architect reliable AI agent systems and debug the hard infrastructure problems underneath.',
     contextHeading: 'Context',
     contextParagraphs: [
       'I take on a small number of consulting engagements in areas where I have deep, current, hands-on expertise. Each engagement is chosen for technical overlap with the infrastructure problems I work on daily.',
@@ -133,11 +133,11 @@ const copy: Record<string, ConsultingCopy> = {
     ],
     structureHeading: 'Working structure',
     structureBullets: [
-      '5\u201310 hours per week, defined scope and timeline',
+      'Fixed-scope projects, architecture sprints, or monthly retainers',
       '2\u20138 weeks for architecture engagements',
       '1\u20133 months for advisory retainers',
-      'Fixed-scope projects, architecture sprints, or monthly retainers',
-      'No embedded team participation or day-to-day engineering roles',
+      'Focused external advisory, not embedded engineering',
+      'Defined scope and timeline for every engagement',
     ],
     openSourceHeading: 'Open-source commitment',
     openSourceParagraphs: [
@@ -157,8 +157,8 @@ const copy: Record<string, ConsultingCopy> = {
   },
   es: {
     title: 'Asesoría y consultoría',
-    subtitle: 'Proyectos selectos en infraestructura de agentes, estado determinista y comercio nativo para máquinas.',
-    pageDesc: 'Mark Hendrickson ofrece asesoría selecta en sistemas de agentes IA, infraestructura de estado determinista y comercio nativo para máquinas.',
+    subtitle: 'Ayudo a equipos a depurar y diseñar sistemas de agentes IA fiables y la infraestructura subyacente.',
+    pageDesc: 'Mark Hendrickson ayuda a equipos a diseñar sistemas de agentes IA fiables y resolver los problemas de infraestructura más difíciles.',
     contextHeading: 'Contexto',
     contextParagraphs: [
       'Acepto un número reducido de proyectos de consultoría en áreas donde tengo experiencia profunda y práctica actual. Cada proyecto se elige por su relación técnica con los problemas de infraestructura en los que trabajo a diario.',
@@ -230,11 +230,11 @@ const copy: Record<string, ConsultingCopy> = {
     ],
     structureHeading: 'Estructura de trabajo',
     structureBullets: [
-      '5\u201310 horas por semana, alcance y cronograma definidos',
+      'Proyectos de alcance fijo, sprints de arquitectura o retainers mensuales',
       '2\u20138 semanas para proyectos de arquitectura',
       '1\u20133 meses para retainers de asesoría',
-      'Proyectos de alcance fijo, sprints de arquitectura o retainers mensuales',
-      'Sin participación embebida en equipo ni roles de ingeniería del día a día',
+      'Asesoría externa enfocada, no ingeniería embebida',
+      'Alcance y cronograma definidos para cada proyecto',
     ],
     openSourceHeading: 'Compromiso open-source',
     openSourceParagraphs: [
@@ -254,8 +254,8 @@ const copy: Record<string, ConsultingCopy> = {
   },
   ca: {
     title: 'Assessoria i consultoria',
-    subtitle: "Projectes selectes en infraestructura d'agents, estat determinista i comerç natiu per a màquines.",
-    pageDesc: "Mark Hendrickson ofereix assessoria selecta en sistemes d'agents IA, infraestructura d'estat determinista i comerç natiu per a màquines.",
+    subtitle: "Ajudo equips a depurar i dissenyar sistemes d'agents IA fiables i la infraestructura subjacent.",
+    pageDesc: "Mark Hendrickson ajuda equips a dissenyar sistemes d'agents IA fiables i resoldre els problemes d'infraestructura més difícils.",
     contextHeading: 'Context',
     contextParagraphs: [
       "Accepto un nombre reduït de projectes de consultoria en àrees on tinc experiència profunda i pràctica actual. Cada projecte es tria per la seva relació tècnica amb els problemes d'infraestructura en què treballo diàriament.",
@@ -327,11 +327,11 @@ const copy: Record<string, ConsultingCopy> = {
     ],
     structureHeading: 'Estructura de treball',
     structureBullets: [
-      '5\u201310 hores per setmana, abast i cronograma definits',
+      "Projectes d'abast fix, sprints d'arquitectura o retainers mensuals",
       "2\u20138 setmanes per a projectes d'arquitectura",
       "1\u20133 mesos per a retainers d'assessoria",
-      "Projectes d'abast fix, sprints d'arquitectura o retainers mensuals",
-      "Sense participació integrada a l'equip ni rols d'enginyeria del dia a dia",
+      "Assessoria externa enfocada, no enginyeria integrada",
+      "Abast i cronograma definits per a cada projecte",
     ],
     openSourceHeading: 'Compromís open-source',
     openSourceParagraphs: [
