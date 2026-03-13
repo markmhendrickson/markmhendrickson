@@ -70,6 +70,7 @@ jobs:
           fi
 
       - name: Install locale translation dependency
+        if: env.SKIP_WEBSITE_CACHE_REGEN != '1'
         working-directory: react-app
         run: |
           python3 -m venv .venv-i18n
@@ -78,6 +79,7 @@ jobs:
           python3 -m pip install deep-translator
 
       - name: Auto-translate missing post locales
+        if: env.SKIP_WEBSITE_CACHE_REGEN != '1'
         working-directory: react-app
         run: |
           . .venv-i18n/bin/activate
