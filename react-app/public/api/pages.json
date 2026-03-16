@@ -2,6 +2,10 @@
   "url": "https://markmhendrickson.com/api/pages.json",
   "pages": [
     {
+      "slug": "honors-thesis",
+      "url": "https://markmhendrickson.com/api/honors-thesis.json"
+    },
+    {
       "slug": "investing",
       "url": "https://markmhendrickson.com/api/investing.json"
     }
