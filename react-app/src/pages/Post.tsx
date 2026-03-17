@@ -1172,11 +1172,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               <img
                 src={getPostImageSrc(post.heroImage)}
                 alt={displayTitle}
-                className={
-                  post.heroImageStyle === 'keep-proportions'
-                    ? 'w-full max-h-[70vh] h-auto object-contain rounded dark:border dark:border-border'
-                    : 'w-full aspect-square object-cover rounded dark:border dark:border-border'
-                }
+                className="w-full max-h-[70vh] h-auto object-contain rounded dark:border dark:border-border"
               />
             </div>
           )}
