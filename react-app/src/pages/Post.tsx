@@ -81,6 +81,65 @@ function slugifyHeading(text: string): string {
     .replace(/^-|-$/g, '') || 'section'
 }
 
+/** Split inline postscript section from markdown body (heading: "## Postscript..."). */
+function splitInlinePostscript(markdown: string): { main: string; postscript?: string } {
+  if (!markdown) return { main: '' }
+  const match = /(?:^|\n)(##\s+postscript\b[\s\S]*)/i.exec(markdown)
+  if (!match) return { main: markdown }
+  const startsWithNewline = match[0].startsWith('\n')
+  const startIndex = match.index + (startsWithNewline ? 1 : 0)
+  const main = markdown.slice(0, startIndex).trimEnd()
+  const postscript = match[1].trim()
+  return { main, postscript: postscript || undefined }
+}
+
+function PostscriptSection({
+  markdown,
+  footnoteOptions,
+  linkLabel,
+}: {
+  markdown: string
+  footnoteOptions: { footnoteLabel: string; footnoteBackLabel: string }
+  linkLabel: string
+}) {
+  const makePostscriptHeading = (Tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6') =>
+    ({ children, ...props }: React.ComponentPropsWithoutRef<typeof Tag>) => {
+      const slug = slugifyHeading(getHeadingText(children))
+      return (
+        <Tag id={slug} className="group scroll-mt-6" {...props}>
+          {children}
+          <a
+            href={`#${slug}`}
+            className="post-heading-anchor ml-2 inline-flex align-middle opacity-40 group-hover:opacity-70 hover:opacity-100 text-muted-foreground hover:text-foreground no-underline"
+            aria-label={linkLabel}
+          >
+            <LinkIcon className="h-4 w-4" />
+          </a>
+        </Tag>
+      )
+    }
+
+  return (
+    <section className="postscript-shell" aria-label="Postscript">
+      <div className="postscript-prose prose prose-sm max-w-none">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          remarkRehypeOptions={footnoteOptions}
+          components={{
+            h2: makePostscriptHeading('h2'),
+            h3: makePostscriptHeading('h3'),
+            h4: makePostscriptHeading('h4'),
+            h5: makePostscriptHeading('h5'),
+            h6: makePostscriptHeading('h6'),
+          }}
+        >
+          {markdown}
+        </ReactMarkdown>
+      </div>
+    </section>
+  )
+}
+
 /** Wraps markdown tables with horizontal scroll and shows a hint when table overflows viewport. */
 function PostTableWrapper({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) {
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -567,19 +626,25 @@ export default function Post({ slug: slugProp }: PostProps) {
   const contentParagraphsRef = useRef<string[]>([])
   const isDev = import.meta.env.DEV
 
+  const { main: mainContent, postscript: inlinePostscriptContent } = useMemo(
+    () => splitInlinePostscript(content),
+    [content]
+  )
+  const effectivePostscriptContent = postscriptContent ?? inlinePostscriptContent
+
   // Extract ordered list of images from markdown for gallery viewer
   const postImages = useMemo(() => {
-    if (!content) return []
+    if (!mainContent) return []
     const list: { src: string; alt: string }[] = []
     // Match markdown image syntax and capture only the URL part (excluding optional title).
     const re = /!\[([^\]]*)\]\(\s*(?:<([^>\s]+)>|(\S+?))(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)/g
     let m: RegExpExecArray | null
-    while ((m = re.exec(content)) !== null) {
+    while ((m = re.exec(mainContent)) !== null) {
       const src = m[2] ?? m[3] ?? ''
       list.push({ alt: m[1] ?? '', src })
     }
     return list
-  }, [content])
+  }, [mainContent])
 
   const [imageViewer, setImageViewer] = useState<{ open: boolean; index: number }>({ open: false, index: 0 })
   const [zoomFallbackIndexes, setZoomFallbackIndexes] = useState<Set<number>>(new Set())
@@ -611,8 +676,8 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   // For barcelona-guest-floor, split content so we can render amenity cards between "What this place offers" and the next section
   const barcelonaContentSplit = useMemo(() => {
-    if (resolvedCanonicalSlug !== 'barcelona-guest-floor' || !content.includes('## What this place offers')) return null
-    const parts = content.split(/\n## What this place offers\n\n/)
+    if (resolvedCanonicalSlug !== 'barcelona-guest-floor' || !mainContent.includes('## What this place offers')) return null
+    const parts = mainContent.split(/\n## What this place offers\n\n/)
     if (parts.length !== 2) return null
     const [, listAndRest] = parts
     const nextParts = listAndRest.split(/\n\n## /)
@@ -621,7 +686,7 @@ export default function Post({ slug: slugProp }: PostProps) {
       contentBefore: parts[0] + '## What this place offers\n\n',
       contentAfter: restPart ? '\n\n## ' + restPart : '',
     }
-  }, [resolvedCanonicalSlug, content])
+  }, [resolvedCanonicalSlug, mainContent])
 
   const openImageViewer = (index: number) => {
     setImageViewer({ open: true, index })
@@ -1288,16 +1353,18 @@ export default function Post({ slug: slugProp }: PostProps) {
                   remarkRehypeOptions={markdownFootnoteOptions}
                   components={markdownComponents}
                 >
-                  {content}
+                  {mainContent}
                 </ReactMarkdown>
               );
             })()}
           </div>
 
-          {postscriptContent && (
-            <div className="post-prose postscript-prose prose prose-sm max-w-none mt-8 pt-6 border-t border-border">
-              <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions}>{postscriptContent}</ReactMarkdown>
-            </div>
+          {effectivePostscriptContent && (
+            <PostscriptSection
+              markdown={effectivePostscriptContent}
+              footnoteOptions={markdownFootnoteOptions}
+              linkLabel={t.linkToSection}
+            />
           )}
 
           {isTweetPost && post.tweetMetadata?.images && post.tweetMetadata.images.length > 0 && (

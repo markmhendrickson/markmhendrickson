@@ -99,7 +99,6 @@ jobs:
           fi
 
       - name: Validate translation coverage for published posts
-        if: env.SKIP_WEBSITE_CACHE_REGEN != '1'
         working-directory: react-app
         run: python3 scripts/validate_post_translations.py
 

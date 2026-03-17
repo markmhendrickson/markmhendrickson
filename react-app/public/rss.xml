@@ -5,21 +5,21 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 16 Mar 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 17 Mar 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>How I lost and recovered 6,000 memories</title>
+    <link>https://markmhendrickson.com/posts/how-i-lost-and-recovered-6000-memories</link>
+    <description>I accidentally overwrote my production Neotoma database and dropped from 6,174 observations to 84. I got nearly all of it back. The recovery worked because Neotoma&apos;s architecture stores observations as an append-only log and recomputes entity state from that log.</description>
+    <pubDate>Tue, 17 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/how-i-lost-and-recovered-6000-memories</guid>
+  </item>
   <item>
     <title>Chasing narratives into dead ends</title>
     <link>https://markmhendrickson.com/posts/chasing-narratives-into-dead-ends</link>
     <description>Narrative FOMO followed me from crypto to AI. At Leather, the Ordinals rush felt like real demand. At Neotoma, every memory-related tweet triggers the same scramble. I&apos;ve lived both ways a narrative can break your product. Borrowed signal has a term limit.</description>
     <pubDate>Mon, 16 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/chasing-narratives-into-dead-ends</guid>
-  </item>
-  <item>
-    <title>How I lost and recovered 6,000 memories</title>
-    <link>https://markmhendrickson.com/posts/how-i-lost-and-recovered-6000-memories</link>
-    <description>I accidentally overwrote my production Neotoma database and dropped from 6,174 observations to 84. I got nearly all of it back. The recovery worked because Neotoma&apos;s architecture stores observations as an append-only log and recomputes entity state from that log.</description>
-    <pubDate>Mon, 16 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/how-i-lost-and-recovered-6000-memories</guid>
   </item>
   <item>
     <title>Overhauling the Neotoma site with developer release feedback</title>
@@ -302,9 +302,9 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/does-your-product-provide-instant-gratification</guid>
   </item>
   <item>
-    <title>A Post-Mortem for Plancast</title>
+    <title>The uphill battle of social event sharing (post-mortem for Plancast)</title>
     <link>https://markmhendrickson.com/posts/a-postmortem-for-plancast</link>
-    <description>Nearly three years ago, I left my position at TechCrunchhttp://techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/ to start my own Internet...</description>
+    <description>Why Plancast never scaled beyond early adopters: sharing frequency, consumption patterns, incentives, and the difficulties of events as a content type. Originally published on TechCrunch, January 2012.</description>
     <pubDate>Sun, 22 Jan 2012 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/a-postmortem-for-plancast</guid>
   </item>

@@ -4,6 +4,8 @@ excerpt: "Why Plancast never scaled beyond early adopters: sharing frequency, co
 published: true
 published_date: "2012-01-22"
 category: article
+hero_image: a-postmortem-for-plancast-hero.png
+hero_image_style: keep-proportions
 ---
 Nearly three years ago, [I left my position at TechCrunch](http://techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/) to start my own Internet business, with the idea of creating a web application that'd help people get together in real-life rather than simply helping them connect online as most social networking applications had done.
 
