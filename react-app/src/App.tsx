@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { StaticRouter } from 'react-router-dom/server'
+import { useEffect, useState } from 'react'
 import { Layout } from './components/Layout'
 import ErrorBoundary from '@shared/components/ErrorBoundary'
 import Timeline from './pages/Timeline'
@@ -46,9 +47,17 @@ function LegacyEnglishRedirect() {
 
 function PreferredLocaleAppRoutes() {
   const location = useLocation()
-  const preferredLocale = resolvePreferredLocale()
+  const [preferredLocale, setPreferredLocale] = useState<SupportedLocale>(defaultLocale)
+  const [hasResolvedLocale, setHasResolvedLocale] = useState(false)
 
-  if (preferredLocale === defaultLocale) {
+  useEffect(() => {
+    setPreferredLocale(resolvePreferredLocale())
+    setHasResolvedLocale(true)
+  }, [])
+
+  // Keep first client render aligned with SSR to avoid hydration mismatch
+  // when browser-preferred locale differs from default locale.
+  if (!hasResolvedLocale || preferredLocale === defaultLocale) {
     return <LocalizedAppRoutes locale={defaultLocale} />
   }
 

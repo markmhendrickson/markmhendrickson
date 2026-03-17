@@ -3,6 +3,32 @@ import { defaultLocale, type SupportedLocale } from '@/i18n/config'
 
 type PostRecord = Record<string, unknown>
 
+function getPostIdentity(post: PostRecord): string | null {
+  const canonicalSlug = post.canonicalSlug
+  if (typeof canonicalSlug === 'string' && canonicalSlug) return canonicalSlug
+  const postId = post.postId
+  if (typeof postId === 'string' && postId) return postId
+  const slug = post.slug
+  if (typeof slug === 'string' && slug) return slug
+  return null
+}
+
+function dedupePostsByIdentity(posts: PostRecord[]): PostRecord[] {
+  const seen = new Set<string>()
+  const deduped: PostRecord[] = []
+  for (const post of posts) {
+    const identity = getPostIdentity(post)
+    if (!identity) {
+      deduped.push(post)
+      continue
+    }
+    if (seen.has(identity)) continue
+    seen.add(identity)
+    deduped.push(post)
+  }
+  return deduped
+}
+
 const localeModules = import.meta.glob('@cache/posts.*.json', { eager: true }) as Record<
   string,
   { default?: PostRecord[] } | PostRecord[]
@@ -14,7 +40,7 @@ for (const [modulePath, moduleValue] of Object.entries(localeModules)) {
   if (!match) continue
   const locale = match[1] as SupportedLocale
   const payload = (moduleValue as { default?: PostRecord[] }).default ?? (moduleValue as PostRecord[])
-  if (Array.isArray(payload)) localizedPostsByLocale.set(locale, payload)
+  if (Array.isArray(payload)) localizedPostsByLocale.set(locale, dedupePostsByIdentity(payload))
 }
 
 export function getLocalizedPublicPosts(locale: SupportedLocale): PostRecord[] {
