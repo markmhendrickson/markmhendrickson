@@ -5,7 +5,7 @@ category: "essay"
 tags: ["fomo", "narrative", "crypto", "ai", "startups", "ordinals", "neotoma"]
 read_time: 12
 published: true
-published_date: "2026-03-17"
+published_date: "2026-03-16"
 hero_image: "chasing-narratives-into-dead-ends-hero.png"
 hero_image_style: "keep-proportions"
 ---
