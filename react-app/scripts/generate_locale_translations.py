@@ -41,7 +41,7 @@ LOCALE_TO_MYMEMORY_LANG = {
     "id": "id-ID",
     "de": "de-DE",
 }
-TRANSLATABLE_FIELDS = ("title", "excerpt", "summary", "body")
+TRANSLATABLE_FIELDS = ("title", "excerpt", "summary", "body", "postscript")
 
 
 def _chunk_text(text: str, max_chars: int = 4200) -> list[str]:
@@ -95,6 +95,23 @@ def _norm_text(value: str) -> str:
     return " ".join(str(value or "").split()).strip().lower()
 
 
+def _load_postscript_source(slug: str) -> str:
+    if not slug:
+        return ""
+    candidates = [
+        TRANSLATIONS_DIR / f"{slug}.postscript.md",
+        TRANSLATIONS_DIR / "drafts" / f"{slug}.postscript.md",
+    ]
+    for path in candidates:
+        if not path.exists():
+            continue
+        try:
+            return path.read_text(encoding="utf-8").strip()
+        except Exception:
+            continue
+    return ""
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate locale post translation overrides.")
     parser.parse_args()
@@ -130,7 +147,10 @@ def main() -> None:
             prior = existing.get(slug, {}) if isinstance(existing.get(slug), dict) else {}
             entry: dict[str, str] = {}
             for field in TRANSLATABLE_FIELDS:
-                source_value = str(post.get(field) or "").strip()
+                if field == "postscript":
+                    source_value = _load_postscript_source(str(slug))
+                else:
+                    source_value = str(post.get(field) or "").strip()
                 prior_value = str(prior.get(field) or "").strip()
                 if prior_value and _norm_text(prior_value) != _norm_text(source_value):
                     entry[field] = prior_value

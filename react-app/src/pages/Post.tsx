@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { usePostSSR } from '@/contexts/PostSSRContext'
-import { stripLinksFromExcerpt, getPostImageSrc, getZoomImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
+import { stripLinksFromExcerpt, getPostImageSrc, getZoomImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter, isExcludedFromListing, isPublishedPost, normalizeMarkdownFormatting } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
@@ -630,7 +630,7 @@ export default function Post({ slug: slugProp }: PostProps) {
     () => splitInlinePostscript(content),
     [content]
   )
-  const effectivePostscriptContent = postscriptContent ?? inlinePostscriptContent
+  const effectivePostscriptContent = normalizeMarkdownFormatting(postscriptContent ?? inlinePostscriptContent ?? '')
 
   // Extract ordered list of images from markdown for gallery viewer
   const postImages = useMemo(() => {
@@ -903,21 +903,21 @@ export default function Post({ slug: slugProp }: PostProps) {
           setSummaryContent(locale === defaultLocale ? (summaryFromMd ?? undefined) : undefined)
           const shouldUseLocalizedPostscript = locale !== defaultLocale && isPublishedPost(postMeta)
           if (shouldUseLocalizedPostscript && postMeta.postscript) {
-            setPostscriptContent(postMeta.postscript)
+            setPostscriptContent(normalizeMarkdownFormatting(postMeta.postscript))
           } else {
             const postscriptFromMd = await tryLoadPostscriptMarkdown()
             if (isCancelled) return
-            setPostscriptContent(postscriptFromMd ?? undefined)
+            setPostscriptContent(postscriptFromMd ? normalizeMarkdownFormatting(postscriptFromMd) : undefined)
           }
         } else {
           setSummaryContent(undefined)
           const shouldUseLocalizedPostscript = locale !== defaultLocale && isPublishedPost(postMeta)
           if (shouldUseLocalizedPostscript && postMeta.postscript) {
-            setPostscriptContent(postMeta.postscript)
+            setPostscriptContent(normalizeMarkdownFormatting(postMeta.postscript))
           } else {
             const postscriptFromMd = await tryLoadPostscriptMarkdown()
             if (isCancelled) return
-            setPostscriptContent(postscriptFromMd ?? undefined)
+            setPostscriptContent(postscriptFromMd ? normalizeMarkdownFormatting(postscriptFromMd) : undefined)
           }
           // Production: parquet cache takes priority
           if (postMeta.body) {
@@ -930,7 +930,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         if (isCancelled) return
 
         if (content) {
-          setContent(content)
+          setContent(normalizeMarkdownFormatting(content))
           // Reset animation state when content loads
           setAnimationPhase('title')
           setContentParagraphIndex(0)
@@ -1021,7 +1021,10 @@ export default function Post({ slug: slugProp }: PostProps) {
     }
   })
   const summaryBulletLimit = post.slug === 'six-agentic-trends-betting-on' ? 6 : 5
-  const displaySummary = limitSummaryToFiveBullets(summaryContent !== undefined ? summaryContent : (post.summary ?? ''), summaryBulletLimit)
+  const displaySummary = limitSummaryToFiveBullets(
+    normalizeMarkdownFormatting(summaryContent !== undefined ? summaryContent : (post.summary ?? '')),
+    summaryBulletLimit
+  )
   const markdownFootnoteOptions = {
     footnoteLabel: t.footnotesHeading,
     footnoteBackLabel: t.footnoteBackLabel,

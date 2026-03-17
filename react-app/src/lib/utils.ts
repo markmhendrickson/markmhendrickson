@@ -72,13 +72,20 @@ export function stripFrontmatter(markdown: string): string {
 export function stripLinksFromExcerpt(text: string): string {
   if (!text || typeof text !== 'string') return text
   let result = text
-  // Replace markdown links [text](url) with just the link text
-  result = result.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+  // Replace markdown links [text](url) and [text] (url) with just the link text.
+  result = result.replace(/\[([^\]]*)\]\s*\([^)]*\)/g, '$1')
   // Remove bare URLs (http, https, www.)
   result = result.replace(/https?:\/\/[^\s]+/g, '')
   result = result.replace(/www\.[^\s]+/g, '')
   // Clean up multiple spaces and trim
   return result.replace(/\s+/g, ' ').trim()
+}
+
+/** Normalize common translation markdown artifacts so links render correctly. */
+export function normalizeMarkdownFormatting(markdown: string): string {
+  if (!markdown || typeof markdown !== 'string') return markdown
+  // Fix malformed markdown links like: [text] (url) -> [text](url)
+  return markdown.replace(/\]\s+\(/g, '](')
 }
 
 /** Normalize potentially string/number boolean flags from cache or MCP exports. */
