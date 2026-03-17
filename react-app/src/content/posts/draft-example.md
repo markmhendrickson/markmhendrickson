@@ -13,5 +13,5 @@ You can use this to preview posts before publishing them.
 ## Publishing a Draft
 
 1. Set `"published": true` in `posts.json`
-2. Add a `publishedDate` if not already set
+2. Set `publishedDate` to today's date when publishing
 3. The post will appear in the posts list

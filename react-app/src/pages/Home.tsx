@@ -14,6 +14,7 @@ interface Post {
   body?: string
   heroImage?: string
   heroImageSquare?: string
+  ogImage?: string
   tweetMetadata?: { images?: string[] }
 }
 
@@ -32,8 +33,11 @@ export default function Home() {
     })[0]
   const copy = {
     en: {
-      subtitle: 'Building structured memory for AI agents.',
-      p1: "I'm building Neotoma, a structured memory layer for AI agents. The core problem: agents are increasingly stateful, handling tasks, contacts, transactions, and commitments over time, but their memory is built for retrieval, not truth. It drifts between sessions, overwrites without history, and cannot be traced or replayed. Neotoma treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries. Local-first, cross-platform via MCP, and entirely user-controlled.",
+      subtitle: 'Building sovereign memory infrastructure for agentic systems.',
+      p1Before: "I'm building ",
+      p1Link: 'Neotoma',
+      p1After:
+        ", a deterministic state layer for long-running agents. The core problem: agents are increasingly stateful, handling tasks, contacts, transactions, and commitments over time, but their memory is built for retrieval, not truth. It drifts between sessions, overwrites without history, and cannot be traced or replayed. Neotoma treats memory as state evolution: every observation is versioned, every entity snapshot is reproducible, every decision can be replayed. Schema-bound, local-first, cross-platform via MCP, and entirely user-controlled.",
       p2: "The principle underneath is the same one that's driven all of my work: people should control their own data, memory, money, and digital infrastructure, not cede it to platforms that optimize for engagement over truth.",
       p3: 'I work as a solo founder in Barcelona, operating with AI agents as a team rather than as tools. Every workflow, email, finance, content, and product, runs through a shared repo and source of truth. The agents follow the same playbook I do. That only works because the state layer is explicit and inspectable, which is exactly the contract Neotoma is designed to provide.',
       p4Before:
@@ -42,8 +46,11 @@ export default function Home() {
       p4After: '.',
     },
     es: {
-      subtitle: 'Construyendo infraestructura de memoria soberana para agentes de IA.',
-      p1: 'Estoy construyendo Neotoma, una capa de memoria estructurada para agentes de IA. El problema central: los agentes son cada vez más stateful, gestionan tareas, contactos, transacciones y compromisos a lo largo del tiempo, pero su memoria está diseñada para recuperación, no para verdad. Deriva entre sesiones, sobrescribe sin historial y no se puede trazar ni reproducir. Neotoma trata los datos personales como los sistemas de producción tratan el estado: entidades tipadas, IDs estables, procedencia completa y consultas deterministas. Local-first, multiplataforma vía MCP y totalmente bajo control del usuario.',
+      subtitle: 'Construyendo infraestructura de memoria soberana para sistemas agentivos.',
+      p1Before: 'Estoy construyendo ',
+      p1Link: 'Neotoma',
+      p1After:
+        ', una capa de estado determinista para agentes de larga ejecución. El problema central: los agentes son cada vez más stateful, gestionan tareas, contactos, transacciones y compromisos a lo largo del tiempo, pero su memoria está diseñada para recuperación, no para verdad. Deriva entre sesiones, sobrescribe sin historial y no se puede trazar ni reproducir. Neotoma trata la memoria como evolución de estado: cada observación está versionada, cada snapshot de entidad es reproducible, cada decisión se puede reproducir. Con esquemas definidos, local-first, multiplataforma vía MCP y totalmente bajo control del usuario.',
       p2: 'El principio de fondo es el mismo que ha guiado todo mi trabajo: las personas deben controlar sus datos, memoria, dinero e infraestructura digital, no cederlos a plataformas que optimizan el engagement por encima de la verdad.',
       p3: 'Trabajo como fundador en solitario en Barcelona, operando con agentes de IA como equipo en lugar de herramientas. Cada workflow, email, finanzas, contenido y producto, pasa por un repositorio compartido y una fuente de verdad común. Los agentes siguen el mismo playbook que sigo yo. Eso solo funciona porque la capa de estado es explícita e inspeccionable, justo el contrato que Neotoma está diseñada para ofrecer.',
       p4Before:
@@ -52,8 +59,11 @@ export default function Home() {
       p4After: '.',
     },
     ca: {
-      subtitle: "Construint infraestructura de memòria sobirana per a agents d'IA.",
-      p1: "Estic construint Neotoma, una capa de memòria estructurada per a agents d'IA. El problema central: els agents són cada cop més stateful, gestionen tasques, contactes, transaccions i compromisos al llarg del temps, però la seva memòria està pensada per a recuperació, no per a veritat. Deriva entre sessions, sobreescriu sense historial i no es pot traçar ni reproduir. Neotoma tracta les dades personals com els sistemes de producció tracten l'estat: entitats tipades, IDs estables, procedència completa i consultes deterministes. Local-first, multiplataforma via MCP i totalment sota control de l'usuari.",
+      subtitle: "Construint infraestructura de memòria sobirana per a sistemes agentius.",
+      p1Before: "Estic construint ",
+      p1Link: 'Neotoma',
+      p1After:
+        ", una capa d'estat determinista per a agents de llarga execució. El problema central: els agents són cada cop més stateful, gestionen tasques, contactes, transaccions i compromisos al llarg del temps, però la seva memòria està pensada per a recuperació, no per a veritat. Deriva entre sessions, sobreescriu sense historial i no es pot traçar ni reproduir. Neotoma tracta la memòria com a evolució d'estat: cada observació està versionada, cada snapshot d'entitat és reproduïble, cada decisió es pot reproduir. Amb esquemes definits, local-first, multiplataforma via MCP i totalment sota control de l'usuari.",
       p2: "El principi de fons és el mateix que ha guiat tota la meva feina: les persones han de controlar les seves dades, memòria, diners i infraestructura digital, no cedir-los a plataformes que optimitzen l'engagement per sobre de la veritat.",
       p3: "Treballo com a fundador en solitari a Barcelona, operant amb agents d'IA com a equip en lloc d'eines. Cada workflow, correu, finances, contingut i producte passa per un repositori compartit i una font de veritat comuna. Els agents segueixen el mateix playbook que segueixo jo. Això només funciona perquè la capa d'estat és explícita i inspeccionable, exactament el contracte que Neotoma està dissenyada per oferir.",
       p4Before:
@@ -72,10 +82,10 @@ export default function Home() {
             className="block mb-10 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
           >
             <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
-              {(latestPost.heroImage || latestPost.tweetMetadata?.images?.[0]) && (
+              {(latestPost.heroImage || latestPost.ogImage || latestPost.tweetMetadata?.images?.[0]) && (
                 <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                   <img
-                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
+                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.ogImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
                     alt={latestPost.title || ''}
                     className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                     style={{ objectPosition: 'center center' }}
@@ -116,7 +126,18 @@ export default function Home() {
         </div>
 
         <div className="text-[15px] leading-[1.75] font-light">
-          <p className="mb-6">{text.p1}</p>
+          <p className="mb-6">
+            {text.p1Before}
+            <a
+              href="https://neotoma.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={LINK_CLASS}
+            >
+              {text.p1Link}
+            </a>
+            {text.p1After}
+          </p>
 
           <p className="mb-6">{text.p2}</p>
 

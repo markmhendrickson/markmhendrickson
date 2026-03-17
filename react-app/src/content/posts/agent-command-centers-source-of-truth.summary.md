@@ -1,0 +1,5 @@
+- Builders of personal AI agents need a single, durable state layer for tasks and visibility; generic boards and raw logs don't fit.
+- A "command center" (claim, execute, review, iterate) is the UI; the substrate it reads from and writes to is the data layer.
+- Neotoma provides typed entities, observations, and MCP access with idempotency and deterministic IDs so completion is unambiguous and tasks don't re-execute.
+- Multi-layer memory (working, weekly, semantic, self-improvement) sits above the truth layer; Neotoma is the durable store those layers consume and update.
+- Positioning Neotoma as the backend for agent dashboards and command centers gives builders a substrate instead of rolling their own SQLite and sync.

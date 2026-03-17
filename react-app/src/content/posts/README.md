@@ -280,6 +280,11 @@ The cache script applies these slugs when generating `posts.json`, so they stay 
 
 ### Publishing a Draft
 
+Always set the publish date to today when switching a post from draft to published. Update both fields:
+
+- Frontmatter: `published_date: "YYYY-MM-DD"` (today)
+- Manifest/export field: `publishedDate: "YYYY-MM-DD"` (today)
+
 To publish a draft, use Neotoma MCP (e.g. correct or store with updated fields) or Parquet MCP `update_records`:
 
 ```python

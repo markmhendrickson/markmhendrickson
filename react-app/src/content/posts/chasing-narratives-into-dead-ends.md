@@ -5,7 +5,7 @@ category: "essay"
 tags: ["fomo", "narrative", "crypto", "ai", "startups", "ordinals", "neotoma"]
 read_time: 12
 published: true
-published_date: "2026-03-16"
+published_date: "2026-03-17"
 hero_image: "chasing-narratives-into-dead-ends-hero.png"
 hero_image_style: "keep-proportions"
 ---
@@ -54,13 +54,13 @@ I left the Stacks ecosystem last year. I'm now building [Neotoma](https://neotom
 
 The industry mechanics and my own psychological patterns followed me. The triggers arrive through my phone, usually via well-meaning friends and contacts who think they're keeping me informed. Over the past few months, each one has produced the same visceral jolt I felt in the Ordinals days.
 
-A contact sends me a tweet from [@contextkingceo](https://x.com/contextkingceo): "We've raised $6.5M to kill vector databases." [HydraDB](https://hydradb.ai) has funding, a punchy thesis, and the kind of confident positioning that makes the memory infrastructure space feel like someone else already owns it. My chest tightens. I start mentally drafting a response. Not a product response, a *narrative* response. How do I position [Neotoma](https://neotoma.io) against this framing?
+A contact sends me a tweet from [@contextkingceo](https://x.com/contextkingceo): "We've raised $6.5M to kill vector databases." [HydraDB](https://hydradb.ai) has funding, a punchy thesis, and the kind of confident positioning that makes the memory infrastructure space feel like someone else already owns it. My chest tightens. I start mentally drafting a response. Not a product response, a *narrative* response. How do I position Neotoma against this framing?
 
 A WhatsApp message links to a [VentureBeat article](https://venturebeat.com/ai/google-pm-open-sources-always-on-memory-agent-ditching-vector-databases-for-llm-based-consolidation/): "Google PM open-sources [Always On Memory Agent](https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer), ditching vector databases for LLM-based consolidation." The sender adds: "This might be the storage system you need." Google. In my space. Open-sourcing a memory agent. The implicit message: the big players are here now.
 
 Another link, same channel: Anthropic announcing that [Claude's memory feature](https://markmhendrickson.com/posts/claude-memory-and-the-truth-layer) is now available on the free plan, with import and export. The platform I'm building on top of is shipping its own version of the capability I'm trying to provide. The sender meant it as validation that the space is real. My nervous system read it as the platform eating my lunch.
 
-And then, on a Sunday morning, [a tweet](https://x.com/steipete/status/2032861327967072671) from the creator of [OpenClaw](https://openclaw.ai) about [Lossless Claw](https://github.com/Martian-Engineering/lossless-claw), a context management plugin for persistent memory. The overlap with [Neotoma](https://neotoma.io) exists at the level of the word "memory," not at the level of architecture. But that didn't matter. What my threat system registered was: someone else has narrative momentum in my space, and I'm not part of it.
+And then, on a Sunday morning, [a tweet](https://x.com/steipete/status/2032861327967072671) from the creator of [OpenClaw](https://openclaw.ai) about [Lossless Claw](https://github.com/Martian-Engineering/lossless-claw), a context management plugin for persistent memory. The overlap with Neotoma exists at the level of the word "memory," not at the level of architecture. But that didn't matter. What my threat system registered was: someone else has narrative momentum in my space, and I'm not part of it.
 
 Every time, the same sequence. The jolt. The urge to investigate immediately. And then the most dangerous part: the mental drafting of reactive content. How do I position against this? What terminology should I adopt? How do I insert myself into their conversation? It's the same gravitational pull I felt with Ordinals, wearing new clothes. And it's driven by the same FOMO, the same sense that if I don't respond to this narrative right now, I'll be left behind.
 

@@ -86,6 +86,27 @@ def load_from_neotoma_json(path: Path) -> Tuple[List[Dict[str, Any]], List[Dict[
     return posts, links, timeline
 
 
+def _post_dedupe_rank(post: Dict[str, Any]) -> Tuple[int, str]:
+    """Rank duplicate post records by usefulness for website cache generation."""
+    score = 0
+    if post.get("published") is True:
+        score += 1000
+    if post.get("published_date"):
+        score += 100
+    if post.get("title"):
+        score += 10
+    if post.get("excerpt"):
+        score += 10
+    if post.get("body"):
+        score += 10
+    if post.get("summary"):
+        score += 5
+    if post.get("share_tweet"):
+        score += 5
+    recency = post.get("updated_date") or post.get("published_date") or ""
+    return score, str(recency)
+
+
 def load_listing_overrides() -> List[str]:
     if not LISTING_OVERRIDES_JSON.exists():
         return []
@@ -535,9 +556,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
         if not slug:
             continue
         existing = seen.get(slug)
-        this_date = post.get("updated_date") or post.get("published_date") or ""
-        existing_date = (existing.get("updated_date") or existing.get("published_date") or "") if existing else ""
-        if existing is None or this_date >= existing_date:
+        if existing is None or _post_dedupe_rank(post) >= _post_dedupe_rank(existing):
             seen[slug] = post
     posts = list(seen.values())
 

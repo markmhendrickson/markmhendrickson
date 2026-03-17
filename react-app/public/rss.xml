@@ -15,6 +15,13 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/chasing-narratives-into-dead-ends</guid>
   </item>
   <item>
+    <title>How I lost and recovered 6,000 memories</title>
+    <link>https://markmhendrickson.com/posts/how-i-lost-and-recovered-6000-memories</link>
+    <description>I accidentally overwrote my production Neotoma database and dropped from 6,174 observations to 84. I got nearly all of it back. The recovery worked because Neotoma&apos;s architecture stores observations as an append-only log and recomputes entity state from that log.</description>
+    <pubDate>Mon, 16 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/how-i-lost-and-recovered-6000-memories</guid>
+  </item>
+  <item>
     <title>Overhauling the Neotoma site with developer release feedback</title>
     <link>https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</link>
     <description>The single scrolling page is now a full documentation site with a memory guarantees comparison table, tool-specific integration guides, an agent-led install process, and architecture deep dives. All driven by what testers said or got stuck on during the developer release.</description>

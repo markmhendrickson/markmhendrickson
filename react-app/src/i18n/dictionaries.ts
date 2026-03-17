@@ -126,7 +126,7 @@ const enDict: Dict = {
     newsletter: 'Newsletter',
     testError: 'Test Error',
     defaultHomeDescription:
-      'Building Neotoma, a structured memory layer for AI agents. Local-first, typed entities, full provenance, and deterministic queries via MCP.',
+      'Building Neotoma, a deterministic state layer for long-running agents. Every observation versioned, every entity snapshot reproducible, every decision replayable. Local-first, cross-platform via MCP.',
     showMore: 'Show more',
     showLess: 'Show less',
     noMatchPrefix: 'No posts match',
@@ -206,7 +206,7 @@ const esDict: Dict = {
     newsletter: 'Newsletter',
     testError: 'Error de prueba',
     defaultHomeDescription:
-      'Construyendo Neotoma, una capa de memoria estructurada para agentes de IA. Local-first, entidades tipadas, procedencia completa y consultas deterministas vía MCP.',
+      'Construyendo Neotoma, una capa de estado determinista para agentes de larga ejecución. Cada observación versionada, cada snapshot de entidad reproducible, cada decisión reproducible. Local-first, multiplataforma vía MCP.',
     showMore: 'Ver más',
     showLess: 'Ver menos',
     noMatchPrefix: 'No hay publicaciones que coincidan con',
@@ -286,7 +286,7 @@ const caDict: Dict = {
     newsletter: 'Butlletí',
     testError: 'Error de prova',
     defaultHomeDescription:
-      "Construint Neotoma, una capa de memòria estructurada per a agents d'IA. Local-first, entitats tipades, procedència completa i consultes deterministes via MCP.",
+      "Construint Neotoma, una capa d'estat determinista per a agents de llarga execució. Cada observació versionada, cada snapshot d'entitat reproduïble, cada decisió reproduïble. Local-first, multiplataforma via MCP.",
     showMore: 'Mostra més',
     showLess: 'Mostra menys',
     noMatchPrefix: 'No hi ha publicacions que coincideixin amb',

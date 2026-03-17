@@ -7,7 +7,7 @@ import argparse
 import json
 from pathlib import Path
 
-from deep_translator import GoogleTranslator
+from deep_translator import GoogleTranslator, MyMemoryTranslator
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +26,20 @@ LOCALE_TO_TRANSLATOR_LANG = {
     "ur": "ur",
     "id": "id",
     "de": "de",
+}
+LOCALE_TO_MYMEMORY_LANG = {
+    "es": "es-ES",
+    "ca": "ca-ES",
+    "zh": "zh-CN",
+    "hi": "hi-IN",
+    "ar": "ar-SA",
+    "fr": "fr-FR",
+    "pt": "pt-PT",
+    "ru": "ru-RU",
+    "bn": "bn-IN",
+    "ur": "ur-PK",
+    "id": "id-ID",
+    "de": "de-DE",
 }
 TRANSLATABLE_FIELDS = ("title", "excerpt", "summary", "body")
 
@@ -50,7 +64,9 @@ def _chunk_text(text: str, max_chars: int = 4200) -> list[str]:
     return chunks
 
 
-def _translate_text(text: str, translator: GoogleTranslator, cache: dict[str, str]) -> str:
+def _translate_text(
+    text: str, translators: list, cache: dict[str, str]
+) -> str:
     source = (text or "").strip()
     if not source:
         return ""
@@ -58,10 +74,18 @@ def _translate_text(text: str, translator: GoogleTranslator, cache: dict[str, st
         return cache[source]
     translated_parts: list[str] = []
     for chunk in _chunk_text(source):
-        try:
-            translated_parts.append(translator.translate(chunk) or chunk)
-        except Exception:
-            translated_parts.append(chunk)
+        translated_chunk = chunk
+        for translator in translators:
+            try:
+                candidate = (translator.translate(chunk) or "").strip()
+            except Exception:
+                continue
+            if not candidate:
+                continue
+            translated_chunk = candidate
+            if _norm_text(candidate) != _norm_text(chunk):
+                break
+        translated_parts.append(translated_chunk)
     translated = "\n\n".join(translated_parts)
     cache[source] = translated
     return translated
@@ -87,7 +111,12 @@ def main() -> None:
             if isinstance(loaded, dict):
                 existing = loaded
 
-        translator = GoogleTranslator(source="en", target=lang)
+        translators = [GoogleTranslator(source="en", target=lang)]
+        mymemory_target = LOCALE_TO_MYMEMORY_LANG.get(locale)
+        if mymemory_target:
+            translators.append(
+                MyMemoryTranslator(source="en-GB", target=mymemory_target)
+            )
         text_cache: dict[str, str] = {}
         output: dict[str, dict] = {}
 
@@ -106,7 +135,7 @@ def main() -> None:
                 if prior_value and _norm_text(prior_value) != _norm_text(source_value):
                     entry[field] = prior_value
                     continue
-                entry[field] = _translate_text(source_value, translator, text_cache)
+                entry[field] = _translate_text(source_value, translators, text_cache)
 
             if prior.get("slug"):
                 entry["slug"] = prior.get("slug")

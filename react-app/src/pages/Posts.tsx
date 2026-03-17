@@ -26,6 +26,7 @@ interface Post {
   heroImage?: string
   heroImageSquare?: string
   heroImageStyle?: string
+  ogImage?: string
   excludeFromListing?: boolean | number | string
   showMetadata?: boolean
   tweetMetadata?: { images?: string[] }
@@ -339,14 +340,14 @@ export default function Posts({ draft = false }: PostsProps) {
           ) : (
             paginatedPosts.map((post) => (
               <article key={post.slug} className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch gap-4">
-                {(post.heroImage || post.tweetMetadata?.images?.[0]) && (
+                {(post.heroImage || post.ogImage || post.tweetMetadata?.images?.[0]) && (
                   <Link
                     to={localizePath(`/posts/${post.slug}`, locale)}
                     className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
                   >
                     <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
                       <img
-                        src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.tweetMetadata?.images?.[0] ?? '')}
+                        src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.ogImage ?? post.tweetMetadata?.images?.[0] ?? '')}
                         alt={post.title || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}

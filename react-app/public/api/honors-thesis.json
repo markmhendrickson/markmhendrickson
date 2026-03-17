@@ -1,0 +1,61 @@
+{
+  "url": "https://markmhendrickson.com/api/honors-thesis.json",
+  "honors-thesis": [
+    {
+      "slug": "honors-thesis",
+      "copy": {
+        "en": {
+          "title": "Honors thesis",
+          "subtitle": "Glad tidings of a crisis without equal on earth: an interpretation of Nietzsche's theory of morality",
+          "pageDesc": "Mark Hendrickson's Bowdoin College honors thesis (2007) on Nietzsche's theory of morality, Schopenhauer, Rée, and the Genealogy of Morals.",
+          "institution": "Bowdoin College",
+          "department": "Department of Government and Legal Studies",
+          "year": "2007",
+          "author": "Mark McLeod Hendrickson",
+          "downloadLabel": "Download PDF",
+          "tocHeading": "Contents",
+          "backToContents": "Contents",
+          "prevChapter": "Previous chapter",
+          "nextChapter": "Next chapter",
+          "toc": [
+            {
+              "label": "Introduction",
+              "page": "1",
+              "slug": "introduction"
+            },
+            {
+              "label": "Schopenhauer and Rée",
+              "page": "5",
+              "slug": "schopenhauer-and-ree"
+            },
+            {
+              "label": "Human, All Too Human and Daybreak",
+              "page": "35",
+              "slug": "human-all-too-human-and-daybreak"
+            },
+            {
+              "label": "On the Genealogy of Morals",
+              "page": "85",
+              "slug": "on-the-genealogy-of-morals"
+            },
+            {
+              "label": "Conclusion",
+              "page": "129",
+              "slug": "conclusion"
+            },
+            {
+              "label": "List of abbreviations",
+              "page": "137",
+              "slug": "list-of-abbreviations"
+            },
+            {
+              "label": "Bibliography",
+              "page": "139",
+              "slug": "bibliography"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

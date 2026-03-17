@@ -1,8 +1,8 @@
 ## Tweet
 
-I chased the Ordinals wave at @LeatherBTC because the urgency felt indistinguishable from real demand. Three years later, the same pattern followed me into AI.
+I chased the Ordinals wave at @LeatherBTC because the external narrative urgency felt indistinguishable from real demand. Three years later, the same pattern followed me into AI.
 
-Borrowed signal has a term limit.
+I wrote about what FOMO looks like from the inside, and what I'm looking to do differently this time.
 
 https://markmhendrickson.com/posts/chasing-narratives-into-dead-ends
 
@@ -14,7 +14,7 @@ It felt like real demand. It was borrowed signal.
 
 We were getting feedback, but it was feedback on someone else's thesis. We hadn't generated the excitement. We hadn't cultivated the community. We were building on a timeline we didn't control. Every new micro-trend generated the same urgency, the same scramble, the same feeling that if we didn't react immediately we'd lose our position forever.
 
-Three years later I left crypto and started building Neotoma, a truth layer for AI agent memory. Different industry. Same pattern. Every funding announcement, every open-source drop, every "we raised $X to kill vector databases" tweet triggers the same reactive scramble. The same mental drafting of positioning responses instead of product responses.
+Three years later I left crypto and started building Neotoma, a truth layer for AI agent memory. Different industry. Same pattern. Every funding announcement, every open-source drop, every "we raised $X to kill vector databases" tweet triggers the same reactive scramble. The same tightening in my chest before I've even thought.
 
 There are two ways a narrative can break your product. You can insulate your own narrative from reality, or you can abandon it to chase someone else's. Both end the same way: you never develop a real relationship with your own customers.
 

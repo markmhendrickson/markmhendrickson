@@ -5,11 +5,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-/** Resolve post image src: use URL as-is if absolute, else prepend /images/posts/ */
+/** Resolve post image src: use URL as-is if absolute; og/ paths go under /images/; else prepend /images/posts/ */
 export function getPostImageSrc(pathOrUrl: string): string {
   if (!pathOrUrl || typeof pathOrUrl !== 'string') return ''
   if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) {
     return pathOrUrl
+  }
+  if (pathOrUrl.startsWith('og/')) {
+    return `/images/${pathOrUrl}`
   }
   return `/images/posts/${pathOrUrl}`
 }

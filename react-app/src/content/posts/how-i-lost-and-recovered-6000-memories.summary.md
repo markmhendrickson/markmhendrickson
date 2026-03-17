@@ -1,0 +1,4 @@
+- A mispointed `--env` flag wiped production from 6,174 observations to 84. Informal backup copies preserved the full observation history across multiple files.
+- Neotoma's `merge-db` command merged two backup sources into the live database using primary-key conflict detection and `keep-target` mode. The final database had 6,296 observations spanning five weeks.
+- Recovery worked because observations are immutable and append-only. Entity state is derived, not stored directly, so merging observations and recomputing snapshots restores correct state without picking "the right version" of each entity.
+- Event-sourced architecture turns a database wipe from permanent loss into a merge-and-recompute operation. Neotoma should build on this with automatic snapshots, anomaly detection, agent-driven recovery, and remote sync.

@@ -1037,10 +1037,10 @@ export default function Post({ slug: slugProp }: PostProps) {
             className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
           >
             <Alert className="mb-8 flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
-              {(latestPost.heroImage || latestPost.tweetMetadata?.images?.[0]) && (
+              {(latestPost.heroImage || latestPost.ogImage || latestPost.tweetMetadata?.images?.[0]) && (
                 <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                   <img
-                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
+                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.ogImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
                     alt={latestPost.title || ''}
                     className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                     style={{ objectPosition: 'center center' }}
@@ -1468,10 +1468,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                 className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
               >
                 <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
-                  {(nextPost.heroImage || nextPost.tweetMetadata?.images?.[0]) && (
+                  {(nextPost.heroImage || nextPost.ogImage || nextPost.tweetMetadata?.images?.[0]) && (
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
-                        src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
+                        src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.ogImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
                         alt={nextPost.title || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
@@ -1507,10 +1507,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                 className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
               >
                 <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
-                  {(prevPost.heroImage || prevPost.tweetMetadata?.images?.[0]) && (
+                  {(prevPost.heroImage || prevPost.ogImage || prevPost.tweetMetadata?.images?.[0]) && (
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
-                        src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
+                        src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.ogImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
                         alt={prevPost.title || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
@@ -1546,10 +1546,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                 className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
               >
                 <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
-                  {(prevPost2.heroImage || prevPost2.tweetMetadata?.images?.[0]) && (
+                  {(prevPost2.heroImage || prevPost2.ogImage || prevPost2.tweetMetadata?.images?.[0]) && (
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
-                        src={getPostImageSrc(prevPost2.heroImageSquare ?? prevPost2.heroImage ?? prevPost2.tweetMetadata?.images?.[0] ?? '')}
+                        src={getPostImageSrc(prevPost2.heroImageSquare ?? prevPost2.heroImage ?? prevPost2.ogImage ?? prevPost2.tweetMetadata?.images?.[0] ?? '')}
                         alt={prevPost2.title || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}

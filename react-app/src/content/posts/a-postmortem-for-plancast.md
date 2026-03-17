@@ -1,3 +1,10 @@
+---
+title: The uphill battle of social event sharing (post-mortem for Plancast)
+excerpt: "Why Plancast never scaled beyond early adopters: sharing frequency, consumption patterns, incentives, and the difficulties of events as a content type. Originally published on TechCrunch, January 2012."
+published: true
+published_date: "2012-01-22"
+category: article
+---
 Nearly three years ago, [I left my position at TechCrunch](http://techcrunch.com/2009/03/10/hendrickson-were-gonna-miss-you/) to start my own Internet business, with the idea of creating a web application that'd help people get together in real-life rather than simply helping them connect online as most social networking applications had done.
 
 Plancast was the service conceived a few months later from that basic inclination. Its approach was to provide a really easy way for people to take whatever interesting plans they had in their calendars and share them openly with friends, with the rationale that greater social transparency for this particular type of personal information would facilitate serendipitous get-togethers and enable a greater awareness of relevant events. Personally, I figured that knowing more about the events my friends and peers were attending would lead to a more fulfilling social and professional life because I could join them or at least learn about how they spent their time around town.
@@ -8,7 +15,7 @@ Alas, our efforts began to stall after several months post-launch, and we were n
 
 This post-mortem is an attempt to describe the fundamental flaws in our product model and, in particular, the difficulties presented by events as a content type. It's my hope that other product designers can learn a thing or two from our experience, especially if they are designing services that rely on user-generated content. The challenges I describe here apply directly to events, but they can be used collectively as a case study to advance one's thinking about other content types as well, since all types demand serious analysis along these lines should one seek to design a network that facilitates their exchange.
 
-#Sharing Frequency
+## Sharing frequency
 
 Social networks (by my general definition and among which I count Plancast) are essentially systems for distributing content among people who care about each other, and the frequency at which its users can share that content on a particular network is critical to how much value it'll provide them on an ongoing basis.
 
@@ -16,7 +23,7 @@ Unlike other, more frequent content types such as status updates and photos (whi
 
 I run the service, and even I currently have only five upcoming plans listed on my profile, with a total of 500 plans shared over the last couple of years, in contrast to almost 2,800 tweets on Twitter over the same period of time. People often tell me "I like Plancast, but I never have any plans to share". With social networks, this is sometimes a case of self-awareness (such as when people say they don't know what to tweet), but often they're simply telling the truth; many Plancast users don't have any interesting plans on their calendars.
 
-#Consumption Frequency
+## Consumption frequency
 
 People also don't proactively seek out events to attend as you might suppose. I've gotten into the habit of thinking about people as divided into two camps: those who have lots of free time and those who don't.
 
@@ -26,13 +33,13 @@ Those who don't have much free time often desire to conserve it, so rather than 
 
 It's hard to generalize by saying most people are in one camp or the other, but suffice to say, there are many people in the latter. And for them, it's hard to get them excited about a service that will give them more options on how to use their time.
 
-#Tendency to Procrastinate
+## Tendency to procrastinate
 
 Even putting this bifurcation aside, most people resist making advanced commitments before they absolutely need to make them. People fear missing out on worthwhile events but don't actually like to take the deliberate initiative to avoid such missed chances, which requires planning.
 
 This can be attributed primarily to people's desire to keep their options open in case other conflicting opportunities emerge as the date and time of an event approaches. If they can afford to wait and see, they will. Therefore, their commitment will be secured and shared in advance only when they're particularly confident they'll attend an event, if they need to reserve a spot before it fills up, or if there's some other similar prerogative.
 
-#Incentives to Share
+## Incentives to share
 
 Returning to the topic of sharing plans, it's not only a matter of having interesting plans to share but being compelled to actually share them. And unfortunately, people don't submit information to social networks because they love data set integrity or altruistically believe in giving as much as possible. They do it because the act of contribution selfishly results in something for them in return.
 
@@ -46,13 +53,13 @@ The feedback mechanisms aren't nearly as potent either, since coming up with a w
 
 Additionally, if a user wants to show off the fact they're at a cool event, there is little additional benefit to doing so before the event rather than simply tweeting or posting photos about it while at the event. An important exception is to be made for professionals who style themselves as influencers and want to be instrumental parts of how their peers discover events. This exception has indeed been responsible for much of our attendee-contributed event data among an early-adopter community of technology professionals.
 
-#Selectivity & Privacy Concerns
+## Selectivity and privacy concerns
 
 Vanity, of course, is not the only possible incentive for users to share their plans. There's also utility to getting others to join you for an event you'll be attending, but this turns out to be a weak incentive for broadcasting since most people prefer to be rather picky about who they solicit to join them for real-life encounters.
 
 While event promoters have a financial interest in attracting attendees far and wide, the attendees themselves mainly turn to their closer circle of friends and reach out to them individually. You don't see a lot of longer-tail plans in particular (such as nights out on the town and trips) because people are both wary of party crashers and usually uninterested in sourcing participants from a wide network.
 
-#The Importance of an Invitation
+## The importance of an invitation
 
 On the flip-side of this reluctance to share plans far and wide is the psychological need for people to get personally invited to events.
 
@@ -60,7 +67,7 @@ Plancast and other social event sharing applications are rooted in an idealistic
 
 When you have a service that helps spread personal event information but doesn't concurrently satisfy that need, you have a situation where many people feel awkwardly aware of events to which they don't feel welcome. As a result, the most engaging events on Plancast are those that are open in principle and don't solicit attendees primarily through invitations, such as conferences and concerts, where the attendance of one's friends and peers is a much less important consideration for their own.
 
-#Content Lifespan
+## Content lifespan
 
 Getting content into a social network is not enough to ensure its adequate value; there's also an importance of preserving that content's value over time, especially if it just trickles in.
 
@@ -68,7 +75,7 @@ Unfortunately, plans don't have a long shelf life. Before an event transpires, a
 
 Contrast this expiration tendency with more "evergreen" content types, such as profiles and photos. Other people can get value out of your Facebook profile for years after you set it up, and the photos you posted in college appear to have even increased in value. Nostalgia doesn't even have to play a part; people's hearts will melt upon viewing [this puppy](http://pinterest.com/pin/62065301084425706/) on Pinterest, Tumblr, and other visually-heavy content networks for a long time to come. But how much do you care that [I attended a tech meetup](http://plancast.com/p/7crb/october-2011-ny-tech-meetup) in New York last October, even if you're my friend?
 
-#Geographic Limitations
+## Geographic limitations
 
 Geographic specificity is another inherent limitation to a plan's value. Unlike virtually all other content types (with the exception of check-ins), plans provide most of their value to others when those users live or can travel near enough to join.
 
@@ -76,7 +83,7 @@ I may share plans for a ton of great events in San Francisco, but few to none of
 
 This is especially problematic when trying to expand the service into new locations. New users will have a hard time finding enough local friends who are either on the service and sharing their plans already, or those who are willing to join them on a new service upon invitation. People who encounter the service from non-urban locations have the hardest time, since there aren't many events going on in their area in general, let alone posted to Plancast. Trying to view all events simply listed within their location or categories of interest yields little for them to enjoy.
 
-#Looking Forward
+## Looking forward
 
 Despite all of these challenges, I still believe someone will eventually figure out how to make and market a viable service that fulfills our aims, namely to help people share and discover events more socially. There's simply too much unearthed value to knowing about much of what our friends plan to do to leave information about it so restricted to personal calendars and individuals' heads.
 
@@ -84,4 +91,4 @@ Another startup may come along that develops insight into an angle of attack we 
 
 Plancast managed to attract a niche audience of early adopters who found it to be among the most efficient ways to share and hear about events (thanks, users! you know who you are). Over 100,000 have registered and over 230,000 people visit each month, not to mention enjoy the event digests we send out by email each day. For that reason alone, and despite its growth challenges, we're going to keep it up and running for as long as possible and are hopeful we'll find it a home that can turn it into something bigger. It's my expectation that one day mainstream society will take for granted the type of interpersonal sharing it currently enables for just this small community, and I look forward to seeing how technological advancements overcome the aforementioned challenges to get us there.
 
-*This post was originally [published on TechCrunch](http://techcrunch.com/2012/01/22/post-mortem-for-plancast/) in January 2012.*
+*Originally published on [TechCrunch](https://techcrunch.com/2012/01/22/post-mortem-for-plancast/) on January 22, 2012.*
