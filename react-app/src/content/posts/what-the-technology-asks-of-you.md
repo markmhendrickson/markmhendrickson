@@ -58,9 +58,9 @@ Self-overcoming means using AI in the places where it forces you to become bette
 
 The person who avoids AI to preserve a skill is preserving, not overcoming. The person who surrenders to AI and stops developing the skill is declining, not overcoming. Nietzsche would say both paths lead to the same place: a smaller self.
 
-## The will to power is not what you think
+## The will to power: what matters here
 
-Nietzsche's concept of the will to power is widely misunderstood. It is not domination over others. It is the drive to grow, to create, to impose form on chaos. It is the instinct that makes an artist paint, a founder build, a researcher push into the unknown. The will to power is self-directed. It wants more from you, not more for you.
+The most relevant dimension of Nietzsche's will to power here is not domination over others. It is the drive to grow, to create, to impose form on chaos. It is the instinct that makes an artist paint, a founder build, a researcher push into the unknown. The will to power is self-directed. It wants more from you, not more for you.
 
 Technology tests this will. Every major tool in history has asked the same question: will you use this to become more, or will you use it to become less? Print could make you a reader or a passive consumer of pamphlets. The car could expand your world or shrink it to a commute. The internet could connect you to minds across the planet or seal you in an algorithmic bubble.
 
