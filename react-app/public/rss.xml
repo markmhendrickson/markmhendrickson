@@ -5,20 +5,13 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Mar 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
-  <item>
-    <title>How I lost and recovered 6,000 memories</title>
-    <link>https://markmhendrickson.com/posts/how-i-lost-and-recovered-6000-memories</link>
-    <description>I accidentally overwrote my production Neotoma database and dropped from 6,174 observations to 84. I got nearly all of it back. The recovery worked because Neotoma&apos;s architecture stores observations as an append-only log and recomputes entity state from that log.</description>
-    <pubDate>Tue, 17 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/how-i-lost-and-recovered-6000-memories</guid>
-  </item>
   <item>
     <title>What the technology asks of you</title>
     <link>https://markmhendrickson.com/posts/what-the-technology-asks-of-you</link>
     <description>The debate over AI maps onto a question the Enlightenment never resolved. Rousseau said tools corrupt us. Condorcet said they perfect us. Nietzsche said both miss the point. Technology is a test of character, and the only honest answer is what you become in the encounter.</description>
-    <pubDate>Tue, 17 Mar 2026 00:00:00 GMT</pubDate>
+    <pubDate>Wed, 18 Mar 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/what-the-technology-asks-of-you</guid>
   </item>
   <item>
@@ -29,20 +22,6 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/chasing-narratives-into-dead-ends</guid>
   </item>
   <item>
-    <title>Overhauling the Neotoma site with developer release feedback</title>
-    <link>https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</link>
-    <description>The single scrolling page is now a full documentation site with a memory guarantees comparison table, tool-specific integration guides, an agent-led install process, and architecture deep dives. All driven by what testers said or got stuck on during the developer release.</description>
-    <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</guid>
-  </item>
-  <item>
-    <title>The diary and the dance</title>
-    <link>https://markmhendrickson.com/posts/the-diary-and-the-dance</link>
-    <description>Creation, whether a startup or a blog post, is a continuous habit of revealing your inner world and tuning into what comes back. The MVP is a continuum. So is everything else.</description>
-    <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-diary-and-the-dance</guid>
-  </item>
-  <item>
     <title>AI skepticism is really about faith in humans</title>
     <link>https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</link>
     <description>The people who embrace AI encounter its problems more directly than anyone. But they also have the most faith that humans can work through them. The real skepticism isn&apos;t about the machines.</description>
@@ -50,32 +29,11 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</guid>
   </item>
   <item>
-    <title>What my agentic stack actually does</title>
-    <link>https://markmhendrickson.com/posts/what-my-agentic-stack-actually-does</link>
-    <description>I built an agentic stack to dogfood Neotoma and accelerate my work. A private monorepo with 12+ MCP servers where I cowork with AI agents daily. Neotoma provides the structured memory underneath, letting agents build on prior work across every session.</description>
-    <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/what-my-agentic-stack-actually-does</guid>
-  </item>
-  <item>
     <title>When the chain becomes the product</title>
     <link>https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</link>
     <description>I joined Blockstack in 2018 for the off-chain developer tools. Over seven years I watched token economics reshape the product direction, push the perceived moment of value perpetually into the future, and replace empirical product development with narrative-driven roadmaps.</description>
-    <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</guid>
-  </item>
-  <item>
-    <title>Google&apos;s memory agent thinks for itself, trading determinism for insight</title>
-    <link>https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer</link>
-    <description>A new open-source memory agent from Google ditches vector databases for LLM consolidation, trading determinism for active pattern discovery. It makes opposite architectural choices from a truth layer on every axis. The strongest architecture may combine both: consolidation above, deterministic state you can audit and revert below.</description>
     <pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/always-on-memory-agents-and-the-truth-layer</guid>
-  </item>
-  <item>
-    <title>Your AI remembers your vibe but not your work</title>
-    <link>https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</link>
-    <description>Claude and ChatGPT now offer memory for free, but what they store are profile snippets, not the details of what you actually worked on. My testing showed stale exports, one-shot access, and platform-gated portability. That is why I am building a truth layer underneath.</description>
-    <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</guid>
   </item>
   <item>
     <title>Neotoma is now available as developer release</title>

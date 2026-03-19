@@ -172,7 +172,7 @@ export function Layout({ children }: LayoutProps) {
         getBreadcrumbLabel={getBreadcrumbLabel}
         homeHref={localizePath('/', locale)}
         homeLabel={t.navHome}
-        hiddenPathSegments={supportedLocales}
+        hiddenPathSegments={[...supportedLocales, 'chapter', 'section']}
         languageMenuItems={languageMenuItems}
         languageMenuLabel={t.navLanguage}
         themeMenuLabel={t.themeMenuLabel}

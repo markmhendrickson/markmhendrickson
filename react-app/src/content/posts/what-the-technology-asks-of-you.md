@@ -1,3 +1,13 @@
+---
+title: "What the technology asks of you"
+excerpt: "The debate over AI maps onto a question the Enlightenment never resolved. Rousseau said tools corrupt us. Condorcet said they perfect us. Nietzsche said both miss the point. Technology is a test of character, and the only honest answer is what you become in the encounter."
+published_date: "2026-03-18"
+updated_date: "2026-03-18"
+hero_image: the-oldest-argument-about-technology-hero.png
+hero_image_square: the-oldest-argument-about-technology-hero-square.png
+hero_image_style: keep-proportions
+---
+
 A conversation about [an earlier essay](/posts/ai-skepticism-is-really-about-faith-in-humans) I wrote on AI skepticism made me realize the argument I was making has roots that go much further back than I'd considered. Not just about AI. About technology itself. About what tools do to the people who use them. The "faith in humans" I described there sounds Kantian on the surface — will people choose to engage? But what I really meant was something Nietzsche got to first: showing up is the prerequisite, not the answer. The deeper question is what you become when you do.
 
 The question of whether technology improves or corrupts the human condition is one of the oldest unresolved debates in modern thought. AI is just the latest arena where we're replaying it. And the Enlightenment thinkers who shaped this argument all got part of it right while missing what matters most.

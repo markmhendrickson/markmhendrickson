@@ -87,6 +87,7 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
         <Route path="wisdom" element={<Layout><Wisdom /></Layout>} />
         <Route path="honors-thesis" element={<Layout><HonorsThesis /></Layout>} />
         <Route path="honors-thesis/chapter/:chapterSlug" element={<Layout><HonorsThesis /></Layout>} />
+        <Route path="honors-thesis/chapter/:chapterSlug/section/:sectionSlug" element={<Layout><HonorsThesis /></Layout>} />
         <Route path="test-error" element={<Layout><TestError /></Layout>} />
         <Route path="*" element={<Layout><NotFound /></Layout>} />
       </Routes>

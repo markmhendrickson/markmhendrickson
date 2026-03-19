@@ -11,8 +11,6 @@ Still, if you are operating in this space, especially if you are building someth
 
 What follows are the central assumptions I am currently operating under. They are not claims about inevitability, and they are not meant to cover every possible future. They are the trends that, if they continue even partially, shape how I think AI systems will be used, where friction will accumulate, and what kinds of infrastructure will become necessary. My work ([Neotoma](/posts/truth-layer-agent-memory), a truth layer) is best understood as a response to these assumptions. It is not the reason for them, but it is built in anticipation of the world they imply.
 
----
-
 ## 1. Agents will become stateful economic actors
 
 Over the next two years, agents are likely to move beyond assistive, prompt-centric interactions and become meaningfully stateful actors. No breakthrough in general intelligence is required. Cheaper inference, more capable tool APIs, and broader tolerance for agents running unattended are enough.
@@ -30,8 +28,6 @@ What to watch over the next year:
 2. Teams discussing agent state corruption or drift as a distinct bug class rather than restarting agents as a fix.
 3. Product interfaces exposing agent history as something inspectable rather than ephemeral.
 4. Teams running multiple agents that need a single source of truth for entities and decisions.
-
----
 
 ## 2. Agentic errors will become economically visible
 
@@ -57,8 +53,6 @@ What to watch over the next year:
 5. Teams asking for "undo this fact" or "revert what the agent believes" without full resets.
 6. "What does the system believe and how has it evolved?" framed as a query over a consistent graph rather than a RAG call.
 
----
-
 ## 3. Audit and compliance will drift down-market
 
 A related trend: the pressure to prove how work was produced and what the system knew will not stay confined to large enterprises. Wherever errors carry a real cost—economic, legal, or reputational—the demand for defensibility and record-keeping follows. As AI becomes embedded in professional work, consultants, agencies, regulated freelancers, and small AI-native teams will face the same expectations.
@@ -74,8 +68,6 @@ What to watch over the next year:
 2. Requests for documentation of AI-assisted decisions from clients or insurers.
 3. Individuals or small teams proactively storing AI interaction records defensively.
 4. Regulation that explicitly requires record-keeping or explainability for certain AI uses.
-
----
 
 ## 4. Platform memory will remain opaque
 
@@ -99,8 +91,6 @@ What to watch over the next year:
 3. Workarounds (e.g. exports, third-party sync, manual replication) growing rather than shrinking.
 4. RFPs or requirements specifying that agent memory must stay on-prem or in the user's tenant.
 
----
-
 ## 5. Tool fragmentation will persist
 
 Despite recurring narratives about consolidation into a single AI platform or workspace, knowledge work is likely to remain fragmented. Professionals already operate across multiple models, editors, copilots, document systems, and agent frameworks.
@@ -115,8 +105,6 @@ What to watch over the next year:
 1. Professionals switching models or tools mid-task without migrating context cleanly.
 2. Repeated complaints about "losing context" between tools.
 3. Teams standardizing workflows that explicitly span multiple AI products.
-
----
 
 ## 6. Agentic usage will become metered
 
@@ -133,8 +121,6 @@ What to watch over the next year:
 2. Budget-aware agents that alter behavior based on remaining spend.
 3. Optimization efforts focused on reducing redundant inference rather than improving prompts.
 
----
-
 ## How these trends impact key demographics
 
 These trends act as activation conditions for distinct impacted demographics. Neotoma does not become important through persuasion. It becomes important when reality removes alternatives.
@@ -146,8 +132,6 @@ These trends act as activation conditions for distinct impacted demographics. Ne
 **Developer integrators and AI tool builders** who embed agents into products or platforms are the third. For them, memory failure is a production failure. As agents become autonomous, opaque recall becomes untestable and unacceptable. When memory errors are reframed as system failures rather than quirks, builders begin looking for memory primitives that behave like databases rather than conversations. Neotoma becomes relevant here as a substrate, not a feature.
 
 Across all these demographics, adoption is conditional and stepwise, not hype-driven.
-
----
 
 ## What would falsify this view
 
@@ -162,8 +146,6 @@ A third falsifier would be agents remaining short-lived, tightly supervised, and
 Finally, if audit and liability pressure fail to move down-market (if AI remains advisory rather than consequential for most professionals), then provenance-heavy memory remains overkill for longer than anticipated.
 
 Watching for these counter-signals is as important as watching for confirmation. They provide early warning that the assumptions driving adoption are weakening and that strategy should adapt accordingly. A vision that cannot be falsified cannot be corrected, and a product built on such a vision risks becoming well-designed for a world that never arrives.
-
----
 
 ## Memory as critical, open infrastructure
 

@@ -1,0 +1,1 @@
+The debate over AI maps onto a question the Enlightenment never resolved. Rousseau said tools corrupt us. Condorcet said they perfect us. Nietzsche said both miss the point. Technology is a test of character, and the only honest answer is what you become in the encounter.

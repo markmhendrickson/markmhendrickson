@@ -200,6 +200,39 @@ def overlay_body_from_markdown(metadata_list: List[Dict[str, Any]]) -> None:
             meta["title"] = frontmatter["title"].strip()
         if frontmatter.get("excerpt"):
             meta["excerpt"] = frontmatter["excerpt"].strip()
+        pd = (
+            frontmatter.get("published_date")
+            or frontmatter.get("publisheddate")
+            or ""
+        ).strip()
+        if pd:
+            meta["publishedDate"] = pd
+        ud = (
+            frontmatter.get("updated_date")
+            or frontmatter.get("updateddate")
+            or ""
+        ).strip()
+        if ud:
+            meta["updatedDate"] = ud
+        hi = (frontmatter.get("hero_image") or "").strip()
+        if hi:
+            meta["heroImage"] = hi
+            hs = (frontmatter.get("hero_image_style") or "").strip()
+            if hs:
+                meta["heroImageStyle"] = hs
+            hsq = (frontmatter.get("hero_image_square") or "").strip()
+            if hsq:
+                meta["heroImageSquare"] = hsq
+            else:
+                base, ext = hi.rsplit(".", 1) if "." in hi else (hi, "")
+                square_name = f"{base}-square.{ext}" if ext else f"{base}-square"
+                if (PUBLIC_POSTS_IMAGES / square_name).exists():
+                    meta["heroImageSquare"] = square_name
+            if not meta.get("heroImageStyle"):
+                meta["heroImageStyle"] = "keep-proportions"
+        og = (frontmatter.get("og_image") or "").strip()
+        if og:
+            meta["ogImage"] = og
 
 
 def _manifest_entry_for_slug(slug: str) -> Optional[Dict[str, Any]]:
@@ -512,6 +545,46 @@ def convert_post_to_metadata(post: Dict[str, Any], include_body: bool, include_s
     return metadata
 
 
+def sync_locale_caches_hero_from_posts_json() -> None:
+    """Copy heroImage / square / style / ogImage from cache/posts.json into posts.<locale>.json by slug."""
+    if not POSTS_JSON.exists():
+        return
+    try:
+        base_list = json.loads(POSTS_JSON.read_text(encoding="utf-8"))
+    except Exception:
+        return
+    if not isinstance(base_list, list):
+        return
+    base_by_slug = {p["slug"]: p for p in base_list if isinstance(p, dict) and p.get("slug")}
+    hero_keys = ("heroImage", "heroImageSquare", "heroImageStyle", "ogImage")
+    for path in CACHE_DIR.glob("posts.*.json"):
+        name = path.name
+        if name == "posts.private.json":
+            continue
+        mid = name.replace("posts.", "").replace(".json", "")
+        if len(mid) != 2 or not mid.isalpha():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not isinstance(data, list):
+            continue
+        changed = False
+        for post in data:
+            slug = post.get("slug") if isinstance(post, dict) else None
+            if not slug or slug not in base_by_slug:
+                continue
+            b = base_by_slug[slug]
+            for key in hero_keys:
+                v = b.get(key)
+                if v and post.get(key) != v:
+                    post[key] = v
+                    changed = True
+        if changed:
+            write_json(path, data)
+
+
 def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
     if not posts:
         export_slugs_empty: set = set()
@@ -548,6 +621,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
         overlay_listing_excludes(all_metadata)
         overlay_alternative_slugs(all_metadata)
         write_json(POSTS_PRIVATE_JSON, all_metadata)
+        sync_locale_caches_hero_from_posts_json()
         return
 
     seen: Dict[str, Dict[str, Any]] = {}
@@ -609,6 +683,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
     overlay_listing_excludes(all_metadata)
     overlay_alternative_slugs(all_metadata)
     write_json(POSTS_PRIVATE_JSON, all_metadata)
+    sync_locale_caches_hero_from_posts_json()
 
 
 def generate_links_cache(links: List[Dict[str, Any]]) -> None:
