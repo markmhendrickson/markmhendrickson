@@ -1,6 +1,8 @@
+# SSR: build runs client bundle + SSR bundle + prerender so every page is server-rendered HTML.
+# Do not use plain "npm run build" (client-only); use build:ci so view-source and crawlers get full content.
 [build]
   base = "."
-  command = "npm run build"
+  command = "cd react-app && npm ci && npm run build:ci"
   publish = "react-app/dist"
   functions = "netlify/functions"
 

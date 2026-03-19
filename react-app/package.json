@@ -17,7 +17,7 @@
     "dev:ssr": "node server.js",
     "prebuild": "if [ \"${SKIP_WEBSITE_CACHE_REGEN:-0}\" = \"1\" ]; then echo \"Skipping cache regeneration (using committed cache).\"; else python3 ../../../scripts/generate_website_cache.py; fi; test -f cache/posts.private.json || cp cache/posts.json cache/posts.private.json; npm run generate:rss",
     "build": "vite build",
-    "build:ci": "npm run build && npm run build:ssr && NODE_ENV=production node server.js --prerender",
+    "build:ci": "npm run build && npm run build:ssr && NODE_ENV=production node server.js --prerender && node scripts/verify-ssr-output.mjs",
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "build:full": "npm run build && npm run build:ssr",
     "test:i18n-smoke": "python3 scripts/smoke_i18n_locales.py",
