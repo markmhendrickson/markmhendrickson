@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useLocale } from '@/i18n/LocaleContext'
+import { useAgentSSR } from '@/contexts/AgentSSRContext'
 import { supportedLocales } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
 
@@ -92,10 +93,11 @@ function linkFirstMcpServer(
 
 export default function Mcp() {
   const { locale, t } = useLocale()
+  const ssrContent = useAgentSSR()
   const agentJsonUrl = import.meta.env.DEV
     ? `/api/agent${locale === 'en' ? '' : `.${locale}`}.json`
     : `${SITE_BASE}/api/agent${locale === 'en' ? '' : `.${locale}`}.json`
-  const [content, setContent] = useState<McpContent | null>(null)
+  const [content, setContent] = useState<McpContent | null>(ssrContent ?? null)
   const [error, setError] = useState<string | null>(null)
   const neotomaLinkedRef = useRef(false)
   const mcpServerLinkedRef = useRef(false)
@@ -108,6 +110,7 @@ export default function Mcp() {
   }
 
   useEffect(() => {
+    if (ssrContent != null) return
     let cancelled = false
     fetch(agentJsonUrl)
       .then((res) => {
@@ -121,7 +124,7 @@ export default function Mcp() {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Failed to load')
       })
     return () => { cancelled = true }
-  }, [agentJsonUrl])
+  }, [agentJsonUrl, ssrContent])
 
   const canonicalUrl = `${SITE_BASE}${localizePath('/agent', locale)}`
   const pageTitle = content ? `${content.title} — Mark Hendrickson` : `${t.mcpFallbackTitle} — Mark Hendrickson`

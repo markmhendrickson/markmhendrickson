@@ -4,6 +4,8 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import { PostSSRProvider } from './contexts/PostSSRContext'
 import { PostsListSSRProvider, type PostListItemSSR } from './contexts/PostsListSSRContext'
+import { AgentSSRProvider, type AgentContentSSR } from './contexts/AgentSSRContext'
+import { SongsSSRProvider, type SongSSR } from './contexts/SongsSSRContext'
 import { getLocalizedPublicPosts } from './lib/postsLocaleData'
 import { defaultLocale, isSupportedLocale } from './i18n/config'
 import { isExcludedFromListing, isPublishedPost } from './lib/utils'
@@ -107,6 +109,8 @@ function getPostsListForSSR(locale: string): PostListItemSSR[] {
 
 export interface RenderOptions {
   postBody?: string | null
+  agentContent?: AgentContentSSR | null
+  songs?: SongSSR[] | null
 }
 
 export function render(url: string, helmetContext?: HelmetContext, options?: RenderOptions): string {
@@ -117,11 +121,17 @@ export function render(url: string, helmetContext?: HelmetContext, options?: Ren
   }
   const postsForList =
     isPostsIndexUrl(url) ? getPostsListForSSR(getPostsIndexLocale(url)) : null
+  const agentContent = options?.agentContent ?? null
+  const songs = options?.songs ?? null
   return renderToString(
     <HelmetProvider context={context}>
       <PostSSRProvider postMeta={ssrPost}>
         <PostsListSSRProvider posts={postsForList}>
-          <App url={url} />
+          <AgentSSRProvider content={agentContent}>
+            <SongsSSRProvider songs={songs}>
+              <App url={url} />
+            </SongsSSRProvider>
+          </AgentSSRProvider>
         </PostsListSSRProvider>
       </PostSSRProvider>
     </HelmetProvider>

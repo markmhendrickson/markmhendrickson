@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useSongsSSR } from '@/contexts/SongsSSRContext'
 
 interface Song {
   song_id?: string
@@ -24,20 +25,23 @@ export default function Songs() {
   const ogImageWidth = 1200
   const ogImageHeight = 630
 
-  const [songs, setSongs] = useState<Song[]>([])
-  const [loading, setLoading] = useState(true)
+  const ssrSongs = useSongsSSR()
+  const [songs, setSongs] = useState<Song[]>(() => (ssrSongs ?? []) as Song[])
+  const [loading, setLoading] = useState(() => ssrSongs == null)
   const [sortBy, setSortBy] = useState<'title' | 'artist' | 'album'>('title')
 
   useEffect(() => {
+    if (ssrSongs != null && ssrSongs.length > 0) {
+      setLoading(false)
+      return
+    }
     const loadSongs = async () => {
       try {
-        // Try to load from public JSON file
         const response = await fetch('/data/songs.json')
         if (response.ok) {
           const data = await response.json() as Song[]
           setSongs(data)
         } else {
-          console.warn('Songs JSON not found, using empty array')
           setSongs([])
         }
       } catch (error) {
@@ -49,7 +53,7 @@ export default function Songs() {
     }
 
     loadSongs()
-  }, [])
+  }, [ssrSongs])
 
   // Sort songs
   const processedSongs = [...songs].sort((a, b) => {

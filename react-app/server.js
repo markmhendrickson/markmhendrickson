@@ -50,10 +50,52 @@ function resolveDefaultLocale(locales) {
 
 const DEFAULT_LOCALE = resolveDefaultLocale(SUPPORTED_LOCALES)
 const PREFIXED_LOCALES = SUPPORTED_LOCALES.filter((locale) => locale !== DEFAULT_LOCALE)
-const STATIC_ROUTE_SUFFIXES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting', '/investing']
-const LEGACY_STATIC_ROUTES = ['/', '/timeline', '/newsletter', '/newsletter/confirm', '/posts', '/links', '/songs', '/meet', '/consulting', '/investing']
+const STATIC_ROUTE_SUFFIXES = [
+  '/',
+  '/timeline',
+  '/newsletter',
+  '/newsletter/confirm',
+  '/posts',
+  '/links',
+  '/songs',
+  '/meet',
+  '/agent',
+  '/consulting',
+  '/investing',
+  '/wisdom',
+  '/honors-thesis',
+]
+const LEGACY_STATIC_ROUTES = [
+  '/',
+  '/timeline',
+  '/newsletter',
+  '/newsletter/confirm',
+  '/posts',
+  '/links',
+  '/songs',
+  '/meet',
+  '/agent',
+  '/consulting',
+  '/investing',
+  '/wisdom',
+  '/honors-thesis',
+]
 /** Root-level paths that must not be redirected to /posts/:slug */
-const RESERVED_ROOT_PATHS = new Set(['posts', 'timeline', 'newsletter', 'links', 'meet', 'schedule', 'songs', 'agent', 'consulting', 'investing', 'about'])
+const RESERVED_ROOT_PATHS = new Set([
+  'posts',
+  'timeline',
+  'newsletter',
+  'links',
+  'meet',
+  'schedule',
+  'songs',
+  'agent',
+  'consulting',
+  'investing',
+  'wisdom',
+  'honors-thesis',
+  'about',
+])
 const LOCALIZED_STATIC_ROUTES = PREFIXED_LOCALES.flatMap((locale) =>
   STATIC_ROUTE_SUFFIXES.map((suffix) => (suffix === '/' ? `/${locale}` : `/${locale}${suffix}`))
 )
@@ -258,6 +300,30 @@ async function runPrerender() {
   const { render } = await import(pathToFileURL(serverPath).href)
   const postRoutes = getPostSlugs()
   const allRoutes = [...STATIC_ROUTES, ...postRoutes]
+  function readAgentContent(locale) {
+    const base = path.resolve(__dirname, 'cache', 'api')
+    const localePath = locale === DEFAULT_LOCALE ? path.join(base, 'agent.json') : path.join(base, `agent.${locale}.json`)
+    const fallbackPath = path.join(base, 'agent.json')
+    const filePath = fs.existsSync(localePath) ? localePath : fallbackPath
+    if (!fs.existsSync(filePath)) return null
+    try {
+      return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+    } catch {
+      return null
+    }
+  }
+
+  function readSongsContent() {
+    const filePath = path.resolve(__dirname, 'public', 'data', 'songs.json')
+    if (!fs.existsSync(filePath)) return null
+    try {
+      const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+      return Array.isArray(data) ? data : null
+    } catch {
+      return null
+    }
+  }
+
   for (const url of allRoutes) {
     const helmetContext = {}
     const pathname = url.split('?')[0] || '/'
@@ -268,7 +334,15 @@ async function runPrerender() {
     const slug = isPostRoute ? segments[offset + 1] : null
     const canonicalSlug = slug ? resolveSlugToCanonical(slug, routeLocale) : null
     const postBody = canonicalSlug ? readPostBody(canonicalSlug) : null
-    const appHtml = render(url, helmetContext, postBody != null ? { postBody } : undefined)
+    const isAgentRoute = segments[offset] === 'agent'
+    const isSongsRoute = segments[offset] === 'songs'
+    const agentContent = isAgentRoute ? readAgentContent(routeLocale) : null
+    const songs = isSongsRoute ? readSongsContent() : null
+    const options = {}
+    if (postBody != null) options.postBody = postBody
+    if (agentContent != null) options.agentContent = agentContent
+    if (songs != null) options.songs = songs
+    const appHtml = render(url, helmetContext, Object.keys(options).length ? options : undefined)
     let html = template.replace(SSR_PLACEHOLDER, appHtml)
     if (template.includes(HELMET_PLACEHOLDER)) {
       html = html.replace(HELMET_PLACEHOLDER, helmetHeadString(helmetContext))
