@@ -8,6 +8,7 @@ import { useLocale } from '@/i18n/LocaleContext'
 import { supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import { usePostsListSSR } from '@/contexts/PostsListSSRContext'
 
 interface Post {
   slug: string
@@ -125,15 +126,35 @@ function TweetPreview({
   )
 }
 
+/** Coerce SSR list item to full Post shape for list rendering. */
+function ssrPostToPost(p: { slug: string; title?: string; excerpt?: string; publishedDate?: string; updatedDate?: string; category?: string; readTime?: number; tags?: string[]; heroImage?: string; heroImageSquare?: string; ogImage?: string; linkedTweetUrl?: string }): Post {
+  return {
+    slug: p.slug,
+    title: p.title ?? '',
+    excerpt: p.excerpt,
+    published: true,
+    publishedDate: p.publishedDate,
+    updatedDate: p.updatedDate,
+    category: p.category,
+    readTime: p.readTime,
+    tags: p.tags,
+    heroImage: p.heroImage,
+    heroImageSquare: p.heroImageSquare,
+    ogImage: p.ogImage,
+    linkedTweetUrl: p.linkedTweetUrl,
+  }
+}
+
 export default function Posts({ draft = false }: PostsProps) {
   const { locale, languageTag, t } = useLocale()
+  const ssrPosts = usePostsListSSR()
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q')?.trim() ?? ''
   const [searchInput, setSearchInput] = useState(query)
   const [expandedTweetSlugs, setExpandedTweetSlugs] = useState<Set<string>>(new Set())
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<Post[]>(() => (ssrPosts != null && !draft ? ssrPosts.map(ssrPostToPost) : []))
   /** All published posts including excludeFromListing, for search only */
-  const [postsForSearch, setPostsForSearch] = useState<Post[]>([])
+  const [postsForSearch, setPostsForSearch] = useState<Post[]>(() => (ssrPosts != null && !draft ? ssrPosts.map(ssrPostToPost) : []))
   const [draftCount, setDraftCount] = useState(0)
 
   const filteredPosts = useMemo(() => {
@@ -179,6 +200,9 @@ export default function Posts({ draft = false }: PostsProps) {
   const ogImageHeight = 630
 
   useEffect(() => {
+    // When we have SSR data for the index, skip client fetch to avoid flash and duplicate work
+    if (!draft && ssrPosts != null && ssrPosts.length > 0) return
+
     const loadPosts = async () => {
       const postsData: Post[] = await loadPostsData(isDev, locale)
 
@@ -221,7 +245,7 @@ export default function Posts({ draft = false }: PostsProps) {
     }
 
     loadPosts()
-  }, [isDev, draft, locale])
+  }, [isDev, draft, locale, ssrPosts])
 
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) return ''
