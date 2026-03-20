@@ -354,6 +354,82 @@ function PostShareBar({
   )
 }
 
+/** Optional -hero-og.png row; hidden if asset missing (404). */
+function DevHeroOgSourcePreview({ src, label }: { src: string; label: string }) {
+  const [loaded, setLoaded] = useState(true)
+  if (!loaded) return null
+  return (
+    <div>
+      <p className="text-[12px] text-muted-foreground mb-2">{label}</p>
+      <p className="text-[11px] font-mono text-muted-foreground/80 break-all mb-2">{src}</p>
+      <div className="aspect-[1200/630] w-full max-w-xl overflow-hidden rounded border border-border bg-black">
+        <img
+          src={src}
+          alt=""
+          className="h-full w-full object-contain"
+          onError={() => setLoaded(false)}
+        />
+      </div>
+    </div>
+  )
+}
+
+/** Dev-only: preview images used for og:image meta (and optional -hero-og source). */
+function PostFooterOgPreviewDev({
+  isHome,
+  slug,
+  postOgImage,
+  heroImage,
+  metaOgAbsolute,
+}: {
+  isHome: boolean
+  slug: string
+  postOgImage?: string
+  heroImage?: string
+  metaOgAbsolute: string | null
+}) {
+  const metaLocalSrc =
+    postOgImage != null && postOgImage !== ''
+      ? getPostImageSrc(postOgImage)
+      : isHome
+        ? '/images/og-default-1200x630.jpg'
+        : heroImage
+          ? getPostImageSrc(heroImage)
+          : null
+
+  const heroOgLocalSrc = !isHome && slug ? getPostImageSrc(`${slug}-hero-og.png`) : null
+
+  return (
+    <div
+      className="mt-6 pt-6 border-t border-dashed border-amber-600/35 rounded-md bg-amber-500/[0.06] dark:bg-amber-500/10 p-4 space-y-4"
+      data-dev-og-preview
+    >
+      <span className="text-[11px] font-medium uppercase tracking-wide text-amber-900 dark:text-amber-100/90 block">
+        Dev — Open Graph preview
+      </span>
+      {metaLocalSrc ? (
+        <div>
+          <p className="text-[12px] text-muted-foreground mb-2">Meta og:image (as crawlers see URL)</p>
+          {metaOgAbsolute && (
+            <p className="text-[11px] font-mono text-muted-foreground/80 break-all mb-2">{metaOgAbsolute}</p>
+          )}
+          <div className="aspect-[1200/630] w-full max-w-xl overflow-hidden rounded border border-border bg-black">
+            <img src={metaLocalSrc} alt="" className="h-full w-full object-contain" />
+          </div>
+        </div>
+      ) : (
+        <p className="text-[12px] text-muted-foreground">No og:image in meta for this view (no post ogImage, hero, or home default path).</p>
+      )}
+      {heroOgLocalSrc && (
+        <DevHeroOgSourcePreview
+          src={heroOgLocalSrc}
+          label={`OG generator source (${slug}-hero-og.png, when present)`}
+        />
+      )}
+    </div>
+  )
+}
+
 /** Build a map from primary + alternative slugs to post (for resolving URL slug to canonical post). */
 function buildSlugToPostMap(posts: Post[]): Map<string, Post> {
   const map = new Map<string, Post>()
@@ -614,7 +690,9 @@ export default function Post({ slug: slugProp }: PostProps) {
   const resolvedCanonicalSlug = slug ? (slugToPostPublic.get(slug)?.slug ?? slug) : null
   const ssrPost = usePostSSR() as Post | null
   const [post, setPost] = useState<Post | null>(ssrPost ?? null)
-  const [content, setContent] = useState(ssrPost?.body ?? '')
+  const [content, setContent] = useState(
+    ssrPost?.body ? normalizeMarkdownFormatting(ssrPost.body) : ''
+  )
   const [summaryContent, setSummaryContent] = useState<string | undefined>(undefined)
   const [postscriptContent, setPostscriptContent] = useState<string | undefined>(undefined)
   const [excerptFromMd, setExcerptFromMd] = useState<string | undefined>(undefined)
@@ -1429,6 +1507,15 @@ export default function Post({ slug: slugProp }: PostProps) {
                     copyLink: t.copyLink,
                     copied: t.copied,
                   }}
+                />
+              )}
+              {isDev && !hideHomeMetaBoxes && (
+                <PostFooterOgPreviewDev
+                  isHome={isHome}
+                  slug={post.slug}
+                  postOgImage={post.ogImage}
+                  heroImage={post.heroImage}
+                  metaOgAbsolute={ogImage}
                 />
               )}
             </footer>

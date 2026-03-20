@@ -1,3 +1,7 @@
+---
+excerpt: "I overhauled the Neotoma site. The old single-page wall of text is now a visual presentation backed by documentation, tool-specific integration guides, and architecture deep dives—driven by what testers said and where they got stuck during the developer release."
+---
+
 I overhauled the [Neotoma](https://neotoma.io) site. The old single-page wall of text is now a visual presentation backed by [full documentation](https://neotoma.io/docs), tool-specific integration guides, and [architecture deep dives](https://neotoma.io/architecture). Most of what changed traces back to something a tester said or got stuck on during the developer release.
 
 ![Screenshot: Neotoma home page hero — value prop and agent session without state layer](/images/posts/neotoma-site-overhaul-home-hero.png "screenshot")

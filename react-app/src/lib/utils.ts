@@ -81,6 +81,22 @@ export function stripLinksFromExcerpt(text: string): string {
   return result.replace(/\s+/g, ' ').trim()
 }
 
+/**
+ * When excerpt is only markdown bullet lines (e.g. summary pasted into excerpt),
+ * return cleaned line items for list rendering; otherwise null so callers show a single paragraph.
+ */
+export function parseExcerptAsBulletLines(excerpt: string): string[] | null {
+  if (!excerpt || typeof excerpt !== 'string') return null
+  const lines = excerpt
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+  if (lines.length < 2) return null
+  const bulletRe = /^[-*]\s+/
+  if (!lines.every((l) => bulletRe.test(l))) return null
+  return lines.map((l) => stripLinksFromExcerpt(l.replace(bulletRe, '')))
+}
+
 /** Normalize common translation markdown artifacts so links render correctly. */
 export function normalizeMarkdownFormatting(markdown: string): string {
   if (!markdown || typeof markdown !== 'string') return markdown

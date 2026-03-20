@@ -2,7 +2,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Search, Rss } from 'lucide-react'
-import { stripLinksFromExcerpt, getPostImageSrc, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
+import { stripLinksFromExcerpt, parseExcerptAsBulletLines, getPostImageSrc, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { useLocale } from '@/i18n/LocaleContext'
 import { supportedLocales, type SupportedLocale } from '@/i18n/config'
@@ -122,6 +122,25 @@ function TweetPreview({
           </button>
         </>
       )}
+    </p>
+  )
+}
+
+function PostListingExcerpt({ excerpt, isTweet }: { excerpt?: string; isTweet: boolean }) {
+  if (!excerpt || isTweet) return null
+  const bullets = parseExcerptAsBulletLines(excerpt)
+  if (bullets?.length) {
+    return (
+      <ul className="list-disc pl-5 mb-3 space-y-1.5 text-[15px] text-muted-foreground leading-relaxed">
+        {bullets.slice(0, 6).map((item, i) => (
+          <li key={i}>{item}</li>
+        ))}
+      </ul>
+    )
+  }
+  return (
+    <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed">
+      {stripLinksFromExcerpt(excerpt)}
     </p>
   )
 }
@@ -363,7 +382,7 @@ export default function Posts({ draft = false }: PostsProps) {
             </p>
           ) : (
             paginatedPosts.map((post) => (
-              <article key={post.slug} className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch gap-4">
+              <article key={post.slug} className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch md:items-start gap-4">
                 {(post.heroImage || post.ogImage || post.tweetMetadata?.images?.[0]) && (
                   <Link
                     to={localizePath(`/posts/${post.slug}`, locale)}
@@ -406,11 +425,10 @@ export default function Posts({ draft = false }: PostsProps) {
                       </Link>
                     </h2>
                   )}
-                  {(post.category || '').toLowerCase() !== 'tweet' && post.excerpt && (
-                    <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed">
-                      {stripLinksFromExcerpt(post.excerpt)}
-                    </p>
-                  )}
+                  <PostListingExcerpt
+                    excerpt={post.excerpt}
+                    isTweet={(post.category || '').toLowerCase() === 'tweet'}
+                  />
                   <div className="flex items-center gap-4 text-[13px] text-muted-foreground">
                     {post.publishedDate && (
                       <Link

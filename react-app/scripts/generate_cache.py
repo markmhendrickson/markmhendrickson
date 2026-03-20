@@ -180,6 +180,25 @@ def overlay_summaries_from_markdown(metadata_list: List[Dict[str, Any]]) -> None
         meta["summary"] = raw.strip()
 
 
+def _apply_repo_hero_and_og_convention(meta: Dict[str, Any], slug: str) -> None:
+    """If export omitted hero/og but repo has conventional assets, attach them (same as draft markdown flow)."""
+    if not meta.get("heroImage"):
+        hero_path = PUBLIC_POSTS_IMAGES / f"{slug}-hero.png"
+        if hero_path.exists():
+            meta["heroImage"] = f"{slug}-hero.png"
+            style_raw = _safe_read(PUBLIC_POSTS_IMAGES / f"{slug}-hero-style.txt")
+            meta["heroImageStyle"] = (style_raw or "").strip() or "keep-proportions"
+            square_path = PUBLIC_POSTS_IMAGES / f"{slug}-hero-square.png"
+            if square_path.exists():
+                meta["heroImageSquare"] = f"{slug}-hero-square.png"
+    if not meta.get("ogImage"):
+        for pattern in (f"{slug}-1200x630.png", f"{slug}-1200x630.jpg"):
+            og_p = PUBLIC_OG_IMAGES_DIR / pattern
+            if og_p.exists():
+                meta["ogImage"] = f"og/{pattern}"
+                break
+
+
 def overlay_body_from_markdown(metadata_list: List[Dict[str, Any]]) -> None:
     for meta in metadata_list:
         slug = meta.get("slug")
@@ -233,6 +252,7 @@ def overlay_body_from_markdown(metadata_list: List[Dict[str, Any]]) -> None:
         og = (frontmatter.get("og_image") or "").strip()
         if og:
             meta["ogImage"] = og
+        _apply_repo_hero_and_og_convention(meta, slug)
 
 
 def _manifest_entry_for_slug(slug: str) -> Optional[Dict[str, Any]]:
@@ -585,6 +605,39 @@ def sync_locale_caches_hero_from_posts_json() -> None:
             write_json(path, data)
 
 
+def hydrate_locale_posts_repo_assets() -> None:
+    """Set heroImage / ogImage on posts.<locale>.json when repo has conventional assets (posts may exist only in locale caches)."""
+    for path in CACHE_DIR.glob("posts.*.json"):
+        name = path.name
+        if name == "posts.private.json":
+            continue
+        mid = name.replace("posts.", "").replace(".json", "")
+        if len(mid) != 2 or not mid.isalpha():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not isinstance(data, list):
+            continue
+        changed = False
+        for post in data:
+            if not isinstance(post, dict):
+                continue
+            slug = post.get("slug")
+            if not slug or not isinstance(slug, str):
+                continue
+            body_path = WEBSITE_POSTS_DIR / f"{slug}.md"
+            if not body_path.exists():
+                continue
+            before = {k: post.get(k) for k in ("heroImage", "heroImageSquare", "heroImageStyle", "ogImage")}
+            _apply_repo_hero_and_og_convention(post, slug)
+            if any(post.get(k) != before.get(k) for k in before):
+                changed = True
+        if changed:
+            write_json(path, data)
+
+
 def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
     if not posts:
         export_slugs_empty: set = set()
@@ -622,6 +675,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
         overlay_alternative_slugs(all_metadata)
         write_json(POSTS_PRIVATE_JSON, all_metadata)
         sync_locale_caches_hero_from_posts_json()
+        hydrate_locale_posts_repo_assets()
         return
 
     seen: Dict[str, Dict[str, Any]] = {}
@@ -684,6 +738,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
     overlay_alternative_slugs(all_metadata)
     write_json(POSTS_PRIVATE_JSON, all_metadata)
     sync_locale_caches_hero_from_posts_json()
+    hydrate_locale_posts_repo_assets()
 
 
 def generate_links_cache(links: List[Dict[str, Any]]) -> None:

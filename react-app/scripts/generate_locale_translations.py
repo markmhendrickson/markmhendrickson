@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 from deep_translator import GoogleTranslator, MyMemoryTranslator
@@ -42,6 +43,13 @@ LOCALE_TO_MYMEMORY_LANG = {
     "de": "de-DE",
 }
 TRANSLATABLE_FIELDS = ("title", "excerpt", "summary", "body", "postscript")
+
+
+def _fix_markdown_link_spacing(text: str) -> str:
+    """MT often inserts space before '(' so '] (' breaks links; normalize to ']('."""
+    if not text:
+        return text
+    return re.sub(r"]\s+\(", "](", text)
 
 
 def _chunk_text(text: str, max_chars: int = 4200) -> list[str]:
@@ -153,9 +161,11 @@ def main() -> None:
                     source_value = str(post.get(field) or "").strip()
                 prior_value = str(prior.get(field) or "").strip()
                 if prior_value and _norm_text(prior_value) != _norm_text(source_value):
-                    entry[field] = prior_value
+                    entry[field] = _fix_markdown_link_spacing(prior_value)
                     continue
-                entry[field] = _translate_text(source_value, translators, text_cache)
+                entry[field] = _fix_markdown_link_spacing(
+                    _translate_text(source_value, translators, text_cache)
+                )
 
             if prior.get("slug"):
                 entry["slug"] = prior.get("slug")
