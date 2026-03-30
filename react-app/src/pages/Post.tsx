@@ -7,12 +7,14 @@ import remarkGfm from 'remark-gfm'
 import { usePostSSR } from '@/contexts/PostSSRContext'
 import { stripLinksFromExcerpt, getPostImageSrc, getZoomImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter, isExcludedFromListing, isPublishedPost, normalizeMarkdownFormatting } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
 import { defaultLocale, supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
 
 /** X (formerly Twitter) logo for share button. */
 function XLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
@@ -1217,18 +1219,34 @@ export default function Post({ slug: slugProp }: PostProps) {
           </Link>
         )}
         <article>
-          {!isTweetPost && (
           <header className="mb-8">
-            <h1 className="text-[28px] font-medium mb-2 tracking-tight">
-              {displayTitle}
-            </h1>
-            {displayExcerpt && (
+            <div className="mb-2 flex flex-col-reverse items-start gap-2 md:flex-row md:flex-wrap md:items-baseline md:justify-between md:gap-x-4 md:gap-y-2">
+              <h1 className="m-0 min-w-0 w-full text-[28px] font-medium tracking-tight md:flex-1">
+                {isTweetPost
+                  ? displayTitle?.trim()
+                    ? displayTitle
+                    : t.xPost
+                  : displayTitle}
+              </h1>
+              {post.slug && (
+                <Button variant="outline" size="sm" className="h-8 shrink-0 rounded-full px-3 text-xs font-medium" asChild>
+                  <a
+                    href={`/raw/post/${post.slug}.md`}
+                    onClick={() => {
+                      markNavigatingToRawMarkdown()
+                    }}
+                  >
+                    {t.pageRawMarkdown}
+                  </a>
+                </Button>
+              )}
+            </div>
+            {!isTweetPost && displayExcerpt && (
               <p className="text-[15px] leading-[1.75] text-muted-foreground dark:text-foreground/80 mb-4">
                 {stripLinksFromExcerpt(displayExcerpt)}
               </p>
             )}
           </header>
-          )}
 
           {!hideHomeMetaBoxes && displaySummary && (() => {
             const normalizedSummary = displaySummary.trim().replace(/\s+/g, ' ')

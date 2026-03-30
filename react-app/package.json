@@ -9,13 +9,13 @@
     "generate:og:post": "node scripts/generate-post-og-image.mjs",
     "generate:secondary": "node scripts/generate-all-secondary-from-hero.mjs",
     "generate:rss": "node scripts/generate-rss.mjs",
-    "predev": "if [ \"${SKIP_WEBSITE_CACHE_REGEN:-0}\" = \"1\" ]; then echo \"Skipping cache regeneration (using committed cache).\"; else python3 ../../../scripts/generate_website_cache.py; fi; test -f cache/posts.private.json || cp cache/posts.json cache/posts.private.json; npm run generate:rss",
+    "predev": "if [ \"${SKIP_WEBSITE_CACHE_REGEN:-0}\" = \"1\" ]; then echo \"Skipping cache regeneration (using committed cache).\"; else python3 ../../../scripts/generate_website_cache.py; fi; test -f cache/posts.private.json || cp cache/posts.json cache/posts.private.json; npx tsx scripts/gen-honors-thesis-paths.ts && npm run generate:rss",
     "dev": "concurrently \"vite\" \"npm run watch:cache\"",
     "watch:cache": "node scripts/watch-cache.mjs",
     "dev:api": "node scripts/dev-newsletter-api.mjs",
     "dev:full": "concurrently \"npm run dev\" \"npm run dev:api\"",
     "dev:ssr": "node server.js",
-    "prebuild": "if [ \"${SKIP_WEBSITE_CACHE_REGEN:-0}\" = \"1\" ]; then echo \"Skipping cache regeneration (using committed cache).\"; else python3 ../../../scripts/generate_website_cache.py; fi; test -f cache/posts.private.json || cp cache/posts.json cache/posts.private.json; npm run generate:rss",
+    "prebuild": "if [ \"${SKIP_WEBSITE_CACHE_REGEN:-0}\" = \"1\" ]; then echo \"Skipping cache regeneration (using committed cache).\"; else python3 ../../../scripts/generate_website_cache.py; fi; test -f cache/posts.private.json || cp cache/posts.json cache/posts.private.json; npx tsx scripts/gen-honors-thesis-paths.ts && npm run generate:rss",
     "build": "vite build",
     "build:ci": "npm run build && npm run build:ssr && NODE_ENV=production node server.js --prerender && node scripts/verify-ssr-output.mjs",
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist/server",
@@ -54,6 +54,7 @@
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.13",
     "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.19.3",
     "typescript": "^5.6.3",
     "vite": "^5.4.6"
   }

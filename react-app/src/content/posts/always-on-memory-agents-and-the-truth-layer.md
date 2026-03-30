@@ -1,3 +1,8 @@
+---
+title: "Google's memory agent thinks for itself, trading determinism for insight"
+excerpt: "A new open-source memory agent from Google ditches vector databases for LLM consolidation, trading determinism for active pattern discovery. It makes opposite architectural choices from a truth layer on every axis. The strongest architecture may combine both: consolidation above, deterministic state you can audit and revert below."
+---
+
 [Shubham Saboo](https://x.com/Saboo_Shubham_) (a Google PM) [open-sourced an Always-On Memory Agent](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/gemini/agents/always-on-memory-agent) last week as part of the GCP generative-ai repo. [VentureBeat covered it](https://venturebeat.com/orchestration/google-pm-open-sources-always-on-memory-agent-ditching-vector-databases-for) as a signal about where agent infrastructure is headed. It is a persistent memory system that runs 24/7 as a background process, ingesting files, consolidating on a timer, and answering queries. No vector database. No embeddings. Just an LLM that reads, thinks, and writes structured memory to SQLite.
 
 The project validates something I have been building toward with [Neotoma](https://github.com/markmhendrickson/neotoma): persistent memory for agents is a real and growing need. But the two projects make opposite architectural choices. This post compares them.
@@ -102,3 +107,4 @@ Where the two projects agree: passive memory is not enough. Where they disagree:
 I'm building [Neotoma](https://github.com/markmhendrickson/neotoma) as the trust layer. Typed entities, canonical IDs, deterministic merge, provenance, cross-platform access via MCP. I use it daily across ChatGPT, Claude, and Cursor. The [developer release](/posts/neotoma-developer-release) is available now at [neotoma.io](https://neotoma.io).
 
 Google's sample shows that the industry is converging on persistent agent memory. The open question is not whether agents will remember, but how. Capability or governance. Agent or substrate. Probabilistic consolidation or deterministic truth. I am betting on the latter.
+

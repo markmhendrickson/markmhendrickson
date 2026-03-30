@@ -1,5 +1,16 @@
 [
   {
+    "slug": "neotoma-financial-data-tracking",
+    "published": false,
+    "title": "What happens when you use agent memory to track your finances",
+    "excerpt": "I spent a day building a financial dashboard on top of Neotoma and discovered that the real test of a memory system is whether it can hold the mess of real financial data without pretending the mess is clean.",
+    "category": "essay",
+    "readTime": 12,
+    "tags": ["neotoma", "build-in-public", "finance", "agent-memory", "dashboard"],
+    "createdDate": "2026-03-23",
+    "updatedDate": "2026-03-23"
+  },
+  {
     "slug": "how-i-lost-and-recovered-6000-memories",
     "published": true,
     "title": "How I lost and recovered 6,000 memories",

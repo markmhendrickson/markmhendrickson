@@ -30,6 +30,16 @@
   to = "/links"
   status = 301
 
+# Aliases (canonical URLs are /meet and /)
+[[redirects]]
+  from = "/schedule"
+  to = "/meet"
+  status = 301
+[[redirects]]
+  from = "/about"
+  to = "/"
+  status = 301
+
 # Trailing slash on posts: /posts/slug/ -> /posts/slug (canonical). Root-level /slug -> /posts/slug is generated at build time in dist/_redirects.
 [[redirects]]
   from = "/posts/*/"

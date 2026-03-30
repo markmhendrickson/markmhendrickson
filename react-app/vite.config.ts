@@ -1,10 +1,68 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type ViteDevServer } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import fs from 'fs'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const cacheDir = path.resolve(__dirname, 'cache')
+const postsContentDir = path.resolve(__dirname, 'src/content/posts')
+
+/** Dev: serve post sources at GET /raw/post/:slug.md. Build: copy published post .md files into dist/raw/post/ for static hosts. */
+function rawPostMarkdownPlugin() {
+  function collectPublishedSlugs(): Set<string> {
+    const slugs = new Set<string>()
+    if (!fs.existsSync(cacheDir)) return slugs
+    for (const name of fs.readdirSync(cacheDir)) {
+      if (!/^posts(\.[a-z]{2})?\.json$/.test(name)) continue
+      try {
+        const data = JSON.parse(fs.readFileSync(path.join(cacheDir, name), 'utf-8')) as unknown
+        if (!Array.isArray(data)) continue
+        for (const p of data) {
+          if (p == null || typeof p !== 'object') continue
+          const rec = p as { published?: unknown; slug?: unknown }
+          if (rec.published === false || !rec.slug) continue
+          slugs.add(String(rec.slug))
+        }
+      } catch {
+        /* skip malformed cache */
+      }
+    }
+    return slugs
+  }
+
+  return {
+    name: 'raw-post-markdown',
+    configureServer(server: ViteDevServer) {
+      server.middlewares.use((req, res, next) => {
+        if (req.method !== 'GET' || !req.url) return next()
+        const clean = req.url.split('?')[0] ?? ''
+        const m = clean.match(/^\/raw\/post\/([a-zA-Z0-9_-]+)\.md$/)
+        if (!m) return next()
+        const slug = m[1]
+        const filePath = path.join(postsContentDir, `${slug}.md`)
+        if (!fs.existsSync(filePath)) {
+          res.statusCode = 404
+          res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+          res.end('Not found')
+          return
+        }
+        res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
+        fs.createReadStream(filePath).pipe(res)
+      })
+    },
+    closeBundle() {
+      const outDir = path.resolve(__dirname, 'dist/raw/post')
+      fs.mkdirSync(outDir, { recursive: true })
+      for (const slug of collectPublishedSlugs()) {
+        const src = path.join(postsContentDir, `${slug}.md`)
+        if (fs.existsSync(src)) {
+          fs.copyFileSync(src, path.join(outDir, `${slug}.md`))
+        }
+      }
+    },
+  }
+}
 
 const GA_MEASUREMENT_ID = process.env.VITE_GA_MEASUREMENT_ID || 'G-5CWQZTEN9S'
 
@@ -27,6 +85,7 @@ function cacheReloadPlugin() {
 export default defineConfig({
   plugins: [
     cacheReloadPlugin(),
+    rawPostMarkdownPlugin(),
     react(),
     // Inject gtag in production only (head, before app) so GA detects the tag
     {

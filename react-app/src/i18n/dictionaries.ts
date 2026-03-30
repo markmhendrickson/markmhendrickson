@@ -11,6 +11,8 @@ export type Dict = {
   navWisdom: string
   navMeet: string
   navLinks: string
+  /** Pill next to post title → `/raw/post/:slug.md` */
+  pageRawMarkdown: string
   navRss: string
   navLanguage: string
   drafts: string
@@ -90,6 +92,7 @@ const enDict: Dict = {
     navWisdom: 'Wisdom',
     navMeet: 'Meet',
     navLinks: 'Links',
+    pageRawMarkdown: 'View markdown',
     navRss: 'RSS feed',
     navLanguage: 'Language',
     drafts: 'Drafts',
@@ -170,6 +173,7 @@ const esDict: Dict = {
     navWisdom: 'Sabiduría',
     navMeet: 'Reunión',
     navLinks: 'Enlaces',
+    pageRawMarkdown: 'Ver markdown',
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
     drafts: 'Borradores',
@@ -250,6 +254,7 @@ const caDict: Dict = {
     navWisdom: 'Saviesa',
     navMeet: 'Trobada',
     navLinks: 'Enllaços',
+    pageRawMarkdown: 'Veure markdown',
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
     drafts: 'Esborranys',

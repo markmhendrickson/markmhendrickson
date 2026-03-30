@@ -24,6 +24,20 @@
   </head>
   <body>
     <div id="root"><!--ssr-outlet--></div>
+    <!-- Before React: returning from /raw/post/*.md (plain text) via back can restore a broken bfcache; reload if we flagged that navigation. -->
+    <script>
+      (function () {
+        var k = 'mh_raw_md_nav'
+        window.addEventListener('pageshow', function () {
+          try {
+            if (sessionStorage.getItem(k) === '1') {
+              sessionStorage.removeItem(k)
+              window.location.reload()
+            }
+          } catch (e) {}
+        })
+      })()
+    </script>
     <script type="module" src="/src/entry-client.tsx"></script>
   </body>
 </html>

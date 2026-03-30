@@ -14,6 +14,7 @@ const SSR_PLACEHOLDER = '<!--ssr-outlet-->'
 const keyFiles = [
   'index.html',
   'posts/index.html',
+  'honors-thesis/chapter/introduction/index.html',
 ]
 
 let failed = false
