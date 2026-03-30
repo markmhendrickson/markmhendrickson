@@ -162,6 +162,41 @@ export function Layout({ children }: LayoutProps) {
               description: defaultDescription,
             })}
           </script>
+          <script type="application/ld+json">
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ProfilePage',
+              mainEntity: {
+                '@type': 'Person',
+                name: 'Mark Hendrickson',
+                url: 'https://markmhendrickson.com',
+                jobTitle: 'Founder',
+                description: defaultDescription,
+                image: 'https://markmhendrickson.com/profile.jpg',
+                worksFor: {
+                  '@type': 'Organization',
+                  name: 'Neotoma',
+                  url: 'https://neotoma.io',
+                },
+                sameAs: [
+                  'https://www.linkedin.com/in/markmhendrickson',
+                  'https://github.com/markmhendrickson',
+                  'https://x.com/markymark',
+                  'https://www.indiehackers.com/markmhendrickson',
+                  'https://medium.com/@markymark',
+                  'https://substack.com/@markmhendrickson',
+                ],
+                knowsAbout: [
+                  'AI agents',
+                  'Model Context Protocol',
+                  'sovereign memory infrastructure',
+                  'Bitcoin',
+                  'product development',
+                  'agentic systems',
+                ],
+              },
+            })}
+          </script>
         </Helmet>
       )}
       <SharedLayout

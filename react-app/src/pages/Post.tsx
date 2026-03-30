@@ -1161,8 +1161,21 @@ export default function Post({ slug: slugProp }: PostProps) {
             ...(ogImage != null && { image: ogImage }),
             ...(post.publishedDate && { datePublished: post.publishedDate }),
             ...(post.updatedDate && { dateModified: post.updatedDate }),
-            author: { '@type': 'Person', name: 'Mark Hendrickson', url: SITE_BASE },
+            author: {
+              '@type': 'Person',
+              name: 'Mark Hendrickson',
+              url: SITE_BASE,
+              sameAs: [
+                'https://www.linkedin.com/in/markmhendrickson',
+                'https://github.com/markmhendrickson',
+                'https://x.com/markymark',
+              ],
+            },
             publisher: { '@type': 'Organization', name: 'Mark Hendrickson', logo: { '@type': 'ImageObject', url: `${SITE_BASE}/profile.jpg` } },
+            speakable: {
+              '@type': 'SpeakableSpecification',
+              cssSelector: ['article header h1', 'article header p', '.post-prose-summary'],
+            },
           })}
         </script>
         <script type="application/ld+json">
@@ -1321,7 +1334,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                   )
                 }
               const markdownComponents = {
-                h1: makeHeading('h1'),
+                h1: makeHeading('h2'),
                 h2: makeHeading('h2'),
                 h3: makeHeading('h3'),
                 h4: makeHeading('h4'),

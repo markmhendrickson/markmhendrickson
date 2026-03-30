@@ -1,0 +1,55 @@
+# Mark Hendrickson
+
+> Solo founder building Neotoma, a sovereign memory and deterministic state layer for long-running AI agents. Based in Barcelona, Spain. Previously TechCrunch, Plancast (acquired by Active Network), KITE Solutions, Hiro/Stacks blockchain, Leather/Trust Machines.
+
+## What I do
+
+I build sovereign infrastructure for AI agents: memory that agents own and control rather than cede to platforms. My current project, Neotoma, treats agent memory as state evolution rather than retrieval: every observation is versioned, every entity snapshot is reproducible, every decision can be replayed. Schema-bound, local-first, cross-platform via MCP, and entirely user-controlled.
+
+I work as a solo founder operating with AI agents as a team rather than as tools. Every workflow (email, finance, content, product) runs through a shared repo and source of truth. The agents follow the same playbook I do, which only works because the state layer is explicit and inspectable.
+
+## Neotoma
+
+Neotoma is a deterministic state layer for long-running agents. Core problems it solves:
+
+- Agent memory drifts between sessions, overwrites without history, and cannot be traced or replayed
+- Neotoma versions every observation, produces reproducible entity snapshots, and supports full decision replay
+- Schema-first design with event-sourced memory
+- Local-first architecture, cross-platform via Model Context Protocol (MCP)
+- User-controlled: data sovereignty by default
+
+Website: https://neotoma.io
+MCP server: https://github.com/markmhendrickson/mcp-server-markmhendrickson
+
+## Career timeline
+
+- Founder, Neotoma & Ateles (2025-present, Barcelona)
+- General Manager, Leather at Trust Machines (2022-2025, Barcelona) — Bitcoin wallet
+- Product Lead, Hiro Systems / Blockstack (2018-2022, Barcelona) — Stacks blockchain
+- Freelance Product Manager, Designer & Developer (2015-2018, Barcelona) — Digit, First Opinion, STYLEBEE
+- Head of Product & Co-Founder, KITE Solutions (2012-2015, NYC & Barcelona)
+- Product Lead, Lift (2012, San Francisco)
+- CEO & Co-Founder, Plancast (2009-2011, San Francisco) — acquired by Active Network
+- Project Manager, Designer & Writer, TechCrunch (2007-2009) — 500+ articles, led Crunchbase redesign
+- BA Government & Economics, Bowdoin College (2003-2007) — summa cum laude
+
+## Writing topics
+
+Essays and technical posts on: AI agent architecture, sovereign memory infrastructure, MCP (Model Context Protocol), Bitcoin and crypto wallets, product development, build-in-public philosophy, startup narratives, digital sovereignty, and the relationship between technology and human character.
+
+## Contact
+
+- Email: mark@hendricksonserrano.com
+- LinkedIn: https://www.linkedin.com/in/markmhendrickson
+- GitHub: https://github.com/markmhendrickson
+- X: https://x.com/markymark
+
+## AI discovery files
+
+- Extended content inventory: https://markmhendrickson.com/llms-full.txt
+- Posts JSON API: https://markmhendrickson.com/api/posts.json
+- Timeline JSON API: https://markmhendrickson.com/api/timeline.json
+- All content JSON API: https://markmhendrickson.com/api/pages.json
+- MCP server repo: https://github.com/markmhendrickson/mcp-server-markmhendrickson
+- RSS feed: https://markmhendrickson.com/rss.xml
+- Raw post markdown: https://markmhendrickson.com/raw/post/{slug}.md

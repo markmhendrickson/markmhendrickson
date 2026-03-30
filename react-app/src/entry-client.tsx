@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
-import { PostSSRProvider } from './contexts/PostSSRContext'
+import { PostSSRProvider, getPostSSRFromDom } from './contexts/PostSSRContext'
 import { PostsListSSRProvider, getPostsListSSRFromDom } from './contexts/PostsListSSRContext'
 import { AgentSSRProvider, getAgentSSRFromDom } from './contexts/AgentSSRContext'
 import { SongsSSRProvider, getSongsSSRFromDom } from './contexts/SongsSSRContext'
@@ -12,14 +12,15 @@ const rootEl = document.getElementById('root')
 if (!rootEl) throw new Error('Root element not found')
 
 // Hydration: use SSR script tags so /posts, /agent, /songs have data without client fetch
+const ssrPost = getPostSSRFromDom()
 const ssrPostsList = getPostsListSSRFromDom()
 const ssrAgentContent = getAgentSSRFromDom()
 const ssrSongs = getSongsSSRFromDom()
 
 // HelmetProvider must wrap App so Post/Posts <Helmet> have context (entry-client is the actual entry, not main.tsx)
-// PostSSRProvider(null) on client so usePostSSR() has a provider; SSR injects postMeta in entry-server
+// Keep SSR post data in sync during hydrate to avoid loading-state mismatch on post pages.
 const app = (
-  <PostSSRProvider postMeta={null}>
+  <PostSSRProvider postMeta={ssrPost}>
     <PostsListSSRProvider posts={ssrPostsList}>
       <AgentSSRProvider content={ssrAgentContent}>
         <SongsSSRProvider songs={ssrSongs}>

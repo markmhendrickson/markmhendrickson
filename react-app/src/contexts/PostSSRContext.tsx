@@ -19,6 +19,7 @@ export interface PostMeta {
 }
 
 const PostSSRContext = React.createContext<{ postMeta: PostMeta | null }>({ postMeta: null })
+const SCRIPT_ID = 'post-ssr-data'
 
 export function PostSSRProvider({
   postMeta,
@@ -28,10 +29,30 @@ export function PostSSRProvider({
   children: React.ReactNode
 }) {
   return (
-    <PostSSRContext.Provider value={{ postMeta }}>{children}</PostSSRContext.Provider>
+    <PostSSRContext.Provider value={{ postMeta }}>
+      {postMeta != null && (
+        <script
+          type="application/json"
+          id={SCRIPT_ID}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(postMeta) }}
+        />
+      )}
+      {children}
+    </PostSSRContext.Provider>
   )
 }
 
 export function usePostSSR() {
   return React.useContext(PostSSRContext).postMeta
+}
+
+export function getPostSSRFromDom(): PostMeta | null {
+  if (typeof document === 'undefined') return null
+  const el = document.getElementById(SCRIPT_ID)
+  if (!el?.textContent) return null
+  try {
+    return JSON.parse(el.textContent) as PostMeta
+  } catch {
+    return null
+  }
 }

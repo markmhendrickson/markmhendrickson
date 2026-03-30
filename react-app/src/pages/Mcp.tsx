@@ -158,6 +158,39 @@ export default function Mcp() {
         <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
         <meta name="twitter:image:width" content={String(OG_IMAGE_WIDTH)} />
         <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: pageTitle,
+            description: pageDesc,
+            url: canonicalUrl,
+            mainEntity: {
+              '@type': 'SoftwareApplication',
+              name: 'Neotoma MCP Server',
+              description: 'Public MCP server for reading Mark Hendrickson\'s personal data including posts, timeline, links, and structured page content. Powered by Neotoma.',
+              applicationCategory: 'DeveloperApplication',
+              url: 'https://github.com/markmhendrickson/mcp-server-markmhendrickson',
+              author: {
+                '@type': 'Person',
+                name: 'Mark Hendrickson',
+                url: SITE_BASE,
+              },
+              isPartOf: {
+                '@type': 'SoftwareApplication',
+                name: 'Neotoma',
+                description: 'A deterministic state layer for long-running AI agents. Schema-bound, event-sourced, local-first memory infrastructure.',
+                url: 'https://neotoma.io',
+                applicationCategory: 'DeveloperApplication',
+                creator: {
+                  '@type': 'Person',
+                  name: 'Mark Hendrickson',
+                  url: SITE_BASE,
+                },
+              },
+            },
+          })}
+        </script>
       </Helmet>
       <div className="flex justify-center items-start min-h-content pt-10 pb-20 px-5 md:py-28 md:px-8">
         <div className="max-w-[42rem] w-full">

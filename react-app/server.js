@@ -274,6 +274,86 @@ ${items}
 `
 }
 
+function buildLlmsFullTxt(posts, timelineData) {
+  const published = posts
+    .filter((p) => p.published !== false && p.slug && !p.excludeFromListing)
+    .sort((a, b) => {
+      const da = a.publishedDate || a.updatedDate || ''
+      const db = b.publishedDate || b.updatedDate || ''
+      return db.localeCompare(da)
+    })
+
+  const lines = []
+  lines.push('# Mark Hendrickson — Full content inventory')
+  lines.push('')
+  lines.push('> Extended version of llms.txt with complete post inventory, timeline, and page content.')
+  lines.push('> See also: https://markmhendrickson.com/llms.txt')
+  lines.push('')
+
+  lines.push('## Posts')
+  lines.push('')
+  for (const p of published) {
+    const url = `${SITE_BASE}/posts/${p.slug}`
+    const rawUrl = `${SITE_BASE}/raw/post/${p.slug}.md`
+    lines.push(`### ${p.title || p.slug}`)
+    lines.push('')
+    lines.push(`- URL: ${url}`)
+    lines.push(`- Raw markdown: ${rawUrl}`)
+    if (p.publishedDate) lines.push(`- Published: ${p.publishedDate}`)
+    if (p.updatedDate) lines.push(`- Updated: ${p.updatedDate}`)
+    if (p.category) lines.push(`- Category: ${p.category}`)
+    if (p.tags && p.tags.length) lines.push(`- Tags: ${p.tags.join(', ')}`)
+    if (p.readTime) lines.push(`- Read time: ${p.readTime} min`)
+    if (p.excerpt) lines.push(`- Excerpt: ${p.excerpt}`)
+    lines.push('')
+  }
+
+  if (timelineData && Array.isArray(timelineData) && timelineData.length > 0) {
+    lines.push('## Career timeline')
+    lines.push('')
+    for (const entry of timelineData) {
+      lines.push(`### ${entry.role} — ${entry.company}`)
+      lines.push('')
+      lines.push(`- Period: ${entry.date}`)
+      if (entry.description && entry.description.length > 0) {
+        for (const desc of entry.description) {
+          lines.push(`- ${desc}`)
+        }
+      }
+      lines.push('')
+    }
+  }
+
+  lines.push('## JSON API endpoints')
+  lines.push('')
+  lines.push(`- Posts: ${SITE_BASE}/api/posts.json`)
+  lines.push(`- Timeline: ${SITE_BASE}/api/timeline.json`)
+  lines.push(`- Links: ${SITE_BASE}/api/links.json`)
+  lines.push(`- Pages: ${SITE_BASE}/api/pages.json`)
+  lines.push(`- Agent: ${SITE_BASE}/api/agent.json`)
+  lines.push(`- Meet: ${SITE_BASE}/api/meet.json`)
+  lines.push(`- Consulting: ${SITE_BASE}/api/consulting.json`)
+  lines.push(`- Investing: ${SITE_BASE}/api/investing.json`)
+  lines.push('')
+  lines.push('## MCP server')
+  lines.push('')
+  lines.push('Repository: https://github.com/markmhendrickson/mcp-server-markmhendrickson')
+  lines.push('Agent page: https://markmhendrickson.com/agent')
+  lines.push('')
+
+  return lines.join('\n')
+}
+
+function readTimelineData() {
+  const filePath = path.resolve(__dirname, 'src', 'data', 'timeline.json')
+  if (!fs.existsSync(filePath)) return null
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+  } catch {
+    return null
+  }
+}
+
 function readPostBody(slug) {
   const mdPath = path.resolve(__dirname, 'src', 'content', 'posts', `${slug}.md`)
   if (!fs.existsSync(mdPath)) return null
@@ -379,7 +459,7 @@ async function runPrerender() {
   }
   fs.writeFileSync(path.join(distPath, '404.html'), notFoundFull, 'utf-8')
   console.log('prerender: 404.html')
-  const sitemapRoutes = [...new Set([...LEGACY_STATIC_ROUTES, ...LOCALIZED_STATIC_ROUTES])]
+  const sitemapRoutes = [...new Set([...LEGACY_STATIC_ROUTES, ...LOCALIZED_STATIC_ROUTES, '/llms.txt', '/llms-full.txt'])]
   const sitemapXml = buildSitemapXml(sitemapRoutes, getPostEntries())
   fs.writeFileSync(path.join(distPath, 'sitemap.xml'), sitemapXml, 'utf-8')
   console.log('prerender: sitemap.xml')
@@ -392,6 +472,11 @@ async function runPrerender() {
     fs.writeFileSync(path.join(distPath, locale, 'rss.xml'), localizedRssXml, 'utf-8')
     console.log(`prerender: ${locale}/rss.xml`)
   }
+  const llmsFullPosts = getPosts(DEFAULT_LOCALE)
+  const timelineData = readTimelineData()
+  const llmsFullTxt = buildLlmsFullTxt(llmsFullPosts, timelineData)
+  fs.writeFileSync(path.join(distPath, 'llms-full.txt'), llmsFullTxt, 'utf-8')
+  console.log('prerender: llms-full.txt')
   // Netlify _redirects: root-level /slug -> /posts/canonical for every post (HN and legacy URLs)
   const legacySlugs = getLegacyRootSlugRedirects()
   const redirectLines = []

@@ -298,6 +298,7 @@ export default function Posts({ draft = false }: PostsProps) {
           />
         ))}
         <link rel="alternate" hrefLang="x-default" href="https://markmhendrickson.com/posts" />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={`${pageTitle} — Mark Hendrickson`} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content={`https://markmhendrickson.com${localizePath(pagePath, locale)}`} />
@@ -310,6 +311,26 @@ export default function Posts({ draft = false }: PostsProps) {
         <meta name="twitter:image" content={defaultOgImage} />
         <meta name="twitter:image:width" content={String(ogImageWidth)} />
         <meta name="twitter:image:height" content={String(ogImageHeight)} />
+        {!draft && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'CollectionPage',
+              name: `${pageTitle} — Mark Hendrickson`,
+              description: pageDesc,
+              url: `https://markmhendrickson.com${localizePath(pagePath, locale)}`,
+              mainEntity: {
+                '@type': 'ItemList',
+                itemListElement: posts.slice(0, 20).map((post, index) => ({
+                  '@type': 'ListItem',
+                  position: index + 1,
+                  url: `https://markmhendrickson.com${localizePath(`/posts/${post.slug}`, locale)}`,
+                  name: post.title || post.slug,
+                })),
+              },
+            })}
+          </script>
+        )}
       </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
       <div className="max-w-[600px] w-full">

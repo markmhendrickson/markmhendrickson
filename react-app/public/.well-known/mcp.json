@@ -1,0 +1,16 @@
+{
+  "name": "Mark Hendrickson",
+  "description": "Public MCP server for reading Mark Hendrickson's personal data including posts, timeline, links, consulting, and investing information. Powered by Neotoma.",
+  "server_url": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
+  "tools_url": "https://markmhendrickson.com/agent",
+  "endpoints": {
+    "posts": "https://markmhendrickson.com/api/posts.json",
+    "timeline": "https://markmhendrickson.com/api/timeline.json",
+    "links": "https://markmhendrickson.com/api/links.json",
+    "pages": "https://markmhendrickson.com/api/pages.json",
+    "agent": "https://markmhendrickson.com/api/agent.json",
+    "meet": "https://markmhendrickson.com/api/meet.json",
+    "consulting": "https://markmhendrickson.com/api/consulting.json",
+    "investing": "https://markmhendrickson.com/api/investing.json"
+  }
+}
