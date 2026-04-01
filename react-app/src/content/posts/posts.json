@@ -1,5 +1,50 @@
 [
   {
+    "slug": "cybernetics-and-personal-agent-infrastructure",
+    "published": false,
+    "title": "Cybernetics and personal agent infrastructure",
+    "excerpt": "Norbert Wiener’s steering systems map onto truth, strategy, and execution. Stafford Beer’s viable system model, Ashby’s requisite variety, and second-order feedback explain why durable agent memory isn’t optional for self-governance.",
+    "category": "essay",
+    "readTime": 10,
+    "tags": [
+      "neotoma",
+      "agents",
+      "cybernetics",
+      "architecture",
+      "truth-layer"
+    ],
+    "createdDate": "2026-03-31",
+    "updatedDate": "2026-03-31"
+  },
+  {
+    "slug": "ai-tooling-deflationary-and-validation",
+    "published": false,
+    "title": "When AI tooling is deflationary (and when it isn't)",
+    "excerpt": "A founder friend argued that tooling around AI loses value with every new model, and that scraping for pre-validated ideas beats building from conviction. The better distinction is thin wrappers versus durable infrastructure—and complaints in a forum are not the same as validation.",
+    "category": "essay",
+    "readTime": 8,
+    "tags": [
+      "ai",
+      "startups",
+      "validation",
+      "build-in-public",
+      "neotoma"
+    ],
+    "createdDate": "2026-03-31",
+    "updatedDate": "2026-03-31"
+  },
+  {
+    "slug": "customer-development-with-agents",
+    "published": false,
+    "title": "I used AI agents to run customer development",
+    "excerpt": "I asked 26 people to have their AI agents evaluate my product. The agents were more honest and specific than any conversation I'd had over the phone. Three patterns emerged that changed how I think about collecting product feedback.",
+    "category": "essay",
+    "readTime": 10,
+    "tags": ["neotoma", "build-in-public", "customer-development", "agents", "icp"],
+    "createdDate": "2026-03-26",
+    "updatedDate": "2026-03-26"
+  },
+  {
     "slug": "neotoma-financial-data-tracking",
     "published": false,
     "title": "What happens when you use agent memory to track your finances",

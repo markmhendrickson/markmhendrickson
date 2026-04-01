@@ -8,12 +8,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
-
-declare global {
-  interface Window {
-    gtag?: (command: string, eventName: string, params?: Record<string, string>) => void
-  }
-}
+import { trackUmamiEvent } from '@/lib/analytics'
 
 interface SurveyData {
   role: string
@@ -89,12 +84,10 @@ export default function NewsletterConfirm() {
 
       if (response.ok) {
         setSuccess(true)
-        if (typeof window.gtag !== 'undefined') {
-          window.gtag('event', 'newsletter_survey_completed', {
-            'event_category': 'engagement',
-            'event_label': 'newsletter_survey'
-          })
-        }
+        trackUmamiEvent('newsletter_survey_completed', {
+          category: 'engagement',
+          label: 'newsletter_survey',
+        })
       } else {
         setError(result.error || 'Something went wrong. Please try again.')
       }

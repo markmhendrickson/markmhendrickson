@@ -19,11 +19,14 @@ export function stripLocaleFromPath(pathname: string): string {
   return pathname || '/'
 }
 
+/** GitHub Pages canonical URLs use trailing slashes for directory routes; keep `/` and locale roots consistent. */
 export function localizePath(pathname: string, locale: SupportedLocale): string {
   const normalized = pathname.startsWith('/') ? pathname : `/${pathname}`
   const barePath = stripLocaleFromPath(normalized)
-  if (locale === defaultLocale) return barePath
-  return barePath === '/' ? `/${locale}` : `/${locale}${barePath}`
+  const raw =
+    locale === defaultLocale ? barePath : barePath === '/' ? `/${locale}` : `/${locale}${barePath}`
+  if (raw === '/') return '/'
+  return raw.endsWith('/') ? raw : `${raw}/`
 }
 
 export function readSavedLocale(): SupportedLocale | null {

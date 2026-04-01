@@ -1,15 +1,15 @@
 {
   "url": "https://markmhendrickson.com/api/agent.es.json",
   "title": "Agente",
-  "subtitle": "Haz que tu agente hable con mi agente.",
-  "description": "Opero un agente con MCP para que otros agentes puedan leer y escribir sobre mis datos respaldados por Neotoma.",
+  "subtitle": "Haga que su agente hable con mi agente.",
+  "description": "Ejecuto un agente respaldado por MCP para que otros agentes puedan leer y escribir en mis datos respaldados por Neotoma.",
   "mcpServerRepoUrl": "https://github.com/markmhendrickson/mcp-server-markmhendrickson",
   "sections": [
     {
-      "heading": "Qué ofrece MCP",
+      "heading": "Qué proporciona MCP",
       "paragraphs": [
-        "Ofrezco un servidor MCP impulsado por Neotoma para compartir mis datos personales aptos para consumo público.",
-        "Las operaciones de lectura ya están disponibles. Las operaciones de escritura están planificadas. La idea es permitir que cualquier agente de terceros interactúe conmigo (a través de mi propio agente) de la forma más eficiente posible, en lugar de pasar por otros canales más lentos."
+        "Proporciono un servidor MCP impulsado por Neotoma con el fin de compartir todos mis datos personales que sean adecuados para el consumo público.",
+        "Las operaciones de lectura ya están disponibles. Se planifican operaciones de escritura. La idea es hacer posible que cualquier agente externo interactúe conmigo (a través de mi propio agente) de la manera más eficiente posible en lugar de utilizar otros canales más lentos."
       ]
     },
     {
@@ -20,54 +20,106 @@
       "table": {
         "columns": [
           "Herramienta",
-          "Propósito",
+          "Objetivo",
           "Filtros",
-          "Devuelve"
+          "Devoluciones"
         ],
         "rows": [
           [
             "markmhendrickson_get_posts",
-            "Lee registros de publicaciones desde Neotoma.",
-            "Cualquier campo de post como slug, published, category, tags.",
-            "Array de registros de publicaciones con contador."
+            "Leer registros de publicaciones de Neotoma.",
+            "Cualquier campo de publicación como slug, publicado, categoría, etiquetas.",
+            "Matriz de registros de publicaciones con recuento."
           ],
           [
             "markmhendrickson_get_links",
-            "Lee registros de enlaces desde Neotoma.",
-            "Cualquier campo de enlace como active, category, name.",
-            "Array de registros de enlaces con contador."
+            "Leer registros de enlaces de Neotoma.",
+            "Cualquier campo de enlace como activo, categoría, nombre.",
+            "Matriz de registros de enlaces con recuento."
           ],
           [
             "markmhendrickson_get_timeline",
-            "Lee registros de trayectoria desde Neotoma.",
-            "Cualquier campo de timeline como entry_type, company, role.",
-            "Array de registros de trayectoria con contador."
+            "Lea los registros de la línea de tiempo de Neotoma.",
+            "Cualquier campo de línea de tiempo como tipo de entrada, empresa, función.",
+            "Matriz de registros de línea de tiempo con recuento."
           ],
           [
             "markmhendrickson_get_all_content",
-            "Devuelve publicaciones, enlaces y trayectoria en una sola llamada.",
+            "Devuelva publicaciones, enlaces, cronograma, páginas, reuniones, consultas e inversiones en una sola llamada.",
             "Ninguno.",
-            "Objeto con arrays y contadores de posts, links y timeline."
+            "Objeto con publicaciones, enlaces, cronograma, páginas, reuniones, consultoría, matrices de inversión y recuentos."
           ],
           [
             "markmhendrickson_get_about",
-            "Devuelve la publicación principal por slug.",
+            "Devuelve la publicación de inicio mediante slug.",
             "Ninguno.",
-            "Registro único de post para professional-mission."
+            "Registro de puesto único para misión profesional."
+          ],
+          [
+            "markmhendrickson_get_meet",
+            "Devolver el contenido de la página de encuentro.",
+            "Ninguno.",
+            "Conozca los objetos de contenido de la página con espacios de reserva."
+          ],
+          [
+            "markmhendrickson_get_consulting",
+            "Devolver el contenido de la página de consultoría.",
+            "Ninguno.",
+            "Consultar objeto(s) de contenido de página con secciones."
+          ],
+          [
+            "markmhendrickson_get_investing",
+            "Devuelve el contenido de la página de inversión.",
+            "Ninguno.",
+            "Objeto(s) de contenido de página de inversión con secciones."
+          ],
+          [
+            "markmhendrickson_get_pages",
+            "Devuelve el índice del punto final de la página estática.",
+            "Ninguno.",
+            "Objeto(s) de índice de página con slug y URL de punto final."
           ]
         ]
       }
     },
     {
-      "heading": "Endpoints JSON",
+      "heading": "Puntos finales JSON",
       "paragraphs": [
-        "Las publicaciones, enlaces y entradas de trayectoria se almacenan en Neotoma y se cachean en JSON para el sitio y MCP. Neotoma es la fuente de verdad; la generación de caché se ejecuta antes de los builds."
+        "Las publicaciones, los enlaces, las entradas de la línea de tiempo y los datos de páginas estructuradas se almacenan en Neotoma o datos de repositorio y se almacenan en caché en JSON para el sitio y MCP. Neotoma sigue siendo la fuente de verdad para el contenido cuando esté disponible."
       ],
       "bullets": [
-        { "text": "JSON de publicaciones públicas", "url": "https://markmhendrickson.com/api/posts.json" },
-        { "text": "JSON de enlaces", "url": "https://markmhendrickson.com/api/links.json" },
-        { "text": "JSON de trayectoria", "url": "https://markmhendrickson.com/api/timeline.json" },
-        { "text": "JSON de agente", "url": "https://markmhendrickson.com/api/agent.json" }
+        {
+          "text": "Publicaciones públicas JSON",
+          "url": "https://markmhendrickson.com/api/posts.json"
+        },
+        {
+          "text": "Enlaces JSON",
+          "url": "https://markmhendrickson.com/api/links.json"
+        },
+        {
+          "text": "Línea de tiempo JSON",
+          "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "Páginas JSON",
+          "url": "https://markmhendrickson.com/api/pages.json"
+        },
+        {
+          "text": "Conoce JSON",
+          "url": "https://markmhendrickson.com/api/meet.json"
+        },
+        {
+          "text": "Consulta JSON",
+          "url": "https://markmhendrickson.com/api/consulting.json"
+        },
+        {
+          "text": "Invertir JSON",
+          "url": "https://markmhendrickson.com/api/investing.json"
+        },
+        {
+          "text": "Agente JSON",
+          "url": "https://markmhendrickson.com/api/agent.json"
+        }
       ]
     }
   ]

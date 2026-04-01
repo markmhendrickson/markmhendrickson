@@ -3,6 +3,7 @@ import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, Share2, Clock, Bot, Briefcase, TrendingUp, CalendarPlus } from 'lucide-react'
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
@@ -217,7 +218,104 @@ export function Layout({ children }: LayoutProps) {
         themeDark={t.themeDark}
       >
         {children}
+        <EvaluateCta locale={locale} pathname={location.pathname} />
       </SharedLayout>
     </>
+  )
+}
+
+/** Packrat + record, post hero style (black / white line-art; see posts README hero guide). */
+const NEOTOMA_CTA_IMAGE_SRC = '/images/neotoma_cta_packrat_hero.png'
+
+const evaluateCtaCopy = {
+  en: {
+    label: 'Try Neotoma',
+    title: 'Your agents forget. Neotoma makes them remember.',
+    description:
+      'Contacts and facts vanish between sessions and tools. Neotoma stores them once—versioned and queryable—across every agent you run, so you stop re-entering the same state.',
+    imageAlt: 'Neotoma illustration — packrat holding a record',
+    action: 'Evaluate with your agent',
+  },
+  es: {
+    label: 'Prueba Neotoma',
+    title: 'Tus agentes olvidan. Neotoma les hace recordar.',
+    description:
+      'Contactos y datos desaparecen entre sesiones y herramientas. Neotoma los guarda una vez—versionados y consultables—en todos tus agentes, para dejar de repetir el mismo estado.',
+    imageAlt: 'Ilustración de Neotoma — packrat con un registro',
+    action: 'Evalúa con tu agente',
+  },
+  ca: {
+    label: 'Prova Neotoma',
+    title: 'Els teus agents obliden. Neotoma els fa recordar.',
+    description:
+      "Contactes i fets desapareixen entre sessions i eines. Neotoma els emmagatzema una vegada—versionats i consultables—en tots els agents, per deixar de repetir el mateix estat.",
+    imageAlt: "Il·lustració de Neotoma — packrat amb un registre",
+    action: 'Avalua amb el teu agent',
+  },
+} as const
+
+/**
+ * Neotoma.io Umami reads UTM params from the landing URL (first page view).
+ * @see https://docs.umami.is/docs/utm
+ */
+const NEOTOMA_CTA_UTM: Record<string, string> = {
+  utm_source: 'markmhendrickson.com',
+  utm_medium: 'website_cta',
+  utm_campaign: 'neotoma_footer_card',
+  utm_content: 'try_neotoma',
+}
+
+function neotomaMarketingHref(locale: string): string {
+  const path = locale === 'en' ? '/' : `/${locale}`
+  const url = new URL(path, 'https://neotoma.io')
+  for (const [key, value] of Object.entries(NEOTOMA_CTA_UTM)) {
+    url.searchParams.set(key, value)
+  }
+  return url.toString()
+}
+
+function EvaluateCta({ locale, pathname }: { locale: string; pathname: string }) {
+  const isEvaluatePage = pathname.replace(/\/$/, '').endsWith('/evaluate')
+  if (isEvaluatePage) return null
+
+  const copy = evaluateCtaCopy[locale as keyof typeof evaluateCtaCopy] ?? evaluateCtaCopy.en
+
+  return (
+    <div className="mt-16 mb-8 mx-auto max-w-[600px] w-full px-4">
+      <a
+        href={neotomaMarketingHref(locale)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+      >
+        <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
+          <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center bg-muted">
+            <img
+              src={NEOTOMA_CTA_IMAGE_SRC}
+              alt={copy.imageAlt}
+              className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
+            <AlertTitle className="text-sm font-medium normal-case tracking-wide text-muted-foreground">
+              {copy.label}
+            </AlertTitle>
+            <AlertDescription className="py-px">
+              <span className="font-medium text-foreground">
+                {copy.title}
+              </span>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {copy.description}
+              </p>
+              <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
+                {copy.action} →
+              </span>
+            </AlertDescription>
+          </div>
+        </Alert>
+      </a>
+    </div>
   )
 }

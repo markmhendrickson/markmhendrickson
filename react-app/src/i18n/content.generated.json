@@ -1,4 +1,142 @@
 {
+  "es": {
+    "timeline": {
+      "roles": {
+        "Founder": "Fundador",
+        "General Manager": "Gerente general",
+        "Product Lead": "Líder de producto",
+        "Product Manager, Designer and Developer": "Gerente de Producto, Diseñador y Desarrollador",
+        "Head of Product and Co-Founder": "Jefe de Producto y Cofundador",
+        "CEO and Co-Founder": "CEO y cofundador",
+        "Project Manager, Designer and Writer": "Gerente de Proyecto, Diseñador y Escritor",
+        "Network Engineer": "Ingeniero de Redes",
+        "Web Designer & Developer": "Diseñador y desarrollador web",
+        "BA, Government & Economics": "Licenciatura, Gobierno y Economía",
+        "High School": "Escuela secundaria"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 – Presente · Barcelona, ​​España",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · Barcelona, ​​España",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · Barcelona, ​​España",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · Barcelona, ​​España",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · Nueva York y Barcelona",
+        "2012 · San Francisco, California": "2012 · San Francisco, California",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · San Francisco, California",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · Atherton, California",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · Brunswick, Maine",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · Menlo Park, California y Brunswick, Maine",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · Atherton, California"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "Construyendo Neotoma, una capa de verdad para la memoria de IA, y Ateles, un sistema operativo agente soberano para la automatización del flujo de trabajo personal.",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "Centrado en el diseño que prioriza el esquema, la memoria basada en eventos y los flujos de trabajo deterministas que restauran la soberanía y la autonomía de los individuos.",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather, una billetera Bitcoin y subsidiaria de Trust Machines se centró en impulsar la transición global hacia una economía digital basada en Bitcoin.",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "Lideré la experiencia del usuario para productos que protegen la libertad de las personas en línea al asegurar la propiedad digital y la privacidad utilizando la cadena de bloques Stacks.",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "Trabajó con empresas emergentes en etapa inicial, incluidas Digit (adquirida por Oportun), First Opinion (adquirida por Curai) y STYLEBEE, en la adaptación del producto al mercado y el crecimiento mensurable.",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "Lideró el diseño y desarrollo de productos para un mercado web y móvil que conecta marcas y agencias con tecnologías emergentes.",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "Lideré el diseño de producto para Lift, una aplicación para iPhone con complemento web para rastrear y mejorar los hábitos diarios.",
+        "Co-founded and ran Plancast, a social event discovery service.": "Cofundó y dirigió Plancast, un servicio de descubrimiento de eventos sociales.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Lideré el desarrollo del producto, programé la aplicación y diseñé el frontend; adquirida por Active Network en 2012.",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "Lideró los esfuerzos para rediseñar Crunchbase y la red de blogs TechCrunch mientras escribía más de 500 artículos sobre nuevas tecnologías web. TechCrunch adquirido por AOL en 2010; Crunchbase se separó de AOL como empresa independiente en 2015.",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "Se actualizó y mantuvo una red en todo el campus para estudiantes y profesores.",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "Diseñé y desarrollé proyectos web para pequeñas empresas, organizaciones sin fines de lucro, organizaciones estudiantiles y Bowdoin College.",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "Doble especialización con cursos de teoría política clásica y moderna, derecho constitucional e internacional y economía.",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "Premiado summa cum laude por su tesis con honores que examina la teoría de la moralidad de Nietzsche en Humano, Demasiado humano, Amanecer y Sobre la genealogía de la moral, y su relación con Schopenhauer y Rée."
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "Repositorios de código y proyectos de código abierto",
+        "Professional network and career updates": "Red profesional y actualizaciones profesionales.",
+        "Thoughts on tech, crypto, and AI": "Reflexiones sobre tecnología, criptografía e inteligencia artificial",
+        "Building in public, indie products, and startup community": "Construir una comunidad pública, de productos independientes y de startups",
+        "Tech and startup discussions": "Debates sobre tecnología y startups",
+        "Personal photos, videos, and updates": "Fotos personales, vídeos y actualizaciones.",
+        "Get in touch via email": "Póngase en contacto por correo electrónico",
+        "Long-form writing and essays": "Redacción y ensayos extensos.",
+        "Newsletter and essays": "Boletín y ensayos"
+      }
+    },
+    "schedule": {
+      "title": "reúnete conmigo",
+      "subtitle": "Elija un horario que funcione para usted",
+      "pageDesc": "Reserva un espacio de 30 o 60 minutos con Mark.",
+      "bookVia": "Reserva a través del calendario de Notion",
+      "duration30": "30 minutos",
+      "duration60": "60 minutos",
+      "labelMeeting": "Reunión",
+      "labelChat": "Charlar"
+    }
+  },
+  "ca": {
+    "timeline": {
+      "roles": {
+        "Founder": "Fundador",
+        "General Manager": "Director General",
+        "Product Lead": "Cap de producte",
+        "Product Manager, Designer and Developer": "Responsable de producte, dissenyador i desenvolupador",
+        "Head of Product and Co-Founder": "Cap de Producte i Cofundador",
+        "CEO and Co-Founder": "CEO i cofundador",
+        "Project Manager, Designer and Writer": "Cap de projecte, dissenyador i escriptor",
+        "Network Engineer": "Enginyer de xarxes",
+        "Web Designer & Developer": "Dissenyador i desenvolupador web",
+        "BA, Government & Economics": "Llicenciatura, Govern i Economia",
+        "High School": "Batxillerat"
+      },
+      "dates": {
+        "2025 – Present · Barcelona, Spain": "2025 – Actualitat · Barcelona, ​​Espanya",
+        "2022 – 2025 · Barcelona, Spain": "2022 – 2025 · Barcelona, ​​Espanya",
+        "2018 – 2022 · Barcelona, Spain": "2018 – 2022 · Barcelona, ​​Espanya",
+        "2015 – 2018 · Barcelona, Spain": "2015 – 2018 · Barcelona, ​​Espanya",
+        "2012 – 2015 · New York City & Barcelona": "2012 – 2015 · Nova York i Barcelona",
+        "2012 · San Francisco, California": "2012 · San Francisco, Califòrnia",
+        "2009 – 2011 · San Francisco, California": "2009 – 2011 · San Francisco, Califòrnia",
+        "2007 – 2009 · Atherton, California": "2007 – 2009 · Atherton, Califòrnia",
+        "2003 – 2007 · Brunswick, Maine": "2003 – 2007 · Brunswick, Maine",
+        "1997 – 2007 · Menlo Park, California and Brunswick, Maine": "1997 – 2007 · Menlo Park, Califòrnia i Brunswick, Maine",
+        "1999 – 2003 · Atherton, California": "1999 – 2003 · Atherton, Califòrnia"
+      },
+      "descriptions": {
+        "Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.": "Construint Neotoma, una capa de veritat per a la memòria AI, i Ateles, un sistema operatiu agent sobirà per a l'automatització del flux de treball personal.",
+        "Focused on schema-first design, event-sourced memory, and deterministic workflows that restore sovereignty and autonomy to individuals.": "Centrat en el disseny de l'esquema, la memòria d'origen d'esdeveniments i els fluxos de treball deterministes que restitueixen la sobirania i l'autonomia a les persones.",
+        "Led Leather, a Bitcoin wallet and subsidiary of Trust Machines focused on driving the global transition to a digital economy built on Bitcoin.": "Led Leather, una cartera de Bitcoin i subsidiària de Trust Machines es va centrar a impulsar la transició global cap a una economia digital basada en Bitcoin.",
+        "Led user experience for products that protect individuals' freedom online by securing digital ownership and privacy using the Stacks blockchain.": "Experiència d'usuari dirigida per a productes que protegeixen la llibertat de les persones en línia garantint la propietat digital i la privadesa mitjançant la cadena de blocs de Stacks.",
+        "Worked with early-stage startups including Digit (acquired by Oportun), First Opinion (acquired by Curai), and STYLEBEE on product-market fit and measurable growth.": "Ha treballat amb startups en fase inicial, com ara Digit (adquirida per Oportun), First Opinion (adquirida per Curai) i STYLEBEE en l'ajust al mercat de productes i el creixement mesurable.",
+        "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "Liderar el disseny i desenvolupament de productes per a un mercat web i mòbil que connecta marques i agències amb tecnologies emergents.",
+        "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "Disseny de producte dirigit per a Lift, una aplicació per a iPhone amb acompanyant web per fer el seguiment i millorar els hàbits diaris.",
+        "Co-founded and ran Plancast, a social event discovery service.": "Va cofundar i dirigir Plancast, un servei de descoberta d'esdeveniments socials.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Liderar el desenvolupament de productes, programar l'aplicació i dissenyar la interfície; adquirit per Active Network el 2012.",
+        "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "Va dirigir els esforços per redissenyar Crunchbase i la xarxa de blocs TechCrunch mentre escrivia més de 500 articles sobre noves tecnologies web. TechCrunch adquirit per AOL el 2010; Crunchbase va sortir d'AOL com a empresa independent el 2015.",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "S'ha actualitzat i mantingut una xarxa a tot el campus per als estudiants i el professorat.",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "Dissenyat i desenvolupat projectes web per a petites empreses, organitzacions sense ànim de lucre, organitzacions estudiantils i Bowdoin College.",
+        "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "Doble especialitat amb cursos de teoria política clàssica i moderna, dret constitucional i internacional i economia.",
+        "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "Premi summa cum laude per la tesi d'honor que examina la teoria de la moral de Nietzsche a través de Human, Too Human, Daybreak i On the Genealogy of Morals, i la seva relació amb Schopenhauer i Rée."
+      }
+    },
+    "links": {
+      "descriptions": {
+        "Code repositories and open source projects": "Repositoris de codi i projectes de codi obert",
+        "Professional network and career updates": "Xarxa professional i actualitzacions de carrera",
+        "Thoughts on tech, crypto, and AI": "Pensaments sobre tecnologia, cripto i IA",
+        "Building in public, indie products, and startup community": "Creació en públic, productes independents i comunitat de startups",
+        "Tech and startup discussions": "Debats sobre tecnologia i startups",
+        "Personal photos, videos, and updates": "Fotos personals, vídeos i actualitzacions",
+        "Get in touch via email": "Posa't en contacte per correu electrònic",
+        "Long-form writing and essays": "Redacció llarga i assaigs",
+        "Newsletter and essays": "Butlletí i assaigs"
+      }
+    },
+    "schedule": {
+      "title": "Troba't amb mi",
+      "subtitle": "Trieu un moment que us convingui",
+      "pageDesc": "Reserva una ranura de 30 o 60 minuts amb Mark.",
+      "bookVia": "Reserva mitjançant Notion Calendar",
+      "duration30": "30 minuts",
+      "duration60": "60 minuts",
+      "labelMeeting": "Reunió",
+      "labelChat": "Xatejar"
+    }
+  },
   "zh": {
     "timeline": {
       "roles": {
@@ -52,7 +190,9 @@
         "Building in public, indie products, and startup community": "建立公共、独立产品和创业社区",
         "Tech and startup discussions": "技术和创业讨论",
         "Personal photos, videos, and updates": "个人照片、视频和更新",
-        "Get in touch via email": "通过电子邮件联系"
+        "Get in touch via email": "通过电子邮件联系",
+        "Long-form writing and essays": "长篇写作和论文",
+        "Newsletter and essays": "通讯和论文"
       }
     },
     "schedule": {
@@ -71,7 +211,7 @@
       "roles": {
         "Founder": "संस्थापक",
         "General Manager": "महाप्रबंधक",
-        "Product Lead": "उत्पाद नेतृत्व",
+        "Product Lead": "उत्पाद लीड",
         "Product Manager, Designer and Developer": "उत्पाद प्रबंधक, डिज़ाइनर और डेवलपर",
         "Head of Product and Co-Founder": "उत्पाद प्रमुख और सह-संस्थापक",
         "CEO and Co-Founder": "सीईओ और सह-संस्थापक",
@@ -119,7 +259,9 @@
         "Building in public, indie products, and startup community": "सार्वजनिक, इंडी उत्पादों और स्टार्टअप समुदाय में निर्माण",
         "Tech and startup discussions": "टेक और स्टार्टअप चर्चाएँ",
         "Personal photos, videos, and updates": "व्यक्तिगत फ़ोटो, वीडियो और अपडेट",
-        "Get in touch via email": "ईमेल के माध्यम से संपर्क करें"
+        "Get in touch via email": "ईमेल के माध्यम से संपर्क करें",
+        "Long-form writing and essays": "दीर्घ-रूप लेखन और निबंध",
+        "Newsletter and essays": "समाचार पत्र और निबंध"
       }
     },
     "schedule": {
@@ -186,7 +328,9 @@
         "Building in public, indie products, and startup community": "بناء المنتجات العامة والمستقلة ومجتمع الشركات الناشئة",
         "Tech and startup discussions": "المناقشات التقنية وبدء التشغيل",
         "Personal photos, videos, and updates": "الصور الشخصية ومقاطع الفيديو والتحديثات",
-        "Get in touch via email": "تواصل معنا عبر البريد الإلكتروني"
+        "Get in touch via email": "تواصل معنا عبر البريد الإلكتروني",
+        "Long-form writing and essays": "الكتابة والمقالات الطويلة",
+        "Newsletter and essays": "النشرة الإخبارية والمقالات"
       }
     },
     "schedule": {
@@ -253,7 +397,9 @@
         "Building in public, indie products, and startup community": "Construire des produits publics, indépendants et une communauté de startups",
         "Tech and startup discussions": "Discussions sur la technologie et les startups",
         "Personal photos, videos, and updates": "Photos personnelles, vidéos et mises à jour",
-        "Get in touch via email": "Contactez-nous par e-mail"
+        "Get in touch via email": "Contactez-nous par e-mail",
+        "Long-form writing and essays": "Écriture longue et essais",
+        "Newsletter and essays": "Newsletter et essais"
       }
     },
     "schedule": {
@@ -304,7 +450,7 @@
         "Led product design and development for a web and mobile marketplace connecting brands and agencies with emerging technologies.": "Liderei o design e desenvolvimento de produtos para um mercado web e móvel conectando marcas e agências com tecnologias emergentes.",
         "Led product design for Lift, an iPhone app with web companion for tracking and improving daily habits.": "Liderei o design de produto para Lift, um aplicativo para iPhone com companheiro web para monitorar e melhorar hábitos diários.",
         "Co-founded and ran Plancast, a social event discovery service.": "Cofundou e dirigiu o Plancast, um serviço de descoberta de eventos sociais.",
-        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Liderei o desenvolvimento do produto, programei a aplicação e projetei o frontend; adquirida pela Active Network em 2012.",
+        "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "Liderei o desenvolvimento do produto, programei a aplicação e projetei o frontend; acquired by Active Network in 2012.",
         "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "Liderei esforços para redesenhar o Crunchbase e a rede de blogs TechCrunch enquanto escrevia mais de 500 artigos sobre novas tecnologias da web. TechCrunch adquirido pela AOL em 2010; A Crunchbase saiu da AOL como uma empresa independente em 2015.",
         "Upgraded and maintained a campus-wide network for student body and faculty.": "Atualizou e manteve uma rede em todo o campus para o corpo discente e docente.",
         "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "Projetou e desenvolveu projetos web para pequenas empresas, organizações sem fins lucrativos, organizações estudantis e Bowdoin College.",
@@ -320,7 +466,9 @@
         "Building in public, indie products, and startup community": "Construindo produtos públicos, independentes e comunidades de startups",
         "Tech and startup discussions": "Discussões sobre tecnologia e startups",
         "Personal photos, videos, and updates": "Fotos pessoais, vídeos e atualizações",
-        "Get in touch via email": "Entre em contato por e-mail"
+        "Get in touch via email": "Entre em contato por e-mail",
+        "Long-form writing and essays": "Escrita e ensaios longos",
+        "Newsletter and essays": "Boletim informativo e ensaios"
       }
     },
     "schedule": {
@@ -387,7 +535,9 @@
         "Building in public, indie products, and startup community": "Создание публичного, независимого продукта и сообщества стартапов",
         "Tech and startup discussions": "Обсуждения технологий и стартапов",
         "Personal photos, videos, and updates": "Личные фотографии, видео и обновления",
-        "Get in touch via email": "Свяжитесь с нами по электронной почте"
+        "Get in touch via email": "Свяжитесь с нами по электронной почте",
+        "Long-form writing and essays": "Полное письмо и эссе",
+        "Newsletter and essays": "Информационный бюллетень и эссе"
       }
     },
     "schedule": {
@@ -440,8 +590,8 @@
         "Co-founded and ran Plancast, a social event discovery service.": "প্ল্যানকাস্ট সহ-প্রতিষ্ঠা ও চালায়, একটি সামাজিক ইভেন্ট আবিষ্কার পরিষেবা।",
         "Led product development, programmed the application, and designed the frontend; acquired by Active Network in 2012.": "নেতৃত্বাধীন পণ্য উন্নয়ন, অ্যাপ্লিকেশন প্রোগ্রাম, এবং ফ্রন্টএন্ড ডিজাইন; 2012 সালে সক্রিয় নেটওয়ার্ক দ্বারা অর্জিত।",
         "Led efforts to redesign Crunchbase and the TechCrunch blog network while writing over 500 articles about new web technologies. TechCrunch acquired by AOL in 2010; Crunchbase spun out from AOL as an independent company in 2015.": "নতুন ওয়েব প্রযুক্তি সম্পর্কে 500 টিরও বেশি নিবন্ধ লেখার সময় Crunchbase এবং TechCrunch ব্লগ নেটওয়ার্ককে পুনরায় ডিজাইন করার প্রচেষ্টার নেতৃত্ব দিয়েছেন৷ 2010 সালে AOL দ্বারা অধিগ্রহণ করা TechCrunch; Crunchbase 2015 সালে একটি স্বাধীন কোম্পানি হিসেবে AOL থেকে বেরিয়ে এসেছে।",
-        "Upgraded and maintained a campus-wide network for student body and faculty.": "ছাত্র সংগঠন এবং শিক্ষকদের জন্য একটি ক্যাম্পাস-ব্যাপী নেটওয়ার্ক আপগ্রেড এবং বজায় রাখা হয়েছে।",
-        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "ছোট ব্যবসা, অলাভজনক, ছাত্র সংগঠন, এবং Bowdoin কলেজের জন্য ডিজাইন ও তৈরি করা ওয়েব প্রকল্প।",
+        "Upgraded and maintained a campus-wide network for student body and faculty.": "ছাত্র সংগঠন এবং অনুষদের জন্য ক্যাম্পাস-ব্যাপী নেটওয়ার্ক আপগ্রেড এবং বজায় রাখা হয়েছে।",
+        "Designed and developed web projects for small businesses, non-profits, student organizations, and Bowdoin College.": "ছোট ব্যবসা, অলাভজনক, ছাত্র সংগঠন, এবং Bowdoin কলেজের জন্য ডিজাইন করা এবং তৈরি করা ওয়েব প্রকল্প।",
         "Double major with coursework in classical and modern political theory, constitutional and international law, and economics.": "শাস্ত্রীয় এবং আধুনিক রাজনৈতিক তত্ত্ব, সাংবিধানিক এবং আন্তর্জাতিক আইন এবং অর্থনীতিতে কোর্সওয়ার্ক সহ ডাবল মেজর।",
         "Awarded summa cum laude for honors thesis examining Nietzsche's theory of morality across Human, All Too Human, Daybreak, and On the Genealogy of Morals, and its relationship to Schopenhauer and Rée.": "হিউম্যান, অল টু হিউম্যান, ডেব্রেক এবং অন দ্য জেনেলজি অফ মোরালস জুড়ে নীটশের নৈতিকতার তত্ত্ব এবং শোপেনহাওয়ার এবং রে-এর সাথে এর সম্পর্ক পরীক্ষা করে অনার্স থিসিসের জন্য সুমা কাম লড পুরস্কৃত করা হয়েছে।"
       }
@@ -454,7 +604,9 @@
         "Building in public, indie products, and startup community": "পাবলিক, ইন্ডি প্রোডাক্ট এবং স্টার্টআপ কমিউনিটি তৈরি করা",
         "Tech and startup discussions": "প্রযুক্তি এবং স্টার্টআপ আলোচনা",
         "Personal photos, videos, and updates": "ব্যক্তিগত ফটো, ভিডিও এবং আপডেট",
-        "Get in touch via email": "ইমেলের মাধ্যমে যোগাযোগ করুন"
+        "Get in touch via email": "ইমেলের মাধ্যমে যোগাযোগ করুন",
+        "Long-form writing and essays": "দীর্ঘ ফর্ম লেখা এবং প্রবন্ধ",
+        "Newsletter and essays": "নিউজলেটার এবং প্রবন্ধ"
       }
     },
     "schedule": {
@@ -521,7 +673,9 @@
         "Building in public, indie products, and startup community": "عوامی، انڈی پروڈکٹس، اور اسٹارٹ اپ کمیونٹی میں تعمیر",
         "Tech and startup discussions": "ٹیک اور اسٹارٹ اپ ڈسکشنز",
         "Personal photos, videos, and updates": "ذاتی تصاویر، ویڈیوز اور اپ ڈیٹس",
-        "Get in touch via email": "ای میل کے ذریعے رابطہ کریں۔"
+        "Get in touch via email": "ای میل کے ذریعے رابطہ کریں۔",
+        "Long-form writing and essays": "طویل شکل کی تحریر اور مضامین",
+        "Newsletter and essays": "نیوز لیٹر اور مضامین"
       }
     },
     "schedule": {
@@ -588,7 +742,9 @@
         "Building in public, indie products, and startup community": "Membangun komunitas publik, produk indie, dan startup",
         "Tech and startup discussions": "Diskusi teknologi dan startup",
         "Personal photos, videos, and updates": "Foto pribadi, video, dan pembaruan",
-        "Get in touch via email": "Hubungi melalui email"
+        "Get in touch via email": "Hubungi melalui email",
+        "Long-form writing and essays": "Tulisan dan esai bentuk panjang",
+        "Newsletter and essays": "Buletin dan esai"
       }
     },
     "schedule": {
@@ -655,7 +811,9 @@
         "Building in public, indie products, and startup community": "Aufbau in der Öffentlichkeit, Indie-Produkten und der Startup-Community",
         "Tech and startup discussions": "Tech- und Startup-Diskussionen",
         "Personal photos, videos, and updates": "Persönliche Fotos, Videos und Updates",
-        "Get in touch via email": "Nehmen Sie Kontakt per E-Mail auf"
+        "Get in touch via email": "Nehmen Sie Kontakt per E-Mail auf",
+        "Long-form writing and essays": "Lange Texte und Essays",
+        "Newsletter and essays": "Newsletter und Aufsätze"
       }
     },
     "schedule": {

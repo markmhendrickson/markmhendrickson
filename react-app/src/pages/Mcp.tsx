@@ -202,17 +202,19 @@ export default function Mcp() {
           {!content && !error && (
             <p className="text-[15px] text-muted-foreground dark:text-foreground/80">{t.mcpLoading}</p>
           )}
-          {content && (
-            <article className="agent-page">
-              <header className="mb-16">
-                <h1 className="text-[28px] font-medium mb-2 tracking-tight text-foreground">
-                  {content.title}
-                </h1>
+          <article className="agent-page">
+            <header className="mb-16">
+              <h1 className="text-[28px] font-medium mb-2 tracking-tight text-foreground">
+                {content?.title ?? t.mcpFallbackTitle}
+              </h1>
+              {content && (
                 <p className="text-[17px] text-muted-foreground dark:text-foreground/80 font-normal tracking-wide max-w-[32rem]">
                   {content.subtitle}
                 </p>
-              </header>
+              )}
+            </header>
 
+            {content && (
               <div className="space-y-16">
                 {content.sections.map((section, index) => (
                   <section key={index} className="space-y-5">
@@ -289,8 +291,8 @@ export default function Mcp() {
                   </section>
                 ))}
               </div>
-            </article>
-          )}
+            )}
+          </article>
         </div>
       </div>
     </>

@@ -28,9 +28,13 @@ Set in Netlify: Site settings → Environment variables
 | `SENDGRID_SENDER_EMAIL` | Yes | Verified sender email (e.g. newsletter@markmhendrickson.com) |
 | `NEWSLETTER_ADMIN_API_KEY` | Yes | Auth for GET /api/newsletter/subscribers (Bearer token) |
 | `NEWSLETTER_NAME` | No | Default: Mark Hendrickson Newsletter |
-| `VITE_GA_MEASUREMENT_ID` | No | For analytics (if used in build) |
+| `VITE_UMAMI_SCRIPT_URL` | No | Umami `script.js` URL. Required with prod ID to inject analytics in the production build. |
+| `VITE_UMAMI_WEBSITE_ID_PROD` | No | Production website UUID (`vite build`). With `VITE_UMAMI_SCRIPT_URL`, enables Umami in shipped HTML. |
+| `VITE_UMAMI_WEBSITE_ID_DEV` | No | Dev website UUID; use in local `.env.local` for `npm run dev` only (not required for Netlify build). |
 | `USE_LOCAL_NEWSLETTER_STORAGE` | No | Set to `1` to use local JSON file instead of Blobs (dev) |
 | `NEWSLETTER_DB_PATH` | No | Path to local JSON (default: data/newsletter_subscribers.json) |
+
+Umami (hosted Cloud vs self-host): [docs/umami_self_hosted.md](docs/umami_self_hosted.md).
 
 ### 3. DNS
 

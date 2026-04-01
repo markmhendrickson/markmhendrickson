@@ -45,15 +45,39 @@
           ],
           [
             "markmhendrickson_get_all_content",
-            "Renvoyez les publications, les liens et la chronologie en un seul appel.",
+            "Renvoyez des articles, des liens, une chronologie, des pages, des rencontres, des conseils et des investissements en un seul appel.",
             "Aucun.",
-            "Objet avec des publications, des liens, des tableaux de chronologie et des décomptes."
+            "Objet avec des publications, des liens, une chronologie, des pages, des rencontres, des conseils, des tableaux d'investissement et des comptes."
           ],
           [
             "markmhendrickson_get_about",
             "Renvoyez le courrier d'accueil par slug.",
             "Aucun.",
             "Fiche de poste unique pour mission professionnelle."
+          ],
+          [
+            "markmhendrickson_get_meet",
+            "Renvoie le contenu de la page de rencontre.",
+            "Aucun.",
+            "Rencontrez les objets de contenu de page avec des créneaux de réservation."
+          ],
+          [
+            "markmhendrickson_get_consulting",
+            "Renvoie le contenu de la page de consultation.",
+            "Aucun.",
+            "Consultation d'objet(s) de contenu de page avec des sections."
+          ],
+          [
+            "markmhendrickson_get_investing",
+            "Renvoie le contenu de la page d'investissement.",
+            "Aucun.",
+            "Investir des objets de contenu de page avec des sections."
+          ],
+          [
+            "markmhendrickson_get_pages",
+            "Renvoie l’index du point de terminaison de la page statique.",
+            "Aucun.",
+            "Objet(s) d'index de page avec slug et URL de point de terminaison."
           ]
         ]
       }
@@ -61,7 +85,7 @@
     {
       "heading": "Points de terminaison JSON",
       "paragraphs": [
-        "Les publications, liens et entrées de chronologie sont stockés dans Neotoma et mis en cache dans JSON pour le site et MCP. Neotoma est la source de la vérité ; la génération du cache s'exécute avant les builds."
+        "Les publications, les liens, les entrées de chronologie et les données de page structurées sont stockés dans Neotoma ou dans les données de dépôt et mis en cache dans JSON pour le site et MCP. Neotoma reste la source de vérité pour le contenu lorsqu'il est disponible."
       ],
       "bullets": [
         {
@@ -75,6 +99,22 @@
         {
           "text": "Chronologie JSON",
           "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "Pages JSON",
+          "url": "https://markmhendrickson.com/api/pages.json"
+        },
+        {
+          "text": "Rencontrez JSON",
+          "url": "https://markmhendrickson.com/api/meet.json"
+        },
+        {
+          "text": "Consultation JSON",
+          "url": "https://markmhendrickson.com/api/consulting.json"
+        },
+        {
+          "text": "Investir JSON",
+          "url": "https://markmhendrickson.com/api/investing.json"
         },
         {
           "text": "AgentJSON",

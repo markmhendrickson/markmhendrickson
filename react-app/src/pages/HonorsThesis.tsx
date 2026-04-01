@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { FileDown } from 'lucide-react'
@@ -103,17 +103,20 @@ function excerptForChapterEntry(
 }
 
 function getChapterPath(basePath: string, chapterSlug: string): string {
-  return `${basePath}/chapter/${chapterSlug}`
+  const base = basePath.replace(/\/$/, '')
+  return `${base}/chapter/${chapterSlug}/`
 }
 
 function getSubsectionPath(basePath: string, chapterSlug: string, sectionSlug: string): string {
-  return `${basePath}/chapter/${chapterSlug}/section/${sectionSlug}`
+  const base = basePath.replace(/\/$/, '')
+  return `${base}/chapter/${chapterSlug}/section/${sectionSlug}/`
 }
 
 export default function HonorsThesis() {
   const { locale } = useLocale()
   const { chapterSlug, sectionSlug } = useParams<{ chapterSlug?: string; sectionSlug?: string }>()
   const navigate = useNavigate()
+  const location = useLocation()
   const text = copy[locale] ?? copy.en
 
   const chapters = useMemo(
@@ -154,7 +157,19 @@ export default function HonorsThesis() {
     () => chaptersWithSubsections.find((chapter) => chapter.slug === currentChapter?.slug)?.subsections ?? [],
     [chaptersWithSubsections, currentChapter?.slug]
   )
-  const subsectionIndex = sectionSlug != null ? chapterSubsections.findIndex((s) => s.slug === sectionSlug) : -1
+  const effectiveSectionSlug =
+    currentChapter == null
+      ? undefined
+      : sectionSlug != null && chapterSubsections.some((s) => s.slug === sectionSlug)
+        ? sectionSlug
+        : chapterSubsections.length > 0
+          ? chapterSubsections[0]!.slug
+          : undefined
+
+  const subsectionIndex =
+    effectiveSectionSlug != null
+      ? chapterSubsections.findIndex((s) => s.slug === effectiveSectionSlug)
+      : -1
   const currentSubsection = subsectionIndex >= 0 ? chapterSubsections[subsectionIndex]! : null
   const sequenceIndex = currentSubsection != null
     ? subsectionSequence.findIndex((s) => s.chapterSlug === currentChapter?.slug && s.slug === currentSubsection.slug)
@@ -262,20 +277,33 @@ export default function HonorsThesis() {
   const redirectPath =
     chapterSlug != null && currentChapter == null
       ? basePath
-      : sectionSlug == null && currentChapter != null && chapterSubsections.length > 0
-        ? getSubsectionPath(basePath, currentChapter.slug, chapterSubsections[0]!.slug)
-        : sectionSlug != null && currentChapter != null && currentSubsection == null
-          ? (
-            chapterSubsections.length > 0
-              ? getSubsectionPath(basePath, currentChapter.slug, chapterSubsections[0]!.slug)
-              : getChapterPath(basePath, currentChapter.slug)
-          )
-          : null
+      : sectionSlug != null && currentChapter != null && chapterSubsections.length === 0
+        ? getChapterPath(basePath, currentChapter.slug)
+        : null
 
   useEffect(() => {
-    if (redirectPath == null) return
-    navigate(redirectPath, { replace: true })
+    if (redirectPath != null) {
+      navigate(redirectPath, { replace: true })
+    }
   }, [navigate, redirectPath])
+
+  useEffect(() => {
+    if (currentChapter == null || chapterSubsections.length === 0) return
+    const canonical = getSubsectionPath(basePath, currentChapter.slug, chapterSubsections[0]!.slug)
+    if (sectionSlug != null && chapterSubsections.some((s) => s.slug === sectionSlug)) return
+    const loc = location.pathname.replace(/\/$/, '') || '/'
+    const canon = canonical.replace(/\/$/, '') || '/'
+    if (loc !== canon) {
+      navigate(canonical, { replace: true })
+    }
+  }, [
+    basePath,
+    chapterSubsections,
+    currentChapter,
+    location.pathname,
+    navigate,
+    sectionSlug,
+  ])
 
   if (redirectPath != null) {
     return null
@@ -326,7 +354,11 @@ export default function HonorsThesis() {
         <div className="max-w-[42rem] w-full">
           <header className={isChapterPage ? 'mb-10' : 'mb-16'}>
             <h1 className="text-[28px] font-medium mb-2 tracking-tight text-foreground">
-              {isSubsectionPage && currentSubsection != null ? currentSubsection.title : text.title}
+              {!isChapterPage
+                ? text.title
+                : isSubsectionPage && currentSubsection != null
+                  ? currentSubsection.title
+                  : currentChapter!.label}
             </h1>
             {!isChapterPage && (
               <>

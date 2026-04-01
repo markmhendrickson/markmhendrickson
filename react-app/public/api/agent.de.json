@@ -45,15 +45,39 @@
           ],
           [
             "markmhendrickson_get_all_content",
-            "Geben Sie Beiträge, Links und Timeline in einem Anruf zurück.",
+            "Senden Sie Beiträge, Links, Zeitleisten, Seiten, Treffen, Beratung und Investitionen in einem Anruf zurück.",
             "Keiner.",
-            "Objekt mit Beiträgen, Links, Timeline-Arrays und Zählungen."
+            "Objekt mit Beiträgen, Links, Zeitleiste, Seiten, Treffen, Beratung, Investitionsarrays und Zählungen."
           ],
           [
             "markmhendrickson_get_about",
             "Schicken Sie die Post per Post zurück.",
             "Keiner.",
             "Einzelpostenaufzeichnung für Berufsmission."
+          ],
+          [
+            "markmhendrickson_get_meet",
+            "Gibt den Inhalt der Meet-Seite zurück.",
+            "Keiner.",
+            "Treffen Sie Seiteninhaltsobjekte mit Buchungsslots."
+          ],
+          [
+            "markmhendrickson_get_consulting",
+            "Gibt den Inhalt der Beratungsseite zurück.",
+            "Keiner.",
+            "Abfragen von Seiteninhaltsobjekten mit Abschnitten."
+          ],
+          [
+            "markmhendrickson_get_investing",
+            "Geben Sie den Inhalt der investierenden Seite zurück.",
+            "Keiner.",
+            "Investieren von Seiteninhaltsobjekten in Abschnitte."
+          ],
+          [
+            "markmhendrickson_get_pages",
+            "Gibt den Index des statischen Seitenendpunkts zurück.",
+            "Keiner.",
+            "Seitenindexobjekt(e) mit Slug und Endpunkt-URL."
           ]
         ]
       }
@@ -61,7 +85,7 @@
     {
       "heading": "JSON-Endpunkte",
       "paragraphs": [
-        "Beiträge, Links und Timeline-Einträge werden in Neotoma gespeichert und in JSON für die Site und MCP zwischengespeichert. Neotoma ist die Quelle der Wahrheit; Die Cache-Generierung wird vor den Builds ausgeführt."
+        "Beiträge, Links, Timeline-Einträge und strukturierte Seitendaten werden in Neotoma- oder Repo-Daten gespeichert und in JSON für die Site und MCP zwischengespeichert. Neotoma bleibt die Quelle der Wahrheit für Inhalte, sofern verfügbar."
       ],
       "bullets": [
         {
@@ -75,6 +99,22 @@
         {
           "text": "Zeitleiste JSON",
           "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "Seiten JSON",
+          "url": "https://markmhendrickson.com/api/pages.json"
+        },
+        {
+          "text": "Lernen Sie JSON kennen",
+          "url": "https://markmhendrickson.com/api/meet.json"
+        },
+        {
+          "text": "JSON-Beratung",
+          "url": "https://markmhendrickson.com/api/consulting.json"
+        },
+        {
+          "text": "JSON investieren",
+          "url": "https://markmhendrickson.com/api/investing.json"
         },
         {
           "text": "Agent-JSON",

@@ -45,15 +45,39 @@
           ],
           [
             "markmhendrickson_get_all_content",
-            "Retorne postagens, links e linha do tempo em uma chamada.",
+            "Retorne postagens, links, timeline, páginas, conheça, consulte e invista em uma ligação.",
             "Nenhum.",
-            "Objeto com postagens, links, matrizes de linha do tempo e contagens."
+            "Objeto com postagens, links, linha do tempo, páginas, reuniões, consultoria, matrizes de investimento e contagens."
           ],
           [
             "markmhendrickson_get_about",
             "Devolva a postagem inicial por slug.",
             "Nenhum.",
             "Registro de postagem único para missão profissional."
+          ],
+          [
+            "markmhendrickson_get_meet",
+            "Retorne o conteúdo da página do encontro.",
+            "Nenhum.",
+            "Conheça o(s) objeto(s) de conteúdo da página com slots de reserva."
+          ],
+          [
+            "markmhendrickson_get_consulting",
+            "Retorne o conteúdo da página de consultoria.",
+            "Nenhum.",
+            "Consultar objeto(s) de conteúdo da página com seções."
+          ],
+          [
+            "markmhendrickson_get_investing",
+            "Devolva o conteúdo da página de investimento.",
+            "Nenhum.",
+            "Investir objeto(s) de conteúdo da página com seções."
+          ],
+          [
+            "markmhendrickson_get_pages",
+            "Retornar índice de endpoint de página estática.",
+            "Nenhum.",
+            "Objeto(s) de índice de página com slug e URL de endpoint."
           ]
         ]
       }
@@ -61,7 +85,7 @@
     {
       "heading": "Pontos de extremidade JSON",
       "paragraphs": [
-        "Postagens, links e entradas da linha do tempo são armazenados no Neotoma e armazenados em cache em JSON para o site e MCP. Neotoma é a fonte da verdade; a geração de cache é executada antes das compilações."
+        "Postagens, links, entradas de linha do tempo e dados estruturados de páginas são armazenados em Neotoma ou dados de repositório e armazenados em cache em JSON para o site e MCP. Neotoma continua sendo a fonte da verdade para o conteúdo, quando disponível."
       ],
       "bullets": [
         {
@@ -75,6 +99,22 @@
         {
           "text": "Linha do tempo JSON",
           "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "Páginas JSON",
+          "url": "https://markmhendrickson.com/api/pages.json"
+        },
+        {
+          "text": "Conheça JSON",
+          "url": "https://markmhendrickson.com/api/meet.json"
+        },
+        {
+          "text": "Consultoria JSON",
+          "url": "https://markmhendrickson.com/api/consulting.json"
+        },
+        {
+          "text": "Investindo JSON",
+          "url": "https://markmhendrickson.com/api/investing.json"
         },
         {
           "text": "Agente JSON",

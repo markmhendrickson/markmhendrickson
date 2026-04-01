@@ -23,6 +23,16 @@ function helmetHeadString(helmetContext) {
 }
 
 const SITE_BASE = 'https://markmhendrickson.com'
+
+/** GitHub Pages serves `dist/path/index.html` at `/path/`; bare `/path` 301s. Sitemap/RSS use trailing-slash URLs for HTML routes; file URLs (e.g. *.xml, *.txt) stay extension-only. */
+function sitemapCanonicalLoc(pathname) {
+  const p = pathname === '' || pathname === '/' ? '/' : pathname.startsWith('/') ? pathname : `/${pathname}`
+  if (/\/[^/]+\.[a-z0-9]+$/i.test(p)) {
+    return `${SITE_BASE}${p}`
+  }
+  if (p === '/') return `${SITE_BASE}/`
+  return `${SITE_BASE}${p.replace(/\/$/, '')}/`
+}
 const AVAILABLE_LOCALES = ['en', 'es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']
 const AVAILABLE_LOCALE_SET = new Set(AVAILABLE_LOCALES)
 
@@ -189,9 +199,9 @@ function getPostEntries() {
 
 function buildSitemapXml(staticRoutes, postEntries) {
   const urlEntries = [
-    ...staticRoutes.map((route) => ({ loc: `${SITE_BASE}${route}` })),
+    ...staticRoutes.map((route) => ({ loc: sitemapCanonicalLoc(route) })),
     ...postEntries.map((entry) => ({
-      loc: `${SITE_BASE}${entry.pathName}`,
+      loc: sitemapCanonicalLoc(entry.pathName),
       lastmod: entry.lastmod || undefined,
     })),
   ]
@@ -243,7 +253,7 @@ function buildRssXml(posts, locale = 'en') {
   const items = published
     .map((p) => {
       const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
-      const link = `${SITE_BASE}${localePrefix}/posts/${p.slug}`
+      const link = `${SITE_BASE}${localePrefix}/posts/${p.slug}/`
       const title = escapeXml(p.title || '')
       const description = escapeXml(p.excerpt || '')
       const pubDate = toRfc822Date(p.publishedDate || p.updatedDate)
@@ -293,7 +303,7 @@ function buildLlmsFullTxt(posts, timelineData) {
   lines.push('## Posts')
   lines.push('')
   for (const p of published) {
-    const url = `${SITE_BASE}/posts/${p.slug}`
+    const url = `${SITE_BASE}/posts/${p.slug}/`
     const rawUrl = `${SITE_BASE}/raw/post/${p.slug}.md`
     lines.push(`### ${p.title || p.slug}`)
     lines.push('')

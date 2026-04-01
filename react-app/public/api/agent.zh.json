@@ -45,15 +45,39 @@
           ],
           [
             "markmhendrickson_get_all_content",
-            "一次调用即可返回帖子、链接和时间表。",
+            "通过一次通话即可返回帖子、链接、时间表、页面、会议、咨询和投资。",
             "没有任何。",
-            "包含帖子、链接、时间线数组和计数的对象。"
+            "对象包含帖子、链接、时间线、页面、会议、咨询、投资数组和计数。"
           ],
           [
             "markmhendrickson_get_about",
             "通过 slug 返回主页。",
             "没有任何。",
             "专业任务的单一职位记录。"
+          ],
+          [
+            "markmhendrickson_get_meet",
+            "返回会议页面内容。",
+            "没有任何。",
+            "满足具有预订时段的页面内容对象。"
+          ],
+          [
+            "马克姆亨德里克森_获取_咨询",
+            "返回咨询页面内容。",
+            "没有任何。",
+            "使用部分查询页面内容对象。"
+          ],
+          [
+            "markmhendrickson_get_investing",
+            "返回投资页面内容。",
+            "没有任何。",
+            "使用部分投资页面内容对象。"
+          ],
+          [
+            "markmhendrickson_get_pages",
+            "返回静态页面端点索引。",
+            "没有任何。",
+            "带有 slug 和端点 URL 的页面索引对象。"
           ]
         ]
       }
@@ -61,7 +85,7 @@
     {
       "heading": "JSON 端点",
       "paragraphs": [
-        "帖子、链接和时间线条目存储在 Neotoma 中，并缓存到站点和 MCP 的 JSON 中。 Neotoma 是真理的源泉；缓存生成在构建之前运行。"
+        "帖子、链接、时间线条目和结构化页面数据存储在 Neotoma 或存储库数据中，并缓存到站点和 MCP 的 JSON 中。 Neotoma 仍然是可用内容的真实来源。"
       ],
       "bullets": [
         {
@@ -75,6 +99,22 @@
         {
           "text": "时间轴 JSON",
           "url": "https://markmhendrickson.com/api/timeline.json"
+        },
+        {
+          "text": "页面 JSON",
+          "url": "https://markmhendrickson.com/api/pages.json"
+        },
+        {
+          "text": "认识 JSON",
+          "url": "https://markmhendrickson.com/api/meet.json"
+        },
+        {
+          "text": "咨询 JSON",
+          "url": "https://markmhendrickson.com/api/consulting.json"
+        },
+        {
+          "text": "投资 JSON",
+          "url": "https://markmhendrickson.com/api/investing.json"
         },
         {
           "text": "代理 JSON",

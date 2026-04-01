@@ -6,12 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
-
-declare global {
-  interface Window {
-    gtag?: (command: string, eventName: string, params?: Record<string, string>) => void
-  }
-}
+import { trackUmamiEvent } from '@/lib/analytics'
 
 export default function Newsletter() {
   const pageTitle = 'Newsletter — Mark Hendrickson'
@@ -45,12 +40,10 @@ export default function Newsletter() {
       const result = await response.json() as { error?: string }
 
       if (response.ok) {
-        if (typeof window.gtag !== 'undefined') {
-          window.gtag('event', 'newsletter_subscribe', {
-            'event_category': 'engagement',
-            'event_label': 'newsletter_signup'
-          })
-        }
+        trackUmamiEvent('newsletter_subscribe', {
+          category: 'engagement',
+          label: 'newsletter_signup',
+        })
         // Redirect to confirmation page with email
         navigate(`/newsletter/confirm?email=${encodeURIComponent(email)}`)
       } else {

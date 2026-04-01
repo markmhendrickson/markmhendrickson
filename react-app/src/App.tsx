@@ -26,6 +26,7 @@ import {
 } from './i18n/config'
 import { LocaleProvider, useLocale } from './i18n/LocaleContext'
 import { localizePath, resolvePreferredLocale, stripLocaleFromPath } from './i18n/routing'
+import { UmamiRouteTracker } from './lib/analytics'
 
 const isDev = import.meta.env.DEV
 
@@ -119,7 +120,10 @@ function App({ url }: AppProps) {
   const router = url != null ? (
     <StaticRouter location={url}>{routes}</StaticRouter>
   ) : (
-    <BrowserRouter future={routerFuture}>{routes}</BrowserRouter>
+    <BrowserRouter future={routerFuture}>
+      <UmamiRouteTracker />
+      {routes}
+    </BrowserRouter>
   )
   return <ErrorBoundary>{router}</ErrorBoundary>
 }

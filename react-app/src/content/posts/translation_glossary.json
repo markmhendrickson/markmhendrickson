@@ -1,0 +1,122 @@
+{
+  "_comment": "Canonical translations for polysemous English terms that break under literal MT. Keys are lowercase English phrases; values are per-locale overrides. Add entries when MT produces the wrong sense.",
+  "heading_overrides": {
+    "the fall": {
+      "_sense": "moral/philosophical downfall, not autumn",
+      "es": "la caída",
+      "ca": "la caiguda",
+      "fr": "la chute",
+      "pt": "a queda",
+      "de": "der Sündenfall",
+      "zh": "堕落",
+      "hi": "पतन",
+      "ar": "السقوط",
+      "ru": "грехопадение",
+      "bn": "পতন",
+      "ur": "زوال",
+      "id": "kejatuhan"
+    },
+    "the state": {
+      "_sense": "political entity / government, not condition or US state",
+      "es": "el Estado",
+      "ca": "l'Estat",
+      "fr": "l'État",
+      "pt": "o Estado",
+      "de": "der Staat",
+      "zh": "国家",
+      "hi": "राज्य",
+      "ar": "الدولة",
+      "ru": "государство",
+      "bn": "রাষ্ট্র",
+      "ur": "ریاست",
+      "id": "negara"
+    },
+    "the right": {
+      "_sense": "political right wing, not correctness or entitlement",
+      "es": "la derecha",
+      "ca": "la dreta",
+      "fr": "la droite",
+      "pt": "a direita",
+      "de": "die Rechte",
+      "zh": "右派",
+      "hi": "दक्षिणपंथ",
+      "ar": "اليمين",
+      "ru": "правые",
+      "bn": "ডানপন্থা",
+      "ur": "دائیں بازو",
+      "id": "sayap kanan"
+    },
+    "the left": {
+      "_sense": "political left wing, not direction",
+      "es": "la izquierda",
+      "ca": "l'esquerra",
+      "fr": "la gauche",
+      "pt": "a esquerda",
+      "de": "die Linke",
+      "zh": "左派",
+      "hi": "वामपंथ",
+      "ar": "اليسار",
+      "ru": "левые",
+      "bn": "বামপন্থা",
+      "ur": "بائیں بازو",
+      "id": "sayap kiri"
+    },
+    "natural order": {
+      "_sense": "philosophical concept of inherent hierarchy or arrangement",
+      "es": "orden natural",
+      "ca": "ordre natural",
+      "fr": "ordre naturel",
+      "pt": "ordem natural",
+      "de": "natürliche Ordnung",
+      "zh": "自然秩序",
+      "hi": "प्राकृतिक व्यवस्था",
+      "ar": "النظام الطبيعي",
+      "ru": "естественный порядок",
+      "bn": "প্রাকৃতিক শৃঙ্খলা",
+      "ur": "فطری نظام",
+      "id": "tatanan alam"
+    },
+    "original sin": {
+      "_sense": "theological concept",
+      "es": "pecado original",
+      "ca": "pecat original",
+      "fr": "péché originel",
+      "pt": "pecado original",
+      "de": "Erbsünde",
+      "zh": "原罪",
+      "hi": "मूल पाप",
+      "ar": "الخطيئة الأصلية",
+      "ru": "первородный грех",
+      "bn": "আদি পাপ",
+      "ur": "اصل گناہ",
+      "id": "dosa asal"
+    },
+    "reason": {
+      "_sense": "rational faculty / Enlightenment Reason, not cause/motive",
+      "es": "la Razón",
+      "ca": "la Raó",
+      "fr": "la Raison",
+      "pt": "a Razão",
+      "de": "die Vernunft",
+      "zh": "理性",
+      "hi": "विवेक",
+      "ar": "العقل",
+      "ru": "Разум",
+      "bn": "যুক্তি",
+      "ur": "عقل",
+      "id": "akal budi"
+    }
+  },
+  "forbidden_senses": {
+    "_comment": "Per-locale translations that indicate the WRONG sense was chosen. Used in validation to flag mistranslations in headings. List patterns longest-first; replacement stops after the first match per heading to avoid double-article artifacts.",
+    "the fall": {
+      "ca": ["la tardor", "tardor"],
+      "es": ["el otoño", "otoño"],
+      "fr": ["l'automne", "automne"],
+      "de": ["der Herbst", "Herbst"],
+      "pt": ["o outono", "outono"],
+      "zh": ["秋天", "秋季"],
+      "ru": ["осень"]
+    }
+  }
+}
