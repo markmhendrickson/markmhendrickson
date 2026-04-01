@@ -5,8 +5,22 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 18 Mar 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 01 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>Personalized customer research through agents, not human calls</title>
+    <link>https://markmhendrickson.com/posts/customer-research-through-agents</link>
+    <description>Eighteen human product evaluators ran the same evaluation prompt through their AI tools. The writeups were sharper than any call. That feedback reshaped the product’s positioning — and then its acquisition flow. The homepage now asks agents to evaluate, not humans to sign up.</description>
+    <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/customer-research-through-agents</guid>
+  </item>
+  <item>
+    <title>Eleven releases in five weeks</title>
+    <link>https://markmhendrickson.com/posts/eleven-releases-in-five-weeks</link>
+    <description>I shipped eleven Neotoma releases in the first five weeks after the developer release. The CLI now works on other machines, unblocking onboarding. The MCP server is stable enough for daily agent use. The database can survive operator mistakes. Here is what changed and why.</description>
+    <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/eleven-releases-in-five-weeks</guid>
+  </item>
   <item>
     <title>What the technology asks of you</title>
     <link>https://markmhendrickson.com/posts/what-the-technology-asks-of-you</link>

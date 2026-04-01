@@ -8,6 +8,7 @@ import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import { trackUmamiEvent } from '@/lib/analytics'
 
 interface Post {
   slug: string
@@ -280,13 +281,22 @@ function EvaluateCta({ locale, pathname }: { locale: string; pathname: string })
 
   const copy = evaluateCtaCopy[locale as keyof typeof evaluateCtaCopy] ?? evaluateCtaCopy.en
 
+  const neotomaHref = neotomaMarketingHref(locale)
+
   return (
     <div className="mt-16 mb-8 mx-auto max-w-[600px] w-full px-4">
       <a
-        href={neotomaMarketingHref(locale)}
+        href={neotomaHref}
         target="_blank"
         rel="noopener noreferrer"
         className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+        onClick={() => {
+          trackUmamiEvent('neotoma_cta_click', {
+            campaign: 'neotoma_footer_card',
+            locale,
+            path: pathname.replace(/\/$/, '') || '/',
+          })
+        }}
       >
         <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
           <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center bg-muted">

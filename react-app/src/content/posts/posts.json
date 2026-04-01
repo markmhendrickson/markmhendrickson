@@ -34,15 +34,26 @@
     "updatedDate": "2026-03-31"
   },
   {
-    "slug": "customer-development-with-agents",
-    "published": false,
-    "title": "I used AI agents to run customer development",
-    "excerpt": "I asked 26 people to have their AI agents evaluate my product. The agents were more honest and specific than any conversation I'd had over the phone. Three patterns emerged that changed how I think about collecting product feedback.",
+    "slug": "customer-research-through-agents",
+    "published": true,
+    "publishedDate": "2026-04-01",
+    "title": "Personalized customer research through agents, not human calls",
+    "excerpt": "Eighteen human product evaluators ran the same evaluation prompt through their AI tools. The writeups were sharper than any call. That feedback reshaped the product’s positioning — and then its acquisition flow. The homepage now asks agents to evaluate, not humans to sign up.",
     "category": "essay",
-    "readTime": 10,
-    "tags": ["neotoma", "build-in-public", "customer-development", "agents", "icp"],
+    "readTime": 13,
+    "alternativeSlugs": [
+      "personalized-customer-research-with-agents",
+      "customer-development-with-agents"
+    ],
+    "tags": [
+      "neotoma",
+      "build-in-public",
+      "customer-research",
+      "agents",
+      "icp"
+    ],
     "createdDate": "2026-03-26",
-    "updatedDate": "2026-03-26"
+    "updatedDate": "2026-04-01"
   },
   {
     "slug": "neotoma-financial-data-tracking",
@@ -51,7 +62,13 @@
     "excerpt": "I spent a day building a financial dashboard on top of Neotoma and discovered that the real test of a memory system is whether it can hold the mess of real financial data without pretending the mess is clean.",
     "category": "essay",
     "readTime": 12,
-    "tags": ["neotoma", "build-in-public", "finance", "agent-memory", "dashboard"],
+    "tags": [
+      "neotoma",
+      "build-in-public",
+      "finance",
+      "agent-memory",
+      "dashboard"
+    ],
     "createdDate": "2026-03-23",
     "updatedDate": "2026-03-23"
   },
@@ -63,7 +80,12 @@
     "excerpt": "I accidentally overwrote my production Neotoma database and dropped from 6,174 observations to 84. I got nearly all of it back. The recovery worked because Neotoma's architecture stores observations as an append-only log and recomputes entity state from that log.",
     "category": "essay",
     "readTime": 6,
-    "tags": ["neotoma", "build-in-public", "architecture", "data-recovery"],
+    "tags": [
+      "neotoma",
+      "build-in-public",
+      "architecture",
+      "data-recovery"
+    ],
     "heroImage": "how-i-lost-and-recovered-6000-memories-hero.png",
     "heroImageSquare": "how-i-lost-and-recovered-6000-memories-hero-square.png",
     "heroImageStyle": "keep-proportions",
@@ -78,7 +100,13 @@
     "excerpt": "Anti-guiri populism in Spain and America First nationalism use the same playbook. Both channel real grievances toward an out-group defined by origin, then restrict their economic participation. The evidence does not support the blame.",
     "category": "essay",
     "readTime": 19,
-    "tags": ["politics", "immigration", "Barcelona", "housing", "scapegoating"],
+    "tags": [
+      "politics",
+      "immigration",
+      "Barcelona",
+      "housing",
+      "scapegoating"
+    ],
     "heroImage": "scapegoating-foreigners-bipartisan-international-hero.png",
     "heroImageSquare": "scapegoating-foreigners-bipartisan-international-hero-square.png",
     "heroImageStyle": "keep-proportions",
@@ -94,7 +122,15 @@
     "publishedDate": "2026-03-17",
     "category": "essay",
     "readTime": 12,
-    "tags": ["fomo", "narrative", "crypto", "ai", "startups", "ordinals", "neotoma"],
+    "tags": [
+      "fomo",
+      "narrative",
+      "crypto",
+      "ai",
+      "startups",
+      "ordinals",
+      "neotoma"
+    ],
     "heroImage": "chasing-narratives-into-dead-ends-hero.png",
     "heroImageStyle": "keep-proportions",
     "createdDate": "2026-03-16",
@@ -108,7 +144,12 @@
     "publishedDate": "2026-03-12",
     "category": "essay",
     "readTime": 10,
-    "tags": ["neotoma", "build-in-public", "developer-release", "onboarding"],
+    "tags": [
+      "neotoma",
+      "build-in-public",
+      "developer-release",
+      "onboarding"
+    ],
     "heroImage": "neotoma-site-overhaul-developer-feedback-hero.png",
     "heroImageSquare": "neotoma-site-overhaul-developer-feedback-hero-square.png",
     "heroImageStyle": "keep-proportions",
@@ -124,7 +165,11 @@
     "publishedDate": "2026-03-12",
     "category": "essay",
     "readTime": 8,
-    "tags": ["creativity", "startups", "self-expression"],
+    "tags": [
+      "creativity",
+      "startups",
+      "self-expression"
+    ],
     "heroImage": "the-diary-and-the-dance-hero.png",
     "heroImageStyle": "keep-proportions",
     "createdDate": "2026-03-12",
@@ -174,7 +219,9 @@
   },
   {
     "slug": "always-on-memory-agents-and-the-truth-layer",
-    "alternativeSlugs": ["always-on-memory-vs-the-truth-layer"],
+    "alternativeSlugs": [
+      "always-on-memory-vs-the-truth-layer"
+    ],
     "title": "Google's memory agent thinks for itself, trading determinism for insight",
     "excerpt": "A new open-source memory agent from Google ditches vector databases for LLM consolidation, trading determinism for active pattern discovery. It makes opposite architectural choices from a truth layer on every axis. The strongest architecture may combine both: consolidation above, deterministic state you can audit and revert below.",
     "published": true,
@@ -214,7 +261,10 @@
   },
   {
     "slug": "your-ai-remembers-your-vibe-but-not-your-work",
-    "alternativeSlugs": ["when-platform-memory-fails-under-context-shifts", "ai-remembers-vibe-not-work"],
+    "alternativeSlugs": [
+      "when-platform-memory-fails-under-context-shifts",
+      "ai-remembers-vibe-not-work"
+    ],
     "title": "Your AI remembers your vibe but not your work",
     "excerpt": "Claude and ChatGPT now offer memory for free, but what they store are profile snippets, not the details of what you actually worked on. My testing showed stale exports, one-shot access, and platform-gated portability. That is why I am building a truth layer underneath.",
     "published": true,
@@ -232,6 +282,25 @@
     "heroImage": "your-ai-remembers-your-vibe-but-not-your-work-hero.png",
     "heroImageStyle": "keep-proportions",
     "ogImage": "og/your-ai-remembers-your-vibe-but-not-your-work-1200x630.jpg"
+  },
+  {
+    "slug": "eleven-releases-in-five-weeks",
+    "title": "Eleven releases in five weeks",
+    "excerpt": "I shipped eleven Neotoma releases in the first five weeks after the developer release. The CLI now works on other machines, unblocking onboarding. The MCP server is stable enough for daily agent use. The database can survive operator mistakes. Here is what changed and why.",
+    "published": true,
+    "publishedDate": "2026-04-01",
+    "category": "technical",
+    "readTime": 9,
+    "tags": [
+      "neotoma",
+      "build-in-public"
+    ],
+    "createdDate": "2026-04-01",
+    "updatedDate": "2026-04-01",
+    "heroImage": "eleven-releases-in-five-weeks-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "eleven-releases-in-five-weeks-hero-square.png",
+    "ogImage": "og/eleven-releases-in-five-weeks-1200x630.jpg"
   },
   {
     "slug": "neotoma-developer-release",

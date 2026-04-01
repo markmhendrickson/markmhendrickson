@@ -77,6 +77,24 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
         <Route path="newsletter/confirm" element={<Layout><NewsletterConfirm /></Layout>} />
         <Route path="posts" element={<Layout><Posts /></Layout>} />
         <Route path="posts/draft" element={isDev ? <Layout><Posts draft /></Layout> : <Layout><NotFound /></Layout>} />
+        <Route
+          path="posts/customer-development-with-agents"
+          element={
+            <Navigate
+              to={localizePath('/posts/customer-research-through-agents', locale)}
+              replace
+            />
+          }
+        />
+        <Route
+          path="posts/personalized-customer-research-with-agents"
+          element={
+            <Navigate
+              to={localizePath('/posts/customer-research-through-agents', locale)}
+              replace
+            />
+          }
+        />
         <Route path="posts/:slug" element={<Layout><Post /></Layout>} />
         <Route path="links" element={<Layout><SocialMedia /></Layout>} />
         <Route path="meet" element={<Layout><Schedule /></Layout>} />

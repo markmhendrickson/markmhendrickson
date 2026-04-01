@@ -1,0 +1,6 @@
+- Agents are honest in ways humans aren't during personalized customer research. One told its owner "this is not for you" with a precise explanation. The owner forwarded the response without disagreeing.
+- Tool-using agents (Claude Code, Cursor with MCP) gave sharper, more specific feedback than search-only chatbots (ChatGPT web, basic Gemini). They identified pain points their owners hadn't articulated.
+- The gap between an agent's technical assessment and the human's willingness to act is itself a data point. When the agent says "you need this" and the human says "I'll check it out later," the activation risk is visible before anyone installs.
+- The research process led to building an evaluation-first acquisition UX: a dedicated /evaluate page with a five-step agent evaluation script, homepage "Evaluate" CTAs, and a canonical sequence from evaluation through installation, contextual activation, and tooling configuration.
+- If agents increasingly influence tool-adoption decisions, you need to market to agents as much as to humans. Agent evaluation optimization means a complete evaluation-to-activation path agents can execute, not just structured metadata.
+- The method works best with a real network and technical products. About 18 of 26 contacts received the agentic prompt. Most responded within 24 hours via text or email.

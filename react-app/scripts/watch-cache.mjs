@@ -35,13 +35,12 @@ function runGenerate() {
   })
 
   cmd.on('exit', (code) => {
-    running = false
     if (code === 0) {
       log('cache regenerated')
     } else {
       log(`cache regeneration failed (exit ${code ?? 'unknown'})`)
     }
-
+    running = false
     if (queued) {
       queued = false
       runGenerate()

@@ -1,0 +1,1 @@
+About 18 of 26 people ran the same eval prompt through their AI tools. Sharper than any call—and it changed how I build the site. https://markmhendrickson.com/posts/customer-research-through-agents

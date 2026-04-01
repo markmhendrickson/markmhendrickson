@@ -1,0 +1,2 @@
+keep-proportions
+Regenerate: node scripts/generate-eleven-releases-hero-line.mjs && node scripts/generate-hero-square-from-hero.mjs eleven-releases-in-five-weeks && node scripts/generate-post-og-image.mjs eleven-releases-in-five-weeks

@@ -185,9 +185,11 @@ export default function Posts({ draft = false }: PostsProps) {
   const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE))
   const currentPage = Math.min(totalPages, Math.max(1, parseInt(pageParam ?? '1', 10) || 1))
   const paginatedPosts = useMemo(() => {
+    // Dev-only draft index: list all drafts (pagination UI is not shown for this route).
+    if (draft) return filteredPosts
     const start = (currentPage - 1) * POSTS_PER_PAGE
     return filteredPosts.slice(start, start + POSTS_PER_PAGE)
-  }, [filteredPosts, currentPage])
+  }, [filteredPosts, currentPage, draft])
 
   const setPage = (page: number) => {
     const next = new URLSearchParams(searchParams)

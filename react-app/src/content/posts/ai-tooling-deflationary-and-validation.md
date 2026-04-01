@@ -29,5 +29,5 @@ A parallel thread: **selection** (find a validated market via research pipelines
 
 ## Related posts
 
-- [I used AI agents to run customer development](/posts/customer-development-with-agents) (when published)
+- [I used AI agents to run personalized customer research](/posts/customer-research-through-agents) (when published)
 - [What my agentic stack actually does](/posts/what-my-agentic-stack-actually-does)

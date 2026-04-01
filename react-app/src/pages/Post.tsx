@@ -5,16 +5,28 @@ import { Helmet } from 'react-helmet-async'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { usePostSSR } from '@/contexts/PostSSRContext'
-import { stripLinksFromExcerpt, getPostImageSrc, getZoomImageSrc, stripFrontmatter, limitSummaryToFiveBullets, parseFrontmatter, isExcludedFromListing, isPublishedPost, normalizeMarkdownFormatting } from '@/lib/utils'
+import {
+  stripLinksFromExcerpt,
+  getPostImageSrc,
+  getZoomImageSrc,
+  stripFrontmatter,
+  limitSummaryToFiveBullets,
+  parseFrontmatter,
+  isExcludedFromListing,
+  isPublishedPost,
+  normalizeMarkdownFormatting,
+  cn,
+} from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
 import { defaultLocale, supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 
 /** X (formerly Twitter) logo for share button. */
 function XLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
@@ -356,39 +368,98 @@ function PostShareBar({
   )
 }
 
-/** Optional -hero-og.png row; hidden if asset missing (404). */
-function DevHeroOgSourcePreview({ src, label }: { src: string; label: string }) {
-  const [loaded, setLoaded] = useState(true)
-  if (!loaded) return null
+/** Resolve markdown image URLs for dev preview (paths may already be absolute under /images/). */
+function devResolveContentImageSrc(raw: string): string {
+  if (!raw) return ''
+  if (raw.startsWith('http://') || raw.startsWith('https://')) return raw
+  if (raw.startsWith('/')) return raw
+  return getPostImageSrc(raw)
+}
+
+function devPublicPathForPostsDirField(filename: string): string {
+  if (!filename) return ''
+  if (filename.startsWith('http://') || filename.startsWith('https://')) return filename
+  if (filename.startsWith('/')) return filename
+  return `/images/posts/${filename}`
+}
+
+type DevAssetFrame = 'hero' | 'square' | 'og' | 'natural'
+
+/** Dev-only: one image asset with path + optional preview (shows error if file 404). */
+function DevPostImageAssetRow({
+  label,
+  publicPath,
+  src,
+  frame,
+}: {
+  label: string
+  publicPath: string
+  src: string | null
+  frame: DevAssetFrame
+}) {
+  const [loadFailed, setLoadFailed] = useState(false)
+  const frameClass =
+    frame === 'og'
+      ? 'aspect-[1200/630] w-full max-w-xl overflow-hidden rounded border border-border bg-black'
+      : frame === 'square'
+        ? 'aspect-square w-full max-w-[280px] overflow-hidden rounded border border-border bg-black'
+        : frame === 'hero'
+          ? 'w-full max-w-xl overflow-hidden rounded border border-border bg-black flex items-center justify-center min-h-[120px]'
+          : 'w-full max-w-xl overflow-hidden rounded border border-border bg-muted/30'
+
   return (
-    <div>
-      <p className="text-[12px] text-muted-foreground mb-2">{label}</p>
-      <p className="text-[11px] font-mono text-muted-foreground/80 break-all mb-2">{src}</p>
-      <div className="aspect-[1200/630] w-full max-w-xl overflow-hidden rounded border border-border bg-black">
-        <img
-          src={src}
-          alt=""
-          className="h-full w-full object-contain"
-          onError={() => setLoaded(false)}
-        />
-      </div>
+    <div className="space-y-2">
+      <p className="text-[12px] text-muted-foreground font-medium">{label}</p>
+      <p className="text-[11px] font-mono text-muted-foreground/80 break-all">
+        {publicPath || '— (not set)'}
+      </p>
+      {src && !loadFailed ? (
+        <div className={frameClass}>
+          <img
+            src={src}
+            alt=""
+            className={
+              frame === 'hero'
+                ? 'max-h-[50vh] w-full object-contain'
+                : frame === 'natural'
+                  ? 'max-h-[40vh] w-full object-contain'
+                  : 'h-full w-full object-contain'
+            }
+            onError={() => setLoadFailed(true)}
+          />
+        </div>
+      ) : null}
+      {src && loadFailed ? (
+        <p className="text-[11px] text-amber-800 dark:text-amber-200/90">
+          Preview failed (file missing or not served in dev).
+        </p>
+      ) : null}
+      {!src ? (
+        <p className="text-[11px] text-muted-foreground">No URL for this slot in post metadata.</p>
+      ) : null}
     </div>
   )
 }
 
-/** Dev-only: preview images used for og:image meta (and optional -hero-og source). */
+/** Dev-only: all image assets tied to this post (hero, thumbs, OG pipeline, tweet embeds, markdown images). */
 function PostFooterOgPreviewDev({
   isHome,
   slug,
   postOgImage,
   heroImage,
+  heroImageSquare,
   metaOgAbsolute,
+  tweetImages,
+  contentImages,
 }: {
   isHome: boolean
   slug: string
   postOgImage?: string
   heroImage?: string
+  heroImageSquare?: string
   metaOgAbsolute: string | null
+  tweetImages?: string[]
+  contentImages: { src: string; alt: string }[]
 }) {
   const metaLocalSrc =
     postOgImage != null && postOgImage !== ''
@@ -399,36 +470,146 @@ function PostFooterOgPreviewDev({
           ? getPostImageSrc(heroImage)
           : null
 
-  const heroOgLocalSrc = !isHome && slug ? getPostImageSrc(`${slug}-hero-og.png`) : null
+  const heroPublicPath =
+    heroImage != null && heroImage !== '' ? devPublicPathForPostsDirField(heroImage) : ''
+  const heroSrc = heroImage != null && heroImage !== '' ? getPostImageSrc(heroImage) : null
+
+  const squarePublicPath =
+    heroImageSquare != null && heroImageSquare !== ''
+      ? devPublicPathForPostsDirField(heroImageSquare)
+      : ''
+  const squareSrc =
+    heroImageSquare != null && heroImageSquare !== '' ? getPostImageSrc(heroImageSquare) : null
+
+  const heroOgFilename = !isHome && slug ? `${slug}-hero-og.png` : null
+  const heroOgPublicPath = heroOgFilename ? `/images/posts/${heroOgFilename}` : null
+  const heroOgSrc = heroOgFilename ? getPostImageSrc(heroOgFilename) : null
+
+  const metaOgPublicPath =
+    postOgImage != null && postOgImage !== ''
+      ? postOgImage.startsWith('http')
+        ? postOgImage
+        : postOgImage.startsWith('/')
+          ? postOgImage
+          : `/images/${postOgImage}`
+      : isHome
+        ? '/images/og-default-1200x630.jpg'
+        : metaLocalSrc ?? ''
 
   return (
-    <div
-      className="mt-6 pt-6 border-t border-dashed border-amber-600/35 rounded-md bg-amber-500/[0.06] dark:bg-amber-500/10 p-4 space-y-4"
+    <Collapsible
+      defaultOpen={false}
+      className="group mt-6 pt-6 border-t border-dashed border-amber-600/35 rounded-md bg-amber-500/[0.06] dark:bg-amber-500/10 p-4"
       data-dev-og-preview
     >
-      <span className="text-[11px] font-medium uppercase tracking-wide text-amber-900 dark:text-amber-100/90 block">
-        Dev — Open Graph preview
-      </span>
-      {metaLocalSrc ? (
-        <div>
-          <p className="text-[12px] text-muted-foreground mb-2">Meta og:image (as crawlers see URL)</p>
-          {metaOgAbsolute && (
-            <p className="text-[11px] font-mono text-muted-foreground/80 break-all mb-2">{metaOgAbsolute}</p>
-          )}
-          <div className="aspect-[1200/630] w-full max-w-xl overflow-hidden rounded border border-border bg-black">
-            <img src={metaLocalSrc} alt="" className="h-full w-full object-contain" />
-          </div>
-        </div>
-      ) : (
-        <p className="text-[12px] text-muted-foreground">No og:image in meta for this view (no post ogImage, hero, or home default path).</p>
-      )}
-      {heroOgLocalSrc && (
-        <DevHeroOgSourcePreview
-          src={heroOgLocalSrc}
-          label={`OG generator source (${slug}-hero-og.png, when present)`}
+      <CollapsibleTrigger
+        className={cn(
+          'flex w-full items-center justify-between gap-2 rounded-sm py-1 text-left',
+          'outline-none hover:bg-amber-500/15 dark:hover:bg-amber-500/15',
+          'focus-visible:ring-2 focus-visible:ring-amber-600/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+        )}
+      >
+        <span className="text-[11px] font-medium uppercase tracking-wide text-amber-900 dark:text-amber-100/90">
+          Dev — post images &amp; Open Graph
+        </span>
+        <ChevronDown
+          className="h-4 w-4 shrink-0 text-amber-900/80 dark:text-amber-100/80 transition-transform duration-200 group-data-[state=open]:rotate-180"
+          aria-hidden
         />
-      )}
-    </div>
+      </CollapsibleTrigger>
+      <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+        <div className="space-y-6 pt-3">
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
+            Metadata and body images for this post. Paths are site-root URLs as in production (
+            <code className="text-[10px]">/images/…</code>
+            ).
+          </p>
+
+          <DevPostImageAssetRow
+            label="Hero (post header)"
+            publicPath={heroPublicPath}
+            src={heroSrc}
+            frame="hero"
+          />
+
+          <DevPostImageAssetRow
+            label="Hero square (list / prev-next thumbnails)"
+            publicPath={squarePublicPath}
+            src={squareSrc}
+            frame="square"
+          />
+
+          {!isHome && slug ? (
+            <DevPostImageAssetRow
+              label={`OG composition source (${slug}-hero-og.png)`}
+              publicPath={heroOgPublicPath ?? ''}
+              src={heroOgSrc}
+              frame="og"
+            />
+          ) : null}
+
+          <div className="space-y-2">
+            <p className="text-[12px] text-muted-foreground font-medium">
+              Meta og:image (built JPEG used in &lt;meta property=&quot;og:image&quot;&gt;)
+            </p>
+            {metaOgAbsolute ? (
+              <p className="text-[11px] font-mono text-muted-foreground/80 break-all">{metaOgAbsolute}</p>
+            ) : null}
+            <p className="text-[11px] font-mono text-muted-foreground/80 break-all">{metaOgPublicPath}</p>
+            {metaLocalSrc ? (
+              <div className="aspect-[1200/630] w-full max-w-xl overflow-hidden rounded border border-border bg-black">
+                <img src={metaLocalSrc} alt="" className="h-full w-full object-contain" />
+              </div>
+            ) : (
+              <p className="text-[12px] text-muted-foreground">
+                No og:image in meta for this view (no post ogImage, hero, or home default path).
+              </p>
+            )}
+          </div>
+
+          {tweetImages && tweetImages.length > 0 ? (
+            <div className="space-y-3">
+              <p className="text-[12px] text-muted-foreground font-medium">Tweet / X metadata images</p>
+              {tweetImages.map((url, i) => (
+                <DevPostImageAssetRow
+                  key={`tw-${i}-${url}`}
+                  label={`Tweet image ${i + 1}`}
+                  publicPath={url}
+                  src={url}
+                  frame="natural"
+                />
+              ))}
+            </div>
+          ) : null}
+
+          {contentImages.length > 0 ? (
+            <div className="space-y-4">
+              <p className="text-[12px] text-muted-foreground font-medium">
+                Inline markdown images ({contentImages.length})
+              </p>
+              {contentImages.map((im, i) => {
+                const resolved = devResolveContentImageSrc(im.src)
+                const display =
+                  im.src.startsWith('/') || im.src.startsWith('http')
+                    ? im.src
+                    : im.src.startsWith('og/')
+                      ? `/images/${im.src}`
+                      : `/images/posts/${im.src}`
+                return (
+                  <DevPostImageAssetRow
+                    key={`md-${i}-${im.src}`}
+                    label={im.alt?.trim() ? `Markdown: ${im.alt.trim()}` : `Markdown image ${i + 1}`}
+                    publicPath={display}
+                    src={resolved || null}
+                    frame="natural"
+                  />
+                )
+              })}
+            </div>
+          ) : null}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
   )
 }
 
@@ -1546,7 +1727,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                   slug={post.slug}
                   postOgImage={post.ogImage}
                   heroImage={post.heroImage}
+                  heroImageSquare={post.heroImageSquare}
                   metaOgAbsolute={ogImage}
+                  tweetImages={post.tweetMetadata?.images}
+                  contentImages={postImages}
                 />
               )}
             </footer>
