@@ -15,7 +15,7 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/customer-research-through-agents</guid>
   </item>
   <item>
-    <title>Eleven releases in five weeks</title>
+    <title>From &quot;it works on my machine&quot; to eleven npm releases</title>
     <link>https://markmhendrickson.com/posts/eleven-releases-in-five-weeks</link>
     <description>I shipped eleven Neotoma releases in the first five weeks after the developer release. The CLI now works on other machines, unblocking onboarding. The MCP server is stable enough for daily agent use. The database can survive operator mistakes. Here is what changed and why.</description>
     <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>

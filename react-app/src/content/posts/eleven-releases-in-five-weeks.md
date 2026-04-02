@@ -1,5 +1,5 @@
 ---
-title: Eleven releases in five weeks
+title: 'From "it works on my machine" to eleven npm releases'
 excerpt: I shipped eleven Neotoma releases in the first five weeks after the developer release. The CLI now works on other machines, unblocking onboarding. The MCP server is stable enough for daily agent use. The database can survive operator mistakes. Here is what changed and why.
 published: true
 published_date: "2026-04-01"

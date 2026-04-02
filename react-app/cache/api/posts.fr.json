@@ -45,7 +45,7 @@
         "build-in-public"
       ],
       "createdDate": "2026-04-01",
-      "updatedDate": "2026-04-01",
+      "updatedDate": "2026-04-02",
       "summary": "- La CLI est passée d'un fonctionnement uniquement lors de l'extraction des sources de l'auteur à un fonctionnement fiable à partir d'une nouvelle installation globale de npm sur n'importe quelle machine, ce qui constituait la plus grande catégorie de correctifs.\n- Les améliorations de la stabilité de MCP, notamment la correction de la corruption du flux stdio et le renforcement des chemins de requête d'entité, ont rendu le serveur sécurisé pour une utilisation quotidienne des agents à travers les outils.\n- Un véritable outil de fusion de bases de données livré après un incident de perte de données de production, avec modes de conflit, simulation et recalcul automatique des instantanés à partir du journal d'observation.\n- La pagination et le filtrage des entités ont été corrigés afin que les agents obtiennent des décomptes cohérents et corrects lorsqu'ils parcourent les résultats, supprimant ainsi un bug subtil qui affectait chaque requête basée sur le type.\n- La phase suivante est façonnée par les commentaires des évaluateurs : une intégration triviale, une histoire de coexistence claire avec la mémoire de la plateforme et une profondeur dans les domaines où la provenance n'est pas négociable.",
       "shareTweet": "",
       "heroImage": "eleven-releases-in-five-weeks-hero.png",

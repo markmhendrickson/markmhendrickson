@@ -43,7 +43,7 @@
       "build-in-public"
     ],
     "createdDate": "2026-04-01",
-    "updatedDate": "2026-04-01",
+    "updatedDate": "2026-04-02",
     "summary": "- CLI berubah dari hanya bekerja di checkout sumber penulis menjadi bekerja dengan andal dari instalasi npm global baru di mesin mana pun, yang merupakan kategori perbaikan tunggal terbesar.\n- Peningkatan stabilitas MCP, termasuk memperbaiki kerusakan aliran stdio dan memperkuat jalur kueri entitas, membuat server aman untuk penggunaan agen sehari-hari di seluruh alat.\n- Alat penggabungan basis data nyata yang dikirimkan setelah insiden kehilangan data produksi, dengan mode konflik, uji coba, dan penghitungan ulang snapshot otomatis dari log observasi.\n- Penomoran halaman dan pemfilteran entitas telah diperbaiki sehingga agen mendapatkan penghitungan yang konsisten dan benar saat menelusuri hasil, menutup bug halus yang memengaruhi setiap kueri berbasis tipe.\n- Fase berikutnya dibentuk oleh umpan balik evaluator: orientasi yang sepele, kisah hidup berdampingan yang jelas dengan memori platform, dan kedalaman domain yang asal usulnya tidak dapat dinegosiasikan.",
     "shareTweet": "",
     "heroImage": "eleven-releases-in-five-weeks-hero.png",

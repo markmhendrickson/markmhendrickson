@@ -45,7 +45,7 @@
         "build-in-public"
       ],
       "createdDate": "2026-04-01",
-      "updatedDate": "2026-04-01",
+      "updatedDate": "2026-04-02",
       "summary": "– Die CLI funktionierte nicht mehr nur beim Auschecken des Quellcodes des Autors, sondern funktionierte zuverlässig ab einer neuen globalen NPM-Installation auf jedem Computer, was die größte einzelne Kategorie von Korrekturen darstellte.\n– MCP-Stabilitätsverbesserungen, einschließlich der Behebung von stdio-Stream-Beschädigungen und der Absicherung von Entitätsabfragepfaden, machten den Server sicher für die tägliche Agent-Nutzung über alle Tools hinweg.\n– Ein echtes Datenbank-Merge-Tool, das nach einem Produktionsdatenverlust-Vorfall ausgeliefert wird, mit Konfliktmodi, Probelauf und automatischer Snapshot-Neuberechnung aus dem Beobachtungsprotokoll.\n– Paginierung und Entitätsfilterung wurden behoben, sodass Agenten beim Durchblättern der Ergebnisse konsistente, korrekte Zählungen erhalten. Dadurch wurde ein subtiler Fehler behoben, der jede typbasierte Abfrage betraf.\n- Die nächste Phase wird durch das Feedback der Bewerter geprägt: einfaches Onboarding, eine klare Koexistenzgeschichte mit Plattformgedächtnis und Tiefe in Bereichen, in denen die Herkunft nicht verhandelbar ist.",
       "shareTweet": "",
       "heroImage": "eleven-releases-in-five-weeks-hero.png",

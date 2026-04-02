@@ -3,7 +3,7 @@
   "posts": [
     {
       "slug": "customer-research-through-agents",
-      "title": "Investigación de clientes impulsada por agentes",
+      "title": "Investigación de clientes y onboarding mediados por agentes",
       "excerpt": "Dieciocho evaluadores humanos del producto ejecutaron el mismo mensaje de evaluación a través de sus herramientas de inteligencia artificial. Las reseñas fueron más agudas que cualquier llamada. Esa retroalimentación reformó el posicionamiento del producto y luego su flujo de adquisición. La página de inicio ahora pide a los agentes que evalúen, no a los humanos que se registren.",
       "published": true,
       "publishedDate": "2026-04-01",
@@ -45,7 +45,7 @@
         "build-in-public"
       ],
       "createdDate": "2026-04-01",
-      "updatedDate": "2026-04-01",
+      "updatedDate": "2026-04-02",
       "summary": "- La CLI pasó de funcionar solo en la comprobación del código fuente del autor a funcionar de manera confiable desde una nueva instalación global de npm en cualquier máquina, que fue la categoría individual más grande de correcciones.\n- Las mejoras en la estabilidad de MCP, incluida la corrección de la corrupción del flujo estándar y el fortalecimiento de las rutas de consulta de entidades, hicieron que el servidor fuera seguro para el uso diario de los agentes en todas las herramientas.\n- Una herramienta de combinación de bases de datos real enviada después de un incidente de pérdida de datos de producción, con modos de conflicto, ejecución en seco y recálculo automático de instantáneas del registro de observación.\n- Se corrigió la paginación y el filtrado de entidades para que los agentes obtengan recuentos consistentes y correctos al revisar los resultados, cerrando un error sutil que afectaba todas las consultas basadas en tipos.\n- La siguiente fase está determinada por los comentarios de los evaluadores: incorporación trivial, una historia de coexistencia clara con la memoria de la plataforma y profundidad en dominios donde la procedencia no es negociable.",
       "shareTweet": "",
       "heroImage": "eleven-releases-in-five-weeks-hero.png",

@@ -285,7 +285,7 @@
   },
   {
     "slug": "eleven-releases-in-five-weeks",
-    "title": "Eleven releases in five weeks",
+    "title": "From \"it works on my machine\" to eleven npm releases",
     "excerpt": "I shipped eleven Neotoma releases in the first five weeks after the developer release. The CLI now works on other machines, unblocking onboarding. The MCP server is stable enough for daily agent use. The database can survive operator mistakes. Here is what changed and why.",
     "published": true,
     "publishedDate": "2026-04-01",
@@ -296,7 +296,7 @@
       "build-in-public"
     ],
     "createdDate": "2026-04-01",
-    "updatedDate": "2026-04-01",
+    "updatedDate": "2026-04-02",
     "heroImage": "eleven-releases-in-five-weeks-hero.png",
     "heroImageStyle": "keep-proportions",
     "heroImageSquare": "eleven-releases-in-five-weeks-hero-square.png",

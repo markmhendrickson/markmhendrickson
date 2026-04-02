@@ -43,7 +43,7 @@
       "build-in-public"
     ],
     "createdDate": "2026-04-01",
-    "updatedDate": "2026-04-01",
+    "updatedDate": "2026-04-02",
     "summary": "- A CLI passou de funcionar apenas no checkout de origem do autor para funcionar de forma confiável a partir de uma nova instalação global do npm em qualquer máquina, que era a maior categoria única de correções.\n- Melhorias na estabilidade do MCP, incluindo correção de corrupção de fluxo stdio e fortalecimento de caminhos de consulta de entidade, tornaram o servidor seguro para uso diário do agente em todas as ferramentas.\n- Uma ferramenta real de mesclagem de banco de dados enviada após um incidente de perda de dados de produção, com modos de conflito, simulação e recálculo automático de instantâneos do registro de observação.\n- A paginação e a filtragem de entidades foram corrigidas para que os agentes obtenham contagens consistentes e corretas ao paginar os resultados, fechando um bug sutil que afetava todas as consultas baseadas em tipo.\n- A próxima fase é moldada pelo feedback do avaliador: integração trivial, uma história clara de coexistência com a memória da plataforma e profundidade em domínios onde a proveniência não é negociável.",
     "shareTweet": "",
     "heroImage": "eleven-releases-in-five-weeks-hero.png",

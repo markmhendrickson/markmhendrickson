@@ -1,7 +1,7 @@
 [
   {
     "slug": "customer-research-through-agents",
-    "title": "Recerca de clients impulsada per agents",
+    "title": "Recerca de clients i onboarding mediats per agents",
     "excerpt": "Divuit avaluadors humans del producte van executar el mateix missatge d'avaluació mitjançant les seves eines d'IA. Els escrits eren més nítids que qualsevol trucada. Aquest feedback va remodelar el posicionament del producte, i després el seu flux d'adquisició. La pàgina d'inici ara demana als agents que avaluïn, no als humans que es registrin.",
     "published": true,
     "publishedDate": "2026-04-01",
@@ -43,7 +43,7 @@
       "build-in-public"
     ],
     "createdDate": "2026-04-01",
-    "updatedDate": "2026-04-01",
+    "updatedDate": "2026-04-02",
     "summary": "- La CLI va passar de funcionar només a la comprovació d'origen de l'autor a funcionar de manera fiable des d'una instal·lació global de npm nova a qualsevol màquina, que era la categoria més gran de solucions.\n- Les millores d'estabilitat de MCP, com ara la correcció de la corrupció del flux stdio i l'enduriment dels camins de consulta de les entitats, van fer que el servidor fos segur per a l'ús diari de l'agent a través de les eines.\n- Una eina real de combinació de bases de dades enviada després d'un incident de pèrdua de dades de producció, amb modes de conflicte, execució en sec i recomputació automàtica d'instantànies a partir del registre d'observació.\n- La paginació i el filtratge d'entitats es van arreglar perquè els agents obtinguessin un recompte correcte i coherent a l'hora de navegar pels resultats, tancant un error subtil que afectava totes les consultes basades en tipus.\n- La següent fase està configurada pel feedback de l'avaluador: incorporació trivial, una història de coexistència clara amb memòria de plataforma i profunditat en dominis on la procedència no és negociable.",
     "shareTweet": "",
     "heroImage": "eleven-releases-in-five-weeks-hero.png",
