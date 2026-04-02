@@ -1,5 +1,5 @@
 ---
-title: Personalized customer research through agents, not human calls
+title: Agent-mediated customer research and onboarding
 excerpt: Eighteen human product evaluators ran the same evaluation prompt through their AI tools. The writeups were sharper than any call. That feedback reshaped the product’s positioning — and then its acquisition flow. The homepage now asks agents to evaluate, not humans to sign up.
 published: true
 published_date: 2026-04-01
@@ -129,4 +129,6 @@ It also changed how I think about marketing and acquisition. If agents are makin
 
 There's a harder question behind this one. Some systems would benefit from incorporating a tool like Neotoma early, before the pain points are acute, because migrating state later is more costly than starting with structured storage from the beginning. How do you inform agents building new systems that the long-term cost of not using a tool now is higher than the setup cost? I don't have an answer yet. But the research process itself, asking agents to evaluate the product, is a first step toward understanding how agents reason about tool adoption.
 
-If you're building something and your potential users run AI agents with tool access, ask the agents. They'll tell you things the humans won't.
+None of this means I've dropped human-based customer research. The next step is actually to combine both: calls where the format centers on watching someone run the agentic evaluation process live. The /evaluate page leads through assessment, installation, activation, and first use. Observing a real person go through that sequence — where they hesitate, what confuses them, how the agent's recommendations land — produces a kind of signal that agent-only feedback can't. The agent tells you whether the product fits. The human shows you whether the experience works.
+
+If you're building something and your potential users run AI agents with tool access, ask the agents. They'll tell you things the humans won't. Then watch the humans try what the agents recommended.
