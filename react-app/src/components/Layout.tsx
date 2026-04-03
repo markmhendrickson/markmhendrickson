@@ -3,7 +3,7 @@ import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, Share2, Clock, Bot, Briefcase, TrendingUp, CalendarPlus } from 'lucide-react'
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
+import { ArrowRight } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
@@ -217,9 +217,9 @@ export function Layout({ children }: LayoutProps) {
         themeSystem={t.themeSystem}
         themeLight={t.themeLight}
         themeDark={t.themeDark}
+        footer={<EvaluateCta locale={locale} pathname={location.pathname} />}
       >
         {children}
-        <EvaluateCta locale={locale} pathname={location.pathname} />
       </SharedLayout>
     </>
   )
@@ -230,28 +230,28 @@ const NEOTOMA_CTA_IMAGE_SRC = '/images/neotoma_cta_packrat_hero.png'
 
 const evaluateCtaCopy = {
   en: {
-    label: 'Try Neotoma',
-    title: 'Your agents forget. Neotoma makes them remember.',
+    label: 'Neotoma — for agentic OS operators',
+    title: "You're re-prompting what your agents should already know.",
     description:
-      'Contacts and facts vanish between sessions and tools. Neotoma stores them once—versioned and queryable—across every agent you run, so you stop re-entering the same state.',
+      'State drifts between sessions and tools. You carry context by hand. Neotoma stores agent state once—versioned, queryable, and consistent across every tool—so you stop being the human sync layer.',
     imageAlt: 'Neotoma illustration — packrat holding a record',
-    action: 'Evaluate with your agent',
+    action: 'Try Neotoma',
   },
   es: {
-    label: 'Prueba Neotoma',
-    title: 'Tus agentes olvidan. Neotoma les hace recordar.',
+    label: 'Neotoma — para desarrolladores de agentes',
+    title: 'Estás repitiendo lo que tus agentes ya deberían saber.',
     description:
-      'Contactos y datos desaparecen entre sesiones y herramientas. Neotoma los guarda una vez—versionados y consultables—en todos tus agentes, para dejar de repetir el mismo estado.',
+      'El estado se pierde entre sesiones y herramientas. Tú llevas el contexto a mano. Neotoma almacena el estado de tus agentes una vez—versionado, consultable y consistente en cada herramienta—para que dejes de ser la capa de sincronización humana.',
     imageAlt: 'Ilustración de Neotoma — packrat con un registro',
-    action: 'Evalúa con tu agente',
+    action: 'Prueba Neotoma',
   },
   ca: {
-    label: 'Prova Neotoma',
-    title: 'Els teus agents obliden. Neotoma els fa recordar.',
+    label: "Neotoma — per a desenvolupadors d'agents",
+    title: 'Estàs repetint el que els teus agents ja haurien de saber.',
     description:
-      "Contactes i fets desapareixen entre sessions i eines. Neotoma els emmagatzema una vegada—versionats i consultables—en tots els agents, per deixar de repetir el mateix estat.",
+      "L'estat es perd entre sessions i eines. Tu portes el context a mà. Neotoma emmagatzema l'estat dels teus agents una vegada—versionat, consultable i consistent en cada eina—perquè deixis de ser la capa de sincronització humana.",
     imageAlt: "Il·lustració de Neotoma — packrat amb un registre",
-    action: 'Avalua amb el teu agent',
+    action: 'Prova Neotoma',
   },
 } as const
 
@@ -262,8 +262,8 @@ const evaluateCtaCopy = {
 const NEOTOMA_CTA_UTM: Record<string, string> = {
   utm_source: 'markmhendrickson.com',
   utm_medium: 'website_cta',
-  utm_campaign: 'neotoma_footer_card',
-  utm_content: 'try_neotoma',
+  utm_campaign: 'neotoma_site_footer_black',
+  utm_content: 'for_agent_builders_black_footer',
 }
 
 function neotomaMarketingHref(locale: string): string {
@@ -284,48 +284,51 @@ function EvaluateCta({ locale, pathname }: { locale: string; pathname: string })
   const neotomaHref = neotomaMarketingHref(locale)
 
   return (
-    <div className="mt-16 mb-8 mx-auto max-w-[600px] w-full px-4">
+    <footer
+      className="w-full shrink-0 bg-zinc-950 border-t border-zinc-800"
+      style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom, 0px))' }}
+      aria-label="Neotoma"
+    >
       <a
         href={neotomaHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 group"
         onClick={() => {
           trackUmamiEvent('neotoma_cta_click', {
-            campaign: 'neotoma_footer_card',
+            campaign: 'neotoma_site_footer_black',
             locale,
             path: pathname.replace(/\/$/, '') || '/',
           })
         }}
       >
-        <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
-          <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center bg-muted">
+        <div className="mx-auto max-w-[600px] w-full px-6 py-12 md:py-16 flex flex-col items-center text-center gap-6">
+          <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden bg-zinc-800 shrink-0">
             <img
               src={NEOTOMA_CTA_IMAGE_SRC}
               alt={copy.imageAlt}
-              className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center"
               loading="lazy"
               decoding="async"
             />
           </div>
-          <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
-            <AlertTitle className="text-sm font-medium normal-case tracking-wide text-muted-foreground">
+          <div className="flex flex-col gap-3">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">
               {copy.label}
-            </AlertTitle>
-            <AlertDescription className="py-px">
-              <span className="font-medium text-foreground">
-                {copy.title}
-              </span>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {copy.description}
-              </p>
-              <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
-                {copy.action} →
-              </span>
-            </AlertDescription>
+            </p>
+            <p className="text-lg md:text-xl font-medium text-white leading-snug">
+              {copy.title}
+            </p>
+            <p className="text-sm text-zinc-400 leading-relaxed max-w-md mx-auto">
+              {copy.description}
+            </p>
           </div>
-        </Alert>
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-zinc-50 border border-zinc-700 rounded-full px-5 py-2.5 group-hover:bg-zinc-800 group-hover:border-zinc-600 transition-colors">
+            {copy.action}
+            <ArrowRight className="w-3.5 h-3.5" />
+          </span>
+        </div>
       </a>
-    </div>
+    </footer>
   )
 }

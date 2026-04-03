@@ -44,30 +44,43 @@
     @apply text-black border-b border-black pb-[1px] hover:border-transparent;
   }
   .post-prose table {
-    @apply w-full min-w-full border-collapse text-[15px] leading-[1.75];
+    @apply w-full min-w-full border-collapse text-[14px] leading-[1.65] sm:text-[15px] sm:leading-[1.75] m-0;
   }
   .post-prose thead th {
-    @apply text-left font-medium py-3 px-4 border-b border-border bg-muted text-foreground;
+    @apply text-left font-semibold p-3 sm:p-4 border-b-2 border-border bg-muted/90 text-foreground align-top whitespace-normal;
   }
-  .post-prose thead th:first-child {
-    @apply rounded-tl-lg;
+  .post-prose thead th:not(:last-child) {
+    @apply border-r border-border/70;
   }
-  .post-prose thead th:last-child {
-    @apply rounded-tr-lg;
+  /* Last column (e.g. Special events): don’t collapse long descriptive copy when table scrolls horizontally */
+  .post-prose thead th:last-child,
+  .post-prose tbody td:last-child {
+    min-width: min(18rem, 85vw);
   }
   .post-prose tbody td {
-    @apply py-3 px-4 border-b border-border text-foreground;
+    @apply py-3 px-3 sm:px-4 border-b border-border text-foreground align-top break-words [overflow-wrap:anywhere] hyphens-auto;
+  }
+  .post-prose tbody td:not(:last-child) {
+    @apply border-r border-border/60;
+  }
+  .post-prose tbody tr:nth-child(even) td {
+    @apply bg-muted/20;
   }
   .post-prose tbody tr:last-child td {
     @apply border-b-0;
   }
+  .post-prose tbody td:first-child {
+    @apply font-medium text-foreground;
+  }
 
   /* Table horizontal scroll: overlay is sibling of viewport, absolute so flush to right edge of table box */
   .post-prose .table-scroll-outer {
-    @apply relative;
+    @apply relative overflow-hidden bg-muted/15;
   }
   .post-prose .table-scroll-outer .table-scroll-viewport {
     @apply min-w-0 max-w-full;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
   }
   .post-prose .table-scroll-outer.table-scrollable .table-scroll-inner {
     display: flex;
@@ -75,8 +88,8 @@
     width: max-content;
     min-width: 100%;
   }
-  .post-prose .table-scroll-outer.table-scrollable .table-scroll-inner > table {
-    flex: 0 0 auto;
+  .post-prose .table-scroll-outer .table-scroll-inner > table {
+    @apply m-0 flex-[0_0_auto];
   }
   .post-prose .table-scroll-outer.table-scrollable .table-scroll-edge {
     position: absolute;
@@ -87,7 +100,7 @@
     pointer-events: none;
   }
   .post-prose .table-scroll-outer.table-scrollable .table-scroll-hint {
-    @apply flex items-center gap-1 text-[11px] text-muted-foreground bg-white px-2 py-1.5 rounded-md;
+    @apply flex items-center gap-1 text-[11px] text-muted-foreground bg-background/95 px-2 py-1.5 rounded-md border border-border/70 shadow-sm backdrop-blur-[2px];
     position: absolute;
     right: 0.5rem;
     bottom: 0.5rem;
@@ -194,7 +207,7 @@
   }
 
   .dark .post-prose .table-scroll-outer.table-scrollable .table-scroll-hint {
-    background-color: hsl(var(--muted));
+    @apply bg-muted/95 border-border;
   }
 }
 

@@ -1,5 +1,10 @@
 [
-  { "icon": "Wifi", "label": "Wifi", "link": "https://www.speedtest.net/es/result/18737866754" },
+  {
+    "icon": "Wifi",
+    "label": "Wifi",
+    "link": "https://www.speedtest.net/es/result/18737866754",
+    "linkLabel": "See speed test result"
+  },
   { "icon": "Thermometer", "label": "Air conditioning and heating" },
   { "icon": "Square", "label": "Shared patio or balcony" },
   { "icon": "Baby", "label": "Crib" },

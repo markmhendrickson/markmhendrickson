@@ -52,12 +52,14 @@ interface AmenityItem {
   icon: string
   label: string
   link?: string
+  /** When set with `link`, shown as the anchor text instead of linking the whole row. */
+  linkLabel?: string
 }
 
 const initialCount = 8
 
 export default function AmenitiesCards() {
-  const [showAll, setShowAll] = useState(false)
+  const [showAll, setShowAll] = useState(true)
   const amenities = amenitiesData as AmenityItem[]
   const displayed = showAll ? amenities : amenities.slice(0, initialCount)
 
@@ -66,26 +68,35 @@ export default function AmenitiesCards() {
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
         {displayed.map((item, index) => {
           const Icon = iconMap[item.icon] ?? Wifi
-          const content = (
-            <>
-              <Icon className="w-5 h-5 shrink-0" strokeWidth={1.5} />
-              <span className="text-[15px] leading-snug">{item.label}</span>
-            </>
-          )
+          const secondaryLinkClass =
+            'text-[13px] text-muted-foreground no-underline hover:text-foreground transition-colors'
           return (
             <Card key={index} className="overflow-hidden">
               <CardContent className="p-4 flex items-center gap-3">
-                {item.link ? (
+                <Icon className="w-5 h-5 shrink-0" strokeWidth={1.5} />
+                {item.link && item.linkLabel ? (
+                  <span className="text-[15px] leading-snug flex flex-col gap-1 items-start min-w-0">
+                    <span>{item.label}</span>
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={secondaryLinkClass}
+                    >
+                      {item.linkLabel}
+                    </a>
+                  </span>
+                ) : item.link ? (
                   <a
                     href={item.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-foreground hover:underline underline-offset-2"
+                    className="text-[15px] leading-snug text-foreground no-underline hover:text-foreground/90 transition-colors"
                   >
-                    {content}
+                    {item.label}
                   </a>
                 ) : (
-                  <div className="flex items-center gap-3">{content}</div>
+                  <span className="text-[15px] leading-snug">{item.label}</span>
                 )}
               </CardContent>
             </Card>

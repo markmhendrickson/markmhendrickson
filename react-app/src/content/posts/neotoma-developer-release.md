@@ -75,7 +75,7 @@ This release is local-only by design. Trust starts with control. Before adding r
 
 ## Who this is for
 
-Developers and agent builders comfortable with CLI-first workflows. People building or operating agentic systems who need persistent memory across sessions and tools. Anyone who treats personal data like production infrastructure.
+Agentic OS operators comfortable with CLI-first workflows. People building or operating agentic systems who need persistent memory across sessions and tools. Anyone who treats personal data like production infrastructure.
 
 Not for (yet): UI-first users, casual note-taking, or anyone expecting stability guarantees today. Breaking changes should be expected. This release exists to pressure-test the foundations.
 

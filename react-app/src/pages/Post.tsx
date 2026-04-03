@@ -19,6 +19,7 @@ import {
 } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
 import { defaultLocale, supportedLocales, type SupportedLocale } from '@/i18n/config'
@@ -43,6 +44,35 @@ function HNLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" className={className} aria-hidden {...props}>
       <path fillRule="evenodd" clipRule="evenodd" d="M62.176 23.743H72.686L54.395 51.652V76.94h-8.79V51.655L27.314 23.743h10.509L49.999 42.323 62.176 23.743Z" />
     </svg>
+  )
+}
+
+/** Plain text from ReactMarkdown `children` (for conditional styling). */
+function markdownPlainText(node: React.ReactNode): string {
+  if (node == null || typeof node === 'boolean') return ''
+  if (typeof node === 'string' || typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(markdownPlainText).join('')
+  if (React.isValidElement(node)) {
+    const ch = (node.props as { children?: React.ReactNode }).children
+    return markdownPlainText(ch)
+  }
+  return ''
+}
+
+/** Seasons / special-events blurbs under the Barcelona pricing table (en/es/ca). */
+function isBarcelonaGuestFloorPricingFinePrint(
+  postSlug: string | null | undefined,
+  plain: string
+): boolean {
+  if (postSlug !== 'barcelona-guest-floor') return false
+  const t = plain.replace(/\s+/g, ' ').trim()
+  return (
+    t.startsWith('Seasons') ||
+    t.startsWith('Temporadas') ||
+    t.startsWith('Temporades') ||
+    t.startsWith('Special events') ||
+    t.startsWith('Eventos especiales') ||
+    t.startsWith('Esdeveniments especials')
   )
 }
 
@@ -105,6 +135,115 @@ function splitInlinePostscript(markdown: string): { main: string; postscript?: s
   const main = markdown.slice(0, startIndex).trimEnd()
   const postscript = match[1].trim()
   return { main, postscript: postscript || undefined }
+}
+
+function splitMarkdownByH2(markdown: string): { intro: string; sections: string[] } {
+  if (!markdown) return { intro: '', sections: [] }
+  const parts = markdown.split(/(?=^##\s+)/m).filter(Boolean)
+  if (parts.length === 0) return { intro: markdown, sections: [] }
+  if (parts[0].startsWith('## ')) return { intro: '', sections: parts }
+  return { intro: parts[0], sections: parts.slice(1) }
+}
+
+function splitSectionHeading(section: string): { heading: string; body: string } {
+  const trimmed = section.trim()
+  const match = /^(## [^\n]+\n\n)([\s\S]*)$/.exec(trimmed)
+  if (!match) return { heading: trimmed, body: '' }
+  return { heading: match[1], body: match[2].trim() }
+}
+
+function extractMarkdownBullets(body: string): string[] {
+  return body
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith('- '))
+    .map((line) => line.slice(2).trim())
+}
+
+function splitMarkdownParagraphs(body: string): string[] {
+  return body
+    .split(/\n\s*\n/)
+    .map((chunk) => chunk.trim())
+    .filter(Boolean)
+}
+
+function MarkdownBulletCards({ items }: { items: string[] }) {
+  return (
+    <div className="my-6">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        {items.map((item) => (
+          <Card key={item} className="overflow-hidden">
+            <CardContent className="p-4 flex items-center">
+              <span className="text-[15px] leading-snug">{item}</span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ContactCards({
+  items,
+  footnoteOptions,
+}: {
+  items: string[]
+  footnoteOptions: { footnoteLabel: string; footnoteBackLabel: string }
+}) {
+  return (
+    <div className="my-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+      {items.map((item) => {
+        const match = /^\*\*(.+?):\*\*\s*(.*)$/.exec(item.trim())
+        const label = match?.[1] ?? ''
+        const body = match?.[2] ?? item
+        return (
+          <Card key={item} className="overflow-hidden">
+            <CardContent className="p-4">
+              {label ? <div className="mb-2 text-sm font-medium">{label}</div> : null}
+              <div className="text-[15px] leading-relaxed text-muted-foreground [&_p]:m-0 [&_a]:break-all [&_a]:text-foreground [&_a]:no-underline hover:[&_a]:text-foreground/80">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  remarkRehypeOptions={footnoteOptions}
+                  components={{
+                    p: ({ children }) => <>{children}</>,
+                  }}
+                >
+                  {body}
+                </ReactMarkdown>
+              </div>
+            </CardContent>
+          </Card>
+        )
+      })}
+    </div>
+  )
+}
+
+function isBarcelonaGuestFloorEmailCtaLink(
+  postSlug: string | null | undefined,
+  href: string | undefined,
+  label: string,
+): boolean {
+  if (postSlug !== 'barcelona-guest-floor' || !href?.startsWith('mailto:markmhendrickson@gmail.com')) return false
+  const normalized = label.trim().toLowerCase()
+  return (
+    normalized === 'email us' ||
+    normalized === 'escríbenos por email' ||
+    normalized === 'escriu-nos per correu'
+  )
+}
+
+function isBarcelonaGuestFloorEmailCtaParagraph(
+  postSlug: string | null | undefined,
+  children: React.ReactNode,
+): boolean {
+  if (postSlug !== 'barcelona-guest-floor') return false
+  const plain = markdownPlainText(children).toLowerCase()
+  return (
+    plain.includes('email us') ||
+    plain.includes('escríbenos por email') ||
+    plain.includes('escriu-nos per correu')
+  )
 }
 
 function PostscriptSection({
@@ -935,17 +1074,35 @@ export default function Post({ slug: slugProp }: PostProps) {
     return () => { /* script stays for other embeds */ }
   }, [post?.xTimelineUrl])
 
-  // For barcelona-guest-floor, split content so we can render amenity cards between "What this place offers" and the next section
-  const barcelonaContentSplit = useMemo(() => {
-    if (resolvedCanonicalSlug !== 'barcelona-guest-floor' || !mainContent.includes('## What this place offers')) return null
-    const parts = mainContent.split(/\n## What this place offers\n\n/)
-    if (parts.length !== 2) return null
-    const [, listAndRest] = parts
-    const nextParts = listAndRest.split(/\n\n## /)
-    const restPart = nextParts.slice(1).join('\n\n## ')
+  // For barcelona-guest-floor, render the first and third H2 sections as cards.
+  const barcelonaSectionLayout = useMemo(() => {
+    if (resolvedCanonicalSlug !== 'barcelona-guest-floor') return null
+    const { intro, sections } = splitMarkdownByH2(mainContent)
+    if (sections.length < 3) return null
+
+    const homeSection = splitSectionHeading(sections[0])
+    const homeItems = extractMarkdownBullets(homeSection.body)
+    const contactSection = splitSectionHeading(sections[1])
+    const contactParagraphs = splitMarkdownParagraphs(contactSection.body)
+    const contactCards = contactParagraphs.filter((paragraph) =>
+      paragraph.startsWith('**') && (paragraph.includes('tel:') || paragraph.includes('mailto:'))
+    )
+    const contactCopy = contactParagraphs
+      .filter((paragraph) => !contactCards.includes(paragraph))
+      .join('\n\n')
+    const amenitiesSection = splitSectionHeading(sections[2])
+
+    if (homeItems.length === 0 || !amenitiesSection.heading) return null
+
     return {
-      contentBefore: parts[0] + '## What this place offers\n\n',
-      contentAfter: restPart ? '\n\n## ' + restPart : '',
+      intro,
+      homeHeading: homeSection.heading,
+      homeItems,
+      contactHeading: contactSection.heading,
+      contactCopy,
+      contactCards,
+      amenitiesHeading: amenitiesSection.heading,
+      afterAmenities: sections.slice(3).join('\n\n'),
     }
   }, [resolvedCanonicalSlug, mainContent])
 
@@ -1470,7 +1627,20 @@ export default function Post({ slug: slugProp }: PostProps) {
             </div>
           )}
 
-          <div className="post-prose prose prose-sm max-w-none">
+          <div
+            className={cn(
+              'post-prose prose prose-sm max-w-none',
+              resolvedCanonicalSlug === 'barcelona-guest-floor' && [
+                '[&_h2]:mb-4',
+                '[&_h3]:mb-3',
+                '[&_h3]:mt-8',
+                '[&_p]:leading-[1.8]',
+                '[&_table]:my-4',
+                '[&_th]:align-top',
+                '[&_td]:align-top',
+              ].join(' ')
+            )}
+          >
             {post.heroImage && post.heroImageStyle === 'float-right' && (
               <div className="w-full mb-8 md:mb-4 md:float-right md:ml-8 md:max-w-[300px]">
                 <img
@@ -1527,6 +1697,36 @@ export default function Post({ slug: slugProp }: PostProps) {
                     className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-zinc-300 to-transparent dark:via-zinc-700 relative overflow-visible before:content-['◆'] before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:px-2 before:text-[10px] before:leading-none before:text-zinc-500 before:bg-background dark:before:text-zinc-400 dark:before:bg-background"
                   />
                 ),
+                a: ({ href, children, className: linkClassName, ...props }: React.ComponentPropsWithoutRef<'a'>) => {
+                  const plain = markdownPlainText(children)
+                  const isEmailCta = isBarcelonaGuestFloorEmailCtaLink(resolvedCanonicalSlug, href, plain)
+                  if (isEmailCta) {
+                    return (
+                      <Button
+                        asChild
+                        size="lg"
+                        className="h-11 min-h-11 w-full rounded-full px-6 text-[15px] font-semibold text-white shadow-sm hover:text-white sm:w-auto [&_strong]:font-semibold [&_strong]:text-white [&_svg]:text-white border-0 no-underline"
+                      >
+                        <a
+                          href={href}
+                          {...props}
+                          className={cn(
+                            linkClassName,
+                            '!text-white hover:!text-white border-0 border-b-0 pb-0 no-underline',
+                          )}
+                        >
+                          <Mail className="size-[18px] shrink-0" aria-hidden />
+                          {children}
+                        </a>
+                      </Button>
+                    )
+                  }
+                  return (
+                    <a href={href} className={linkClassName} {...props}>
+                      {children}
+                    </a>
+                  )
+                },
                 table: ({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) => (
                   <PostTableWrapper {...props}>{children}</PostTableWrapper>
                 ),
@@ -1544,18 +1744,52 @@ export default function Post({ slug: slugProp }: PostProps) {
                     }
                     if (nonEmpty.length === 2) {
                       return (
-                        <div className="grid grid-cols-2 gap-3 my-4" {...props}>
+                        <div
+                          className="grid grid-cols-2 gap-3 sm:gap-4 my-4 [&>button]:min-w-0"
+                          {...props}
+                        >
                           {children}
                         </div>
                       )
                     }
                     return (
-                      <div className="grid grid-cols-3 gap-3 my-4" {...props}>
+                      <div
+                        className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 my-4 [&>button]:min-w-0"
+                        {...props}
+                      >
                         {children}
                       </div>
                     )
                   }
-                  return <p {...props}>{children}</p>
+                  const plain = markdownPlainText(children)
+                  const finePrint = isBarcelonaGuestFloorPricingFinePrint(resolvedCanonicalSlug, plain)
+                  const isEmailCtaParagraph = isBarcelonaGuestFloorEmailCtaParagraph(resolvedCanonicalSlug, children)
+                  if (isEmailCtaParagraph) {
+                    const [ctaNode, ...restNodes] = nonEmpty
+                    return (
+                      <div
+                        className="my-5 flex flex-col gap-4 rounded-xl border border-border/80 bg-muted/35 p-5 not-prose sm:flex-row sm:items-start sm:justify-between sm:gap-8"
+                      >
+                        <div className="w-full shrink-0 sm:w-auto">{ctaNode}</div>
+                        {restNodes.length > 0 && (
+                          <div className="min-w-0 flex-1 text-pretty text-[15px] leading-[1.65] text-muted-foreground">
+                            {restNodes}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  }
+                  return (
+                    <p
+                      {...props}
+                      className={cn(
+                        finePrint && 'text-[13px] leading-snug text-muted-foreground my-2',
+                        props.className
+                      )}
+                    >
+                      {children}
+                    </p>
+                  )
                 },
                 img: ({ src, alt, title, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
                   const index = postImages.findIndex((im) => im.src === src)
@@ -1618,24 +1852,65 @@ export default function Post({ slug: slugProp }: PostProps) {
                   )
                 },
               }
-              return barcelonaContentSplit ? (
-              <>
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  remarkRehypeOptions={markdownFootnoteOptions}
-                  components={markdownComponents}
-                >
-                  {barcelonaContentSplit.contentBefore}
-                </ReactMarkdown>
-                <AmenitiesCards />
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  remarkRehypeOptions={markdownFootnoteOptions}
-                  components={markdownComponents}
-                >
-                  {barcelonaContentSplit.contentAfter}
-                </ReactMarkdown>
-              </>
+              return barcelonaSectionLayout ? (
+                <>
+                  {barcelonaSectionLayout.intro && (
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      remarkRehypeOptions={markdownFootnoteOptions}
+                      components={markdownComponents}
+                    >
+                      {barcelonaSectionLayout.intro}
+                    </ReactMarkdown>
+                  )}
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    remarkRehypeOptions={markdownFootnoteOptions}
+                    components={markdownComponents}
+                  >
+                    {barcelonaSectionLayout.homeHeading}
+                  </ReactMarkdown>
+                  <MarkdownBulletCards items={barcelonaSectionLayout.homeItems} />
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    remarkRehypeOptions={markdownFootnoteOptions}
+                    components={markdownComponents}
+                  >
+                    {barcelonaSectionLayout.contactHeading}
+                  </ReactMarkdown>
+                  {barcelonaSectionLayout.contactCopy && (
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      remarkRehypeOptions={markdownFootnoteOptions}
+                      components={markdownComponents}
+                    >
+                      {barcelonaSectionLayout.contactCopy}
+                    </ReactMarkdown>
+                  )}
+                  {barcelonaSectionLayout.contactCards.length > 0 && (
+                    <ContactCards
+                      items={barcelonaSectionLayout.contactCards}
+                      footnoteOptions={markdownFootnoteOptions}
+                    />
+                  )}
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    remarkRehypeOptions={markdownFootnoteOptions}
+                    components={markdownComponents}
+                  >
+                    {barcelonaSectionLayout.amenitiesHeading}
+                  </ReactMarkdown>
+                  <AmenitiesCards />
+                  {barcelonaSectionLayout.afterAmenities && (
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      remarkRehypeOptions={markdownFootnoteOptions}
+                      components={markdownComponents}
+                    >
+                      {barcelonaSectionLayout.afterAmenities}
+                    </ReactMarkdown>
+                  )}
+                </>
               ) : (
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}

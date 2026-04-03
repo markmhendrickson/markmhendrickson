@@ -19,7 +19,7 @@ Highlights:
 - A memory guarantees table comparing platform memory, retrieval, file-based, and Neotoma across 12 properties. One tester pushed back that "general storage with schemas is unsolved." This table is my response: here are the specific properties, here's where each approach delivers.
 - A developer walkthrough answering "how does ingestion work?" Store a decision in one session, retrieve it in another, handle a conflict, audit the trail. Real MCP examples.
 - Six integration guides for Cursor, Claude, Claude Code, ChatGPT, Codex, and OpenClaw. Each from install to first store.
-- Three use case pages with failure modes and schema patterns for infrastructure engineers, agent builders, and individual operators.
+- Three use case pages with failure modes and schema patterns for infrastructure engineers, agent system builders, and individual operators.
 - A memory models page answering "should this replace or complement my existing memory?"
 
 The developer release is still active. If you try the site and installation, I want to know: is the positioning clear now? Does the guarantees table help you decide if this is relevant? Can you get from the home page to a working setup without hitting a wall?
