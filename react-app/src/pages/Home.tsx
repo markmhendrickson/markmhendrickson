@@ -3,7 +3,13 @@ import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { getPostImageSrc, isExcludedFromListing, isPublishedPost, stripLinksFromExcerpt } from '@/lib/utils'
+import {
+  getPostImageSrc,
+  isExcludedFromListing,
+  isPublishedPost,
+  stripLinksFromExcerpt,
+  parseCalendarOrIsoDateString,
+} from '@/lib/utils'
 
 interface Post {
   slug: string
@@ -26,8 +32,8 @@ export default function Home() {
   const latestPost = (getLocalizedPublicPosts(locale) as Post[])
     .filter((post) => isPublishedPost(post) && !isExcludedFromListing(post))
     .sort((a, b) => {
-      const aTime = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
-      const bTime = b.publishedDate ? new Date(b.publishedDate).getTime() : 0
+      const aTime = a.publishedDate ? parseCalendarOrIsoDateString(a.publishedDate).getTime() : 0
+      const bTime = b.publishedDate ? parseCalendarOrIsoDateString(b.publishedDate).getTime() : 0
       if (bTime !== aTime) return bTime - aTime
       return (a.slug || '').localeCompare(b.slug || '')
     })[0]

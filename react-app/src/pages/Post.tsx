@@ -16,6 +16,8 @@ import {
   isPublishedPost,
   normalizeMarkdownFormatting,
   cn,
+  formatPostPublishedDate,
+  parseCalendarOrIsoDateString,
 } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
@@ -1143,8 +1145,8 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   /** Canonical published-list order: newest first by publishedDate, then slug asc for ties. Must match Posts.tsx and cache script. */
   const publishedListOrder = (a: Post, b: Post) => {
-    const tA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
-    const tB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0
+    const tA = a.publishedDate ? parseCalendarOrIsoDateString(a.publishedDate).getTime() : 0
+    const tB = b.publishedDate ? parseCalendarOrIsoDateString(b.publishedDate).getTime() : 0
     if (tB !== tA) return tB - tA
     return (a.slug || '').localeCompare(b.slug || '')
   }
@@ -1385,15 +1387,8 @@ export default function Post({ slug: slugProp }: PostProps) {
     }
   }, [slug, slugParam, navigate, isDev, locale])
 
-  const formatDate = (dateString: string | undefined): string => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return date.toLocaleDateString(languageTag, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
+  const formatDate = (dateString: string | undefined): string =>
+    formatPostPublishedDate(dateString, languageTag)
 
   if (loading) {
     return (

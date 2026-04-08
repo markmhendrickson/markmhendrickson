@@ -1046,5 +1046,48 @@
     ],
     "createdDate": "2026-02-27",
     "updatedDate": "2026-02-27"
+  },
+  {
+    "slug": "no-ai-memory-benchmark-tests-what-actually-breaks",
+    "alternativeSlugs": [
+      "your-agent-isnt-hallucinating"
+    ],
+    "published": true,
+    "publishedDate": "2026-04-08",
+    "title": "No AI memory benchmark tests what actually breaks",
+    "excerpt": "The metrics that drive adoption in AI memory are all retrieval metrics. Good retrieval is necessary. But no widely used benchmark tests what happens to stored data after agents write to it.",
+    "category": "essay",
+    "readTime": 12,
+    "tags": [
+      "neotoma",
+      "agents",
+      "agent-memory",
+      "hallucination",
+      "truth-layer"
+    ],
+    "heroImage": "no-ai-memory-benchmark-tests-what-actually-breaks-hero.png",
+    "heroImageSquare": "no-ai-memory-benchmark-tests-what-actually-breaks-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/no-ai-memory-benchmark-tests-what-actually-breaks-1200x630.jpg",
+    "createdDate": "2026-04-08",
+    "updatedDate": "2026-04-08"
+  },
+  {
+    "slug": "agent-memory-breaks-before-retrieval",
+    "published": false,
+    "title": "Agent memory breaks before retrieval does",
+    "excerpt": "A new benchmark tests agent memory at 10 million tokens. The retrieval results are real. But state integrity, the ability to trust what you retrieve, degrades five to ten times earlier.",
+    "category": "essay",
+    "readTime": 6,
+    "tags": [
+      "neotoma",
+      "agents",
+      "memory",
+      "retrieval",
+      "benchmarks",
+      "truth-layer"
+    ],
+    "createdDate": "2026-04-08",
+    "updatedDate": "2026-04-08"
   }
 ]

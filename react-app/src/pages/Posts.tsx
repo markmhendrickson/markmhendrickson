@@ -2,7 +2,15 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Search, Rss } from 'lucide-react'
-import { stripLinksFromExcerpt, parseExcerptAsBulletLines, getPostImageSrc, isExcludedFromListing, isPublishedPost } from '@/lib/utils'
+import {
+  stripLinksFromExcerpt,
+  parseExcerptAsBulletLines,
+  getPostImageSrc,
+  isExcludedFromListing,
+  isPublishedPost,
+  formatPostPublishedDate,
+  parseCalendarOrIsoDateString,
+} from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { useLocale } from '@/i18n/LocaleContext'
 import { supportedLocales, type SupportedLocale } from '@/i18n/config'
@@ -241,8 +249,8 @@ export default function Posts({ draft = false }: PostsProps) {
       const sorted = [...filtered].sort((a, b) => {
         const dA = draft ? (a.updatedDate ?? a.createdDate) : a.publishedDate
         const dB = draft ? (b.updatedDate ?? b.createdDate) : b.publishedDate
-        const tA = dA ? new Date(dA).getTime() : 0
-        const tB = dB ? new Date(dB).getTime() : 0
+        const tA = dA ? parseCalendarOrIsoDateString(dA).getTime() : 0
+        const tB = dB ? parseCalendarOrIsoDateString(dB).getTime() : 0
         if (tB !== tA) return tB - tA
         return (a.slug || '').localeCompare(b.slug || '')
       })
@@ -254,8 +262,8 @@ export default function Posts({ draft = false }: PostsProps) {
         const allPublished = postsData
           .filter(post => isPublishedPost(post))
           .sort((a, b) => {
-            const tA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
-            const tB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0
+            const tA = a.publishedDate ? parseCalendarOrIsoDateString(a.publishedDate).getTime() : 0
+            const tB = b.publishedDate ? parseCalendarOrIsoDateString(b.publishedDate).getTime() : 0
             if (tB !== tA) return tB - tA
             return (a.slug || '').localeCompare(b.slug || '')
           })
@@ -268,15 +276,8 @@ export default function Posts({ draft = false }: PostsProps) {
     loadPosts()
   }, [isDev, draft, locale, ssrPosts])
 
-  const formatDate = (dateString: string | undefined): string => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return date.toLocaleDateString(languageTag, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
+  const formatDate = (dateString: string | undefined): string =>
+    formatPostPublishedDate(dateString, languageTag)
 
   const pageTitle = draft ? t.drafts : t.postsTitle
   const pageDesc = draft

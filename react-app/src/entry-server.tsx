@@ -8,7 +8,7 @@ import { AgentSSRProvider, type AgentContentSSR } from './contexts/AgentSSRConte
 import { SongsSSRProvider, type SongSSR } from './contexts/SongsSSRContext'
 import { getLocalizedPublicPosts } from './lib/postsLocaleData'
 import { defaultLocale, isSupportedLocale } from './i18n/config'
-import { isExcludedFromListing, isPublishedPost } from './lib/utils'
+import { isExcludedFromListing, isPublishedPost, parseCalendarOrIsoDateString } from './lib/utils'
 
 export interface HelmetContext {
   helmet?: {
@@ -85,8 +85,8 @@ function getPostsListForSSR(locale: string): PostListItemSSR[] {
     .filter((p) => !isExcludedFromListing(p))
     .filter((p) => isPublishedPost(p))
   const sorted = [...filtered].sort((a, b) => {
-    const tA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0
-    const tB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0
+    const tA = a.publishedDate ? parseCalendarOrIsoDateString(a.publishedDate).getTime() : 0
+    const tB = b.publishedDate ? parseCalendarOrIsoDateString(b.publishedDate).getTime() : 0
     if (tB !== tA) return tB - tA
     return (a.slug || '').localeCompare(b.slug || '')
   })

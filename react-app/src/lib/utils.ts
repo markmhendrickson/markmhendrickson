@@ -122,3 +122,33 @@ export function isPublishedPost(post: { published?: unknown }): boolean {
 export function isExcludedFromListing(post: { excludeFromListing?: unknown }): boolean {
   return isTruthyFlag(post.excludeFromListing)
 }
+
+/** Strict YYYY-MM-DD (cache / Neotoma publish dates). Does not match datetimes. */
+const CALENDAR_DATE_ONLY = /^(\d{4})-(\d{2})-(\d{2})$/
+
+/**
+ * Parse publish/list dates: plain YYYY-MM-DD uses local calendar day so the UI matches stored frontmatter.
+ * (`new Date("YYYY-MM-DD")` is UTC midnight and shifts the displayed day in Americas timezones.)
+ */
+export function parseCalendarOrIsoDateString(value: string): Date {
+  const trimmed = value.trim()
+  const m = CALENDAR_DATE_ONLY.exec(trimmed)
+  if (m) {
+    const y = parseInt(m[1], 10)
+    const month = parseInt(m[2], 10) - 1
+    const day = parseInt(m[3], 10)
+    return new Date(y, month, day)
+  }
+  return new Date(trimmed)
+}
+
+export function formatPostPublishedDate(dateString: string | undefined, languageTag: string): string {
+  if (!dateString) return ''
+  const d = parseCalendarOrIsoDateString(dateString)
+  if (Number.isNaN(d.getTime())) return dateString
+  return d.toLocaleDateString(languageTag, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+}

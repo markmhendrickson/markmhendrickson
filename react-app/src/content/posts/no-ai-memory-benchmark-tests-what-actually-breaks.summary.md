@@ -1,0 +1,5 @@
+- When agents operate on persistent memory, "wrong output" has two distinct causes: hallucination (the model confabulates) and memory corruption (stored data changed). Most systems cannot distinguish between them because the diagnostic tooling does not exist.
+- Memory corruption passes every hallucination guardrail. The retrieval is correct, the citation is grounded, the stored data is wrong.
+- Every major category of agent memory stores mutable state by default. Databases, retrieval systems, and file-based stores can all implement versioned history. Almost none do.
+- The benchmark culture of the AI memory category rewards retrieval metrics. Good retrieval is necessary but not sufficient. No widely used benchmark tests whether stored facts survive a week of agent writes unchanged.
+- Immutability, provenance, and temporal replay prevent silent corruption but carry real costs: unbounded log growth, more expensive state computation, and setup overhead. The trade-off is worth making when agents write state that informs real decisions.
