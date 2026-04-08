@@ -1,9 +1,7 @@
-MemPalace got 19k stars for retrieval recall metrics. The 96.6% measured ChromaDB's default embeddings, not the palace architecture.
+MemPalace: ~19k GitHub stars in two days on headline benchmark scores. Independent analysis: those numbers were retrieval metrics, not end-to-end accuracy in memory.
 
-The incentive structure rewarded those numbers. 19,000 stars for retrieval scores, zero questions about write integrity. That is the category's problem, not one project's.
+The incentive story is the whole category—stars for recall@k and latency, not whether stored facts survive a week of agent writes. Mem0, Supermemory, Zep: same competitive axis.
 
-Mem0, Supermemory, Zep. Same axis. Good retrieval is necessary. No benchmark tests what happens to stored data after agents write to it.
-
-No AI memory benchmark tests what actually breaks.
+No widely used AI memory benchmark tests what happens to data after agents write to it.
 
 https://markmhendrickson.com/posts/no-ai-memory-benchmark-tests-what-actually-breaks

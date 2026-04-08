@@ -1,0 +1,5 @@
+- BEAM is the first benchmark that tests agent memory retrieval beyond the context-stuffing range, at 500K to 10M tokens.
+- Retrieval and state integrity are orthogonal failure modes that activate at different token scales: retrieval at 10M, state integrity at 500K to 2M.
+- Builders working with agents today are mostly in the 500K to 2M range, where state integrity is their primary pain.
+- Hindsight and Neotoma converge on the same structural primitives (entities, graphs, temporal ordering, pre-computed summaries) from opposite directions: retrieval optimization versus state governance.
+- Retrieval-focused and state-focused memory systems are complementary. At production scale, agents need both.

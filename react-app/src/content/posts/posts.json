@@ -1074,9 +1074,10 @@
   },
   {
     "slug": "agent-memory-breaks-before-retrieval",
-    "published": false,
-    "title": "Agent memory breaks before retrieval does",
-    "excerpt": "A new benchmark tests agent memory at 10 million tokens. The retrieval results are real. But state integrity, the ability to trust what you retrieve, degrades five to ten times earlier.",
+    "published": true,
+    "publishedDate": "2026-04-08",
+    "title": "Agent memory breaks at 500K tokens, not 10 million",
+    "excerpt": "BEAM tests retrieval at 10 million tokens. State integrity degrades at 500K. The two failure modes activate at different scales, and nobody benchmarks the earlier one.",
     "category": "essay",
     "readTime": 6,
     "tags": [
@@ -1087,6 +1088,10 @@
       "benchmarks",
       "truth-layer"
     ],
+    "heroImage": "agent-memory-breaks-before-retrieval-hero.png",
+    "heroImageSquare": "agent-memory-breaks-before-retrieval-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/agent-memory-breaks-before-retrieval-1200x630.jpg",
     "createdDate": "2026-04-08",
     "updatedDate": "2026-04-08"
   }

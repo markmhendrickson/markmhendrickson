@@ -8,6 +8,13 @@
     <lastBuildDate>Wed, 08 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Agent memory breaks at 500K tokens, not 10 million</title>
+    <link>https://markmhendrickson.com/posts/agent-memory-breaks-before-retrieval</link>
+    <description>BEAM tests retrieval at 10 million tokens. State integrity degrades at 500K. The two failure modes activate at different scales, and nobody benchmarks the earlier one.</description>
+    <pubDate>Wed, 08 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-memory-breaks-before-retrieval</guid>
+  </item>
+  <item>
     <title>No AI memory benchmark tests what actually breaks</title>
     <link>https://markmhendrickson.com/posts/no-ai-memory-benchmark-tests-what-actually-breaks</link>
     <description>The metrics that drive adoption in AI memory are almost all retrieval metrics. Good retrieval is necessary. No widely used benchmark tests what happens to stored data after agents write to it.</description>
