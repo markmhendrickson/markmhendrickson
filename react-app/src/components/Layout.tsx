@@ -233,7 +233,7 @@ const evaluateCtaCopy = {
     label: 'Neotoma — for agentic OS operators',
     title: "You're re-prompting what your agents should already know.",
     description:
-      'State drifts between sessions and tools. You carry context by hand. Neotoma stores agent state once—versioned, queryable, and consistent across every tool—so you stop being the human sync layer.',
+      'The time you waste is obvious. The real cost is when your agent acts on wrong state and you don\u2019t catch it until something breaks. Neotoma stores state once: versioned, queryable, consistent across every tool. You stop carrying context by hand.',
     imageAlt: 'Neotoma illustration — packrat holding a record',
     action: 'Try Neotoma',
   },
@@ -241,7 +241,7 @@ const evaluateCtaCopy = {
     label: 'Neotoma — para desarrolladores de agentes',
     title: 'Estás repitiendo lo que tus agentes ya deberían saber.',
     description:
-      'El estado se pierde entre sesiones y herramientas. Tú llevas el contexto a mano. Neotoma almacena el estado de tus agentes una vez—versionado, consultable y consistente en cada herramienta—para que dejes de ser la capa de sincronización humana.',
+      'El tiempo que pierdes es obvio. El coste real es cuando tu agente actúa sobre un estado incorrecto y no lo detectas hasta que algo falla. Neotoma almacena el estado una vez: versionado, consultable, consistente en cada herramienta. Dejas de llevar el contexto a mano.',
     imageAlt: 'Ilustración de Neotoma — packrat con un registro',
     action: 'Prueba Neotoma',
   },
@@ -249,7 +249,7 @@ const evaluateCtaCopy = {
     label: "Neotoma — per a desenvolupadors d'agents",
     title: 'Estàs repetint el que els teus agents ja haurien de saber.',
     description:
-      "L'estat es perd entre sessions i eines. Tu portes el context a mà. Neotoma emmagatzema l'estat dels teus agents una vegada—versionat, consultable i consistent en cada eina—perquè deixis de ser la capa de sincronització humana.",
+      "El temps que perds és obvi. El cost real és quan l'agent actua sobre un estat incorrecte i no ho detectes fins que alguna cosa falla. Neotoma emmagatzema l'estat una vegada: versionat, consultable, consistent en cada eina. Deixes de portar el context a mà.",
     imageAlt: "Il·lustració de Neotoma — packrat amb un registre",
     action: 'Prova Neotoma',
   },
