@@ -41,7 +41,7 @@ Entity variants produce genuine confusion across hundreds of references. Correct
 
 Users start building workarounds. The OpenClaw ecosystem documents the pattern: SOUL.md for identity, MEMORY.md for curated state, HEARTBEAT.md for consolidation schedules. People run markdown CRMs for pipelines with 100 contacts. They maintain heartbeat files so agents know what changed between sessions. These workarounds exist because the infrastructure does not preserve history.
 
-At 2M to 10M tokens, months of agent use, both problems compound. BEAM shows the retrieval gap widening: RAG drops from 30.7% at 1M to 24.9% at 10M. Honcho drops from 63.1% to 40.6%. Standard RAG returns chunks about three different "Alices."
+At 2M to 10M tokens, both problems compound. BEAM shows the retrieval gap widening: RAG drops from 30.7% at 1M to 24.9% at 10M. Honcho drops from 63.1% to 40.6%. Standard RAG returns chunks about three different "Alices."
 
 Even when retrieval finds the right entity, you cannot confirm it is the latest version. Was the correction from March 15 applied? What is the provenance chain? BEAM addresses this tier for retrieval. Nobody benchmarks it for state integrity.
 
