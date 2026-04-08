@@ -29,7 +29,7 @@ That answer is different. State integrity degrades at 500K to 2M tokens. Roughly
 
 ## Four tiers
 
-At 100K to 500K tokens, a few days of heavy agent use, retrieval is fine. Boschi says it himself: "at BEAM's 500K tier, the gap between systems shrinks dramatically. Context-stuffing competes with real memory architectures." The numbers confirm it. At 500K, RAG scores 33.0%, almost identical to its 100K score of 32.3%. A 1M context window covers everything. No retrieval architecture needed.
+At 100K to 500K tokens, a few days of heavy agent use, retrieval architecture does not help. Boschi says it himself: "at BEAM's 500K tier, the gap between systems shrinks dramatically. Context-stuffing competes with real memory architectures." The numbers confirm it. At 500K, RAG scores 33.0%, almost identical to its 100K score of 32.3%. Scores are low across the board, but adding retrieval architecture on top of a 1M context window does not meaningfully improve them. The bottleneck is not retrieval.
 
 State integrity is already degrading. "Acme Corp" and "ACME CORP" and "Acme Corporation" accumulate as separate entities. Corrections get silently overwritten. The BEAM paper found contradiction resolution scores near zero at every tier, including 100K. All models struggle to maintain globally consistent state. This is not a scale problem. It starts with the first conflicting write.
 
