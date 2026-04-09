@@ -104,3 +104,7 @@ Write integrity stops being optional when agent errors have a price tag. Today m
 That pressure will not stay inside enterprises with compliance teams. [Audit pressure moves down-market](/posts/six-agentic-trends-betting-on) wherever errors cost money. Consultants, solo builders, and small teams will need the same answer: what did the system believe when it produced that output? If your memory layer cannot say, the memory layer is the liability.
 
 The trigger is economic, not philosophical. The first public postmortem that blames silently corrupted memory, not hallucination, will change how the industry talks about reliability. That postmortem is a when, not an if.
+
+## Postscript
+
+I have started designing [WRIT](https://github.com/markmhendrickson/writ), an open write-integrity benchmark. It tests drift rate, detectability, temporal replay, provenance, and update fidelity across multi-session scenarios. Any memory system can plug in through an adapter interface. If you are building in this space, contributions and feedback are welcome.
