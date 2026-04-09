@@ -366,8 +366,12 @@ function readTimelineData() {
 
 function readPostBody(slug) {
   const mdPath = path.resolve(__dirname, 'src', 'content', 'posts', `${slug}.md`)
-  if (!fs.existsSync(mdPath)) return null
-  return fs.readFileSync(mdPath, 'utf-8')
+  if (fs.existsSync(mdPath)) return fs.readFileSync(mdPath, 'utf-8')
+  // Fallback when markdown was not committed but cache already has body (e.g. export-only workflow).
+  for (const p of getPosts(DEFAULT_LOCALE)) {
+    if (p.slug === slug && typeof p.body === 'string' && p.body.trim().length > 0) return p.body
+  }
+  return null
 }
 
 function resolveSlugToCanonical(slug, locale = DEFAULT_LOCALE) {
@@ -589,6 +593,18 @@ async function createServer() {
   app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`)
   })
+}
+
+// Write route list to a file (stdout capture via child_process truncates around 8K in some Node versions).
+const listPostRoutesOutIdx = process.argv.indexOf('--list-post-routes-out')
+if (listPostRoutesOutIdx >= 0) {
+  const outFile = process.argv[listPostRoutesOutIdx + 1]
+  if (!outFile) {
+    console.error('usage: node server.js --list-post-routes-out <path.json>')
+    process.exit(1)
+  }
+  fs.writeFileSync(outFile, JSON.stringify(getPostSlugs()), 'utf-8')
+  process.exit(0)
 }
 
 if (process.argv.includes('--prerender')) {
