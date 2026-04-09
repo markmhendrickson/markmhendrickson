@@ -75,4 +75,6 @@ Better retrieval at 10M tokens does not fix a correction that was silently overw
 
 At production scale agents need both: the ability to find relevant context, and confidence that the context is correct. BEAM proved the first problem. The second is where I am building.
 
-*Update: I have started designing [WRIT](https://github.com/markmhendrickson/writ), an open write-integrity benchmark. It tests drift rate, detectability, temporal replay, provenance, and update fidelity across multi-session scenarios. Any memory system can plug in through an adapter interface. If you are building in this space, contributions and feedback are welcome.*
+## Postscript
+
+I have started designing [WRIT](https://github.com/markmhendrickson/writ), an open write-integrity benchmark. It tests drift rate, detectability, temporal replay, provenance, and update fidelity across multi-session scenarios. Any memory system can plug in through an adapter interface. If you are building in this space, contributions and feedback are welcome.
