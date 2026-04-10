@@ -1094,5 +1094,28 @@
     "ogImage": "og/agent-memory-breaks-before-retrieval-1200x630.jpg",
     "createdDate": "2026-04-08",
     "updatedDate": "2026-04-08"
+  },
+  {
+    "slug": "your-agent-harness-owns-context-not-truth",
+    "published": true,
+    "publishedDate": "2026-04-10",
+    "title": "Your agent harness owns context, not truth",
+    "excerpt": "Sarah Wooders argues memory is the harness. She's right about context management. She's wrong that context is the whole problem.",
+    "category": "technical",
+    "readTime": 7,
+    "tags": [
+      "agent-memory",
+      "neotoma",
+      "truth-layer",
+      "letta",
+      "context-management",
+      "virtual-context"
+    ],
+    "heroImage": "your-agent-harness-owns-context-not-truth-hero.png",
+    "heroImageSquare": "your-agent-harness-owns-context-not-truth-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/your-agent-harness-owns-context-not-truth-1200x630.jpg",
+    "createdDate": "2026-04-10",
+    "updatedDate": "2026-04-10"
   }
 ]

@@ -1,0 +1,5 @@
+- Wooders' "memory is the harness" holds for context management within a single session. It breaks when users operate across three to five harnesses, which is the norm for serious agent builders.
+- "Memory" conflates three distinct concerns: context window management, session state, and durable state. Only the first two belong to the harness. Durable state is infrastructure.
+- Even context management can be externalized. Virtual Context sits between the harness and the API as a proxy, intercepting and curating what the model sees, recovering context the harness truncated.
+- Hooks run deterministic scripts at lifecycle events, calling a state layer's API directly without LLM involvement. MCP provides agent-driven structured entity extraction. Both write paths reach the same durable layer.
+- Five harnesses produce five versions of what the agent knows. A shared state layer beneath all of them is the missing piece.
