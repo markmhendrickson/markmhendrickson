@@ -106,6 +106,10 @@
       "updatedDate": "2026-04-01",
       "summary": "- Els agents són honestos de la manera que els humans no ho són durant la investigació personalitzada dels clients. Un li va dir al seu propietari \"això no és per a tu\" amb una explicació precisa. El propietari va enviar la resposta sense estar en desacord.\n- Els agents que utilitzen eines (Claude Code, Cursor amb MCP) van donar comentaris més nítids i específics que els chatbots només de cerca (Web ChatGPT, Gemini bàsic). Van identificar punts de dolor que els seus propietaris no havien articulat.\n- La bretxa entre l'avaluació tècnica d'un agent i la voluntat d'actuar de l'ésser humà és en si mateixa un punt de dades. Quan l'agent diu \"ho necessiteu\" i l'ésser humà diu \"Ho comprovaré més tard\", el risc d'activació és visible abans que algú s'instal·li.\n- El procés d'investigació va conduir a la creació d'una UX d'adquisició d'avaluació: una pàgina dedicada /avaluar amb un script d'avaluació d'agents de cinc passos, CTA \"Avaluar\" a la pàgina d'inici i una seqüència canònica des de l'avaluació fins a la instal·lació, l'activació contextual i la configuració d'eines.\n- Si els agents influeixen cada cop més en les decisions d'adopció d'eines, haureu de comercialitzar tant als agents com als humans. L'optimització de l'avaluació d'agents significa que els agents poden executar un camí complet d'avaluació a activació, no només metadades estructurades.\n- El mètode funciona millor amb una xarxa real i productes tècnics. Uns 18 de 26 contactes van rebre l'avís de l'agent. La majoria va respondre en 24 hores per missatge de text o correu electrònic.",
       "shareTweet": "",
+      "heroImage": "personalized-customer-research-with-agents-hero.png",
+      "heroImageStyle": "keep-proportions",
+      "ogImage": "og/personalized-customer-research-with-agents-1200x630.jpg",
+      "heroImageSquare": "personalized-customer-research-with-agents-hero-square.png",
       "postId": "customer-research-through-agents",
       "locale": "ca",
       "canonicalSlug": "customer-research-through-agents"

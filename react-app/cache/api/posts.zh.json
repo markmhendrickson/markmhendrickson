@@ -106,6 +106,10 @@
       "updatedDate": "2026-04-01",
       "summary": "- 在个性化客户研究过程中，客服人员的诚实程度与人类不同。其中一只告诉它的主人“这不适合你”，并给出了准确的解释。楼主没有异议就转发了回复。\n- 使用工具的代理（Claude Code、带有 MCP 的 Cursor）比仅搜索聊天机器人（ChatGPT web、基本 Gemini）提供了更清晰、更具体的反馈。他们发现了他们的主人没有明确表达的痛点。\n- 代理的技术评估与人类的行动意愿之间的差距本身就是一个数据点。当代理说“你需要这个”并且人员说“我稍后检查”时，激活风险在任何人安装之前就可见。\n- 研究过程导致构建了一个评估优先的获取用户体验：一个专用的/评估页面，其中包含五步代理评估脚本、主页“评估”CTA，以及从评估到安装、上下文激活和工具配置的规范序列。\n- 如果代理越来越多地影响工具采用决策，那么您需要向代理进行营销，就像向人类进行营销一样。代理评估优化意味着代理可以执行完整的评估到激活路径，而不仅仅是结构化元数据。\n- 该方法最适合真实的网络和技术产品。 26 名联系人中约有 18 人收到了代理提示。大多数人在 24 小时内通过短信或电子邮件回复。",
       "shareTweet": "",
+      "heroImage": "personalized-customer-research-with-agents-hero.png",
+      "heroImageStyle": "keep-proportions",
+      "ogImage": "og/personalized-customer-research-with-agents-1200x630.jpg",
+      "heroImageSquare": "personalized-customer-research-with-agents-hero-square.png",
       "postId": "customer-research-through-agents",
       "locale": "zh",
       "canonicalSlug": "customer-research-through-agents"

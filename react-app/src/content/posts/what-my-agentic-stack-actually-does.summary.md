@@ -1,0 +1,5 @@
+- My agentic stack is a private monorepo with 12+ MCP servers, persistent rules, and reusable skills. I cowork with AI agents in Cursor all day, opening sessions for tasks from email triage to Bitcoin payments to website deployments.
+- Neotoma provides the structured memory layer underneath: 1,000+ contacts, 600 tasks, 170 entity types. Agents store entities and relationships on every turn and retrieve prior context before responding.
+- Real MCP calls show the pattern: a single `store` call persists a conversation, extracted contacts, tasks, and typed relationships in one payload. Retrieval calls give agents context before they act.
+- Neotoma's layered architecture separates truth (event-sourced state), strategy (pure cognition, decisions out), and execution (side effects, events back). Today I am the strategy layer. The architecture makes that role replaceable by software.
+- The goal is to shift from hands-on execution to review and approval, with agents handling repeatable workflows autonomously. The stack will be open-sourced once personal data is migrated into Neotoma and scripts are refactored to be generic.

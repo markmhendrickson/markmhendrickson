@@ -106,6 +106,10 @@
       "updatedDate": "2026-04-01",
       "summary": "- Agen jujur ​​dalam hal yang tidak dilakukan manusia selama riset pelanggan yang dipersonalisasi. Seseorang mengatakan kepada pemiliknya \"ini bukan untuk Anda\" dengan penjelasan yang tepat. Pemiliknya meneruskan tanggapannya tanpa tidak setuju.\n- Agen yang menggunakan alat (Claude Code, Kursor dengan MCP) memberikan umpan balik yang lebih tajam dan spesifik dibandingkan chatbot pencarian saja (web ChatGPT, Gemini dasar). Mereka mengidentifikasi masalah yang tidak diutarakan pemiliknya.\n- Kesenjangan antara penilaian teknis agen dan kesediaan manusia untuk bertindak sendiri merupakan sebuah titik data. Ketika agen mengatakan \"Anda memerlukan ini\" dan manusia mengatakan \"Saya akan memeriksanya nanti\", risiko aktivasi terlihat sebelum ada orang yang menginstal.\n- Proses penelitian mengarah pada pembuatan UX akuisisi evaluasi pertama: halaman khusus/evaluasi dengan skrip evaluasi agen lima langkah, halaman beranda CTA \"Evaluasi\", dan urutan kanonik dari evaluasi hingga instalasi, aktivasi kontekstual, dan konfigurasi perkakas.\n- Jika agen semakin mempengaruhi keputusan penggunaan alat, Anda perlu memasarkan ke agen dan juga ke manusia. Pengoptimalan evaluasi agen berarti jalur evaluasi hingga aktivasi lengkap yang dapat dijalankan agen, bukan hanya metadata terstruktur.\n- Metode ini bekerja paling baik dengan jaringan nyata dan produk teknis. Sekitar 18 dari 26 kontak menerima perintah agen. Sebagian besar merespons dalam waktu 24 jam melalui teks atau email.",
       "shareTweet": "",
+      "heroImage": "personalized-customer-research-with-agents-hero.png",
+      "heroImageStyle": "keep-proportions",
+      "ogImage": "og/personalized-customer-research-with-agents-1200x630.jpg",
+      "heroImageSquare": "personalized-customer-research-with-agents-hero-square.png",
       "postId": "customer-research-through-agents",
       "locale": "id",
       "canonicalSlug": "customer-research-through-agents"

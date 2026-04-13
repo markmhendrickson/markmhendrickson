@@ -106,6 +106,10 @@
       "updatedDate": "2026-04-01",
       "summary": "- Os agentes são honestos de uma forma que os humanos não são durante pesquisas personalizadas com clientes. Um disse ao seu dono “isto não é para você” com uma explicação precisa. O proprietário encaminhou a resposta sem discordar.\n- Os agentes usuários de ferramentas (Claude Code, Cursor com MCP) forneceram feedback mais preciso e específico do que os chatbots somente de pesquisa (ChatGPT web, Gemini básico). Eles identificaram pontos problemáticos que seus proprietários não haviam articulado.\n- A lacuna entre a avaliação técnica de um agente e a vontade humana de agir é em si um dado. Quando o agente diz “você precisa disso” e o humano diz “Vou verificar mais tarde”, o risco de ativação fica visível antes que alguém instale.\n- O processo de pesquisa levou à construção de uma UX de aquisição de avaliação inicial: uma página dedicada/avaliar com um script de avaliação de agente de cinco etapas, CTAs \"Avaliar\" da página inicial e uma sequência canônica da avaliação até a instalação, ativação contextual e configuração de ferramentas.\n- Se os agentes influenciam cada vez mais as decisões de adoção de ferramentas, você precisa comercializar tanto para os agentes quanto para os humanos. A otimização da avaliação do agente significa um caminho completo de avaliação até a ativação que os agentes podem executar, não apenas metadados estruturados.\n- O método funciona melhor com uma rede real e produtos técnicos. Cerca de 18 dos 26 contatos receberam a solicitação do agente. A maioria respondeu em 24 horas por mensagem de texto ou e-mail.",
       "shareTweet": "",
+      "heroImage": "personalized-customer-research-with-agents-hero.png",
+      "heroImageStyle": "keep-proportions",
+      "ogImage": "og/personalized-customer-research-with-agents-1200x630.jpg",
+      "heroImageSquare": "personalized-customer-research-with-agents-hero-square.png",
       "postId": "customer-research-through-agents",
       "locale": "pt",
       "canonicalSlug": "customer-research-through-agents"

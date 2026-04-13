@@ -1,0 +1,5 @@
+- Token issuance flips the normal startup sequence: the market capitalizes future narratives before the product exists, so the team receives validation before delivery.
+- When feedback latency stretches to years, narrative fills the gap. Real product signals get replaced by internally generated activity proxies that do not come from outside the belief system.
+- Early adopters are the only empirical signal available. Dismissing them in favor of imagined future users removes the only guide to what the product actually needs.
+- The perceived "moment of value" is always 12 to 18 months away. Each milestone resets the clock just enough to sustain collective inertia rather than conviction.
+- The key variable is feedback loop integrity: whether reality reliably corrects the system. Good products come from tight cycles, not from narratives that compound unchecked.

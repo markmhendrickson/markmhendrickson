@@ -106,6 +106,10 @@
       "updatedDate": "2026-04-01",
       "summary": "- Agenten sind bei der personalisierten Kundenrecherche ehrlicher als Menschen. Einer sagte seinem Besitzer mit einer genauen Erklärung: „Das ist nichts für Sie.“ Der Eigentümer leitete die Antwort weiter, ohne dem zu widersprechen.\n- Tool-verwendende Agenten (Claude Code, Cursor mit MCP) gaben schärferes und spezifischeres Feedback als reine Such-Chatbots (ChatGPT Web, Basic Gemini). Sie identifizierten Schwachstellen, die ihre Besitzer nicht artikuliert hatten.\n- Die Lücke zwischen der technischen Einschätzung eines Agenten und der Handlungsbereitschaft des Menschen ist selbst ein Datenpunkt. Wenn der Agent sagt: „Sie brauchen das“ und der Mensch sagt: „Ich schaue es mir später an“, ist das Aktivierungsrisiko sichtbar, bevor jemand es installiert.\n– Der Rechercheprozess führte zum Aufbau einer Evaluierungs-zuerst-Akquise-UX: eine dedizierte /evaluate-Seite mit einem fünfstufigen Agentenbewertungsskript, Homepage-„Evaluate“-CTAs und einer kanonischen Sequenz von der Evaluierung über die Installation, kontextbezogene Aktivierung und Werkzeugkonfiguration.\n- Wenn Agenten zunehmend Einfluss auf Entscheidungen über die Einführung von Tools nehmen, müssen Sie Ihre Marketingmaßnahmen sowohl an Agenten als auch an Menschen richten. Die Optimierung der Agentenbewertung bedeutet, dass Agenten einen vollständigen Pfad von der Bewertung bis zur Aktivierung ausführen können, nicht nur strukturierte Metadaten.\n- Die Methode funktioniert am besten mit einem realen Netzwerk und technischen Produkten. Ungefähr 18 von 26 Kontakten erhielten die Agentenaufforderung. Die meisten antworteten innerhalb von 24 Stunden per SMS oder E-Mail.",
       "shareTweet": "",
+      "heroImage": "personalized-customer-research-with-agents-hero.png",
+      "heroImageStyle": "keep-proportions",
+      "ogImage": "og/personalized-customer-research-with-agents-1200x630.jpg",
+      "heroImageSquare": "personalized-customer-research-with-agents-hero-square.png",
       "postId": "customer-research-through-agents",
       "locale": "de",
       "canonicalSlug": "customer-research-through-agents"

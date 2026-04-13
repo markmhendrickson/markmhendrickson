@@ -52,6 +52,10 @@
       "agents",
       "icp"
     ],
+    "heroImage": "personalized-customer-research-with-agents-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "personalized-customer-research-with-agents-hero-square.png",
+    "ogImage": "og/personalized-customer-research-with-agents-1200x630.jpg",
     "createdDate": "2026-03-26",
     "updatedDate": "2026-04-01"
   },

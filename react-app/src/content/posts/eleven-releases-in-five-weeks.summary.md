@@ -1,0 +1,5 @@
+- The CLI went from working only in the author's source checkout to working reliably from a fresh global npm install on any machine, which was the largest single category of fixes.
+- MCP stability improvements, including fixing stdio stream corruption and hardening entity query paths, made the server safe for daily agent use across tools.
+- A real database merge tool shipped after a production data loss incident, with conflict modes, dry-run, and automatic snapshot recomputation from the observation log.
+- Pagination and entity filtering were fixed so agents get consistent, correct counts when paging through results, closing a subtle bug that affected every type-based query.
+- The next phase is shaped by evaluator feedback: trivial onboarding, a clear coexistence story with platform memory, and depth in domains where provenance is non-negotiable.
