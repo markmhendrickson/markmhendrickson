@@ -24,7 +24,7 @@ These are not edge cases. They show up as soon as the agent handles contacts, ta
 
 ## What the plugin adds
 
-[Neotoma v0.4.3](https://github.com/markmhendrickson/neotoma/releases/tag/v0.4.3) adds an `openclaw.plugin.json` manifest, an entry point, and tool definitions that register into OpenClaw's four-layer plugin system. The Gateway discovers the plugin, validates the manifest, loads the runtime, and exposes Neotoma's tools to the agent.
+Install the plugin (`openclaw plugins install clawhub:neotoma`) and the Gateway picks it up automatically. [Neotoma v0.4.3](https://github.com/markmhendrickson/neotoma/releases/tag/v0.4.3) registers its tools alongside your existing skills and plugins. No config changes to the agent loop.
 
 Each failure mode above gets a structural fix.
 

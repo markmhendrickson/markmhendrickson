@@ -1,9 +1,11 @@
-OpenClaw is the fastest-growing open-source AI agent (310K GitHub stars). It stores memory in markdown files. Three billion-dollar-scale agent platforms converged on the same architecture. The economics work. The ceiling is real: no versioning, no provenance, no entity resolution, no conflict detection.
+If you use OpenClaw for anything beyond single-session chat, you have probably already hit this: a contact detail that disappeared after compaction, two automations that stepped on the same memory file, or an entity your agent recognized last Tuesday but not today.
 
-Neotoma v0.4.3 ships as a native OpenClaw plugin. Use the agent-assisted flow at neotoma.io/install so your agent enables the plugin and wiring. Your agent writes structured observations instead of appending to MEMORY.md. Entity identity is deterministic. Writes are append-only with schema validation. Every observation traces to its source.
+These are not hypothetical. OpenClaw's own docs flag the concurrent-write risk. The memory model works well for getting started. It stops working when the agent manages state you actually rely on.
 
-The agent loop does not change. Skills, browsing, form-filling, all stay the same. What changes is where state lives and whether you can audit, replay, and fix it.
+Neotoma v0.4.3 registers as a native plugin through OpenClaw's Gateway. Your agent loop, skills, and browsing stay the same. Writes go through schema validation, get stable entity IDs (string variants resolve by rule, not re-inference), and land in an append-only store with provenance. Two agents writing about the same entity produce two rows, not a file conflict.
 
-This is the first integration between a structured memory layer and a major agent platform's plugin system. Developer release, not stability guarantee. The goal is making the architectural argument testable.
+I run this daily across email triage, tasks, finance, and content in my own agentic stack. Developer release, not a maturity pitch. The goal is finding out where structured state earns its overhead under real agent load.
+
+`openclaw plugins install clawhub:neotoma` or start with the evaluation prompt in the essay.
 
 https://markmhendrickson.com/posts/neotoma-openclaw-plugin
