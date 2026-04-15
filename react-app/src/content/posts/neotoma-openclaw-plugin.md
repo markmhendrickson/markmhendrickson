@@ -64,7 +64,7 @@ It also does not claim production stability. Neotoma is in [developer release](/
 
 ## Try it, break it
 
-I have been running Neotoma as the memory layer in [my own agentic stack](/posts/what-my-agentic-stack-actually-does). Multiple agents writing to the same store: email triage, task management, finance, and content. The multi-agent state problems described above are not hypothetical for me. They are what I hit every week.
+I have been running Neotoma as the memory layer in [my own agentic stack](/posts/what-my-agentic-stack-actually-does). Multiple agents writing to the same store: email triage, task management, finance, and content. On the go through OpenClaw, at my desktop through Cursor and CLI agents, all reading and writing the same ground truth. The multi-agent state problems described above are not hypothetical for me. They are what I hit every week.
 
 The plugin makes this available to OpenClaw users. Install it. Enable it. Run your agent with structured state underneath. See where it helps. See where the overhead is not worth it. See where the design breaks.
 

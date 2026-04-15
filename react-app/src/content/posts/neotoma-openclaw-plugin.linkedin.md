@@ -1,11 +1,25 @@
-If you use OpenClaw for anything beyond single-session chat, you have probably already hit this: a contact detail that disappeared after compaction, two automations that stepped on the same memory file, or an entity your agent recognized last Tuesday but not today.
+If you use OpenClaw (@openclaw) for anything beyond single-session chat, you've probably already hit this sort of issue: a contact detail that disappeared after compaction, two automations that corrupted the same memory, or a task your agent recognized last Tuesday but not today.
 
-These are not hypothetical. OpenClaw's own docs flag the concurrent-write risk. The memory model works well for getting started. It stops working when the agent manages state you actually rely on.
 
-Neotoma v0.4.3 registers as a native plugin through OpenClaw's Gateway. Your agent loop, skills, and browsing stay the same. Writes go through schema validation, get stable entity IDs (string variants resolve by rule, not re-inference), and land in an append-only store with provenance. Two agents writing about the same entity produce two rows, not a file conflict.
 
-I run this daily across email triage, tasks, finance, and content in my own agentic stack. Developer release, not a maturity pitch. The goal is finding out where structured state earns its overhead under real agent load.
+These are not hypothetical. OpenClaw's own docs flag the concurrent-write risk. The default memory model works well for getting started. It stops working when the agent manages data you actually rely on.
 
-`openclaw plugins install clawhub:neotoma` or start with the evaluation prompt in the essay.
+
+
+Neotoma v0.4.3 plugs directly into OpenClaw. Your agent still works the same way. The difference is what happens when it saves a fact: the data gets checked before it is stored, every contact or task gets a consistent ID no matter how you or your agent refer to it, and nothing previously stored can be silently overwritten. If two agents save something about the same contact at the same time, both facts are kept instead of one clobbering the other.
+
+
+
+I use Neotoma to manage my life on the go through OpenClaw with the same ground truth I use at my desktop through Cursor and other CLI agents. Correspondence, tasks, contacts, finance, content and much more: all with the same memory.
+
+
+
+This is a developer release, not a promise that everything works. I want to find out where this is actually worth it, and I need your feedback to do that.
+
+
+
+Ask your OpenClaw agent to read neotoma.io/evaluate and tell you whether it fits your workflow. If it does, the agent will install and activate it for you.
+
+
 
 https://markmhendrickson.com/posts/neotoma-openclaw-plugin

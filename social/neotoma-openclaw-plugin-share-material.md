@@ -17,13 +17,15 @@ Generated: 2026-04-15
 
 **Main tweet (no link in body):**
 
-> If you run OpenClaw with contacts, tasks, or anything ongoing in memory, you've probably noticed: compaction drops facts you stored last week. Two skills writing at the same time corrupt the file. "Acme Corp" and "ACME CORP" are two different things next session.
+> If you use @openclaw for anything beyond single-session chat, you've probably already hit this: a contact that disappeared after compaction, two automations that corrupted the same memory, or a task your agent recognized last Tuesday but not today.
 >
-> Neotoma v0.4.3 ships as a native OpenClaw plugin. Same agent loop. Structured state underneath.
+> Neotoma v0.4.3 plugs directly into OpenClaw. Your agent works the same way. Facts get checked before stored, get consistent IDs, and can't be silently overwritten.
+>
+> Developer release. I want to find out where this is actually worth it. Feedback welcome.
 
 **Self-reply with link:**
 
-> Failure modes, what the plugin changes, and two install paths (agent-evaluated or direct via ClawHub):
+> Ask your @openclaw agent to read neotoma.io/evaluate. It checks your workflow and walks you through install if it fits.
 >
 > https://markmhendrickson.com/posts/neotoma-openclaw-plugin
 
@@ -37,21 +39,23 @@ Speaks directly to OpenClaw users who already hit these symptoms. Names three pa
 
 ### 1. Insight post (post Tue–Thu, 7–8 AM or 12–1 PM in your primary reader timezone; ~1,180 characters)
 
-If you use OpenClaw for anything beyond single-session chat, you have probably already hit this: a contact detail that disappeared after compaction, two automations that stepped on the same memory file, or an entity your agent recognized last Tuesday but not today.
+If you use OpenClaw (@openclaw) for anything beyond single-session chat, you've probably already hit this sort of issue: a contact detail that disappeared after compaction, two automations that corrupted the same memory, or a task your agent recognized last Tuesday but not today.
 
-These are not hypothetical. OpenClaw's own docs flag the concurrent-write risk. The memory model works well for getting started. It stops working when the agent manages state you actually rely on.
+These are not hypothetical. OpenClaw's own docs flag the concurrent-write risk. The default memory model works well for getting started. It stops working when the agent manages data you actually rely on.
 
-Neotoma v0.4.3 registers as a native plugin through OpenClaw's Gateway. Your agent loop, skills, and browsing stay the same. Writes go through schema validation, get stable entity IDs (string variants resolve by rule, not re-inference), and land in an append-only store with provenance. Two agents writing about the same entity produce two rows, not a file conflict.
+Neotoma v0.4.3 plugs directly into OpenClaw. Your agent still works the same way. The difference is what happens when it saves a fact: the data gets checked before it is stored, every contact or task gets a consistent ID no matter how you or your agent refer to it, and nothing previously stored can be silently overwritten. If two agents save something about the same contact at the same time, both facts are kept instead of one clobbering the other.
 
-I run this daily across email triage, tasks, finance, and content in my own agentic stack. Developer release, not a maturity pitch. The goal is finding out where structured state earns its overhead under real agent load.
+I use Neotoma to manage my life on the go through OpenClaw with the same ground truth I use at my desktop through Cursor and other CLI agents. Correspondence, tasks, contacts, finance, content and much more: all with the same memory.
 
-`openclaw plugins install clawhub:neotoma` or start with the evaluation prompt in the essay.
+This is a developer release, not a promise that everything works. I want to find out where this is actually worth it, and I need your feedback to do that.
+
+Ask your OpenClaw agent to read neotoma.io/evaluate and tell you whether it fits your workflow. If it does, the agent will install and activate it for you.
 
 https://markmhendrickson.com/posts/neotoma-openclaw-plugin
 
 ### Why this one
 
-Opens by naming symptoms existing users recognize, not explaining architecture to outsiders. Cites documented concurrency risk. Frames developer release as honest intent, not marketing hedge. ClawHub one-liner gives a concrete next step.
+Opens by naming symptoms existing users recognize, not explaining architecture to outsiders. Cites documented concurrency risk. Frames developer release as honest intent, not marketing hedge. CTA is agent-native: paste a URL, not a CLI command.
 
 ---
 
