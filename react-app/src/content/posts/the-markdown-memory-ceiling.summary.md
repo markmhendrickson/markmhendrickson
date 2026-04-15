@@ -1,0 +1,5 @@
+- Three production-scale AI agent platforms (Manus, Claude Code, OpenClaw) independently converged on markdown files as their primary memory system, validating that the agent memory problem is real and felt at billion-dollar scale.
+- The convergence is driven by LLM economics: Manus's 100:1 input-to-output token ratio and the 10x cost gap between cached and uncached tokens make file-based memory a unit economics strategy, not a simplicity preference.
+- The failure modes across all three systems are identical and documented: no versioning, no provenance, no conflict detection, no entity resolution, no schema constraints, and concurrent writes that corrupt state.
+- The proposed "equilibrium architecture" (files first, databases when forced) has a gap: it jumps from text files to full database infrastructure with nothing in between for state integrity.
+- The real competitive incumbent for agent memory infrastructure is not vector databases. It is markdown files, and the upgrade path runs from files to structured state, not from one database product to another.

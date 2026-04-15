@@ -63,6 +63,9 @@ export type Dict = {
   shareOn: string
   copyLink: string
   copied: string
+  /** Post body: fenced ```copy blocks */
+  postCopyCode: string
+  postCodeCopied: string
   imageViewer: string
   close: string
   previousImage: string
@@ -144,6 +147,8 @@ const enDict: Dict = {
     shareOn: 'Share on',
     copyLink: 'Copy link',
     copied: 'OK',
+    postCopyCode: 'Copy',
+    postCodeCopied: 'Copied',
     imageViewer: 'Image viewer',
     close: 'Close',
     previousImage: 'Previous image',
@@ -225,6 +230,8 @@ const esDict: Dict = {
     shareOn: 'Compartir en',
     copyLink: 'Copiar enlace',
     copied: 'OK',
+    postCopyCode: 'Copiar',
+    postCodeCopied: 'Copiado',
     imageViewer: 'Visor de imágenes',
     close: 'Cerrar',
     previousImage: 'Imagen anterior',
@@ -306,6 +313,8 @@ const caDict: Dict = {
     shareOn: 'Comparteix a',
     copyLink: 'Copia enllaç',
     copied: 'OK',
+    postCopyCode: 'Copia',
+    postCodeCopied: 'Copiat',
     imageViewer: "Visor d'imatges",
     close: 'Tanca',
     previousImage: 'Imatge anterior',

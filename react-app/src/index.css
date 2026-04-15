@@ -34,6 +34,17 @@
   .post-prose pre code {
     @apply block p-4 rounded mb-4 overflow-x-auto;
   }
+
+  /* Copyable prompt fences: not-prose does not stop .post-prose code / pre code rules from applying to descendants */
+  .post-prose .post-copyable-fence pre {
+    @apply m-0 rounded-none shadow-none;
+  }
+  .post-prose .post-copyable-fence code {
+    @apply rounded-none bg-transparent shadow-none;
+  }
+  .post-prose .post-copyable-fence pre code {
+    @apply m-0 mb-0 block overflow-visible;
+  }
   .post-prose strong {
     @apply font-semibold;
   }
@@ -198,6 +209,11 @@
 
   .dark .post-prose code {
     background-color: hsl(var(--muted));
+  }
+
+  .dark .post-prose .post-copyable-fence code,
+  .dark .post-prose .post-copyable-fence pre code {
+    background-color: transparent;
   }
 
   .dark .post-prose a,

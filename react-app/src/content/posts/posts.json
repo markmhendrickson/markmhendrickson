@@ -1,5 +1,69 @@
 [
   {
+    "slug": "neotoma-openclaw-plugin",
+    "published": true,
+    "publishedDate": "2026-04-15",
+    "title": "OpenClaw plugin for Neotoma gives your agent memory it can't corrupt",
+    "excerpt": "OpenClaw stores memory in markdown files. Neotoma v0.4.3 plugs in natively as a structured state layer underneath, giving OpenClaw agents provenance, entity resolution, and versioned history without replacing the agent.",
+    "category": "Agent Architecture",
+    "readTime": 7,
+    "tags": [
+      "neotoma",
+      "openclaw",
+      "plugin",
+      "agent memory",
+      "state integrity",
+      "build-in-public"
+    ],
+    "createdDate": "2026-04-15",
+    "updatedDate": "2026-04-15"
+  },
+  {
+    "slug": "the-markdown-memory-ceiling",
+    "published": true,
+    "publishedDate": "2026-04-15",
+    "title": "The markdown memory ceiling",
+    "excerpt": "Three independent AI agent platforms worth billions converged on plain text files for memory. The convergence validates the problem. The failure modes they share define what comes next.",
+    "category": "Agent Architecture",
+    "readTime": 8,
+    "tags": [
+      "agent memory",
+      "markdown",
+      "state integrity",
+      "convergent evolution",
+      "file-based memory"
+    ],
+    "heroImage": "the-markdown-memory-ceiling-hero.png",
+    "heroImageSquare": "the-markdown-memory-ceiling-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/the-markdown-memory-ceiling-1200x630.jpg",
+    "createdDate": "2026-04-15",
+    "updatedDate": "2026-04-15"
+  },
+  {
+    "slug": "when-agents-share-state-everything-breaks",
+    "published": true,
+    "publishedDate": "2026-04-15",
+    "title": "When agents share state, everything breaks",
+    "excerpt": "Most teams bolt agent memory onto whatever database they already have. It works until two agents write to the same store. Then one bad write propagates at machine speed, triggering downstream actions before any human can intervene. The industry is heading toward a trust crisis that retrieval optimization won't fix.",
+    "category": "essay",
+    "readTime": 8,
+    "tags": [
+      "neotoma",
+      "agents",
+      "multi-agent",
+      "architecture",
+      "truth-layer",
+      "build-in-public"
+    ],
+    "heroImage": "when-agents-share-state-everything-breaks-hero.png",
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "when-agents-share-state-everything-breaks-hero-square.png",
+    "ogImage": "og/when-agents-share-state-everything-breaks-1200x630.jpg",
+    "createdDate": "2026-04-15",
+    "updatedDate": "2026-04-15"
+  },
+  {
     "slug": "cybernetics-and-personal-agent-infrastructure",
     "published": false,
     "title": "Cybernetics and personal agent infrastructure",

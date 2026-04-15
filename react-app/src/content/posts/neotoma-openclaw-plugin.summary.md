@@ -1,0 +1,5 @@
+- OpenClaw stores memory in markdown files. That works until facts vanish during compaction, entity identity drifts across sessions, concurrent writes corrupt state, or a wrong answer has no audit trail.
+- Neotoma v0.4.3 ships as a native OpenClaw plugin. Each failure mode gets a structural fix: append-only observations, deterministic entity IDs, schema-validated writes, and full provenance.
+- The plugin registers into OpenClaw's four-layer plugin system. The agent loop stays the same. State moves from flat files to a structured layer with timeline queries and relationship-based retrieval.
+- Read-path design preserves the KV-cache economics that make file-based memory rational. Entity snapshots return stable text across calls.
+- This is a developer release integration. The goal is testing structured state underneath a real agent platform, not promising stability today.

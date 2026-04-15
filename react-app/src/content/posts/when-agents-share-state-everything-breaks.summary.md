@@ -1,0 +1,5 @@
+- Multi-agent shared state is where write corruption goes from gradual quality degradation to cascade failures that propagate at machine speed.
+- The industry is moving from "just use Postgres" through retrieval optimization to a trust crisis that will force a bifurcation between database extensions and purpose-built infrastructure.
+- Most multi-agent systems accrete by accident when teams connect agents that were never designed to share state.
+- The architecture that works sits between your agents and your database, handling agent-written observational state while leaving business data in place.
+- The real cost of waiting is a permanent gap in your audit history that no migration can backfill.

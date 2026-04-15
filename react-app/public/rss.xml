@@ -5,8 +5,36 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>OpenClaw plugin for Neotoma gives your agent memory it can&apos;t corrupt</title>
+    <link>https://markmhendrickson.com/posts/neotoma-openclaw-plugin</link>
+    <description>OpenClaw stores memory in markdown files. Neotoma v0.4.3 plugs in natively as a structured state layer underneath, giving OpenClaw agents provenance, entity resolution, and versioned history without replacing the agent.</description>
+    <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-openclaw-plugin</guid>
+  </item>
+  <item>
+    <title>OpenClaw plugin for Neotoma gives your agent memory it can&apos;t corrupt</title>
+    <link>https://markmhendrickson.com/posts/neotoma-openclaw-plugin</link>
+    <description>OpenClaw stores memory in markdown files. Neotoma v0.4.3 plugs in natively as a structured state layer underneath, giving OpenClaw agents provenance, entity resolution, and versioned history without replacing the agent.</description>
+    <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-openclaw-plugin</guid>
+  </item>
+  <item>
+    <title>The markdown memory ceiling</title>
+    <link>https://markmhendrickson.com/posts/the-markdown-memory-ceiling</link>
+    <description>Three independent AI agent platforms worth billions converged on plain text files for memory. The convergence validates the problem. The failure modes they share define what comes next.</description>
+    <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-markdown-memory-ceiling</guid>
+  </item>
+  <item>
+    <title>When agents share state, everything breaks</title>
+    <link>https://markmhendrickson.com/posts/when-agents-share-state-everything-breaks</link>
+    <description>Most teams bolt agent memory onto whatever database they already have. It works until two agents write to the same store. Then one bad write propagates at machine speed, triggering downstream actions before any human can intervene. The industry is heading toward a trust crisis that retrieval optimization won&apos;t fix.</description>
+    <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/when-agents-share-state-everything-breaks</guid>
+  </item>
   <item>
     <title>Your agent harness owns context, not truth</title>
     <link>https://markmhendrickson.com/posts/your-agent-harness-owns-context-not-truth</link>

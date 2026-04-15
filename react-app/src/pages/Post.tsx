@@ -29,6 +29,7 @@ import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
+import { trackUmamiEvent } from '@/lib/umami'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 
 /** X (formerly Twitter) logo for share button. */
@@ -360,6 +361,76 @@ function PostTableWrapper({ children, ...props }: React.ComponentPropsWithoutRef
   )
 }
 
+/**
+ * Markdown fences are often hard-wrapped in the source for editor width. Those single newlines
+ * are not semantic line breaks; preserve only blank-line paragraph gaps so display and copy match prose.
+ */
+function unwrapHardWrappedFenceBody(s: string): string {
+  const trimmed = s.trimEnd()
+  return trimmed
+    .split(/\n\s*\n+/)
+    .map((para) => para.replace(/[ \t]*\r?\n[ \t]*/g, ' ').replace(/[ \t]{2,}/g, ' ').trim())
+    .join('\n\n')
+}
+
+/**
+ * Fenced blocks opened with ```copy or ```prompt in post markdown render with a copy control.
+ * Other fenced languages keep default prose styling.
+ */
+function PostCopyableCodeFence({
+  text,
+  copyLabel,
+  copiedLabel,
+  postSlug,
+}: {
+  text: string
+  copyLabel: string
+  copiedLabel: string
+  /** For Umami `post_copy_fence` (optional when slug unknown). */
+  postSlug?: string | null
+}) {
+  const [didCopy, setDidCopy] = useState(false)
+  useEffect(() => {
+    if (!didCopy) return
+    const id = window.setTimeout(() => setDidCopy(false), 2000)
+    return () => clearTimeout(id)
+  }, [didCopy])
+
+  return (
+    <div className="post-copyable-fence not-prose my-5 overflow-hidden rounded-2xl border border-border/70 bg-muted/30 shadow-sm">
+      <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-1.5">
+        <div className="min-w-0 text-[11px] font-medium uppercase leading-none tracking-[0.14em] text-muted-foreground">
+          Agent prompt
+        </div>
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="h-8 shrink-0 rounded-full border border-border/70 bg-background/95 gap-1.5 px-2.5 text-xs font-medium shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/80"
+          onClick={() => {
+            void navigator.clipboard.writeText(text).then(
+              () => {
+                trackUmamiEvent('post_copy_fence', { slug: postSlug ?? '' })
+                setDidCopy(true)
+              },
+              () => {},
+            )
+          }}
+          aria-label={didCopy ? copiedLabel : copyLabel}
+        >
+          <Copy className="h-3.5 w-3.5 shrink-0" aria-hidden />
+          {didCopy ? copiedLabel : copyLabel}
+        </Button>
+      </div>
+      <pre className="m-0 overflow-x-auto !bg-muted/55 !p-4 text-[14px] font-mono font-medium leading-[1.45] text-muted-foreground sm:text-[15px] sm:leading-[1.45] dark:!bg-muted/25">
+        <code className="block break-words whitespace-pre-wrap !m-0 !rounded-none !bg-transparent !p-0 !shadow-none">
+          {text}
+        </code>
+      </pre>
+    </div>
+  )
+}
+
 const SITE_BASE = 'https://markmhendrickson.com'
 /** Always use for share bar and copy-link so shared URLs are production, not dev origin. */
 const PROD_SITE_BASE = 'https://markmhendrickson.com'
@@ -436,6 +507,7 @@ function PostShareBar({
   copySuccess,
   noTopBorder,
   labels,
+  umamiSlug,
 }: {
   shareUrl: string
   title: string
@@ -443,6 +515,8 @@ function PostShareBar({
   copySuccess: boolean
   /** When true, omit top margin and border (e.g. when share is first in footer). */
   noTopBorder?: boolean
+  /** Passed to Umami as `slug` on copy-link (`home` on index). */
+  umamiSlug?: string | null
   labels: {
     share: string
     shareOn: string
@@ -468,6 +542,7 @@ function PostShareBar({
   async function handleCopy() {
     try {
       await navigator.clipboard.writeText(shareUrl)
+      trackUmamiEvent('post_copy_share_link', { slug: umamiSlug ?? '' })
       onCopyFeedback()
     } catch {
       // ignore
@@ -1725,6 +1800,30 @@ export default function Post({ slug: slugProp }: PostProps) {
                 table: ({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) => (
                   <PostTableWrapper {...props}>{children}</PostTableWrapper>
                 ),
+                pre: ({ children, ...props }: React.ComponentPropsWithoutRef<'pre'>) => {
+                  const childArray = React.Children.toArray(children)
+                  const codeEl = childArray.find(
+                    (c): c is React.ReactElement<{ className?: string; children?: React.ReactNode }> =>
+                      React.isValidElement(c) && c.type === 'code',
+                  )
+                  if (!codeEl) {
+                    return <pre {...props}>{children}</pre>
+                  }
+                  const codeClass = codeEl.props.className ?? ''
+                  if (!/\blanguage-(copy|prompt)\b/.test(codeClass)) {
+                    return <pre {...props}>{children}</pre>
+                  }
+                  const rawText = markdownPlainText(codeEl.props.children)
+                  const text = unwrapHardWrappedFenceBody(rawText.replace(/\n$/, ''))
+                  return (
+                    <PostCopyableCodeFence
+                      text={text}
+                      copyLabel={t.postCopyCode}
+                      copiedLabel={t.postCodeCopied}
+                      postSlug={resolvedCanonicalSlug ?? post.slug}
+                    />
+                  )
+                },
                 p: ({ children, ...props }: React.ComponentPropsWithoutRef<'p'>) => {
                   const arr = React.Children.toArray(children)
                   const nonEmpty = arr.filter((c) => !(typeof c === 'string' && c.trim() === ''))
@@ -1983,6 +2082,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                   }}
                   copySuccess={copyLinkSuccess}
                   noTopBorder={isHome}
+                  umamiSlug={isHome ? 'home' : post.slug}
                   labels={{
                     share: t.share,
                     shareOn: t.shareOn,
