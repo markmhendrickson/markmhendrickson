@@ -15,13 +15,15 @@ Generated: 2026-04-15
 
 ### 1. Link-in-reply pair (post first: Tuesday–Thursday, 3–6 PM CEST / US morning overlap)
 
-**Main tweet (no link in body):**
+**Main tweet (no link in body):** (matches live post, April 2026)
 
-> If you use @openclaw for anything beyond single-session chat, you've probably already hit this: a contact that disappeared after compaction, two automations that corrupted the same memory, or a task your agent recognized last Tuesday but not today.
+> If you use @openclaw for anything beyond single-session chat, you've probably already hit this sort of issue:
 >
-> Neotoma v0.4.3 plugs directly into OpenClaw. Your agent works the same way. Facts get checked before stored, get consistent IDs, and can't be silently overwritten.
+> A contact that disappeared after compaction, two automations that corrupted the same memory, or a task your agent recognized last Tuesday but not today.
 >
-> Developer release. I want to find out where this is actually worth it. Feedback welcome.
+> Neotoma v0.4.3 plugs directly in. Facts get checked before stored, get consistent IDs, and can't be silently overwritten. I use it on the go through OpenClaw with the same memory I use at my desktop through Cursor and CLI agents.
+>
+> Developer release, not a promise that everything works. I need your feedback to find out where this is actually helpful.
 
 **Self-reply with link:**
 
@@ -31,7 +33,7 @@ Generated: 2026-04-15
 
 ### Why this one
 
-Speaks directly to OpenClaw users who already hit these symptoms. Names three pain points they recognize before introducing the plugin. The announcement lands in the main tweet so it is visible without expanding the reply. Self-reply is a clean link-in-reply.
+Speaks directly to OpenClaw users who already hit these symptoms. Line breaks after "this sort of issue:" put the symptom list on its own block (readable, matches how it read on X). "Neotoma v0.4.3" sits near the fold so expand reveals the solution. Self-reply is link-in-reply with evaluate CTA.
 
 ---
 

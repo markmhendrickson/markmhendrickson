@@ -69,12 +69,12 @@ Set `USE_LOCAL_NEWSLETTER_STORAGE=1` in `.env` to persist subscribers to a local
 
 ```bash
 cd react-app
-npm run dev:full
+npm run dev
 ```
 
-Runs Vite and a local newsletter API server. The API uses `data/newsletter_subscribers.json` for storage. Configure `NEWSLETTER_DEV_API_PORT` (default: 3456) and `NEWSLETTER_DB_PATH` if needed.
+Runs Vite, the cache watcher, and the newsletter API on port 3456 (Vite proxies `/api/newsletter/*` there). The API uses `data/newsletter_subscribers.json` for storage. Configure `NEWSLETTER_DEV_API_PORT` (default: 3456) and `NEWSLETTER_DB_PATH` if needed.
 
-To run only the dev API (e.g. with `npm run dev` in another terminal):
+To run only the newsletter API (e.g. with a custom Vite setup):
 
 ```bash
 npm run dev:api
