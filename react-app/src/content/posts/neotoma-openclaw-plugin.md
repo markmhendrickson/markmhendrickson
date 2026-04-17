@@ -6,6 +6,9 @@ publishedDate: "2026-04-15"
 category: "Agent Architecture"
 tags: ["neotoma", "openclaw", "plugin", "agent memory", "state integrity", "build-in-public"]
 read_time: 7
+heroImage: "neotoma-openclaw-plugin-hero.png"
+heroImageSquare: "neotoma-openclaw-plugin-hero-square.png"
+heroImageStyle: "keep-proportions"
 ---
 
 ## The memory ceiling
