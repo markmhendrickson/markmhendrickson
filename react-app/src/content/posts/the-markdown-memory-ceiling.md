@@ -5,7 +5,7 @@ published: true
 publishedDate: "2026-04-15"
 category: "Agent Architecture"
 tags: ["agent memory", "markdown", "state integrity", "convergent evolution", "file-based memory"]
-read_time: 8
+read_time: 7
 heroImage: "the-markdown-memory-ceiling-hero.png"
 heroImageSquare: "the-markdown-memory-ceiling-hero-square.png"
 heroImageStyle: "keep-proportions"
@@ -45,17 +45,17 @@ These are not accidental choices. They are cost-aware architecture.
 
 Lanham's article is honest about the failure modes. That honesty is the most valuable part of the analysis.
 
-**Context budget pressure.** Claude Code warns that large `CLAUDE.md` files reduce model adherence. Files work until they get bloated and internally contradictory. A 200-line cap is a pragmatic fix, not a solution. As agent use scales, the file grows, contradicts itself, and nobody knows which version of a fact is current.
+Context budget pressure: Claude Code warns that large `CLAUDE.md` files reduce model adherence. Files work until they get bloated and internally contradictory. A 200-line cap is a pragmatic fix, not a solution. As agent use scales, the file grows, contradicts itself, and nobody knows which version of a fact is current.
 
-**Concurrency.** Multiple agents writing to the same memory file corrupt state. Lanham states it directly: "The moment multiple agents or users need to touch the same memory, concurrent file writes can corrupt data." The single-agent ceiling is real. Most agentic workflows [will not stay single-agent](/posts/when-agents-share-state-everything-breaks) forever.
+Concurrency: Multiple agents writing to the same memory file corrupt state. Lanham states it directly: "The moment multiple agents or users need to touch the same memory, concurrent file writes can corrupt data." The single-agent ceiling is real. Most agentic workflows [will not stay single-agent](/posts/when-agents-share-state-everything-breaks) forever.
 
-**No versioning.** Files get overwritten. OpenClaw's memory compaction triggers a silent agent turn that writes durable memories before truncation. What was in the file before compaction? Unknown. If the compacted version dropped a fact, it is gone. No observation log. No rollback.
+No versioning: Files get overwritten. OpenClaw's memory compaction triggers a silent agent turn that writes durable memories before truncation. What was in the file before compaction? Unknown. If the compacted version dropped a fact, it is gone. No observation log. No rollback.
 
-**No provenance.** When an agent writes a memory entry, there is no record of what source produced it, when, or whether it contradicts something written last week. The file is a summary. Summaries obscure their ingredients.
+No provenance: When an agent writes a memory entry, there is no record of what source produced it, when, or whether it contradicts something written last week. The file is a summary. Summaries obscure their ingredients.
 
-**No entity resolution.** "Acme Corp" in one session and "ACME CORP" in the next. The agent re-infers identity each time from the context window. No stable IDs. No merge rules. No canonical entities. Every session is session-scoped inference.
+No entity resolution: "Acme Corp" in one session and "ACME CORP" in the next. The agent re-infers identity each time from the context window. No stable IDs. No merge rules. No canonical entities. Every session is session-scoped inference.
 
-**No schema constraints.** Any agent or tool can write anything to a memory file. No validation. No type checking. No enforcement of what a memory entry should contain. Bad writes propagate as truth.
+No schema constraints: Any agent or tool can write anything to a memory file. No validation. No type checking. No enforcement of what a memory entry should contain. Bad writes propagate as truth.
 
 These failures are not hypothetical. They are documented by the teams building these systems. They are the operational ceiling of file-based memory.
 
@@ -73,10 +73,10 @@ OpenClaw's architecture hints at this. Its hybrid retrieval, sqlite-vec with con
 
 The missing primitives are the same ones I identified [running my own agentic stack](/posts/agentic-search-and-the-truth-layer):
 
-- **Versioned observations.** Every write appended, nothing overwritten. Reconstruct state at any point in time.
-- **Provenance.** Every fact traceable to a source, a timestamp, and the agent or human that wrote it.
-- **Deterministic entity resolution.** Canonical IDs based on stable rules, not per-session inference.
-- **Schema constraints.** Validation on writes. Bad data rejected before it enters the store.
+- Versioned observations: every write appended, nothing overwritten. Reconstruct state at any point in time.
+- Provenance: every fact traceable to a source, a timestamp, and the agent or human that wrote it.
+- Deterministic entity resolution: canonical IDs based on stable rules, not per-session inference.
+- Schema constraints: validation on writes. Bad data rejected before it enters the store.
 
 These are not database features. They are state integrity features. You can build them on top of a database. Postgres will not give them to you out of the box. And you cannot get them from a markdown file at all.
 
@@ -102,7 +102,7 @@ The cost efficiency question matters. If the upgrade path sacrifices the KV-cach
 
 The ergonomics question matters equally, and is where the trade-offs get real. Some file ergonomics survive the move to structured state. Some do not. The agent-facing interface stays plain text: MCP tool calls return text that reads like a file, and agents query by identifier or type rather than by writing a query language. Inspection survives: `neotoma entities search` and `neotoma entities get` occupy the same shape as `grep` and `cat`. Local-first operation survives: the store is a SQLite file you can back up, version, or inspect with `sqlite3`. Versioning and provenance are strictly better than files can offer, because observations are append-only and every fact is traceable to a source.
 
-What does not survive today is the "open the file and edit" workflow. Correcting a stored value goes through a `correct()` action, not a text editor. There is also an install step that files do not have. Those are real costs for anyone who debugs by editing state directly.
+The "open the file and edit" workflow returns in a structured form with the imminent [Neotoma v0.5.0](https://github.com/markmhendrickson/neotoma) release: `neotoma edit <id>` and the [Inspector](https://github.com/markmhendrickson/neotoma/tree/main/inspector) route typed field edits through `correct()`, so versioning and provenance stay intact without making free-form markdown the source of truth again. Until that ships, corrections go through `correct()` directly. Neotoma still costs an install and a running store — friction markdown never had.
 
 The write path is where the economics differ, and where they should. Writing an observation to a structured store with schema validation costs more than appending a line to a markdown file. That overhead is the price of versioning, provenance, and conflict detection. The question is whether that overhead is worth paying. If you have never needed to answer "what did my agent know last Tuesday" or "which write corrupted this entity," then no. Markdown is correct. If you have needed those answers and could not get them, the write-path cost is the cheapest part of the problem.
 
@@ -110,26 +110,18 @@ The migration story is straightforward. You started with `MEMORY.md` because it 
 
 ## Files as a view, not the source of truth
 
-The remaining ergonomic gap is not inherent to structured state. It is an artifact of how the store currently exposes the data. `cat`, `grep`, `tree`, `git diff`, and editor-open can come back as a view. The enhancement path I am building toward inverts the relationship. Files stop being canonical and become a generated mirror of structured state.
+Structured editing addresses one ergonomic gap. The other is directory-shaped knowledge: `tree mirror/`, `grep -r "Acme Corp" mirror/entities/company/`, and `git diff` against a real tree, not only CLI-shaped approximations. The upcoming Neotoma v0.5.0 line inverts the relationship: markdown stops being canonical and becomes a generated mirror of structured state — `cat`, `grep`, `tree`, `git diff`, and opening a file in an editor as views on an append-only observation log.
 
-The mirror covers the knowledge graph, not just entities. Per-entity files under `mirror/entities/<type>/<slug>.md`, regenerated on every observation write. Relationships as their own files with linked entity names and provenance, so the graph is grep-able. Sources as metadata records pointing to the raw content, so every fact traces back to something you can still open. Timeline events consolidated per day to keep directory cardinality bounded. Schemas rendered as a browsable data dictionary per entity type. Observations do not get standalone files; they surface as a per-field provenance footer on each entity file and as git history when git is enabled.
+The mirror regenerates on every write under one root. It covers entities, relationships, sources, timeline, and schemas, not only entity pages, so the whole graph stays grep-able instead of just the nouns.
 
-Git history is an opt-in layer on top of the mirror. The mirror directory is initialized as a git repo, with one commit per write transaction rather than per file. A single `store` call that touches three entities, two relationships, and four observations becomes one coherent commit with a metadata-derived message (observations, sources, trigger, author). `git log entities/person/mark-hendrickson.md` shows the full history of that entity, with commit messages that already encode who wrote each fact, from what source, and when. This is strictly more than file-level git history gives you today.
+Edits stay typed. Writes go through `neotoma edit` or the Inspector and flow through `correct()`; the mirror itself is read-only. When mirror-level git is enabled, each write transaction becomes one commit, not one commit per touched file, so history can carry metadata-derived messages instead of depending on whatever an agent put in a free-form commit line.
 
-Editing stays structured rather than free-form. The Neotoma Inspector gets an Edit tab that renders schema fields as typed inputs and saves via one `correct()` per changed field through a shared batch backend. `neotoma edit <id>` on the CLI opens `$EDITOR` on a YAML view of editable fields, not free-form markdown, and runs the same batch backend; a `--set field=value` flag covers scripts and agent sessions. Both paths use optimistic concurrency on `last_observation_at` with an explicit rebase, overwrite, or abort prompt on conflict. The mirror itself stays read-only. There is no free-form markdown-diff parsing and no bidirectional file sync. The design questions an editor-round-trip flow would have created (parse errors, conflict resolution, rejected-edit surfacing) go away when edits route through typed inputs the renderer already knows how to validate.
-
-A bounded `MEMORY.md` export covers agents whose harness expects a single file. `neotoma memory-export` with deterministic ordering, a hard line cap with a fold marker when entities exceed it, optional auto-regeneration alongside the mirror. The agent does not have to know it is reading a materialized view. This is a transitional affordance for teams moving off file-based memory without rewriting their agent harness.
-
-One shared canonical renderer backs all of it: the mirror, the MCP `retrieve_entity_snapshot` text, the Inspector's markdown preview, and the `MEMORY.md` export. Schema-ordered fields, sorted nested keys, suppressed soft-deletes, byte-identical output across reruns for the same inputs. That renderer is the piece that makes file-like ergonomics and KV-cache stability coexist with the integrity guarantees files cannot provide.
-
-None of this exists in Neotoma today. It is the next architecture, not the current one. The design questions an earlier version of this section flagged around editor-round-trip editing are resolved now: YAML view instead of free-form markdown, shared batch-correct backend across Inspector and CLI, last-observation-based optimistic concurrency with an explicit conflict prompt. What remains are smaller-scope implementation questions, not open design problems.
-
-The point is that files as canonical were a local maximum. Files as a view of structured state is a larger one. The same interface developers already know, backed by the integrity guarantees files cannot provide.
+A bounded `MEMORY.md` export and a single canonical markdown renderer back the mirror, MCP snapshots, and exports, so the text stays deterministic and KV-cache-friendly across reads. Files as canonical were a local maximum. Files as a view of structured state is a larger one — the same habits developers already have, backed by integrity primitives markdown cannot supply on its own.
 
 ## The next layer
 
 The convergent evolution Lanham documented validates the problem. Three teams worth billions in aggregate arrived at the same architecture and hit the same ceiling. The ceiling defines what comes next.
 
-The next layer is not another retrieval system. The three platforms already have retrieval. It is not another database either. Postgres does not solve versioning, provenance, entity resolution, or schema constraints on agent-written state. The next layer is structured state with those guarantees, exposed through a file-like interface that preserves the ergonomics and the KV-cache economics.
+The next layer is not just another retrieval system. The three platforms already have retrieval. It is not just another database either. Postgres does not solve versioning, provenance, entity resolution, or schema constraints on agent-written state on its own. The next layer is structured state with those guarantees, exposed through a file-like interface that preserves the ergonomics and the KV-cache economics.
 
 You know you have hit the ceiling when you cannot answer "what did my agent know last Tuesday." When two contradictory entries appear and you cannot tell which write produced which. When concurrent writes silently drop facts. When your memory file grows past the point the model follows it. Starting with a markdown file was the right choice. So is moving beyond it when you hit these failures.
