@@ -26,17 +26,17 @@ Generated: 2026-04-16
 >
 > Meanwhile, memory infrastructure companies raised tens of millions positioning against vector databases. But the systems handling the most agent interactions aren't using vector databases. They're using text files.
 >
-> Which of these hit you first?
+> So what actually replaces the file?
 
 **Self-reply with link:**
 
-> Full convergence data, the economics that made files the rational starting point, and where structured state fits:
+> Full convergence data, why files won on both economics and ergonomics, and where structured state can keep the file-like interface as a view:
 >
 > https://markmhendrickson.com/posts/the-markdown-memory-ceiling
 
 ### Why this one
 
-Leads with concrete, specific failure modes documented by the teams that built the systems (bookmark-worthy list, scannable). Pivots to the competitive landscape reframe that makes the post differentiated: the real incumbent is MEMORY.md, not Pinecone. Closes with a specific, actionable question ("Which of these hit you first?") that invites replies about concrete pain, not abstract opinions. The "hit the same ceiling" metaphor ties directly to the post title. Hook shape (failure-list with reframe) is distinct from all recent openers.
+Leads with concrete, specific failure modes documented by the teams that built the systems (bookmark-worthy list, scannable). Pivots to the competitive landscape reframe that makes the post differentiated: the real incumbent is MEMORY.md, not Pinecone. Closes with a question that points to the thesis without spoiling it ("So what actually replaces the file?"), engaging the most recent argument rather than looping back to the failure list. The "hit the same ceiling" metaphor ties directly to the post title. Hook shape (failure-list with reframe) is distinct from all recent openers.
 
 ---
 

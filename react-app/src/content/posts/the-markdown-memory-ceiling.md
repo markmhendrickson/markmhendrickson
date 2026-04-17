@@ -23,11 +23,13 @@ None appeared to copy the others. [Yaohua Chen on DEV Community](https://dev.to/
 
 Micheal Lanham [documented this convergence](https://medium.com/@Micheal-Lanham/the-markdown-file-that-beat-a-50m-vector-database-38e1f5113cbe) in March 2026. His analysis of all three systems is the most thorough public comparison of production agent memory architectures I have seen. The data is worth engaging with directly.
 
-## Why files are the default starting point
+## Why files won: ergonomics and economics
 
-The obvious explanation is simplicity. Files are human-readable, git-trackable, and require no infrastructure. True but incomplete.
+Two forces make files the default. Both are load-bearing.
 
-The deeper reason is LLM economics.
+The ergonomics are obvious. Files are human-readable, git-trackable, grep-able, and diff-able. Developers inspect them with `cat`, version them with git, and edit them with the same tools they use for code. No schema to learn, no query language, no API to integrate. When something goes wrong, you open the file and read it. Debugging is `less MEMORY.md`. Agents read files the same way humans do, through plain text I/O. That interface matters more than most architectural writeups admit.
+
+The economics are less obvious and equally load-bearing.
 
 Manus co-founder Yichao "Peak" Ji published the numbers. Manus processes 100 input tokens for every 1 output token. On Claude Sonnet, cached tokens cost roughly $0.30 per million. Uncached tokens cost $3 per million. That 10x spread means input cost dominates. Anything that increases KV-cache hit rates saves real money.
 
@@ -98,8 +100,29 @@ I am building [Neotoma](https://github.com/markmhendrickson/neotoma) as that upg
 
 The cost efficiency question matters. If the upgrade path sacrifices the KV-cache economics that made files rational, it is not a real upgrade. Neotoma's read path is designed around this constraint. Agents access it via MCP. The response is structured text injected into the context window, the same format a model would see from reading a file. Entity snapshots are stable between calls. The same entity queried twice returns the same text unless an observation changed it. Stable text means stable token sequences. Stable token sequences mean KV-cache hits.
 
+The ergonomics question matters equally, and is where the trade-offs get real. Some file ergonomics survive the move to structured state. Some do not. The agent-facing interface stays plain text: MCP tool calls return text that reads like a file, and agents query by identifier or type rather than by writing a query language. Inspection survives: `neotoma entities search` and `neotoma entities get` occupy the same shape as `grep` and `cat`. Local-first operation survives: the store is a SQLite file you can back up, version, or inspect with `sqlite3`. Versioning and provenance are strictly better than files can offer, because observations are append-only and every fact is traceable to a source.
+
+What does not survive today is the "open the file and edit" workflow. Correcting a stored value goes through a `correct()` action, not a text editor. There is also an install step that files do not have. Those are real costs for anyone who debugs by editing state directly.
+
 The write path is where the economics differ, and where they should. Writing an observation to a structured store with schema validation costs more than appending a line to a markdown file. That overhead is the price of versioning, provenance, and conflict detection. The question is whether that overhead is worth paying. If you have never needed to answer "what did my agent know last Tuesday" or "which write corrupted this entity," then no. Markdown is correct. If you have needed those answers and could not get them, the write-path cost is the cheapest part of the problem.
 
 The migration story is straightforward. You started with `MEMORY.md` because it was the right default. You hit the ceiling when you needed versioning, or concurrent access, or provenance, or entity resolution across sessions. The next step is not "set up Postgres and build a custom schema." It is a structured layer that gives you those guarantees while preserving what worked about files: inspectability, simplicity, local-first operation.
+
+## Files as a view, not the source of truth
+
+The remaining ergonomic gap is not inherent to structured state. It is an artifact of how the store currently exposes the data. `cat`, `git diff`, and editor-open can come back as a view.
+
+The enhancement path I am building toward inverts the relationship. Files stop being canonical and become a generated mirror of structured state:
+
+- A directory tree of markdown files, one per entity, regenerated on every observation write. `cat person/mark-hendrickson.md` works the same as it always did. The file is read-only with a header noting that edits go through `neotoma correct`.
+- The mirror directory is a git repo. `git log entity.md` shows the full history, with commit messages derived from observation metadata (who wrote the fact, when, from what source). This is strictly more than file-level git history gives you today.
+- `neotoma edit <id>` opens the snapshot in `$EDITOR` and translates the diff into `correct()` calls on save. The "open, edit, save" workflow survives, and the integrity layer still arbitrates what lands in the store.
+- A bounded `MEMORY.md` export for agents that expect a single file. The agent does not have to know it is reading a materialized view. This is a transitional affordance for teams moving off file-based memory without rewriting their agent harness.
+
+This is not the current architecture. It is the next one. None of it exists in Neotoma today. Bidirectional editing in particular has design questions I have not answered yet: how to handle conflicts between mirror edits and concurrent observation writes, how to reject unparseable diffs without losing work, how to surface rejected edits back to the developer. Those are real design problems, not implementation details.
+
+The point is that files as canonical were a local maximum. Files as a view of structured state is a larger one. The same interface developers already know, backed by the integrity guarantees files cannot provide.
+
+## The next layer
 
 The convergent evolution Lanham documented validates the problem. Three teams worth billions in aggregate arrived at the same architecture and hit the same walls. The walls define the next layer.
