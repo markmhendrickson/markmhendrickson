@@ -23,7 +23,7 @@ None appeared to copy the others. [Yaohua Chen on DEV Community](https://dev.to/
 
 Micheal Lanham [documented this convergence](https://medium.com/@Micheal-Lanham/the-markdown-file-that-beat-a-50m-vector-database-38e1f5113cbe) in March 2026. His analysis of all three systems is the most thorough public comparison of production agent memory architectures I have seen. The data is worth engaging with directly.
 
-## Why files won: ergonomics and economics
+## Why files are the default: ergonomics and economics
 
 Two forces make files the default. Both are load-bearing.
 

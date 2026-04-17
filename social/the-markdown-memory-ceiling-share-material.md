@@ -30,7 +30,7 @@ Generated: 2026-04-16
 
 **Self-reply with link:**
 
-> Full convergence data, why files won on both economics and ergonomics, and where structured state can keep the file-like interface as a view:
+> Full convergence data, why files are the default on both economics and ergonomics, and where structured state can keep the file-like interface as a view:
 >
 > https://markmhendrickson.com/posts/the-markdown-memory-ceiling
 
@@ -48,7 +48,7 @@ Three AI agent platforms worth billions combined, Manus, Claude Code, and OpenCl
 
 Micheal Lanham documented this convergent evolution in March 2026, the most thorough public comparison of production agent memory architectures I have seen. The convergence validates the problem. The failure modes they share define what comes next.
 
-The deeper reason files win is LLM economics. Manus processes 100 input tokens for every 1 output token. Cached tokens cost roughly $0.30 per million on Claude Sonnet. Uncached cost $3 per million. File-based memory is stable text that plays well with KV-cache prefixes. The architecture is cost-aware, not accidental.
+The deeper reason files are the default is LLM economics. Manus processes 100 input tokens for every 1 output token. Cached tokens cost roughly $0.30 per million on Claude Sonnet. Uncached cost $3 per million. File-based memory is stable text that plays well with KV-cache prefixes. The architecture is cost-aware, not accidental.
 
 But files break at concurrency, versioning, provenance, and entity resolution. Memory companies raised tens of millions positioning against vector databases. The systems handling the most agent interactions are not using vector databases. They are using text files. The displacement story is different than people think.
 
@@ -163,7 +163,7 @@ https://markmhendrickson.com/posts/the-markdown-memory-ceiling
 ## Reserves (X)
 
 - **Reactive QT seed (agent memory / vector DB discourse):** If @Micheal_Lanham, @yaboroc, or any agent-infra account tweets about markdown memory, vector databases, or agent state: QT with "The convergent evolution data is the signal. Three platforms, billions in aggregate, same architecture, same walls. The walls define the next layer." Link in reply.
-- **Reactive QT seed (Manus / Claude Code updates):** If @maboroshi_ai or @AnthropicAI tweets about memory improvements: QT with "Manus processes 100 input tokens for every 1 output. The 10x cached-vs-uncached spread is why files won. The question is what happens when you need versioning." Link in reply.
+- **Reactive QT seed (Manus / Claude Code updates):** If @maboroshi_ai or @AnthropicAI tweets about memory improvements: QT with "Manus processes 100 input tokens for every 1 output. The 10x cached-vs-uncached spread is why files are the current default. The question is what happens when you need versioning." Link in reply.
 - **Punchy take (reserve):** "File-based memory is cost-aware architecture. The ceiling is not cost. It's integrity."
 
 ---
