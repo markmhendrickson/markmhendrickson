@@ -125,4 +125,8 @@ The point is that files as canonical were a local maximum. Files as a view of st
 
 ## The next layer
 
-The convergent evolution Lanham documented validates the problem. Three teams worth billions in aggregate arrived at the same architecture and hit the same walls. The walls define the next layer.
+The convergent evolution Lanham documented validates the problem. Three teams worth billions in aggregate arrived at the same architecture and hit the same ceiling. The ceiling defines what comes next.
+
+The next layer is not another retrieval system. The three platforms already have retrieval. It is not another database either. Postgres does not solve versioning, provenance, entity resolution, or schema constraints on agent-written state. The next layer is structured state with those guarantees, exposed through a file-like interface that preserves the ergonomics and the KV-cache economics.
+
+You know you have hit the ceiling when you cannot answer "what did my agent know last Tuesday." When two contradictory entries appear and you cannot tell which write produced which. When concurrent writes silently drop facts. When your memory file grows past the point the model follows it. Starting with a markdown file was the right choice. So is moving beyond it when you hit these failures.
