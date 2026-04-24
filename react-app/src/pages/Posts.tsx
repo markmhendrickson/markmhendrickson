@@ -16,9 +16,12 @@ import { useLocale } from '@/i18n/LocaleContext'
 import { supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import { getHighlightedParts, scorePostMatch, type SearchablePost } from '@/lib/postSearch'
+// Direct top-level import ensures Vite bundles the JSON even with VITE_SHOW_DRAFTS=true (prevents tree-shaking)
+import privatePostsJson from '@cache/posts.private.json'
 import { usePostsListSSR } from '@/contexts/PostsListSSRContext'
 
-interface Post {
+interface Post extends SearchablePost {
   slug: string
   title: string
   excerpt?: string
@@ -39,6 +42,10 @@ interface Post {
   excludeFromListing?: boolean | number | string
   showMetadata?: boolean
   tweetMetadata?: { images?: string[] }
+  seriesPart?: number
+  seriesTotal?: number
+  series?: string
+  seriesSlug?: string
 }
 
 interface PostsProps {
@@ -50,40 +57,47 @@ interface PostsProps {
 async function loadPostsData(includeDrafts: boolean, locale: SupportedLocale): Promise<Post[]> {
   const localizedPublicPosts = getLocalizedPublicPosts(locale) as unknown as Post[]
   if (!includeDrafts) return localizedPublicPosts
-  if (import.meta.env.PROD) return localizedPublicPosts
-  try {
-    const privateData = await import('@cache/posts.private.json')
-    const privateList = (privateData.default ?? privateData) as Post[]
-    const mergedBySlug = new Map<string, Post>()
-    for (const post of localizedPublicPosts) {
-      if (post.slug) mergedBySlug.set(post.slug, post)
-    }
-    for (const post of privateList) {
-      if (!post.slug) continue
-      if (!mergedBySlug.has(post.slug)) mergedBySlug.set(post.slug, post)
-    }
-    return Array.from(mergedBySlug.values())
-  } catch {
-    return localizedPublicPosts
+  if (import.meta.env.PROD && import.meta.env.VITE_SHOW_DRAFTS !== 'true') return localizedPublicPosts
+  // Use directly-imported private posts (top-level import prevents tree-shaking)
+  const privateList = (privatePostsJson as unknown as Post[])
+  const mergedBySlug = new Map<string, Post>()
+  for (const post of localizedPublicPosts) {
+    if (post.slug) mergedBySlug.set(post.slug, post)
   }
+  for (const post of privateList) {
+    if (!post.slug) continue
+    if (!mergedBySlug.has(post.slug)) mergedBySlug.set(post.slug, post)
+  }
+  return Array.from(mergedBySlug.values())
 }
 
-function matchQuery(post: Post, q: string): boolean {
-  const lower = q.toLowerCase()
-  const title = (post.title ?? '').toLowerCase()
-  const excerpt = (post.excerpt ?? '').toLowerCase()
-  const body = (post.body ?? '').toLowerCase()
-  const summary = (post.summary ?? '').toLowerCase()
-  const tags = (post.tags ?? []).join(' ').toLowerCase()
-  return title.includes(lower) || excerpt.includes(lower) || body.includes(lower) || summary.includes(lower) || tags.includes(lower)
-}
-
-const isDev = import.meta.env.DEV
+const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
 
 /** X/Twitter cutoff for "Show more" (280 chars) */
 const TWEET_SHOW_MORE_CUTOFF = 280
 
 const POSTS_PER_PAGE = 12
+
+function HighlightedText({ text, query }: { text: string; query: string }) {
+  const parts = useMemo(() => getHighlightedParts(text, query), [text, query])
+
+  return (
+    <>
+      {parts.map((part, index) => (
+        part.highlight ? (
+          <mark
+            key={`${part.text}-${index}`}
+            className="bg-yellow-200/70 dark:bg-yellow-500/30 text-inherit rounded-sm px-0.5"
+          >
+            {part.text}
+          </mark>
+        ) : (
+          <span key={`${part.text}-${index}`}>{part.text}</span>
+        )
+      ))}
+    </>
+  )
+}
 
 function TweetPreview({
   body,
@@ -134,21 +148,23 @@ function TweetPreview({
   )
 }
 
-function PostListingExcerpt({ excerpt, isTweet }: { excerpt?: string; isTweet: boolean }) {
+function PostListingExcerpt({ excerpt, isTweet, query }: { excerpt?: string; isTweet: boolean; query: string }) {
   if (!excerpt || isTweet) return null
   const bullets = parseExcerptAsBulletLines(excerpt)
   if (bullets?.length) {
     return (
       <ul className="list-disc pl-5 mb-3 space-y-1.5 text-[15px] text-muted-foreground leading-relaxed">
         {bullets.slice(0, 6).map((item, i) => (
-          <li key={i}>{item}</li>
+          <li key={i}>
+            <HighlightedText text={item} query={query} />
+          </li>
         ))}
       </ul>
     )
   }
   return (
     <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed">
-      {stripLinksFromExcerpt(excerpt)}
+      <HighlightedText text={stripLinksFromExcerpt(excerpt)} query={query} />
     </p>
   )
 }
@@ -186,7 +202,17 @@ export default function Posts({ draft = false }: PostsProps) {
 
   const filteredPosts = useMemo(() => {
     if (!query) return posts
-    return postsForSearch.filter((post) => matchQuery(post, query))
+    return postsForSearch
+      .map((post) => ({ post, score: scorePostMatch(post, query) }))
+      .filter((entry): entry is { post: Post; score: number } => entry.score != null)
+      .sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score
+        const tA = a.post.publishedDate ? parseCalendarOrIsoDateString(a.post.publishedDate).getTime() : 0
+        const tB = b.post.publishedDate ? parseCalendarOrIsoDateString(b.post.publishedDate).getTime() : 0
+        if (tB !== tA) return tB - tA
+        return (a.post.slug || '').localeCompare(b.post.slug || '')
+      })
+      .map((entry) => entry.post)
   }, [posts, query, postsForSearch])
 
   const pageParam = searchParams.get('page')
@@ -445,14 +471,22 @@ export default function Posts({ draft = false }: PostsProps) {
                         to={localizePath(`/posts/${post.slug}`, locale)}
                         className="text-foreground no-underline hover:underline"
                       >
-                        {post.title}
+                        <HighlightedText text={post.title} query={query} />
                       </Link>
                     </h2>
                   )}
                   <PostListingExcerpt
                     excerpt={post.excerpt}
                     isTweet={(post.category || '').toLowerCase() === 'tweet'}
+                    query={query}
                   />
+                  {post.seriesPart != null && post.seriesTotal != null && (
+                    <div className="mb-1.5">
+                      <span className="inline-flex items-center rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                        Part {post.seriesPart} of {post.seriesTotal}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-4 text-[13px] text-muted-foreground">
                     {post.publishedDate && (
                       <Link
