@@ -304,7 +304,7 @@ function buildLlmsFullTxt(posts, timelineData) {
   lines.push('')
   for (const p of published) {
     const url = `${SITE_BASE}/posts/${p.slug}/`
-    const rawUrl = `${SITE_BASE}/raw/post/${p.slug}.md`
+    const rawUrl = `${SITE_BASE}/posts/${p.slug}.md`
     lines.push(`### ${p.title || p.slug}`)
     lines.push('')
     lines.push(`- URL: ${url}`)

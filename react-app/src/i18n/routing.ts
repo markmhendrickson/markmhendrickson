@@ -26,6 +26,8 @@ export function localizePath(pathname: string, locale: SupportedLocale): string 
   const raw =
     locale === defaultLocale ? barePath : barePath === '/' ? `/${locale}` : `/${locale}${barePath}`
   if (raw === '/') return '/'
+  const lastSegment = raw.split('/').filter(Boolean).at(-1) ?? ''
+  if (lastSegment.includes('.')) return raw
   return raw.endsWith('/') ? raw : `${raw}/`
 }
 

@@ -1,4 +1,4 @@
-/** Set before navigating to `/raw/post/*.md` so we can full-reload after back (bfcache breaks React). */
+/** Set before navigating to post markdown URLs so we can full-reload after back (bfcache breaks React). */
 export const RAW_MD_NAV_STORAGE_KEY = 'mh_raw_md_nav'
 
 export function markNavigatingToRawMarkdown(): void {

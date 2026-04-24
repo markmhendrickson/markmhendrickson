@@ -24,10 +24,12 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
+import SeriesNav from '@/components/SeriesNav'
 import { defaultLocale, supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import privatePostsJson from '@cache/posts.private.json'
 import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
 import { trackUmamiEvent } from '@/lib/umami'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -442,24 +444,20 @@ const OG_IMAGE_HEIGHT = 630
  * Prefer localized public cache when a slug exists in both so es/ca get correct title/body. */
 async function loadPostsDataForSlug(includeDrafts: boolean, locale: SupportedLocale): Promise<Post[]> {
   const localizedPublicPosts = getLocalizedPublicPosts(locale) as unknown as Post[]
-  if (!includeDrafts || import.meta.env.PROD) return localizedPublicPosts
-  try {
-    const privateData = await import('@cache/posts.private.json')
-    const privateList = (privateData.default ?? privateData) as Post[]
-    const mergedBySlug = new Map<string, Post>()
-    // Start from localized public so published posts use locale-specific title/body/excerpt.
-    for (const post of localizedPublicPosts) {
-      if (post.slug) mergedBySlug.set(post.slug, post)
-    }
-    // Add draft-only posts from private cache (not in public).
-    for (const post of privateList) {
-      if (!post.slug) continue
-      if (!mergedBySlug.has(post.slug)) mergedBySlug.set(post.slug, post)
-    }
-    return Array.from(mergedBySlug.values())
-  } catch {
-    return localizedPublicPosts
+  if (!includeDrafts || (import.meta.env.PROD && import.meta.env.VITE_SHOW_DRAFTS !== 'true')) return localizedPublicPosts
+  // Use eagerly-bundled private posts (avoids dead-code elimination of dynamic import)
+  const privateList = (privatePostsJson as unknown as Post[])
+  const mergedBySlug = new Map<string, Post>()
+  // Start from localized public so published posts use locale-specific title/body/excerpt.
+  for (const post of localizedPublicPosts) {
+    if (post.slug) mergedBySlug.set(post.slug, post)
   }
+  // Add draft-only posts from private cache (not in public).
+  for (const post of privateList) {
+    if (!post.slug) continue
+    if (!mergedBySlug.has(post.slug)) mergedBySlug.set(post.slug, post)
+  }
+  return Array.from(mergedBySlug.values())
 }
 
 interface Post {
@@ -497,6 +495,14 @@ interface Post {
   xTimelineUrl?: string
   /** Tweet metadata (images, engagement) for X posts. */
   tweetMetadata?: { images?: string[] }
+  /** Series name, e.g. "The Human Inversion" */
+  series?: string
+  /** Slug for the series index page, e.g. "the-human-inversion" */
+  seriesSlug?: string
+  /** Which part in the series (1-based) */
+  seriesPart?: number
+  /** Total parts in the series */
+  seriesTotal?: number
 }
 
 /** Share bar: common platforms + content strategy targets (Bluesky, Mastodon, X, LinkedIn, Facebook, HN, Reddit, Email, Copy link). */
@@ -1101,7 +1107,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const [contentParagraphIndex, setContentParagraphIndex] = useState(0)
   const [heroImageProgress, setHeroImageProgress] = useState(0) // 0-100 for progressive reveal
   const contentParagraphsRef = useRef<string[]>([])
-  const isDev = import.meta.env.DEV
+  const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
 
   const { main: mainContent, postscript: inlinePostscriptContent } = useMemo(
     () => splitInlinePostscript(content),
@@ -1494,6 +1500,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const canonicalUrl = isHome
     ? `${SITE_BASE}${localizePath('/', locale)}`
     : `${SITE_BASE}${localizePath(`/posts/${post.slug}`, locale)}`
+  const markdownUrl = `${SITE_BASE}${localizePath(`/posts/${post.slug}.md`, locale)}`
   const postIdentity = post.postId ?? post.canonicalSlug ?? post.slug
   const localizedAlternateUrls = supportedLocales.map((altLocale) => {
     const localizedPosts = getLocalizedPublicPosts(altLocale) as unknown as Post[]
@@ -1533,6 +1540,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta name="description" content={desc} />
         <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
+        <link rel="alternate" type="text/markdown" href={markdownUrl} />
         {localizedAlternateUrls.map((alt) => (
           <link key={alt.locale} rel="alternate" hrefLang={alt.locale} href={alt.href} />
         ))}
@@ -1652,7 +1660,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               {post.slug && (
                 <Button variant="outline" size="sm" className="h-8 shrink-0 rounded-full px-3 text-xs font-medium" asChild>
                   <a
-                    href={`/raw/post/${post.slug}.md`}
+                    href={localizePath(`/posts/${post.slug}.md`, locale)}
                     onClick={() => {
                       markNavigatingToRawMarkdown()
                     }}
@@ -1695,6 +1703,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                 className="w-full max-h-[70vh] h-auto object-contain rounded dark:border dark:border-border"
               />
             </div>
+          )}
+
+          {post.series && (
+            <SeriesNav post={post} locale={locale} />
           )}
 
           <div
@@ -2195,7 +2207,55 @@ export default function Post({ slug: slugProp }: PostProps) {
           </div>
         )}
 
-        {!isHome && !isExcludedFromListing(post) && (prevPost || nextPost || (!nextPost && prevPost2)) && (
+        {!isHome && !isExcludedFromListing(post) && post.seriesPart && post.seriesSlug ? (
+          <nav className="mt-8 flex flex-col gap-4" aria-label={t.previousAndNextPosts}>
+            {post.seriesPart > 1 && (
+              <Link
+                to={localizePath(`/posts/${post.seriesSlug}-part-${post.seriesPart - 1}`, locale)}
+                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+              >
+                <Alert className="cursor-pointer">
+                  <div className="flex flex-col gap-1">
+                    <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground dark:text-foreground/80">
+                      ← Previous in series
+                    </AlertTitle>
+                    <AlertDescription className="py-px">
+                      <span className="font-medium text-foreground">
+                        Part {post.seriesPart - 1}
+                      </span>
+                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80 ml-2">
+                        {t.readMore} →
+                      </span>
+                    </AlertDescription>
+                  </div>
+                </Alert>
+              </Link>
+            )}
+            {post.seriesPart < (post.seriesTotal ?? post.seriesPart) && (
+              <Link
+                to={localizePath(`/posts/${post.seriesSlug}-part-${post.seriesPart + 1}`, locale)}
+                className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
+              >
+                <Alert className="cursor-pointer">
+                  <div className="flex flex-col gap-1">
+                    <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground dark:text-foreground/80">
+                      Next in series →
+                    </AlertTitle>
+                    <AlertDescription className="py-px">
+                      <span className="font-medium text-foreground">
+                        Part {post.seriesPart + 1}
+                      </span>
+                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80 ml-2">
+                        {t.readMore} →
+                      </span>
+                    </AlertDescription>
+                  </div>
+                </Alert>
+              </Link>
+            )}
+          </nav>
+        ) : (
+        !isHome && !isExcludedFromListing(post) && (prevPost || nextPost || (!nextPost && prevPost2)) && (
           <nav
             className="mt-8 flex flex-col gap-4"
             aria-label={t.previousAndNextPosts}
@@ -2318,6 +2378,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               </Link>
             )}
           </nav>
+        )
         )}
       </div>
     </div>

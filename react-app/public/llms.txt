@@ -52,4 +52,4 @@ Essays and technical posts on: AI agent architecture, sovereign memory infrastru
 - All content JSON API: https://markmhendrickson.com/api/pages.json
 - MCP server repo: https://github.com/markmhendrickson/mcp-server-markmhendrickson
 - RSS feed: https://markmhendrickson.com/rss.xml
-- Raw post markdown: https://markmhendrickson.com/raw/post/{slug}.md
+- Raw post markdown: https://markmhendrickson.com/posts/{slug}.md

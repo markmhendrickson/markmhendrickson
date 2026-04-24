@@ -11,7 +11,7 @@ export type Dict = {
   navWisdom: string
   navMeet: string
   navLinks: string
-  /** Pill next to post title → `/raw/post/:slug.md` */
+  /** Pill next to post title → `/posts/:slug.md` */
   pageRawMarkdown: string
   navRss: string
   navLanguage: string

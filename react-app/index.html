@@ -24,7 +24,7 @@
   </head>
   <body>
     <div id="root"><!--ssr-outlet--></div>
-    <!-- Before React: returning from /raw/post/*.md (plain text) via back can restore a broken bfcache; reload if we flagged that navigation. -->
+    <!-- Before React: returning from post markdown URLs (plain text) via back can restore a broken bfcache; reload if we flagged that navigation. -->
     <script>
       (function () {
         var k = 'mh_raw_md_nav'
