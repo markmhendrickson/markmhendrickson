@@ -1,4 +1,4 @@
-# Social share material: Plancast wasn't early. It needed agents with a proper substrate and mesh.
+# Social share material: Plancast wasn't early, it needed agents with a proper substrate and mesh
 
 Source: https://markmhendrickson.com/posts/the-substrate-plancast-needed
 Generated: 2026-04-27
@@ -39,7 +39,7 @@ Slug: `the-substrate-plancast-needed`
 ## Shareable units extracted
 
 1. **Founder confession** — Wrote a Plancast postmortem in 2012 after three years on the startup. Reading it 14 years later, every "product mechanic" failure was a substrate problem in different clothes.
-2. **Insider phrase (post thesis)** — "Plancast wasn't early. It needed agents with a proper substrate and mesh."
+2. **Insider phrase (post thesis)** — "Plancast wasn't early, it needed agents with a proper substrate and mesh"
 3. **Insider phrase (graph inversion)** — "Feeds make the graph the input and the activity the output. This substrate makes the activity the input and the graph the output."
 4. **Insider phrase (typed write)** — "An invitation is a typed write to durable state, not an ambient feed event."
 5. **Insider phrase (substrate-refuses-substitutes)** — "The substrate cannot manufacture personal social currency. It can refuse to deliver substitutes."
