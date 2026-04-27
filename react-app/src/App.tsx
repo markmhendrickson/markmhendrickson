@@ -18,6 +18,7 @@ import Wisdom from './pages/Wisdom'
 import HonorsThesis from './pages/HonorsThesis'
 import Schedule from './pages/Schedule'
 import NotFound from './pages/NotFound'
+import SeriesIndex from './pages/SeriesIndex'
 import TestError from './pages/TestError'
 import {
   defaultLocale,
@@ -28,7 +29,7 @@ import { LocaleProvider, useLocale } from './i18n/LocaleContext'
 import { localizePath, resolvePreferredLocale, stripLocaleFromPath } from './i18n/routing'
 import { UmamiRouteTracker } from './lib/analytics'
 
-const isDev = import.meta.env.DEV
+const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
 
 function RedirectToLocalizedHome() {
   const { locale } = useLocale()
@@ -95,6 +96,8 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
             />
           }
         />
+        <Route path="posts/series" element={<Layout><SeriesIndex /></Layout>} />
+        <Route path="posts/series/:seriesSlug" element={<Layout><SeriesIndex /></Layout>} />
         <Route path="posts/:slug" element={<Layout><Post /></Layout>} />
         <Route path="links" element={<Layout><SocialMedia /></Layout>} />
         <Route path="meet" element={<Layout><Schedule /></Layout>} />

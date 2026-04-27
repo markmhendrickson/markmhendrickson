@@ -49,7 +49,7 @@ export function Layout({ children }: LayoutProps) {
       const post = publicMap.get(params.slug)
       if (post) {
         setPostTitle(post.title)
-      } else if (import.meta.env.DEV) {
+      } else if (import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true') {
         import('@cache/posts.private.json').then((mod: { default: Post[] }) => {
           const privateMap = buildSlugToPostMap(mod.default)
           const draftPost = privateMap.get(params.slug!)
@@ -230,28 +230,28 @@ const NEOTOMA_CTA_IMAGE_SRC = '/images/neotoma_cta_packrat_hero.png'
 
 const evaluateCtaCopy = {
   en: {
-    label: 'Neotoma — for agentic OS operators',
+    label: 'Neotoma — for builders of agentic systems',
     title: "You're re-prompting what your agents should already know.",
     description:
-      'The time you waste is obvious. The real cost is when your agent acts on wrong state and you don\u2019t catch it until something breaks. Neotoma stores state once: versioned, queryable, consistent across every tool. You stop carrying context by hand.',
+      'The time you waste is obvious. The real cost is when your agent runs unattended, acts on wrong state, and you only catch it downstream \u2014 in front of a customer or in a broken pipeline. Neotoma stores state once: versioned, replayable, consistent across every tool and every session.',
     imageAlt: 'Neotoma illustration — packrat holding a record',
-    action: 'Try Neotoma',
+    action: 'Evaluate Neotoma',
   },
   es: {
-    label: 'Neotoma — para desarrolladores de agentes',
+    label: 'Neotoma — para quienes construyen sistemas agénticos',
     title: 'Estás repitiendo lo que tus agentes ya deberían saber.',
     description:
-      'El tiempo que pierdes es obvio. El coste real es cuando tu agente actúa sobre un estado incorrecto y no lo detectas hasta que algo falla. Neotoma almacena el estado una vez: versionado, consultable, consistente en cada herramienta. Dejas de llevar el contexto a mano.',
+      'El tiempo que pierdes es obvio. El coste real es cuando tu agente se ejecuta sin supervisión, actúa sobre un estado incorrecto y solo lo detectas después \u2014 frente a un cliente o en un pipeline roto. Neotoma almacena el estado una vez: versionado, reproducible, consistente en cada herramienta y cada sesión.',
     imageAlt: 'Ilustración de Neotoma — packrat con un registro',
-    action: 'Prueba Neotoma',
+    action: 'Evalúa Neotoma',
   },
   ca: {
-    label: "Neotoma — per a desenvolupadors d'agents",
+    label: "Neotoma — per a qui construeix sistemes agèntics",
     title: 'Estàs repetint el que els teus agents ja haurien de saber.',
     description:
-      "El temps que perds és obvi. El cost real és quan l'agent actua sobre un estat incorrecte i no ho detectes fins que alguna cosa falla. Neotoma emmagatzema l'estat una vegada: versionat, consultable, consistent en cada eina. Deixes de portar el context a mà.",
+      "El temps que perds és obvi. El cost real és quan el teu agent s'executa sense supervisió, actua sobre un estat incorrecte i només ho detectes després \u2014 davant d'un client o en un pipeline trencat. Neotoma emmagatzema l'estat una vegada: versionat, reproduïble, consistent en cada eina i cada sessió.",
     imageAlt: "Il·lustració de Neotoma — packrat amb un registre",
-    action: 'Prova Neotoma',
+    action: 'Avalua Neotoma',
   },
 } as const
 
@@ -263,11 +263,11 @@ const NEOTOMA_CTA_UTM: Record<string, string> = {
   utm_source: 'markmhendrickson.com',
   utm_medium: 'website_cta',
   utm_campaign: 'neotoma_site_footer_black',
-  utm_content: 'for_agent_builders_black_footer',
+  utm_content: 'for_builders_agentic_systems_black_footer',
 }
 
 function neotomaMarketingHref(locale: string): string {
-  const path = locale === 'en' ? '/' : `/${locale}`
+  const path = locale === 'en' ? '/evaluate' : `/${locale}/evaluate`
   const url = new URL(path, 'https://neotoma.io')
   for (const [key, value] of Object.entries(NEOTOMA_CTA_UTM)) {
     url.searchParams.set(key, value)

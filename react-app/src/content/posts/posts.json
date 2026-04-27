@@ -81,6 +81,30 @@
     "updatedDate": "2026-03-31"
   },
   {
+    "slug": "the-substrate-plancast-needed",
+    "published": true,
+    "publishedDate": "2026-04-27",
+    "title": "Plancast wasn't a timing problem, it was a substrate problem",
+    "excerpt": "Twelve years ago I wrote a postmortem for Plancast. Reading it again now, the failure modes weren't really about product mechanics; they were about the wrong substrate. Durable state plus a sovereign mesh make the original mission tractable in a way the feed era never could.",
+    "category": "essay",
+    "readTime": 9,
+    "tags": [
+      "plancast",
+      "neotoma",
+      "darkmesh",
+      "agent memory",
+      "sovereign mesh",
+      "invitations",
+      "build-in-public"
+    ],
+    "heroImage": "the-substrate-plancast-needed-hero.png",
+    "heroImageSquare": "the-substrate-plancast-needed-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/the-substrate-plancast-needed-1200x630.jpg",
+    "createdDate": "2026-04-27",
+    "updatedDate": "2026-04-27"
+  },
+  {
     "slug": "ai-tooling-deflationary-and-validation",
     "published": false,
     "title": "When AI tooling is deflationary (and when it isn't)",

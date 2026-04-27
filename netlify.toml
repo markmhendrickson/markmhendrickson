@@ -5,6 +5,17 @@
   command = "cd react-app && npm ci && npm run build:ci"
   publish = "react-app/dist"
   functions = "netlify/functions"
+  edge_functions = "netlify/edge-functions"
+
+# Branch deploys: any non-production branch gets its own deploy URL.
+# dev branch → dev--<site-name>.netlify.app (configure dev.markmhendrickson.com as branch subdomain in Netlify UI)
+[context.branch-deploy]
+  command = "cd react-app && npm ci && npm run build:ci"
+
+[context.dev]
+  command = "cd react-app && npm ci && npm run build:ci"
+  [context.dev.environment]
+    VITE_SITE_ENV = "development"
 
 # Redirect TLD JSON to canonical /api/ paths (absolute URLs in mcp.json use /api/)
 [[redirects]]

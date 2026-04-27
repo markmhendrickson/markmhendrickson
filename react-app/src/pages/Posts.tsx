@@ -407,6 +407,17 @@ export default function Posts({ draft = false }: PostsProps) {
           {pageDesc}
         </p>
 
+        {!draft && isDev && (
+          <div className="mb-6">
+            <Link
+              to={localizePath('/posts/series', locale)}
+              className="text-[15px] text-muted-foreground hover:text-foreground hover:underline"
+            >
+              View post series
+            </Link>
+          </div>
+        )}
+
         {!draft && (
           <div className="mb-8 flex items-center gap-2">
             <Search className="w-4 h-4 text-muted-foreground shrink-0" aria-hidden />

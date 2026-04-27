@@ -1,0 +1,13 @@
+{
+  "agent_token_types_supported": [
+    "aa-agent+jwt"
+  ],
+  "alg_values_supported": [
+    "ES256"
+  ],
+  "iss": "https://markmhendrickson.com",
+  "jwks_uri": "https://markmhendrickson.com/.well-known/jwks.json",
+  "subjects_supported": [
+    "cursor@markmhendrickson"
+  ]
+}

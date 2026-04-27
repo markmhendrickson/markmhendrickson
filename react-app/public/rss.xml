@@ -5,8 +5,15 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 27 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>Plancast wasn&apos;t a timing problem, it was a substrate problem</title>
+    <link>https://markmhendrickson.com/posts/the-substrate-plancast-needed</link>
+    <description>Twelve years ago I wrote a postmortem for Plancast. Reading it again now, the failure modes weren&apos;t really about product mechanics; they were about the wrong substrate. Durable state plus a sovereign mesh make the original mission tractable in a way the feed era never could.</description>
+    <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-substrate-plancast-needed</guid>
+  </item>
   <item>
     <title>OpenClaw plugin for Neotoma gives your agent memory it can&apos;t corrupt</title>
     <link>https://markmhendrickson.com/posts/neotoma-openclaw-plugin</link>

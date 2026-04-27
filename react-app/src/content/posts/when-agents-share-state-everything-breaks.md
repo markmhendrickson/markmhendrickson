@@ -82,7 +82,7 @@ The distinction between "human-written business data" and "agent-written observa
 
 ## What I'm building
 
-This is what [Neotoma](https://github.com/markmhendrickson/neotoma) does. Append-only observations. Hash-linked provenance. Schema-constrained writes. Deterministic entity resolution. Every observation an agent writes is traceable, auditable, and consistent from day one.
+This is what [Neotoma](https://neotoma.io) does. Append-only observations. Hash-linked provenance. Schema-constrained writes. Deterministic entity resolution. Every observation an agent writes is traceable, auditable, and consistent from day one.
 
 I've been running my own agentic stack through it. Multiple agents (email triage, task management, finance, content planning) all writing to the same store. The multi-agent shared-state problem isn't hypothetical for me. It's the thing I hit every week when one agent's extraction contradicts another's, or when a stale read produces a downstream action on bad state.
 

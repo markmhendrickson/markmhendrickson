@@ -34,6 +34,12 @@ const localeModules = import.meta.glob('@cache/posts.*.json', { eager: true }) a
   { default?: PostRecord[] } | PostRecord[]
 >
 
+// posts.private.json is included in the glob but not matched by the locale regex
+const privateModule = localeModules['/cache/posts.private.json']
+const privatePostsData: PostRecord[] = privateModule
+  ? ((privateModule as { default?: PostRecord[] }).default ?? (privateModule as PostRecord[]))
+  : []
+
 const localizedPostsByLocale = new Map<SupportedLocale, PostRecord[]>()
 for (const [modulePath, moduleValue] of Object.entries(localeModules)) {
   const match = modulePath.match(/posts\.([a-z]{2})\.json$/)
@@ -49,4 +55,11 @@ export function getLocalizedPublicPosts(locale: SupportedLocale): PostRecord[] {
 
 export function getDefaultPublicPosts(): PostRecord[] {
   return postsDefault as PostRecord[]
+}
+
+/** Returns all posts including drafts (from posts.private.json, eagerly bundled). */
+export function getAllPostsIncludingDrafts(): PostRecord[] {
+  return Array.isArray(privatePostsData) && privatePostsData.length > 0
+    ? privatePostsData
+    : (postsDefault as PostRecord[])
 }
