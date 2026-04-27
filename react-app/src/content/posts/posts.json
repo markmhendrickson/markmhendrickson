@@ -84,8 +84,8 @@
     "slug": "the-substrate-plancast-needed",
     "published": true,
     "publishedDate": "2026-04-27",
-    "title": "Plancast wasn't a timing problem, it was a substrate problem",
-    "excerpt": "Twelve years ago I wrote a postmortem for Plancast. Reading it again now, the failure modes weren't really about product mechanics; they were about the wrong substrate. Durable state plus a sovereign mesh make the original mission tractable in a way the feed era never could.",
+    "title": "Plancast wasn't early. It needed agents with a proper substrate and mesh.",
+    "excerpt": "Twelve years ago I wrote a postmortem for Plancast. Reading it again now, the failure modes weren't really about product mechanics; they were about missing personal AI agents, a proper substrate for them to write to, and a sovereign mesh between them. All three exist now, and the original mission becomes tractable in a way the feed era never could.",
     "category": "essay",
     "readTime": 9,
     "tags": [
