@@ -1,8 +1,8 @@
 import { useParams, Link, useSearchParams } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { stripLinksFromExcerpt, isPublishedPost, parseCalendarOrIsoDateString } from '@/lib/utils'
+import { stripLinksFromExcerpt, isPublishedPost, parseCalendarOrIsoDateString, getPostImageSrc } from '@/lib/utils'
+import { getSeriesOverview } from '@/lib/seriesOverview'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
@@ -21,6 +21,10 @@ interface Post {
   seriesTotal?: number
   heroImage?: string
   heroImageSquare?: string
+  ogImage?: string
+  tweetMetadata?: { images?: string[] }
+  /** Optional series landing blurb (frontmatter `series_description` → cache). */
+  seriesDescription?: string
 }
 
 interface SeriesSummary {
@@ -103,12 +107,11 @@ export default function SeriesIndex() {
           return tB - tA
         })[0]
 
+        const overviewRaw = getSeriesOverview(slug, sortedPosts)
         return {
           slug,
           title: sortedPosts[0]?.series ?? slug,
-          description: sortedPosts[0]?.excerpt
-            ? stripLinksFromExcerpt(sortedPosts[0].excerpt)
-            : undefined,
+          description: overviewRaw ? stripLinksFromExcerpt(overviewRaw) : undefined,
           total: sortedPosts.length,
           firstPost: sortedPosts[0],
           latestDate: latestPost?.publishedDate,
@@ -137,14 +140,17 @@ export default function SeriesIndex() {
   )
 
   const seriesTitle = seriesPosts[0]?.series ?? seriesSlug ?? ''
-  const seriesDescription = seriesPosts[0]?.excerpt
-    ? stripLinksFromExcerpt(seriesPosts[0].excerpt)
-    : undefined
+  const seriesOverviewRaw =
+    seriesSlug && seriesPosts.length > 0 ? getSeriesOverview(seriesSlug, seriesPosts) : undefined
+  const seriesDescription = seriesOverviewRaw ? stripLinksFromExcerpt(seriesOverviewRaw) : undefined
   const total = seriesPosts.length
 
-  const firstPost = seriesPosts[0]
   const canonicalPath = seriesSlug ? `/posts/series/${seriesSlug}` : '/posts/series'
   const canonicalUrl = `https://markmhendrickson.com${localizePath(canonicalPath, locale)}`
+  /** Optional cover: `public/images/posts/{seriesSlug}-series-hero.png` */
+  const seriesHeroFilename = seriesSlug ? `${seriesSlug}-series-hero.png` : null
+  const seriesHeroSrc = seriesHeroFilename ? getPostImageSrc(seriesHeroFilename) : null
+  const seriesHeroOgUrl = seriesHeroSrc ? `https://markmhendrickson.com${seriesHeroSrc}` : null
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return ''
@@ -288,6 +294,12 @@ export default function SeriesIndex() {
         <title>{seriesTitle} — Mark Hendrickson</title>
         <meta name="description" content={seriesDescription ?? `A ${total}-part series by Mark Hendrickson.`} />
         <link rel="canonical" href={canonicalUrl} />
+        {seriesHeroOgUrl && (
+          <>
+            <meta property="og:image" content={seriesHeroOgUrl} />
+            <meta name="twitter:image" content={seriesHeroOgUrl} />
+          </>
+        )}
       </Helmet>
 
       <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
@@ -314,35 +326,43 @@ export default function SeriesIndex() {
                 {seriesDescription}
               </p>
             )}
+            {seriesHeroSrc && (
+              <div className="mt-6 w-full">
+                <img
+                  src={seriesHeroSrc}
+                  alt={`${seriesTitle} — series illustration`}
+                  className="w-full max-h-[70vh] h-auto object-contain rounded dark:border dark:border-border"
+                />
+              </div>
+            )}
           </div>
-
-          {/* Start reading CTA */}
-          {firstPost && (
-            <Link
-              to={localizePath(`/posts/${firstPost.slug}`, locale)}
-              className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity mb-8"
-            >
-              <Alert className="cursor-pointer">
-                <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-                  Start reading
-                </AlertTitle>
-                <AlertDescription className="py-px">
-                  <span className="font-medium text-foreground">{firstPost.title}</span>
-                  <span className="mt-2 inline-block text-sm font-medium text-foreground/80 ml-2">
-                    Start reading →
-                  </span>
-                </AlertDescription>
-              </Alert>
-            </Link>
-          )}
 
           {/* Parts list */}
           <div className="space-y-6">
-            {seriesPosts.map((post) => (
+            {seriesPosts.map((post) => {
+              const thumbSrc =
+                post.heroImageSquare ?? post.heroImage ?? post.ogImage ?? post.tweetMetadata?.images?.[0]
+              const hasThumb = Boolean(thumbSrc)
+              return (
               <article
                 key={post.slug}
-                className="border-b border-border pb-6 last:border-0 last:pb-0"
+                className="border-b border-border pb-6 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch md:items-start gap-4"
               >
+                {hasThumb && (
+                  <Link
+                    to={localizePath(`/posts/${post.slug}`, locale)}
+                    className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
+                  >
+                    <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
+                      <img
+                        src={getPostImageSrc(thumbSrc ?? '')}
+                        alt={post.title || ''}
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                      />
+                    </div>
+                  </Link>
+                )}
+                <div className="order-2 md:order-1 min-w-0 flex-1">
                 <div className="flex items-baseline gap-3 mb-1">
                   <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide shrink-0">
                     Part {post.seriesPart}
@@ -375,8 +395,10 @@ export default function SeriesIndex() {
                 >
                   Read →
                 </Link>
+                </div>
               </article>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

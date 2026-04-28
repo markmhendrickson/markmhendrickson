@@ -32,7 +32,7 @@ I picked AAuth because the person behind it, Dick Hardt, is a friend and one of 
 
 ## What every write now carries
 
-[v0.6.0](https://github.com/markmhendrickson/neotoma/releases/tag/v0.6.0) ships per-row agent attribution across every write surface: `/store`, `/observations/create`, `/create_relationship`, `/correct`, `/entities/split`, the MCP store tools, and CLI writes over both MCP and HTTP. Each observation, relationship, source, and interpretation stamps:
+Neotoma now ships per-row agent attribution across every write surface: `/store`, `/observations/create`, `/create_relationship`, `/correct`, `/entities/split`, the MCP store tools, and CLI writes over both MCP and HTTP. Each observation, relationship, source, and interpretation stamps:
 
 - A verified agent identifier (public-key thumbprint for signed writers, JWT subject and issuer for agent tokens, clientInfo name and version as a fallback).
 - A trust tier that classifies how strongly the identity is proven.
@@ -50,7 +50,7 @@ The upshot: you can look at any row in your store and answer "which agent wrote 
 
 ## Grants instead of config files
 
-Early in the v0.6.0 cycle, capabilities were loaded from environment-variable JSON files. That worked for a static set of agents but broke the moment you wanted to suspend one agent without restarting the server.
+Early in the build, capabilities were loaded from environment-variable JSON files. That worked for a static set of agents but broke the moment you wanted to suspend one agent without restarting the server.
 
 Now: each `agent_grant` is a first-class Neotoma entity. It matches an AAuth identity (by subject, issuer, thumbprint, or a combination), carries capability entries scoped per operation and entity type, and has a lifecycle: `active`, `suspended`, `revoked`. The admission middleware resolves a verified AAuth identity to its matching grant on every request, stamps the grant's user and capabilities onto the request context, and downstream enforcement checks each operation against the grant.
 
@@ -90,7 +90,7 @@ Next on the roadmap: the [public agent on markmhendrickson.com](https://markmhen
 
 ## Fleet-wide upgrade
 
-Neotoma ships its canonical MCP instructions from the server to every connected client on every handshake. In v0.6.0 those instructions now codify attribution preflight, `observation_source` tagging, reply-cited provenance edges, an `Ambiguous (N)` display group for heuristic-merge warnings, and a structured feedback-submission loop.
+Neotoma ships its canonical MCP instructions from the server to every connected client on every handshake. Those instructions now codify attribution preflight, `observation_source` tagging, reply-cited provenance edges, an `Ambiguous (N)` display group for heuristic-merge warnings, and a structured feedback-submission loop.
 
 When I upgraded my server, my Cursor, Claude Code, Codex, and OpenCode hooks all picked up the new behaviors. No client-side releases. No per-tool migration. One server bump, five agents updated. For anyone running customer fleets, the same pattern applies: upgrade the Neotoma instance and every connected agent picks up the new defaults without a client deploy.
 
@@ -98,7 +98,7 @@ When I upgraded my server, my Cursor, Claude Code, Codex, and OpenCode hooks all
 
 For product-builders in regulated markets, the follow-up question from a customer is rarely "did your system remember this." It is "who wrote it, and can you prove they were authorized."
 
-After v0.6.0 that is a read against first-class data:
+That is now a read against first-class data:
 
 - `GET /agents` enumerates every agent identity the server has seen.
 - `GET /agents/{key}` returns the per-agent detail view.
@@ -123,12 +123,12 @@ Writes without AAuth still work. They land in the `anonymous` tier. Builders who
 
 ## Also shipped
 
-v0.6.0 is not only AAuth. The same release lands entity split for over-merged records, fleet snapshot export plus drift tooling, first-class multi-agent conversations via `conversation_message` and `sender_kind`, and a tightened API perimeter. The full supplement is in [the v0.6.0 release notes](https://github.com/markmhendrickson/neotoma/releases/tag/v0.6.0).
+The same release cycle lands entity split for over-merged records, fleet snapshot export plus drift tooling, hardware attestation across macOS, Linux, Windows, and YubiKey, first-class multi-agent conversations via `conversation_message` and `sender_kind`, a public sandbox at [sandbox.neotoma.io](https://sandbox.neotoma.io), and a tightened API perimeter. The full changelog is on the [releases page](https://github.com/markmhendrickson/neotoma/releases).
 
 ## Install and upgrade
 
 ```bash
-npm install -g neotoma@[0.6.0](https://github.com/markmhendrickson/neotoma/releases/tag/v0.6.0)
+npm install -g neotoma
 neotoma init
 neotoma auth keygen
 neotoma auth session
@@ -136,4 +136,4 @@ neotoma auth session
 
 Upgrading the server gives you the new attribution stamping and the MCP instruction refresh on the next client handshake. No client-side install required for agents already connected via MCP.
 
-Full install: [neotoma.io/install](https://neotoma.io/install). Repo: [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma). Release notes: [v0.6.0](https://github.com/markmhendrickson/neotoma/releases/tag/v0.6.0).
+Full install: [neotoma.io/install](https://neotoma.io/install). Repo: [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma). Releases: [github.com/markmhendrickson/neotoma/releases](https://github.com/markmhendrickson/neotoma/releases).

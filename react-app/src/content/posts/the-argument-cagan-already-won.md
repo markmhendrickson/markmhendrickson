@@ -7,7 +7,7 @@ category: "AI"
 tags: ["ai", "product management", "teams", "organization"]
 heroImage: "the-argument-cagan-already-won-hero.png"
 heroImageStyle: "keep-proportions"
-read_time: 12
+read_time: 13
 ---
 
 Marty Cagan has been the most influential voice in product management for two decades. His books, *INSPIRED*, *EMPOWERED*, *TRANSFORMED*, defined the vocabulary the industry uses to talk about itself. When Cagan writes, the product world reorganizes around what he says.
@@ -20,17 +20,23 @@ In December 2023, Cagan published ["The Product Manager Contribution"](https://w
 >
 > *Marty Cagan, ["The Product Manager Contribution"](https://www.svpg.com/the-product-manager-contribution), December 2023*
 
-In January 2025, he went further. In ["AI Product Management 2 Years In"](https://www.svpg.com/ai-product-management-2-years-in), he argued that "contrary to popular opinion, the PM role becomes more essential but also more difficult with generative AI-powered products, not less."
+In early 2025, he went further. In ["AI Product Management 2 Years In"](https://www.svpg.com/ai-product-management-2-years-in), he reaffirmed a co-authored argument that "contrary to popular opinion, the PM role becomes more essential but also more difficult with generative AI-powered products, not less," adding that "the past year has shown this article to be even more important than I had realized at the time."
 
-He was right. That was the strongest, most defensible version of the argument. And then, over the next eighteen months, he walked away from it.
+He was right. That was the strongest, most defensible version of the argument. And then, over the next year, he walked away from it.
+
+---
 
 ## The pivot
 
-By May 2025, in ["The Era of the Product Creator"](https://www.svpg.com/the-era-of-the-product-creator), Cagan announced that the PM role was being abstracted into a generic function anyone could fill. Designers, engineers, founders, stakeholders, anyone with "product sense" and the ability to operate the new AI-powered prototyping tools could serve as a "product creator." The PM was no longer the irreplaceable integrator. The PM was one possible instantiation of a role that was now open to all comers.
+By May 2025, in ["The Era of the Product Creator"](https://www.svpg.com/the-era-of-the-product-creator), Cagan announced that the PM role was being abstracted. Designers, engineers, founders, stakeholders, anyone with "product sense" and the ability to operate the new AI-powered prototyping tools could serve as a "product creator." Strong PMs would thrive, he said, but the role was no longer uniquely theirs. The PM was one possible instantiation of a function that was now open to others.
 
-The shift accelerated through the rest of 2025 and into 2026. ["The Purpose of Prototypes"](https://www.svpg.com/the-purpose-of-prototypes/) (September 2025) redefined discovery work as prototyping work. ["Prototypes vs Products"](https://www.svpg.com/prototypes-vs-products/) (November 2025) warned PMs that they were embarrassing themselves by confusing prototypes with production software. ["Build to Learn vs Build to Earn"](https://www.svpg.com/build-to-learn-vs-build-to-earn/) (April 2026) compressed the PM's contribution to building and testing prototypes powered by product sense. And the ["Build to Learn FAQ"](https://www.svpg.com/build-to-learn-faq/) (April 2026) systematically stripped the PM role of every self-conception that wasn't "builder": not the decider, not the protector of the team, not the manager, not the person who explains "the why."
+What makes this pivot especially jarring is that Cagan published ["Product, Design and AI"](https://www.svpg.com/product-design-and-ai/) in the same month, co-authored with Bob Baxley. That article argued the opposite: "in the era of Generative AI, these two roles [PM and designer] become even more essential." It described the PM's contribution in terms that could have come from the 2023 articles — deep customer, data, market, and business knowledge as the foundation of product sense, with stakeholder relationships across a dozen business functions as essential to ensuring viability. The two articles sit on the same site, published weeks apart, and are difficult to reconcile. One says the PM's integrative depth is more essential than ever. The other says anyone with product sense can fill the role.
+
+The shift accelerated through the rest of 2025 and into 2026. ["The Purpose of Prototypes"](https://www.svpg.com/the-purpose-of-prototypes/) (September 2025) further emphasized discovery as prototyping work. ["Prototypes vs Products"](https://www.svpg.com/prototypes-vs-products/) (November 2025) warned PMs that they were embarrassing themselves by confusing prototypes with production software. ["Build to Learn vs Build to Earn"](https://www.svpg.com/build-to-learn-vs-build-to-earn/) (April 2026) compressed the PM's contribution to building and testing prototypes powered by product sense. And the ["Build to Learn FAQ"](https://www.svpg.com/build-to-learn-faq/) (April 2026) systematically stripped the PM role of every self-conception that wasn't "builder": not the decider, not the protector of the team, not the manager, not the person who explains "the why."
 
 What remained was: you make prototypes, you test them against four risks, and your product sense tells you what to make of the results.
+
+---
 
 ## What got lost
 
@@ -50,6 +56,8 @@ That isn't prototyping. That's relationship-building, organizational embeddednes
 
 The 2022 Cagan understood this. The 2026 Cagan treats it as background noise.
 
+---
+
 ## The missed move
 
 AI is making it trivially easy for anyone to build a prototype. Cagan sees this clearly and says so. What he doesn't do is follow that observation to its logical conclusion: if everyone can prototype, then prototyping is no longer a differentiator for the PM. The PM's differentiation has to come from somewhere else, from the integrative judgment that no amount of prototyping skill can substitute for.
@@ -68,6 +76,8 @@ When delivery was expensive, integration failures were masked. You shipped so ra
 
 The PM-as-integrator becomes *the* critical check on a system that is now optimized for speed but not for coherence.
 
+---
+
 ## The pathology that's already cured
 
 There's an additional irony that sharpens the contradiction. The pathology Cagan has been responding to, PMs who do nothing but coordinate, facilitate, and write specs, never touching the actual product, was a real and serious problem. But it was a problem of a specific era, one in which prototyping required design or engineering skills that many PMs lacked. Locked out of the product itself, they filled their days with Jira management, stakeholder meetings, and roadmap theater.
@@ -76,6 +86,8 @@ AI prototyping tools are precisely what cures that pathology. When any PM can sp
 
 Cagan saw the cure arriving and responded by reorganizing the entire role definition around the cure, as if the disease were getting worse rather than better. He defined the PM role around the skill that just got commoditized, while dismissing the skills that just became scarce.
 
+---
+
 ## What product sense actually requires
 
 Cagan says product sense is the hard part. I agree. But product sense doesn't emerge from prototyping. It comes from customer conversations, data analysis, competitive intelligence, sales calls, support ticket triage, stakeholder relationship management, market immersion, and years of watching what happens when a product meets reality at scale.
@@ -83,6 +95,8 @@ Cagan says product sense is the hard part. I agree. But product sense doesn't em
 All of those activities look like "not building" through the lens of the [Build to Learn FAQ](https://www.svpg.com/build-to-learn-faq/). But they are the substrate on which product sense grows. By defining the PM's job as prototyping-and-testing, Cagan risks creating PMs who are proficient with tools but lack the contextual depth to know what to prototype. That is the exact failure mode he warns about, without recognizing that his own framing discourages the activities that prevent it.
 
 The FAQ tells PMs to trust that their leaders will pick the right problems. It tells them they are not the decider, not the protector, not the manager. It tells them to focus on solution discovery. But product sense is built through exactly the organizational and relational work the FAQ dismisses. If you systematically tell PMs to stop doing those things, you cut off the supply lines to the very capability you say matters most.
+
+---
 
 ## The stronger argument
 
@@ -96,7 +110,7 @@ The PM who holds all four of those knowledge domains in her head, and uses that 
 
 Cagan had the intellectual standing and the audience to make this case. He had already written the core argument across a dozen articles. He just didn't follow his own logic to its conclusion at the moment it mattered most.
 
-This isn't just about PMs. Every discipline is working through the same structural question: when the execution layer of your job gets absorbed, does your identity migrate to the thing AI just made easy, or to the thing AI can't do? The PM debate is one instance of that question, visible because Cagan's writing puts both sides of the contradiction on the record. The broader reorientation, across every software role, is the same question applied everywhere. I spell out the institutional version in [The Human Inversion](/posts/series/the-human-inversion), a five-part series on foundation, execution, review, and who holds coherence when the middle dissolves.
+This isn't just about PMs. Every discipline is working through the same structural question: when the execution layer of your job gets absorbed, does your identity migrate to the thing AI just made easy, or to the thing AI can't do? The PM debate is one instance of that question, visible because Cagan's writing puts both sides of the contradiction on the record. The broader reorientation, across every software role, is the same question applied everywhere. I spell out the institutional version in [The Human Inversion](https://markmhendrickson.com/posts/series/the-human-inversion), a five-part series on foundation, execution, review, and who holds coherence when the middle dissolves.
 
 ---
 

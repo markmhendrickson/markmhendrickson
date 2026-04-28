@@ -219,6 +219,9 @@ def overlay_body_from_markdown(metadata_list: List[Dict[str, Any]]) -> None:
             meta["title"] = frontmatter["title"].strip()
         if frontmatter.get("excerpt"):
             meta["excerpt"] = frontmatter["excerpt"].strip()
+        sd = (frontmatter.get("series_description") or "").strip()
+        if sd:
+            meta["seriesDescription"] = sd
         pd = (
             frontmatter.get("published_date")
             or frontmatter.get("publisheddate")
@@ -389,6 +392,7 @@ def metadata_for_content_only_drafts(export_slugs: set) -> List[Dict[str, Any]]:
             updated = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d")
         except Exception:
             updated = entry.get("updatedDate") or entry.get("createdDate") or ""
+        series_desc = (frontmatter.get("series_description") or "").strip()
         meta: Dict[str, Any] = {
             "slug": slug,
             "title": title,
@@ -412,6 +416,8 @@ def metadata_for_content_only_drafts(export_slugs: set) -> List[Dict[str, Any]]:
             square_path = PUBLIC_POSTS_IMAGES / f"{slug}-hero-square.png"
             if square_path.exists():
                 meta["heroImageSquare"] = f"{slug}-hero-square.png"
+        if series_desc:
+            meta["seriesDescription"] = series_desc
         out.append(meta)
     return out
 
@@ -482,6 +488,10 @@ def metadata_for_draft_only_slugs(export_slugs: set) -> List[Dict[str, Any]]:
             square_path = PUBLIC_POSTS_IMAGES / f"{slug}-hero-square.png"
             if square_path.exists():
                 meta["heroImageSquare"] = f"{slug}-hero-square.png"
+
+        series_desc_draft = (frontmatter.get("series_description") or "").strip()
+        if series_desc_draft:
+            meta["seriesDescription"] = series_desc_draft
 
         out.append(meta)
     return out
@@ -561,6 +571,10 @@ def convert_post_to_metadata(post: Dict[str, Any], include_body: bool, include_s
             alt = []
     if alt:
         metadata["alternativeSlugs"] = alt
+
+    series_desc = post.get("series_description") or post.get("seriesDescription")
+    if series_desc and str(series_desc).strip():
+        metadata["seriesDescription"] = str(series_desc).strip()
 
     return metadata
 
