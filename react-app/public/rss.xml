@@ -8,9 +8,9 @@
     <lastBuildDate>Mon, 27 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
   <item>
-    <title>Plancast wasn&apos;t a timing problem, it was a substrate problem</title>
+    <title>Plancast wasn&apos;t early, it needed agents with a proper substrate and mesh</title>
     <link>https://markmhendrickson.com/posts/the-substrate-plancast-needed</link>
-    <description>Twelve years ago I wrote a postmortem for Plancast. Reading it again now, the failure modes weren&apos;t really about product mechanics; they were about the wrong substrate. Durable state plus a sovereign mesh make the original mission tractable in a way the feed era never could.</description>
+    <description>Fourteen years ago I wrote a postmortem for Plancast. Reading it again now, the failure modes weren&apos;t really about product mechanics; they were about missing personal AI agents, a proper substrate for them to write to, and a sovereign mesh between them. All three exist now, and the original mission becomes tractable in a way the feed era never could.</description>
     <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-substrate-plancast-needed</guid>
   </item>

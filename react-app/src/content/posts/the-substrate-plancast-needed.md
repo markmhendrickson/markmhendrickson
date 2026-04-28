@@ -1,6 +1,6 @@
 In 2012 I wrote a [postmortem for Plancast](https://markmhendrickson.com/posts/a-postmortem-for-plancast/), a startup I had spent three years on. The premise was simple: people make plans, plans are worth sharing, and a feed of upcoming events from people you trust would surface things you didn't know you wanted to do. It didn't work. The piece walked through why.
 
-Re-reading it twelve years later, the surface diagnoses still hold. Plans get made too infrequently to sustain a daily feed habit. Sharing future plans gives weak vanity loops compared to sharing photos. Plans expire, so any single piece of content has hours of shelf life. Most plans are geographically local, so most of your network's plans are irrelevant most of the time. And the deepest problem: people don't want to be ambiently aware of events they weren't personally invited to. Awareness without invitation feels like exclusion. Most people also do not want to share every plan with their whole network. The wrong people can show up, or the room stops feeling controllable.
+Re-reading it fourteen years later, the surface diagnoses still hold. Plans get made too infrequently to sustain a daily feed habit. Sharing future plans gives weak vanity loops compared to sharing photos. Plans expire, so any single piece of content has hours of shelf life. Most plans are geographically local, so most of your network's plans are irrelevant most of the time. And the deepest problem: people don't want to be ambiently aware of events they weren't personally invited to. Awareness without invitation feels like exclusion. Most people also do not want to share every plan with their whole network. The wrong people can show up, or the room stops feeling controllable.
 
 What I missed in 2012 was that none of these were really product mechanics problems. They were substrate problems. The substrate available at the time, a feed inside a centralized social network, was the wrong shape for any of them. I tried to engineer around the substrate with features. The substrate was still a low ceiling on every metric.
 
@@ -129,7 +129,7 @@ These are real questions, but they are product and protocol questions on top of 
 
 ## Why I am writing this now
 
-A few weeks ago Oo Nwoye left a public comment on a [recent piece](https://markmhendrickson.com/posts/) about agent memory and asked, in so many words, whether Plancast should be resurrected for the AI age. The answer is the same as the one above. The original mission was right. The substrate was wrong. The substrate now exists.
+A few days ago Oo Nwoye left a public comment on [this LinkedIn thread](https://www.linkedin.com/feed/update/urn:li:activity:7452367955801128962) under Mike Butcher's post about gathering people at events, recalled Plancast, and asked, in so many words, whether it should be resurrected for the AI age. The answer is the same as the one above. The original mission was right. The substrate was wrong. The substrate now exists.
 
 I do not think the answer is to rebuild Plancast as an app. The answer is to build invitations, attendance, and trust scopes as primitives on a sovereign personal-state layer, let agents do the work of ingesting and routing, and let the social mechanic emerge from the fact that an invitation is a typed write to durable state instead of an ambient feed event.
 
