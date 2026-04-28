@@ -1,0 +1,5 @@
+- Cagan's 2023 framing of the PM as deep cross-functional integrator was the strongest version of the argument for the role's value in an AI era.
+- His 2025-2026 pivot to "PM as prototyper/product creator" defines the job around the skill AI just commoditized, while abandoning the skills that just became scarce.
+- When delivery is cheap, integration failures across business dimensions become the dominant cost, and those failures live in the relationships between disciplines, not in any single prototype.
+- The pathology Cagan was responding to, PMs trapped in coordination work, is exactly what AI prototyping tools cure, making the pivot a response to a problem that was already solving itself.
+- Every discipline faces the same structural question: does your identity migrate to the thing AI made easy, or to the thing AI can't do?

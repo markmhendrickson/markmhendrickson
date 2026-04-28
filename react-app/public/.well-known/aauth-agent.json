@@ -8,6 +8,6 @@
   "iss": "https://markmhendrickson.com",
   "jwks_uri": "https://markmhendrickson.com/.well-known/jwks.json",
   "subjects_supported": [
-    "cursor@markmhendrickson"
+    "cursor@markmhendrickson.com"
   ]
 }

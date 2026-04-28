@@ -1,0 +1,5 @@
+- Your agent fleet can build trustworthy state when every writer signs with its own key and capabilities are grant-scoped, not bearer-scoped.
+- Neotoma stamps every observation, relationship, source, and interpretation with a signed agent identity resolved against a five-tier trust ladder.
+- Capabilities moved from static config files to first-class `agent_grant` entities you can suspend, revoke, and restore without restarting the server.
+- Three service agents in my stack already write to Neotoma under AAuth: the Cursor signing proxy, the feedback pipeline, and Darkmesh warm-intro writeback.
+- The MCP instructions ship from the server, so one upgrade propagates the new defaults to every connected agent.
