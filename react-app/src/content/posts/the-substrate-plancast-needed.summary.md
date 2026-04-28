@@ -1,7 +1,5 @@
-- Plancast's 2012 failure modes (low frequency, weak vanity loops, short shelf life, geographic noise, awkward awareness without invitation, reluctance to broadcast every plan to everyone, manual invites layered on plans already visible to every subscriber) were substrate problems, not product mechanics problems.
-- A feed is the wrong primitive for plan-sharing because plans are not a stream, need addressed audiences and scopes, and live between people rather than on a centralized server.
-- Durable append-only state for personal AI agents (Neotoma) plus a sovereign mesh of address books and trust scopes (Darkmesh) lets the original mission decompose into automatic event ingest, consent-gated sharing, query-based discovery driven by local agent-side relevance scoring, and first-class invitations.
-- An invitation is a typed entity with required note, relationship basis, expiry, per-event slot budget, scope, and optional quorum predicate, delivered only when the recipient's mesh has admitted the sender's scope.
-- Decline is silent, quorum is first-class, and the platform RSVP composes with the durable state record so personal social currency stays human and the substrate refuses to manufacture substitutes.
-- Relevance is computed locally by each user's agent in both directions (who would welcome this plan, which inbound plans to surface), so the heavy lifting is inspectable and platform-free.
-- Relationships evolve as observed: every invite, accept, attendance, or co-touched entity moves the edge weight, and silence decays it, so the graph is an output of behavior instead of a static input.
+- Plancast's 2012 failures — low frequency, weak vanity loops, geographic noise, awareness without invitation — were substrate problems, not product mechanics.
+- A feed is the wrong primitive for plans: plans need addressed audiences, scopes, and queries, not broadcast and chronological sort.
+- Durable append-only agent state (Neotoma) plus a sovereign mesh (Darkmesh) decomposes the mission into automatic ingest, consent-gated sharing, query-based discovery, and first-class invitations.
+- Invitations become typed entities with required personal notes, per-event slot budgets, scope gating, and optional quorum predicates — the substrate enforces selectivity and refuses to deliver without mesh consent.
+- Relationships evolve from observed behavior (invites, attendance, co-touched entities) rather than a static follow graph, and relevance is computed locally by each user's agent.

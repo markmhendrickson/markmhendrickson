@@ -127,7 +127,7 @@
     "published": true,
     "publishedDate": "2026-04-27",
     "title": "Plancast wasn't early, it needed agents with a proper substrate and mesh",
-    "excerpt": "Fourteen years ago I wrote a postmortem for Plancast. Reading it again now, the failure modes weren't really about product mechanics; they were about missing personal AI agents, a proper substrate for them to write to, and a sovereign mesh between them. All three exist now, and the original mission becomes tractable in a way the feed era never could.",
+    "excerpt": "Fourteen years after Plancast's postmortem, the failure modes read differently. They weren't product problems — they were substrate problems. The substrate now exists: durable agent state, a sovereign mesh, and first-class invitations as typed writes instead of feed events.",
     "category": "essay",
     "readTime": 9,
     "tags": [
