@@ -2179,7 +2179,8 @@
     "seriesPart": 4,
     "seriesTotal": 5,
     "heroImage": "the-human-inversion-part-4-hero.png",
-    "heroImageStyle": "keep-proportions"
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "the-human-inversion-part-4-hero-square.png"
   },
   {
     "slug": "the-human-inversion-part-1",
@@ -2202,7 +2203,8 @@
     "seriesPart": 1,
     "seriesTotal": 5,
     "heroImage": "the-human-inversion-part-1-hero.png",
-    "heroImageStyle": "keep-proportions"
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "the-human-inversion-part-1-hero-square.png"
   },
   {
     "slug": "the-human-inversion-part-2",
@@ -2226,7 +2228,8 @@
     "seriesPart": 2,
     "seriesTotal": 5,
     "heroImage": "the-human-inversion-part-2-hero.png",
-    "heroImageStyle": "keep-proportions"
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "the-human-inversion-part-2-hero-square.png"
   },
   {
     "slug": "the-human-inversion-part-5",
@@ -2252,7 +2255,8 @@
     "seriesPart": 5,
     "seriesTotal": 5,
     "heroImage": "the-human-inversion-part-5-hero.png",
-    "heroImageStyle": "keep-proportions"
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "the-human-inversion-part-5-hero-square.png"
   },
   {
     "slug": "the-human-inversion-part-3",
@@ -2277,7 +2281,8 @@
     "seriesPart": 3,
     "seriesTotal": 5,
     "heroImage": "the-human-inversion-part-3-hero.png",
-    "heroImageStyle": "keep-proportions"
+    "heroImageStyle": "keep-proportions",
+    "heroImageSquare": "the-human-inversion-part-3-hero-square.png"
   },
   {
     "slug": "fat-skills-need-a-foundation-they-cant-corrupt",
