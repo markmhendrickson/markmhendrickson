@@ -1,6 +1,6 @@
 ## Tweet
 
-Cagan spent two decades arguing the PM's value is deep cross-functional knowledge. Then AI made prototyping easy and he pivoted to "everyone's a builder." He had the stronger argument and walked away from it.
+Cagan spent two decades arguing the PM's value is deep cross-functional knowledge. Then AI made prototyping easy and the rhetoric shifted to "everyone's a builder." The stronger argument was already there. He just buried it.
 
 https://markmhendrickson.com/posts/the-argument-cagan-already-won
 
@@ -8,7 +8,7 @@ https://markmhendrickson.com/posts/the-argument-cagan-already-won
 
 Marty Cagan defined the PM's irreducible contribution as deep knowledge of customers, data, business, and market. That was December 2023. By 2025 he was calling anyone with "product sense" and prototyping tools a "product creator."
 
-The contradiction is visible because Cagan's archive puts both sides on the record. The stronger argument was always there: when AI handles the mechanics of exploration, the PM handles the integration of what's learned with everything else the business knows and needs. Integration, not prototyping, is the irreducible core.
+He hasn't abandoned the integrator theory. But his newer rhetoric makes it too easy to miss. The visible activity — prototyping — has become more central than the deeper capability that makes prototyping useful.
 
 When delivery is cheap, the cost of building the wrong thing becomes the dominant cost. And "the wrong thing" is almost never wrong on a single dimension. Those are integration failures, not prototyping failures.
 
