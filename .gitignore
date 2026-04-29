@@ -18,6 +18,7 @@ react-app/dist
 react-app/dist-ssr
 react-app/.venv-translate
 react-app/.venv-i18n
+react-app/.venv-i18n-deploy
 
 # Website data cache (deploy artifact) is committed:
 # - react-app/cache/*.json
