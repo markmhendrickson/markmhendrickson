@@ -66,6 +66,7 @@ const CORE_STATIC_ROUTE_SUFFIXES = [
   '/newsletter',
   '/newsletter/confirm',
   '/posts',
+  '/posts/series',
   '/links',
   '/songs',
   '/meet',
@@ -158,6 +159,51 @@ function buildSlugToCanonical(posts) {
     }
   }
   return map
+}
+
+/** Mirrors `resolveSeriesSlug` in src/lib/resolveSeriesSlug.ts */
+function resolveSeriesSlugFromPost(p) {
+  const explicit = String(p.seriesSlug || '').trim()
+  if (explicit) return explicit
+  const slug = String(p.slug || '').trim()
+  if (!slug) return null
+  const m = slug.match(/^(.*)-part-\d+$/i)
+  return m ? m[1] : null
+}
+
+/** Localized `/posts/series/:seriesSlug` for every published multi-part series (for prerender + verify-ssr). */
+function getSeriesDetailRoutes() {
+  const routes = new Set()
+  for (const locale of SUPPORTED_LOCALES) {
+    const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
+    for (const p of getPosts(locale)) {
+      if (p.published === false) continue
+      if (!String(p.series || '').trim()) continue
+      const s = resolveSeriesSlugFromPost(p)
+      if (s) routes.add(`${localePrefix}/posts/series/${s}`)
+    }
+  }
+  return [...routes]
+}
+
+function getSeriesSitemapEntries() {
+  const byPath = new Map()
+  for (const locale of SUPPORTED_LOCALES) {
+    const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
+    for (const p of getPosts(locale)) {
+      if (p.published === false) continue
+      if (!String(p.series || '').trim()) continue
+      const s = resolveSeriesSlugFromPost(p)
+      if (!s) continue
+      const pathName = `${localePrefix}/posts/series/${s}`
+      const lastmod = p.updatedDate || p.publishedDate || null
+      const prev = byPath.get(pathName)
+      if (!prev || (lastmod && (!prev.lastmod || String(lastmod) > String(prev.lastmod)))) {
+        byPath.set(pathName, { pathName, lastmod })
+      }
+    }
+  }
+  return [...byPath.values()]
 }
 
 /** All post URLs to prerender: canonical slug plus every alternativeSlug so crawlers (X, etc.) get correct meta for any shared URL. */
@@ -446,7 +492,8 @@ async function runPrerender() {
   }
   const { render } = await import(pathToFileURL(serverPath).href)
   const postRoutes = getPostSlugs()
-  const allRoutes = [...STATIC_ROUTES, ...postRoutes]
+  const seriesDetailRoutes = getSeriesDetailRoutes()
+  const allRoutes = [...new Set([...STATIC_ROUTES, ...seriesDetailRoutes, ...postRoutes])]
 
   for (const url of allRoutes) {
     const pathname = url.split('?')[0] || '/'
@@ -474,7 +521,7 @@ async function runPrerender() {
   fs.writeFileSync(path.join(distPath, '404.html'), notFoundFull, 'utf-8')
   console.log('prerender: 404.html')
   const sitemapRoutes = [...new Set([...LEGACY_STATIC_ROUTES, ...LOCALIZED_STATIC_ROUTES, '/llms.txt', '/llms-full.txt'])]
-  const sitemapXml = buildSitemapXml(sitemapRoutes, getPostEntries())
+  const sitemapXml = buildSitemapXml(sitemapRoutes, [...getPostEntries(), ...getSeriesSitemapEntries()])
   fs.writeFileSync(path.join(distPath, 'sitemap.xml'), sitemapXml, 'utf-8')
   console.log('prerender: sitemap.xml')
   const rssXml = buildRssXml(getPosts(DEFAULT_LOCALE), DEFAULT_LOCALE)
@@ -603,7 +650,7 @@ if (listPostRoutesOutIdx >= 0) {
     console.error('usage: node server.js --list-post-routes-out <path.json>')
     process.exit(1)
   }
-  fs.writeFileSync(outFile, JSON.stringify(getPostSlugs()), 'utf-8')
+  fs.writeFileSync(outFile, JSON.stringify([...getSeriesDetailRoutes(), ...getPostSlugs()]), 'utf-8')
   process.exit(0)
 }
 

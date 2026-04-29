@@ -34,12 +34,36 @@ function loadFirstPublishedSlug() {
   }
 }
 
+/** First multi-part series slug (matches server.js resolveSeriesSlugFromPost). */
+function loadFirstSeriesSlug() {
+  const postsPath = path.join(cacheDir, 'posts.json')
+  if (!fs.existsSync(postsPath)) return null
+  try {
+    const posts = JSON.parse(fs.readFileSync(postsPath, 'utf-8'))
+    if (!Array.isArray(posts)) return null
+    for (const p of posts) {
+      if (!p || p.published === false) continue
+      if (!String(p.series || '').trim()) continue
+      const explicit = String(p.seriesSlug || '').trim()
+      if (explicit) return explicit
+      const slug = String(p.slug || '').trim()
+      const m = slug.match(/^(.*)-part-\d+$/i)
+      if (m?.[1]) return m[1]
+    }
+    return null
+  } catch {
+    return null
+  }
+}
+
 const firstSlug = loadFirstPublishedSlug()
+const firstSeriesSlug = loadFirstSeriesSlug()
 
 const keyFiles = [
   'index.html',
   '404.html',
   'posts/index.html',
+  'posts/series/index.html',
   'timeline/index.html',
   'agent/index.html',
   'honors-thesis/chapter/introduction/index.html',
@@ -50,6 +74,9 @@ const keyFiles = [
 if (firstSlug) {
   keyFiles.push(`posts/${firstSlug}/index.html`)
 }
+if (firstSeriesSlug) {
+  keyFiles.push(`posts/series/${firstSeriesSlug}/index.html`)
+}
 
 /** Minimum bytes: prerendered pages are far larger than the Vite shell (~2k). */
 const minBytesFor = (rel) => {
@@ -57,7 +84,8 @@ const minBytesFor = (rel) => {
   if (
     (rel.includes('/posts/') || rel.startsWith('posts/')) &&
     rel.endsWith('/index.html') &&
-    !rel.endsWith('/posts/index.html')
+    !rel.endsWith('/posts/index.html') &&
+    !rel.endsWith('/posts/series/index.html')
   ) {
     return 8000
   }

@@ -8,6 +8,7 @@ import {
   stripSeriesPrefixFromTitle,
   formatPostPublishedDate,
   isParsablePublishedDate,
+  stripLinksFromExcerpt,
 } from '@/lib/utils'
 import { PostListingExcerpt } from '@/components/PostListingBlocks'
 import {
@@ -19,7 +20,7 @@ import { seriesSeriesHeroBasename } from '@/lib/seriesListThumb'
 import { getSeriesOverview } from '@/lib/seriesOverview'
 import { resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
 import { useLocale } from '@/i18n/LocaleContext'
-import type { SupportedLocale } from '@/i18n/config'
+import { supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { mergeLocalizedPublicWithPrivatePosts } from '@/lib/mergeDevPostCaches'
@@ -67,7 +68,11 @@ function postThumbBasename(p: Post): string | undefined {
 
 const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
 
-async function loadAllPosts(locale: SupportedLocale): Promise<Post[]> {
+const SITE_BASE = 'https://markmhendrickson.com'
+const OG_IMAGE_WIDTH = 1200
+const OG_IMAGE_HEIGHT = 630
+
+function buildInitialPostsForLocale(locale: SupportedLocale): Post[] {
   const publicPosts = getLocalizedPublicPosts(locale) as unknown as Post[]
   if (!isDev) return publicPosts
   const privatePosts = privatePostsJson as unknown as Post[]
@@ -78,11 +83,11 @@ export default function SeriesIndex() {
   const { seriesSlug } = useParams<{ seriesSlug: string }>()
   const { locale, languageTag, t } = useLocale()
   const [searchParams] = useSearchParams()
-  const [allPosts, setAllPosts] = useState<Post[]>([])
+  const [allPosts, setAllPosts] = useState<Post[]>(() => buildInitialPostsForLocale(locale))
   const draftSeriesMode = !seriesSlug && isDev && searchParams.get('view') === 'drafts'
 
   useEffect(() => {
-    loadAllPosts(locale).then(setAllPosts)
+    setAllPosts(buildInitialPostsForLocale(locale))
   }, [locale])
 
   const seriesPosts = useMemo(() => {
@@ -173,26 +178,68 @@ export default function SeriesIndex() {
   const total = seriesPosts.length
 
   const canonicalPath = seriesSlug ? `/posts/series/${seriesSlug}` : '/posts/series'
-  const canonicalUrl = `https://markmhendrickson.com${localizePath(canonicalPath, locale)}`
+  const canonicalUrl = `${SITE_BASE}${localizePath(canonicalPath, locale)}`
   /** Optional cover: `public/images/posts/{seriesSlug}-series-hero.png` */
   const seriesHeroFilename = seriesSlug ? `${seriesSlug}-series-hero.png` : null
   const seriesHeroSrc = seriesHeroFilename ? getPostImageSrc(seriesHeroFilename) : null
-  const seriesHeroOgUrl = seriesHeroSrc ? `https://markmhendrickson.com${seriesHeroSrc}` : null
+  const seriesHeroOgUrl = seriesHeroSrc ? `${SITE_BASE}${seriesHeroSrc}` : null
+
+  const seriesAlternateUrls = useMemo(
+    () =>
+      supportedLocales.map((altLocale) => ({
+        locale: altLocale,
+        href: `${SITE_BASE}${localizePath(seriesSlug ? `/posts/series/${seriesSlug}` : '/posts/series', altLocale)}`,
+      })),
+    [seriesSlug],
+  )
+
+  const listMetaDescription = draftSeriesMode
+    ? 'Browse draft multi-part post series by Mark Hendrickson.'
+    : 'Browse multi-part post series by Mark Hendrickson.'
+  const listPageTitle = draftSeriesMode ? 'Draft Series' : 'Series'
 
   if (!seriesSlug) {
+    const listOgDesc = listMetaDescription.slice(0, 160)
     return (
       <>
         <Helmet>
-          <title>{draftSeriesMode ? 'Draft Series' : 'Series'} — Mark Hendrickson</title>
-          <meta
-            name="description"
-            content={
-              draftSeriesMode
-                ? 'Browse draft multi-part post series by Mark Hendrickson.'
-                : 'Browse multi-part post series by Mark Hendrickson.'
-            }
-          />
+          <title>{listPageTitle} — Mark Hendrickson</title>
+          <meta name="description" content={listMetaDescription} />
+          <meta name="author" content="Mark Hendrickson" />
           <link rel="canonical" href={canonicalUrl} />
+          {seriesAlternateUrls.map((alt) => (
+            <link key={alt.locale} rel="alternate" hrefLang={alt.locale} href={alt.href} />
+          ))}
+          <link rel="alternate" hrefLang="x-default" href={`${SITE_BASE}/`} />
+          <meta property="og:type" content="website" />
+          <meta property="og:title" content={`${listPageTitle} — Mark Hendrickson`} />
+          <meta property="og:description" content={listOgDesc} />
+          <meta property="og:url" content={canonicalUrl} />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:creator" content="@markmhendrickson" />
+          <meta name="twitter:title" content={`${listPageTitle} — Mark Hendrickson`} />
+          <meta name="twitter:description" content={listOgDesc} />
+          <script type="application/ld+json">
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'CollectionPage',
+              name: listPageTitle,
+              description: listMetaDescription,
+              url: canonicalUrl,
+              isPartOf: { '@type': 'WebSite', name: 'Mark Hendrickson', url: SITE_BASE },
+            })}
+          </script>
+          <script type="application/ld+json">
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: t.navHome, item: `${SITE_BASE}${localizePath('/', locale)}` },
+                { '@type': 'ListItem', position: 2, name: t.navPosts, item: `${SITE_BASE}${localizePath('/posts', locale)}` },
+                { '@type': 'ListItem', position: 3, name: listPageTitle, item: canonicalUrl },
+              ],
+            })}
+          </script>
         </Helmet>
 
         <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
@@ -330,37 +377,125 @@ export default function SeriesIndex() {
   }
 
   if (seriesPosts.length === 0) {
+    const nfUrl = `${SITE_BASE}${localizePath(`/posts/series/${seriesSlug}`, locale)}`
     return (
-      <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
-        <div className="max-w-[600px] w-full">
-          <p className="text-[15px] text-muted-foreground">Series not found.</p>
-          <Link to={localizePath('/posts', locale)} className="text-sm text-muted-foreground hover:text-foreground hover:underline mt-4 inline-block">
-            ← All posts
-          </Link>
+      <>
+        <Helmet>
+          <title>Series not found — Mark Hendrickson</title>
+          <meta name="description" content="The requested series does not exist or is not published." />
+          <link rel="canonical" href={nfUrl} />
+          <meta name="robots" content="noindex" />
+        </Helmet>
+        <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
+          <div className="max-w-[600px] w-full">
+            <p className="text-[15px] text-muted-foreground">Series not found.</p>
+            <Link to={localizePath('/posts', locale)} className="text-sm text-muted-foreground hover:text-foreground hover:underline mt-4 inline-block">
+              ← All posts
+            </Link>
+          </div>
         </div>
-      </div>
+      </>
     )
   }
+
+  const rawSeriesDesc =
+    (seriesDescription ? seriesOverviewParagraphs(seriesDescription).join(' ') : null) ??
+    `A ${total}-part series by Mark Hendrickson.`
+  const seriesMetaDesc = stripLinksFromExcerpt(rawSeriesDesc).slice(0, 160)
+  const displayTitleForMeta = seriesTitle || seriesSlug || 'Series'
+  const latestPart = [...seriesPosts]
+    .filter((p) => isParsablePublishedDate(p.publishedDate))
+    .sort(
+      (a, b) =>
+        parseCalendarOrIsoDateString(b.publishedDate!).getTime() -
+        parseCalendarOrIsoDateString(a.publishedDate!).getTime(),
+    )[0]
 
   return (
     <>
       <Helmet>
-        <title>{seriesTitle} — Mark Hendrickson</title>
-        <meta
-          name="description"
-          content={
-            (seriesDescription
-              ? seriesOverviewParagraphs(seriesDescription).join(' ')
-              : null) ?? `A ${total}-part series by Mark Hendrickson.`
-          }
-        />
+        <title>{`${displayTitleForMeta} — Mark Hendrickson`}</title>
+        <meta name="description" content={seriesMetaDesc} />
+        <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
-        {seriesHeroOgUrl && (
-          <>
-            <meta property="og:image" content={seriesHeroOgUrl} />
-            <meta name="twitter:image" content={seriesHeroOgUrl} />
-          </>
+        {seriesAlternateUrls.map((alt) => (
+          <link key={alt.locale} rel="alternate" hrefLang={alt.locale} href={alt.href} />
+        ))}
+        <link rel="alternate" hrefLang="x-default" href={`${SITE_BASE}/`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={displayTitleForMeta} />
+        <meta property="og:description" content={seriesMetaDesc} />
+        <meta property="og:url" content={canonicalUrl} />
+        {seriesHeroOgUrl != null && <meta property="og:image" content={seriesHeroOgUrl} />}
+        {seriesHeroOgUrl != null && (
+          <meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />
         )}
+        {seriesHeroOgUrl != null && (
+          <meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />
+        )}
+        {seriesHeroOgUrl != null && <meta name="twitter:image" content={seriesHeroOgUrl} />}
+        {seriesHeroOgUrl != null && (
+          <meta name="twitter:image:width" content={String(OG_IMAGE_WIDTH)} />
+        )}
+        {seriesHeroOgUrl != null && (
+          <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />
+        )}
+        {latestPart?.publishedDate && (
+          <meta property="article:published_time" content={latestPart.publishedDate} />
+        )}
+        {latestPart?.updatedDate && (
+          <meta property="article:modified_time" content={latestPart.updatedDate} />
+        )}
+        <meta property="article:author" content={SITE_BASE} />
+        <meta property="og:article:author" content="Mark Hendrickson" />
+        <meta name="twitter:card" content={seriesHeroOgUrl ? 'summary_large_image' : 'summary'} />
+        <meta name="twitter:creator" content="@markmhendrickson" />
+        <meta name="twitter:title" content={displayTitleForMeta} />
+        <meta name="twitter:description" content={seriesMetaDesc} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'CreativeWorkSeries',
+            name: displayTitleForMeta,
+            description: seriesMetaDesc,
+            url: canonicalUrl,
+            ...(seriesHeroOgUrl != null && { image: seriesHeroOgUrl }),
+            ...(latestPart?.publishedDate && { datePublished: latestPart.publishedDate }),
+            numberOfItems: total,
+            author: {
+              '@type': 'Person',
+              name: 'Mark Hendrickson',
+              url: SITE_BASE,
+              sameAs: [
+                'https://www.linkedin.com/in/markmhendrickson',
+                'https://github.com/markmhendrickson',
+                'https://x.com/markymark',
+              ],
+            },
+            publisher: {
+              '@type': 'Organization',
+              name: 'Mark Hendrickson',
+              logo: { '@type': 'ImageObject', url: `${SITE_BASE}/profile.jpg` },
+            },
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: t.navHome, item: `${SITE_BASE}${localizePath('/', locale)}` },
+              { '@type': 'ListItem', position: 2, name: t.navPosts, item: `${SITE_BASE}${localizePath('/posts', locale)}` },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: t.postsSeriesHeading,
+                item: `${SITE_BASE}${localizePath('/posts/series', locale)}`,
+              },
+              { '@type': 'ListItem', position: 4, name: displayTitleForMeta, item: canonicalUrl },
+            ],
+          })}
+        </script>
       </Helmet>
 
       <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
