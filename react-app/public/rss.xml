@@ -5,8 +5,22 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 27 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>Your agent fleet can build trustworthy state with their own keys</title>
+    <link>https://markmhendrickson.com/posts/know-which-of-your-agents-wrote-what</link>
+    <description>When many agents write to one memory, you need proof on every row: who signed, what they were allowed to do, and no shared bearer secrets. Neotoma integrates AAuth so each agent signs with its own key and writes through grant-scoped admission.</description>
+    <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/know-which-of-your-agents-wrote-what</guid>
+  </item>
+  <item>
+    <title>When building got easy, the PM job got harder to explain</title>
+    <link>https://markmhendrickson.com/posts/the-argument-cagan-already-won</link>
+    <description>On the PM role, AI, and the strange decision to define your job around the skill that just got commoditized.</description>
+    <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-argument-cagan-already-won</guid>
+  </item>
   <item>
     <title>Plancast wasn&apos;t early, it needed agents with a proper substrate and mesh</title>
     <link>https://markmhendrickson.com/posts/the-substrate-plancast-needed</link>
@@ -69,6 +83,13 @@
     <description>I shipped eleven Neotoma releases in the first five weeks after the developer release. The CLI now works on other machines, unblocking onboarding. The MCP server is stable enough for daily agent use. The database can survive operator mistakes. Here is what changed and why.</description>
     <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/eleven-releases-in-five-weeks</guid>
+  </item>
+  <item>
+    <title>Talking directly to agents as target customers</title>
+    <link>https://markmhendrickson.com/posts/personalized-customer-research-with-agents</link>
+    <description>About eighteen of twenty-six people I reached ran the same evaluation prompt through their AI tools. The writeups were sharper than any call. That feedback reshaped the product’s positioning — and then its acquisition flow. The homepage now asks agents to evaluate, not humans to sign up.</description>
+    <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/personalized-customer-research-with-agents</guid>
   </item>
   <item>
     <title>What the technology asks of you</title>

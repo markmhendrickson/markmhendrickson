@@ -3,20 +3,22 @@ import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Search, Rss } from 'lucide-react'
 import {
-  stripLinksFromExcerpt,
-  parseExcerptAsBulletLines,
   getPostImageSrc,
   isExcludedFromListing,
   isPublishedPost,
   formatPostPublishedDate,
   parseCalendarOrIsoDateString,
+  stripSeriesPrefixFromTitle,
 } from '@/lib/utils'
+import { HighlightedText, PostListingExcerpt } from '@/components/PostListingBlocks'
 import { Input } from '@/components/ui/input'
 import { useLocale } from '@/i18n/LocaleContext'
 import { supportedLocales, type SupportedLocale } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
-import { getHighlightedParts, scorePostMatch, type SearchablePost } from '@/lib/postSearch'
+import { mergeLocalizedPublicWithPrivatePosts } from '@/lib/mergeDevPostCaches'
+import { scorePostMatch, type SearchablePost } from '@/lib/postSearch'
+import { resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
 // Direct top-level import ensures Vite bundles the JSON even with VITE_SHOW_DRAFTS=true (prevents tree-shaking)
 import privatePostsJson from '@cache/posts.private.json'
 import { usePostsListSSR } from '@/contexts/PostsListSSRContext'
@@ -48,27 +50,26 @@ interface Post extends SearchablePost {
   seriesSlug?: string
 }
 
+interface SeriesIndexBundle {
+  slug: string
+  title: string
+  parts: Post[]
+}
+
 interface PostsProps {
   draft?: boolean
 }
 
 /** In dev, load private cache (includes drafts) so we can show "View drafts" and /posts/draft.
- * Prefer localized public cache when a slug exists in both. */
+ * Default locale: `posts.private.json` overwrites public per slug (see `mergeDevPostCaches`).
+ * Other locales: localized public wins on overlap. */
 async function loadPostsData(includeDrafts: boolean, locale: SupportedLocale): Promise<Post[]> {
   const localizedPublicPosts = getLocalizedPublicPosts(locale) as unknown as Post[]
   if (!includeDrafts) return localizedPublicPosts
   if (import.meta.env.PROD && import.meta.env.VITE_SHOW_DRAFTS !== 'true') return localizedPublicPosts
   // Use directly-imported private posts (top-level import prevents tree-shaking)
   const privateList = (privatePostsJson as unknown as Post[])
-  const mergedBySlug = new Map<string, Post>()
-  for (const post of localizedPublicPosts) {
-    if (post.slug) mergedBySlug.set(post.slug, post)
-  }
-  for (const post of privateList) {
-    if (!post.slug) continue
-    if (!mergedBySlug.has(post.slug)) mergedBySlug.set(post.slug, post)
-  }
-  return Array.from(mergedBySlug.values())
+  return mergeLocalizedPublicWithPrivatePosts(localizedPublicPosts, privateList, locale)
 }
 
 const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
@@ -77,27 +78,6 @@ const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
 const TWEET_SHOW_MORE_CUTOFF = 280
 
 const POSTS_PER_PAGE = 12
-
-function HighlightedText({ text, query }: { text: string; query: string }) {
-  const parts = useMemo(() => getHighlightedParts(text, query), [text, query])
-
-  return (
-    <>
-      {parts.map((part, index) => (
-        part.highlight ? (
-          <mark
-            key={`${part.text}-${index}`}
-            className="bg-yellow-200/70 dark:bg-yellow-500/30 text-inherit rounded-sm px-0.5"
-          >
-            {part.text}
-          </mark>
-        ) : (
-          <span key={`${part.text}-${index}`}>{part.text}</span>
-        )
-      ))}
-    </>
-  )
-}
 
 function TweetPreview({
   body,
@@ -148,27 +128,6 @@ function TweetPreview({
   )
 }
 
-function PostListingExcerpt({ excerpt, isTweet, query }: { excerpt?: string; isTweet: boolean; query: string }) {
-  if (!excerpt || isTweet) return null
-  const bullets = parseExcerptAsBulletLines(excerpt)
-  if (bullets?.length) {
-    return (
-      <ul className="list-disc pl-5 mb-3 space-y-1.5 text-[15px] text-muted-foreground leading-relaxed">
-        {bullets.slice(0, 6).map((item, i) => (
-          <li key={i}>
-            <HighlightedText text={item} query={query} />
-          </li>
-        ))}
-      </ul>
-    )
-  }
-  return (
-    <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed">
-      <HighlightedText text={stripLinksFromExcerpt(excerpt)} query={query} />
-    </p>
-  )
-}
-
 /** Coerce SSR list item to full Post shape for list rendering. */
 function ssrPostToPost(p: { slug: string; title?: string; excerpt?: string; publishedDate?: string; updatedDate?: string; category?: string; readTime?: number; tags?: string[]; heroImage?: string; heroImageSquare?: string; ogImage?: string; linkedTweetUrl?: string }): Post {
   return {
@@ -214,6 +173,40 @@ export default function Posts({ draft = false }: PostsProps) {
       })
       .map((entry) => entry.post)
   }, [posts, query, postsForSearch])
+
+  /** Published multi-part series on the index: parts sorted by published date (newest first), series ordered by latest part date. */
+  const seriesIndexBundles = useMemo<SeriesIndexBundle[]>(() => {
+    if (draft) return []
+    const grouped = new Map<string, Post[]>()
+    for (const post of posts) {
+      const sSlug = resolveSeriesSlug(post)
+      if (!sSlug || !post.series?.trim()) continue
+      if (!isPublishedPost(post)) continue
+      const arr = grouped.get(sSlug) ?? []
+      arr.push(post)
+      grouped.set(sSlug, arr)
+    }
+    const bundles: SeriesIndexBundle[] = Array.from(grouped.entries()).map(([slug, parts]) => {
+      const partsByPub = [...parts].sort((a, b) => {
+        const tA = a.publishedDate ? parseCalendarOrIsoDateString(a.publishedDate).getTime() : 0
+        const tB = b.publishedDate ? parseCalendarOrIsoDateString(b.publishedDate).getTime() : 0
+        if (tB !== tA) return tB - tA
+        return (a.slug || '').localeCompare(b.slug || '')
+      })
+      const title =
+        parts.find((p) => p.series?.trim())?.series?.trim() ?? slug
+      return { slug, title, parts: partsByPub }
+    })
+    bundles.sort((a, b) => {
+      const latestA = a.parts[0]?.publishedDate
+      const latestB = b.parts[0]?.publishedDate
+      const tA = latestA ? parseCalendarOrIsoDateString(latestA).getTime() : 0
+      const tB = latestB ? parseCalendarOrIsoDateString(latestB).getTime() : 0
+      if (tB !== tA) return tB - tA
+      return a.title.localeCompare(b.title)
+    })
+    return bundles
+  }, [posts, draft])
 
   const pageParam = searchParams.get('page')
   const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE))
@@ -354,7 +347,7 @@ export default function Posts({ draft = false }: PostsProps) {
                   '@type': 'ListItem',
                   position: index + 1,
                   url: `https://markmhendrickson.com${localizePath(`/posts/${post.slug}`, locale)}`,
-                  name: post.title || post.slug,
+                  name: stripSeriesPrefixFromTitle(post.title || post.slug, post.series) || post.slug,
                 })),
               },
             })}
@@ -407,29 +400,84 @@ export default function Posts({ draft = false }: PostsProps) {
           {pageDesc}
         </p>
 
-        {!draft && isDev && (
-          <div className="mb-6">
-            <Link
-              to={localizePath('/posts/series', locale)}
-              className="text-[15px] text-muted-foreground hover:text-foreground hover:underline"
-            >
-              View post series
-            </Link>
-          </div>
-        )}
-
         {!draft && (
-          <div className="mb-8 flex items-center gap-2">
-            <Search className="w-4 h-4 text-muted-foreground shrink-0" aria-hidden />
+          <div className="mb-8 flex w-full min-w-0 items-center gap-2">
+            <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
             <Input
               type="search"
               placeholder={t.searchPosts}
               value={searchInput}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="max-w-sm h-9 text-base md:text-sm"
+              className="h-9 min-w-0 max-w-sm flex-1 text-base md:text-sm"
               aria-label={t.searchPosts}
             />
+            {isDev && (
+              <Link
+                to={localizePath('/posts/series', locale)}
+                className="ml-auto inline-flex shrink-0 items-center rounded-full border border-border bg-muted/40 px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label={t.viewSeries}
+              >
+                {t.viewSeries}
+              </Link>
+            )}
           </div>
+        )}
+
+        {!draft && !query.trim() && seriesIndexBundles.length > 0 && (
+          <section
+            className="mb-10 space-y-6"
+            aria-labelledby="posts-index-series-heading"
+          >
+            <h2
+              id="posts-index-series-heading"
+              className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+            >
+              {t.postsSeriesHeading}
+            </h2>
+            {seriesIndexBundles.map(({ slug, title, parts }) => (
+              <div
+                key={slug}
+                className="border-b border-border pb-6 last:border-0 last:pb-0"
+              >
+                <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
+                  <h3 className="text-base font-medium tracking-tight text-foreground">
+                    {title}
+                  </h3>
+                  <Link
+                    to={localizePath(`/posts/series/${slug}`, locale)}
+                    className="shrink-0 text-sm text-muted-foreground hover:text-foreground hover:underline"
+                  >
+                    {t.postsSeriesSeriesPage}
+                  </Link>
+                </div>
+                <ul className="space-y-1.5">
+                  {parts.map((post) => (
+                    <li
+                      key={post.slug}
+                      className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[15px] leading-snug"
+                    >
+                      {post.publishedDate ? (
+                        <time
+                          className="shrink-0 text-xs tabular-nums text-muted-foreground"
+                          dateTime={post.publishedDate}
+                        >
+                          {formatDate(post.publishedDate)}
+                        </time>
+                      ) : (
+                        <span className="shrink-0 text-xs text-muted-foreground">—</span>
+                      )}
+                      <Link
+                        to={localizePath(`/posts/${post.slug}`, locale)}
+                        className="min-w-0 text-foreground hover:underline"
+                      >
+                        {stripSeriesPrefixFromTitle(post.title, post.series)}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </section>
         )}
 
         <div className="space-y-8">
@@ -452,7 +500,7 @@ export default function Posts({ draft = false }: PostsProps) {
                     <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
                       <img
                         src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.ogImage ?? post.tweetMetadata?.images?.[0] ?? '')}
-                        alt={post.title || ''}
+                        alt={stripSeriesPrefixFromTitle(post.title || '', post.series) || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
                       />
@@ -482,7 +530,10 @@ export default function Posts({ draft = false }: PostsProps) {
                         to={localizePath(`/posts/${post.slug}`, locale)}
                         className="text-foreground no-underline hover:underline"
                       >
-                        <HighlightedText text={post.title} query={query} />
+                        <HighlightedText
+                          text={stripSeriesPrefixFromTitle(post.title, post.series)}
+                          query={query}
+                        />
                       </Link>
                     </h2>
                   )}
@@ -491,14 +542,12 @@ export default function Posts({ draft = false }: PostsProps) {
                     isTweet={(post.category || '').toLowerCase() === 'tweet'}
                     query={query}
                   />
-                  {post.seriesPart != null && post.seriesTotal != null && (
-                    <div className="mb-1.5">
-                      <span className="inline-flex items-center rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
+                    {post.seriesPart != null && post.seriesTotal != null && (
+                      <span className="inline-flex shrink-0 items-center rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
                         Part {post.seriesPart} of {post.seriesTotal}
                       </span>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-4 text-[13px] text-muted-foreground">
+                    )}
                     {post.publishedDate && (
                       <Link
                         to={localizePath(`/posts/${post.slug}`, locale)}

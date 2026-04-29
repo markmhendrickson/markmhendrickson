@@ -90,7 +90,7 @@ The FAQ tells PMs to trust that their leaders will pick the right problems. It t
 
 Here is what Cagan could have said, and what his archive from 2020 through early 2025 already implies:
 
-*AI handles the mechanics of exploration. The PM handles the integration of what's learned with everything else the business knows and needs. That integration, not prototyping, is the irreducible core of the job, and it's more important now than ever because the volume of things to integrate is exploding.*
+> AI handles the mechanics of exploration. The PM handles the integration of what's learned with everything else the business knows and needs. That integration, not prototyping, is the irreducible core of the job, and it's more important now than ever because the volume of things to integrate is exploding.
 
 Every dimension of the PM's traditional contribution is getting more valuable, not less. Customer understanding matters more because AI-generated prototypes can test surface-level value without anyone deeply understanding why customers actually buy. Data fluency matters more because the volume of signal is exploding and someone needs to know which signal is real. Business knowledge matters more because cheap delivery means more things ship and each one has to cohere with the business model. Industry knowledge matters more because the competitive landscape is moving faster and the window between insight and obsolescence is shrinking.
 

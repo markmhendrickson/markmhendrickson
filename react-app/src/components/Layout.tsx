@@ -9,11 +9,16 @@ import { localeToOgLocale, localeToLanguageName, supportedLocales } from '@/i18n
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { trackUmamiEvent } from '@/lib/analytics'
+import { stripSeriesPrefixFromTitle } from '@/lib/utils'
+import { resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
+import type { ExtraBreadcrumb } from '@shared/components/Layout'
 
 interface Post {
   slug: string
   alternativeSlugs?: string[]
   title: string
+  series?: string
+  seriesSlug?: string
 }
 
 function buildSlugToPostMap(posts: Post[]): Map<string, Post> {
@@ -39,27 +44,38 @@ export function Layout({ children }: LayoutProps) {
   const { locale, languageTag, direction, t } = useLocale()
   const publicPostsData = getLocalizedPublicPosts(locale) as Post[]
   const [postTitle, setPostTitle] = useState<string | null>(null)
+  const [postSeriesInfo, setPostSeriesInfo] = useState<{ name: string; slug: string } | null>(null)
   const isHome = location.pathname === localizePath('/', locale)
 
-  // Load post title if we're on a post page (resolve primary or alternative slug).
+  // Load post title + series if we're on a post page (resolve primary or alternative slug).
   // In dev, also resolve from private cache so draft post titles show in the breadcrumb.
   useEffect(() => {
+    const applyPost = (post: Post | undefined) => {
+      if (post) {
+        setPostTitle(stripSeriesPrefixFromTitle(post.title, post.series))
+        const sSlug = resolveSeriesSlug(post)
+        setPostSeriesInfo(sSlug && post.series ? { name: post.series, slug: sSlug } : null)
+      } else {
+        setPostTitle(null)
+        setPostSeriesInfo(null)
+      }
+    }
+
     if (params.slug) {
       const publicMap = buildSlugToPostMap(publicPostsData as Post[])
       const post = publicMap.get(params.slug)
       if (post) {
-        setPostTitle(post.title)
+        applyPost(post)
       } else if (import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true') {
         import('@cache/posts.private.json').then((mod: { default: Post[] }) => {
           const privateMap = buildSlugToPostMap(mod.default)
-          const draftPost = privateMap.get(params.slug!)
-          setPostTitle(draftPost ? draftPost.title : null)
-        }).catch(() => setPostTitle(null))
+          applyPost(privateMap.get(params.slug!))
+        }).catch(() => applyPost(undefined))
       } else {
-        setPostTitle(null)
+        applyPost(undefined)
       }
     } else {
-      setPostTitle(null)
+      applyPost(undefined)
     }
   }, [params.slug])
 
@@ -69,6 +85,16 @@ export function Layout({ children }: LayoutProps) {
       return postTitle
     }
     return null
+  }
+
+  // Inject series crumb between "Posts" and the post title when the post belongs to a series.
+  const extraBreadcrumbs: ExtraBreadcrumb[] = []
+  if (postSeriesInfo) {
+    extraBreadcrumbs.push({
+      afterHref: localizePath('/posts', locale),
+      label: postSeriesInfo.name,
+      href: localizePath(`/posts/series/${postSeriesInfo.slug}`, locale),
+    })
   }
 
   const routeNames: Record<string, string> = {
@@ -207,6 +233,7 @@ export function Layout({ children }: LayoutProps) {
         menuItems={menuItems}
         routeNames={routeNames}
         getBreadcrumbLabel={getBreadcrumbLabel}
+        extraBreadcrumbs={extraBreadcrumbs.length > 0 ? extraBreadcrumbs : undefined}
         homeHref={localizePath('/', locale)}
         homeLabel={t.navHome}
         hiddenPathSegments={[...supportedLocales, 'chapter', 'section']}

@@ -15,11 +15,17 @@ import {
   isExcludedFromListing,
   isPublishedPost,
   normalizeMarkdownFormatting,
+  splitEmbeddedKeyTakeawaysFromBody,
+  stripRedundantThematicBreaks,
+  stripSeriesMarkdownBookends,
+  stripMarkdownBold,
+  stripSeriesPrefixFromTitle,
   cn,
   formatPostPublishedDate,
   parseCalendarOrIsoDateString,
 } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
@@ -29,10 +35,12 @@ import { defaultLocale, supportedLocales, type SupportedLocale } from '@/i18n/co
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import { mergeLocalizedPublicWithPrivatePosts } from '@/lib/mergeDevPostCaches'
 import privatePostsJson from '@cache/posts.private.json'
 import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
 import { trackUmamiEvent } from '@/lib/umami'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { buildSeriesOrderedPartSlugs } from '@/lib/resolveSeriesSlug'
 
 /** X (formerly Twitter) logo for share button. */
 function XLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
@@ -441,23 +449,14 @@ const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
 
 /** In dev, load private cache so draft posts can be viewed by slug.
- * Prefer localized public cache when a slug exists in both so es/ca get correct title/body. */
+ * Default locale: private overwrites public per slug (`mergeDevPostCaches`).
+ * Other locales: localized public wins on overlap so es/ca stay correct. */
 async function loadPostsDataForSlug(includeDrafts: boolean, locale: SupportedLocale): Promise<Post[]> {
   const localizedPublicPosts = getLocalizedPublicPosts(locale) as unknown as Post[]
   if (!includeDrafts || (import.meta.env.PROD && import.meta.env.VITE_SHOW_DRAFTS !== 'true')) return localizedPublicPosts
   // Use eagerly-bundled private posts (avoids dead-code elimination of dynamic import)
   const privateList = (privatePostsJson as unknown as Post[])
-  const mergedBySlug = new Map<string, Post>()
-  // Start from localized public so published posts use locale-specific title/body/excerpt.
-  for (const post of localizedPublicPosts) {
-    if (post.slug) mergedBySlug.set(post.slug, post)
-  }
-  // Add draft-only posts from private cache (not in public).
-  for (const post of privateList) {
-    if (!post.slug) continue
-    if (!mergedBySlug.has(post.slug)) mergedBySlug.set(post.slug, post)
-  }
-  return Array.from(mergedBySlug.values())
+  return mergeLocalizedPublicWithPrivatePosts(localizedPublicPosts, privateList, locale)
 }
 
 interface Post {
@@ -1087,12 +1086,20 @@ export default function Post({ slug: slugProp }: PostProps) {
   const slug = slugProp || slugParam
   const navigate = useNavigate()
   const { locale, languageTag, t } = useLocale()
+  const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
   const publicPostsData = getLocalizedPublicPosts(locale) as unknown as Post[]
-  const slugToPostPublic = useMemo(
-    () => buildSlugToPostMap(publicPostsData as Post[]),
-    [publicPostsData]
-  )
-  const resolvedCanonicalSlug = slug ? (slugToPostPublic.get(slug)?.slug ?? slug) : null
+  const privateListStatic = privatePostsJson as unknown as Post[]
+  const postsForSeriesRouting = useMemo(() => {
+    if (isDev) {
+      return mergeLocalizedPublicWithPrivatePosts(publicPostsData as Post[], privateListStatic, locale)
+    }
+    return publicPostsData as Post[]
+  }, [isDev, publicPostsData, privateListStatic, locale])
+  const slugToPostForRoute = useMemo(() => {
+    if (isDev) return buildSlugToPostMap(postsForSeriesRouting)
+    return buildSlugToPostMap(publicPostsData as Post[])
+  }, [isDev, publicPostsData, postsForSeriesRouting])
+  const resolvedCanonicalSlug = slug ? (slugToPostForRoute.get(slug)?.slug ?? slug) : null
   const ssrPost = usePostSSR() as Post | null
   const [post, setPost] = useState<Post | null>(ssrPost ?? null)
   const [content, setContent] = useState(
@@ -1107,11 +1114,53 @@ export default function Post({ slug: slugProp }: PostProps) {
   const [contentParagraphIndex, setContentParagraphIndex] = useState(0)
   const [heroImageProgress, setHeroImageProgress] = useState(0) // 0-100 for progressive reveal
   const contentParagraphsRef = useRef<string[]>([])
-  const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
 
+  const seriesOrderedSlugs = useMemo(
+    () =>
+      post?.seriesSlug ? buildSeriesOrderedPartSlugs(postsForSeriesRouting, post.seriesSlug) : undefined,
+    [post?.seriesSlug, postsForSeriesRouting],
+  )
+
+  /** Adjacent series parts as full post rows (same card data as global prev/next). */
+  const seriesNeighborPosts = useMemo(() => {
+    if (!post?.seriesSlug || post.seriesPart == null) {
+      return { prev: null as Post | null, next: null as Post | null }
+    }
+    const total = post.seriesTotal ?? post.seriesPart
+    const slugForPart = (partNum: number) => {
+      if (
+        seriesOrderedSlugs &&
+        seriesOrderedSlugs.length === total &&
+        seriesOrderedSlugs[partNum - 1]
+      ) {
+        return seriesOrderedSlugs[partNum - 1]!
+      }
+      return `${post.seriesSlug}-part-${partNum}`
+    }
+    const slugPrev = post.seriesPart > 1 ? slugForPart(post.seriesPart - 1) : null
+    const slugNext = post.seriesPart < total ? slugForPart(post.seriesPart + 1) : null
+    const map = buildSlugToPostMap(postsForSeriesRouting as Post[])
+    return {
+      prev: slugPrev ? map.get(slugPrev) ?? null : null,
+      next: slugNext ? map.get(slugNext) ?? null : null,
+    }
+  }, [post, seriesOrderedSlugs, postsForSeriesRouting])
+
+  const { body: bodyWithoutEmbeddedKt, takeawaysBullets: embeddedTakeawaysBullets } = useMemo(
+    () => splitEmbeddedKeyTakeawaysFromBody(content),
+    [content],
+  )
+  const bodyAfterThematicCleanup = useMemo(
+    () => stripRedundantThematicBreaks(bodyWithoutEmbeddedKt),
+    [bodyWithoutEmbeddedKt],
+  )
+  const bodyAfterSeriesBookends = useMemo(() => {
+    if (!post?.seriesSlug || post.seriesPart == null) return bodyAfterThematicCleanup
+    return stripSeriesMarkdownBookends(bodyAfterThematicCleanup)
+  }, [bodyAfterThematicCleanup, post?.seriesSlug, post?.seriesPart])
   const { main: mainContent, postscript: inlinePostscriptContent } = useMemo(
-    () => splitInlinePostscript(content),
-    [content]
+    () => splitInlinePostscript(bodyAfterSeriesBookends),
+    [bodyAfterSeriesBookends],
   )
   const effectivePostscriptContent = normalizeMarkdownFormatting(postscriptContent ?? inlinePostscriptContent ?? '')
 
@@ -1487,7 +1536,10 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   /** Only treat as tweet post when category is tweet; linkedTweetUrl is for footer "share" link. */
   const isTweetPost = post.category === 'tweet'
-  const displayTitle = titleFromMd ?? post.title
+  const displayTitle = stripSeriesPrefixFromTitle(
+    titleFromMd ?? post.title ?? '',
+    post.series,
+  )
   const displayExcerpt = excerptFromMd ?? post.excerpt
   const metaDescription = post.shareDescription
     ? post.shareDescription
@@ -1516,9 +1568,17 @@ export default function Post({ slug: slugProp }: PostProps) {
     }
   })
   const summaryBulletLimit = post.slug === 'six-agentic-trends-betting-on' ? 6 : 5
-  const displaySummary = limitSummaryToFiveBullets(
-    normalizeMarkdownFormatting(summaryContent !== undefined ? summaryContent : (post.summary ?? '')),
-    summaryBulletLimit
+  const summaryFromFileOrCache = normalizeMarkdownFormatting(
+    summaryContent !== undefined ? summaryContent : (post.summary ?? ''),
+  )
+  const embeddedTakeawaysMd = embeddedTakeawaysBullets
+    ? normalizeMarkdownFormatting(embeddedTakeawaysBullets)
+    : ''
+  const displaySummary = stripMarkdownBold(
+    limitSummaryToFiveBullets(
+      summaryFromFileOrCache.trim() ? summaryFromFileOrCache : embeddedTakeawaysMd,
+      summaryBulletLimit,
+    ),
   )
   const markdownFootnoteOptions = {
     footnoteLabel: t.footnotesHeading,
@@ -1618,7 +1678,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                   <img
                     src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.ogImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
-                    alt={latestPost.title || ''}
+                    alt={stripSeriesPrefixFromTitle(latestPost.title || '', latestPost.series) || ''}
                     className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                     style={{ objectPosition: 'center center' }}
                   />
@@ -1632,7 +1692,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                   <span className="font-medium text-foreground">
                     {latestPost.category === 'tweet'
                       ? (latestPost.body ?? '').slice(0, 80) + ((latestPost.body ?? '').length > 80 ? '…' : '')
-                      : latestPost.title}
+                      : stripSeriesPrefixFromTitle(latestPost.title, latestPost.series)}
                   </span>
                   {latestPost.excerpt && (
                     <p className="mt-1 text-sm text-muted-foreground">
@@ -1671,15 +1731,29 @@ export default function Post({ slug: slugProp }: PostProps) {
               )}
             </div>
             {!isTweetPost && displayExcerpt && (
-              <p className="text-[15px] leading-[1.75] text-muted-foreground dark:text-foreground/80 mb-4">
+              <p className="text-[15px] leading-[1.75] text-muted-foreground dark:text-foreground/80 mb-3">
                 {stripLinksFromExcerpt(displayExcerpt)}
               </p>
+            )}
+            {!isTweetPost && post.series && post.seriesSlug && (
+              <Link
+                to={localizePath(`/posts/series/${post.seriesSlug}`, locale)}
+                className={cn(
+                  badgeVariants({ variant: 'outline' }),
+                  'mb-4 max-w-full no-underline hover:bg-muted/60',
+                  !displayExcerpt && 'mt-1',
+                )}
+              >
+                {post.series}
+              </Link>
             )}
           </header>
 
           {!hideHomeMetaBoxes && displaySummary && (() => {
             const normalizedSummary = displaySummary.trim().replace(/\s+/g, ' ')
-            const normalizedExcerpt = displayExcerpt ? displayExcerpt.trim().replace(/\s+/g, ' ') : ''
+            const normalizedExcerpt = displayExcerpt
+              ? stripLinksFromExcerpt(displayExcerpt).trim().replace(/\s+/g, ' ')
+              : ''
             const repeatsExcerpt = normalizedExcerpt && normalizedSummary === normalizedExcerpt
             return !repeatsExcerpt && (
             <Alert className="mb-8">
@@ -1703,10 +1777,6 @@ export default function Post({ slug: slugProp }: PostProps) {
                 className="w-full max-h-[70vh] h-auto object-contain rounded dark:border dark:border-border"
               />
             </div>
-          )}
-
-          {post.series && (
-            <SeriesNav post={post} locale={locale} />
           )}
 
           <div
@@ -2037,6 +2107,10 @@ export default function Post({ slug: slugProp }: PostProps) {
             />
           )}
 
+          {post.series && post.seriesSlug != null && post.seriesPart != null && (
+            <SeriesNav post={post} locale={locale} orderedSeriesSlugs={seriesOrderedSlugs} />
+          )}
+
           {isTweetPost && post.tweetMetadata?.images && post.tweetMetadata.images.length > 0 && (
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {post.tweetMetadata.images.map((url, i) => (
@@ -2209,21 +2283,55 @@ export default function Post({ slug: slugProp }: PostProps) {
 
         {!isHome && !isExcludedFromListing(post) && post.seriesPart && post.seriesSlug ? (
           <nav className="mt-8 flex flex-col gap-4" aria-label={t.previousAndNextPosts}>
-            {post.seriesPart > 1 && (
+            {seriesNeighborPosts.next && (
               <Link
-                to={localizePath(`/posts/${post.seriesSlug}-part-${post.seriesPart - 1}`, locale)}
+                to={localizePath(`/posts/${seriesNeighborPosts.next.slug}`, locale)}
                 className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
               >
-                <Alert className="cursor-pointer">
-                  <div className="flex flex-col gap-1">
+                <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
+                  {(seriesNeighborPosts.next.heroImage ||
+                    seriesNeighborPosts.next.ogImage ||
+                    seriesNeighborPosts.next.tweetMetadata?.images?.[0]) && (
+                    <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                      <img
+                        src={getPostImageSrc(
+                          seriesNeighborPosts.next.heroImageSquare ??
+                            seriesNeighborPosts.next.heroImage ??
+                            seriesNeighborPosts.next.ogImage ??
+                            seriesNeighborPosts.next.tweetMetadata?.images?.[0] ??
+                            '',
+                        )}
+                        alt={
+                          stripSeriesPrefixFromTitle(
+                            seriesNeighborPosts.next.title || '',
+                            seriesNeighborPosts.next.series,
+                          ) || ''
+                        }
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                        style={{ objectPosition: 'center center' }}
+                      />
+                    </div>
+                  )}
+                  <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
                     <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground dark:text-foreground/80">
-                      ← Previous in series
+                      {t.nextPost}
                     </AlertTitle>
                     <AlertDescription className="py-px">
                       <span className="font-medium text-foreground">
-                        Part {post.seriesPart - 1}
+                        {seriesNeighborPosts.next.category === 'tweet'
+                          ? (seriesNeighborPosts.next.body ?? '').slice(0, 80) +
+                            ((seriesNeighborPosts.next.body ?? '').length > 80 ? '…' : '')
+                          : stripSeriesPrefixFromTitle(
+                              seriesNeighborPosts.next.title,
+                              seriesNeighborPosts.next.series,
+                            )}
                       </span>
-                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80 ml-2">
+                      {seriesNeighborPosts.next.excerpt && (
+                        <p className="mt-1 text-sm text-muted-foreground dark:text-foreground/80">
+                          {stripLinksFromExcerpt(seriesNeighborPosts.next.excerpt)}
+                        </p>
+                      )}
+                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
                         {t.readMore} →
                       </span>
                     </AlertDescription>
@@ -2231,21 +2339,55 @@ export default function Post({ slug: slugProp }: PostProps) {
                 </Alert>
               </Link>
             )}
-            {post.seriesPart < (post.seriesTotal ?? post.seriesPart) && (
+            {seriesNeighborPosts.prev && (
               <Link
-                to={localizePath(`/posts/${post.seriesSlug}-part-${post.seriesPart + 1}`, locale)}
+                to={localizePath(`/posts/${seriesNeighborPosts.prev.slug}`, locale)}
                 className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
               >
-                <Alert className="cursor-pointer">
-                  <div className="flex flex-col gap-1">
+                <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
+                  {(seriesNeighborPosts.prev.heroImage ||
+                    seriesNeighborPosts.prev.ogImage ||
+                    seriesNeighborPosts.prev.tweetMetadata?.images?.[0]) && (
+                    <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                      <img
+                        src={getPostImageSrc(
+                          seriesNeighborPosts.prev.heroImageSquare ??
+                            seriesNeighborPosts.prev.heroImage ??
+                            seriesNeighborPosts.prev.ogImage ??
+                            seriesNeighborPosts.prev.tweetMetadata?.images?.[0] ??
+                            '',
+                        )}
+                        alt={
+                          stripSeriesPrefixFromTitle(
+                            seriesNeighborPosts.prev.title || '',
+                            seriesNeighborPosts.prev.series,
+                          ) || ''
+                        }
+                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                        style={{ objectPosition: 'center center' }}
+                      />
+                    </div>
+                  )}
+                  <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
                     <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground dark:text-foreground/80">
-                      Next in series →
+                      {t.previousPost}
                     </AlertTitle>
                     <AlertDescription className="py-px">
                       <span className="font-medium text-foreground">
-                        Part {post.seriesPart + 1}
+                        {seriesNeighborPosts.prev.category === 'tweet'
+                          ? (seriesNeighborPosts.prev.body ?? '').slice(0, 80) +
+                            ((seriesNeighborPosts.prev.body ?? '').length > 80 ? '…' : '')
+                          : stripSeriesPrefixFromTitle(
+                              seriesNeighborPosts.prev.title,
+                              seriesNeighborPosts.prev.series,
+                            )}
                       </span>
-                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80 ml-2">
+                      {seriesNeighborPosts.prev.excerpt && (
+                        <p className="mt-1 text-sm text-muted-foreground dark:text-foreground/80">
+                          {stripLinksFromExcerpt(seriesNeighborPosts.prev.excerpt)}
+                        </p>
+                      )}
+                      <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
                         {t.readMore} →
                       </span>
                     </AlertDescription>
@@ -2270,7 +2412,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
                         src={getPostImageSrc(nextPost.heroImageSquare ?? nextPost.heroImage ?? nextPost.ogImage ?? nextPost.tweetMetadata?.images?.[0] ?? '')}
-                        alt={nextPost.title || ''}
+                        alt={stripSeriesPrefixFromTitle(nextPost.title || '', nextPost.series) || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
                       />
@@ -2284,7 +2426,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                       <span className="font-medium text-foreground">
                         {nextPost.category === 'tweet'
                           ? (nextPost.body ?? '').slice(0, 80) + ((nextPost.body ?? '').length > 80 ? '…' : '')
-                          : nextPost.title}
+                          : stripSeriesPrefixFromTitle(nextPost.title, nextPost.series)}
                       </span>
                       {nextPost.excerpt && (
                         <p className="mt-1 text-sm text-muted-foreground dark:text-foreground/80">
@@ -2309,7 +2451,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
                         src={getPostImageSrc(prevPost.heroImageSquare ?? prevPost.heroImage ?? prevPost.ogImage ?? prevPost.tweetMetadata?.images?.[0] ?? '')}
-                        alt={prevPost.title || ''}
+                        alt={stripSeriesPrefixFromTitle(prevPost.title || '', prevPost.series) || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
                       />
@@ -2323,7 +2465,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                       <span className="font-medium text-foreground">
                         {prevPost.category === 'tweet'
                           ? (prevPost.body ?? '').slice(0, 80) + ((prevPost.body ?? '').length > 80 ? '…' : '')
-                          : prevPost.title}
+                          : stripSeriesPrefixFromTitle(prevPost.title, prevPost.series)}
                       </span>
                       {prevPost.excerpt && (
                         <p className="mt-1 text-sm text-muted-foreground dark:text-foreground/80">
@@ -2348,7 +2490,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                     <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                       <img
                         src={getPostImageSrc(prevPost2.heroImageSquare ?? prevPost2.heroImage ?? prevPost2.ogImage ?? prevPost2.tweetMetadata?.images?.[0] ?? '')}
-                        alt={prevPost2.title || ''}
+                        alt={stripSeriesPrefixFromTitle(prevPost2.title || '', prevPost2.series) || ''}
                         className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                         style={{ objectPosition: 'center center' }}
                       />
@@ -2362,7 +2504,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                       <span className="font-medium text-foreground">
                         {prevPost2.category === 'tweet'
                           ? (prevPost2.body ?? '').slice(0, 80) + ((prevPost2.body ?? '').length > 80 ? '…' : '')
-                          : prevPost2.title}
+                          : stripSeriesPrefixFromTitle(prevPost2.title, prevPost2.series)}
                       </span>
                       {prevPost2.excerpt && (
                         <p className="mt-1 text-sm text-muted-foreground dark:text-foreground/80">

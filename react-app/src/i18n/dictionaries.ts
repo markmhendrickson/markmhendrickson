@@ -26,6 +26,12 @@ export type Dict = {
   viewDrafts: string
   backToPosts: string
   searchPosts: string
+  /** Dev pill → `/posts/series` from posts index */
+  viewSeries: string
+  /** `/posts` section: multi-part series, parts ordered by published date */
+  postsSeriesHeading: string
+  /** Link to `/posts/series/:slug` from posts index series block */
+  postsSeriesSeriesPage: string
   noPostsYet: string
   noDraftsYet: string
   minRead: string
@@ -109,6 +115,9 @@ const enDict: Dict = {
     viewDrafts: 'View drafts',
     backToPosts: 'Back to posts',
     searchPosts: 'Search posts',
+    viewSeries: 'View series',
+    postsSeriesHeading: 'Series',
+    postsSeriesSeriesPage: 'Series page',
     noPostsYet: 'No posts yet.',
     noDraftsYet: 'No drafts yet.',
     minRead: 'min read',
@@ -192,6 +201,9 @@ const esDict: Dict = {
     viewDrafts: 'Ver borradores',
     backToPosts: 'Volver a publicaciones',
     searchPosts: 'Buscar publicaciones',
+    viewSeries: 'Ver series',
+    postsSeriesHeading: 'Series',
+    postsSeriesSeriesPage: 'Página de la serie',
     noPostsYet: 'Aún no hay publicaciones.',
     noDraftsYet: 'Aún no hay borradores.',
     minRead: 'min de lectura',
@@ -275,6 +287,9 @@ const caDict: Dict = {
     viewDrafts: 'Veure esborranys',
     backToPosts: 'Tornar a publicacions',
     searchPosts: 'Cercar publicacions',
+    viewSeries: 'Veure sèries',
+    postsSeriesHeading: 'Sèries',
+    postsSeriesSeriesPage: 'Pàgina de la sèrie',
     noPostsYet: 'Encara no hi ha publicacions.',
     noDraftsYet: 'Encara no hi ha esborranys.',
     minRead: 'min de lectura',
