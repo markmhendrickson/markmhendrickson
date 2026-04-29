@@ -20,6 +20,7 @@ import {
   stripSeriesMarkdownBookends,
   stripMarkdownBold,
   stripSeriesPrefixFromTitle,
+  normalizeOgImageRelativePath,
   cn,
   formatPostPublishedDate,
   parseCalendarOrIsoDateString,
@@ -1536,10 +1537,10 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   /** Only treat as tweet post when category is tweet; linkedTweetUrl is for footer "share" link. */
   const isTweetPost = post.category === 'tweet'
-  const displayTitle = stripSeriesPrefixFromTitle(
-    titleFromMd ?? post.title ?? '',
-    post.series,
-  )
+  const rawTitle = (titleFromMd ?? post.title ?? '').trim()
+  const displayTitle = stripSeriesPrefixFromTitle(rawTitle, post.series)
+  /** Full stored title for `<title>` / OG / Twitter / JSON-LD (avoids ultra-short share titles when series prefix is stripped for the H1). */
+  const titleForMetaSeo = rawTitle || displayTitle || (isTweetPost ? 'X Post' : '')
   const displayExcerpt = excerptFromMd ?? post.excerpt
   const metaDescription = post.shareDescription
     ? post.shareDescription
@@ -1586,7 +1587,10 @@ export default function Post({ slug: slugProp }: PostProps) {
   }
   // Default OG image only on home; post pages use post-specific image or none
   const ogImage = post.ogImage
-    ? `${SITE_BASE}/images/${post.ogImage}`
+    ? (() => {
+        const rel = normalizeOgImageRelativePath(post.ogImage)
+        return rel.startsWith('http') ? rel : `${SITE_BASE}/images/${rel}`
+      })()
     : isHome
       ? OG_DEFAULT_IMAGE
       : post.heroImage
@@ -1596,7 +1600,15 @@ export default function Post({ slug: slugProp }: PostProps) {
   return (
     <>
       <Helmet>
-        <title>{!displayTitle ? (isTweetPost ? 'X Post — Mark Hendrickson' : 'Mark Hendrickson') : (displayTitle === 'Mark Hendrickson' ? displayTitle : `${displayTitle} — Mark Hendrickson`)}</title>
+        <title>
+          {!titleForMetaSeo
+            ? isTweetPost
+              ? 'X Post — Mark Hendrickson'
+              : 'Mark Hendrickson'
+            : titleForMetaSeo === 'Mark Hendrickson'
+              ? titleForMetaSeo
+              : `${titleForMetaSeo} — Mark Hendrickson`}
+        </title>
         <meta name="description" content={desc} />
         <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
@@ -1606,7 +1618,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         ))}
         <link rel="alternate" hrefLang="x-default" href={`${SITE_BASE}/`} />
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={displayTitle || (isTweetPost ? 'X Post' : '')} />
+        <meta property="og:title" content={titleForMetaSeo || (isTweetPost ? 'X Post' : '')} />
         <meta property="og:description" content={desc} />
         <meta property="og:url" content={canonicalUrl} />
         {ogImage != null && <meta property="og:image" content={ogImage} />}
@@ -1624,13 +1636,13 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta property="article:author" content={SITE_BASE} />
         <meta property="og:article:author" content="Mark Hendrickson" />
         <meta name="twitter:creator" content="@markmhendrickson" />
-        <meta name="twitter:title" content={displayTitle || (isTweetPost ? 'X Post' : '')} />
+        <meta name="twitter:title" content={titleForMetaSeo || (isTweetPost ? 'X Post' : '')} />
         <meta name="twitter:description" content={desc} />
         <script type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Article',
-            headline: displayTitle || (isTweetPost ? (post.body ?? '').slice(0, 100) : ''),
+            headline: titleForMetaSeo || (isTweetPost ? (post.body ?? '').slice(0, 100) : ''),
             description: desc,
             url: canonicalUrl,
             mainEntityOfPage: canonicalUrl,

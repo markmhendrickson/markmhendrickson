@@ -17,6 +17,18 @@ export function getPostImageSrc(pathOrUrl: string): string {
   return `/images/posts/${pathOrUrl}`
 }
 
+/**
+ * Relative path segment after `/images/` for absolute og:image URLs.
+ * Matches {@link getPostImageSrc}: `og/*` stays under `/images/og/`; bare filenames live under `/images/posts/`.
+ */
+export function normalizeOgImageRelativePath(ogImage: string): string {
+  const t = (ogImage ?? '').trim()
+  if (!t) return t
+  if (t.startsWith('http://') || t.startsWith('https://')) return t
+  if (t.startsWith('og/') || t.startsWith('posts/')) return t
+  return `posts/${t}`
+}
+
 /** Path to use for zoom/lightbox when an -original asset exists (e.g. .../name.png -> .../name-original.png). */
 export function getZoomImageSrc(embedPath: string): string {
   if (!embedPath || typeof embedPath !== 'string') return embedPath
