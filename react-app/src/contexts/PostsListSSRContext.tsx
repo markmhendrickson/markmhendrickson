@@ -15,6 +15,11 @@ export interface PostListItemSSR {
   ogImage?: string
   excludeFromListing?: boolean
   linkedTweetUrl?: string
+  /** Present when post belongs to a series (for /posts index grouping + filtering). */
+  series?: string
+  seriesSlug?: string
+  seriesPart?: number
+  seriesTotal?: number
 }
 
 const PostsListSSRContext = React.createContext<PostListItemSSR[] | null>(null)

@@ -1,0 +1,5 @@
+- Teams organized around execution for decades; foundation and review got whatever time survived after the calendar's middle was fed.
+- When AI absorbs artifact production in the middle, humans concentrate at the ends: richer positioning, systems, and architecture upstream; deeper quality and fit checks downstream.
+- Removing the human middle removes the implicit translation that kept disciplines aligned; cross-disciplinary coherence has to live in explicit standards, durable artifacts, and judgment at the ends.
+- The inversion is economically forced, not optional, but it strains specialists whose credibility was tied to execution craft until judgment is made legible again.
+- Agents-in-a-loop (async server-side agent work) is what absorbing the middle looks like at the system level; synchronous-only AI keeps humans in the middle as the trigger for every execution step.

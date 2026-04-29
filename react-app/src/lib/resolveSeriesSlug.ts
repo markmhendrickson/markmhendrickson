@@ -13,6 +13,16 @@ export function resolveSeriesSlug(post: { slug?: string; seriesSlug?: string }):
   return null
 }
 
+/** Same membership as `seriesIndexBundles` in Posts: part of a named multi-part series, not a standalone post row. */
+export function isSeriesPartForPostsIndex(post: {
+  slug?: string
+  series?: string
+  seriesSlug?: string
+}): boolean {
+  const sSlug = resolveSeriesSlug(post)
+  return Boolean(sSlug && post.series?.trim())
+}
+
 /**
  * When every part slug is `{seriesSlug}-part-{n}`, returns `undefined` so callers keep using that URL shape.
  * Otherwise returns part slugs in order (index 0 = part 1) for custom per-part slugs under the same series.

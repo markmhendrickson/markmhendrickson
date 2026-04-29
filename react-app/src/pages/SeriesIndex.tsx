@@ -2,7 +2,6 @@ import { useParams, Link, useSearchParams } from 'react-router-dom'
 import { useState, useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import {
-  stripLinksFromExcerpt,
   isPublishedPost,
   parseCalendarOrIsoDateString,
   getPostImageSrc,
@@ -11,6 +10,12 @@ import {
   isParsablePublishedDate,
 } from '@/lib/utils'
 import { PostListingExcerpt } from '@/components/PostListingBlocks'
+import {
+  SeriesOverviewProse,
+  seriesOverviewParagraphs,
+  seriesOverviewTextForProse,
+} from '@/components/SeriesOverviewProse'
+import { seriesSeriesHeroBasename } from '@/lib/seriesListThumb'
 import { getSeriesOverview } from '@/lib/seriesOverview'
 import { resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
 import { useLocale } from '@/i18n/LocaleContext'
@@ -46,8 +51,11 @@ interface SeriesSummary {
   title: string
   description?: string
   total: number
-  firstPost?: Post
   latestDate?: string
+  /** Sum of part `readTime` values for listing metadata (mirrors post index). */
+  totalReadMinutes?: number
+  /** First part’s category for listing metadata row. */
+  primaryCategory?: string
   hasDrafts: boolean
   /** Basename under `/images/posts/` for list thumbnail (`{slug}-series-hero.png`). */
   listThumbBasename?: string
@@ -55,60 +63,6 @@ interface SeriesSummary {
 
 function postThumbBasename(p: Post): string | undefined {
   return p.heroImageSquare ?? p.heroImage ?? p.ogImage ?? p.tweetMetadata?.images?.[0]
-}
-
-/** Split repo / post `seriesDescription` on blank lines; trim each block (single newlines → space). */
-function seriesOverviewParagraphs(raw: string): string[] {
-  return raw
-    .split(/\n\s*\n+/)
-    .map((block) =>
-      block
-        .split('\n')
-        .map((line) => line.trim())
-        .filter(Boolean)
-        .join(' ')
-        .trim(),
-    )
-    .filter((p) => p.length > 0)
-}
-
-/**
- * `stripLinksFromExcerpt` collapses all whitespace to spaces, which destroys `\n\n` paragraph breaks.
- * Strip links per paragraph so overview prose can render as multiple `<p>` nodes.
- */
-function seriesOverviewTextForProse(raw: string): string {
-  return seriesOverviewParagraphs(raw)
-    .map((p) => stripLinksFromExcerpt(p))
-    .join('\n\n')
-}
-
-function SeriesOverviewProse({
-  text,
-  paragraphClassName,
-}: {
-  text: string
-  paragraphClassName: string
-}) {
-  const paras = seriesOverviewParagraphs(text)
-  if (paras.length === 0) return null
-  return (
-    <div className="space-y-4">
-      {paras.map((p, i) => (
-        <p key={i} className={paragraphClassName}>
-          {p}
-        </p>
-      ))}
-    </div>
-  )
-}
-
-/**
- * Series list thumbnail: same asset as the series landing hero (`{slug}-series-hero.png`) so
- * `/posts/series` cards match `/posts/series/:slug`. Missing files hide via `onError` on the list img.
- */
-function pickSeriesListThumbBasename(seriesSlug: string, sortedByPart: Post[]): string | undefined {
-  if (sortedByPart.length === 0) return undefined
-  return `${seriesSlug}-series-hero.png`
 }
 
 const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
@@ -168,14 +122,21 @@ export default function SeriesIndex() {
             : undefined
 
         const overviewRaw = getSeriesOverview(slug, sortedPosts)
-        const listThumbBasename = pickSeriesListThumbBasename(slug, sortedPosts)
+        const listThumbBasename =
+          sortedPosts.length > 0 ? seriesSeriesHeroBasename(slug) : undefined
+        const totalReadMinutes = sortedPosts.reduce((acc, p) => {
+          const rt = p.readTime
+          return acc + (typeof rt === 'number' && rt > 0 ? rt : 0)
+        }, 0)
+        const primaryCategory = sortedPosts.find((p) => (p.category || '').trim())?.category
         return {
           slug,
           title: sortedPosts[0]?.series ?? slug,
           description: overviewRaw ? seriesOverviewTextForProse(overviewRaw) : undefined,
           total: sortedPosts.length,
-          firstPost: sortedPosts[0],
           latestDate: latestPost?.publishedDate,
+          totalReadMinutes: totalReadMinutes > 0 ? totalReadMinutes : undefined,
+          primaryCategory: primaryCategory?.trim() || undefined,
           hasDrafts: posts.some((post) => !isPublishedPost(post)),
           listThumbBasename,
         }
@@ -282,51 +243,37 @@ export default function SeriesIndex() {
             ) : (
               <div className="space-y-8">
                 {visibleSeries.map((series) => {
-                  const thumbSrc = series.listThumbBasename
-                    ? getPostImageSrc(series.listThumbBasename)
-                    : ''
+                  const thumbBasename = series.listThumbBasename
+                  const thumbSrc = thumbBasename ? getPostImageSrc(thumbBasename) : ''
+                  const hasThumb = Boolean(thumbBasename && thumbSrc)
                   return (
                   <article
                     key={series.slug}
                     className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch md:items-start gap-4"
                   >
-                    {thumbSrc ? (
-                      <div
+                    {hasThumb && (
+                      <Link
+                        to={localizePath(`/posts/series/${series.slug}`, locale)}
                         data-series-list-thumb
-                        className="order-1 shrink-0 md:order-2 md:w-auto"
+                        className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
+                        aria-label={`${series.title} — series`}
                       >
-                        <Link
-                          to={localizePath(`/posts/series/${series.slug}`, locale)}
-                          className="block w-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90 md:w-[148px]"
-                          aria-label={`${series.title} — series`}
-                        >
-                          <div className="aspect-square w-full overflow-hidden rounded dark:border dark:border-border md:h-[148px] md:w-[148px] md:aspect-auto flex items-center justify-center">
-                            <img
-                              src={thumbSrc}
-                              alt=""
-                              loading="lazy"
-                              className="min-h-0 min-w-0 h-full w-full object-cover object-center"
-                              style={{ objectPosition: 'center center' }}
-                              onError={(e) => {
-                                const root = e.currentTarget.closest('[data-series-list-thumb]')
-                                if (root instanceof HTMLElement) root.style.display = 'none'
-                              }}
-                            />
-                          </div>
-                        </Link>
-                      </div>
-                    ) : null}
-                    <div className="order-2 min-w-0 flex-1 md:order-1">
-                    <div className="flex items-baseline gap-3 mb-1">
-                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                        {series.total}-part series
-                      </span>
-                      {isParsablePublishedDate(series.latestDate) && (
-                        <span className="text-xs text-muted-foreground">
-                          Updated {formatPostPublishedDate(series.latestDate, languageTag)}
-                        </span>
-                      )}
-                    </div>
+                        <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
+                          <img
+                            src={thumbSrc}
+                            alt={series.title}
+                            loading="lazy"
+                            className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                            style={{ objectPosition: 'center center' }}
+                            onError={(e) => {
+                              const root = e.currentTarget.closest('[data-series-list-thumb]')
+                              if (root instanceof HTMLElement) root.style.display = 'none'
+                            }}
+                          />
+                        </div>
+                      </Link>
+                    )}
+                    <div className="order-2 md:order-1 min-w-0 flex-1">
                     <h2 className="text-[20px] font-medium mb-2 tracking-tight">
                       <Link
                         to={localizePath(`/posts/series/${series.slug}`, locale)}
@@ -341,23 +288,35 @@ export default function SeriesIndex() {
                         paragraphClassName="text-[15px] text-muted-foreground leading-relaxed"
                       />
                     )}
-                    {series.firstPost && (
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        Starts with{' '}
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
+                      <span className="inline-flex shrink-0 items-center rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                        {series.total} {series.total === 1 ? 'part' : 'parts'}
+                      </span>
+                      {isParsablePublishedDate(series.latestDate) && (
                         <Link
-                          to={localizePath(`/posts/${series.firstPost.slug}`, locale)}
-                          className="hover:text-foreground hover:underline"
+                          to={localizePath(`/posts/series/${series.slug}`, locale)}
+                          className="text-muted-foreground hover:text-foreground hover:underline no-underline"
                         >
-                          {stripSeriesPrefixFromTitle(series.firstPost.title, series.firstPost.series)}
+                          <time dateTime={series.latestDate}>
+                            {formatPostPublishedDate(series.latestDate, languageTag)}
+                          </time>
                         </Link>
-                      </p>
-                    )}
-                    <Link
-                      to={localizePath(`/posts/series/${series.slug}`, locale)}
-                      className="mt-2 inline-block text-sm font-medium text-foreground/70 hover:text-foreground hover:underline"
-                    >
-                      View series →
-                    </Link>
+                      )}
+                      {series.totalReadMinutes != null && series.totalReadMinutes > 0 && (
+                        <span>
+                          {series.totalReadMinutes} {t.minRead}
+                        </span>
+                      )}
+                      {series.primaryCategory && (
+                        <span className="capitalize">
+                          {series.primaryCategory.toLowerCase() === 'tweet'
+                            ? t.xPost
+                            : series.primaryCategory.toLowerCase() === 'essay'
+                              ? t.categoryEssay
+                              : series.primaryCategory}
+                        </span>
+                      )}
+                    </div>
                     </div>
                   </article>
                   )
@@ -424,10 +383,7 @@ export default function SeriesIndex() {
             </div>
             <h1 className="text-[28px] font-medium tracking-tight mb-3">{seriesTitle}</h1>
             {seriesDescription && (
-              <SeriesOverviewProse
-                text={seriesDescription}
-                paragraphClassName="text-[17px] text-muted-foreground leading-relaxed font-light"
-              />
+              <SeriesOverviewProse text={seriesDescription} variant="postBody" />
             )}
             {seriesHeroSrc && (
               <div className="mt-6 w-full border-b border-border pb-8 mb-8">

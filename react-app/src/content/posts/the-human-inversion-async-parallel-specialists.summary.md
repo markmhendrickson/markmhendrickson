@@ -1,0 +1,5 @@
+- The coordination problem is not "fewer meetings" but cross-readable foundations without a human middle doing live translation.
+- AI as a translation substrate lets PM, design, and engineering stay deep in native artifacts while still acting on each other's implications asynchronously.
+- Translation can silently drop constraints; faithful summaries and durable artifact integrity determine whether coherence holds or drifts.
+- Most operational meeting types (standups, handoffs, many syncs) shrink structurally because their coupling justification disappears, not because of policy, but because the work moved.
+- Security, legal, marketing, and ops often gain more from being pulled to the ends early than product, design, and engineering alone, because those functions were historically brought in too late to shape foundations and review.

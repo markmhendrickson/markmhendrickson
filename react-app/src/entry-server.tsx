@@ -80,6 +80,10 @@ function getPostsListForSSR(locale: string): PostListItemSSR[] {
     ogImage?: string
     excludeFromListing?: boolean
     linkedTweetUrl?: string
+    series?: string
+    seriesSlug?: string
+    seriesPart?: number
+    seriesTotal?: number
   }[]
   const filtered = posts
     .filter((p) => !isExcludedFromListing(p))
@@ -104,6 +108,10 @@ function getPostsListForSSR(locale: string): PostListItemSSR[] {
     ogImage: p.ogImage,
     excludeFromListing: p.excludeFromListing,
     linkedTweetUrl: p.linkedTweetUrl,
+    series: p.series,
+    seriesSlug: p.seriesSlug,
+    seriesPart: p.seriesPart,
+    seriesTotal: p.seriesTotal,
   }))
 }
 

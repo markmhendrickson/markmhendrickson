@@ -1,0 +1,5 @@
+- Translation is not adjudication: independently excellent foundations can still contradict at ship time.
+- A reconciler (often a senior cross-functional lead or founder) resolves tensions that no single specialist can settle alone.
+- A rubric is the written precedence order among competing goods (e.g. approachable vs. dense) so the same trade-off resolves the same way twice. It is not a values poster.
+- Fuzzy executive commitments are the cultural blocker; rubrics require uncomfortable specificity.
+- Write integrity and stakes partitions: append-only history, provenance, schema, cross-links, session replay, review prep, and attribution keep review trustworthy at agent-generated volume. On catastrophic-blast surfaces that layer is mandatory, not optional.

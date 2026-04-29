@@ -108,22 +108,22 @@ Access later: `retrieve_file_url` returns a URL for a stored source (by default 
 
 ### Hero Image Style Guide (MANDATORY)
 
-**MANDATORY:** All hero images for blog posts MUST follow this style. Reference: `truth-layer-agent-memory-hero.png`, `agentic-search-and-the-truth-layer-hero.png`.
+**MANDATORY:** All hero images for blog posts MUST follow this style. Reference: `know-which-of-your-agents-wrote-what-hero.png`, `the-argument-cagan-already-won-hero.png`.
 
 **Visual style:**
 - **Background:** Solid black only. No gradients, no white sections, no mixed backgrounds.
-- **Foreground:** White line-art exclusively. No fills, no shading, no gradients within shapes.
-- **Line work:** Consistent thin white outlines. Clean, minimal line weight.
-- **Color:** Monochromatic black and white only. No gray, no other colors.
-- **Composition:** Elements in lower portion of frame. Generous negative (black) space above.
-- **Aesthetic:** Stylized, iconic, minimalist. Not realistic or photorealistic.
+- **Foreground:** White line-art. Subtle edge shading for dimensionality is encouraged; large filled areas and color gradients are not.
+- **Line work:** Polished, refined white outlines with consistent stroke weight. Lines should feel engraved or blueprint-quality — smooth curves, clean joints, slight dimensional depth on edges. Not sketchy or rough.
+- **Color:** Monochromatic black and white only. No gray tones or other colors outside of subtle edge shading for depth.
+- **Composition:** Scene-based or centered. Objects may sit on surfaces with perspective (e.g. an angled desk, a platform). Generous negative (black) space around the subject.
+- **Aesthetic:** Polished, dimensional, iconic. Technical engraving or refined blueprint feel. Not flat/clip-art, not photorealistic. Symbolic objects should feel like they have weight and presence.
 - **No typography:** No text, labels, or captions within the image.
 
 **Focal brand:** When a post has a brand as the focal point (e.g. Notion, Claude, OpenAI), focus the hero image on that brand. Use recognizable brand-associated shapes, motifs, or product cues in the same white line-art style (no logos or wordmarks). The hero should read as "this post is about X" at a glance.
 
 **Layout:** Use `keep-proportions` in `{slug}-hero-style.txt` so the image displays without cropping (max height 70vh).
 
-**When generating new hero images:** Apply the above specifications. The theme or subject can vary per post, but the visual style (black background, white outline line-art, minimalist) must remain consistent.
+**When generating new hero images:** Apply the above specifications. The theme or subject can vary per post, but the visual style (black background, polished white line-art with dimensional depth, engraving quality) must remain consistent.
 
 ### Post Image Assets Checklist (for drafting)
 
@@ -136,7 +136,7 @@ For each post with a hero image, create **three composed assets** (do not crop; 
 | OG source | `{slug}-hero-og.png` | 1200×630 landscape | Social previews (Twitter, LinkedIn, etc.) |
 
 **Workflow:**
-1. Create `{slug}-hero.png` with composition for full-width display (elements in lower portion, generous negative space).
+1. Create `{slug}-hero.png` with composition for full-width display (scene-based or centered, generous negative space).
 2. Create `{slug}-hero-square.png` composed for 1:1 (e.g. vertical stack, centered layout).
 3. Create `{slug}-hero-og.png` composed for 1200×630 (e.g. left-right split, horizontal layout).
 4. Add `{slug}-hero-style.txt` with `keep-proportions`.

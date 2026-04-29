@@ -1,0 +1,5 @@
+- Generalists still need a reconciler: four people on four surfaces still produce cross-surface tension that resolves against shared commitments, not hallway consensus.
+- Hybrid teams face the hardest translation challenge: generalist breadth plus specialist depth widens the vocabulary gap, and hybrid is probably your shape.
+- Hardware, regulated, and research domains change timelines and load distribution, not whether the architecture applies; partitioned trust is what honest deployment looks like.
+- Readiness is three questions: AI-assisted execution maturity in your domain, scale-up pattern for your complexity, and whether your system includes catastrophic-blast surfaces.
+- The transition is net-positive and personally disorienting at the same time; making judgment legible is the organizational response that doesn't require pretending the disorientation isn't real.

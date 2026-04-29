@@ -1,0 +1,5 @@
+- Execution-backlog hiring loses its signal when throughput is no longer headcount-limited at the implementation layer.
+- The real trigger is the attention ceiling: one person can no longer sustain quality on foundational inputs, review of model output, and strategic calls at once.
+- Earlier hires often add coordination without judgment leverage; stay lean until attention, not backlog, breaks.
+- Review load varies with trust infrastructure: verification of structured claims versus re-derivation from raw diffs moves when the ceiling hits.
+- Ceiling signals arrive before throughput drops: skimming AI output, thinner foundations, or deferred strategy show up as quiet quality debt long before the team notices it as a hiring problem.

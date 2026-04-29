@@ -1,5 +1,8 @@
 {
-  "the-human-inversion-the-inversion": ["the-human-inversion-part-1"],
+  "the-human-inversion": [
+    "the-human-inversion-the-inversion",
+    "the-human-inversion-part-1"
+  ],
   "the-human-inversion-the-attention-ceiling": ["the-human-inversion-part-2"],
   "the-human-inversion-async-parallel-specialists": ["the-human-inversion-part-3"],
   "the-human-inversion-the-reconciler-and-the-rubric": ["the-human-inversion-part-4"],

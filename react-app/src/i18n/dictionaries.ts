@@ -32,6 +32,9 @@ export type Dict = {
   postsSeriesHeading: string
   /** Link to `/posts/series/:slug` from posts index series block */
   postsSeriesSeriesPage: string
+  /** Posts index series row: label after count ("3 parts") */
+  postsSeriesPartSingular: string
+  postsSeriesPartPlural: string
   noPostsYet: string
   noDraftsYet: string
   minRead: string
@@ -118,6 +121,8 @@ const enDict: Dict = {
     viewSeries: 'View series',
     postsSeriesHeading: 'Series',
     postsSeriesSeriesPage: 'Series page',
+    postsSeriesPartSingular: 'part',
+    postsSeriesPartPlural: 'parts',
     noPostsYet: 'No posts yet.',
     noDraftsYet: 'No drafts yet.',
     minRead: 'min read',
@@ -204,6 +209,8 @@ const esDict: Dict = {
     viewSeries: 'Ver series',
     postsSeriesHeading: 'Series',
     postsSeriesSeriesPage: 'Página de la serie',
+    postsSeriesPartSingular: 'parte',
+    postsSeriesPartPlural: 'partes',
     noPostsYet: 'Aún no hay publicaciones.',
     noDraftsYet: 'Aún no hay borradores.',
     minRead: 'min de lectura',
@@ -290,6 +297,8 @@ const caDict: Dict = {
     viewSeries: 'Veure sèries',
     postsSeriesHeading: 'Sèries',
     postsSeriesSeriesPage: 'Pàgina de la sèrie',
+    postsSeriesPartSingular: 'part',
+    postsSeriesPartPlural: 'parts',
     noPostsYet: 'Encara no hi ha publicacions.',
     noDraftsYet: 'Encara no hi ha esborranys.',
     minRead: 'min de lectura',

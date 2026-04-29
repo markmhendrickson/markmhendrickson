@@ -19,9 +19,11 @@ Marty Cagan spent 2023 building the strongest case for PM value in a decade: fou
 
 Then he spent 2025-2026 redefining the PM as a prototyper, which is the one skill AI just commoditized.
 
-Two articles published in May 2025 say the opposite. One says "the PM role becomes more essential," while the other says anyone with product sense can fill it. They were published on the same site, only weeks apart.
+Two articles published in May 2025 established opposite cases. One says "the PM role becomes more essential," while the other says anyone with so-called "product sense" can fill it. They were published on the same site, only weeks apart.
 
-The argument he could have made was already in his own archive: when building gets cheap, building the wrong thing becomes the dominant cost. Integration failures are cross-dimensional: compliance nightmares, broken unit economics, and building something that requires a sales motion your team doesn't have. No prototype surfaces them alone.
+The argument he could have made was already in his own archive: when building gets cheap, building the wrong thing becomes the dominant cost.
+
+Integration failures are cross-dimensional: compliance nightmares, broken unit economics, and building something that requires a sales motion your team doesn't have. No prototype surfaces them alone.
 
 He had the standing and the audience to say that the coordinator PM is finally free, and now she becomes the integrator she was always supposed to be. Instead, the loudest message became "everyone is a builder now."
 
@@ -36,7 +38,7 @@ Full piece: the chronological case, what the pivot lost, and the version of the 
 https://markmhendrickson.com/posts/the-argument-cagan-already-won
 ```
 
-**Why this one:** Leads with Cagan's own best work before naming the contradiction — respects the audience (product people who revere INSPIRED/EMPOWERED) while delivering a specific, timestamped structural critique. The May 2025 "same month, opposite conclusions" detail is concrete and surprising. Closes on the question every PM and product leader is sitting with right now. Distinct from every recent batch (no agent memory, no Neotoma, no benchmarks, no founder postmortem).
+**Why this one:** Leads with Cagan's own best work before naming the contradiction — respects the audience (product people who revere INSPIRED/EMPOWERED) while delivering a specific, timestamped structural critique. The May 2025 "same site, opposite cases" framing is concrete and surprising. Closes on the question every PM and product leader is sitting with right now. Distinct from every recent batch (no agent memory, no Neotoma, no benchmarks, no founder postmortem).
 
 **Timezone:** 4-6 PM CEST = 10 AM-12 PM US Eastern. PM/product audience peaks mid-morning Eastern on weekdays.
 
@@ -44,7 +46,7 @@ https://markmhendrickson.com/posts/the-argument-cagan-already-won
 
 ## Shareable units extracted
 
-1. **Named contradiction (timestamped)** — Two Cagan articles published in May 2025 on the same site, only weeks apart, say the opposite about PM essentiality. Concrete, verifiable, and surprising.
+1. **Named contradiction (timestamped)** — Two Cagan articles published in May 2025 on the same site, only weeks apart, established opposite cases about PM essentiality versus so-called "product sense" as sufficient. Concrete, verifiable, and surprising.
 2. **Insider phrase (commoditized skill)** — "He risked defining the PM role around the skill that just got commoditized, while underemphasizing the skills that just became scarce."
 3. **Insider phrase (hats)** — "A person can wear the PM hat and the builder hat. That doesn't make them the same hat."
 4. **Insider phrase (dominant cost)** — "When the cost of building drops, the cost of building the wrong thing becomes the dominant cost."

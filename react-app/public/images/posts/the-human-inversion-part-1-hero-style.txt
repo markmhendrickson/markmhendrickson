@@ -1,1 +1,1 @@
-keep-proportions
+Bridge with hollow middle — two solid towers connected by a dashed wireframe span. Blueprint style, white lines on dark navy.

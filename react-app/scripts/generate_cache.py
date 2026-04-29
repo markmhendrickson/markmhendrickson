@@ -222,6 +222,23 @@ def overlay_body_from_markdown(metadata_list: List[Dict[str, Any]]) -> None:
         sd = (frontmatter.get("series_description") or "").strip()
         if sd:
             meta["seriesDescription"] = sd
+        s_title = (frontmatter.get("series") or "").strip()
+        if s_title:
+            meta["series"] = s_title
+        s_slug_fm = (
+            (frontmatter.get("series_slug") or frontmatter.get("seriesslug") or "").strip()
+        )
+        if s_slug_fm:
+            meta["seriesSlug"] = s_slug_fm
+        for fm_key, out_key in (
+            ("series_part", "seriesPart"),
+            ("seriespart", "seriesPart"),
+            ("series_total", "seriesTotal"),
+            ("seriestotal", "seriesTotal"),
+        ):
+            raw = (frontmatter.get(fm_key) or "").strip()
+            if raw.isdigit():
+                meta[out_key] = int(raw)
         pd = (
             frontmatter.get("published_date")
             or frontmatter.get("publisheddate")
@@ -575,6 +592,19 @@ def convert_post_to_metadata(post: Dict[str, Any], include_body: bool, include_s
     series_desc = post.get("series_description") or post.get("seriesDescription")
     if series_desc and str(series_desc).strip():
         metadata["seriesDescription"] = str(series_desc).strip()
+
+    s = post.get("series")
+    if s and str(s).strip():
+        metadata["series"] = str(s).strip()
+    ss = post.get("series_slug") or post.get("seriesSlug")
+    if ss and str(ss).strip():
+        metadata["seriesSlug"] = str(ss).strip()
+    sp = post.get("series_part") if post.get("series_part") is not None else post.get("seriesPart")
+    if sp is not None and str(sp).strip().isdigit():
+        metadata["seriesPart"] = int(str(sp).strip())
+    st = post.get("series_total") if post.get("series_total") is not None else post.get("seriesTotal")
+    if st is not None and str(st).strip().isdigit():
+        metadata["seriesTotal"] = int(str(st).strip())
 
     return metadata
 
