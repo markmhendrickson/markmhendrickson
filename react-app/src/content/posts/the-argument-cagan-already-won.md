@@ -62,7 +62,7 @@ Where the newer rhetoric goes wrong is in collapsing the role definition toward 
 
 The argument practically writes itself, and it's already latent in Cagan's own work.
 
-When the cost of building drops, the cost of building the wrong thing becomes the dominant cost. And "the wrong thing" is almost never wrong on a single dimension. It's wrong because it solves a real problem in a way that creates a compliance nightmare, or it delights users but destroys unit economics, or it's technically elegant but doesn't fit the sales motion, or it's exactly what customers say they want but cannibalizes the most profitable product line.
+When the cost of building drops, the cost of building the wrong thing becomes the dominant cost. And "the wrong thing" is almost never wrong on a single dimension. It's wrong because it solves a real problem in a way that creates a compliance nightmare, or it delights users but destroys unit economics, or it's technically elegant but doesn't fit the sales motion, or it's exactly what customers say they want but requires a sales motion your team doesn't have and can't build in time.
 
 Those are integration failures, not prototyping failures. They are cross-disciplinary tensions that live in the relationships *between* the dimensions, not in any single one. Prototypes will not surface those tensions by themselves.
 
