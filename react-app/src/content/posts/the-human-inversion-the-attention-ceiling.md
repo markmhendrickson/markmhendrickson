@@ -1,6 +1,6 @@
 ---
 title: "The Human Inversion: The Attention Ceiling"
-excerpt: 'Startup hiring advice fights over speed: hire slow versus hire ahead of the curve. Both assumed hiring tracks execution backlog. When execution is AI-assisted, the binding constraint is different: one human''s attention on what goes into models and what comes out of them.'
+excerpt: "Startup hiring advice fights over speed: hire slow versus hire ahead of the curve. Both assumed hiring tracks execution backlog. When execution is AI-assisted, the binding constraint is different: one human's attention on what goes into models and what comes out of them."
 published: true
 publishedDate: '2026-04-24'
 category: "AI"

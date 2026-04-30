@@ -242,7 +242,7 @@ export default function Posts({ draft = false }: PostsProps) {
       return a.title.localeCompare(b.title)
     })
     return bundles
-  }, [posts, draft])
+  }, [posts, draft, locale])
 
   const pageParam = searchParams.get('page')
   const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE))
@@ -463,7 +463,7 @@ export default function Posts({ draft = false }: PostsProps) {
                 0,
               )
               const partCountForLabel = Math.max(parts.length, maxDeclaredSeriesTotal)
-              const overviewRaw = getSeriesOverview(slug, byPart)
+              const overviewRaw = getSeriesOverview(slug, byPart, locale)
               const description = overviewRaw ? seriesOverviewTextForProse(overviewRaw) : undefined
               const thumbBasename = seriesSeriesHeroBasename(slug)
               const thumbSrc = getPostImageSrc(thumbBasename)

@@ -126,7 +126,7 @@ export default function SeriesIndex() {
               })[0]
             : undefined
 
-        const overviewRaw = getSeriesOverview(slug, sortedPosts)
+        const overviewRaw = getSeriesOverview(slug, sortedPosts, locale)
         const listThumbBasename =
           sortedPosts.length > 0 ? seriesSeriesHeroBasename(slug) : undefined
         const totalReadMinutes = sortedPosts.reduce((acc, p) => {
@@ -156,7 +156,7 @@ export default function SeriesIndex() {
         if (tB !== tA) return tB - tA
         return a.title.localeCompare(b.title)
       })
-  }, [allPosts])
+  }, [allPosts, locale])
 
   const draftCount = useMemo(
     () => allPosts.filter((post) => !isPublishedPost(post)).length,
@@ -173,7 +173,7 @@ export default function SeriesIndex() {
 
   const seriesTitle = seriesPosts[0]?.series ?? seriesSlug ?? ''
   const seriesOverviewRaw =
-    seriesSlug && seriesPosts.length > 0 ? getSeriesOverview(seriesSlug, seriesPosts) : undefined
+    seriesSlug && seriesPosts.length > 0 ? getSeriesOverview(seriesSlug, seriesPosts, locale) : undefined
   const seriesDescription = seriesOverviewRaw ? seriesOverviewTextForProse(seriesOverviewRaw) : undefined
   const total = seriesPosts.length
 
@@ -522,11 +522,13 @@ export default function SeriesIndex() {
             )}
             {seriesHeroSrc && (
               <div className="mt-6 w-full border-b border-border pb-8 mb-8">
-                <img
-                  src={seriesHeroSrc}
-                  alt={`${seriesTitle} — series illustration`}
-                  className="w-full max-h-[70vh] h-auto object-contain rounded dark:border dark:border-border"
-                />
+                <div className="w-full aspect-square md:aspect-auto">
+                  <img
+                    src={seriesHeroSrc}
+                    alt={`${seriesTitle} — series illustration`}
+                    className="w-full h-full max-h-none object-cover rounded dark:border dark:border-border md:h-auto md:max-h-[70vh] md:object-contain"
+                  />
+                </div>
               </div>
             )}
           </div>

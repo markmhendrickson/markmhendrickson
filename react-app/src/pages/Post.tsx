@@ -41,7 +41,14 @@ import privatePostsJson from '@cache/posts.private.json'
 import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
 import { trackUmamiEvent } from '@/lib/umami'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { buildSeriesOrderedPartSlugs } from '@/lib/resolveSeriesSlug'
+import {
+  buildSeriesOrderedPartSlugs,
+  isSeriesPartForPostsIndex,
+  resolveSeriesSlug,
+} from '@/lib/resolveSeriesSlug'
+import { seriesSeriesHeroBasename } from '@/lib/seriesListThumb'
+import { getSeriesOverview } from '@/lib/seriesOverview'
+import { seriesOverviewTextForProse } from '@/components/SeriesOverviewProse'
 
 /** X (formerly Twitter) logo for share button. */
 function XLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
@@ -504,6 +511,17 @@ interface Post {
   /** Total parts in the series */
   seriesTotal?: number
 }
+
+type LatestFeaturedItem =
+  | { type: 'post'; post: Post }
+  | {
+      type: 'series'
+      slug: string
+      title: string
+      excerpt?: string
+      imageBasename?: string
+      latestDate?: string
+    }
 
 /** Share bar: common platforms + content strategy targets (Bluesky, Mastodon, X, LinkedIn, Facebook, HN, Reddit, Email, Copy link). */
 function PostShareBar({
@@ -1291,14 +1309,67 @@ export default function Post({ slug: slugProp }: PostProps) {
     [publicPostsData]
   )
 
+  /** Regular article navigation excludes series parts; series parts have their own within-series footer. */
+  const standalonePublishedOnly = useMemo(
+    () => publishedOnly.filter((p) => !isSeriesPartForPostsIndex(p)),
+    [publishedOnly],
+  )
+
   const latestPost = useMemo(() => {
-    const list = publishedOnly.filter((p) => p.slug !== (resolvedCanonicalSlug ?? ''))
+    const list = standalonePublishedOnly.filter((p) => p.slug !== (resolvedCanonicalSlug ?? ''))
     return list[0] ?? null
-  }, [publishedOnly, resolvedCanonicalSlug])
+  }, [standalonePublishedOnly, resolvedCanonicalSlug])
+
+  const latestSeries = useMemo(() => {
+    const grouped = new Map<string, Post[]>()
+    for (const candidate of publishedOnly) {
+      const sSlug = resolveSeriesSlug(candidate)
+      if (!sSlug || !candidate.series?.trim()) continue
+      const list = grouped.get(sSlug) ?? []
+      list.push(candidate)
+      grouped.set(sSlug, list)
+    }
+
+    const seriesItems = Array.from(grouped.entries()).map(([sSlug, parts]) => {
+      const partsByPart = [...parts].sort((a, b) => (a.seriesPart ?? 0) - (b.seriesPart ?? 0))
+      const partsByDate = [...parts].sort(publishedListOrder)
+      const title = parts.find((p) => p.series?.trim())?.series?.trim() ?? sSlug
+      const overviewRaw = getSeriesOverview(sSlug, partsByPart, locale)
+      return {
+        slug: sSlug,
+        title,
+        excerpt: overviewRaw ? seriesOverviewTextForProse(overviewRaw) : partsByDate[0]?.excerpt,
+        imageBasename: seriesSeriesHeroBasename(sSlug),
+        latestDate: partsByDate[0]?.publishedDate,
+      }
+    })
+
+    seriesItems.sort((a, b) => {
+      const tA = a.latestDate ? parseCalendarOrIsoDateString(a.latestDate).getTime() : 0
+      const tB = b.latestDate ? parseCalendarOrIsoDateString(b.latestDate).getTime() : 0
+      if (tB !== tA) return tB - tA
+      return a.title.localeCompare(b.title)
+    })
+
+    return seriesItems[0] ?? null
+  }, [publishedOnly, locale])
+
+  const latestFeaturedItem = useMemo<LatestFeaturedItem | null>(() => {
+    if (!latestPost) return latestSeries ? { type: 'series', ...latestSeries } : null
+    if (!latestSeries?.latestDate) return { type: 'post', post: latestPost }
+
+    const postTime = latestPost.publishedDate
+      ? parseCalendarOrIsoDateString(latestPost.publishedDate).getTime()
+      : 0
+    const seriesTime = parseCalendarOrIsoDateString(latestSeries.latestDate).getTime()
+    return seriesTime >= postTime
+      ? { type: 'series', ...latestSeries }
+      : { type: 'post', post: latestPost }
+  }, [latestPost, latestSeries])
 
   const { prevPost, prevPost2, nextPost } = useMemo(() => {
     const seen = new Set<string>()
-    const list = publishedOnly.filter((p) => {
+    const list = standalonePublishedOnly.filter((p) => {
       if (seen.has(p.slug)) return false
       seen.add(p.slug)
       return true
@@ -1316,7 +1387,7 @@ export default function Post({ slug: slugProp }: PostProps) {
       prevPost2: list[idx + 2] ?? null,
       nextPost: list[idx - 1] ?? null,
     }
-  }, [publishedOnly, resolvedCanonicalSlug])
+  }, [standalonePublishedOnly, resolvedCanonicalSlug])
 
   useEffect(() => {
     let isCancelled = false
@@ -1680,21 +1751,39 @@ export default function Post({ slug: slugProp }: PostProps) {
       </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8 overflow-x-hidden">
       <div className="max-w-[600px] w-full">
-        {isHome && latestPost && (
+        {isHome && latestFeaturedItem && (
           <Link
-            to={localizePath(`/posts/${latestPost.slug}`, locale)}
+            to={localizePath(
+              latestFeaturedItem.type === 'series'
+                ? `/posts/series/${latestFeaturedItem.slug}`
+                : `/posts/${latestFeaturedItem.post.slug}`,
+              locale,
+            )}
             className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
           >
             <Alert className="mb-8 flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
-              {(latestPost.heroImage || latestPost.ogImage || latestPost.tweetMetadata?.images?.[0]) && (
+              {latestFeaturedItem.type === 'series' ? (
                 <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
                   <img
-                    src={getPostImageSrc(latestPost.heroImageSquare ?? latestPost.heroImage ?? latestPost.ogImage ?? latestPost.tweetMetadata?.images?.[0] ?? '')}
-                    alt={stripSeriesPrefixFromTitle(latestPost.title || '', latestPost.series) || ''}
+                    src={getPostImageSrc(latestFeaturedItem.imageBasename ?? '')}
+                    alt={latestFeaturedItem.title}
                     className="min-w-0 min-h-0 w-full h-full object-cover object-center"
                     style={{ objectPosition: 'center center' }}
                   />
                 </div>
+              ) : (
+                (latestFeaturedItem.post.heroImage ||
+                  latestFeaturedItem.post.ogImage ||
+                  latestFeaturedItem.post.tweetMetadata?.images?.[0]) && (
+                  <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
+                    <img
+                      src={getPostImageSrc(latestFeaturedItem.post.heroImageSquare ?? latestFeaturedItem.post.heroImage ?? latestFeaturedItem.post.ogImage ?? latestFeaturedItem.post.tweetMetadata?.images?.[0] ?? '')}
+                      alt={stripSeriesPrefixFromTitle(latestFeaturedItem.post.title || '', latestFeaturedItem.post.series) || ''}
+                      className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                      style={{ objectPosition: 'center center' }}
+                    />
+                  </div>
+                )
               )}
               <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
                 <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
@@ -1702,13 +1791,21 @@ export default function Post({ slug: slugProp }: PostProps) {
                 </AlertTitle>
                 <AlertDescription className="py-px">
                   <span className="font-medium text-foreground">
-                    {latestPost.category === 'tweet'
-                      ? (latestPost.body ?? '').slice(0, 80) + ((latestPost.body ?? '').length > 80 ? '…' : '')
-                      : stripSeriesPrefixFromTitle(latestPost.title, latestPost.series)}
+                    {latestFeaturedItem.type === 'series'
+                      ? latestFeaturedItem.title
+                      : latestFeaturedItem.post.category === 'tweet'
+                        ? (latestFeaturedItem.post.body ?? '').slice(0, 80) + ((latestFeaturedItem.post.body ?? '').length > 80 ? '…' : '')
+                        : stripSeriesPrefixFromTitle(latestFeaturedItem.post.title, latestFeaturedItem.post.series)}
                   </span>
-                  {latestPost.excerpt && (
+                  {(latestFeaturedItem.type === 'series'
+                    ? latestFeaturedItem.excerpt
+                    : latestFeaturedItem.post.excerpt) && (
                     <p className="mt-1 text-sm text-muted-foreground">
-                      {stripLinksFromExcerpt(latestPost.excerpt)}
+                      {stripLinksFromExcerpt(
+                        latestFeaturedItem.type === 'series'
+                          ? latestFeaturedItem.excerpt ?? ''
+                          : latestFeaturedItem.post.excerpt ?? '',
+                      )}
                     </p>
                   )}
                   <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
