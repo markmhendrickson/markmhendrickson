@@ -44,6 +44,9 @@ LOCALE_TO_MYMEMORY_LANG = {
 }
 TRANSLATABLE_FIELDS = ("title", "excerpt", "summary", "body", "postscript")
 
+# Re-written every CI run; must not drop hand-curated keys (series chrome, share copy).
+PRESERVE_FROM_PRIOR = ("series", "seriesDescription", "shareDescription")
+
 
 def _fix_markdown_link_spacing(text: str) -> str:
     """MT often inserts space before '(' so '] (' breaks links; normalize to ']('."""
@@ -171,6 +174,9 @@ def main() -> None:
                 entry["slug"] = prior.get("slug")
             if isinstance(prior.get("alternativeSlugs"), list):
                 entry["alternativeSlugs"] = prior.get("alternativeSlugs")
+            for key in PRESERVE_FROM_PRIOR:
+                if prior.get(key):
+                    entry[key] = prior[key]
 
             output[slug] = entry
 
