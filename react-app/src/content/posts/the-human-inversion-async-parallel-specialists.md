@@ -2,7 +2,7 @@
 title: "The Human Inversion: Async Parallel Specialists"
 excerpt: 'Specialists at the ends produce deep artifacts in their own vocabularies; the old org used the execution middle to translate in real time. AI can sit between domains as an async translation layer—replacing most operational meetings, if the underlying artifacts stay trustworthy.'
 published: true
-publishedDate: '2026-04-25'
+publishedDate: '2026-04-29'
 category: "AI"
 tags: ["ai", "software development", "teams", "meetings", "async", "organization", "the human inversion"]
 heroImage: "the-human-inversion-part-3-hero.png"

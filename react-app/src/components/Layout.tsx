@@ -46,6 +46,10 @@ export function Layout({ children }: LayoutProps) {
   const [postTitle, setPostTitle] = useState<string | null>(null)
   const [postSeriesInfo, setPostSeriesInfo] = useState<{ name: string; slug: string } | null>(null)
   const isHome = location.pathname === localizePath('/', locale)
+  const currentSeriesTitle =
+    params.seriesSlug
+      ? publicPostsData.find((post) => resolveSeriesSlug(post) === params.seriesSlug && post.series?.trim())?.series ?? null
+      : null
 
   // Load post title + series if we're on a post page (resolve primary or alternative slug).
   // In dev, also resolve from private cache so draft post titles show in the breadcrumb.
@@ -84,6 +88,9 @@ export function Layout({ children }: LayoutProps) {
     if (params.slug && postTitle) {
       return postTitle
     }
+    if (params.seriesSlug && currentSeriesTitle) {
+      return currentSeriesTitle
+    }
     return null
   }
 
@@ -99,6 +106,7 @@ export function Layout({ children }: LayoutProps) {
 
   const routeNames: Record<string, string> = {
     'posts': t.navPosts,
+    'series': t.postsSeriesHeading,
     'draft': t.drafts,
     'timeline': t.navTimeline,
     'newsletter': t.newsletter,

@@ -2,7 +2,7 @@
 title: "The Human Inversion: The Reconciler and the Rubric"
 excerpt: 'Async specialists can each be right inside their own domain and still ship something incoherent across domains. Some role has to reconcile cross-disciplinary conflict against explicit commitments rather than hallway consensus, and that work needs durable write integrity instead of team lore or vibes.'
 published: true
-publishedDate: '2026-04-26'
+publishedDate: '2026-04-29'
 category: "AI"
 tags: ["ai", "software development", "teams", "organization", "decision making", "the human inversion"]
 heroImage: "the-human-inversion-part-4-hero.png"

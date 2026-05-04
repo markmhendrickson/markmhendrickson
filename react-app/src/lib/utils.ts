@@ -72,6 +72,13 @@ export function stripMarkdownBold(markdown: string): string {
  * When `title` begins with `{series}: ` (exact series label from metadata), return the rest.
  * Avoids repeating the series name in part titles (e.g. "The Inversion" instead of "The Human Inversion: The Inversion").
  */
+function capitalizeStandaloneTitle(title: string): string {
+  return title.replace(
+    /^(\s*["'“‘(\[]?)(\p{Ll})/u,
+    (_, prefix: string, firstLetter: string) => `${prefix}${firstLetter.toLocaleUpperCase()}`,
+  )
+}
+
 export function stripSeriesPrefixFromTitle(
   title: string,
   series: string | undefined | null,
@@ -83,7 +90,7 @@ export function stripSeriesPrefixFromTitle(
   const prefix = `${s}: `
   if (!title.startsWith(prefix)) return title
   const rest = title.slice(prefix.length).trim()
-  return rest || title
+  return rest ? capitalizeStandaloneTitle(rest) : title
 }
 
 /** Parse YAML frontmatter (---\n...\n---\n) from markdown; return { title?, excerpt? } for display overrides in dev. */
@@ -163,7 +170,8 @@ export function normalizeMarkdownFormatting(markdown: string): string {
   return s.replace(/\]\s+\(/g, '](')
 }
 
-const KEY_TAKEAWAYS_HEADING_LINE_RE = /^##\s+Key\s+takeaways\s*$/i
+const KEY_TAKEAWAYS_HEADING_LINE_RE =
+  /^##\s+(?:Key\s+takeaways|Conclusiones\s+clave|Mencions\s+clau\s+per\s+emportar|要点|मुख्य\s+बातें|الوجبات\s+الرئيسية|Points\s+clés\s+à\s+retenir|Principais\s+conclusões|Ключевые\s+выводы|মূল\s+উপায়|اہم\s+نکات|Poin-poin\s+penting|Wichtige\s+Erkenntnisse)\s*$/i
 const MARKDOWN_LIST_ITEM_RE = /^[\t ]*([-*+]|\d+\.)\s/
 
 /**
@@ -240,12 +248,18 @@ export function stripRedundantThematicBreaks(markdown: string): string {
 export function stripSeriesMarkdownBookends(markdown: string): string {
   if (!markdown || typeof markdown !== 'string') return markdown
   let s = markdown
+  // Localized bodies translate the surrounding text but keep the canonical series URL.
+  // Drop the whole italic prelude rather than trying to enumerate every language.
+  s = s.replace(/^\*[^*\n]*\]\(\/posts\/series\/[^)]+\)[^*\n]*\*\s*\n+/im, '')
   s = s.replace(
     /^\*Part\s+\d+\s+of\s+\d+\s+in\s+\[[^\]]+\]\(\/posts\/series\/[^)]+\)\s+series\.[^\n]*\*\s*\n+/im,
     '',
   )
+  s = s.replace(/^\s*---\s*\n+/, '')
   s = s.replace(/\n+\*(?:Continue reading|Read the full series):[^\n]*\*\s*$/i, '')
   s = s.replace(/\n---\s*\n+\*(?:Continue reading|Read the full series):[^\n]*\*\s*$/i, '')
+  s = s.replace(/\n---\s*\n+\*[^*\n]*\]\(\/posts\/[^)]+\)[^*\n]*\*\s*$/i, '')
+  s = s.replace(/\n+\*[^*\n]*\]\(\/posts\/[^)]+\)[^*\n]*\*\s*$/i, '')
   return s.replace(/\n{3,}/g, '\n\n').trim()
 }
 

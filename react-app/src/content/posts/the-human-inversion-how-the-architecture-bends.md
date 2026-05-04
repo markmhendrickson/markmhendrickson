@@ -2,7 +2,7 @@
 title: 'The Human Inversion: How the Architecture Bends'
 excerpt: 'Humans at the ends, AI in the middle is a clean diagram. Real teams are not clean diagrams. Generalist surfaces, hybrid roles, hardware timelines, and catastrophic-blast partitions each shift where weight sits, without changing whether the ends carry it.'
 published: true
-publishedDate: '2026-04-27'
+publishedDate: '2026-04-29'
 category: AI
 tags:
 - ai

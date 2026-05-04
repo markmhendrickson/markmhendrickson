@@ -44,7 +44,7 @@ export default function SeriesNav({ post, locale, orderedSeriesSlugs }: SeriesNa
         </Link>
         <span className="text-muted-foreground">·</span>
         <span className="text-muted-foreground">
-          Part {seriesPart} of {total}
+          {seriesPart} / {total}
         </span>
       </div>
 
@@ -58,7 +58,7 @@ export default function SeriesNav({ post, locale, orderedSeriesSlugs }: SeriesNa
               <Link
                 key={partSlug}
                 to={localizePath(`/posts/${partSlug}`, locale)}
-                aria-label={`Part ${part}${isCurrent ? ' (current)' : ''}`}
+                aria-label={`${part} / ${total}${isCurrent ? ' current' : ''}`}
                 aria-current={isCurrent ? 'page' : undefined}
                 className={cn(
                   'inline-flex h-7 min-w-[28px] items-center justify-center rounded-full px-2.5 text-xs font-medium transition-colors',
@@ -81,14 +81,14 @@ export default function SeriesNav({ post, locale, orderedSeriesSlugs }: SeriesNa
               to={localizePath(`/posts/${slugForPart(seriesPart - 1)}`, locale)}
               className="text-muted-foreground hover:text-foreground hover:underline"
             >
-              ← Part {seriesPart - 1}
+              ← {seriesPart - 1}
             </Link>
           )}
           <Link
             to={localizePath(`/posts/${slugForPart(seriesPart + 1)}`, locale)}
             className="text-muted-foreground hover:text-foreground hover:underline"
           >
-            Part {seriesPart + 1} →
+            {seriesPart + 1} →
           </Link>
         </div>
       )}

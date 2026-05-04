@@ -96,6 +96,7 @@ export default function SeriesIndex() {
       .filter(
         (p) =>
           resolveSeriesSlug(p) === seriesSlug &&
+          Boolean(p.series?.trim()) &&
           (isPublishedPost(p) || isDev),
       )
       .sort((a, b) => (a.seriesPart ?? 0) - (b.seriesPart ?? 0))
@@ -249,7 +250,7 @@ export default function SeriesIndex() {
                 to={localizePath('/posts', locale)}
                 className="text-sm text-muted-foreground hover:text-foreground hover:underline inline-block"
               >
-                ← All posts
+                ← {t.navPosts}
               </Link>
               {isDev && (
                 <Link
@@ -506,14 +507,14 @@ export default function SeriesIndex() {
             to={localizePath('/posts', locale)}
             className="text-sm text-muted-foreground hover:text-foreground hover:underline mb-6 inline-block"
           >
-            ← All posts
+            ← {t.navPosts}
           </Link>
 
           {/* Series header — bottom margin on block when no hero; hero block carries border + margin like post hero + section break */}
           <div className={seriesHeroSrc ? undefined : 'mb-8'}>
             <div className="flex items-center gap-2 mb-3">
               <span className="inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-                {total}-part series
+                {total} {total === 1 ? t.postsSeriesPartSingular : t.postsSeriesPartPlural}
               </span>
             </div>
             <h1 className="text-[28px] font-medium tracking-tight mb-3">{seriesTitle}</h1>
@@ -575,7 +576,7 @@ export default function SeriesIndex() {
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
                       {post.seriesPart != null && post.seriesTotal != null && (
                         <span className="inline-flex shrink-0 items-center rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
-                          Part {post.seriesPart} of {post.seriesTotal}
+                          {post.seriesPart} / {post.seriesTotal}
                         </span>
                       )}
                       {isParsablePublishedDate(post.publishedDate) && (

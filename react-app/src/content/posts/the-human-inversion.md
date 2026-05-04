@@ -2,7 +2,7 @@
 title: "The Human Inversion: The Inversion"
 excerpt: 'Software teams used to spend most of their time in execution—the middle between foundation and review. As that middle gets absorbed by capable AI, human leverage shifts to the ends: sharper standards upstream and denser judgment downstream. That is structurally positive—but emotionally hard for people whose craft lived in the middle.'
 published: true
-publishedDate: '2026-04-23'
+publishedDate: '2026-04-29'
 category: "AI"
 tags: ["ai", "software development", "teams", "organization", "the human inversion"]
 heroImage: "the-human-inversion-part-1-hero.png"

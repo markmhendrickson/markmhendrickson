@@ -1255,7 +1255,7 @@
   {
     "slug": "the-human-inversion",
     "published": true,
-    "publishedDate": "2026-04-23",
+    "publishedDate": "2026-04-29",
     "title": "The Human Inversion: The Inversion",
     "excerpt": "Software teams used to spend most of their time in execution—the middle between foundation and review. As that middle gets absorbed by capable AI, human leverage shifts to the ends: sharper standards upstream and denser judgment downstream. That is structurally positive—but emotionally hard for people whose craft lived in the middle.",
     "category": "AI",
@@ -1271,13 +1271,13 @@
     "heroImageSquare": "the-human-inversion-part-1-hero-square.png",
     "heroImageStyle": "keep-proportions",
     "ogImage": "the-human-inversion-part-1-hero-og.png",
-    "createdDate": "2026-04-23",
-    "updatedDate": "2026-04-23"
+    "createdDate": "2026-04-29",
+    "updatedDate": "2026-04-29"
   },
   {
     "slug": "the-human-inversion-the-attention-ceiling",
     "published": true,
-    "publishedDate": "2026-04-24",
+    "publishedDate": "2026-04-29",
     "title": "The Human Inversion: The Attention Ceiling",
     "excerpt": "Startup hiring advice fights over speed: hire slow versus hire ahead of the curve. Both assumed hiring tracks execution backlog. When execution is AI-assisted, the binding constraint is different: one human's attention on what goes into models and what comes out of them.",
     "category": "AI",
@@ -1294,13 +1294,13 @@
     "heroImageSquare": "the-human-inversion-part-2-hero-square.png",
     "heroImageStyle": "keep-proportions",
     "ogImage": "the-human-inversion-part-2-hero-og.png",
-    "createdDate": "2026-04-24",
-    "updatedDate": "2026-04-24"
+    "createdDate": "2026-04-29",
+    "updatedDate": "2026-04-29"
   },
   {
     "slug": "the-human-inversion-async-parallel-specialists",
     "published": true,
-    "publishedDate": "2026-04-25",
+    "publishedDate": "2026-04-29",
     "title": "The Human Inversion: Async Parallel Specialists",
     "excerpt": "Specialists at the ends produce deep artifacts in their own vocabularies; the old org used the execution middle to translate in real time. AI can sit between domains as an async translation layer—replacing most operational meetings, if the underlying artifacts stay trustworthy.",
     "category": "AI",
@@ -1318,13 +1318,13 @@
     "heroImageSquare": "the-human-inversion-part-3-hero-square.png",
     "heroImageStyle": "keep-proportions",
     "ogImage": "the-human-inversion-part-3-hero-og.png",
-    "createdDate": "2026-04-25",
-    "updatedDate": "2026-04-25"
+    "createdDate": "2026-04-29",
+    "updatedDate": "2026-04-29"
   },
   {
     "slug": "the-human-inversion-the-reconciler-and-the-rubric",
     "published": true,
-    "publishedDate": "2026-04-26",
+    "publishedDate": "2026-04-29",
     "title": "The Human Inversion: The Reconciler and the Rubric",
     "excerpt": "Async specialists can each be right inside their own domain and still ship something incoherent across domains. Some role has to reconcile cross-disciplinary conflict against explicit commitments rather than hallway consensus, and that work needs durable write integrity instead of team lore or vibes.",
     "category": "AI",
@@ -1341,13 +1341,13 @@
     "heroImageSquare": "the-human-inversion-part-4-hero-square.png",
     "heroImageStyle": "keep-proportions",
     "ogImage": "the-human-inversion-part-4-hero-og.png",
-    "createdDate": "2026-04-26",
-    "updatedDate": "2026-04-26"
+    "createdDate": "2026-04-29",
+    "updatedDate": "2026-04-29"
   },
   {
     "slug": "the-human-inversion-how-the-architecture-bends",
     "published": true,
-    "publishedDate": "2026-04-27",
+    "publishedDate": "2026-04-29",
     "title": "The Human Inversion: How the Architecture Bends",
     "excerpt": "Humans at the ends, AI in the middle is a clean diagram. Real teams are not clean diagrams. Generalist surfaces, hybrid roles, hardware timelines, and catastrophic-blast partitions each shift where weight sits, without changing whether the ends carry it.",
     "category": "AI",
@@ -1366,7 +1366,7 @@
     "heroImageSquare": "the-human-inversion-part-5-hero-square.png",
     "heroImageStyle": "keep-proportions",
     "ogImage": "the-human-inversion-part-5-hero-og.png",
-    "createdDate": "2026-04-27",
-    "updatedDate": "2026-04-27"
+    "createdDate": "2026-04-29",
+    "updatedDate": "2026-04-29"
   }
 ]

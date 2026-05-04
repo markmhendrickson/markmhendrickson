@@ -5,8 +5,43 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>The Human Inversion: The Inversion</title>
+    <link>https://markmhendrickson.com/posts/the-human-inversion</link>
+    <description>Software teams used to spend most of their time in execution—the middle between foundation and review. As that middle gets absorbed by capable AI, human leverage shifts to the ends: sharper standards upstream and denser judgment downstream. That is structurally positive—but emotionally hard for people whose craft lived in the middle.</description>
+    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion</guid>
+  </item>
+  <item>
+    <title>The Human Inversion: Async Parallel Specialists</title>
+    <link>https://markmhendrickson.com/posts/the-human-inversion-async-parallel-specialists</link>
+    <description>Specialists at the ends produce deep artifacts in their own vocabularies; the old org used the execution middle to translate in real time. AI can sit between domains as an async translation layer—replacing most operational meetings, if the underlying artifacts stay trustworthy.</description>
+    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-async-parallel-specialists</guid>
+  </item>
+  <item>
+    <title>The Human Inversion: How the Architecture Bends</title>
+    <link>https://markmhendrickson.com/posts/the-human-inversion-how-the-architecture-bends</link>
+    <description>Humans at the ends, AI in the middle is a clean diagram. Real teams are not clean diagrams. Generalist surfaces, hybrid roles, hardware timelines, and catastrophic-blast partitions each shift where weight sits, without changing whether the ends carry it.</description>
+    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-how-the-architecture-bends</guid>
+  </item>
+  <item>
+    <title>The Human Inversion: The Attention Ceiling</title>
+    <link>https://markmhendrickson.com/posts/the-human-inversion-the-attention-ceiling</link>
+    <description>Startup hiring advice fights over speed: hire slow versus hire ahead of the curve. Both assumed hiring tracks execution backlog. When execution is AI-assisted, the binding constraint is different: one human&apos;s attention on what goes into models and what comes out of them.</description>
+    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-the-attention-ceiling</guid>
+  </item>
+  <item>
+    <title>The Human Inversion: The Reconciler and the Rubric</title>
+    <link>https://markmhendrickson.com/posts/the-human-inversion-the-reconciler-and-the-rubric</link>
+    <description>Async specialists can each be right inside their own domain and still ship something incoherent across domains. Some role has to reconcile cross-disciplinary conflict against explicit commitments rather than hallway consensus, and that work needs durable write integrity instead of team lore or vibes.</description>
+    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-the-reconciler-and-the-rubric</guid>
+  </item>
   <item>
     <title>Your agent fleet can build trustworthy state with their own keys</title>
     <link>https://markmhendrickson.com/posts/know-which-of-your-agents-wrote-what</link>
@@ -22,46 +57,11 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-argument-cagan-already-won</guid>
   </item>
   <item>
-    <title>The Human Inversion: How the Architecture Bends</title>
-    <link>https://markmhendrickson.com/posts/the-human-inversion-how-the-architecture-bends</link>
-    <description>Humans at the ends, AI in the middle is a clean diagram. Real teams are not clean diagrams. Generalist surfaces, hybrid roles, hardware timelines, and catastrophic-blast partitions each shift where weight sits, without changing whether the ends carry it.</description>
-    <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-how-the-architecture-bends</guid>
-  </item>
-  <item>
     <title>Plancast wasn&apos;t early, it needed agents with a proper substrate and mesh</title>
     <link>https://markmhendrickson.com/posts/the-substrate-plancast-needed</link>
     <description>Fourteen years ago I wrote a postmortem for Plancast. Reading it again now, the failure modes weren&apos;t really about product mechanics; they were about missing personal AI agents, a proper substrate for them to write to, and a sovereign mesh between them. All three exist now, and the original mission becomes tractable in a way the feed era never could.</description>
     <pubDate>Mon, 27 Apr 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-substrate-plancast-needed</guid>
-  </item>
-  <item>
-    <title>The Human Inversion: The Reconciler and the Rubric</title>
-    <link>https://markmhendrickson.com/posts/the-human-inversion-the-reconciler-and-the-rubric</link>
-    <description>Async specialists can each be right inside their own domain and still ship something incoherent across domains. Some role has to reconcile cross-disciplinary conflict against explicit commitments rather than hallway consensus, and that work needs durable write integrity instead of team lore or vibes.</description>
-    <pubDate>Sun, 26 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-the-reconciler-and-the-rubric</guid>
-  </item>
-  <item>
-    <title>The Human Inversion: Async Parallel Specialists</title>
-    <link>https://markmhendrickson.com/posts/the-human-inversion-async-parallel-specialists</link>
-    <description>Specialists at the ends produce deep artifacts in their own vocabularies; the old org used the execution middle to translate in real time. AI can sit between domains as an async translation layer—replacing most operational meetings, if the underlying artifacts stay trustworthy.</description>
-    <pubDate>Sat, 25 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-async-parallel-specialists</guid>
-  </item>
-  <item>
-    <title>The Human Inversion: The Attention Ceiling</title>
-    <link>https://markmhendrickson.com/posts/the-human-inversion-the-attention-ceiling</link>
-    <description>Startup hiring advice fights over speed: hire slow versus hire ahead of the curve. Both assumed hiring tracks execution backlog. When execution is AI-assisted, the binding constraint is different: one human&apos;s attention on what goes into models and what comes out of them.</description>
-    <pubDate>Fri, 24 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-the-attention-ceiling</guid>
-  </item>
-  <item>
-    <title>The Human Inversion: The Inversion</title>
-    <link>https://markmhendrickson.com/posts/the-human-inversion</link>
-    <description>Software teams used to spend most of their time in execution—the middle between foundation and review. As that middle gets absorbed by capable AI, human leverage shifts to the ends: sharper standards upstream and denser judgment downstream. That is structurally positive—but emotionally hard for people whose craft lived in the middle.</description>
-    <pubDate>Thu, 23 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion</guid>
   </item>
   <item>
     <title>OpenClaw plugin for Neotoma gives your agent memory it can&apos;t corrupt</title>
