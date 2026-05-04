@@ -9,7 +9,7 @@ heroImage: "the-human-inversion-part-4-hero.png"
 heroImageSquare: "the-human-inversion-part-4-hero-square.png"
 ogImage: "the-human-inversion-part-4-hero-og.png"
 heroImageStyle: "keep-proportions"
-read_time: 10
+read_time: 12
 series: "The Human Inversion"
 seriesSlug: "the-human-inversion"
 seriesPart: 4
@@ -25,8 +25,10 @@ seriesTotal: 5
 - **Translation is not adjudication:** independently excellent foundations can still contradict at ship time.
 - A **reconciler** (often a senior cross-functional lead or founder) resolves tensions that no single specialist can settle alone.
 - A **rubric** is the written precedence order among competing goods (e.g., approachable vs. dense) so the same trade-off resolves the same way twice. It is not a values poster.
-- **Fuzzy executive commitments** are the cultural blocker; rubrics require uncomfortable specificity.
-- **Write integrity and stakes partitions:** append-only history, provenance, schema, cross-links, session replay, review prep, and attribution keep review trustworthy at agent-generated volume. On catastrophic-blast surfaces (bridge code, clinical paths, payments) that layer is mandatory, not optional.
+- **The rubric is built through practice, not before it.** Humans work alongside agents during execution, review surfaces tensions, the reconciler codifies patterns as precedent, and humans gradually withdraw from the middle as the rubric fills in.
+- **Review feeds foundation:** every review cycle that reveals a cross-disciplinary tension the rubric doesn't cover is a signal that the foundation has a gap. The reconciler closes the gap before the next cycle encounters it.
+- **Fuzzy executive commitments** are the cultural blocker; rubrics require uncomfortable specificity — but the specificity accumulates through adjudication, not from a blank page.
+- **Write integrity serves more than the rubric.** The rubric is the highest-stakes partition, but operational context (agent reasoning, session history, deployment state) also needs durable, auditable, queryable guarantees. Append-only history, provenance, schema, cross-links, session replay, review prep, and attribution keep review trustworthy at agent-generated volume. On catastrophic-blast surfaces (bridge code, clinical paths, payments) that layer is mandatory, not optional.
 
 [The previous post](/posts/the-human-inversion-async-parallel-specialists) argued that async parallel specialists can work without synchronous coordination meetings because AI sits between them as a translation layer. This post addresses the piece that translation alone can't solve: what happens when specialists produce work that's internally coherent but in tension with each other?
 
@@ -68,6 +70,20 @@ This is why most companies won't restructure around the inversion even when they
 
 This is the biggest shift. Not the meeting reduction. Not the tooling. Not the AI capability. The shift is writing down what you've previously kept in your head, and accepting that the document now governs rather than your judgment in the moment.
 
+## How the rubric gets built
+
+The framing so far risks sounding like waterfall: write the rubric, then restructure. In practice, nobody authors a rubric in a vacuum. The rubric is built through the process of working with agents, not prior to it.
+
+The practical sequence looks like this: a team starts using AI for execution while humans still participate actively alongside the agents. Early on, the human is doing more executing alongside the agent and more reviewing of the output. Tensions surface — the same kind described above, where independently coherent specialist work collides at the seams. The reconciler adjudicates each one on the spot, case by case. This is expensive, and it's supposed to be.
+
+What makes the cost productive rather than wasteful is what happens next. The reconciler notices that three adjudications over two weeks share a common shape: every time positioning says "approachable" and the design system says "dense," the team resolves it the same way. That pattern is now a rubric entry. Once codified, that class of tension resolves without the reconciler's involvement. The next execution cycle produces fewer tensions that require human adjudication, because more of the territory is governed.
+
+This is the difference between a constitution and case law. The rubric isn't authored top-down from first principles. It accumulates through adjudication. Each review cycle that surfaces a new tension is an input to the foundation. Each codified resolution means one fewer class of tension the reconciler has to handle next time. The rubric is the published digest of the team's accumulated precedent, growing denser as the team works rather than needing to be complete before the team can start.
+
+The human role shifts gradually over this process. Early: active execution alongside agents, heavy review, frequent adjudication, rapid rubric growth. Middle: less execution, structured review, adjudication mostly for genuinely novel tensions. Late: execution fully delegated, review focused on unverified surfaces and novel tension categories, rubric evolution as the primary foundational activity. The humans don't withdraw from the middle all at once. They withdraw as the rubric fills in — and the rubric fills in because the humans were in the middle paying attention to what the work was teaching them.
+
+This reframes the cultural blocker described above. The hard part isn't "sit down and write a constitutional document." The hard part is paying attention during execution and review, recognizing when an adjudication reveals a general commitment, and being willing to codify that commitment durably rather than letting it dissolve back into tacit judgment. The rubric doesn't require a retreat. It requires a reconciler who treats every tension as potential precedent.
+
 ## Write integrity
 
 There's an infrastructure requirement behind the rubric that isn't obvious until you try to operate one: the rubric needs write integrity.
@@ -80,6 +96,8 @@ Write integrity for a rubric means:
 - **Provenance on every change:** you know who made each change and why.
 - **Schema enforcement:** changes have to conform to a structure that makes them legible.
 - **Cross-referencing:** edits to one section surface their implications for other sections.
+
+The rubric is the highest-stakes artifact that needs this infrastructure, but it isn't the only one. Below the level of constitutional cross-disciplinary commitments, teams accumulate operational context that also needs integrity guarantees: the reasoning chains behind specific adjudications, the agent session histories that produced specific artifacts, the deployment state that determines what's actually running versus what was intended. This context doesn't rise to rubric-level formality — it doesn't need reconciler sign-off on every change — but it does need to be durable, auditable, and queryable. Without those properties, review degrades even when the rubric itself is healthy, because reviewers can't trace the path from commitment to artifact to deployed state. The write-integrity layer serves the rubric as its most constrained partition, but the same infrastructure needs to extend to the broader organizational state that agents and humans produce during execution and review.
 
 ## What write integrity produces
 
@@ -115,9 +133,13 @@ This isn't hypothetical. Crypto infrastructure maintainers report that HackerOne
 
 Without the structure, reconcilers spend most of their time firefighting: resolving tensions after they've compounded into product problems. With the structure, the job shifts upstream: authoring rubric entries for tension categories before they surface, evolving entries when new classes of tension appear, and retiring entries that no longer reflect the company's actual commitments.
 
+The reconciler's highest-leverage work is pattern recognition across review cycles. A single adjudication is an expense. A pattern recognized across three adjudications and codified as a rubric entry is an investment that eliminates a class of future expenses. The review end of the pipeline is the reconciler's primary sensor: it surfaces what the foundation didn't anticipate. Every review finding that reveals a cross-disciplinary tension the rubric doesn't cover is a signal that the foundation has a gap. The reconciler's job is to close that gap before the next execution cycle encounters it.
+
+This is the feedback loop that keeps the architecture from decaying. Foundation governs execution. Review audits the output. The reconciler reads the review findings, identifies the ones that reveal foundational gaps, and evolves the rubric. The updated rubric governs the next cycle. The loop tightens over time: each cycle produces fewer novel tensions because the rubric has absorbed more of the territory. The reconciler's adjudication load drops as the rubric's coverage grows — not because tensions disappear, but because more of them resolve against established precedent rather than requiring fresh judgment.
+
 The reconciler also notices when the rubric isn't governing. When specialists make decisions that should have triggered a rubric reference and didn't, the reconciler surfaces it. When two specialists reach different resolutions for similar tensions, the reconciler clarifies. When the rubric is producing consistent guidance that everyone hates because the underlying commitment was wrong, the reconciler opens the explicit process for revising it, which is different from just not following it.
 
-The reconciler is the human who holds the connection between foundational documents and operational decisions. Not by reviewing every decision, but by ensuring the system that connects them keeps working.
+The reconciler is the human who holds the connection between foundational documents and operational decisions. Not by reviewing every decision, but by ensuring the system that connects them keeps working — and by ensuring the system learns from its own output.
 
 ---
 
