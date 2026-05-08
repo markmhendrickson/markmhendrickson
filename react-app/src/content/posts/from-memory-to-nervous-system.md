@@ -41,7 +41,7 @@ The fix is straightforward in concept. After every write, the state layer emits 
 
 This is a standard primitive in systems that handle state at scale. PostgreSQL emits WAL entries and supports LISTEN/NOTIFY. Nobody claims PostgreSQL is "acting" when it does this. It provides observability into its own state transitions. A message broker like Kafka does the same thing at a different scale. The state system reports what happened. Downstream consumers filter, prioritize, and act. The reporting layer doesn't reason about the events. It fires and forgets.
 
-The biological analogy is precise. Sensory neurons report stimuli to the brain. They don't decide what to do about them. The nerve fiber transmits. The brain interprets and triggers a motor response. A state layer that signals is the nerve fiber. The agents that process those signals are the brain and the motor system.
+The biological analogy is useful here. A nervous system both stores and signals. The brain holds memory. Sensory neurons transmit awareness of what changed. Neither one decides to move a muscle. The motor system acts. A state layer that stores truth and signals changes is the brain and the sensory nerves. The agents that decide what to do about those signals are the motor system.
 
 ## The line that has to stay
 
