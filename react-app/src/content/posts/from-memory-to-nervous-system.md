@@ -53,13 +53,13 @@ What signaling is:
 
 - **Observation about state change, not action on state.** The substrate reports what changed. It doesn't evaluate whether the change is important.
 - **Fire-and-forget delivery.** If a consumer is unavailable, the substrate logs the failure. It does not retry with escalation, fall back to alternative actions, or alter its own behavior.
-- **A derived output of the write pipeline.** The existing pipeline is write, snapshot recomputation, timeline upsert. Event emission is one more entry in that sequence, the same way a snapshot is derived data from an observation.
+- **A derived output of the write pipeline.** The existing pipeline is write, snapshot recomputation, timeline upsert. Event emission is one more entry in that sequence, the same way a snapshot is derived data from an observation. It runs after the write transaction commits, not during. If the write fails, no event fires. If a delivery fails, the write still stands. The signal trails the truth; it never gates it.
 
 What signaling is not:
 
 - **Not decision-making.** The substrate doesn't filter which events are worth sending. It emits all of them. Consumers filter.
 - **Not agent behavior.** The substrate doesn't subscribe to its own events. It doesn't run loops. It doesn't reason.
-- **Not orchestration.** No prioritization, no scheduling, no conditional routing. Daemons that process events and take action are strategy-layer consumers, not part of the substrate.
+- **Not orchestration.** No prioritization, no scheduling, no conditional routing. Daemons that process events and take action are operational-layer consumers, not part of the substrate.
 
 The test is clean. If removing event emission would mean the substrate has less observability into its own state transitions, it's a substrate primitive. If removing it would mean a user misses a reminder or an agent misses a deadline, it's strategy.
 
@@ -73,6 +73,8 @@ This is an extension, not a contradiction. The existing write pipeline already d
 
 The terminology matters. "Signal" and "emit" rather than "notify" or "alert." Notify implies judgment about importance. Alert implies urgency assessment. Signal is neutral. The substrate signals. The consumer interprets.
 
+It's worth being explicit about where strategy lives in this picture. Plans, standing rules, preferences, and prior decisions are themselves state. They're stored entities in the substrate like any other, queried and reduced and signaled the same way. They're not running in some separate layer. The boundary isn't between "strategy lives in another system" and "state lives in the substrate." It's between "the substrate stores and signals" and "consumers decide and act on what they read." That keeps strategy artifacts inspectable, replayable, and shared across every consumer that reads them, without dragging the substrate across the line into deciding.
+
 ## From memory to nervous system
 
 Most people building multi-agent systems still describe the shared substrate as "memory." That framing is accurate as far as it goes. Memory is storage and retrieval: the system records what happened, and agents query it when they need context. That's the foundation, and it has to work before anything else matters.
@@ -80,6 +82,8 @@ Most people building multi-agent systems still describe the shared substrate as 
 But memory is passive. It holds truth. It doesn't transmit awareness of changes in truth to the parts of the system that need to react. A memory layer that stores a new financial transaction doesn't tell the reconciliation agent that the transaction arrived. A memory layer that records a new bug report doesn't tell the triage daemon that something needs attention. The data is there. The awareness is not.
 
 A nervous system adds the transmission layer. It encompasses everything memory does, storage and retrieval stay, but it extends the substrate's responsibility to include signaling. The state layer doesn't just hold truth. It propagates changes in truth to registered consumers in real time.
+
+The right bar to judge this against is state integrity, not retrieval quality. Memory is judged by whether you can query it back. A nervous system is judged by whether the rest of the system can act on a change at the moment the change is durable, rather than minutes later when something happens to ask. Those are different problems with different failure modes.
 
 The biological framing is precise, not decorative. A brain without sensory nerves can store memories perfectly and still be unable to react to the environment. The missing piece isn't storage. It's the signal pathway between what changed and what needs to know about it. That's the piece you end up building by hand, one polling loop at a time, until it becomes obvious that it belongs in the substrate.
 
@@ -121,4 +125,4 @@ I'm adding these capabilities to [Neotoma](/posts/truth-layer-agent-memory) in s
 
 None of this is the most ambitious version of what a "nervous system" could be. Routing, filtering, transformation, delivery guarantees, dead-letter queues: message brokers provide all of that. I'm intentionally not building any of it. The substrate's job is to signal, not to orchestrate. Every feature that crosses that line makes the substrate less trustworthy as a neutral reporter of state transitions.
 
-The constraint is the feature. A state layer that signals but doesn't decide is a state layer you can still reason about. Add strategy-layer logic to the signaling path, and you lose the property that made the substrate useful in the first place: the substrate's behavior is fully determined by the write, not by policy.
+The constraint is the feature. A state layer that signals but doesn't decide is a state layer you can still reason about. Add operational-layer logic to the signaling path, and you lose the property that made the substrate useful in the first place: the substrate's behavior is fully determined by the write, not by policy.

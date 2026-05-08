@@ -2,5 +2,5 @@
 - The second problem is coordination. Polling-based awareness creates a ceiling: latency between state changes and agent reactions, wasted compute on empty polls, and custom glue code for every new consumer.
 - "Memory" is storage and retrieval. A "nervous system" adds transmission: the substrate doesn't just hold truth, it propagates changes in truth to registered consumers in real time.
 - Event emission after writes is a substrate-level primitive, analogous to PostgreSQL's WAL or LISTEN/NOTIFY, not a step toward orchestration or agent behavior.
-- The line between substrate signaling and strategy-layer logic is the critical design constraint: the substrate emits all events without filtering or prioritization, fires and forgets, and never subscribes to its own events.
+- The line between substrate signaling and operational-layer logic is the critical design constraint: the substrate emits all events without filtering or prioritization, fires and forgets, and never subscribes to its own events.
 - Concrete unlocks include daemons that react to submissions within seconds, cross-tool coordination without glue code, structured guest submissions with access control for any entity type, and bidirectional sync between peer instances.
