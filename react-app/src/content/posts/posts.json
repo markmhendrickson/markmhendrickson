@@ -1,5 +1,28 @@
 [
   {
+    "slug": "from-memory-to-nervous-system",
+    "published": true,
+    "publishedDate": "2026-05-08",
+    "title": "From memory to nervous system",
+    "excerpt": "The first problem with running multiple agents is that they forget. The second is that they can't coordinate. A state layer that solves storage first and then adds signaling becomes a nervous system, not just memory.",
+    "category": "essay",
+    "readTime": 11,
+    "tags": [
+      "ai",
+      "neotoma",
+      "agent memory",
+      "state layer",
+      "multi-agent",
+      "event-driven",
+      "infrastructure"
+    ],
+    "heroImage": "from-memory-to-nervous-system-hero.png",
+    "heroImageSquare": "from-memory-to-nervous-system-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "createdDate": "2026-05-07",
+    "updatedDate": "2026-05-08"
+  },
+  {
     "slug": "know-which-of-your-agents-wrote-what",
     "published": true,
     "publishedDate": "2026-04-28",

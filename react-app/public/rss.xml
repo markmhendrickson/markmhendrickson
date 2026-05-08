@@ -5,8 +5,15 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 29 Apr 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>From memory to nervous system</title>
+    <link>https://markmhendrickson.com/posts/from-memory-to-nervous-system</link>
+    <description>The first problem with running multiple agents is that they forget. The second is that they can&apos;t coordinate. A state layer that solves storage first and then adds signaling becomes a nervous system, not just memory.</description>
+    <pubDate>Fri, 08 May 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/from-memory-to-nervous-system</guid>
+  </item>
   <item>
     <title>The Human Inversion: The Inversion</title>
     <link>https://markmhendrickson.com/posts/the-human-inversion</link>

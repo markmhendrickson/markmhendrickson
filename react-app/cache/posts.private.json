@@ -1,5 +1,20 @@
 [
   {
+    "slug": "from-memory-to-nervous-system.share",
+    "title": "Tweet",
+    "excerpt": "",
+    "body": "## Tweet\n\nA state layer that stores and serves truth hits a ceiling when agents need to coordinate. The next primitive is signaling: emit events after writes, let consumers decide what matters.\n\nhttps://markmhendrickson.com/posts/from-memory-to-nervous-system\n\n## LinkedIn\n\nI run about a dozen agents across Cursor, Claude Code, and custom scripts. They all share a single state layer. Storage and retrieval work. Coordination doesn't.\n\nThe problem: when one agent writes a new observation, the others discover it by polling. Most polls return nothing. The important ones arrive minutes late. Every multi-agent system I've built has hit this ceiling.\n\nThe fix is a substrate primitive that databases figured out decades ago: emit events after writes. The state layer signals what changed. Consumers decide what to do about it. No filtering, no prioritization, no orchestration in the substrate. Signal without strategy.\n\nThe hard part isn't adding the capability. It's adding it without crossing the line into decision-making. A state layer that signals but doesn't decide is a state layer you can still reason about.\n\nhttps://markmhendrickson.com/posts/from-memory-to-nervous-system\n",
+    "published": false,
+    "publishedDate": null,
+    "category": "essay",
+    "readTime": null,
+    "tags": [],
+    "createdDate": "2026-05-07",
+    "updatedDate": "2026-05-07",
+    "summary": "",
+    "shareTweet": ""
+  },
+  {
     "slug": "the-human-inversion-the-reconciler-and-the-rubric",
     "title": "The Human Inversion: The Reconciler and the Rubric",
     "excerpt": "Async specialists can each be right inside their own domain and still ship something incoherent across domains. Some role has to reconcile cross-disciplinary conflict against explicit commitments rather than hallway consensus, and that work needs durable write integrity instead of team lore or vibes.",
