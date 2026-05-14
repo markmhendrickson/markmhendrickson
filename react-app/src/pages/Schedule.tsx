@@ -15,6 +15,7 @@ export default function Schedule() {
       duration60: '60 minutes',
       labelMeeting: 'Meeting',
       labelChat: 'Chat',
+      disclaimer: 'By default, I record, transcribe, and interpret my meetings with AI to best capture and follow up on whatever is discussed.',
     },
     es: {
       title: 'Reúnete conmigo',
@@ -25,6 +26,7 @@ export default function Schedule() {
       duration60: '60 minutos',
       labelMeeting: 'Reunión',
       labelChat: 'Charla',
+      disclaimer: 'Por defecto, grabo, transcribo e interpreto mis reuniones con inteligencia artificial para captar y hacer un seguimiento de lo que se discuta.',
     },
     ca: {
       title: "Reuneix-te amb mi",
@@ -35,6 +37,7 @@ export default function Schedule() {
       duration60: '60 minuts',
       labelMeeting: 'Reunió',
       labelChat: 'Xerrada',
+      disclaimer: "Per defecte, enregistro, transcric i interpreto les meves reunions amb intel·ligència artificial per captar i fer seguiment del que es discuteixi.",
     },
     zh: {
       title: '与我会面',
@@ -45,6 +48,7 @@ export default function Schedule() {
       duration60: '60 分钟',
       labelMeeting: '会议',
       labelChat: '聊天',
+      disclaimer: '默认情况下，我会记录、转录和用人工智能解读我的会议，以便最好地捕捉和跟进讨论的任何内容。',
     },
   } as const
   const baseText = copy[locale as keyof typeof copy] ?? copy.en
@@ -116,6 +120,10 @@ export default function Schedule() {
               </a>
             ))}
           </div>
+
+          <p className="mt-8 text-[13px] text-muted-foreground dark:text-foreground/60">
+            {text.disclaimer}
+          </p>
         </div>
       </div>
     </>
