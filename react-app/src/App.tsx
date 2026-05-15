@@ -14,6 +14,7 @@ import Songs from './pages/Songs'
 import Mcp from './pages/Mcp'
 import Consulting from './pages/Consulting'
 import Investing from './pages/Investing'
+import Neotoma from './pages/Neotoma'
 import Wisdom from './pages/Wisdom'
 import HonorsThesis from './pages/HonorsThesis'
 import Schedule from './pages/Schedule'
@@ -106,6 +107,7 @@ function LocalizedAppRoutes({ locale }: { locale: SupportedLocale }) {
         <Route path="agent" element={<Layout><Mcp /></Layout>} />
         <Route path="consulting" element={<Layout><Consulting /></Layout>} />
         <Route path="investing" element={<Layout><Investing /></Layout>} />
+        <Route path="neotoma" element={<Layout><Neotoma /></Layout>} />
         <Route path="wisdom" element={<Layout><Wisdom /></Layout>} />
         <Route path="honors-thesis" element={<Layout><HonorsThesis /></Layout>} />
         <Route path="honors-thesis/chapter/:chapterSlug" element={<Layout><HonorsThesis /></Layout>} />

@@ -1,0 +1,187 @@
+{
+  "slug": "neotoma",
+  "copy": {
+    "en": {
+      "title": "Neotoma",
+      "subtitle": "A deterministic, privacy-first memory layer for AI agents — built capital-efficient out of Barcelona.",
+      "pageDesc": "Overview of Neotoma for investors and prospective design partners: positioning, why now, current state, capital posture, and how to engage.",
+      "oneLinerHeading": "What it is",
+      "oneLinerParagraphs": [
+        "Neotoma is a typed, versioned, user-controlled memory substrate that AI agents read and write through MCP. It gives cross-tool agents shared, verifiable state — not another notes app, not provider-locked chat memory.",
+        "Repo and docs are open at github.com/markmhendrickson/neotoma. Product site is neotoma.io."
+      ],
+      "whyNowHeading": "Why now",
+      "whyNowPoints": [
+        "Agents are moving from chat into long-running, multi-tool work. The missing primitive isn't another retrieval-style memory — it's a substrate with provenance and reproducible state.",
+        "Provider-native memories are account-scoped and opaque. Users running agents across models and tools end up acting as the human sync layer between them.",
+        "MCP makes a tool-agnostic memory layer practically deployable for the first time. Open schemas plus content-addressed observations make it auditable."
+      ],
+      "differentiationHeading": "What makes it different",
+      "differentiationPoints": [
+        "Schema-first extraction with hash-based IDs and reproducible state",
+        "Versioned observations with field-level provenance and immutability guarantees",
+        "Cross-tool access through MCP — works with Claude, ChatGPT, Cursor, and custom agents in one substrate",
+        "User-controlled by default: local-first storage, typed export, user-held keys",
+        "Composable typed primitives that span domains (work, finance, health, relationships) rather than per-vertical silos"
+      ],
+      "stateHeading": "Where it is today",
+      "stateParagraphs": [
+        "Working product in active developer release. Used daily by the founder across a full agentic stack — code, writing, calendar, finances, and infrastructure operations.",
+        "The problem is acute enough that developers keep building their own homegrown agent-memory systems — flat-file state, JSON heartbeats, custom MCP servers, personal Postgres schemas — and surfacing them publicly. Field conversations with infrastructure engineers and operators surface the same gaps in each: no versioning, no provenance, no cross-tool access. The framings they converge on independently — “state integrity, not retrieval quality,” “CI/CD for agent state” — match the design Neotoma already ships.",
+        "Public documentation, open repo, deterministic guarantees written down. A small set of early design-partner conversations and integrations is under way with operators running personal and professional agent infrastructure.",
+        "Going to depth on the personal agentic OS builder/operator before expanding into team and pipeline contexts."
+      ],
+      "writingHeading": "Recent writing",
+      "writingViewAll": "View all posts",
+      "writingGroups": [
+        {
+          "label": "Thesis",
+          "posts": [
+            {
+              "slug": "six-agentic-trends-betting-on",
+              "title": "Six agentic trends I'm betting on (and how I might be wrong)",
+              "blurb": "The structural pressures behind the work, framed as falsifiable bets."
+            },
+            {
+              "slug": "from-memory-to-nervous-system",
+              "title": "From memory to nervous system",
+              "blurb": "Storage first, signaling next: how a state layer becomes coordination infrastructure for agent fleets."
+            },
+            {
+              "slug": "the-markdown-memory-ceiling",
+              "title": "The markdown memory ceiling",
+              "blurb": "Why three billion-dollar agent platforms converged on plain-text memory, and where it fails."
+            }
+          ]
+        },
+        {
+          "label": "On benchmarks and gaps",
+          "posts": [
+            {
+              "slug": "agent-memory-breaks-before-retrieval",
+              "title": "Agent memory breaks at 500K tokens, not 10 million",
+              "blurb": "On the BEAM benchmark, and the failure mode it does not test."
+            },
+            {
+              "slug": "no-ai-memory-benchmark-tests-what-actually-breaks",
+              "title": "No AI memory benchmark tests what actually breaks",
+              "blurb": "Retrieval metrics dominate. Write integrity is unmeasured."
+            }
+          ]
+        }
+      ],
+      "capitalHeading": "Capital posture",
+      "capitalParagraphs": [
+        "Default mode is capital-efficient and self-funded. Revenue objective for the next twelve months is in the low-six-figure range, oriented around mid-market design partners rather than volume subscriptions.",
+        "Open to small, time-boxed rounds when a profitable milestone is in sight and terms align with founder-friendly defaults: non-participating 1x, no vetoes on hiring or pricing or product, founder vesting unaltered, 50%+ diluted control preserved until durable profitability."
+      ],
+      "fitHeading": "Where there's likely fit",
+      "fitPoints": [
+        "Investors comfortable with a revenue-first, capital-efficient pace and a founder who treats product depth as the primary risk to retire",
+        "Funds whose theses cover agent infrastructure, deterministic state, AI-native developer tools, or user-sovereign data primitives",
+        "Partners who value working artifacts and open documentation over narrative-led decks"
+      ],
+      "ctaHeading": "Get in touch",
+      "ctaParagraph": "If the above resonates and there's plausible alignment, I'm happy to set up a working walkthrough — live system, current architecture, and where the business model is pointing.",
+      "ctaEmailLabel": "Email me",
+      "ctaInclude": [
+        "What about the above resonated and where you think there's alignment",
+        "Your thesis area and recent investments closest to this space",
+        "Stage and check size you typically lead or follow",
+        "What a productive first conversation would look like"
+      ],
+      "ctaButton": "Schedule a conversation"
+    },
+    "es": {
+      "title": "Neotoma",
+      "subtitle": "Una capa de memoria determinista y privada para agentes de IA — construida con eficiencia de capital desde Barcelona.",
+      "pageDesc": "Resumen de Neotoma para inversores y posibles design partners: posicionamiento, por qué ahora, estado actual, postura de capital y cómo iniciar contacto.",
+      "oneLinerHeading": "Qué es",
+      "oneLinerParagraphs": [
+        "Neotoma es un sustrato de memoria tipado, versionado y controlado por el usuario, que los agentes de IA leen y escriben mediante MCP. Da a los agentes que operan entre herramientas un estado compartido y verificable — no es otra app de notas ni una memoria de chat dependiente del proveedor.",
+        "Repo y documentación abiertos en github.com/markmhendrickson/neotoma. Sitio del producto: neotoma.io."
+      ],
+      "whyNowHeading": "Por qué ahora",
+      "whyNowPoints": [
+        "Los agentes están pasando del chat a trabajos largos y multi-herramienta. La primitiva que falta no es otra memoria de recuperación — es un sustrato con procedencia y estado reproducible.",
+        "Las memorias propias de cada proveedor están limitadas a la cuenta y son opacas. Quien usa agentes entre modelos y herramientas termina haciendo de capa humana de sincronización.",
+        "MCP hace que una capa de memoria agnóstica a la herramienta sea desplegable por primera vez de forma práctica. Schemas abiertos y observaciones direccionables por contenido la hacen auditable."
+      ],
+      "differentiationHeading": "Qué la diferencia",
+      "differentiationPoints": [
+        "Extracción dirigida por schema, con IDs basados en hash y estado reproducible",
+        "Observaciones versionadas con procedencia a nivel de campo y garantías de inmutabilidad",
+        "Acceso entre herramientas vía MCP — funciona con Claude, ChatGPT, Cursor y agentes propios en un mismo sustrato",
+        "Control por el usuario por defecto: almacenamiento local-first, exportación tipada, claves del usuario",
+        "Primitivas tipadas componibles que abarcan dominios (trabajo, finanzas, salud, relaciones), no silos verticales"
+      ],
+      "stateHeading": "Dónde está hoy",
+      "stateParagraphs": [
+        "Producto funcional en developer release activa. Lo uso a diario sobre un stack agéntico completo — código, escritura, calendario, finanzas y operaciones de infraestructura.",
+        "El problema es lo bastante agudo como para que distintos desarrolladores sigan construyendo sus propios sistemas caseros de memoria para agentes — estado en ficheros planos, heartbeats en JSON, servidores MCP a medida, esquemas Postgres personales — y publicándolos. Las conversaciones de campo con ingenieros de infraestructura y operadores muestran los mismos huecos en todos: sin versionado, sin procedencia, sin acceso entre herramientas. Las formulaciones a las que llegan de forma independiente — “integridad de estado, no calidad de recuperación”, “CI/CD para el estado del agente” — coinciden con el diseño que Neotoma ya entrega.",
+        "Documentación pública, repo abierto, garantías deterministas escritas. Hay un pequeño grupo de conversaciones e integraciones iniciales con design partners que operan infraestructura personal y profesional de agentes.",
+        "Profundizando primero en el constructor/operador de un OS agéntico personal antes de expandir a contextos de equipo y pipelines."
+      ],
+      "writingHeading": "Escritos recientes",
+      "writingViewAll": "Ver todos los artículos",
+      "writingGroups": [
+        {
+          "label": "Tesis",
+          "posts": [
+            {
+              "slug": "six-agentic-trends-betting-on",
+              "title": "Seis tendencias agénticas en las que apuesto (y cómo podría equivocarme)",
+              "blurb": "Las presiones estructurales detrás del trabajo, planteadas como apuestas falsables."
+            },
+            {
+              "slug": "from-memory-to-nervous-system",
+              "title": "De la memoria al sistema nervioso",
+              "blurb": "Primero el almacenamiento, luego la señalización: cómo una capa de estado se convierte en infraestructura de coordinación para flotas de agentes."
+            },
+            {
+              "slug": "the-markdown-memory-ceiling",
+              "title": "El techo de la memoria en markdown",
+              "blurb": "Por qué tres plataformas de agentes valoradas en miles de millones convergieron en memoria en texto plano, y dónde falla."
+            }
+          ]
+        },
+        {
+          "label": "Sobre benchmarks y huecos",
+          "posts": [
+            {
+              "slug": "agent-memory-breaks-before-retrieval",
+              "title": "La memoria del agente se rompe a 500K tokens, no a 10 millones",
+              "blurb": "Sobre el benchmark BEAM y el modo de fallo que no prueba."
+            },
+            {
+              "slug": "no-ai-memory-benchmark-tests-what-actually-breaks",
+              "title": "Ningún benchmark de memoria de IA prueba lo que realmente se rompe",
+              "blurb": "Las métricas de recuperación dominan. La integridad de escritura no se mide."
+            }
+          ]
+        }
+      ],
+      "capitalHeading": "Postura de capital",
+      "capitalParagraphs": [
+        "Modo por defecto: eficiencia de capital y autofinanciación. Objetivo de ingresos para los próximos doce meses en rango de cifra baja de seis dígitos, orientado a design partners mid-market en lugar de suscripciones de volumen.",
+        "Abierto a rondas pequeñas y acotadas en el tiempo cuando haya un hito de rentabilidad a la vista y los términos respeten valores por defecto founder-friendly: non-participating 1x, sin vetos sobre contratación, precio o producto, vesting del fundador inalterado y control diluido del 50%+ preservado hasta rentabilidad sostenida."
+      ],
+      "fitHeading": "Dónde puede haber encaje",
+      "fitPoints": [
+        "Inversores cómodos con un ritmo orientado a ingresos y eficiente en capital, y con un fundador que trata la profundidad de producto como el principal riesgo a retirar",
+        "Fondos cuya tesis cubra infraestructura para agentes, estado determinista, herramientas para desarrollo nativo de IA o primitivas de datos soberanas para el usuario",
+        "Socios que valoren artefactos funcionales y documentación abierta por encima de decks narrativos"
+      ],
+      "ctaHeading": "Contacto",
+      "ctaParagraph": "Si lo anterior resuena y crees que hay alineación plausible, podemos agendar un walkthrough — sistema en vivo, arquitectura actual y hacia dónde apunta el modelo de negocio.",
+      "ctaEmailLabel": "Escríbeme",
+      "ctaInclude": [
+        "Qué te ha resonado y dónde crees que hay alineación",
+        "Tu área de tesis e inversiones recientes cercanas a este espacio",
+        "Etapa y tamaño de ticket que sueles liderar o acompañar",
+        "Cómo sería una primera conversación productiva"
+      ],
+      "ctaButton": "Agendar una conversación"
+    }
+  }
+}
