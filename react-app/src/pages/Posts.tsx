@@ -52,6 +52,7 @@ interface Post extends SearchablePost {
   seriesTotal?: number
   series?: string
   seriesSlug?: string
+  seriesDescription?: string
 }
 
 interface SeriesIndexBundle {
@@ -210,7 +211,7 @@ export default function Posts({ draft = false }: PostsProps) {
       .map((entry) => entry.post)
   }, [standalonePosts, query, postsForSearchStandalone])
 
-  /** Published multi-part series on the index: parts sorted by published date (newest first), series ordered by latest part date. */
+  /** Published multi-part series on the index: parts sorted by part number, series keyed by latest published date. */
   const seriesIndexBundles = useMemo<SeriesIndexBundle[]>(() => {
     if (draft) return []
     const grouped = new Map<string, Post[]>()
@@ -222,37 +223,63 @@ export default function Posts({ draft = false }: PostsProps) {
       arr.push(post)
       grouped.set(sSlug, arr)
     }
-    const bundles: SeriesIndexBundle[] = Array.from(grouped.entries()).map(([slug, parts]) => {
+    return Array.from(grouped.entries()).map(([slug, parts]) => {
       const partsByPub = [...parts].sort((a, b) => {
         const tA = a.publishedDate ? parseCalendarOrIsoDateString(a.publishedDate).getTime() : 0
         const tB = b.publishedDate ? parseCalendarOrIsoDateString(b.publishedDate).getTime() : 0
         if (tB !== tA) return tB - tA
         return (a.slug || '').localeCompare(b.slug || '')
       })
-      const title =
-        parts.find((p) => p.series?.trim())?.series?.trim() ?? slug
+      const title = parts.find((p) => p.series?.trim())?.series?.trim() ?? slug
       return { slug, title, parts: partsByPub }
     })
-    bundles.sort((a, b) => {
-      const latestA = a.parts[0]?.publishedDate
-      const latestB = b.parts[0]?.publishedDate
-      const tA = latestA ? parseCalendarOrIsoDateString(latestA).getTime() : 0
-      const tB = latestB ? parseCalendarOrIsoDateString(latestB).getTime() : 0
-      if (tB !== tA) return tB - tA
-      return a.title.localeCompare(b.title)
-    })
-    return bundles
   }, [posts, draft, locale])
 
+  type FeedItem =
+    | { kind: 'post'; post: Post; sortKey: number }
+    | { kind: 'series'; bundle: SeriesIndexBundle; sortKey: number }
+
+  /** Merged, date-sorted feed of standalone posts and series bundles (non-search mode only). */
+  const mergedFeed = useMemo<FeedItem[]>(() => {
+    if (draft || query.trim()) return []
+    const items: FeedItem[] = [
+      ...filteredPosts.map((post): FeedItem => ({
+        kind: 'post',
+        post,
+        sortKey: post.publishedDate ? parseCalendarOrIsoDateString(post.publishedDate).getTime() : 0,
+      })),
+      ...seriesIndexBundles.map((bundle): FeedItem => ({
+        kind: 'series',
+        bundle,
+        sortKey: bundle.parts[0]?.publishedDate
+          ? parseCalendarOrIsoDateString(bundle.parts[0].publishedDate).getTime()
+          : 0,
+      })),
+    ]
+    items.sort((a, b) => {
+      if (b.sortKey !== a.sortKey) return b.sortKey - a.sortKey
+      const aSlug = a.kind === 'post' ? a.post.slug : a.bundle.slug
+      const bSlug = b.kind === 'post' ? b.post.slug : b.bundle.slug
+      return aSlug.localeCompare(bSlug)
+    })
+    return items
+  }, [draft, query, filteredPosts, seriesIndexBundles])
+
+  /** When searching, show only matched standalone posts (no series bundles). Otherwise use the merged date-sorted feed. */
+  const feedForPagination = useMemo<FeedItem[]>(() => {
+    if (draft) return filteredPosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
+    if (query.trim()) return filteredPosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
+    return mergedFeed
+  }, [draft, query, filteredPosts, mergedFeed])
+
   const pageParam = searchParams.get('page')
-  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE))
+  const totalPages = Math.max(1, Math.ceil(feedForPagination.length / POSTS_PER_PAGE))
   const currentPage = Math.min(totalPages, Math.max(1, parseInt(pageParam ?? '1', 10) || 1))
-  const paginatedPosts = useMemo(() => {
-    // Dev-only draft index: list all drafts (pagination UI is not shown for this route).
-    if (draft) return filteredPosts
+  const paginatedFeed = useMemo(() => {
+    if (draft) return feedForPagination
     const start = (currentPage - 1) * POSTS_PER_PAGE
-    return filteredPosts.slice(start, start + POSTS_PER_PAGE)
-  }, [filteredPosts, currentPage, draft])
+    return feedForPagination.slice(start, start + POSTS_PER_PAGE)
+  }, [feedForPagination, currentPage, draft])
 
   const setPage = (page: number) => {
     const next = new URLSearchParams(searchParams)
@@ -343,7 +370,7 @@ export default function Posts({ draft = false }: PostsProps) {
   return (
     <>
       <Helmet>
-        <title>{pageTitle} — Mark Hendrickson</title>
+        <title>{pageTitle} -- Mark Hendrickson</title>
         <meta name="description" content={pageDesc} />
         <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={`https://markmhendrickson.com${localizePath(pagePath, locale)}`} />
@@ -357,14 +384,14 @@ export default function Posts({ draft = false }: PostsProps) {
         ))}
         <link rel="alternate" hrefLang="x-default" href="https://markmhendrickson.com/posts" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={`${pageTitle} — Mark Hendrickson`} />
+        <meta property="og:title" content={`${pageTitle} -- Mark Hendrickson`} />
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content={`https://markmhendrickson.com${localizePath(pagePath, locale)}`} />
         <meta property="og:image" content={defaultOgImage} />
         <meta property="og:image:width" content={String(ogImageWidth)} />
         <meta property="og:image:height" content={String(ogImageHeight)} />
         <meta name="twitter:creator" content="@markmhendrickson" />
-        <meta name="twitter:title" content={`${pageTitle} — Mark Hendrickson`} />
+        <meta name="twitter:title" content={`${pageTitle} -- Mark Hendrickson`} />
         <meta name="twitter:description" content={pageDesc} />
         <meta name="twitter:image" content={defaultOgImage} />
         <meta name="twitter:image:width" content={String(ogImageWidth)} />
@@ -374,7 +401,7 @@ export default function Posts({ draft = false }: PostsProps) {
             {JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'CollectionPage',
-              name: `${pageTitle} — Mark Hendrickson`,
+              name: `${pageTitle} -- Mark Hendrickson`,
               description: pageDesc,
               url: `https://markmhendrickson.com${localizePath(pagePath, locale)}`,
               mainEntity: {
@@ -397,7 +424,7 @@ export default function Posts({ draft = false }: PostsProps) {
             {pageTitle}
             {query && (
               <span className="text-[17px] font-normal text-muted-foreground ml-2">
-                (“{query}”)
+                ("{query}")
               </span>
             )}
           </h1>
@@ -450,195 +477,194 @@ export default function Posts({ draft = false }: PostsProps) {
           </div>
         )}
 
-        {!draft && !query.trim() && seriesIndexBundles.length > 0 && (
-          <section className="mb-10 space-y-8" aria-label={t.postsSeriesHeading}>
-            {seriesIndexBundles.map(({ slug, title, parts }) => {
-              const byPart = [...parts].sort((a, b) => (a.seriesPart ?? 0) - (b.seriesPart ?? 0))
-              /** Cache often omits `series` on most parts, so the bundle can be one row while frontmatter declares `seriesTotal`. */
-              const maxDeclaredSeriesTotal = parts.reduce(
-                (max, p) =>
-                  typeof p.seriesTotal === 'number' && p.seriesTotal > 0 && p.seriesTotal > max
-                    ? p.seriesTotal
-                    : max,
-                0,
-              )
-              const partCountForLabel = Math.max(parts.length, maxDeclaredSeriesTotal)
-              const overviewRaw = getSeriesOverview(slug, byPart, locale)
-              const description = overviewRaw ? seriesOverviewTextForProse(overviewRaw) : undefined
-              const thumbBasename = seriesSeriesHeroBasename(slug)
-              const thumbSrc = getPostImageSrc(thumbBasename)
-              const latestDate = parts[0]?.publishedDate
-              const primaryCategory = byPart.find((p) => (p.category || '').trim())?.category?.trim()
-              return (
-                <article
-                  key={slug}
-                  className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch md:items-start gap-4"
-                >
-                  <Link
-                    to={localizePath(`/posts/series/${slug}`, locale)}
-                    data-series-thumb-posts-index
-                    className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
-                    aria-label={`${title} — ${t.postsSeriesSeriesPage}`}
-                  >
-                    <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
-                      <img
-                        src={thumbSrc}
-                        alt={title}
-                        loading="lazy"
-                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
-                        style={{ objectPosition: 'center center' }}
-                        onError={(e) => {
-                          const root = e.currentTarget.closest('[data-series-thumb-posts-index]')
-                          if (root instanceof HTMLElement) root.style.display = 'none'
-                        }}
-                      />
-                    </div>
-                  </Link>
-                  <div className="order-2 md:order-1 min-w-0 flex-1">
-                    <h2 className="text-[20px] font-medium mb-2 tracking-tight">
-                      <Link
-                        to={localizePath(`/posts/series/${slug}`, locale)}
-                        className="text-foreground no-underline hover:underline"
-                      >
-                        {title}
-                      </Link>
-                    </h2>
-                    {description ? (
-                      <SeriesOverviewProse
-                        text={description}
-                        paragraphClassName="text-[15px] text-muted-foreground leading-relaxed"
-                        maxParagraphs={1}
-                      />
-                    ) : null}
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
-                      {isParsablePublishedDate(latestDate) && (
-                        <Link
-                          to={localizePath(`/posts/series/${slug}`, locale)}
-                          className="text-muted-foreground hover:text-foreground hover:underline no-underline"
-                        >
-                          <time dateTime={latestDate}>
-                            {formatPostPublishedDate(latestDate, languageTag)}
-                          </time>
-                        </Link>
-                      )}
-                      <span>
-                        {partCountForLabel}{' '}
-                        {partCountForLabel === 1 ? t.postsSeriesPartSingular : t.postsSeriesPartPlural}
-                      </span>
-                      {primaryCategory ? (
-                        <span className="capitalize">
-                          {primaryCategory.toLowerCase() === 'tweet'
-                            ? t.xPost
-                            : primaryCategory.toLowerCase() === 'essay'
-                              ? t.categoryEssay
-                              : primaryCategory}
-                        </span>
-                      ) : null}
-                    </div>
-                  </div>
-                </article>
-              )
-            })}
-          </section>
-        )}
-
         <div className="space-y-8">
-          {filteredPosts.length === 0 ? (
+          {paginatedFeed.length === 0 ? (
             <p className="text-[15px] text-muted-foreground">
               {query
-                ? `${t.noMatchPrefix} “${query}”.`
+                ? `${t.noMatchPrefix} "${query}".`
                 : draft
                   ? t.noDraftsYet
                   : t.noPostsYet}
             </p>
           ) : (
-            paginatedPosts.map((post) => (
-              <article key={post.slug} className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch md:items-start gap-4">
-                {(post.heroImage || post.ogImage || post.tweetMetadata?.images?.[0]) && (
-                  <Link
-                    to={localizePath(`/posts/${post.slug}`, locale)}
-                    className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
+            paginatedFeed.map((item) => {
+              if (item.kind === 'series') {
+                const { slug, title, parts } = item.bundle
+                const byPart = [...parts].sort((a, b) => (a.seriesPart ?? 0) - (b.seriesPart ?? 0))
+                const maxDeclaredSeriesTotal = parts.reduce(
+                  (max, p) =>
+                    typeof p.seriesTotal === 'number' && p.seriesTotal > 0 && p.seriesTotal > max
+                      ? p.seriesTotal
+                      : max,
+                  0,
+                )
+                const partCountForLabel = Math.max(parts.length, maxDeclaredSeriesTotal)
+                const overviewRaw = getSeriesOverview(slug, byPart, locale)
+                const description = overviewRaw ? seriesOverviewTextForProse(overviewRaw) : undefined
+                const thumbBasename = seriesSeriesHeroBasename(slug)
+                const thumbSrc = getPostImageSrc(thumbBasename)
+                const latestDate = parts[0]?.publishedDate
+                const primaryCategory = byPart.find((p) => (p.category || '').trim())?.category?.trim()
+                return (
+                  <article
+                    key={`series-${slug}`}
+                    className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch md:items-start gap-4"
                   >
-                    <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
-                      <img
-                        src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.ogImage ?? post.tweetMetadata?.images?.[0] ?? '')}
-                        alt={stripSeriesPrefixFromTitle(post.title || '', post.series) || ''}
-                        className="min-w-0 min-h-0 w-full h-full object-cover object-center"
-                        style={{ objectPosition: 'center center' }}
-                      />
-                    </div>
-                  </Link>
-                )}
-                <div className="order-2 md:order-1 min-w-0 flex-1">
-                  {(post.category || '').toLowerCase() === 'tweet' ? (
-                    <TweetPreview
-                      body={post.body ?? ''}
-                      expanded={expandedTweetSlugs.has(post.slug)}
-                      onToggle={() => {
-                        setExpandedTweetSlugs(prev => {
-                          const next = new Set(prev)
-                          if (next.has(post.slug)) next.delete(post.slug)
-                          else next.add(post.slug)
-                          return next
-                        })
-                      }}
-                      cutoff={TWEET_SHOW_MORE_CUTOFF}
-                      showMoreLabel={t.showMore}
-                      showLessLabel={t.showLess}
-                    />
-                  ) : (
-                    <h2 className="text-[20px] font-medium mb-2 tracking-tight">
-                      <Link
-                        to={localizePath(`/posts/${post.slug}`, locale)}
-                        className="text-foreground no-underline hover:underline"
-                      >
-                        <HighlightedText
-                          text={stripSeriesPrefixFromTitle(post.title, post.series)}
-                          query={query}
+                    <Link
+                      to={localizePath(`/posts/series/${slug}`, locale)}
+                      data-series-thumb-posts-index
+                      className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
+                      aria-label={`${title} -- ${t.postsSeriesSeriesPage}`}
+                    >
+                      <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
+                        <img
+                          src={thumbSrc}
+                          alt={title}
+                          loading="lazy"
+                          className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                          style={{ objectPosition: 'center center' }}
+                          onError={(e) => {
+                            const root = e.currentTarget.closest('[data-series-thumb-posts-index]')
+                            if (root instanceof HTMLElement) root.style.display = 'none'
+                          }}
                         />
-                      </Link>
-                    </h2>
+                      </div>
+                    </Link>
+                    <div className="order-2 md:order-1 min-w-0 flex-1">
+                      <h2 className="text-[20px] font-medium mb-2 tracking-tight">
+                        <Link
+                          to={localizePath(`/posts/series/${slug}`, locale)}
+                          className="text-foreground no-underline hover:underline"
+                        >
+                          {title}
+                        </Link>
+                      </h2>
+                      {description ? (
+                        <SeriesOverviewProse
+                          text={description}
+                          paragraphClassName="text-[15px] text-muted-foreground leading-relaxed"
+                          maxParagraphs={1}
+                        />
+                      ) : null}
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
+                        {isParsablePublishedDate(latestDate) && (
+                          <Link
+                            to={localizePath(`/posts/series/${slug}`, locale)}
+                            className="text-muted-foreground hover:text-foreground hover:underline no-underline"
+                          >
+                            <time dateTime={latestDate}>
+                              {formatPostPublishedDate(latestDate, languageTag)}
+                            </time>
+                          </Link>
+                        )}
+                        <span>
+                          {partCountForLabel}{' '}
+                          {partCountForLabel === 1 ? t.postsSeriesPartSingular : t.postsSeriesPartPlural}
+                        </span>
+                        {primaryCategory ? (
+                          <span className="capitalize">
+                            {primaryCategory.toLowerCase() === 'tweet'
+                              ? t.xPost
+                              : primaryCategory.toLowerCase() === 'essay'
+                                ? t.categoryEssay
+                                : primaryCategory}
+                          </span>
+                        ) : null}
+                      </div>
+                    </div>
+                  </article>
+                )
+              }
+
+              const post = item.post
+              return (
+                <article key={post.slug} className="border-b border-border pb-8 last:border-0 last:pb-0 flex flex-col md:flex-row items-stretch md:items-start gap-4">
+                  {(post.heroImage || post.ogImage || post.tweetMetadata?.images?.[0]) && (
+                    <Link
+                      to={localizePath(`/posts/${post.slug}`, locale)}
+                      className="order-1 md:order-2 shrink-0 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded [&:hover]:opacity-90"
+                    >
+                      <div className="w-full aspect-square md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center dark:border dark:border-border">
+                        <img
+                          src={getPostImageSrc(post.heroImageSquare ?? post.heroImage ?? post.ogImage ?? post.tweetMetadata?.images?.[0] ?? '')}
+                          alt={stripSeriesPrefixFromTitle(post.title || '', post.series) || ''}
+                          className="min-w-0 min-h-0 w-full h-full object-cover object-center"
+                          style={{ objectPosition: 'center center' }}
+                        />
+                      </div>
+                    </Link>
                   )}
-                  <PostListingExcerpt
-                    excerpt={post.excerpt}
-                    isTweet={(post.category || '').toLowerCase() === 'tweet'}
-                    query={query}
-                  />
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
-                    {post.seriesPart != null && post.seriesTotal != null && (
-                      <span className="inline-flex shrink-0 items-center rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
-                        Part {post.seriesPart} of {post.seriesTotal}
-                      </span>
+                  <div className="order-2 md:order-1 min-w-0 flex-1">
+                    {(post.category || '').toLowerCase() === 'tweet' ? (
+                      <TweetPreview
+                        body={post.body ?? ''}
+                        expanded={expandedTweetSlugs.has(post.slug)}
+                        onToggle={() => {
+                          setExpandedTweetSlugs(prev => {
+                            const next = new Set(prev)
+                            if (next.has(post.slug)) next.delete(post.slug)
+                            else next.add(post.slug)
+                            return next
+                          })
+                        }}
+                        cutoff={TWEET_SHOW_MORE_CUTOFF}
+                        showMoreLabel={t.showMore}
+                        showLessLabel={t.showLess}
+                      />
+                    ) : (
+                      <h2 className="text-[20px] font-medium mb-2 tracking-tight">
+                        <Link
+                          to={localizePath(`/posts/${post.slug}`, locale)}
+                          className="text-foreground no-underline hover:underline"
+                        >
+                          <HighlightedText
+                            text={stripSeriesPrefixFromTitle(post.title, post.series)}
+                            query={query}
+                          />
+                        </Link>
+                      </h2>
                     )}
-                    {post.publishedDate && (
-                      <Link
-                        to={localizePath(`/posts/${post.slug}`, locale)}
-                        className="text-muted-foreground hover:text-foreground hover:underline no-underline"
-                      >
-                        <time dateTime={post.publishedDate}>
-                          {formatDate(post.publishedDate)}
-                        </time>
-                      </Link>
-                    )}
-                    {post.readTime && (
-                      <span>{post.readTime} {t.minRead}</span>
-                    )}
-                    {post.category && (
-                      <span className="capitalize">
-                        {(post.category || '').toLowerCase() === 'tweet'
-                          ? t.xPost
-                          : (post.category || '').toLowerCase() === 'essay'
-                            ? t.categoryEssay
-                            : post.category}
-                      </span>
-                    )}
+                    <PostListingExcerpt
+                      excerpt={post.excerpt}
+                      isTweet={(post.category || '').toLowerCase() === 'tweet'}
+                      query={query}
+                    />
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
+                      {post.seriesPart != null && post.seriesTotal != null && (
+                        <span className="inline-flex shrink-0 items-center rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                          Part {post.seriesPart} of {post.seriesTotal}
+                        </span>
+                      )}
+                      {post.publishedDate && (
+                        <Link
+                          to={localizePath(`/posts/${post.slug}`, locale)}
+                          className="text-muted-foreground hover:text-foreground hover:underline no-underline"
+                        >
+                          <time dateTime={post.publishedDate}>
+                            {formatDate(post.publishedDate)}
+                          </time>
+                        </Link>
+                      )}
+                      {post.readTime && (
+                        <span>{post.readTime} {t.minRead}</span>
+                      )}
+                      {post.category && (
+                        <span className="capitalize">
+                          {(post.category || '').toLowerCase() === 'tweet'
+                            ? t.xPost
+                            : (post.category || '').toLowerCase() === 'essay'
+                              ? t.categoryEssay
+                              : post.category}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </article>
-            ))
+                </article>
+              )
+            })
           )}
 
-        {!draft && filteredPosts.length > 0 && (
+        {!draft && feedForPagination.length > 0 && (
           <nav
             className="flex flex-wrap items-center justify-center gap-3 pt-8 pb-4 mt-8"
             aria-label="Pagination"

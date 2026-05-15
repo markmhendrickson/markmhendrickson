@@ -57,6 +57,77 @@
   to = "/posts/:splat"
   status = 301
 
+# Strip .md extension from post URLs (alternate link for markdown clients should not 5xx when crawled)
+[[redirects]]
+  from = "/posts/*.md"
+  to = "/posts/:splat"
+  status = 301
+[[redirects]]
+  from = "/:locale/posts/*.md"
+  to = "/:locale/posts/:splat"
+  status = 301
+
+# Legacy/404 redirects from GSC coverage report (2026-05-14)
+# Case-variant and typo slugs that appear as 404s in search console
+[[redirects]]
+  from = "/posts/ai-skepticism-is-really-about-faith-in-Humans"
+  to = "/posts/ai-skepticism-is-really-about-faith-in-humans"
+  status = 301
+[[redirects]]
+  from = "/posts/ai-skepticism-is-really-about-faith-in-mans"
+  to = "/posts/ai-skepticism-is-really-about-faith-in-humans"
+  status = 301
+[[redirects]]
+  from = "/posts/ai-skeptisisme-is-benar-benar-tentang-iman-pada-manusia"
+  to = "/posts/ai-skepticism-is-really-about-faith-in-humans"
+  status = 301
+[[redirects]]
+  from = "/posts/ai-skeptisisme-adalah-benar-benar-tentang-iman-pada-manusia"
+  to = "/posts/ai-skepticism-is-really-about-faith-in-humans"
+  status = 301
+[[redirects]]
+  from = "/posts/how-i-lost-and-recovered-6.000-memories"
+  to = "/posts/how-i-lost-and-recovered-6000-memories"
+  status = 301
+[[redirects]]
+  from = "/posts/saat-rantai-menjadi-produk"
+  to = "/posts/when-the-chain-becomes-the-product"
+  status = 301
+[[redirects]]
+  from = "/posts/kita-semua-centaur-sekarang"
+  to = "/posts/we-are-all-centaurs-now"
+  status = 301
+# Legacy root paths that 404 (old platform URLs and alternate spellings)
+[[redirects]]
+  from = "/get-the-lay-of-the-land"
+  to = "/posts/getting-the-lay-of-the-land"
+  status = 301
+[[redirects]]
+  from = "/getting-the-lay-of-the-land"
+  to = "/posts/getting-the-lay-of-the-land"
+  status = 301
+[[redirects]]
+  from = "/blog"
+  to = "/posts"
+  status = 301
+[[redirects]]
+  from = "/content/"
+  to = "/posts"
+  status = 301
+[[redirects]]
+  from = "/content"
+  to = "/posts"
+  status = 301
+# Canonical duplicate: Google chose different canonical than declared (trailing slash)
+[[redirects]]
+  from = "/posts/the-substrate-plancast-needed/"
+  to = "/posts/the-substrate-plancast-needed"
+  status = 301
+[[redirects]]
+  from = "/posts/customer-research-through-agents/"
+  to = "/posts/customer-research-through-agents"
+  status = 301
+
 # Rewrite /api/newsletter/* to Netlify functions
 [[redirects]]
   from = "/api/newsletter/subscribe"

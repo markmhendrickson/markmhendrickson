@@ -17,6 +17,8 @@ export type Dict = {
   navLanguage: string
   drafts: string
   latestPost: string
+  /** Home / post-page featured alert when item is a series index */
+  latestSeries: string
   readMore: string
   nextPost: string
   previousPost: string
@@ -109,6 +111,7 @@ const enDict: Dict = {
     navLanguage: 'Language',
     drafts: 'Drafts',
     latestPost: 'Latest post',
+    latestSeries: 'Latest series',
     readMore: 'Read more',
     nextPost: 'Next post',
     previousPost: 'Previous post',
@@ -197,6 +200,7 @@ const esDict: Dict = {
     navLanguage: 'Idioma',
     drafts: 'Borradores',
     latestPost: 'Última publicación',
+    latestSeries: 'Última serie',
     readMore: 'Seguir leyendo',
     nextPost: 'Siguiente publicación',
     previousPost: 'Publicación anterior',
@@ -285,6 +289,7 @@ const caDict: Dict = {
     navLanguage: 'Idioma',
     drafts: 'Esborranys',
     latestPost: 'Última publicació',
+    latestSeries: 'Última sèrie',
     readMore: 'Llegir més',
     nextPost: 'Publicació següent',
     previousPost: 'Publicació anterior',

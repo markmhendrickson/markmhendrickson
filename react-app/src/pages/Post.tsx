@@ -24,6 +24,7 @@ import {
   cn,
   formatPostPublishedDate,
   parseCalendarOrIsoDateString,
+  truncateForLatestPublicationTeaser,
 } from '@/lib/utils'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { badgeVariants } from '@/components/ui/badge'
@@ -32,7 +33,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X, Linkedin, Facebook, Mail, Copy, ExternalLink, Link as LinkIcon } from 'lucide-react'
 import AmenitiesCards from '@/components/AmenitiesCards'
 import SeriesNav from '@/components/SeriesNav'
-import { defaultLocale, supportedLocales, type SupportedLocale } from '@/i18n/config'
+import { defaultLocale, supportedLocales, localeToLanguageTag, type SupportedLocale } from '@/i18n/config'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
@@ -41,14 +42,8 @@ import privatePostsJson from '@cache/posts.private.json'
 import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
 import { trackUmamiEvent } from '@/lib/umami'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import {
-  buildSeriesOrderedPartSlugs,
-  isSeriesPartForPostsIndex,
-  resolveSeriesSlug,
-} from '@/lib/resolveSeriesSlug'
-import { seriesSeriesHeroBasename } from '@/lib/seriesListThumb'
-import { getSeriesOverview } from '@/lib/seriesOverview'
-import { seriesOverviewTextForProse } from '@/components/SeriesOverviewProse'
+import { buildSeriesOrderedPartSlugs, isSeriesPartForPostsIndex } from '@/lib/resolveSeriesSlug'
+import { computeLatestFeaturedItem, type LatestFeaturedItem } from '@/lib/latestFeaturedItem'
 
 /** X (formerly Twitter) logo for share button. */
 function XLogo({ className, ...props }: React.SVGAttributes<SVGSVGElement>) {
@@ -511,17 +506,6 @@ interface Post {
   /** Total parts in the series */
   seriesTotal?: number
 }
-
-type LatestFeaturedItem =
-  | { type: 'post'; post: Post }
-  | {
-      type: 'series'
-      slug: string
-      title: string
-      excerpt?: string
-      imageBasename?: string
-      latestDate?: string
-    }
 
 /** Share bar: common platforms + content strategy targets (Bluesky, Mastodon, X, LinkedIn, Facebook, HN, Reddit, Email, Copy link). */
 function PostShareBar({
@@ -1315,57 +1299,10 @@ export default function Post({ slug: slugProp }: PostProps) {
     [publishedOnly],
   )
 
-  const latestPost = useMemo(() => {
-    const list = standalonePublishedOnly.filter((p) => p.slug !== (resolvedCanonicalSlug ?? ''))
-    return list[0] ?? null
-  }, [standalonePublishedOnly, resolvedCanonicalSlug])
-
-  const latestSeries = useMemo(() => {
-    const grouped = new Map<string, Post[]>()
-    for (const candidate of publishedOnly) {
-      const sSlug = resolveSeriesSlug(candidate)
-      if (!sSlug || !candidate.series?.trim()) continue
-      const list = grouped.get(sSlug) ?? []
-      list.push(candidate)
-      grouped.set(sSlug, list)
-    }
-
-    const seriesItems = Array.from(grouped.entries()).map(([sSlug, parts]) => {
-      const partsByPart = [...parts].sort((a, b) => (a.seriesPart ?? 0) - (b.seriesPart ?? 0))
-      const partsByDate = [...parts].sort(publishedListOrder)
-      const title = parts.find((p) => p.series?.trim())?.series?.trim() ?? sSlug
-      const overviewRaw = getSeriesOverview(sSlug, partsByPart, locale)
-      return {
-        slug: sSlug,
-        title,
-        excerpt: overviewRaw ? seriesOverviewTextForProse(overviewRaw) : partsByDate[0]?.excerpt,
-        imageBasename: seriesSeriesHeroBasename(sSlug),
-        latestDate: partsByDate[0]?.publishedDate,
-      }
-    })
-
-    seriesItems.sort((a, b) => {
-      const tA = a.latestDate ? parseCalendarOrIsoDateString(a.latestDate).getTime() : 0
-      const tB = b.latestDate ? parseCalendarOrIsoDateString(b.latestDate).getTime() : 0
-      if (tB !== tA) return tB - tA
-      return a.title.localeCompare(b.title)
-    })
-
-    return seriesItems[0] ?? null
-  }, [publishedOnly, locale])
-
-  const latestFeaturedItem = useMemo<LatestFeaturedItem | null>(() => {
-    if (!latestPost) return latestSeries ? { type: 'series', ...latestSeries } : null
-    if (!latestSeries?.latestDate) return { type: 'post', post: latestPost }
-
-    const postTime = latestPost.publishedDate
-      ? parseCalendarOrIsoDateString(latestPost.publishedDate).getTime()
-      : 0
-    const seriesTime = parseCalendarOrIsoDateString(latestSeries.latestDate).getTime()
-    return seriesTime >= postTime
-      ? { type: 'series', ...latestSeries }
-      : { type: 'post', post: latestPost }
-  }, [latestPost, latestSeries])
+  const latestFeaturedItem = useMemo<LatestFeaturedItem<Post> | null>(
+    () => computeLatestFeaturedItem(publishedOnly, locale, resolvedCanonicalSlug),
+    [publishedOnly, locale, resolvedCanonicalSlug],
+  )
 
   const { prevPost, prevPost2, nextPost } = useMemo(() => {
     const seen = new Set<string>()
@@ -1636,6 +1573,7 @@ export default function Post({ slug: slugProp }: PostProps) {
     const localizedSlug = localizedPost?.slug ?? post.slug
     return {
       locale: altLocale,
+      languageTag: localeToLanguageTag[altLocale],
       href: `${SITE_BASE}${localizePath(`/posts/${localizedSlug}`, altLocale)}`,
     }
   })
@@ -1685,7 +1623,7 @@ export default function Post({ slug: slugProp }: PostProps) {
         <link rel="canonical" href={canonicalUrl} />
         <link rel="alternate" type="text/markdown" href={markdownUrl} />
         {localizedAlternateUrls.map((alt) => (
-          <link key={alt.locale} rel="alternate" hrefLang={alt.locale} href={alt.href} />
+          <link key={alt.locale} rel="alternate" hrefLang={alt.languageTag} href={alt.href} />
         ))}
         <link rel="alternate" hrefLang="x-default" href={`${SITE_BASE}/`} />
         <meta property="og:type" content="article" />
@@ -1787,7 +1725,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               )}
               <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
                 <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-                  {t.latestPost}
+                  {latestFeaturedItem.type === 'series' ? t.latestSeries : t.latestPost}
                 </AlertTitle>
                 <AlertDescription className="py-px">
                   <span className="font-medium text-foreground">
@@ -1801,10 +1739,12 @@ export default function Post({ slug: slugProp }: PostProps) {
                     ? latestFeaturedItem.excerpt
                     : latestFeaturedItem.post.excerpt) && (
                     <p className="mt-1 text-sm text-muted-foreground">
-                      {stripLinksFromExcerpt(
-                        latestFeaturedItem.type === 'series'
-                          ? latestFeaturedItem.excerpt ?? ''
-                          : latestFeaturedItem.post.excerpt ?? '',
+                      {truncateForLatestPublicationTeaser(
+                        stripLinksFromExcerpt(
+                          latestFeaturedItem.type === 'series'
+                            ? latestFeaturedItem.excerpt ?? ''
+                            : latestFeaturedItem.post.excerpt ?? '',
+                        ),
                       )}
                     </p>
                   )}

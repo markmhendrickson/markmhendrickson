@@ -5,7 +5,7 @@ import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, Share2, Clock, Bot, Briefcase, TrendingUp, CalendarPlus } from 'lucide-react'
 import { ArrowRight } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
-import { localeToOgLocale, localeToLanguageName, supportedLocales } from '@/i18n/config'
+import { localeToOgLocale, localeToLanguageName, localeToLanguageTag, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { trackUmamiEvent } from '@/lib/analytics'
@@ -170,7 +170,7 @@ export function Layout({ children }: LayoutProps) {
             <link
               key={altLocale}
               rel="alternate"
-              hrefLang={altLocale}
+              hrefLang={localeToLanguageTag[altLocale]}
               href={`https://markmhendrickson.com${localizePath('/', altLocale)}`}
             />
           ))}

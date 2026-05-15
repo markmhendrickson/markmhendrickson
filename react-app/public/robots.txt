@@ -1,5 +1,7 @@
 User-agent: *
 Content-Signal: search=yes,ai-input=yes,ai-train=no
 Allow: /
+Disallow: /raw/
+Disallow: /api/
 
 Sitemap: https://markmhendrickson.com/sitemap.xml

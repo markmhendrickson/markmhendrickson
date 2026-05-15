@@ -137,6 +137,26 @@ export function stripLinksFromExcerpt(text: string): string {
   return result.replace(/\s+/g, ' ').trim()
 }
 
+/** Character budget for home / post-page “latest publication” excerpt (post YAML + series overview). */
+export const LATEST_PUBLICATION_EXCERPT_MAX = 220
+
+/**
+ * Hard-cap plain excerpt text for the latest-publication alert; prefers a word boundary.
+ */
+export function truncateForLatestPublicationTeaser(
+  text: string,
+  maxLength: number = LATEST_PUBLICATION_EXCERPT_MAX,
+): string {
+  if (!text || typeof text !== 'string') return text
+  const s = text.trim()
+  if (s.length <= maxLength) return s
+  const budget = maxLength - 1
+  let cut = s.slice(0, budget)
+  const lastSpace = cut.lastIndexOf(' ')
+  if (lastSpace > Math.floor(budget * 0.55)) cut = cut.slice(0, lastSpace)
+  return `${cut.trimEnd()}…`
+}
+
 /**
  * When excerpt is only markdown bullet lines (e.g. summary pasted into excerpt),
  * return cleaned line items for list rendering; otherwise null so callers show a single paragraph.
