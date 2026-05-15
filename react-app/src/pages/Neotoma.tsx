@@ -79,7 +79,7 @@ export default function Neotoma() {
             <h1 className="text-[28px] font-medium mb-2 tracking-tight text-foreground">
               {text.title}
             </h1>
-            <p className="text-[17px] text-muted-foreground dark:text-foreground/80 font-normal tracking-wide max-w-[32rem]">
+            <p className="text-[17px] text-foreground dark:text-foreground/80 font-normal tracking-wide max-w-[32rem]">
               {text.subtitle}
             </p>
           </header>
@@ -141,7 +141,7 @@ export default function Neotoma() {
               <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.ctaHeading}
               </h2>
-              <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed space-y-4">
+              <div className="text-[15px] text-foreground dark:text-foreground/80 leading-relaxed space-y-4">
                 <p className="max-w-[65ch]">{text.ctaParagraph}</p>
                 <p className="max-w-[65ch] font-medium text-foreground">
                   <a href={neotomaMailto} className={LINK_CLASS}>
@@ -178,7 +178,7 @@ function Section({ heading, children }: { heading: string; children: React.React
       <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
         {heading}
       </h2>
-      <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed space-y-4">
+      <div className="text-[15px] text-foreground dark:text-foreground/80 leading-relaxed space-y-4">
         {children}
       </div>
     </section>
