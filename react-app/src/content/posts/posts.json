@@ -1,5 +1,27 @@
 [
   {
+    "slug": "when-agents-file-issues-for-their-humans",
+    "published": false,
+    "title": "When agents file issues for their humans",
+    "excerpt": "The previous research post showed agents evaluating a product for their humans. The next step is agents reporting bugs and feature requests back to the product's agents, with no human in the middle. Neotoma's new issues surface and the Formica daemon in my agentic stack now wire that loop end to end, with a pull request landing in my queue while I sleep.",
+    "category": "Agent Architecture",
+    "readTime": 12,
+    "tags": [
+      "neotoma",
+      "agent issues",
+      "agent-to-agent",
+      "formica",
+      "process-issues",
+      "build-in-public",
+      "multi-agent"
+    ],
+    "heroImage": "when-agents-file-issues-for-their-humans-hero.png",
+    "heroImageSquare": "when-agents-file-issues-for-their-humans-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "createdDate": "2026-05-11",
+    "updatedDate": "2026-05-11"
+  },
+  {
     "slug": "from-memory-to-nervous-system",
     "published": true,
     "publishedDate": "2026-05-08",

@@ -12,7 +12,7 @@ heroImageSquare: "from-memory-to-nervous-system-hero-square.png"
 ogImage: "from-memory-to-nervous-system-hero-og.png"
 heroImageStyle: "keep-proportions"
 createdDate: "2026-05-07"
-updatedDate: "2026-05-08"
+updatedDate: "2026-05-14"
 ---
 
 The first problem with running multiple agents is that they forget. Each session starts blank. Context from one tool doesn't carry to another. Decisions made yesterday are invisible today. You end up re-explaining the same things, or worse, agents contradict each other because neither one has access to what the other wrote.
@@ -73,7 +73,7 @@ This is an extension, not a contradiction. The existing write pipeline already d
 
 The terminology matters. "Signal" and "emit" rather than "notify" or "alert." Notify implies judgment about importance. Alert implies urgency assessment. Signal is neutral. The substrate signals. The consumer interprets.
 
-It's worth being explicit about where strategy lives in this picture. Plans, standing rules, preferences, and prior decisions are themselves state. They're stored entities in the substrate like any other, queried and reduced and signaled the same way. They're not running in some separate layer. The boundary isn't between "strategy lives in another system" and "state lives in the substrate." It's between "the substrate stores and signals" and "consumers decide and act on what they read." That keeps strategy artifacts inspectable, replayable, and shared across every consumer that reads them, without dragging the substrate across the line into deciding.
+It's worth being explicit about where strategy lives in this picture, because the word cuts two ways. The *deciding* part of strategy — choosing to act, prioritizing, escalating, retrying — stays out of the substrate. That's what the earlier test rules out. But the *artifacts* of strategy — plans, standing rules, preferences, prior decisions — are themselves state. They're stored entities in the substrate like any other, queried and reduced and signaled the same way. They're not running in some separate layer. The boundary isn't between "strategy lives in another system" and "state lives in the substrate." It's between "the substrate stores and signals" and "consumers decide and act on what they read." That keeps strategy artifacts inspectable, replayable, and shared across every consumer that reads them, without dragging the substrate across the line into deciding.
 
 ## From memory to nervous system
 
@@ -105,23 +105,23 @@ So far this reads as if the agents all belong to you. They sit in your editor, y
 
 The natural progression is a central instance on your machine plus satellite instances on other infrastructure: client servers, team VPS droplets, remote agents you operate but do not own. Once you're there, polling is not just wasteful. It is structurally blind. You SSH in, run summaries, ask "what happened between these dates" because the remote store never pushes awareness back to the place where your coordinating agents run.
 
-This is coordination across trust boundaries, not just across processes. When the writer is someone else's agent, "shared memory" is not enough. You need writes you can attribute, inspect, and verify after the fact. That means verified writer identity on every surface (MCP, HTTP, signed requests), attribution tiers that distinguish a cryptographically verified agent from an anonymous caller, and conversation shapes that include agent-to-agent and multi-party threads so cross-boundary communication is structured state rather than ad hoc messages.
+This is coordination across trust boundaries, not just across processes. When the writer is someone else's agent, "shared memory" is not enough. You need writes you can attribute, inspect, and verify after the fact. That means [verified writer identity on every surface](/posts/know-which-of-your-agents-wrote-what) (MCP, HTTP, signed requests), attribution tiers that distinguish a cryptographically verified agent from an anonymous caller, and conversation shapes that include agent-to-agent and multi-party threads so cross-boundary communication is structured state rather than ad hoc messages.
 
 Signaling completes the picture. A satellite instance that emits events on write gives your central consumers the same primitive they already rely on locally. Eventually, two instances can sync bidirectionally: when an entity changes on instance A, instance B is notified and can pull the update without manual intervention. No central hub required. Any instance can be a peer.
 
 The "open" part is interoperability under rules, not a free-for-all. Open surfaces plus explicit identity and thread semantics are how you let other people's agents participate in one nervous system without pretending every caller is equally trusted or equally legible. Memory framing undersells that requirement. Nervous system framing does not.
 
-## What I'm building
+## What just shipped
 
-I'm adding these capabilities to [Neotoma](/posts/truth-layer-agent-memory) in sequence, each building on the previous.
+This landed in [Neotoma v0.12.0](https://github.com/markmhendrickson/neotoma/releases/tag/v0.12.0). Each capability below builds on the previous.
 
-**Write-path event emission.** After every successful write, correction, or relationship creation, emit a structured event: entity type, entity ID, observation type, timestamp, and the fields that changed. Consumers get enough information to decide whether to act without needing to re-query the state layer. This is the sensing layer. Without it, every downstream capability requires polling. With it, the substrate becomes reactive.
+**Write-path event emission.** After every successful write, correction, or relationship creation, the substrate emits a structured event: entity type, entity ID, observation type, timestamp, and the fields that changed. Consumers get enough information to decide whether to act without needing to re-query the state layer. This is the sensing layer. Without it, every downstream capability requires polling. With it, the substrate becomes reactive.
 
-**Subscription and webhook delivery.** Agents register interest in a scope and provide a delivery endpoint. The substrate maintains the registry and delivers events via webhook callbacks and SSE. The consumer maintains the logic. Webhooks come first because they work for remote agents on VPS infrastructure, local daemons on your laptop, and cross-instance sync between peers. SSE and MCP push notifications are additive.
+**Subscription and webhook delivery.** Agents register interest in a scope and provide a delivery endpoint. The substrate maintains the registry and delivers events via HMAC-signed webhook callbacks and SSE. The consumer maintains the logic. New tools: `subscribe`, `unsubscribe`, `list_subscriptions`, `get_subscription_status`. Webhooks came first because they work for remote agents on VPS infrastructure, local daemons on your laptop, and cross-instance sync between peers. SSE is wired alongside; MCP push notifications are additive.
 
-**Generalized entity submission.** Right now, structured external submissions (guest access, access policies, conversation threading, external actor provenance) exist but are wired to a single entity type. The next step is making this entity-type-agnostic: any entity type can be opened to guest submissions with configurable access policies, optional external mirrors, and conversation threading. A client's agent submits structured data. A partner's automation submits feedback. The substrate handles access control and provenance. The operator configures what's open and what's not.
+**Bidirectional cross-instance sync.** The existing infrastructure supported unidirectional remote submission: one instance pushes to another. The extension is bidirectional. When an entity changes on instance A, instance B receives an HMAC-signed webhook at `POST /sync/webhook` and can pull the update. No central hub. Any instance can peer with any other. New tools: `add_peer`, `list_peers`, `get_peer_status`, `remove_peer`, `sync_peer`, `resolve_sync_conflict`. Loop prevention is wired through both transports via `sync_peer_id`. This is how a fleet of satellite instances on client infrastructure stays coordinated with a central instance without SSH and cron.
 
-**Bidirectional cross-instance sync.** The existing infrastructure supports unidirectional remote submission: one instance pushes to another. The extension is bidirectional. When an entity changes on instance A, instance B receives a webhook and can pull the update. No central hub. Any instance can peer with any other. This is how a fleet of satellite instances on client infrastructure stays coordinated with a central instance without SSH and cron.
+**Generalized entity submission.** Any entity type can be opened to external submissions with configurable access policies, conversation threading, and external actor provenance. A client's agent submits structured data. A partner's automation submits feedback. The substrate handles access control and provenance. The operator configures what's open and what's not.
 
 None of this is the most ambitious version of what a "nervous system" could be. Routing, filtering, transformation, delivery guarantees, dead-letter queues: message brokers provide all of that. I'm intentionally not building any of it. The substrate's job is to signal, not to orchestrate. Every feature that crosses that line makes the substrate less trustworthy as a neutral reporter of state transitions.
 
