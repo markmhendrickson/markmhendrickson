@@ -79,7 +79,7 @@ export default function Neotoma() {
             <h1 className="text-[28px] font-medium mb-2 tracking-tight text-foreground">
               {text.title}
             </h1>
-            <p className="text-[17px] text-foreground dark:text-foreground/80 font-normal tracking-wide max-w-[32rem]">
+            <p className="text-[17px] text-muted-foreground font-normal tracking-wide max-w-[32rem]">
               {text.subtitle}
             </p>
           </header>
