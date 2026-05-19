@@ -1,8 +1,11 @@
 [
   {
-    "slug": "from-evaluation-to-resolution",
-    "published": false,
-    "title": "From evaluation to resolution",
+    "slug": "agent-to-agent-issue-resolution-with-humans-at-the-edges",
+    "published": true,
+    "title": "Agent-to-agent issue resolution, with humans at the edges",
+    "alternativeSlugs": [
+      "from-evaluation-to-resolution"
+    ],
     "excerpt": "Agent-led evaluation tells a user whether Neotoma fits. The new issues subsystem lets the same agent file a bug, exchange messages with the maintainer, and watch the fix arrive, all through MCP. The feedback loop closes without a human ever opening a browser tab.",
     "category": "essay",
     "readTime": 12,
@@ -15,7 +18,10 @@
       "multi-agent",
       "build-in-public"
     ],
+    "heroImage": "agent-to-agent-issue-resolution-with-humans-at-the-edges-hero.png",
+    "heroImageSquare": "agent-to-agent-issue-resolution-with-humans-at-the-edges-hero-square.png",
     "heroImageStyle": "keep-proportions",
+    "ogImage": "og/agent-to-agent-issue-resolution-with-humans-at-the-edges-1200x630.jpg",
     "createdDate": "2026-05-19",
     "updatedDate": "2026-05-19"
   },

@@ -28,11 +28,44 @@
   .post-prose blockquote {
     @apply border-l-4 border-gray-300 pl-4 italic text-[15px] text-[#666] mb-4;
   }
+  /* Inline code — inherit body typography (override Tailwind preflight monospace on code) */
   .post-prose code {
-    @apply bg-gray-100 px-1 py-0.5 rounded text-[14px] font-mono;
+    @apply inline bg-gray-100/80 px-[0.2em] rounded-[2px] border-0 align-baseline;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit;
+    line-height: inherit !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    vertical-align: baseline;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .post-prose pre {
+    @apply mb-4 overflow-x-auto rounded border border-gray-200 bg-gray-100 text-[14px] leading-[1.65];
   }
   .post-prose pre code {
-    @apply block p-4 rounded mb-4 overflow-x-auto;
+    @apply block p-4 m-0 rounded-none border-0 bg-transparent font-mono text-[14px] leading-[1.65];
+    display: block !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+  .post-prose-summary code {
+    @apply inline bg-gray-100/80 px-[0.2em] rounded-[2px] border-0 align-baseline;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit;
+    line-height: inherit !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    vertical-align: baseline;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .post-prose-summary pre code {
+    @apply block font-mono text-sm leading-[1.65];
+    font-size: 0.875rem !important;
+    line-height: 1.65 !important;
   }
 
   /* Copyable prompt fences: not-prose does not stop .post-prose code / pre code rules from applying to descendants */
@@ -207,8 +240,19 @@
     border-color: hsl(var(--border));
   }
 
-  .dark .post-prose code {
+  .dark .post-prose code,
+  .dark .post-prose-summary code {
+    background-color: hsl(var(--muted) / 0.85);
+  }
+
+  .dark .post-prose pre code,
+  .dark .post-prose-summary pre code {
+    background-color: transparent;
+  }
+
+  .dark .post-prose pre {
     background-color: hsl(var(--muted));
+    border-color: hsl(var(--border));
   }
 
   .dark .post-prose .post-copyable-fence code,

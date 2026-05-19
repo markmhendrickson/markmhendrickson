@@ -5,8 +5,15 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 08 May 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>Agent-to-agent issue resolution, with humans at the edges</title>
+    <link>https://markmhendrickson.com/posts/agent-to-agent-issue-resolution-with-humans-at-the-edges</link>
+    <description>Agent-led evaluation tells a user whether Neotoma fits. The issues subsystem lets the same agent file a bug or enhancement, exchange messages with the maintainer, and watch the change arrive — all through MCP, without a human ever opening a browser tab.</description>
+    <pubDate>Tue, 19 May 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-to-agent-issue-resolution-with-humans-at-the-edges</guid>
+  </item>
   <item>
     <title>From memory to nervous system</title>
     <link>https://markmhendrickson.com/posts/from-memory-to-nervous-system</link>

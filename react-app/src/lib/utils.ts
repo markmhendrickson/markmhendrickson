@@ -94,13 +94,22 @@ export function stripSeriesPrefixFromTitle(
 }
 
 /** Parse YAML frontmatter (---\n...\n---\n) from markdown; return { title?, excerpt? } for display overrides in dev. */
-export function parseFrontmatter(markdown: string): { title?: string; excerpt?: string } {
+export type PostFrontmatter = {
+  title?: string
+  excerpt?: string
+  heroImage?: string
+  heroImageSquare?: string
+  heroImageStyle?: string
+  ogImage?: string
+}
+
+export function parseFrontmatter(markdown: string): PostFrontmatter {
   if (!markdown || typeof markdown !== 'string') return {}
   if (!markdown.startsWith('---\n')) return {}
   const end = markdown.indexOf('\n---\n', 4)
   if (end === -1) return {}
   const block = markdown.slice(4, end)
-  const out: { title?: string; excerpt?: string } = {}
+  const out: PostFrontmatter = {}
   for (const line of block.split('\n')) {
     if (line.includes(':')) {
       const k = line.split(':')[0].trim().toLowerCase()
@@ -108,6 +117,10 @@ export function parseFrontmatter(markdown: string): { title?: string; excerpt?: 
       if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) v = v.slice(1, -1)
       if (k === 'title') out.title = v
       if (k === 'excerpt') out.excerpt = v
+      if (k === 'heroimage') out.heroImage = v
+      if (k === 'heroimagesquare') out.heroImageSquare = v
+      if (k === 'heroimagestyle') out.heroImageStyle = v
+      if (k === 'ogimage') out.ogImage = v
     }
   }
   return out

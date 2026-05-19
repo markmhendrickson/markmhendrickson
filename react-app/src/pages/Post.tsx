@@ -1359,7 +1359,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           return
         }
 
-        setPost(postMeta)
+        let postForView: Post = postMeta
 
         // Load markdown content
         // In dev, prefer markdown files for preview. In prod, prefer parquet cache.
@@ -1440,7 +1440,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               content = postMeta.body
             }
           }
-          // In dev, show excerpt/title from draft frontmatter only for default locale so localized cache titles show for es/ca
+          // In dev, show excerpt/title/hero from draft frontmatter (default locale) so preview matches .md without waiting on cache regen
           try {
             const raw = await loadMarkdownContent()
             const fm = parseFrontmatter(raw)
@@ -1448,6 +1448,13 @@ export default function Post({ slug: slugProp }: PostProps) {
             if (locale === defaultLocale) {
               setExcerptFromMd(fm.excerpt !== undefined ? fm.excerpt : undefined)
               setTitleFromMd(fm.title !== undefined ? fm.title : undefined)
+              postForView = {
+                ...postForView,
+                ...(fm.heroImage ? { heroImage: fm.heroImage } : {}),
+                ...(fm.heroImageSquare ? { heroImageSquare: fm.heroImageSquare } : {}),
+                ...(fm.heroImageStyle ? { heroImageStyle: fm.heroImageStyle } : {}),
+                ...(fm.ogImage ? { ogImage: fm.ogImage } : {}),
+              }
             } else {
               setExcerptFromMd(undefined)
               setTitleFromMd(undefined)
@@ -1487,6 +1494,8 @@ export default function Post({ slug: slugProp }: PostProps) {
           }
         }
         if (isCancelled) return
+
+        setPost(postForView)
 
         if (content) {
           setContent(normalizeMarkdownFormatting(content))
