@@ -26,7 +26,7 @@ Friction is the silent killer of feedback. The old model assumed the user would 
 
 When the user's agent is the one that hit the wall, that translation step is free. The agent already has the context: which tool it was running in, the exact MCP call that failed, the response payload, the git SHA or app version of the Neotoma install, the entity type involved. It can compose a coherent report in one tool call. As of v0.13.0 the MCP instructions explicitly tell agents to file via `submit_issue` immediately when a reportable problem is confirmed, without prompting for consent. The reasoning is that asking the user "should I file this?" is the same friction as asking them to open GitHub: it interrupts whatever they were doing to make a decision the agent already has enough information to make. The agent files. The user finds out about it later, or never, depending on whether the bug ever comes back.
 
-Symmetrically, on the maintainer side, the loop has to close without me reading every report by hand. I run about a dozen agents across editors and daemons. They already process incoming structured state. The natural shape is: a new issue arrives, the substrate signals on write, a triage daemon picks up the event, reads the issue, decides whether it can act, opens a worktree, runs an agent session against the codebase, and either resolves the bug or asks the reporter for clarification through the same thread.
+On the maintainer side, the loop has to close without me reading every report by hand. I run about a dozen agents across editors and daemons. They already process incoming structured state. The natural shape is: a new issue arrives, the substrate signals on write, a triage daemon picks up the event, reads the issue, decides whether it can act, opens a worktree, runs an agent session against the codebase, and either resolves the bug or asks the reporter for clarification through the same thread.
 
 Both halves of the loop run as agentic work over the same substrate. The user's agent uses MCP to submit. The maintainer's agents use MCP to read and respond. Nobody has to open a browser.
 
@@ -34,7 +34,7 @@ Both halves of the loop run as agentic work over the same substrate. The user's 
 
 The MCP surface is small enough to enumerate. The `submit_issue` tool takes a title, a body, an entity type if the issue is about a specific kind of record, and a reporter environment block that has to include either the Neotoma git SHA the user is running or the app version. That last requirement is not paperwork. It is the difference between a report that can be reproduced and one that drifts into the bucket of unactionable noise. The schema enforces it; the HTTP route returns a `400 ERR_REPORTER_ENVIRONMENT_REQUIRED` if both fields are missing, with the acceptable field groups listed in the error so the agent can self-correct on the retry. In v0.13.0 the server also auto-populates `reporter_app_version` when the agent omits it, so the most common cause of a 400 quietly disappears.
 
-A submission rarely arrives bare. The bug the agent just hit references concrete entities: the specific record that failed to store, its schema, an upstream observation. In v0.13.0 `submit_issue` and `add_issue_message` accept an `entity_ids_to_link` array, and the server creates `REFERS_TO` relationships from the new issue to each referenced entity atomically as part of the same call. Before this, a complete report meant a follow-up `create_relationship` per reference, which agents would sometimes skip. After this, the issue lands already wired into the graph it is about. The triage agent reading the issue can traverse straight to the entity that failed.
+Reports rarely arrive without context. The bug the agent just hit references concrete entities: the specific record that failed to store, its schema, an upstream observation. In v0.13.0 `submit_issue` and `add_issue_message` accept an `entity_ids_to_link` array, and the server creates `REFERS_TO` relationships from the new issue to each referenced entity atomically as part of the same call. Before this, a complete report meant a follow-up `create_relationship` per reference, which agents would sometimes skip. After this, the issue lands already wired into the graph it is about. The triage agent reading the issue can traverse straight to the entity that failed.
 
 The submission flows through the same `scanAndRedact` PII guard that protects every public surface. If the agent accidentally pastes a token or an email address into the body, it gets redacted before persistence. ISO-date literals no longer trip the phone-number heuristic, which was the last false-positive I cared about. The MCP instructions now require agents to apply the PII checklist to title and body before the call, but the server-side guard is the actual line of defense. The reporter gets a numeric issue identifier and a guest read-back token with an explicit TTL, currently thirty days by default, scoped to the thread they just opened. That token is how the reporter's agent reads the status later without re-authenticating each time.
 
@@ -70,7 +70,7 @@ The substrate emits events after every write. That is the only thing the substra
 
 This is the line I [argued for two weeks ago](/posts/from-memory-to-nervous-system) and it holds up under the issues use case. The substrate does not decide which issues matter, does not retry deliveries with escalation, does not subscribe to its own events. It signals. The triage daemon is a consumer, the reporter's agent is a consumer, the GitHub mirror is a consumer. Each consumer registers interest, decides what to do, and acts. If I want to add a second triage daemon that handles security reports differently, it subscribes to the same events with a different filter. No new substrate behavior.
 
-The biological analogy keeps landing. The substrate is the brain plus sensory nerves: it stores the issue, it transmits the signal that an issue arrived. The triage daemon and the reporter's agent are the motor system: they decide what to do about the signal. A version of Neotoma that tried to be all three would be harder to reason about and harder to extend. A version that stops at signaling stays neutral.
+The biological framing holds. The substrate is the brain plus sensory nerves: it stores the issue, it transmits the signal that an issue arrived. The triage daemon and the reporter's agent are the motor system: they decide what to do about the signal. A version of Neotoma that tried to be all three would be harder to reason about and harder to extend. A version that stops at signaling stays neutral.
 
 ## The agentic loop, end to end
 
@@ -84,7 +84,7 @@ Both halves operate on agents talking to agents through one structured surface. 
 
 This is what I meant when I said the substrate's job is to make multi-agent work possible. The agent-led evaluation works because the substrate holds structured state about the user's workflow. The issues subsystem works because the substrate signals on write and supports verified guest access for cross-trust-boundary submission. Both depend on the same primitives. Neither would be possible without them.
 
-## What I am not building
+## What I'm not building
 
 The temptation in the issues subsystem is the same temptation in the signaling subsystem: drift toward orchestration. Add a prioritization model. Add automatic SLA tracking. Add a "smart" router that decides which daemon handles which issue type. Each of these sounds reasonable in isolation.
 
@@ -92,9 +92,9 @@ None of them belong in the substrate. The triage daemon prioritizes. The maintai
 
 The same applies to retry semantics. If a webhook delivery fails, the substrate logs the failure and moves on. It does not escalate to a backup delivery channel, does not buffer for later replay, does not flip a consumer into a degraded state. Message brokers do all of that and they are good at it. The substrate is not a message broker. Consumers that want guaranteed delivery wrap the substrate's signal in their own infrastructure.
 
-The constraint is the feature, the same way it was in the nervous system post. A state layer that signals issues but does not decide which issues matter is a state layer that any consumer can trust to behave predictably.
+The constraint is the feature. A state layer that signals issues but does not decide which issues matter is a state layer that any consumer can trust to behave predictably.
 
-## What is next
+## What's next
 
 Three pieces still belong in this loop and are not built yet.
 
