@@ -103,7 +103,7 @@ function TweetPreview({
   const displayText = truncated && !expanded ? body.slice(0, cutoff) : body
 
   return (
-    <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed whitespace-pre-wrap">
+    <p className="text-[15px] text-foreground mb-3 leading-relaxed whitespace-pre-wrap">
       {displayText}
       {truncated && !expanded && (
         <>
@@ -542,7 +542,7 @@ export default function Posts({ draft = false }: PostsProps) {
                       {description ? (
                         <SeriesOverviewProse
                           text={description}
-                          paragraphClassName="text-[15px] text-muted-foreground leading-relaxed"
+                          paragraphClassName="text-[15px] text-foreground leading-relaxed"
                           maxParagraphs={1}
                         />
                       ) : null}

@@ -267,10 +267,10 @@ export default function Timeline() {
                     return item.company
                   })()}
                 </div>
-                <div className="text-[15px] text-muted-foreground dark:text-foreground/80 mb-1">{item.role}</div>
+                <div className="text-[15px] text-foreground mb-1">{item.role}</div>
                 <div className="text-[13px] text-muted-foreground dark:text-foreground/80 mb-2">{item.date}</div>
                 {item.description.length > 0 && (
-                  <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed">
+                  <div className="text-[15px] text-foreground leading-relaxed">
                     {item.description.map((desc, i) => {
                       const isBowdoinBaSecond = item.company === 'Bowdoin College' && item.role === 'BA, Government & Economics' && i === 1
                       return (

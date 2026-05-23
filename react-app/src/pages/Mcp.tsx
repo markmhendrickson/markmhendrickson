@@ -195,12 +195,12 @@ export default function Mcp() {
       <div className="flex justify-center items-start min-h-content pt-10 pb-20 px-5 md:py-28 md:px-8">
         <div className="max-w-[42rem] w-full">
           {error && (
-            <p className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed mb-4" role="alert">
+            <p className="text-[15px] text-foreground leading-relaxed mb-4" role="alert">
               {t.mcpLoadError}: {error}. {t.mcpEnsureAvailable}: {agentJsonUrl}.
             </p>
           )}
           {!content && !error && (
-            <p className="text-[15px] text-muted-foreground dark:text-foreground/80">{t.mcpLoading}</p>
+            <p className="text-[15px] text-foreground">{t.mcpLoading}</p>
           )}
           <article className="agent-page">
             <header className="mb-16">
@@ -218,10 +218,10 @@ export default function Mcp() {
               <div className="space-y-16">
                 {content.sections.map((section, index) => (
                   <section key={index} className="space-y-5">
-                    <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+                    <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                       {section.heading}
                     </h2>
-                    <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed space-y-4">
+                    <div className="text-[15px] text-foreground leading-relaxed space-y-4">
                       {section.paragraphs.map((paragraph, paragraphIndex) => (
                         <p key={paragraphIndex} className="max-w-[65ch]">
                           {linkFirstMcpServer(
@@ -234,7 +234,7 @@ export default function Mcp() {
                       ))}
                     </div>
                     {section.bullets && section.bullets.length > 0 && (
-                      <ul className="mt-1 list-disc pl-6 space-y-2 text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
+                      <ul className="mt-1 list-disc pl-6 space-y-2 text-[15px] text-foreground leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
                         {section.bullets.map((item, itemIndex) => (
                           <li key={itemIndex} className="pl-0.5 max-w-[65ch]">
                             {item.url ? (
@@ -255,7 +255,7 @@ export default function Mcp() {
                     )}
                     {section.table && section.table.columns.length > 0 && (
                       <div className="mt-6 overflow-x-auto rounded-lg border border-border bg-muted/30">
-                        <table className="w-full text-[15px] text-muted-foreground dark:text-foreground/80 border-collapse">
+                        <table className="w-full text-[15px] text-foreground border-collapse">
                           <thead>
                             <tr className="bg-muted/50">
                               {section.table.columns.map((column, columnIndex) => (

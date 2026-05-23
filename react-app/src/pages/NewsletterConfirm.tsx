@@ -166,7 +166,7 @@ export default function NewsletterConfirm() {
           </Alert>
 
           <h2 className="text-[24px] font-medium mb-2 tracking-tight">Optional: Help Us Understand Your Interests</h2>
-          <p className="text-[15px] text-muted-foreground dark:text-foreground/80 mb-8 leading-relaxed">
+          <p className="text-[15px] text-foreground mb-8 leading-relaxed">
             These questions help us tailor content to your needs. All responses are optional and stored privately.
           </p>
 

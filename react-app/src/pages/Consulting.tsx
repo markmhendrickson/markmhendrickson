@@ -401,10 +401,10 @@ export default function Consulting() {
           <div className="space-y-16">
             {/* Context */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.contextHeading}
               </h2>
-              <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed space-y-4">
+              <div className="text-[15px] text-foreground leading-relaxed space-y-4">
                 {text.contextParagraphs.map((p, i) => (
                   <p key={i} className="max-w-[65ch]">
                     {i === 1 ? paragraphWithProjectLinks(p, locale) : p}
@@ -415,7 +415,7 @@ export default function Consulting() {
 
             {/* Focus Areas */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.focusAreasHeading}
               </h2>
               <div className="space-y-10">
@@ -424,10 +424,10 @@ export default function Consulting() {
                     <h3 className="text-[16px] font-medium text-foreground">
                       {area.title}
                     </h3>
-                    <p className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed max-w-[65ch]">
+                    <p className="text-[15px] text-foreground leading-relaxed max-w-[65ch]">
                       {area.description}
                     </p>
-                    <ul className="list-disc pl-6 space-y-1.5 text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
+                    <ul className="list-disc pl-6 space-y-1.5 text-[15px] text-foreground leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
                       {area.topics.map((topic, j) => (
                         <li key={j} className="pl-0.5 max-w-[65ch]">{topic}</li>
                       ))}
@@ -439,7 +439,7 @@ export default function Consulting() {
 
             {/* Types of Engagements */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.engagementTypesHeading}
               </h2>
               <div className="space-y-6">
@@ -448,7 +448,7 @@ export default function Consulting() {
                     <h3 className="text-[15px] font-medium text-foreground mb-1">
                       {engagement.title}
                     </h3>
-                    <p className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed max-w-[65ch]">
+                    <p className="text-[15px] text-foreground leading-relaxed max-w-[65ch]">
                       {engagement.description}
                     </p>
                   </div>
@@ -458,10 +458,10 @@ export default function Consulting() {
 
             {/* Best Fit */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.engagementFitHeading}
               </h2>
-              <ul className="list-disc pl-6 space-y-2 text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
+              <ul className="list-disc pl-6 space-y-2 text-[15px] text-foreground leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
                 {text.engagementFitTraits.map((trait, i) => (
                   <li key={i} className="pl-0.5 max-w-[65ch]">{trait}</li>
                 ))}
@@ -470,10 +470,10 @@ export default function Consulting() {
 
             {/* Working Structure */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.structureHeading}
               </h2>
-              <ul className="list-disc pl-6 space-y-2 text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
+              <ul className="list-disc pl-6 space-y-2 text-[15px] text-foreground leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
                 {text.structureBullets.map((bullet, i) => (
                   <li key={i} className="pl-0.5 max-w-[65ch]">{bullet}</li>
                 ))}
@@ -482,10 +482,10 @@ export default function Consulting() {
 
             {/* Open-Source Commitment */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.openSourceHeading}
               </h2>
-              <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed space-y-4">
+              <div className="text-[15px] text-foreground leading-relaxed space-y-4">
                 {text.openSourceParagraphs.map((p, i) => (
                   <p key={i} className="max-w-[65ch]">
                     {p}
@@ -496,10 +496,10 @@ export default function Consulting() {
 
             {/* Get in Touch */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.ctaHeading}
               </h2>
-              <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed space-y-4">
+              <div className="text-[15px] text-foreground leading-relaxed space-y-4">
                 <p className="max-w-[65ch]">{text.ctaParagraph}</p>
                 <p className="max-w-[65ch] font-medium text-foreground">
                   <a

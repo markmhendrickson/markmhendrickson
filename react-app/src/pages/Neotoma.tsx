@@ -138,7 +138,7 @@ export default function Neotoma() {
             </Section>
 
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.ctaHeading}
               </h2>
               <div className="text-[15px] text-foreground dark:text-foreground/80 leading-relaxed space-y-4">
@@ -175,7 +175,7 @@ export default function Neotoma() {
 function Section({ heading, children }: { heading: string; children: React.ReactNode }) {
   return (
     <section className="space-y-5">
-      <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+      <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
         {heading}
       </h2>
       <div className="text-[15px] text-foreground dark:text-foreground/80 leading-relaxed space-y-4">

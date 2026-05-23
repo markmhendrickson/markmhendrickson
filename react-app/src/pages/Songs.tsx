@@ -114,9 +114,9 @@ export default function Songs() {
           </div>
 
           {loading ? (
-            <p className="text-[15px] text-muted-foreground dark:text-foreground/80">Loading songs...</p>
+            <p className="text-[15px] text-foreground">Loading songs...</p>
           ) : processedSongs.length === 0 ? (
-            <p className="text-[15px] text-muted-foreground dark:text-foreground/80">No songs found.</p>
+            <p className="text-[15px] text-foreground">No songs found.</p>
           ) : (
             <div className="space-y-6">
               {processedSongs.map((song, index) => {
@@ -130,7 +130,7 @@ export default function Songs() {
                       <h3 className="text-[18px] font-medium tracking-tight mb-1">
                         {song.title || 'Unknown Title'}
                       </h3>
-                      <p className="text-[15px] text-muted-foreground dark:text-foreground/80 mb-1">
+                      <p className="text-[15px] text-foreground mb-1">
                         {song.artist || 'Unknown Artist'}
                       </p>
                       {song.album && (

@@ -28,7 +28,7 @@ export function seriesOverviewTextForProse(raw: string): string {
 export function SeriesOverviewProse({
   text,
   /** Paragraph classes for `card` variant (listings). Ignored when `variant` is `postBody`. */
-  paragraphClassName = 'text-[15px] text-muted-foreground leading-relaxed',
+  paragraphClassName = 'text-[15px] text-foreground leading-relaxed',
   /** When set (e.g. `1`), only the first paragraph is shown (posts index series cards). */
   maxParagraphs,
   /**

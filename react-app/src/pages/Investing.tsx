@@ -90,10 +90,10 @@ export default function Investing() {
           <div className="space-y-16">
             {/* Current status */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.statusHeading}
               </h2>
-              <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed space-y-4">
+              <div className="text-[15px] text-foreground leading-relaxed space-y-4">
                 {text.statusParagraphs.map((p, i) => (
                   <p key={i} className="max-w-[65ch]">
                     {i === 1 ? paragraphWithLinks(p, locale) : p}
@@ -104,10 +104,10 @@ export default function Investing() {
 
             {/* Areas of interest */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.interestsHeading}
               </h2>
-              <ul className="list-disc pl-6 space-y-2 text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
+              <ul className="list-disc pl-6 space-y-2 text-[15px] text-foreground leading-relaxed marker:text-muted-foreground dark:marker:text-foreground/70">
                 {text.interests.map((item, i) => (
                   <li key={i} className="pl-0.5 max-w-[65ch]">{item}</li>
                 ))}
@@ -116,10 +116,10 @@ export default function Investing() {
 
             {/* Get in touch */}
             <section className="space-y-5">
-              <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+              <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                 {text.ctaHeading}
               </h2>
-              <div className="text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed space-y-4">
+              <div className="text-[15px] text-foreground leading-relaxed space-y-4">
                 <p className="max-w-[65ch]">{text.ctaParagraph}</p>
                 <p className="max-w-[65ch] font-medium text-foreground">
                   <a

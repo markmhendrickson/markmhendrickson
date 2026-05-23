@@ -5,7 +5,7 @@
 /* Post prose: one wrapper class, style by element inside it (no per-element classes in HTML) */
 @layer components {
   .post-prose p {
-    @apply text-[15px] leading-[1.75] mb-4 text-[#333];
+    @apply text-[15px] leading-[1.75] mb-4 text-foreground;
   }
   .post-prose h1 {
     @apply text-[24px] font-medium mb-4 mt-14 first:mt-0 tracking-tight;
@@ -163,14 +163,14 @@
     @apply mt-8 pt-6 border border-border rounded-lg px-5 py-4;
   }
   .postscript-prose h2 {
-    @apply text-[18px] font-medium mb-3 mt-0 tracking-tight text-[#333];
+    @apply text-[18px] font-medium mb-3 mt-0 tracking-tight text-foreground;
   }
   .postscript-prose h3 {
-    @apply text-[14px] font-medium mb-2 mt-4 tracking-tight text-[#333];
+    @apply text-[14px] font-medium mb-2 mt-4 tracking-tight text-foreground;
   }
   .postscript-prose p,
   .postscript-prose li {
-    @apply text-[14px] leading-[1.7] mb-4 text-[#333];
+    @apply text-[14px] leading-[1.7] mb-4 text-foreground;
   }
   .postscript-prose ul,
   .postscript-prose ol {
@@ -183,7 +183,7 @@
     @apply list-decimal;
   }
   .postscript-prose strong {
-    @apply font-semibold text-[#333];
+    @apply font-semibold text-foreground;
   }
   .postscript-prose a {
     @apply text-black border-b border-black pb-[1px] hover:border-transparent;
@@ -204,13 +204,13 @@
 
   /* Key takeaways box: smaller text to match Alert / latest-post notice */
   .post-prose-summary p {
-    @apply text-sm leading-[1.65] mb-3 text-[#333];
+    @apply text-sm leading-[1.65] mb-3 text-foreground;
   }
   .post-prose-summary ul {
     @apply list-disc list-outside mb-4 ml-6 space-y-2;
   }
   .post-prose-summary li {
-    @apply text-sm leading-[1.65] text-[#333];
+    @apply text-sm leading-[1.65] text-foreground;
   }
   .post-prose-summary strong {
     @apply font-semibold;
@@ -344,7 +344,7 @@
     max-width: 100vw;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-light;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   }
   #root {

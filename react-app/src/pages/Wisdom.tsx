@@ -119,7 +119,7 @@ export default function Wisdom() {
 
           {isEmpty ? (
             <div className="text-center py-12">
-              <p className="text-[15px] text-muted-foreground leading-relaxed">
+              <p className="text-[15px] text-foreground leading-relaxed">
                 The wisdom collection is being compiled. Run the PithBot to generate it.
               </p>
               <pre className="mt-6 inline-block text-left text-[13px] bg-muted/50 rounded-lg p-4 overflow-x-auto text-muted-foreground">

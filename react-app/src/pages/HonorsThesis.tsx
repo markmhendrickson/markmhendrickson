@@ -392,10 +392,10 @@ export default function HonorsThesis() {
               <>
                 {/* Contents page */}
                 <section className="space-y-5">
-                  <h2 className="text-[20px] font-medium text-foreground tracking-tight border-b border-border pb-2.5">
+                  <h2 className="text-[20px] font-light text-foreground tracking-tight border-b border-border pb-2.5">
                     {text.tocHeading}
                   </h2>
-                  <ul className="list-none pl-0 space-y-5 text-[15px] text-muted-foreground dark:text-foreground/80 leading-relaxed">
+                  <ul className="list-none pl-0 space-y-5 text-[15px] text-foreground leading-relaxed">
                     {tocWithSubsections.map((item) => (
                       <li key={item.slug} className="max-w-[65ch]">
                         <div className="flex justify-between gap-4 items-center font-medium text-foreground">

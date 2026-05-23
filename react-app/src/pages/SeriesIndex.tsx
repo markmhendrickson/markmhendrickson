@@ -333,7 +333,7 @@ export default function SeriesIndex() {
                     {series.description && (
                       <SeriesOverviewProse
                         text={series.description}
-                        paragraphClassName="text-[15px] text-muted-foreground leading-relaxed"
+                        paragraphClassName="text-[15px] text-foreground leading-relaxed"
                       />
                     )}
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">

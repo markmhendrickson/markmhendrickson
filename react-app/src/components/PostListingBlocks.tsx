@@ -36,7 +36,7 @@ export function PostListingExcerpt({
   const bullets = parseExcerptAsBulletLines(excerpt)
   if (bullets?.length) {
     return (
-      <ul className="list-disc pl-5 mb-3 space-y-1.5 text-[15px] text-muted-foreground leading-relaxed">
+      <ul className="list-disc pl-5 mb-3 space-y-1.5 text-[15px] text-foreground leading-relaxed">
         {bullets.slice(0, 6).map((item, i) => (
           <li key={i}>
             <HighlightedText text={item} query={query} />
@@ -46,7 +46,7 @@ export function PostListingExcerpt({
     )
   }
   return (
-    <p className="text-[15px] text-muted-foreground mb-3 leading-relaxed">
+    <p className="text-[15px] text-foreground mb-3 leading-relaxed">
       <HighlightedText text={stripLinksFromExcerpt(excerpt)} query={query} />
     </p>
   )
