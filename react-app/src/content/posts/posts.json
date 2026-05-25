@@ -1,5 +1,24 @@
 [
   {
+    "slug": "what-is-ateles",
+    "published": false,
+    "title": "What is Ateles? A personal agent swarm for one person",
+    "excerpt": "I've been building a personal agent swarm for about six months. Not a demo, not a product launch — a running system that does real work for me today. This is what it is, why I built it, and what makes it different from just calling an LLM API.",
+    "category": "Agent Architecture",
+    "readTime": 8,
+    "tags": [
+      "ateles",
+      "agent swarm",
+      "neotoma",
+      "aauth",
+      "claude code",
+      "multi-agent",
+      "build-in-public"
+    ],
+    "createdDate": "2026-05-25",
+    "updatedDate": "2026-05-25"
+  },
+  {
     "slug": "agent-to-agent-issue-resolution-with-humans-at-the-edges",
     "published": true,
     "title": "Agent-to-agent issue resolution, with humans at the edges",
