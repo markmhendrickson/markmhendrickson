@@ -12,7 +12,7 @@ I work as a solo founder in Barcelona. Workflows (email, finance, content, produ
 
 **Currently:**
 - **[Neotoma](https://github.com/markmhendrickson/neotoma)** — user-owned memory layer for AI agents (MCP, structured data, provenance)
-- **Ateles** — monorepo for my agent-native workflow (site, content, finances, automation); Neotoma is the memory layer underneath
+- **[Ateles](https://github.com/markmhendrickson/ateles)** — monorepo for my agent-native workflow (site, content, finances, automation); Neotoma is the memory layer underneath
 - **[markmhendrickson.com](https://markmhendrickson.com)** — essays and updates (this repo builds the site)
 
 **Elsewhere:** [Website](https://markmhendrickson.com) · [X @markymark](https://x.com/markymark) · [LinkedIn](https://linkedin.com/in/markmhendrickson)
