@@ -1,0 +1,5 @@
+- Three posts with roughly 5.3 million combined views reached the same conclusion within 48 hours: the loop, not the prompt, is the new unit of work with coding agents, and durable state is what makes a loop a loop.
+- Every substrate proposed for that state is unstructured: a markdown file, a Linear board, state files committed to git, or a mounted filesystem.
+- Those substrates solve persistence but not integrity, meaning which of two contradictory notes is true, who wrote it, when, and whether it was ever verified.
+- Applications went through this transition fifty years ago when flat files lost to databases, and the same forcing functions (concurrency, contradiction, and queries) are already visible inside these posts.
+- On the same filesystem substrate, verification coverage ranged from 17 percent to 73 percent depending on the model. Memory quality should be a property of the substrate, not a benchmark of the model.
