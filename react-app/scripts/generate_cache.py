@@ -692,17 +692,9 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
             if m.get("slug") and m.get("slug") not in draft_only_slugs:
                 draft_only_metadata.append(m)
 
-        published_metadata = [m for m in draft_only_metadata if m.get("published")]
-        published_metadata.sort(key=lambda m: (m.get("slug") or ""))
-        published_metadata.sort(key=lambda m: (m.get("publishedDate") or "0000-01-01"), reverse=True)
-        overlay_summaries_from_markdown(published_metadata)
-        overlay_body_from_markdown(published_metadata)
-        ensure_repo_override_posts(published_metadata)
-        overlay_listing_excludes(published_metadata)
-        overlay_alternative_slugs(published_metadata)
-        write_json(POSTS_JSON, published_metadata)
-        write_json(API_POSTS_JSON, {"url": f"{SITE_BASE}/api/posts.json", "posts": published_metadata})
-
+        # No export: committed cache/posts.json + api/posts.json are the deploy
+        # artifact (CI runs SKIP_WEBSITE_CACHE_REGEN=1); only rebuild the
+        # dev-only private cache so a watcher run can't degrade them.
         all_metadata = list(draft_only_metadata)
         all_metadata.sort(
             key=lambda m: (
@@ -787,8 +779,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
 
 def generate_links_cache(links: List[Dict[str, Any]]) -> None:
     if not links:
-        write_json(LINKS_JSON, [])
-        write_json(API_LINKS_JSON, {"url": f"{SITE_BASE}/api/links.json", "links": []})
+        # No export data: keep the committed links cache (deploy artifact).
         return
     links.sort(key=lambda item: item.get("display_order") or 0)
     output = [
@@ -822,8 +813,7 @@ def _parse_description(desc: Any) -> List[str]:
 
 def generate_timeline_cache(timeline: List[Dict[str, Any]]) -> None:
     if not timeline:
-        write_json(TIMELINE_JSON, [])
-        write_json(API_TIMELINE_JSON, {"url": f"{SITE_BASE}/api/timeline.json", "timeline": []})
+        # No export data: keep the committed timeline cache (deploy artifact).
         return
 
     timeline.sort(key=lambda item: item.get("display_order") or 0)

@@ -31,7 +31,7 @@ Applications stored their state in flat files for decades. Three forces ended th
 
 Each of those forces is already visible inside the three posts.
 
-Concurrency arrives the moment loops supervise loops, which is exactly the stage Van Horn says we are entering. Two loops writing one state file is the same failure as two engineers committing to the same lines without talking. Worktrees solve this for code. Nothing in the current toolchain solves it for shared state.
+Concurrency arrives the moment loops supervise loops, which is exactly the stage Van Horn says we are entering. Two loops writing one state file is the same failure as two engineers committing to the same lines without talking. Worktrees solve this for code. Nothing in the current toolchain solves it for [shared state](/posts/when-agents-share-state-everything-breaks).
 
 Contradiction is documented in Martin's benchmark results. On a continual learning task, Sonnet 4.6 left behind a memory store he describes as a list of failure notes and open guesses, including entries like "maybe prc instead of prc_usd?" The guesses accumulate. Nothing marks one resolved. The next session inherits the pile.
 
@@ -41,7 +41,7 @@ Queries are Van Horn's own punchline. He argues the expensive part of agentic co
 
 I run a swarm of named agents on my own machine: one for customer intelligence, one for content, one for outreach, others for operations. In the early setup, each kept notes in its own files. Those files drifted. The same person appeared under three names. A fact corrected in one file survived uncorrected in two others, and no record showed which version was current or where any of it came from.
 
-The swarm now shares one structured store, and this post is itself a receipt. The research behind it was done by my customer intelligence agent, which fetched all three X posts, stored each as a typed record with engagement numbers and provenance, wrote the competitive findings into a structured analysis, and filed follow up tasks to two other agents through the shared store. When I asked a follow up question an hour later, the comparison was appended to the same analysis record with its own provenance trail, not scattered into a new file. No agent re-derived what another had already established.
+The swarm now shares [one structured store](/posts/from-memory-to-nervous-system), and this post is itself a receipt. The research behind it was done by my customer intelligence agent, which fetched all three X posts, stored each as a typed record with engagement numbers and provenance, wrote the competitive findings into a structured analysis, and filed follow up tasks to two other agents through the shared store. When I asked a follow up question an hour later, the comparison was appended to the same analysis record with its own provenance trail, not scattered into a new file. No agent re-derived what another had already established.
 
 ## Memory maturity is a substrate property
 
@@ -55,7 +55,7 @@ Read that again with the substrate in mind. Same filesystem, radically different
 
 Stated tool agnostically, the spine of a loop should provide six things: typed records instead of prose blobs, provenance on every field, corrections that compute current truth instead of accumulating versions, concurrent writes that cannot conflict, retrieval that returns only what the current tick needs, and access from any harness rather than one vendor's stack.
 
-To be fair to the text file: for one loop on one repo, markdown is genuinely fine. It is readable, diffable, and free. The forcing function is loop number two, the first time two processes care about the same fact and neither can trust what the other wrote.
+To be fair to the text file: for one loop on one repo, [markdown is genuinely fine](/posts/the-markdown-memory-ceiling). It is readable, diffable, and free. The forcing function is loop number two, the first time two processes care about the same fact and neither can trust what the other wrote.
 
 ## Files remember, systems of record know
 
