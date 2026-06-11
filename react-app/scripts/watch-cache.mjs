@@ -7,8 +7,7 @@ import { spawn } from 'node:child_process'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const appRoot = path.resolve(__dirname, '..')
-const repoRoot = path.resolve(appRoot, '../../../..')
-const generateScript = path.join(repoRoot, 'execution', 'scripts', 'generate_website_cache.py')
+const generateScript = path.join(appRoot, 'scripts', 'generate_cache.py')
 
 const watchedTargets = [
   path.join(appRoot, 'src', 'content', 'posts'),
