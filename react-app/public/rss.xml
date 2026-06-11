@@ -5,8 +5,15 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 May 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>The spine of the loop</title>
+    <link>https://markmhendrickson.com/posts/the-spine-of-the-loop</link>
+    <description>Three viral posts agree that durable state is what makes agent loops work, then hand the job to a markdown file. What loop state actually requires once you run more than one loop.</description>
+    <pubDate>Thu, 11 Jun 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-spine-of-the-loop</guid>
+  </item>
   <item>
     <title>Agent-to-agent issue resolution, with humans at the edges</title>
     <link>https://markmhendrickson.com/posts/agent-to-agent-issue-resolution-with-humans-at-the-edges</link>

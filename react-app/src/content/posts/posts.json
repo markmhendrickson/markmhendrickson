@@ -1,7 +1,7 @@
 [
   {
     "slug": "the-spine-of-the-loop",
-    "published": false,
+    "published": true,
     "title": "The spine of the loop",
     "excerpt": "Three viral posts agree that durable state is what makes agent loops work, then hand the job to a markdown file. What loop state actually requires once you run more than one loop.",
     "category": "Agent Architecture",
@@ -14,7 +14,7 @@
       "agentic systems"
     ],
     "createdDate": "2026-06-10",
-    "updatedDate": "2026-06-10"
+    "updatedDate": "2026-06-11"
   },
   {
     "slug": "what-is-ateles",

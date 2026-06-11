@@ -1,8 +1,8 @@
 ---
 title: "The spine of the loop"
 excerpt: "Three viral posts agree that durable state is what makes agent loops work, then hand the job to a markdown file. What loop state actually requires once you run more than one loop."
-published: false
-publishedDate: "2026-06-10"
+published: true
+publishedDate: "2026-06-11"
 ---
 
 Between June 8 and June 9, three people who rarely write the same essay wrote the same essay. [Addy Osmani](https://x.com/addyosmani/status/2064127981161959567), a director of AI at Google Cloud, published "Loop Engineering," a taxonomy of the systems that prompt coding agents so you do not have to. [Matt Van Horn](https://x.com/mvanhorn/status/2063865685558903149) published "WTF Is a Loop?", a research sweep across Reddit, X, YouTube, and Hacker News that traced the idea from the 2022 ReAct paper to the orchestration loops people run today. And [Lance Martin](https://x.com/RLanceMartin/status/2064397389189071163), a member of technical staff at Anthropic, published "Designing loops with Fable 5," two patterns for getting the most out of frontier models by designing loops instead of prompting directly.
