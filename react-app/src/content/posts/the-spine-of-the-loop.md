@@ -45,11 +45,11 @@ The swarm now shares [one structured store](/posts/from-memory-to-nervous-system
 
 ## Memory maturity is a substrate property
 
-The sharpest data in any of the three posts is in Martin's. He describes a progression for how agents should use memory: fail, then investigate, then verify, then distill, then consult. An agent that completes the progression turns failures into verified, reusable rules. An agent that stalls at step one leaves a pile of guesses.
+The sharpest data in any of the three posts is in Martin's. He describes five stages of memory use: an agent fails, investigates why, verifies what it found, distills the answer into a rule, and consults that rule next time. An agent that completes all five turns failures into verified, reusable rules. An agent that stops early leaves a pile of guesses.
 
-His results, on the same mounted filesystem: Sonnet 4.6 exits at step one. Opus 4.7 reaches step three, verifying around 17 percent of its claims in the median run. Fable 5 completes the progression with verification coverage up to 73 percent.
+His results, all on the same mounted filesystem: Sonnet 4.6 stops at stage one, recording failures without investigating them. Opus 4.7 reaches the verify stage but checks only around 17 percent of its claims in the median run. Fable 5 completes the progression and verifies up to 73 percent.
 
-Read that again with the substrate in mind. Same filesystem, radically different memory quality. The entire difference lives in the model's discipline, because the substrate guarantees nothing. On a structured store, each step of that progression is a data operation rather than a behavior: a failure is a stored observation, investigation is retrieving related records, verification is a correction with provenance attached, distillation is writing a typed rule, and consulting is a bounded query. The substrate enforces the progression, and any model gets to complete it.
+Same filesystem, radically different memory quality. The difference lives entirely in the model's discipline, because the filesystem guarantees nothing: every stage is a behavior the model must choose to perform. A structured store turns those behaviors into data operations. A failure is a stored observation. Investigation is retrieving the related records. Verification is a correction with provenance attached. Distillation is writing a typed rule. Consulting is a bounded query. When the substrate carries the progression, any model gets to complete it.
 
 ## What to demand from a loop state layer
 
