@@ -32,17 +32,21 @@ Identity is the piece that makes attribution real rather than aspirational. Ever
 
 The swarm is organized in tiers. T1 is the host: the process that owns a channel and spawns the agents, currently OpenClaw for the ones I talk to and launchd for the background ones. It is infrastructure, not an agent with a role. The agents themselves run in three tiers on top of it. T2 agents are always-on and hold a persona: Ateles itself is the one I talk to, and it is the only agent that pages me. T3 daemons are event-driven background processes with no persona, each subscribed to Neotoma events or an external webhook. T4 agents are stateless, spawned per task, with a stable identity and memory they get by querying Neotoma.
 
-A few of the roles that run today:
+The roles, grouped by what they own:
 
 **Product.** A coordinator daemon reads workflow definitions from Neotoma and dispatches gates in order: design, product management, QA, release. Code work goes to an issue worker that opens pull requests across repos. Every pull request gets a baseline review from a separate reviewer agent, with domain specialists fanning in on the paths they own. The point of splitting these apart is the adversarial check the single agent never had. The one writing the code is not the one clearing it.
 
 **Finance.** A recurring-payment daemon runs Wise and Bitcoin transfers triggered by calendar events and task due dates, with every recipient and amount loaded from payment profile entities rather than code. Adding a new recurring payment is a new entity, not a commit. A finance advisor role and a tax-and-filings role are defined for budgeting and reconciliation.
 
-**Legal and compliance.** A legal role covers risk assessment and terms review. A compliance role covers privacy and data governance. These matter more the moment a swarm can act on people's data, which mine does.
+**Legal and compliance.** A legal role for risk assessment and terms review, and a compliance role for privacy and data governance, are defined and coming online. These matter more the moment a swarm can act on people's data, which mine does.
 
 **Strategy.** This is the role I described as mine in the last post, and it is the one I am most deliberately handing over. That handoff is the concrete version of an argument I made in [The Human Inversion](/posts/series/the-human-inversion): as agents absorb the execution middle, the human's leverage moves to the ends, sharper standards going in and denser judgment coming out. Autonomy is calibrated per plan, not globally. An execution policy entity declares, for a given plan, what an agent is allowed to do on its own, what quality bar it has to clear, and where it must stop and check with me before proceeding. The escalation chain runs from the acting agent to a domain expert to a constitution keeper to me, and each resolution is written back as an entity so the next instance inherits the judgment.
 
+**Operations.** A release coordinator drives that whole GitHub lifecycle on a schedule, from issues through the workflow gates to the release trigger, and a triage daemon routes incoming issues and pull requests to the right worker as they arrive. This is the machinery that lets the development process run in public without me shepherding each step.
+
 Behind these sit the ingestion and support daemons that keep the graph fed: email triage, audio import, calendar prep, health and fitness, issue triage. Each is a small process that turns an inbound signal into Neotoma entities the rest of the swarm can act on.
+
+Still more roles are defined and coming online as the swarm fills out: dedicated product management and design, QA, growth and go-to-market, data analysis, and developer relations. The pattern is the same for each. A role is an entity before it is a running process, so adding one is a definition, not a rebuild.
 
 ## The task spine
 
