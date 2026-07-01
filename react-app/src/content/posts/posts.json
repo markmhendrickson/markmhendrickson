@@ -1,5 +1,29 @@
 [
   {
+    "slug": "the-swarm-that-runs-my-work",
+    "published": true,
+    "publishedDate": "2026-07-01",
+    "title": "The swarm that runs my work",
+    "excerpt": "My old agentic stack was one agent per session with me in the loop for every task. Ateles is the standing fleet that replaced it. A personal agent swarm defined in Neotoma itself, where agents, tasks, and plans are all entities, and every action is attributed, auditable, and reversible.",
+    "category": "Agent Architecture",
+    "readTime": 9,
+    "tags": [
+      "ateles",
+      "agent swarm",
+      "neotoma",
+      "aauth",
+      "multi-agent",
+      "build-in-public"
+    ],
+    "shareTweet": "@neotoma_dev made agents that remember. Ateles is the swarm that memory made possible, and the two rise together: better memory, better swarm.\n\nA personal agent swarm defined in Neotoma itself. Agents, tasks, and plans are all entities. Every action attributed, auditable, reversible.\n\nhttps://markmhendrickson.com/posts/the-swarm-that-runs-my-work",
+    "heroImage": "the-swarm-that-runs-my-work-hero.png",
+    "heroImageSquare": "the-swarm-that-runs-my-work-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/the-swarm-that-runs-my-work-1200x630.jpg",
+    "createdDate": "2026-07-01",
+    "updatedDate": "2026-07-01"
+  },
+  {
     "slug": "the-spine-of-the-loop",
     "published": true,
     "title": "The spine of the loop",

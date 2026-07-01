@@ -1,0 +1,10 @@
+- Ateles is my second product after Neotoma, a personal agent swarm that runs on top of it.
+- The old one-agent-per-session stack stopped scaling once my work split across building, marketing, and relationships, and I became the bottleneck.
+- A single generic agent carries every rule unevenly, leans into one role per turn, and reviews its own work with no adversarial check.
+- Neotoma holds both the operational context the swarm acts on and the definition of the swarm itself, as append-only entities.
+- Agents are entities whose behavior changes with a correct() call, not a redeploy, with full version history.
+- Every agent signs its tool calls with an AAuth identity, so each action is attributed, auditable, and reversible.
+- Roles are split across product, finance, legal, and strategy, so the agent writing the code is not the one clearing it.
+- A task-and-plan spine lets daemons coordinate over Neotoma events, gated by confidence against blast radius.
+- The target interface takes input through any transport, including audio, and the swarm acts proactively without hand-holding.
+- The roadmap drives Ateles toward being installable and multi-operator, with the tenant boundary designed in now.

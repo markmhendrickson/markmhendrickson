@@ -32,7 +32,7 @@ export default function NotFound() {
             {t.notFoundSubtitle}
           </div>
 
-          <div className="text-[15px] leading-[1.75] font-light mb-8">
+          <div className="text-[16px] leading-[1.75] mb-8">
             <p className="mb-6">
               {t.notFoundDescription}
             </p>

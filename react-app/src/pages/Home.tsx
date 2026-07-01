@@ -158,7 +158,7 @@ export default function Home() {
           {text.subtitle}
         </div>
 
-        <div className="text-[15px] leading-[1.75] font-light">
+        <div className="text-[16px] leading-[1.75]">
           <p className="mb-6">
             {text.p1Before}
             <a

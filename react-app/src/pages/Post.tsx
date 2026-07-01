@@ -290,7 +290,7 @@ function PostscriptSection({
 
   return (
     <section className="postscript-shell" aria-label="Postscript">
-      <div className="postscript-prose prose prose-sm max-w-none [&_p]:font-light [&_li]:font-light">
+      <div className="postscript-prose prose prose-sm max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           remarkRehypeOptions={footnoteOptions}
@@ -1819,7 +1819,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 {t.keyTakeaways}
               </AlertTitle>
               <AlertDescription asChild>
-                <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed [&_p]:font-light [&_li]:font-light">
+                <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed">
                   <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions}>{displaySummary}</ReactMarkdown>
                 </div>
               </AlertDescription>

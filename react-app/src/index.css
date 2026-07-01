@@ -5,7 +5,7 @@
 /* Post prose: one wrapper class, style by element inside it (no per-element classes in HTML) */
 @layer components {
   .post-prose p {
-    @apply text-[15px] leading-[1.75] mb-4 text-foreground;
+    @apply text-[16px] leading-[1.75] mb-4 text-foreground;
   }
   .post-prose h1 {
     @apply text-[24px] font-medium mb-4 mt-14 first:mt-0 tracking-tight;
@@ -14,7 +14,7 @@
     @apply text-[20px] font-medium mb-3 mt-12 tracking-tight;
   }
   .post-prose h3 {
-    @apply text-[16px] font-medium mb-2 mt-8 tracking-tight;
+    @apply text-[17px] font-medium mb-2 mt-8 tracking-tight;
   }
   .post-prose ul {
     @apply list-disc list-outside mb-4 ml-6 space-y-3;
@@ -23,10 +23,10 @@
     @apply list-decimal list-outside mb-4 ml-6 space-y-3;
   }
   .post-prose li {
-    @apply text-[15px] leading-[1.75] mb-3 pl-1 [&>p]:mb-2 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0;
+    @apply text-[16px] leading-[1.75] mb-3 pl-1 [&>p]:mb-2 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0;
   }
   .post-prose blockquote {
-    @apply border-l-4 border-gray-300 pl-4 italic text-[15px] text-[#666] mb-4;
+    @apply border-l-4 border-border pl-4 italic text-[16px] text-muted-foreground mb-4;
   }
   /* Inline code — inherit body typography (override Tailwind preflight monospace on code) */
   .post-prose code {
@@ -85,10 +85,15 @@
     @apply italic;
   }
   .post-prose a {
-    @apply text-black border-b border-black pb-[1px] hover:border-transparent;
+    @apply text-black border-b border-black pb-[1px] rounded-[2px] transition-colors;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .post-prose a:hover {
+    @apply border-b-2 bg-muted/60;
   }
   .post-prose table {
-    @apply w-full min-w-full border-collapse text-[14px] leading-[1.65] sm:text-[15px] sm:leading-[1.75] m-0;
+    @apply w-full min-w-full border-collapse text-[14px] leading-[1.7] sm:text-[15px] sm:leading-[1.75] m-0;
   }
   .post-prose thead th {
     @apply text-left font-semibold p-3 sm:p-4 border-b-2 border-border bg-muted/90 text-foreground align-top whitespace-normal;
@@ -152,10 +157,10 @@
   }
 
   .post-prose .footnotes {
-    @apply mt-10 pt-6 border-t border-[#e0e0e0];
+    @apply mt-10 pt-6 border-t border-border;
   }
   .post-prose .footnotes p {
-    @apply text-[13px] leading-[1.65] mb-2 text-[#666];
+    @apply text-[13px] leading-[1.7] mb-2 text-muted-foreground;
   }
 
   /* Postscript: box (border only, no bg), hr above, slightly smaller text. */
@@ -186,16 +191,19 @@
     @apply font-semibold text-foreground;
   }
   .postscript-prose a {
-    @apply text-black border-b border-black pb-[1px] hover:border-transparent;
+    @apply text-black border-b border-black pb-[1px] rounded-[2px] transition-colors;
+  }
+  .postscript-prose a:hover {
+    @apply border-b-2 bg-muted/60;
   }
   .post-prose .footnotes ol {
     @apply list-decimal list-outside ml-5 space-y-2;
   }
   .post-prose .footnotes li {
-    @apply text-[13px] leading-[1.65] text-[#666];
+    @apply text-[13px] leading-[1.7] text-muted-foreground;
   }
   .post-prose hr {
-    @apply border-0 border-t border-[#e0e0e0] my-8 w-full;
+    @apply border-0 border-t border-border my-8 w-full;
   }
 
   .post-prose .footnotes hr {
@@ -204,19 +212,22 @@
 
   /* Key takeaways box: smaller text to match Alert / latest-post notice */
   .post-prose-summary p {
-    @apply text-sm leading-[1.65] mb-3 text-foreground;
+    @apply text-sm leading-[1.7] mb-3 text-foreground;
   }
   .post-prose-summary ul {
     @apply list-disc list-outside mb-4 ml-6 space-y-2;
   }
   .post-prose-summary li {
-    @apply text-sm leading-[1.65] text-foreground;
+    @apply text-sm leading-[1.7] text-foreground;
   }
   .post-prose-summary strong {
     @apply font-semibold;
   }
   .post-prose-summary a {
-    @apply text-black border-b border-black pb-[1px] hover:border-transparent;
+    @apply text-black border-b border-black pb-[1px] rounded-[2px] transition-colors;
+  }
+  .post-prose-summary a:hover {
+    @apply border-b-2 bg-muted/60;
   }
 
   .dark .post-prose p,
@@ -285,7 +296,7 @@
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted-foreground: 0 0% 38%;
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
@@ -316,7 +327,7 @@
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
+    --muted-foreground: 0 0% 68%;
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -344,8 +355,11 @@
     max-width: 100vw;
   }
   body {
-    @apply bg-background text-foreground font-light;
+    @apply bg-background text-foreground font-normal;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   #root {
     width: 100%;
