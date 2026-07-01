@@ -215,7 +215,7 @@ export default function Timeline() {
                           Startup (
                           <a href="https://neotoma.io" target="_blank" rel="noopener noreferrer" className={linkClass}>Neotoma</a>
                           {' & '}
-                          <Link to={localizePath('/posts/what-my-agentic-stack-actually-does', locale)} className={linkClass}>Ateles</Link>
+                          <Link to={localizePath('/posts/the-swarm-that-runs-my-work', locale)} className={linkClass}>Ateles</Link>
                           )
                         </>
                       )
