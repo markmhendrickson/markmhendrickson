@@ -313,11 +313,78 @@ function PostscriptSection({
   )
 }
 
-/** Wraps markdown tables with horizontal scroll and shows a hint when table overflows viewport. */
+/**
+ * Wraps markdown tables with horizontal scroll and shows a hint when table overflows viewport.
+ *
+ * Tables with many columns can't be read on a phone by scrolling sideways — the row label
+ * scrolls out of view along with the cell you're reading. For those we stamp each cell with
+ * its column header (data-label) so CSS can restack the table into one card per row on
+ * narrow screens; see `.post-prose .table-stacked` in index.css.
+ */
+const STACK_ON_MOBILE_MIN_COLUMNS = 3
+
+/** Flatten a React node to its text, for reading markdown-rendered header cells. */
+function nodeText(node: React.ReactNode): string {
+  if (node == null || typeof node === 'boolean') return ''
+  if (typeof node === 'string' || typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(nodeText).join('')
+  if (React.isValidElement(node)) return nodeText((node.props as { children?: React.ReactNode }).children)
+  return ''
+}
+
+/** Column headers of a markdown table, read from the rendered <thead> children. */
+function readHeaderLabels(children: React.ReactNode): string[] {
+  const labels: string[] = []
+  const visit = (node: React.ReactNode, inHead: boolean) => {
+    React.Children.forEach(node, (child) => {
+      if (!React.isValidElement(child)) return
+      const props = child.props as { children?: React.ReactNode }
+      if (child.type === 'thead') return visit(props.children, true)
+      if (inHead && child.type === 'th') return void labels.push(nodeText(props.children).trim())
+      visit(props.children, inHead)
+    })
+  }
+  visit(children, false)
+  return labels
+}
+
+/** Clone the table body, tagging each <td> with its column header for the stacked layout. */
+function withCellLabels(children: React.ReactNode, headers: string[]): React.ReactNode {
+  const mapNode = (node: React.ReactNode, inBody: boolean): React.ReactNode => {
+    if (!React.isValidElement(node)) return node
+    const props = node.props as { children?: React.ReactNode }
+    if (node.type === 'tbody') {
+      return React.cloneElement(node, undefined, mapChildren(props.children, true))
+    }
+    if (inBody && node.type === 'tr') {
+      let col = 0
+      const cells = React.Children.map(props.children, (cell) => {
+        if (!React.isValidElement(cell) || cell.type !== 'td') return cell
+        const label = headers[col++]
+        return label ? React.cloneElement(cell, { 'data-label': label } as never) : cell
+      })
+      return React.cloneElement(node, undefined, cells)
+    }
+    if (props.children == null) return node
+    return React.cloneElement(node, undefined, mapChildren(props.children, inBody))
+  }
+  const mapChildren = (nodes: React.ReactNode, inBody: boolean): React.ReactNode =>
+    React.Children.map(nodes, (n) => mapNode(n, inBody))
+  return mapChildren(children, false)
+}
+
 function PostTableWrapper({ children, ...props }: React.ComponentPropsWithoutRef<'table'>) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [isScrollable, setIsScrollable] = useState(false)
   const [scrollDir, setScrollDir] = useState<'left' | 'right' | 'both'>(() => 'right')
+  // Derived during render (not in an effect) so the server-rendered HTML already carries the
+  // stacked layout — otherwise phones show the wide scrolling table until hydration lands.
+  const headers = useMemo(() => readHeaderLabels(children), [children])
+  const stackable = headers.length >= STACK_ON_MOBILE_MIN_COLUMNS
+  const labelledChildren = useMemo(
+    () => (stackable ? withCellLabels(children, headers) : children),
+    [children, headers, stackable],
+  )
   useEffect(() => {
     const el = wrapperRef.current
     if (!el) return
@@ -340,13 +407,15 @@ function PostTableWrapper({ children, ...props }: React.ComponentPropsWithoutRef
     }
   }, [])
   return (
-    <div className={`my-6 rounded-lg border border-border table-scroll-outer${isScrollable ? ' table-scrollable' : ''}`}>
+    <div
+      className={`my-6 rounded-lg border border-border table-scroll-outer${isScrollable ? ' table-scrollable' : ''}${stackable ? ' table-stacked' : ''}`}
+    >
       <div
         ref={wrapperRef}
         className="overflow-x-auto table-scroll-viewport"
       >
         <div className="table-scroll-inner">
-          <table {...props}>{children}</table>
+          <table {...props}>{labelledChildren}</table>
         </div>
       </div>
       {isScrollable && (
@@ -1696,7 +1765,8 @@ export default function Post({ slug: slugProp }: PostProps) {
           })}
         </script>
       </Helmet>
-    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
+    {/* Layout already supplies mobile padding; retain the wider editorial content and hero. */}
+    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-0 md:pt-8 md:pb-8 md:px-8">
       <div className="max-w-[var(--content-max)] w-full">
         {isHome && latestFeaturedItem && (
           <Link
