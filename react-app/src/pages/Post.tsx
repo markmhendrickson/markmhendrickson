@@ -40,7 +40,8 @@ import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { mergeLocalizedPublicWithPrivatePosts } from '@/lib/mergeDevPostCaches'
 import privatePostsJson from '@cache/posts.private.json'
 import { findUnlistedPost } from '@/lib/unlistedPosts'
-import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
+import { useHeaderActions } from '@/lib/headerActions'
+import { MarkdownLinkAction } from '@/components/MarkdownLinkAction'
 import { trackUmamiEvent } from '@/lib/umami'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { buildSeriesOrderedPartSlugs, isSeriesPartForPostsIndex } from '@/lib/resolveSeriesSlug'
@@ -1543,13 +1544,22 @@ export default function Post({ slug: slugProp }: PostProps) {
     }
   }, [slug, slugParam, navigate, isDev, locale])
 
+  // "View markdown" lives in the app header (top right) rather than beside the title.
+  useHeaderActions(
+    () =>
+      post?.slug ? (
+        <MarkdownLinkAction href={localizePath(`/posts/${post.slug}.md`, locale)} label={t.pageRawMarkdown} />
+      ) : null,
+    [post?.slug, locale, t.pageRawMarkdown],
+  )
+
   const formatDate = (dateString: string | undefined): string =>
     formatPostPublishedDate(dateString, languageTag)
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
-        <div className="max-w-[600px] w-full">
+        <div className="max-w-[var(--content-max)] w-full">
           <p className="text-[15px] text-foreground">{t.postLoading}</p>
         </div>
       </div>
@@ -1707,8 +1717,8 @@ export default function Post({ slug: slugProp }: PostProps) {
           })}
         </script>
       </Helmet>
-    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8 overflow-x-hidden">
-      <div className="max-w-[600px] w-full">
+    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
+      <div className="max-w-[var(--content-max)] w-full">
         {isHome && latestFeaturedItem && (
           <Link
             to={localizePath(
@@ -1791,18 +1801,6 @@ export default function Post({ slug: slugProp }: PostProps) {
                     : t.xPost
                   : displayTitle}
               </h1>
-              {post.slug && !isUnlisted && (
-                <Button variant="outline" size="sm" className="h-8 shrink-0 rounded-full px-3 text-xs font-medium" asChild>
-                  <a
-                    href={localizePath(`/posts/${post.slug}.md`, locale)}
-                    onClick={() => {
-                      markNavigatingToRawMarkdown()
-                    }}
-                  >
-                    {t.pageRawMarkdown}
-                  </a>
-                </Button>
-              )}
             </div>
             {!isTweetPost && displayExcerpt && (
               <p className="text-[15px] leading-[1.75] text-muted-foreground dark:text-foreground/80 mb-3">
@@ -2049,6 +2047,30 @@ export default function Post({ slug: slugProp }: PostProps) {
                   const isScreenshotEmbed =
                     screenshotHint.includes('screenshot') ||
                     (src?.includes('/screenshots/') ?? false)
+                  // Standard full-bleed format: markdown image title "takeover" spans the whole content area.
+                  const isTakeover = (title ?? '').trim().toLowerCase() === 'takeover'
+                  if (isTakeover) {
+                    const takeoverImg = (
+                      <img
+                        src={src}
+                        alt={alt ?? ''}
+                        className="block h-auto w-full max-h-[80vh] object-cover"
+                        loading="lazy"
+                        {...props}
+                      />
+                    )
+                    return postImages.length === 0 ? (
+                      <span className="post-takeover not-prose my-8">{takeoverImg}</span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => openImageViewer(safeIndex)}
+                        className="post-takeover not-prose my-8 cursor-zoom-in text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        {takeoverImg}
+                      </button>
+                    )
+                  }
                   if (postImages.length === 0) {
                     return (
                       <div className={showFullFrame || isScreenshotEmbed ? 'w-full' : 'aspect-square w-full overflow-hidden rounded-lg'}>
