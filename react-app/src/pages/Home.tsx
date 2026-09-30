@@ -71,7 +71,7 @@ export default function Home() {
   const text = copy[locale as keyof typeof copy] ?? copy.en
   return (
     <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
-      <div className="max-w-[600px] w-full">
+      <div className="max-w-[var(--content-max)] w-full">
         {latestFeaturedItem && (
           <Link
             to={localizePath(

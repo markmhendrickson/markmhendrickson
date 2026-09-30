@@ -39,7 +39,8 @@ import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { mergeLocalizedPublicWithPrivatePosts } from '@/lib/mergeDevPostCaches'
 import privatePostsJson from '@cache/posts.private.json'
-import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
+import { useHeaderActions } from '@/lib/headerActions'
+import { MarkdownLinkAction } from '@/components/MarkdownLinkAction'
 import { trackUmamiEvent } from '@/lib/umami'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { buildSeriesOrderedPartSlugs, isSeriesPartForPostsIndex } from '@/lib/resolveSeriesSlug'
@@ -1165,6 +1166,13 @@ export default function Post({ slug: slugProp }: PostProps) {
     () => splitInlinePostscript(bodyAfterSeriesBookends),
     [bodyAfterSeriesBookends],
   )
+
+  // Editorial layout (opt-in by content): a body that opens with a hero image (title "hero") or uses
+  // full-bleed "takeover" images gets the viewport-height intro, the larger heading scale, and
+  // key-message callouts (a blockquote that holds a single bold line).
+  const heroMatch = mainContent ? /^\s*!\[([^\]]*)\]\((\S+?)\s+"hero"\)\s*/.exec(mainContent) : null
+  const editorialLayout = Boolean(heroMatch) || Boolean(mainContent && mainContent.includes('"takeover")'))
+  const bodyContent = heroMatch && mainContent ? mainContent.slice(heroMatch[0].length) : mainContent
   const effectivePostscriptContent = normalizeMarkdownFormatting(postscriptContent ?? inlinePostscriptContent ?? '')
 
   // Extract ordered list of images from markdown for gallery viewer
@@ -1535,13 +1543,22 @@ export default function Post({ slug: slugProp }: PostProps) {
     }
   }, [slug, slugParam, navigate, isDev, locale])
 
+  // "View markdown" lives in the app header (top right) rather than beside the title.
+  useHeaderActions(
+    () =>
+      post?.slug ? (
+        <MarkdownLinkAction href={localizePath(`/posts/${post.slug}.md`, locale)} label={t.pageRawMarkdown} />
+      ) : null,
+    [post?.slug, locale, t.pageRawMarkdown],
+  )
+
   const formatDate = (dateString: string | undefined): string =>
     formatPostPublishedDate(dateString, languageTag)
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
-        <div className="max-w-[600px] w-full">
+        <div className="max-w-[var(--content-max)] w-full">
           <p className="text-[15px] text-foreground">{t.postLoading}</p>
         </div>
       </div>
@@ -1696,8 +1713,8 @@ export default function Post({ slug: slugProp }: PostProps) {
           })}
         </script>
       </Helmet>
-    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8 overflow-x-hidden">
-      <div className="max-w-[600px] w-full">
+    <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
+      <div className="max-w-[var(--content-max)] w-full">
         {isHome && latestFeaturedItem && (
           <Link
             to={localizePath(
@@ -1766,6 +1783,28 @@ export default function Post({ slug: slugProp }: PostProps) {
           </Link>
         )}
         <article>
+          {editorialLayout && heroMatch && !isTweetPost && (
+            <header className="post-takeover relative -mt-12 mb-12 flex min-h-[calc(100svh-var(--header-height,4rem)-3rem)] flex-col justify-end overflow-hidden bg-black text-white md:-mt-[calc(var(--header-height,4rem)+2rem)]">
+              <img
+                src={heroMatch[2]}
+                alt={heroMatch[1]}
+                className="absolute inset-0 h-full w-full object-cover"
+                decoding="async"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10" aria-hidden="true" />
+              <div className="relative mx-auto w-full max-w-[calc(var(--content-max)+4rem)] px-8 pb-12 pt-32 md:pb-16">
+                <h1 className="m-0 text-[34px] font-semibold leading-[1.08] tracking-tight md:text-[54px]">
+                  {displayTitle}
+                </h1>
+                {displayExcerpt && (
+                  <p className="mt-5 max-w-[40rem] text-[17px] leading-[1.6] text-white/80 md:text-[20px]">
+                    {stripLinksFromExcerpt(displayExcerpt)}
+                  </p>
+                )}
+              </div>
+            </header>
+          )}
+          {!(editorialLayout && heroMatch && !isTweetPost) && (
           <header className="mb-8">
             <div className="mb-2 flex flex-col-reverse items-start gap-2 md:flex-row md:flex-wrap md:items-baseline md:justify-between md:gap-x-4 md:gap-y-2">
               <h1 className="m-0 min-w-0 w-full text-[28px] font-medium tracking-tight md:flex-1">
@@ -1775,18 +1814,6 @@ export default function Post({ slug: slugProp }: PostProps) {
                     : t.xPost
                   : displayTitle}
               </h1>
-              {post.slug && (
-                <Button variant="outline" size="sm" className="h-8 shrink-0 rounded-full px-3 text-xs font-medium" asChild>
-                  <a
-                    href={localizePath(`/posts/${post.slug}.md`, locale)}
-                    onClick={() => {
-                      markNavigatingToRawMarkdown()
-                    }}
-                  >
-                    {t.pageRawMarkdown}
-                  </a>
-                </Button>
-              )}
             </div>
             {!isTweetPost && displayExcerpt && (
               <p className="text-[15px] leading-[1.75] text-muted-foreground dark:text-foreground/80 mb-3">
@@ -1806,6 +1833,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               </Link>
             )}
           </header>
+          )}
 
           {!hideHomeMetaBoxes && displaySummary && (() => {
             const normalizedSummary = displaySummary.trim().replace(/\s+/g, ' ')
@@ -1828,11 +1856,11 @@ export default function Post({ slug: slugProp }: PostProps) {
           })()}
 
           {post.heroImage && !isTweetPost && post.heroImageStyle !== 'float-right' && (
-            <div className="mb-8 w-full">
+            <div className="post-takeover mb-8 block bg-black">
               <img
                 src={getPostImageSrc(post.heroImage)}
                 alt={displayTitle}
-                className="w-full max-h-[70vh] h-auto object-contain rounded dark:border dark:border-border"
+                className="mx-auto block h-auto max-h-[70vh] w-auto max-w-full object-contain"
               />
             </div>
           )}
@@ -1840,6 +1868,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           <div
             className={cn(
               'post-prose prose prose-sm max-w-none',
+              editorialLayout && 'post-prose--editorial',
               resolvedCanonicalSlug === 'barcelona-guest-floor' && [
                 '[&_h2]:mb-4',
                 '[&_h3]:mb-3',
@@ -1894,7 +1923,24 @@ export default function Post({ slug: slugProp }: PostProps) {
                     headingNode
                   )
                 }
+              type HastLike = { type?: string; tagName?: string; value?: string; children?: HastLike[] }
+              const nonBlank = (nodes: HastLike[] = []) =>
+                nodes.filter((n) => !(n.type === 'text' && !(n.value ?? '').trim()))
+              const isKeyMessage = (node?: HastLike): boolean => {
+                const kids = nonBlank(node?.children)
+                if (kids.length !== 1 || kids[0].tagName !== 'p') return false
+                const inner = nonBlank(kids[0].children)
+                return inner.length === 1 && inner[0].tagName === 'strong'
+              }
               const markdownComponents = {
+                blockquote: ({ node, children, ...props }: React.ComponentPropsWithoutRef<'blockquote'> & { node?: HastLike }) =>
+                  editorialLayout && isKeyMessage(node) ? (
+                    <aside className="post-message not-prose" role="note">
+                      {children}
+                    </aside>
+                  ) : (
+                    <blockquote {...props}>{children}</blockquote>
+                  ),
                 h1: makeHeading('h2'),
                 h2: makeHeading('h2'),
                 h3: makeHeading('h3'),
@@ -2033,6 +2079,30 @@ export default function Post({ slug: slugProp }: PostProps) {
                   const isScreenshotEmbed =
                     screenshotHint.includes('screenshot') ||
                     (src?.includes('/screenshots/') ?? false)
+                  // Standard full-bleed format: markdown image title "takeover" spans the whole content area.
+                  const isTakeover = (title ?? '').trim().toLowerCase() === 'takeover'
+                  if (isTakeover) {
+                    const takeoverImg = (
+                      <img
+                        src={src}
+                        alt={alt ?? ''}
+                        className="block h-auto w-full max-h-[80vh] object-cover"
+                        loading="lazy"
+                        {...props}
+                      />
+                    )
+                    return postImages.length === 0 ? (
+                      <span className="post-takeover not-prose my-8 block">{takeoverImg}</span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => openImageViewer(safeIndex)}
+                        className="post-takeover not-prose my-8 block cursor-zoom-in text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        {takeoverImg}
+                      </button>
+                    )
+                  }
                   if (postImages.length === 0) {
                     return (
                       <div className={showFullFrame || isScreenshotEmbed ? 'w-full' : 'aspect-square w-full overflow-hidden rounded-lg'}>
@@ -2151,7 +2221,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                   remarkRehypeOptions={markdownFootnoteOptions}
                   components={markdownComponents}
                 >
-                  {mainContent}
+                  {bodyContent}
                 </ReactMarkdown>
               );
             })()}
