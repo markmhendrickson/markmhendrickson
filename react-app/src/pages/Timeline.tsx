@@ -193,7 +193,7 @@ export default function Timeline() {
         <meta name="twitter:image:height" content={String(OG_IMAGE_HEIGHT)} />
       </Helmet>
       <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-        <div className="max-w-[600px] w-full">
+        <div className="max-w-[var(--content-max)] w-full">
           <h1 className="text-[28px] font-medium mb-2 tracking-tight">{t.timelineTitle}</h1>
           <div className="w-full text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
             {t.timelineDescription}

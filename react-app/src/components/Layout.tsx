@@ -9,6 +9,7 @@ import { localeToOgLocale, localeToLanguageName, localeToLanguageTag, supportedL
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { trackUmamiEvent } from '@/lib/analytics'
+import { HeaderActionsProvider } from '@/lib/headerActions'
 import { stripSeriesPrefixFromTitle } from '@/lib/utils'
 import { resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
 import type { ExtraBreadcrumb } from '@shared/components/Layout'
@@ -45,6 +46,7 @@ export function Layout({ children }: LayoutProps) {
   const publicPostsData = getLocalizedPublicPosts(locale) as Post[]
   const [postTitle, setPostTitle] = useState<string | null>(null)
   const [postSeriesInfo, setPostSeriesInfo] = useState<{ name: string; slug: string } | null>(null)
+  const [headerActions, setHeaderActions] = useState<React.ReactNode>(null)
   const isHome = location.pathname === localizePath('/', locale)
   const currentSeriesTitle =
     params.seriesSlug
@@ -235,6 +237,7 @@ export function Layout({ children }: LayoutProps) {
           </script>
         </Helmet>
       )}
+      <HeaderActionsProvider value={setHeaderActions}>
       <SharedLayout
         direction={direction}
         siteName="Mark Hendrickson"
@@ -252,41 +255,70 @@ export function Layout({ children }: LayoutProps) {
         themeSystem={t.themeSystem}
         themeLight={t.themeLight}
         themeDark={t.themeDark}
-        footer={<EvaluateCta locale={locale} pathname={location.pathname} />}
+        footer={<ProductsFooter locale={locale} pathname={location.pathname} />}
+        defaultSidebarOpen={false}
+        sidebarCollapsible="icon"
+        collapsedHomeLabel="Mark Hendrickson"
+        headerRight={headerActions}
       >
         {children}
       </SharedLayout>
+      </HeaderActionsProvider>
     </>
   )
 }
 
-/** Packrat + record, post hero style (black / white line-art; see posts README hero guide). */
-const NEOTOMA_CTA_IMAGE_SRC = '/images/neotoma_cta_packrat_hero.png'
-
-const evaluateCtaCopy = {
+const productsFooterCopy = {
   en: {
-    label: 'Neotoma — for builders of agentic systems',
-    title: "You're re-prompting what your agents should already know.",
-    description:
-      'The time you waste is obvious. The real cost is when your agent runs unattended, acts on wrong state, and you only catch it downstream \u2014 in front of a customer or in a broken pipeline. Neotoma stores state once: versioned, replayable, consistent across every tool and every session.',
-    imageAlt: 'Neotoma illustration — packrat holding a record',
-    action: 'Evaluate Neotoma',
+    ariaLabel: 'Neotoma and Ateles',
+    neotoma: {
+      name: 'Neotoma',
+      title: 'The system of record for AI agents.',
+      description:
+        'One record every agent defers to, whichever vendor built it. Know what was true, when, and on whose evidence.',
+      action: 'Evaluate Neotoma',
+    },
+    ateles: {
+      name: 'Ateles',
+      title: 'The operating system for agentic organizations.',
+      description:
+        'Your agent organization, on any model, owned by you. Agents act within the authority you granted; the rest waits for you.',
+      action: 'Read the design',
+    },
   },
   es: {
-    label: 'Neotoma — para quienes construyen sistemas agénticos',
-    title: 'Estás repitiendo lo que tus agentes ya deberían saber.',
-    description:
-      'El tiempo que pierdes es obvio. El coste real es cuando tu agente se ejecuta sin supervisión, actúa sobre un estado incorrecto y solo lo detectas después \u2014 frente a un cliente o en un pipeline roto. Neotoma almacena el estado una vez: versionado, reproducible, consistente en cada herramienta y cada sesión.',
-    imageAlt: 'Ilustración de Neotoma — packrat con un registro',
-    action: 'Evalúa Neotoma',
+    ariaLabel: 'Neotoma y Ateles',
+    neotoma: {
+      name: 'Neotoma',
+      title: 'El sistema de registro para agentes de IA.',
+      description:
+        'Un único registro al que todo agente se somete, sea cual sea el proveedor que lo creó. Saber qué era verdad, cuándo y con qué pruebas.',
+      action: 'Evalúa Neotoma',
+    },
+    ateles: {
+      name: 'Ateles',
+      title: 'El sistema operativo para organizaciones agénticas.',
+      description:
+        'Tu organización de agentes, sobre cualquier modelo y en tu propiedad. Los agentes actúan dentro de la autoridad que les diste; lo demás espera por ti.',
+      action: 'Lee el diseño',
+    },
   },
   ca: {
-    label: "Neotoma — per a qui construeix sistemes agèntics",
-    title: 'Estàs repetint el que els teus agents ja haurien de saber.',
-    description:
-      "El temps que perds és obvi. El cost real és quan el teu agent s'executa sense supervisió, actua sobre un estat incorrecte i només ho detectes després \u2014 davant d'un client o en un pipeline trencat. Neotoma emmagatzema l'estat una vegada: versionat, reproduïble, consistent en cada eina i cada sessió.",
-    imageAlt: "Il·lustració de Neotoma — packrat amb un registre",
-    action: 'Avalua Neotoma',
+    ariaLabel: 'Neotoma i Ateles',
+    neotoma: {
+      name: 'Neotoma',
+      title: "El sistema de registre per a agents d'IA.",
+      description:
+        'Un únic registre al qual tot agent se sotmet, sigui quin sigui el proveïdor que el va crear. Saber què era cert, quan i amb quines proves.',
+      action: 'Avalua Neotoma',
+    },
+    ateles: {
+      name: 'Ateles',
+      title: 'El sistema operatiu per a organitzacions agèntiques.',
+      description:
+        "La teva organització d'agents, sobre qualsevol model i en propietat teva. Els agents actuen dins de l'autoritat que els vas donar; la resta espera per tu.",
+      action: 'Llegeix el disseny',
+    },
   },
 } as const
 
@@ -297,9 +329,12 @@ const evaluateCtaCopy = {
 const NEOTOMA_CTA_UTM: Record<string, string> = {
   utm_source: 'markmhendrickson.com',
   utm_medium: 'website_cta',
-  utm_campaign: 'neotoma_site_footer_black',
-  utm_content: 'for_builders_agentic_systems_black_footer',
+  utm_campaign: 'products_site_footer',
+  utm_content: 'neotoma_system_of_record',
 }
+
+/** ateles.co is not live yet, so the Ateles link goes to the public repository. */
+const ATELES_HREF = 'https://github.com/markmhendrickson/ateles'
 
 function neotomaMarketingHref(locale: string): string {
   const path = locale === 'en' ? '/evaluate' : `/${locale}/evaluate`
@@ -310,60 +345,64 @@ function neotomaMarketingHref(locale: string): string {
   return url.toString()
 }
 
-function EvaluateCta({ locale, pathname }: { locale: string; pathname: string }) {
+interface ProductCardProps {
+  name: string
+  title: string
+  description: string
+  action: string
+  href: string
+  onClick: () => void
+}
+
+function ProductCard({ name, title, description, action, href, onClick }: ProductCardProps) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={onClick}
+      className="group flex h-full flex-col gap-4 rounded-2xl border border-zinc-800 p-6 text-left transition-colors hover:border-zinc-600 hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+    >
+      <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">{name}</p>
+      <p className="text-lg font-medium leading-snug text-white md:text-xl">{title}</p>
+      <p className="text-sm leading-relaxed text-zinc-400">{description}</p>
+      <span className="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-medium text-zinc-50">
+        {action}
+        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </a>
+  )
+}
+
+function ProductsFooter({ locale, pathname }: { locale: string; pathname: string }) {
   const isEvaluatePage = pathname.replace(/\/$/, '').endsWith('/evaluate')
   if (isEvaluatePage) return null
 
-  const copy = evaluateCtaCopy[locale as keyof typeof evaluateCtaCopy] ?? evaluateCtaCopy.en
-
-  const neotomaHref = neotomaMarketingHref(locale)
+  const copy = productsFooterCopy[locale as keyof typeof productsFooterCopy] ?? productsFooterCopy.en
+  const path = pathname.replace(/\/$/, '') || '/'
 
   return (
     <footer
-      className="w-full shrink-0 bg-zinc-950 border-t border-zinc-800"
+      className="w-full shrink-0 border-t border-zinc-800 bg-zinc-950"
       style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom, 0px))' }}
-      aria-label="Neotoma"
+      aria-label={copy.ariaLabel}
     >
-      <a
-        href={neotomaHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 group"
-        onClick={() => {
-          trackUmamiEvent('neotoma_cta_click', {
-            campaign: 'neotoma_site_footer_black',
-            locale,
-            path: pathname.replace(/\/$/, '') || '/',
-          })
-        }}
-      >
-        <div className="mx-auto max-w-[600px] w-full px-6 py-12 md:py-16 flex flex-col items-center text-center gap-6">
-          <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden bg-zinc-800 shrink-0">
-            <img
-              src={NEOTOMA_CTA_IMAGE_SRC}
-              alt={copy.imageAlt}
-              className="w-full h-full object-cover object-center"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div className="flex flex-col gap-3">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">
-              {copy.label}
-            </p>
-            <p className="text-lg md:text-xl font-medium text-white leading-snug">
-              {copy.title}
-            </p>
-            <p className="text-sm text-zinc-400 leading-relaxed max-w-md mx-auto">
-              {copy.description}
-            </p>
-          </div>
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-zinc-50 border border-zinc-700 rounded-full px-5 py-2.5 group-hover:bg-zinc-800 group-hover:border-zinc-600 transition-colors">
-            {copy.action}
-            <ArrowRight className="w-3.5 h-3.5" />
-          </span>
-        </div>
-      </a>
+      <div className="mx-auto grid w-full max-w-[56rem] grid-cols-1 gap-4 px-6 py-12 md:grid-cols-2 md:py-16">
+        <ProductCard
+          {...copy.neotoma}
+          href={neotomaMarketingHref(locale)}
+          onClick={() =>
+            trackUmamiEvent('neotoma_cta_click', { campaign: 'products_site_footer', locale, path })
+          }
+        />
+        <ProductCard
+          {...copy.ateles}
+          href={ATELES_HREF}
+          onClick={() =>
+            trackUmamiEvent('ateles_cta_click', { campaign: 'products_site_footer', locale, path })
+          }
+        />
+      </div>
     </footer>
   )
 }

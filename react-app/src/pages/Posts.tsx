@@ -418,7 +418,7 @@ export default function Posts({ draft = false }: PostsProps) {
         )}
       </Helmet>
     <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-      <div className="max-w-[600px] w-full">
+      <div className="max-w-[var(--content-max)] w-full">
         <div className="flex items-baseline justify-between gap-4 mb-2">
           <h1 className="text-[28px] font-medium tracking-tight">
             {pageTitle}
