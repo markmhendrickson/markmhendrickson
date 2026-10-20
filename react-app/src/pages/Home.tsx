@@ -23,45 +23,45 @@ export default function Home() {
   )
   const copy = {
     en: {
-      subtitle: 'Building sovereign memory infrastructure for agentic systems.',
+      subtitle: 'Building the system of record for AI agents and the operating system for agentic organizations.',
       p1Before: "I'm building ",
       p1Link: 'Neotoma',
       p1After:
-        ", a deterministic state layer for long-running agents. The core problem: agents are increasingly stateful, handling tasks, contacts, transactions, and commitments over time, but their memory is built for retrieval, not truth. It drifts between sessions, overwrites without history, and cannot be traced or replayed. Neotoma treats memory as state evolution: every observation is versioned, every entity snapshot is reproducible, every decision can be replayed. Schema-bound, local-first, cross-platform via MCP, and entirely user-controlled.",
+        ", the system of record for AI agents. The idea is a record, not recall. Without one, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer. Neotoma is open source, runs locally, and connects to agents through MCP, a REST API, and a CLI.",
       p2: "The principle underneath is the same one that's driven all of my work: people should control their own data, memory, money, and digital infrastructure, not cede it to platforms that optimize for engagement over truth.",
-      p3Before: 'I work as a solo founder in Barcelona, operating with AI agents as a team rather than as tools. Every workflow, email, finance, content, and product, runs through a shared repo and source of truth. The agents follow the same playbook I do. That only works because the state layer is explicit and inspectable, which is exactly the contract Neotoma is designed to provide. That team is now its own product, ',
+      p3Before: 'I work as a solo founder in Barcelona, operating with AI agents as a team rather than as tools. Every workflow, email, finance, content, and product, runs through a shared repo and a shared record. The agents follow the same playbook I do. That team is now its own product, ',
       p3Link: 'Ateles',
-      p3After: ', a personal agent swarm built on top of Neotoma, with agents, tasks, and plans all defined as entities in the same store they read from.',
+      p3After: ', the operating system for agentic organizations, built on Neotoma, with agents, tasks, and plans all defined as entities in the same record they read from.',
       p4Before:
         'Before this chapter, I spent nearly two decades building products across consumer web, crypto, and startups: writing and shipping at TechCrunch, co-founding Plancast (acquired by Active Network), co-founding KITE Solutions, advising and building with early-stage startups, leading user experience at Hiro for the Stacks blockchain, and running Leather at Trust Machines. You can see the full arc on my ',
       p4Link: 'timeline',
       p4After: '.',
     },
     es: {
-      subtitle: 'Construyendo infraestructura de memoria soberana para sistemas agentivos.',
+      subtitle: 'Construyendo el sistema de registro para agentes de IA y el sistema operativo para organizaciones agénticas.',
       p1Before: 'Estoy construyendo ',
       p1Link: 'Neotoma',
       p1After:
-        ', una capa de estado determinista para agentes de larga ejecución. El problema central: los agentes son cada vez más stateful, gestionan tareas, contactos, transacciones y compromisos a lo largo del tiempo, pero su memoria está diseñada para recuperación, no para verdad. Deriva entre sesiones, sobrescribe sin historial y no se puede trazar ni reproducir. Neotoma trata la memoria como evolución de estado: cada observación está versionada, cada snapshot de entidad es reproducible, cada decisión se puede reproducir. Con esquemas definidos, local-first, multiplataforma vía MCP y totalmente bajo control del usuario.',
+        ", el sistema de registro para agentes de IA. La idea es un registro, no el recuerdo. Sin uno, un agente trabaja con lo que recuerde en ese momento: parte de la última sesión, una nota que guardó su herramienta, o nada. Con uno, lee lo que se guardó, de qué fuente y qué es vigente ahora, de modo que los agentes que conectas puedan remitirse a una sola respuesta. Neotoma es de código abierto, se ejecuta en local y se conecta a los agentes mediante MCP, una API REST y una CLI.",
       p2: 'El principio de fondo es el mismo que ha guiado todo mi trabajo: las personas deben controlar sus datos, memoria, dinero e infraestructura digital, no cederlos a plataformas que optimizan el engagement por encima de la verdad.',
-      p3Before: 'Trabajo como fundador en solitario en Barcelona, operando con agentes de IA como equipo en lugar de herramientas. Cada workflow, email, finanzas, contenido y producto, pasa por un repositorio compartido y una fuente de verdad común. Los agentes siguen el mismo playbook que sigo yo. Eso solo funciona porque la capa de estado es explícita e inspeccionable, justo el contrato que Neotoma está diseñada para ofrecer. Ese equipo es ahora su propio producto, ',
+      p3Before: 'Trabajo como fundador en solitario en Barcelona, operando con agentes de IA como equipo en lugar de herramientas. Cada workflow, email, finanzas, contenido y producto pasa por un repositorio compartido y un registro compartido. Los agentes siguen el mismo manual que yo. Ese equipo es ahora su propio producto, ',
       p3Link: 'Ateles',
-      p3After: ', un enjambre de agentes personal construido sobre Neotoma, con agentes, tareas y planes definidos como entidades en el mismo almacén del que leen.',
+      p3After: ', el sistema operativo para organizaciones agénticas, construido sobre Neotoma, con agentes, tareas y planes definidos como entidades en el mismo registro del que leen.',
       p4Before:
         'Antes de esta etapa, pasé casi dos décadas construyendo productos en web de consumo, cripto y startups: escribiendo y lanzando en TechCrunch, cofundando Plancast (adquirida por Active Network), cofundando KITE Solutions, asesorando y construyendo con startups en fase temprana, liderando experiencia de usuario en Hiro para la blockchain de Stacks y dirigiendo Leather en Trust Machines. Puedes ver todo el recorrido en mi ',
       p4Link: 'trayectoria',
       p4After: '.',
     },
     ca: {
-      subtitle: "Construint infraestructura de memòria sobirana per a sistemes agentius.",
+      subtitle: "Construint el sistema de registre per a agents d'IA i el sistema operatiu per a organitzacions agèntiques.",
       p1Before: "Estic construint ",
       p1Link: 'Neotoma',
       p1After:
-        ", una capa d'estat determinista per a agents de llarga execució. El problema central: els agents són cada cop més stateful, gestionen tasques, contactes, transaccions i compromisos al llarg del temps, però la seva memòria està pensada per a recuperació, no per a veritat. Deriva entre sessions, sobreescriu sense historial i no es pot traçar ni reproduir. Neotoma tracta la memòria com a evolució d'estat: cada observació està versionada, cada snapshot d'entitat és reproduïble, cada decisió es pot reproduir. Amb esquemes definits, local-first, multiplataforma via MCP i totalment sota control de l'usuari.",
+        ", el sistema de registre per a agents d'IA. La idea és un registre, no el record. Sense un, un agent treballa amb el que recordi en aquell moment: part de l'última sessió, una nota que va desar la seva eina, o res. Amb un, llegeix el que es va desar, de quina font i què és vigent ara, de manera que els agents que connectes puguin remetre's a una sola resposta. Neotoma és de codi obert, s'executa en local i es connecta als agents mitjançant MCP, una API REST i una CLI.",
       p2: "El principi de fons és el mateix que ha guiat tota la meva feina: les persones han de controlar les seves dades, memòria, diners i infraestructura digital, no cedir-los a plataformes que optimitzen l'engagement per sobre de la veritat.",
-      p3Before: "Treballo com a fundador en solitari a Barcelona, operant amb agents d'IA com a equip en lloc d'eines. Cada workflow, correu, finances, contingut i producte passa per un repositori compartit i una font de veritat comuna. Els agents segueixen el mateix playbook que segueixo jo. Això només funciona perquè la capa d'estat és explícita i inspeccionable, exactament el contracte que Neotoma està dissenyada per oferir. Aquest equip ara és el seu propi producte, ",
+      p3Before: "Treballo com a fundador en solitari a Barcelona, operant amb agents d'IA com a equip en lloc d'eines. Cada workflow, correu, finances, contingut i producte passa per un repositori compartit i un registre compartit. Els agents segueixen el mateix manual que jo. Aquest equip és ara el seu propi producte, ",
       p3Link: 'Ateles',
-      p3After: ", un eixam d'agents personal construït sobre Neotoma, amb agents, tasques i plans definits com a entitats al mateix magatzem del qual llegeixen.",
+      p3After: ", el sistema operatiu per a organitzacions agèntiques, construït sobre Neotoma, amb agents, tasques i plans definits com a entitats al mateix registre del qual llegeixen.",
       p4Before:
         "Abans d'aquesta etapa, vaig passar gairebé dues dècades construint productes a la web de consum, cripto i startups: escrivint i publicant a TechCrunch, cofundant Plancast (adquirida per Active Network), cofundant KITE Solutions, assessorant i construint amb startups en fase inicial, liderant experiència d'usuari a Hiro per a la blockchain d'Stacks i dirigint Leather a Trust Machines. Pots veure tot el recorregut a la meva ",
       p4Link: 'trajectòria',
@@ -182,9 +182,14 @@ export default function Home() {
 
           <p className="mb-6">
             {text.p3Before}
-            <Link to={localizePath('/posts/the-swarm-that-runs-my-work', locale)} className={LINK_CLASS}>
+            <a
+              href="https://github.com/markmhendrickson/ateles"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={LINK_CLASS}
+            >
               {text.p3Link}
-            </Link>
+            </a>
             {text.p3After}
           </p>
 
