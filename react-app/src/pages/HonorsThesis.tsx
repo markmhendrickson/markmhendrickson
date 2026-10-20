@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
+import { markdownCodeComponents } from '@/components/CodeBlock'
 import remarkGfm from 'remark-gfm'
 import { FileDown } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -448,7 +449,7 @@ export default function HonorsThesis() {
               <>
                 <section className="mt-4">
                   <div className="post-prose prose prose-sm max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions} components={markdownCodeComponents}>
                       {isSubsectionPage && subsectionMarkdown != null ? subsectionMarkdown : currentChapter.content}
                     </ReactMarkdown>
                   </div>

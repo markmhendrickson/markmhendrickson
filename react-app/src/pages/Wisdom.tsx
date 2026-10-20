@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { supportedLocales } from '@/i18n/config'
+import { CodeBlock } from '@/components/CodeBlock'
 import wisdomRaw from '@cache/wisdom.json'
 
 interface Quote {
@@ -122,9 +123,9 @@ export default function Wisdom() {
               <p className="text-[15px] text-foreground leading-relaxed">
                 The wisdom collection is being compiled. Run the PithBot to generate it.
               </p>
-              <pre className="mt-6 inline-block text-left text-[13px] bg-muted/50 rounded-lg p-4 overflow-x-auto text-muted-foreground">
-                python execution/scripts/generate_pithbot.py
-              </pre>
+              <div className="mx-auto mt-6 max-w-xl text-left">
+                <CodeBlock code="python execution/scripts/generate_pithbot.py" language="bash" />
+              </div>
             </div>
           ) : (
             <>

@@ -26,6 +26,7 @@ import {
   parseCalendarOrIsoDateString,
   truncateForLatestPublicationTeaser,
 } from '@/lib/utils'
+import { CodeBlock, MarkdownPre, markdownCodeComponents } from '@/components/CodeBlock'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -297,6 +298,7 @@ function PostscriptSection({
           remarkPlugins={[remarkGfm]}
           remarkRehypeOptions={footnoteOptions}
           components={{
+            ...markdownCodeComponents,
             h2: makePostscriptHeading('h2'),
             h3: makePostscriptHeading('h3'),
             h4: makePostscriptHeading('h4'),
@@ -390,7 +392,7 @@ function unwrapHardWrappedFenceBody(s: string): string {
 
 /**
  * Fenced blocks opened with ```copy or ```prompt in post markdown render with a copy control.
- * Other fenced languages keep default prose styling.
+ * Other fenced languages render through the same CodeBlock without the prompt label.
  */
 function PostCopyableCodeFence({
   text,
@@ -404,45 +406,15 @@ function PostCopyableCodeFence({
   /** For Umami `post_copy_fence` (optional when slug unknown). */
   postSlug?: string | null
 }) {
-  const [didCopy, setDidCopy] = useState(false)
-  useEffect(() => {
-    if (!didCopy) return
-    const id = window.setTimeout(() => setDidCopy(false), 2000)
-    return () => clearTimeout(id)
-  }, [didCopy])
-
   return (
-    <div className="post-copyable-fence not-prose my-5 overflow-hidden rounded-2xl border border-border/70 bg-muted/30 shadow-sm">
-      <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-1.5">
-        <div className="min-w-0 text-[11px] font-medium uppercase leading-none tracking-[0.14em] text-muted-foreground">
-          Agent prompt
-        </div>
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          className="h-8 shrink-0 rounded-full border border-border/70 bg-background/95 gap-1.5 px-2.5 text-xs font-medium shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/80"
-          onClick={() => {
-            void navigator.clipboard.writeText(text).then(
-              () => {
-                trackUmamiEvent('post_copy_fence', { slug: postSlug ?? '' })
-                setDidCopy(true)
-              },
-              () => {},
-            )
-          }}
-          aria-label={didCopy ? copiedLabel : copyLabel}
-        >
-          <Copy className="h-3.5 w-3.5 shrink-0" aria-hidden />
-          {didCopy ? copiedLabel : copyLabel}
-        </Button>
-      </div>
-      <pre className="m-0 overflow-x-auto !bg-muted/55 !p-4 text-[14px] font-mono font-medium leading-[1.45] text-muted-foreground sm:text-[15px] sm:leading-[1.45] dark:!bg-muted/25">
-        <code className="block break-words whitespace-pre-wrap !m-0 !rounded-none !bg-transparent !p-0 !shadow-none">
-          {text}
-        </code>
-      </pre>
-    </div>
+    <CodeBlock
+      code={text}
+      label="Agent prompt"
+      wrap
+      copyLabel={copyLabel}
+      copiedLabel={copiedLabel}
+      onCopy={() => trackUmamiEvent('post_copy_fence', { slug: postSlug ?? '' })}
+    />
   )
 }
 
@@ -1864,7 +1836,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               </AlertTitle>
               <AlertDescription asChild>
                 <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions}>{displaySummary}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions} components={markdownCodeComponents}>{displaySummary}</ReactMarkdown>
                 </div>
               </AlertDescription>
             </Alert>
@@ -2009,11 +1981,11 @@ export default function Post({ slug: slugProp }: PostProps) {
                       React.isValidElement(c) && c.type === 'code',
                   )
                   if (!codeEl) {
-                    return <pre {...props}>{children}</pre>
+                    return <MarkdownPre {...props} copyLabel={t.postCopyCode} copiedLabel={t.postCodeCopied}>{children}</MarkdownPre>
                   }
                   const codeClass = codeEl.props.className ?? ''
                   if (!/\blanguage-(copy|prompt)\b/.test(codeClass)) {
-                    return <pre {...props}>{children}</pre>
+                    return <MarkdownPre {...props} copyLabel={t.postCopyCode} copiedLabel={t.postCodeCopied}>{children}</MarkdownPre>
                   }
                   const rawText = markdownPlainText(codeEl.props.children)
                   const text = unwrapHardWrappedFenceBody(rawText.replace(/\n$/, ''))
