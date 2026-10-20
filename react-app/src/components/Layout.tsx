@@ -281,7 +281,7 @@ const productsFooterCopy = {
       name: 'Neotoma',
       title: 'The system of record for AI agents.',
       description:
-        'One record every agent defers to, whichever vendor built it. Know what was true, when, and on whose evidence.',
+        'One place where a fact is settled. Agents read what was stored, from which source, and what is current now.',
       action: 'Evaluate Neotoma',
     },
     ateles: {
@@ -298,7 +298,7 @@ const productsFooterCopy = {
       name: 'Neotoma',
       title: 'El sistema de registro para agentes de IA.',
       description:
-        'Un único registro al que todo agente se somete, sea cual sea el proveedor que lo creó. Saber qué era verdad, cuándo y con qué pruebas.',
+        'Un único lugar donde se establece un hecho. Los agentes leen lo que se guardó, de qué fuente y qué es vigente ahora.',
       action: 'Evalúa Neotoma',
     },
     ateles: {
@@ -315,7 +315,7 @@ const productsFooterCopy = {
       name: 'Neotoma',
       title: "El sistema de registre per a agents d'IA.",
       description:
-        'Un únic registre al qual tot agent se sotmet, sigui quin sigui el proveïdor que el va crear. Saber què era cert, quan i amb quines proves.',
+        "Un únic lloc on s'estableix un fet. Els agents llegeixen el que es va desar, de quina font i què és vigent ara.",
       action: 'Avalua Neotoma',
     },
     ateles: {
