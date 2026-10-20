@@ -157,7 +157,7 @@ export function Layout({ children }: LayoutProps) {
   // Home (/:locale) uses the default Helmet here; all other routes should supply their own Helmet.
   const hasPageHelmet = !isHome
 
-  const defaultTitle = 'Mark Hendrickson — Building sovereign memory infrastructure for agentic systems'
+  const defaultTitle = 'Mark Hendrickson — Building the system of record for AI agents'
   const defaultDescription = t.defaultHomeDescription
   const defaultUrl = `https://markmhendrickson.com${localizePath('/', locale)}`
   const defaultImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
@@ -233,7 +233,7 @@ export function Layout({ children }: LayoutProps) {
                 knowsAbout: [
                   'AI agents',
                   'Model Context Protocol',
-                  'sovereign memory infrastructure',
+                  'systems of record for AI agents',
                   'Bitcoin',
                   'product development',
                   'agentic systems',
