@@ -1499,5 +1499,26 @@
     "ogImage": "the-human-inversion-part-5-hero-og.png",
     "createdDate": "2026-04-29",
     "updatedDate": "2026-04-29"
+  },
+  {
+    "slug": "one-place-where-a-fact-is-settled",
+    "published": true,
+    "unlisted": true,
+    "title": "One place where a fact is settled",
+    "excerpt": "Without a record, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer.",
+    "category": "Agent Architecture",
+    "readTime": 5,
+    "tags": [
+      "neotoma",
+      "system of record",
+      "agents",
+      "memory"
+    ],
+    "createdDate": "2026-10-16",
+    "updatedDate": "2026-10-20",
+    "heroImage": "one-place-where-a-fact-is-settled-hero.png",
+    "heroImageSquare": "one-place-where-a-fact-is-settled-hero-square.png",
+    "heroImageStyle": "keep-proportions",
+    "ogImage": "og/one-place-where-a-fact-is-settled-1200x630.jpg"
   }
 ]
