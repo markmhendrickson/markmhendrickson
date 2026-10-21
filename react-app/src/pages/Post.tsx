@@ -39,6 +39,7 @@ import { localizePath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { mergeLocalizedPublicWithPrivatePosts } from '@/lib/mergeDevPostCaches'
 import privatePostsJson from '@cache/posts.private.json'
+import { findUnlistedPost } from '@/lib/unlistedPosts'
 import { markNavigatingToRawMarkdown } from '@/lib/rawMarkdownNav'
 import { trackUmamiEvent } from '@/lib/umami'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -476,6 +477,8 @@ interface Post {
   /** Optional path (under public/images/) to a 1200x630, under 600KB og:image for this post (e.g. og/foo.jpg). */
   ogImage?: string
   published: boolean | number | string
+  /** Review-only page: reachable by URL, noindex, kept out of every list (see src/lib/unlistedPosts.ts). */
+  unlisted?: boolean
   publishedDate?: string
   updatedDate?: string
   category?: string
@@ -1339,7 +1342,12 @@ export default function Post({ slug: slugProp }: PostProps) {
         if (isCancelled) return
 
         const slugToPost = buildSlugToPostMap(postsData)
-        const postMeta = slug ? slugToPost.get(slug) ?? postsData.find(p => p.slug === slug) : undefined
+        let postMeta = slug ? slugToPost.get(slug) ?? postsData.find(p => p.slug === slug) : undefined
+        if (!postMeta) {
+          // Unlisted review pages are not in any list; look them up by slug only, on a public-list miss.
+          postMeta = (await findUnlistedPost(slug)) as unknown as Post | undefined
+          if (isCancelled) return
+        }
         const canonicalSlug = postMeta?.slug
 
         if (!postMeta) {
@@ -1554,6 +1562,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   /** Only treat as tweet post when category is tweet; linkedTweetUrl is for footer "share" link. */
   const isTweetPost = post.category === 'tweet'
+  const isUnlisted = post.unlisted === true
   const rawTitle = (titleFromMd ?? post.title ?? '').trim()
   const displayTitle = stripSeriesPrefixFromTitle(rawTitle, post.series)
   /** Full stored title for `<title>` / OG / Twitter / JSON-LD (avoids ultra-short share titles when series prefix is stripped for the H1). */
@@ -1630,11 +1639,13 @@ export default function Post({ slug: slugProp }: PostProps) {
         <meta name="description" content={desc} />
         <meta name="author" content="Mark Hendrickson" />
         <link rel="canonical" href={canonicalUrl} />
-        <link rel="alternate" type="text/markdown" href={markdownUrl} />
-        {localizedAlternateUrls.map((alt) => (
-          <link key={alt.locale} rel="alternate" hrefLang={alt.languageTag} href={alt.href} />
-        ))}
-        <link rel="alternate" hrefLang="x-default" href={`${SITE_BASE}/`} />
+        {isUnlisted && <meta name="robots" content="noindex,nofollow" />}
+        {!isUnlisted && <link rel="alternate" type="text/markdown" href={markdownUrl} />}
+        {!isUnlisted &&
+          localizedAlternateUrls.map((alt) => (
+            <link key={alt.locale} rel="alternate" hrefLang={alt.languageTag} href={alt.href} />
+          ))}
+        {!isUnlisted && <link rel="alternate" hrefLang="x-default" href={`${SITE_BASE}/`} />}
         <meta property="og:type" content="article" />
         <meta property="og:title" content={titleForMetaSeo || (isTweetPost ? 'X Post' : '')} />
         <meta property="og:description" content={desc} />
@@ -1765,6 +1776,11 @@ export default function Post({ slug: slugProp }: PostProps) {
             </Alert>
           </Link>
         )}
+        {isUnlisted && (
+          <Alert className="mb-8 text-[14px]" data-testid="unlisted-preview-banner">
+            <AlertDescription>{t.unlistedPreviewBanner}</AlertDescription>
+          </Alert>
+        )}
         <article>
           <header className="mb-8">
             <div className="mb-2 flex flex-col-reverse items-start gap-2 md:flex-row md:flex-wrap md:items-baseline md:justify-between md:gap-x-4 md:gap-y-2">
@@ -1775,7 +1791,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                     : t.xPost
                   : displayTitle}
               </h1>
-              {post.slug && (
+              {post.slug && !isUnlisted && (
                 <Button variant="outline" size="sm" className="h-8 shrink-0 rounded-full px-3 text-xs font-medium" asChild>
                   <a
                     href={localizePath(`/posts/${post.slug}.md`, locale)}

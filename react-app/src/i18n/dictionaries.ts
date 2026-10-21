@@ -64,6 +64,8 @@ export type Dict = {
   showLess: string
   noMatchPrefix: string
   postLoading: string
+  /** Banner on unlisted review pages (reachable by URL, not listed or indexed). */
+  unlistedPreviewBanner: string
   linkToSection: string
   relatedXPost: string
   viewXPost: string
@@ -154,6 +156,7 @@ const enDict: Dict = {
     showLess: 'Show less',
     noMatchPrefix: 'No posts match',
     postLoading: 'Loading...',
+    unlistedPreviewBanner: 'Preview. This page is not published yet and is not listed on the site.',
     linkToSection: 'Link to section',
     relatedXPost: 'Related X post',
     viewXPost: 'View X post',
@@ -243,6 +246,7 @@ const esDict: Dict = {
     showLess: 'Ver menos',
     noMatchPrefix: 'No hay publicaciones que coincidan con',
     postLoading: 'Cargando...',
+    unlistedPreviewBanner: 'Vista previa. Esta página aún no está publicada y no aparece en el listado del sitio.',
     linkToSection: 'Enlace a la sección',
     relatedXPost: 'Publicación relacionada en X',
     viewXPost: 'Ver publicación en X',
@@ -332,6 +336,7 @@ const caDict: Dict = {
     showLess: 'Mostra menys',
     noMatchPrefix: 'No hi ha publicacions que coincideixin amb',
     postLoading: 'Carregant...',
+    unlistedPreviewBanner: 'Previsualització. Aquesta pàgina encara no està publicada i no apareix al llistat del lloc.',
     linkToSection: 'Enllaç a la secció',
     relatedXPost: 'Publicació relacionada a X',
     viewXPost: 'Veure publicació a X',

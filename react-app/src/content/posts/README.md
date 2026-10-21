@@ -1,5 +1,17 @@
 # Posts Directory
 
+## Unlisted preview pages
+
+An unlisted post is a review link: anyone with the URL (`/posts/<slug>`) can read it, but it is not on the home page, in `/posts` (pages, search, filters, series, previous/next), RSS, the sitemap, `llms.txt`/`llms-full.txt`, or any public JSON. The page carries `<meta name="robots" content="noindex,nofollow">` and a "Preview" banner. `robots.txt` does not mention it.
+
+**Make a post unlisted.** Put its entry in `posts.json` in this directory with `"unlisted": true` and `"published": true`, and no `publishedDate`. Keep `<slug>.md` and `<slug>.summary.md` beside it. Then run `python3 scripts/generate_cache.py --unlisted-only` from `react-app/` to write `cache/unlisted-posts.json` (commit it; this file is read only by the post page and by prerender, never by a list). It must stay out of `cache/posts*.json` and `cache/api/*.json`. After editing the essay text, rerun that command and commit the file.
+
+**Publish it later (two steps).**
+1. Remove `"unlisted": true` from its `posts.json` entry, set `publishedDate`, and rerun `python3 scripts/generate_cache.py --unlisted-only` (the post leaves `cache/unlisted-posts.json`).
+2. Add the post to the public caches the normal way (Neotoma export with `published: true`, then the cache rebuild below), so it enters `cache/posts*.json`, `cache/api/*.json` and `public/api/`.
+
+`npm run build:ci` fails (`scripts/verify-ssr-output.mjs`) if an unlisted slug shows up in a sitemap, feed, llms file, public JSON or any other prerendered page.
+
 This directory contains cache files and markdown files for blog posts and essays.
 
 ## Source of Truth

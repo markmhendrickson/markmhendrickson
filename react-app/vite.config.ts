@@ -136,6 +136,27 @@ function cacheReloadPlugin() {
 /** Absolute path of the dev-only cache that holds draft (unpublished) posts. */
 const privateCachePath = path.join(cacheDir, 'posts.private.json')
 
+/** Absolute path of the cache that holds unlisted (review-only) posts. Deliberately NOT named `posts.*.json`,
+ * so no public-list glob or `posts(.xx).json` scan can ever pick it up. */
+const unlistedCachePath = path.join(cacheDir, 'unlisted-posts.json')
+
+/** Slugs (canonical and alternative) of unlisted posts. Their text is meant to be in the bundle (lazy chunk). */
+function readUnlistedSlugs(): Set<string> {
+  const slugs = new Set<string>()
+  if (!fs.existsSync(unlistedCachePath)) return slugs
+  try {
+    const data = JSON.parse(fs.readFileSync(unlistedCachePath, 'utf-8')) as unknown
+    for (const post of Array.isArray(data) ? (data as CachedPostRecord[]) : []) {
+      for (const value of [post.slug, ...(Array.isArray(post.alternativeSlugs) ? post.alternativeSlugs : [])]) {
+        if (typeof value === 'string' && value.length > 0) slugs.add(value)
+      }
+    }
+  } catch {
+    /* unreadable file: treat as no unlisted posts */
+  }
+  return slugs
+}
+
 /** Slugs (canonical and alternative) of every published post across the public caches. */
 function readPublishedSlugs(): Set<string> {
   const slugs = new Set<string>()
@@ -161,6 +182,7 @@ function readPublishedSlugs(): Set<string> {
 /** Distinctive plain-text fragments of each unpublished post, used to verify the bundle is clean. */
 function collectDraftMarkers(): string[] {
   if (!fs.existsSync(privateCachePath)) return []
+  const unlistedSlugs = readUnlistedSlugs()
   let privatePosts: CachedPostRecord[] = []
   try {
     const data = JSON.parse(fs.readFileSync(privateCachePath, 'utf-8')) as unknown
@@ -175,6 +197,8 @@ function collectDraftMarkers(): string[] {
   const markers: string[] = []
   for (const post of privatePosts) {
     if (post.published !== false || typeof post.body !== 'string') continue
+    // An unlisted post that also exists as a draft record is meant to be in the bundle.
+    if (typeof post.slug === 'string' && unlistedSlugs.has(post.slug)) continue
     // Plain sentences only: no quotes, backslashes or markdown, so no escaping differences in the bundle.
     const candidates = post.body
       .split(/(?<=[.!?])\s+|\n+/)
@@ -193,10 +217,11 @@ function collectDraftOnlySlugs(publishedSlugs: Set<string>): string[] {
     const data = JSON.parse(fs.readFileSync(privateCachePath, 'utf-8')) as unknown
     if (!Array.isArray(data)) return []
     const published = [...publishedSlugs]
+    const unlistedSlugs = readUnlistedSlugs()
     return (data as CachedPostRecord[])
       .filter((post) => post.published === false && typeof post.slug === 'string' && post.slug.length > 0)
       .map((post) => post.slug as string)
-      .filter((slug) => !publishedSlugs.has(slug) && !published.some((other) => other.includes(slug)))
+      .filter((slug) => !publishedSlugs.has(slug) && !unlistedSlugs.has(slug) && !published.some((other) => other.includes(slug)))
   } catch {
     return []
   }
@@ -210,6 +235,8 @@ function collectDraftOnlySlugs(publishedSlugs: Set<string>): string[] {
  * In `vite build` (unless `VITE_SHOW_DRAFTS=true`, the explicit opt-in to ship drafts) this plugin:
  * - resolves the private cache to an empty list, and
  * - resolves post markdown whose slug is not published to an empty string (published slugs unchanged),
+ *   which includes unlisted posts: their body is served from `cache/unlisted-posts.json` (a lazy chunk fetched
+ *   only by the post page on a public-list miss), so neither their text nor their slug is in the main chunk,
  * - then fails the build if any recognizable draft text is still present in an emitted chunk.
  * Dev (`vite` serve) is untouched, so drafts stay viewable by URL and listed at /posts/draft/.
  */
