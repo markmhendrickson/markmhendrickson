@@ -29,6 +29,9 @@ PUBLIC_OG_IMAGES_DIR = REACT_APP_ROOT / "public" / "images" / "og"
 
 POSTS_JSON = CACHE_DIR / "posts.json"
 POSTS_PRIVATE_JSON = CACHE_DIR / "posts.private.json"
+# Unlisted review pages: reachable by URL, noindex, in no list. Deliberately NOT named posts.*.json so no
+# list consumer (glob, regex scan, sitemap/RSS/llms generation, public API copy) can ever pick it up.
+UNLISTED_POSTS_JSON = CACHE_DIR / "unlisted-posts.json"
 LINKS_JSON = CACHE_DIR / "links.json"
 TIMELINE_JSON = CACHE_DIR / "timeline.json"
 API_POSTS_JSON = CACHE_API_DIR / "posts.json"
@@ -777,6 +780,43 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
     hydrate_locale_posts_repo_assets()
 
 
+def generate_unlisted_cache() -> None:
+    """Write cache/unlisted-posts.json from content manifest entries flagged `"unlisted": true`.
+
+    The body and summary come from src/content/posts/<slug>.md / <slug>.summary.md. Unlisted posts never enter
+    cache/posts*.json or cache/api/*.json. To publish one later, see "Unlisted preview pages" in
+    src/content/posts/README.md.
+    """
+    records: List[Dict[str, Any]] = []
+    raw_manifest = _safe_read(CONTENT_MANIFEST_JSON) if CONTENT_MANIFEST_JSON.exists() else None
+    try:
+        manifest = json.loads(raw_manifest) if raw_manifest else []
+    except Exception:
+        manifest = []
+    for entry in manifest if isinstance(manifest, list) else []:
+        if not isinstance(entry, dict) or entry.get("unlisted") is not True or not entry.get("slug"):
+            continue
+        slug = entry["slug"]
+        raw_body = _safe_read(WEBSITE_POSTS_DIR / f"{slug}.md")
+        if raw_body is None:
+            print(f"unlisted: skipping {slug}: {slug}.md not found")
+            continue
+        _frontmatter, body = _parse_frontmatter(raw_body)
+        summary_raw = _safe_read(WEBSITE_POSTS_DIR / f"{slug}.summary.md")
+        record: Dict[str, Any] = {k: v for k, v in entry.items() if k != "publishedDate"}
+        record.update(
+            {
+                "body": body,
+                "summary": (summary_raw or "").strip(),
+                # Page-lookup semantics are "published"; `unlisted` is what keeps it out of lists and indexes.
+                "published": True,
+                "unlisted": True,
+            }
+        )
+        records.append(record)
+    write_json(UNLISTED_POSTS_JSON, records)
+
+
 def generate_links_cache(links: List[Dict[str, Any]]) -> None:
     if not links:
         # No export data: keep the committed links cache (deploy artifact).
@@ -839,7 +879,16 @@ def main() -> None:
         default=DEFAULT_NEOTOMA_EXPORT,
         help=f"Neotoma export JSON path (default: {DEFAULT_NEOTOMA_EXPORT})",
     )
+    p.add_argument(
+        "--unlisted-only",
+        action="store_true",
+        help="Only regenerate cache/unlisted-posts.json from the content manifest, then exit.",
+    )
     args = p.parse_args()
+
+    if args.unlisted_only:
+        generate_unlisted_cache()
+        return
 
     export_path = args.from_neotoma_json.resolve()
     if not export_path.exists():
@@ -850,6 +899,7 @@ def main() -> None:
     generate_posts_cache(posts)
     generate_links_cache(links)
     generate_timeline_cache(timeline)
+    generate_unlisted_cache()
 
 
 if __name__ == "__main__":

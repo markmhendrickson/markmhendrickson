@@ -151,9 +151,80 @@ for (let i = 0; i < postHtmlRels.length; i++) {
   verifyHtmlFile(postHtmlRels[i], `post route ${postRoutes[i]}`)
 }
 
+/**
+ * Unlisted review posts (cache/unlisted-posts.json): each must be prerendered with a noindex robots meta,
+ * and its slug must not appear in any sitemap, feed, llms file or public JSON list in dist.
+ */
+function loadUnlistedSlugs() {
+  const p = path.join(cacheDir, 'unlisted-posts.json')
+  if (!fs.existsSync(p)) return []
+  try {
+    const posts = JSON.parse(fs.readFileSync(p, 'utf-8'))
+    return Array.isArray(posts)
+      ? posts.filter((x) => x && x.slug && x.unlisted === true).flatMap((x) => [x.slug, ...(x.alternativeSlugs ?? [])])
+      : []
+  } catch {
+    return []
+  }
+}
+
+function listFilesRecursive(dir) {
+  const out = []
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) out.push(...listFilesRecursive(full))
+    else out.push(full)
+  }
+  return out
+}
+
+const unlistedSlugs = loadUnlistedSlugs()
+for (const slug of unlistedSlugs) {
+  const rel = routeToDistRel(`/posts/${slug}`)
+  verifyHtmlFile(rel, `unlisted route /posts/${slug}`)
+  const filePath = path.join(distDir, rel)
+  if (fs.existsSync(filePath) && !/<meta[^>]*name="robots"[^>]*content="noindex,nofollow"/.test(fs.readFileSync(filePath, 'utf-8'))) {
+    console.error(`verify-ssr: unlisted route /posts/${slug} lacks the noindex,nofollow robots meta`)
+    failed = true
+  }
+}
+if (unlistedSlugs.length) {
+  const listingFiles = [
+    'sitemap.xml', 'rss.xml', 'llms.txt', 'llms-full.txt', 'robots.txt', 'posts.json', '_redirects',
+    ...fs.readdirSync(distDir).filter((n) => /^[a-z]{2}$/.test(n)).map((n) => `${n}/rss.xml`),
+    ...(fs.existsSync(path.join(distDir, 'api'))
+      ? fs.readdirSync(path.join(distDir, 'api')).map((n) => `api/${n}`)
+      : []),
+  ]
+  for (const rel of listingFiles) {
+    const filePath = path.join(distDir, rel)
+    if (!fs.existsSync(filePath)) continue
+    const text = fs.readFileSync(filePath, 'utf-8')
+    for (const slug of unlistedSlugs) {
+      if (text.includes(slug)) {
+        console.error(`verify-ssr: unlisted slug "${slug}" leaked into ${rel}`)
+        failed = true
+      }
+    }
+  }
+  // Every other prerendered page that is not the unlisted page itself must not link to it.
+  for (const filePath of listFilesRecursive(distDir)) {
+    if (!filePath.endsWith('.html')) continue
+    const rel = path.relative(distDir, filePath)
+    if (unlistedSlugs.some((slug) => rel === routeToDistRel(`/posts/${slug}`))) continue
+    const html = fs.readFileSync(filePath, 'utf-8')
+    for (const slug of unlistedSlugs) {
+      if (html.includes(slug)) {
+        console.error(`verify-ssr: unlisted slug "${slug}" appears in ${rel}`)
+        failed = true
+      }
+    }
+  }
+}
+
 if (failed) {
   process.exit(1)
 }
 console.log(
-  `verify-ssr: OK — ${keyFiles.length} spot-check HTML files + ${postRoutes.length} post permalinks (all server-rendered)`,
+  `verify-ssr: OK — ${keyFiles.length} spot-check HTML files + ${postRoutes.length} post permalinks + ${unlistedSlugs.length} unlisted review pages (all server-rendered)`,
 )

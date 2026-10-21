@@ -152,6 +152,39 @@ function getPosts(locale = DEFAULT_LOCALE) {
   return Array.isArray(posts) ? posts : []
 }
 
+/**
+ * Unlisted review posts (reachable by URL, noindex, in no list). They live ONLY in cache/unlisted-posts.json,
+ * never in cache/posts*.json, so getPosts() (sitemap, RSS, llms-full, _redirects, series, route lists)
+ * cannot see them. The only readers are the prerender loop below and per-request SSR.
+ */
+function getUnlistedPosts() {
+  const filePath = path.resolve(__dirname, 'cache', 'unlisted-posts.json')
+  if (!fs.existsSync(filePath)) return []
+  try {
+    const posts = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+    return Array.isArray(posts) ? posts.filter((p) => p && p.slug && p.unlisted === true) : []
+  } catch {
+    return []
+  }
+}
+
+/** Default-locale review URLs to prerender (canonical slug plus alternative slugs). Not part of getPostSlugs(). */
+function getUnlistedRoutes() {
+  const routes = new Set()
+  for (const p of getUnlistedPosts()) {
+    routes.add(`/posts/${p.slug}`)
+    for (const alt of p.alternativeSlugs ?? []) {
+      if (alt) routes.add(`/posts/${alt}`)
+    }
+  }
+  return [...routes]
+}
+
+function findUnlistedPost(slug) {
+  if (!slug) return null
+  return getUnlistedPosts().find((p) => p.slug === slug || (p.alternativeSlugs ?? []).includes(slug)) ?? null
+}
+
 function buildSlugToCanonical(posts) {
   const map = new Map()
   for (const p of posts) {
@@ -467,14 +500,18 @@ function buildSsrRenderOptions(url) {
   const offset = isSupportedLocale(segments[0]) ? 1 : 0
   const isPostRoute = segments[offset] === 'posts'
   const slug = isPostRoute ? segments[offset + 1] : null
+  const publicSlugs = slug ? buildSlugToCanonical(getPosts(routeLocale)) : null
+  // A slug that is not public may be an unlisted review post; its body comes from the unlisted cache record.
+  const unlistedPost = slug && !publicSlugs.has(slug) ? findUnlistedPost(slug) : null
   const canonicalSlug = slug ? resolveSlugToCanonical(slug, routeLocale) : null
-  const postBody = canonicalSlug ? readPostBody(canonicalSlug) : null
+  const postBody = canonicalSlug && !unlistedPost ? readPostBody(canonicalSlug) : null
   const isAgentRoute = segments[offset] === 'agent'
   const isSongsRoute = segments[offset] === 'songs'
   const agentContent = isAgentRoute ? readAgentContent(routeLocale) : null
   const songs = isSongsRoute ? readSongsContent() : null
   const options = {}
   if (postBody != null) options.postBody = postBody
+  if (unlistedPost != null) options.unlistedPost = unlistedPost
   if (agentContent != null) options.agentContent = agentContent
   if (songs != null) options.songs = songs
   return Object.keys(options).length ? options : undefined
@@ -495,7 +532,8 @@ async function runPrerender() {
   const { render } = await import(pathToFileURL(serverPath).href)
   const postRoutes = getPostSlugs()
   const seriesDetailRoutes = getSeriesDetailRoutes()
-  const allRoutes = [...new Set([...STATIC_ROUTES, ...seriesDetailRoutes, ...postRoutes])]
+  const unlistedRoutes = getUnlistedRoutes()
+  const allRoutes = [...new Set([...STATIC_ROUTES, ...seriesDetailRoutes, ...postRoutes, ...unlistedRoutes])]
 
   for (const url of allRoutes) {
     const pathname = url.split('?')[0] || '/'

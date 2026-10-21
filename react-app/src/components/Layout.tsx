@@ -8,6 +8,7 @@ import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, localeToLanguageTag, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import { findUnlistedPost } from '@/lib/unlistedPosts'
 import { trackUmamiEvent } from '@/lib/analytics'
 import { stripSeriesPrefixFromTitle } from '@/lib/utils'
 import { resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
@@ -73,10 +74,15 @@ export function Layout({ children }: LayoutProps) {
       } else if (import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true') {
         import('@cache/posts.private.json').then((mod: { default: Post[] }) => {
           const privateMap = buildSlugToPostMap(mod.default)
-          applyPost(privateMap.get(params.slug!))
+          const privatePost = privateMap.get(params.slug!)
+          if (privatePost) return applyPost(privatePost)
+          return findUnlistedPost(params.slug).then((unlisted) => applyPost(unlisted as unknown as Post | undefined))
         }).catch(() => applyPost(undefined))
       } else {
-        applyPost(undefined)
+        // Unlisted review page (not in any list): title only, from the lazily loaded unlisted cache.
+        findUnlistedPost(params.slug)
+          .then((unlisted) => applyPost(unlisted as unknown as Post | undefined))
+          .catch(() => applyPost(undefined))
       }
     } else {
       applyPost(undefined)

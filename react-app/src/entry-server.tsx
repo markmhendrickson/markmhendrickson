@@ -31,7 +31,7 @@ function buildSlugToPostMap(posts: { slug: string; alternativeSlugs?: string[]; 
   return map
 }
 
-function getSSRPostForUrl(url: string) {
+function getSSRPostForUrl(url: string, unlistedPost?: Record<string, unknown> | null) {
   const pathname = (url.split('?')[0] || '/').replace(/\/$/, '')
   const segments = pathname.split('/').filter(Boolean)
   const offset = isSupportedLocale(segments[0]) ? 1 : 0
@@ -46,7 +46,9 @@ function getSSRPostForUrl(url: string) {
   }[]
   const slugToPost = buildSlugToPostMap(posts)
   const post = slugToPost.get(slug)
-  return post && post.published !== false ? post : null
+  if (post) return post.published !== false ? post : null
+  // Unlisted review page: server.js passes the record only when this URL's slug matches one.
+  return (unlistedPost as typeof post | null | undefined) ?? null
 }
 
 function isPostsIndexUrl(url: string): boolean {
@@ -116,6 +118,8 @@ function getPostsListForSSR(locale: string): PostListItemSSR[] {
 }
 
 export interface RenderOptions {
+  /** Unlisted review post matching the URL's slug (read from cache/unlisted-posts.json by server.js). */
+  unlistedPost?: Record<string, unknown> | null
   postBody?: string | null
   agentContent?: AgentContentSSR | null
   songs?: SongSSR[] | null
@@ -123,7 +127,7 @@ export interface RenderOptions {
 
 export function render(url: string, helmetContext?: HelmetContext, options?: RenderOptions): string {
   const context = helmetContext ?? {}
-  let ssrPost = getSSRPostForUrl(url)
+  let ssrPost = getSSRPostForUrl(url, options?.unlistedPost)
   if (ssrPost != null && options?.postBody != null) {
     ssrPost = { ...ssrPost, body: options.postBody }
   }
