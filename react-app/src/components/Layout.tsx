@@ -3,7 +3,7 @@ import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, Share2, Clock, Bot, Briefcase, TrendingUp, CalendarPlus } from 'lucide-react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, FileCheck2, Network, type LucideIcon } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, localeToLanguageTag, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
@@ -360,7 +360,7 @@ interface ProductCardProps {
   onClick: () => void
 }
 
-function ProductCard({ name, title, description, action, href, onClick }: ProductCardProps) {
+function ProductCard({ name, title, description, action, href, onClick, icon: Icon }: ProductCardProps & { icon: LucideIcon }) {
   return (
     <a
       href={href}
@@ -369,7 +369,10 @@ function ProductCard({ name, title, description, action, href, onClick }: Produc
       onClick={onClick}
       className="group flex h-full flex-col gap-4 rounded-2xl border border-zinc-800 p-6 text-left transition-colors hover:border-zinc-600 hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
     >
-      <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">{name}</p>
+      <div className="flex items-center gap-2.5 text-zinc-500">
+        <Icon className="h-5 w-5 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+        <p className="text-[11px] font-semibold uppercase tracking-widest">{name}</p>
+      </div>
       <p className="text-lg font-medium leading-snug text-white md:text-xl">{title}</p>
       <p className="text-sm leading-relaxed text-zinc-400">{description}</p>
       <span className="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-medium text-zinc-50">
@@ -396,6 +399,7 @@ function ProductsFooter({ locale, pathname }: { locale: string; pathname: string
       <div className="mx-auto grid w-full max-w-[56rem] grid-cols-1 gap-4 px-6 py-12 md:grid-cols-2 md:py-16">
         <ProductCard
           {...copy.neotoma}
+          icon={FileCheck2}
           href={neotomaMarketingHref(locale)}
           onClick={() =>
             trackUmamiEvent('neotoma_cta_click', { campaign: 'products_site_footer', locale, path })
@@ -403,6 +407,7 @@ function ProductsFooter({ locale, pathname }: { locale: string; pathname: string
         />
         <ProductCard
           {...copy.ateles}
+          icon={Network}
           href={ATELES_HREF}
           onClick={() =>
             trackUmamiEvent('ateles_cta_click', { campaign: 'products_site_footer', locale, path })
