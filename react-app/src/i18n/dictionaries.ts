@@ -19,6 +19,10 @@ export type Dict = {
   latestPost: string
   /** Home / post-page featured alert when item is a series index */
   latestSeries: string
+  /** Home: heading above the first page of the posts feed */
+  homeLatestPosts: string
+  /** Home: link to page 2 of the posts feed */
+  homeViewAllPosts: string
   readMore: string
   nextPost: string
   previousPost: string
@@ -114,6 +118,8 @@ const enDict: Dict = {
     drafts: 'Drafts',
     latestPost: 'Latest post',
     latestSeries: 'Latest series',
+    homeLatestPosts: 'Latest posts',
+    homeViewAllPosts: 'View all posts',
     readMore: 'Read more',
     nextPost: 'Next post',
     previousPost: 'Previous post',
@@ -204,6 +210,8 @@ const esDict: Dict = {
     drafts: 'Borradores',
     latestPost: 'Última publicación',
     latestSeries: 'Última serie',
+    homeLatestPosts: 'Últimas publicaciones',
+    homeViewAllPosts: 'Ver todas las publicaciones',
     readMore: 'Seguir leyendo',
     nextPost: 'Siguiente publicación',
     previousPost: 'Publicación anterior',
@@ -294,6 +302,8 @@ const caDict: Dict = {
     drafts: 'Esborranys',
     latestPost: 'Última publicació',
     latestSeries: 'Última sèrie',
+    homeLatestPosts: 'Últimes publicacions',
+    homeViewAllPosts: 'Veure totes les publicacions',
     readMore: 'Llegir més',
     nextPost: 'Publicació següent',
     previousPost: 'Publicació anterior',

@@ -1,26 +1,16 @@
 import { Link } from 'react-router-dom'
-import { useMemo } from 'react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
-import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
-import { computeLatestFeaturedItem, type LatestFeaturedPost } from '@/lib/latestFeaturedItem'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import {
-  getPostImageSrc,
-  stripLinksFromExcerpt,
-  stripSeriesPrefixFromTitle,
-  truncateForLatestPublicationTeaser,
-} from '@/lib/utils'
+import { PostsFeedItems } from '@/components/PostsFeedItems'
+import { usePostsFeedPage } from '@/lib/usePostsFeedPage'
 
 const LINK_CLASS =
   'underline underline-offset-2 decoration-muted-foreground/70 hover:decoration-foreground focus:outline-none focus:decoration-foreground'
 
 export default function Home() {
   const { locale, t } = useLocale()
-  const latestFeaturedItem = useMemo(
-    () => computeLatestFeaturedItem(getLocalizedPublicPosts(locale) as LatestFeaturedPost[], locale),
-    [locale],
-  )
+  // Page 1 of the /posts feed, from the same hook and item component the posts page uses.
+  const { items: latestItems, totalPages } = usePostsFeedPage(1)
   const copy = {
     en: {
       subtitle: 'Building the system of record for AI agents and the operating system for agentic organizations.',
@@ -72,88 +62,6 @@ export default function Home() {
   return (
     <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
       <div className="max-w-[var(--content-max)] w-full">
-        {latestFeaturedItem && (
-          <Link
-            to={localizePath(
-              latestFeaturedItem.type === 'series'
-                ? `/posts/series/${latestFeaturedItem.slug}`
-                : `/posts/${latestFeaturedItem.post.slug}`,
-              locale,
-            )}
-            className="block mb-10 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg [&:hover]:opacity-95 transition-opacity"
-          >
-            <Alert className="flex flex-col md:flex-row items-stretch gap-4 cursor-pointer h-full">
-              {latestFeaturedItem.type === 'series' ? (
-                <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
-                  <img
-                    src={getPostImageSrc(latestFeaturedItem.imageBasename ?? '')}
-                    alt={latestFeaturedItem.title}
-                    className="min-w-0 min-h-0 w-full h-full object-cover object-center"
-                    style={{ objectPosition: 'center center' }}
-                  />
-                </div>
-              ) : (
-                (latestFeaturedItem.post.heroImage ||
-                  latestFeaturedItem.post.ogImage ||
-                  latestFeaturedItem.post.tweetMetadata?.images?.[0]) && (
-                  <div className="order-1 md:order-2 shrink-0 w-full aspect-[4/2.5] md:w-[148px] md:h-[148px] md:aspect-auto rounded overflow-hidden flex items-center justify-center">
-                    <img
-                      src={getPostImageSrc(
-                        latestFeaturedItem.post.heroImageSquare ??
-                          latestFeaturedItem.post.heroImage ??
-                          latestFeaturedItem.post.ogImage ??
-                          latestFeaturedItem.post.tweetMetadata?.images?.[0] ??
-                          '',
-                      )}
-                      alt={
-                        stripSeriesPrefixFromTitle(
-                          latestFeaturedItem.post.title || '',
-                          latestFeaturedItem.post.series,
-                        ) || ''
-                      }
-                      className="min-w-0 min-h-0 w-full h-full object-cover object-center"
-                      style={{ objectPosition: 'center center' }}
-                    />
-                  </div>
-                )
-              )}
-              <div className="order-2 md:order-1 min-w-0 flex-1 flex flex-col gap-1">
-                <AlertTitle className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-                  {latestFeaturedItem.type === 'series' ? t.latestSeries : t.latestPost}
-                </AlertTitle>
-                <AlertDescription className="py-px">
-                  <span className="font-medium text-foreground">
-                    {latestFeaturedItem.type === 'series'
-                      ? latestFeaturedItem.title
-                      : latestFeaturedItem.post.category === 'tweet'
-                        ? (latestFeaturedItem.post.body ?? '').slice(0, 80) +
-                          ((latestFeaturedItem.post.body ?? '').length > 80 ? '...' : '')
-                        : stripSeriesPrefixFromTitle(
-                            latestFeaturedItem.post.title,
-                            latestFeaturedItem.post.series,
-                          )}
-                  </span>
-                  {(latestFeaturedItem.type === 'series'
-                    ? latestFeaturedItem.excerpt
-                    : latestFeaturedItem.post.excerpt) && (
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {truncateForLatestPublicationTeaser(
-                        stripLinksFromExcerpt(
-                          latestFeaturedItem.type === 'series'
-                            ? latestFeaturedItem.excerpt ?? ''
-                            : latestFeaturedItem.post.excerpt ?? '',
-                        ),
-                      )}
-                    </p>
-                  )}
-                  <span className="mt-2 inline-block text-sm font-medium text-foreground/80">
-                    {t.readMore} →
-                  </span>
-                </AlertDescription>
-              </div>
-            </Alert>
-          </Link>
-        )}
         <img
           src="/profile.jpg"
           alt="Mark Hendrickson"
@@ -201,6 +109,32 @@ export default function Home() {
             {text.p4After}
           </p>
         </div>
+
+        {latestItems.length > 0 && (
+          <section aria-labelledby="home-latest-posts" className="clear-both mt-12 md:mt-16">
+            <h2
+              id="home-latest-posts"
+              className="text-sm font-medium uppercase tracking-wide text-muted-foreground mb-6"
+            >
+              {t.homeLatestPosts}
+            </h2>
+            <div className="space-y-8">
+              <PostsFeedItems items={latestItems} titleAs="h3" />
+            </div>
+            <p className="mt-8">
+              <Link
+                to={
+                  totalPages > 1
+                    ? `${localizePath('/posts', locale)}?page=2`
+                    : localizePath('/posts', locale)
+                }
+                className={`${LINK_CLASS} text-[16px] font-medium`}
+              >
+                {t.homeViewAllPosts} →
+              </Link>
+            </p>
+          </section>
+        )}
       </div>
     </div>
   )
