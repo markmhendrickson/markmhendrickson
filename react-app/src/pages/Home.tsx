@@ -65,7 +65,7 @@ export default function Home() {
         <img
           src="/profile.jpg"
           alt="Mark Hendrickson"
-          className="mb-8 w-full h-auto aspect-square rounded-none object-cover lg:float-right lg:ml-8 lg:mb-8 lg:h-[300px] lg:w-[300px]"
+          className="mb-8 w-full h-auto aspect-square rounded-none object-cover sm:float-right sm:ml-6 sm:mb-4 sm:h-[160px] sm:w-[160px] md:ml-8 md:mb-6 md:h-[220px] md:w-[220px] lg:mb-8 lg:h-[300px] lg:w-[300px]"
         />
         <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark&nbsp;Hendrickson</h1>
         <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-8 font-normal tracking-wide">
