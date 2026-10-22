@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet-async'
 import { Search, Rss } from 'lucide-react'
 import {
   isPublishedPost,
-  parseCalendarOrIsoDateString,
   stripSeriesPrefixFromTitle,
 } from '@/lib/utils'
 import { PostsFeedItems } from '@/components/PostsFeedItems'
@@ -12,12 +11,12 @@ import { Input } from '@/components/ui/input'
 import { useLocale } from '@/i18n/LocaleContext'
 import { supportedLocales } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
-import { scorePostMatch } from '@/lib/postSearch'
 import { usePostsListSSR } from '@/contexts/PostsListSSRContext'
 import {
   type FeedItem,
   type Post,
   buildMergedFeed,
+  buildSearchFeed,
   buildSeriesIndexBundles,
   loadPostsData,
   paginateFeed,
@@ -48,41 +47,26 @@ export default function Posts({ draft = false }: PostsProps) {
   /** Published /posts list: exclude series parts (they appear only under the series block). Draft index unchanged. */
   const standalonePosts = useMemo(() => selectStandalonePosts(posts, draft), [posts, draft])
 
-  const postsForSearchStandalone = useMemo(
-    () => selectStandalonePosts(postsForSearch, draft),
-    [postsForSearch, draft],
-  )
-
-  const filteredPosts = useMemo(() => {
-    if (!query) return standalonePosts
-    return postsForSearchStandalone
-      .map((post) => ({ post, score: scorePostMatch(post, query) }))
-      .filter((entry): entry is { post: Post; score: number } => entry.score != null)
-      .sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score
-        const tA = a.post.publishedDate ? parseCalendarOrIsoDateString(a.post.publishedDate).getTime() : 0
-        const tB = b.post.publishedDate ? parseCalendarOrIsoDateString(b.post.publishedDate).getTime() : 0
-        if (tB !== tA) return tB - tA
-        return (a.post.slug || '').localeCompare(b.post.slug || '')
-      })
-      .map((entry) => entry.post)
-  }, [standalonePosts, query, postsForSearchStandalone])
-
   /** Published multi-part series on the index: parts sorted by part number, series keyed by latest published date. */
   const seriesIndexBundles = useMemo(() => buildSeriesIndexBundles(posts, draft), [posts, draft, locale])
 
   /** Merged, date-sorted feed of standalone posts and series bundles (non-search mode only). */
   const mergedFeed = useMemo<FeedItem[]>(
-    () => buildMergedFeed(draft, query, filteredPosts, seriesIndexBundles),
-    [draft, query, filteredPosts, seriesIndexBundles],
+    () => buildMergedFeed(draft, query, standalonePosts, seriesIndexBundles),
+    [draft, query, standalonePosts, seriesIndexBundles],
   )
 
-  /** When searching, show only matched standalone posts (no series bundles). Otherwise use the merged date-sorted feed. */
+  const searchFeed = useMemo(
+    () => buildSearchFeed(postsForSearch, seriesIndexBundles, query, locale),
+    [postsForSearch, seriesIndexBundles, query, locale],
+  )
+
+  /** Search ranks series and posts together; other views keep the existing date ordering. */
   const feedForPagination = useMemo<FeedItem[]>(() => {
-    if (draft) return filteredPosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
-    if (query.trim()) return filteredPosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
+    if (draft) return standalonePosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
+    if (query.trim()) return searchFeed
     return mergedFeed
-  }, [draft, query, filteredPosts, mergedFeed])
+  }, [draft, query, standalonePosts, searchFeed, mergedFeed])
 
   const pageParam = searchParams.get('page')
   const {

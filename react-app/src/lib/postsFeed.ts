@@ -1,6 +1,7 @@
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { mergeLocalizedPublicWithPrivatePosts } from '@/lib/mergeDevPostCaches'
-import { type SearchablePost } from '@/lib/postSearch'
+import { scorePostMatch, type SearchablePost } from '@/lib/postSearch'
+import { getSeriesOverview } from '@/lib/seriesOverview'
 import { isSeriesPartForPostsIndex, resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
 import { isExcludedFromListing, isPublishedPost, parseCalendarOrIsoDateString } from '@/lib/utils'
 import type { SupportedLocale } from '@/i18n/config'
@@ -189,6 +190,71 @@ export function buildMergedFeed(
         ? parseCalendarOrIsoDateString(bundle.parts[0].publishedDate).getTime()
         : 0,
     })),
+  ]
+  items.sort((a, b) => {
+    if (b.sortKey !== a.sortKey) return b.sortKey - a.sortKey
+    const aSlug = a.kind === 'post' ? a.post.slug : a.bundle.slug
+    const bSlug = b.kind === 'post' ? b.post.slug : b.bundle.slug
+    return aSlug.localeCompare(bSlug)
+  })
+  return items
+}
+
+/** Rank series and individual posts together; suppress sibling duplicates for series-wide queries. */
+export function buildSearchFeed(
+  posts: Post[],
+  bundles: SeriesIndexBundle[],
+  query: string,
+  locale: SupportedLocale,
+): FeedItem[] {
+  if (!query.trim()) return []
+  const scoredPosts = posts
+    .map((post) => ({ post, score: scorePostMatch(post, query) }))
+    .filter((entry): entry is { post: Post; score: number } => entry.score != null)
+  const scoredSeries = bundles
+    .map((bundle) => {
+      const searchable: SearchablePost = {
+        series: bundle.title,
+        seriesSlug: bundle.slug,
+        title: bundle.title,
+        slug: bundle.slug,
+        summary: getSeriesOverview(bundle.slug, bundle.parts, locale),
+        excerpt: bundle.parts.map((post) => post.title ?? '').join(' '),
+        tags: Array.from(new Set(bundle.parts.flatMap((post) => post.tags ?? []))),
+        category: bundle.parts.find((post) => post.category?.trim())?.category,
+      }
+      return { bundle, score: scorePostMatch(searchable, query) }
+    })
+    .filter((entry): entry is { bundle: SeriesIndexBundle; score: number } => entry.score != null)
+  // Keep a named part only when it clearly outscores siblings of a matched series.
+  const PART_STANDOUT_RATIO = 3
+  const matchedSeriesSlugs = new Set(scoredSeries.map((entry) => entry.bundle.slug))
+
+  const siblingBest = new Map<string, number>()
+  for (const entry of scoredPosts) {
+    const sSlug = resolveSeriesSlug(entry.post)
+    if (!sSlug || !matchedSeriesSlugs.has(sSlug)) continue
+    for (const other of scoredPosts) {
+      if (other.post.slug === entry.post.slug) continue
+      if (resolveSeriesSlug(other.post) !== sSlug) continue
+      siblingBest.set(entry.post.slug, Math.max(siblingBest.get(entry.post.slug) ?? 0, other.score))
+    }
+  }
+
+  const items: FeedItem[] = [
+    ...scoredSeries.map((entry): FeedItem => ({
+      kind: 'series',
+      bundle: entry.bundle,
+      sortKey: entry.score,
+    })),
+    ...scoredPosts
+      .filter((entry) => {
+        const sSlug = resolveSeriesSlug(entry.post)
+        if (!sSlug || !matchedSeriesSlugs.has(sSlug)) return true
+        const best = siblingBest.get(entry.post.slug) ?? 0
+        return entry.score >= best * PART_STANDOUT_RATIO
+      })
+      .map((entry): FeedItem => ({ kind: 'post', post: entry.post, sortKey: entry.score })),
   ]
   items.sort((a, b) => {
     if (b.sortKey !== a.sortKey) return b.sortKey - a.sortKey
