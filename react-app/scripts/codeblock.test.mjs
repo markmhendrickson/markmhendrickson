@@ -146,18 +146,26 @@ test('published fenced post renders every snippet with a copy action', () => {
   assert(article.includes('store({'), 'code text remains visible')
 })
 
-test('published code controls have localized action names in every supported post route', () => {
+test('post code controls have localized action names in every supported locale', async () => {
+  const { render } = await import(pathToFileURL(path.join(dist, 'server/entry-server.js')).href)
   const labels = {
     en: 'Copy', es: 'Copiar', ca: 'Copia', zh: '复制', hi: 'कॉपी करें', ar: 'نسخ', fr: 'Copier',
     pt: 'Copiar', ru: 'Копировать', bn: 'কপি করুন', ur: 'کاپی کریں', id: 'Salin', de: 'Kopieren',
   }
   for (const [locale, label] of Object.entries(labels)) {
     const prefix = locale === 'en' ? '' : `${locale}/`
-    const html = fs.readFileSync(path.join(dist, prefix, 'posts/what-my-agentic-stack-actually-does/index.html'), 'utf8')
+    const html = render(`/${prefix}posts/code-label-fixture/`, {}, {
+      unlistedPost: {
+        slug: 'code-label-fixture',
+        title: 'Code label fixture',
+        published: true,
+        body: '```bash\necho exact-copy\n```',
+      },
+    })
     const document = new JSDOM(html).window.document
     const buttons = [...document.querySelectorAll('article .code-block button')]
-    assert.equal(buttons.length, 6, `${locale}: six published snippets remain copyable`)
-    assert(buttons.every((button) => button.getAttribute('aria-label') === label), `${locale}: localized copy name on every snippet`)
+    assert.equal(buttons.length, 1, `${locale}: route renders the code fixture with a copy action`)
+    assert.equal(buttons[0].getAttribute('aria-label'), label, `${locale}: localized copy name`)
   }
 })
 

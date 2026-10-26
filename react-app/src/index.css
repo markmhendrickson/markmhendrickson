@@ -482,3 +482,70 @@
   max-width: none;
   margin-left: calc(50% - (100vw - var(--sidebar-w, 0px)) / 2);
 }
+
+/* Visual breaks use the hero's main-column takeover width, with the same sidebar alignment. */
+.essay-paper-hero, .essay-paper-band {
+  background: transparent;
+  border-block: 1px solid hsl(var(--border) / 0.65);
+}
+.essay-paper-hero .essay-paper-art { max-width: 1050px; margin: 0 auto; }
+.essay-paper-hero figcaption {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  max-width: 680px; margin: 0 auto; padding: 1.25rem clamp(1rem, 2vw, 1.5rem) 1.5rem;
+  font-family: 'Instrument Sans Essay', system-ui, sans-serif;
+  color: hsl(var(--muted-foreground)); font-size: 0.9375rem; line-height: 1.6; text-align: left;
+}
+.essay-paper-band {
+  margin-top: clamp(3rem, 6vw, 5rem); margin-bottom: clamp(3rem, 6vw, 5rem);
+  padding-top: clamp(1.5rem, 4vw, 3rem); padding-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+/* A paper visual or aside already separates the next section; keep its heading/anchor. */
+.post-prose:has(> .essay-paper-band) > .essay-paper-band + hr[aria-hidden="true"],
+.post-prose:has(> .essay-paper-band) > .essay-editorial-aside + hr[aria-hidden="true"] {
+  display: none;
+}
+.essay-editorial-aside {
+  margin-top: clamp(3rem, 6vw, 5rem); margin-bottom: clamp(3rem, 6vw, 5rem);
+  padding: clamp(2rem, 5vw, 4rem) 0; background: #f3efe6;
+}
+.dark .essay-editorial-aside { background: #28312f; }
+.essay-editorial-aside__inner { max-width: 680px; margin: 0 auto; padding: 0 clamp(1rem, 3vw, 2rem); }
+.post-prose .essay-editorial-aside p { margin: 0; font-style: normal; font-size: clamp(1.0625rem, 1.6vw, 1.25rem); line-height: 1.7; }
+.post-prose .essay-editorial-aside strong { font-weight: inherit; }
+.essay-paper-break { max-width: 1050px; margin: 0 auto; }
+.essay-paper-gallery {
+  max-width: 1400px; margin: 0 auto; padding: 0 clamp(1rem, 3.5vw, 3rem);
+}
+.essay-paper-figure { min-width: 0; margin: 0; }
+.essay-paper-art { min-width: 0; overflow: hidden; }
+.essay-paper-art svg { display: block; width: 100%; height: auto; overflow: hidden; }
+.essay-paper-art [data-paper-object], .essay-paper-art [data-vision-record] {
+  transform-box: fill-box; transform-origin: center;
+}
+.post-prose .essay-paper-figure img {
+  display: block; width: 100%; height: auto; margin: 0; border-radius: 0.5rem;
+  background: #eee6d6; border: 1px solid #d6d0c4;
+}
+.essay-paper-figure figcaption {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  max-width: 680px; margin: 0 auto; padding: 1.25rem clamp(1rem, 2vw, 1.5rem) 0;
+  font-family: 'Instrument Sans Essay', system-ui, sans-serif;
+  font-size: 0.9375rem; line-height: 1.6; color: hsl(var(--muted-foreground));
+}
+.essay-paper-label, .essay-editorial-aside .essay-paper-label {
+  color: #a14624; font-weight: 600; font-size: 0.75rem;
+  letter-spacing: 0.09em; text-transform: uppercase;
+}
+.essay-editorial-aside .essay-paper-label { margin-top: 0; }
+.dark .essay-paper-label { color: #e5a17c; }
+.dark .post-prose .essay-paper-figure img { border-color: #7b7b70; }
+.essay-paper-gallery { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; }
+@media(max-width: 760px) { .essay-paper-gallery { grid-template-columns: 1fr; gap: 2rem; } }
+@font-face {
+  font-family: 'Instrument Sans Essay'; src: url('/images/posts/neotoma-paper/instrument-sans-regular.ttf') format('truetype');
+  font-display: swap; font-weight: 400;
+}
+@font-face {
+  font-family: 'Instrument Sans Essay'; src: url('/images/posts/neotoma-paper/instrument-sans-semibold.ttf') format('truetype');
+  font-display: swap; font-weight: 600;
+}

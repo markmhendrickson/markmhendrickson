@@ -276,6 +276,14 @@ def overlay_body_from_markdown(metadata_list: List[Dict[str, Any]]) -> None:
         if og:
             meta["ogImage"] = og
         _apply_repo_hero_and_og_convention(meta, slug)
+        manifest_entry = _manifest_entry_for_slug(slug)
+        if manifest_entry and manifest_entry.get("heroImageStyle") == "paper-scene":
+            for key in (
+                "heroImage", "heroImageSquare", "heroImageStyle", "ogImage",
+                "heroImageAlt", "heroImageLabel", "heroImageCaption",
+            ):
+                if manifest_entry.get(key):
+                    meta[key] = manifest_entry[key]
 
 
 def _manifest_entry_for_slug(slug: str) -> Optional[Dict[str, Any]]:

@@ -129,5 +129,7 @@ test('the localized raw Markdown header action is present for a public post and 
   }))
 
   assert(!/<a\b(?=[^>]*href="\/posts\/unlisted-editorial-fixture\.md")[^>]*>/.test(unlistedHtml), 'unlisted review omits the header action')
-  assert(unlistedHtml.includes('Preview body.'), 'unlisted preview still renders its article')
+  assert(unlistedHtml.includes('data-testid="unlisted-preview-status"'), 'unlisted preview keeps its visible footer status')
+  assert(unlistedHtml.includes('>Preview</span>'), 'the preview status is visible to readers')
+  assert(unlistedHtml.includes('Preview body.'), 'unlisted article still renders')
 })

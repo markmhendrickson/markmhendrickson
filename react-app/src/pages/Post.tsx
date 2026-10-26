@@ -27,6 +27,9 @@ import {
   truncateForLatestPublicationTeaser,
 } from '@/lib/utils'
 import { CodeBlock, MarkdownPre, markdownCodeComponentsWithLabels } from '@/components/CodeBlock'
+import { PaperArtwork, hasPaperArtwork } from '@/components/PaperArtwork'
+import { usePageVisualMotion } from '@/lib/paperVisualMotion'
+import { createHeadingIdAllocator, headingIdFromHash } from '@/lib/headingAnchors'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -131,17 +134,6 @@ function getHeadingText(children: React.ReactNode): string {
       parts.push(getHeadingText(child.props.children))
   })
   return parts.join('')
-}
-
-/** URL-safe id from heading text (lowercase, spaces to hyphens, strip non-alphanumeric). */
-function slugifyHeading(text: string): string {
-  return text
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '') || 'section'
 }
 
 /** Split inline postscript section from markdown body (heading: "## Postscript..."). */
@@ -269,6 +261,7 @@ function PostscriptSection({
   markdown,
   footnoteOptions,
   linkLabel,
+  headingId,
   copyLabel,
   copiedLabel,
   failureLabel,
@@ -276,18 +269,19 @@ function PostscriptSection({
   markdown: string
   footnoteOptions: { footnoteLabel: string; footnoteBackLabel: string }
   linkLabel: string
+  headingId: (text: string) => string
   copyLabel: string
   copiedLabel: string
   failureLabel: string
 }) {
   const makePostscriptHeading = (Tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6') =>
     ({ children, ...props }: React.ComponentPropsWithoutRef<typeof Tag>) => {
-      const slug = slugifyHeading(getHeadingText(children))
+      const slug = headingId(getHeadingText(children))
       return (
         <Tag id={slug} className="group scroll-mt-6" {...props}>
           {children}
           <a
-            href={`#${slug}`}
+            href={`#${encodeURIComponent(slug)}`}
             className="post-heading-anchor ml-2 inline-flex align-middle opacity-40 group-hover:opacity-70 hover:opacity-100 text-muted-foreground hover:text-foreground no-underline"
             aria-label={linkLabel}
           >
@@ -540,6 +534,9 @@ interface Post {
   heroImage?: string
   heroImageSquare?: string
   heroImageStyle?: string
+  heroImageAlt?: string
+  heroImageLabel?: string
+  heroImageCaption?: string
   excludeFromListing?: boolean | number | string
   showMetadata?: boolean
   body?: string
@@ -1145,6 +1142,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const slug = slugProp || slugParam
   const navigate = useNavigate()
   const { locale, languageTag, t } = useLocale()
+  const headingId = createHeadingIdAllocator(locale === defaultLocale)
   const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
   const publicPostsData = getLocalizedPublicPosts(locale) as unknown as Post[]
   const privateListStatic = privatePostsJson as unknown as Post[]
@@ -1164,6 +1162,8 @@ export default function Post({ slug: slugProp }: PostProps) {
   const [content, setContent] = useState(
     ssrPost?.body ? normalizeMarkdownFormatting(ssrPost.body) : ''
   )
+  const paperArticleRef = useRef<HTMLElement>(null)
+  usePageVisualMotion(paperArticleRef, content)
   const [summaryContent, setSummaryContent] = useState<string | undefined>(undefined)
   const [postscriptContent, setPostscriptContent] = useState<string | undefined>(undefined)
   const [excerptFromMd, setExcerptFromMd] = useState<string | undefined>(undefined)
@@ -1327,7 +1327,7 @@ export default function Post({ slug: slugProp }: PostProps) {
 
   // Scroll to linked section when page loads with anchor hash (e.g. /posts/slug#section-id)
   useEffect(() => {
-    const hash = location.hash?.slice(1)
+    const hash = headingIdFromHash(location.hash ?? '')
     if (!hash || !content || !post) return
     const scrollToAnchor = () => {
       const el = document.getElementById(hash)
@@ -1632,6 +1632,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   /** Only treat as tweet post when category is tweet; linkedTweetUrl is for footer "share" link. */
   const isTweetPost = post.category === 'tweet'
   const isUnlisted = post.unlisted === true
+  const isPaperScenePost = post.heroImageStyle === 'paper-scene'
   const rawTitle = (titleFromMd ?? post.title ?? '').trim()
   const displayTitle = stripSeriesPrefixFromTitle(rawTitle, post.series)
   /** Full stored title for `<title>` / OG / Twitter / JSON-LD (avoids ultra-short share titles when series prefix is stripped for the H1). */
@@ -1846,12 +1847,7 @@ export default function Post({ slug: slugProp }: PostProps) {
             </Alert>
           </Link>
         )}
-        {isUnlisted && (
-          <Alert className="mb-8 text-[14px]" data-testid="unlisted-preview-banner">
-            <AlertDescription>{t.unlistedPreviewBanner}</AlertDescription>
-          </Alert>
-        )}
-        <article>
+        <article ref={paperArticleRef}>
           {editorialLayout && heroMatch && !isTweetPost && (
             <header className="post-takeover relative -mt-12 mb-12 flex min-h-[calc(100svh-var(--header-height,4rem)-3rem)] flex-col justify-end overflow-hidden bg-black text-white md:-mt-[calc(var(--header-height,4rem)+2rem)]">
               <img
@@ -1925,13 +1921,21 @@ export default function Post({ slug: slugProp }: PostProps) {
           })()}
 
           {post.heroImage && !isTweetPost && post.heroImageStyle !== 'float-right' && (
-            <div className="post-takeover mb-8 block bg-black">
-              <img
+            <figure className={cn('post-takeover mb-8 block', post.heroImageStyle === 'paper-scene' ? 'essay-paper-hero' : 'bg-black')}>
+              {isPaperScenePost && hasPaperArtwork(getPostImageSrc(post.heroImage)) ? (
+                <PaperArtwork src={getPostImageSrc(post.heroImage)} alt={post.heroImageAlt ?? displayTitle} />
+              ) : <img
                 src={getPostImageSrc(post.heroImage)}
-                alt={displayTitle}
+                alt={post.heroImageAlt ?? displayTitle}
                 className="mx-auto block h-auto max-h-[70vh] w-auto max-w-full object-contain"
-              />
-            </div>
+              />}
+              {isPaperScenePost && post.heroImageCaption && (
+                <figcaption>
+                  {post.heroImageLabel && <span className="essay-paper-label">{post.heroImageLabel}</span>}
+                  <span>{post.heroImageCaption}</span>
+                </figcaption>
+              )}
+            </figure>
           )}
 
           <div
@@ -1961,14 +1965,14 @@ export default function Post({ slug: slugProp }: PostProps) {
             {(() => {
               const makeHeading = (Tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') =>
                 ({ children, ...props }: React.ComponentPropsWithoutRef<typeof Tag>) => {
-                  const slug = slugifyHeading(getHeadingText(children))
+                  const slug = headingId(getHeadingText(children))
                   const showAnchor = Tag !== 'h3'
                   const headingNode = (
                     <Tag id={slug} className="group scroll-mt-6" {...props}>
                       {children}
                       {showAnchor && (
                         <a
-                          href={`#${slug}`}
+                          href={`#${encodeURIComponent(slug)}`}
                           className="post-heading-anchor ml-2 inline-flex align-middle opacity-40 group-hover:opacity-70 hover:opacity-100 text-muted-foreground hover:text-foreground no-underline"
                           aria-label={t.linkToSection}
                         >
@@ -1995,21 +1999,37 @@ export default function Post({ slug: slugProp }: PostProps) {
               type HastLike = { type?: string; tagName?: string; value?: string; children?: HastLike[] }
               const nonBlank = (nodes: HastLike[] = []) =>
                 nodes.filter((n) => !(n.type === 'text' && !(n.value ?? '').trim()))
-              const isKeyMessage = (node?: HastLike): boolean => {
+              const isKeyMessage = (node?: HastLike, allowLabel = false): boolean => {
                 const kids = nonBlank(node?.children)
-                if (kids.length !== 1 || kids[0].tagName !== 'p') return false
-                const inner = nonBlank(kids[0].children)
-                return inner.length === 1 && inner[0].tagName === 'strong'
+                if (kids.length !== 1 && !(allowLabel && kids.length === 2)) return false
+                return kids.every((kid) => {
+                  if (kid.tagName !== 'p') return false
+                  const inner = nonBlank(kid.children)
+                  return inner.length === 1 && inner[0].tagName === 'strong'
+                })
               }
               const markdownComponents = {
-                blockquote: ({ node, children, ...props }: React.ComponentPropsWithoutRef<'blockquote'> & { node?: HastLike }) =>
-                  editorialLayout && isKeyMessage(node) ? (
+                blockquote: ({ node, children, ...props }: React.ComponentPropsWithoutRef<'blockquote'> & { node?: HastLike }) => {
+                  if (isPaperScenePost && isKeyMessage(node, true)) {
+                    const parts = React.Children.toArray(children).filter((child) => typeof child !== 'string' || child.trim())
+                    const hasLabel = nonBlank(node?.children).length === 2
+                    return (
+                      <aside className="post-takeover essay-editorial-aside not-prose" role="note">
+                        <div className="essay-editorial-aside__inner">
+                          {hasLabel && <h3 className="essay-paper-label mb-2">{markdownPlainText(parts[0])}</h3>}
+                          {hasLabel ? parts.slice(1) : children}
+                        </div>
+                      </aside>
+                    )
+                  }
+                  return editorialLayout && isKeyMessage(node) ? (
                     <aside className="post-message not-prose" role="note">
                       {children}
                     </aside>
                   ) : (
                     <blockquote {...props}>{children}</blockquote>
-                  ),
+                  )
+                },
                 h1: makeHeading('h2'),
                 h2: makeHeading('h2'),
                 h3: makeHeading('h3'),
@@ -2084,6 +2104,16 @@ export default function Post({ slug: slugProp }: PostProps) {
                 p: ({ children, ...props }: React.ComponentPropsWithoutRef<'p'>) => {
                   const arr = React.Children.toArray(children)
                   const nonEmpty = arr.filter((c) => !(typeof c === 'string' && c.trim() === ''))
+                  const allPaperFigures = isPaperScenePost && nonEmpty.length > 0 && nonEmpty.every((child) =>
+                    React.isValidElement(child) && String((child.props as { title?: string }).title ?? '').startsWith('paper|'),
+                  )
+                  if (allPaperFigures) {
+                    return (
+                      <div className="post-takeover essay-paper-band not-prose">
+                        <div className={nonEmpty.length > 1 ? 'essay-paper-gallery' : 'essay-paper-break'}>{children}</div>
+                      </div>
+                    )
+                  }
                   const allImg = nonEmpty.length >= 1 && nonEmpty.every((c) => {
                     if (!React.isValidElement(c)) return false
                     const elementProps = c.props as { src?: string } | undefined
@@ -2143,6 +2173,19 @@ export default function Post({ slug: slugProp }: PostProps) {
                   )
                 },
                 img: ({ src, alt, title, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
+                  if (isPaperScenePost && title?.startsWith('paper|')) {
+                    const [, label, caption] = title.split('|')
+                    const isVision = src?.includes('/vision-')
+                    return (
+                      <figure className="essay-paper-figure" data-paper-figure={isVision ? 'planned' : 'current'}>
+                        {hasPaperArtwork(src) ? <PaperArtwork src={src!} alt={alt ?? ''} /> : <img src={src} alt={alt ?? ''} width={isVision ? 340 : 900} height={isVision ? 220 : 600} loading="lazy" decoding="async" />}
+                        <figcaption>
+                          <span className="essay-paper-label">{label}</span>
+                          <span>{caption}</span>
+                        </figcaption>
+                      </figure>
+                    )
+                  }
                   const index = postImages.findIndex((im) => im.src === src)
                   const safeIndex = index >= 0 ? index : 0
                   const showFullFrame = post.slug === 'your-ai-remembers-your-vibe-but-not-your-work'
@@ -2303,6 +2346,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               markdown={effectivePostscriptContent}
               footnoteOptions={markdownFootnoteOptions}
               linkLabel={t.linkToSection}
+              headingId={headingId}
               copyLabel={t.postCopyCode}
               copiedLabel={t.postCodeCopied}
               failureLabel={t.postCodeCopyFailed}
@@ -2340,7 +2384,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                 </div>
               )}
               {!isHome && (
-                <div className="flex items-center gap-4 text-[13px] text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-muted-foreground">
                   {post.publishedDate && (
                     <time dateTime={post.publishedDate}>
                       {formatDate(post.publishedDate)}
@@ -2356,6 +2400,12 @@ export default function Post({ slug: slugProp }: PostProps) {
                         : (post.category || '').toLowerCase() === 'essay'
                           ? t.categoryEssay
                           : post.category}
+                    </span>
+                  )}
+                  {isUnlisted && (
+                    <span data-testid="unlisted-preview-status" title={t.unlistedPreviewBanner}>
+                      <span aria-hidden="true">{t.unlistedPreviewBanner.split('.')[0]}</span>
+                      <span className="sr-only">{t.unlistedPreviewBanner}</span>
                     </span>
                   )}
                 </div>
