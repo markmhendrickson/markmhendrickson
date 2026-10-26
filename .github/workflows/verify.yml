@@ -33,6 +33,9 @@ jobs:
       - name: Run locale smoke checks
         working-directory: react-app
         run: npm run test:i18n-smoke
+      - name: Verify series-aware post search
+        working-directory: react-app
+        run: node --test scripts/series-search.test.mjs
       - name: Force professional-mission from repo content
         working-directory: react-app
         run: python3 scripts/force_professional_mission.py
