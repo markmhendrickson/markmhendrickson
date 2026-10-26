@@ -6,6 +6,7 @@ export interface PostMeta {
   excerpt?: string
   summary?: string
   published: boolean
+  unlisted?: boolean
   publishedDate?: string
   category?: string
   readTime?: number

@@ -11,6 +11,8 @@ import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { findUnlistedPost } from '@/lib/unlistedPosts'
 import { trackUmamiEvent } from '@/lib/analytics'
 import { HeaderActionsProvider } from '@/lib/headerActions'
+import { usePostSSR } from '@/contexts/PostSSRContext'
+import { MarkdownLinkAction } from '@/components/MarkdownLinkAction'
 import { stripSeriesPrefixFromTitle } from '@/lib/utils'
 import { resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
 import type { ExtraBreadcrumb } from '@shared/components/Layout'
@@ -44,10 +46,17 @@ export function Layout({ children }: LayoutProps) {
   const location = useLocation()
   const params = useParams()
   const { locale, languageTag, direction, t } = useLocale()
+  const ssrPost = usePostSSR()
   const publicPostsData = getLocalizedPublicPosts(locale) as Post[]
   const [postTitle, setPostTitle] = useState<string | null>(null)
   const [postSeriesInfo, setPostSeriesInfo] = useState<{ name: string; slug: string } | null>(null)
-  const [headerActions, setHeaderActions] = useState<React.ReactNode>(null)
+  // Keep the public post action in the initial HTML. Post registers the same action
+  // after hydration and owns updates during client-side navigation.
+  const [headerActions, setHeaderActions] = useState<React.ReactNode>(() =>
+    ssrPost?.slug && !ssrPost.unlisted ? (
+      <MarkdownLinkAction href={localizePath(`/posts/${ssrPost.slug}.md`, locale)} label={t.pageRawMarkdown} />
+    ) : null,
+  )
   const isHome = location.pathname === localizePath('/', locale)
   const currentSeriesTitle =
     params.seriesSlug
