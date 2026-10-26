@@ -13,7 +13,11 @@ def _split_utf8(text: str, max_bytes: int) -> list[str]:
             boundary = max((i + 1 for i, c in enumerate(current) if c.isspace()), default=0)
             if boundary:
                 pieces.append(current[:boundary])
-                current = current[boundary:] + char
+                current = current[boundary:]
+                if current and len((current + char).encode("utf-8")) > max_bytes:
+                    pieces.append(current)
+                    current = ""
+                current += char
             else:
                 pieces.append(current)
                 current = char
