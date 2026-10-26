@@ -273,6 +273,7 @@ export function Layout({ children }: LayoutProps) {
         footer={<ProductsFooter locale={locale} pathname={location.pathname} />}
         defaultSidebarOpen={false}
         sidebarCollapsible="icon"
+        sidebarExpandLabel={t.sidebarExpandLabel}
         collapsedHomeLabel="Mark Hendrickson"
         headerRight={headerActions}
       >

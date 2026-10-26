@@ -3,6 +3,7 @@ import { test } from 'node:test'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { execFileSync } from 'node:child_process'
 
 const dist = process.env.WEBSITE_TEST_DIST ?? path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../dist')
 
@@ -23,6 +24,29 @@ test('collapsed navigation has named, localized destinations in generated pages'
     for (const [label, href] of labels) {
       assert(menuLinks.some((link) => link.includes(`aria-label="${label}"`) && link.includes(`href="${href}"`)), `${page}: ${label} names ${href}`)
     }
+  }
+})
+
+test('the hydrated collapsed desktop expand control has an accessible name in every locale', () => {
+  const labels = {
+    en: 'Expand sidebar',
+    es: 'Expandir la barra lateral',
+    ca: 'Amplia la barra lateral',
+    zh: '展开侧边栏',
+    hi: 'साइडबार फैलाएँ',
+    ar: 'توسيع الشريط الجانبي',
+    fr: 'Développer la barre latérale',
+    pt: 'Expandir a barra lateral',
+    ru: 'Развернуть боковую панель',
+    bn: 'সাইডবার প্রসারিত করুন',
+    ur: 'سائیڈ بار پھیلائیں',
+    id: 'Perluas bilah sisi',
+    de: 'Seitenleiste erweitern',
+  }
+  const probe = path.join(path.dirname(fileURLToPath(import.meta.url)), 'desktop-sidebar-name.probe.mjs')
+  for (const [locale, expected] of Object.entries(labels)) {
+    const output = execFileSync(process.execPath, [probe, dist, locale], { encoding: 'utf8', timeout: 10000 })
+    assert.equal(JSON.parse(output).label, expected, `${locale}: hydrated desktop expand control name`)
   }
 })
 

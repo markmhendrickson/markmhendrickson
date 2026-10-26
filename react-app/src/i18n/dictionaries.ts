@@ -15,6 +15,7 @@ export type Dict = {
   pageRawMarkdown: string
   navRss: string
   navLanguage: string
+  sidebarExpandLabel: string
   drafts: string
   latestPost: string
   /** Home / post-page featured alert when item is a series index */
@@ -111,6 +112,7 @@ const enDict: Dict = {
     pageRawMarkdown: 'View markdown',
     navRss: 'RSS feed',
     navLanguage: 'Language',
+    sidebarExpandLabel: 'Expand sidebar',
     drafts: 'Drafts',
     latestPost: 'Latest post',
     latestSeries: 'Latest series',
@@ -201,6 +203,7 @@ const esDict: Dict = {
     pageRawMarkdown: 'Ver markdown',
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
+    sidebarExpandLabel: 'Expandir la barra lateral',
     drafts: 'Borradores',
     latestPost: 'Última publicación',
     latestSeries: 'Última serie',
@@ -291,6 +294,7 @@ const caDict: Dict = {
     pageRawMarkdown: 'Veure markdown',
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
+    sidebarExpandLabel: 'Amplia la barra lateral',
     drafts: 'Esborranys',
     latestPost: 'Última publicació',
     latestSeries: 'Última sèrie',
