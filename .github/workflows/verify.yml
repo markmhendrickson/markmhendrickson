@@ -34,7 +34,7 @@ jobs:
         working-directory: react-app
         run: |
           npm run test:i18n-smoke
-          python3 -m unittest discover -s scripts -p 'test_translation_chunks.py'
+          python3 scripts/test_translation_chunks.py
           node --test scripts/paper-artwork-export.test.mjs scripts/paper-visual-motion.test.mjs scripts/heading-anchors.test.mjs
       - name: Verify series-aware post search
         working-directory: react-app
