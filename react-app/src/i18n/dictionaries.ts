@@ -86,6 +86,8 @@ export type Dict = {
   /** Post body: fenced ```copy blocks */
   postCopyCode: string
   postCodeCopied: string
+  postCodeCopyFailed: string
+  postAgentPrompt: string
   imageViewer: string
   close: string
   previousImage: string
@@ -180,6 +182,8 @@ const enDict: Dict = {
     copied: 'OK',
     postCopyCode: 'Copy',
     postCodeCopied: 'Copied',
+    postCodeCopyFailed: 'Copy failed. Try again.',
+    postAgentPrompt: 'Agent prompt',
     imageViewer: 'Image viewer',
     close: 'Close',
     previousImage: 'Previous image',
@@ -274,6 +278,8 @@ const esDict: Dict = {
     copied: 'OK',
     postCopyCode: 'Copiar',
     postCodeCopied: 'Copiado',
+    postCodeCopyFailed: 'No se pudo copiar. Inténtalo de nuevo.',
+    postAgentPrompt: 'Instrucción para el agente',
     imageViewer: 'Visor de imágenes',
     close: 'Cerrar',
     previousImage: 'Imagen anterior',
@@ -368,6 +374,8 @@ const caDict: Dict = {
     copied: 'OK',
     postCopyCode: 'Copia',
     postCodeCopied: 'Copiat',
+    postCodeCopyFailed: "No s'ha pogut copiar. Torna-ho a provar.",
+    postAgentPrompt: "Instrucció per a l'agent",
     imageViewer: "Visor d'imatges",
     close: 'Tanca',
     previousImage: 'Imatge anterior',
@@ -419,9 +427,22 @@ const homeFeedLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'homeLat
   de: { homeLatestPosts: 'Neueste Beiträge', homeMorePosts: 'Weitere Beiträge', homeViewAllPosts: 'Alle Beiträge ansehen' },
 }
 
+const codeCopyLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'postCopyCode' | 'postCodeCopied' | 'postCodeCopyFailed' | 'postAgentPrompt'>> = {
+  zh: { postCopyCode: '复制', postCodeCopied: '已复制', postCodeCopyFailed: '复制失败，请重试。', postAgentPrompt: '智能体提示词' },
+  hi: { postCopyCode: 'कॉपी करें', postCodeCopied: 'कॉपी किया गया', postCodeCopyFailed: 'कॉपी नहीं हो सका। फिर कोशिश करें।', postAgentPrompt: 'एजेंट प्रॉम्प्ट' },
+  ar: { postCopyCode: 'نسخ', postCodeCopied: 'تم النسخ', postCodeCopyFailed: 'تعذّر النسخ. حاول مرة أخرى.', postAgentPrompt: 'تعليمة الوكيل' },
+  fr: { postCopyCode: 'Copier', postCodeCopied: 'Copié', postCodeCopyFailed: 'La copie a échoué. Réessayez.', postAgentPrompt: 'Instruction de l’agent' },
+  pt: { postCopyCode: 'Copiar', postCodeCopied: 'Copiado', postCodeCopyFailed: 'Não foi possível copiar. Tente novamente.', postAgentPrompt: 'Instrução para o agente' },
+  ru: { postCopyCode: 'Копировать', postCodeCopied: 'Скопировано', postCodeCopyFailed: 'Не удалось скопировать. Попробуйте ещё раз.', postAgentPrompt: 'Промпт агента' },
+  bn: { postCopyCode: 'কপি করুন', postCodeCopied: 'কপি হয়েছে', postCodeCopyFailed: 'কপি করা যায়নি। আবার চেষ্টা করুন।', postAgentPrompt: 'এজেন্ট নির্দেশনা' },
+  ur: { postCopyCode: 'کاپی کریں', postCodeCopied: 'کاپی ہو گیا', postCodeCopyFailed: 'کاپی نہیں ہو سکی۔ دوبارہ کوشش کریں۔', postAgentPrompt: 'ایجنٹ کی ہدایت' },
+  id: { postCopyCode: 'Salin', postCodeCopied: 'Tersalin', postCodeCopyFailed: 'Gagal menyalin. Coba lagi.', postAgentPrompt: 'Instruksi agen' },
+  de: { postCopyCode: 'Kopieren', postCodeCopied: 'Kopiert', postCodeCopyFailed: 'Kopieren fehlgeschlagen. Bitte erneut versuchen.', postAgentPrompt: 'Agenten-Prompt' },
+}
+
 function generatedLocaleDict(locale: keyof typeof rawMarkdownLabels): Dict {
   const generated = (generatedDictionaries as Record<string, Partial<Dict> | undefined>)[locale]
-  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale] }) : enDict
+  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale], ...codeCopyLabels[locale] }) : enDict
 }
 
 const dictionaries: Record<SupportedLocale, Dict> = {

@@ -57,3 +57,7 @@ jobs:
       - name: Verify homepage feed and draft exclusions
         working-directory: react-app
         run: node --test scripts/homepage-feed.test.mjs
+
+      - name: Verify shared code snippet rendering and copy behavior
+        working-directory: react-app
+        run: node --test scripts/codeblock.test.mjs

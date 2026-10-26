@@ -85,15 +85,31 @@
     line-height: 1.65 !important;
   }
 
-  /* Copyable prompt fences: not-prose does not stop .post-prose code / pre code rules from applying to descendants */
-  .post-prose .post-copyable-fence pre {
-    @apply m-0 rounded-none shadow-none;
+  /* CodeBlock (src/components/CodeBlock.tsx): beats the .post-prose pre / pre code / inline code rules above. */
+  .code-block .code-block__pre {
+    margin: 0;
+    border: 0 !important;
+    background: transparent !important;
+    border-radius: 0.5rem 0 0 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
-  .post-prose .post-copyable-fence code {
-    @apply rounded-none bg-transparent shadow-none;
-  }
-  .post-prose .post-copyable-fence pre code {
-    @apply m-0 mb-0 block overflow-visible;
+  .code-block .code-block__pre .code-block__code {
+    display: block !important;
+    margin: 0;
+    padding: 0 !important;
+    border: 0;
+    border-radius: 0;
+    background: transparent !important;
+    box-shadow: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
+    font-size: 0.875rem !important;
+    font-weight: 400;
+    line-height: 1.6 !important;
+    color: inherit;
+    tab-size: 2;
+    -webkit-user-select: text;
+    user-select: text;
   }
   .post-prose strong {
     @apply font-semibold;
@@ -281,11 +297,6 @@
   .dark .post-prose pre {
     background-color: hsl(var(--muted));
     border-color: hsl(var(--border));
-  }
-
-  .dark .post-prose .post-copyable-fence code,
-  .dark .post-prose .post-copyable-fence pre code {
-    background-color: transparent;
   }
 
   .dark .post-prose a,
