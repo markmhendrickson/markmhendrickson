@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 
 /** Post list item shape used for SSR; minimal so JSON stays small. */
 export interface PostListItemSSR {
@@ -22,19 +23,21 @@ export interface PostListItemSSR {
   seriesTotal?: number
 }
 
-const PostsListSSRContext = React.createContext<PostListItemSSR[] | null>(null)
+const PostsListSSRContext = React.createContext<{ posts: PostListItemSSR[] | null; sourcePath: string } | null>(null)
 
 const SCRIPT_ID = 'posts-ssr-data'
 
 export function PostsListSSRProvider({
   posts,
+  sourcePath,
   children,
 }: {
   posts: PostListItemSSR[] | null
+  sourcePath: string
   children: React.ReactNode
 }) {
   return (
-    <PostsListSSRContext.Provider value={posts}>
+    <PostsListSSRContext.Provider value={{ posts, sourcePath }}>
       {posts != null && posts.length > 0 && (
         <script
           type="application/json"
@@ -48,7 +51,9 @@ export function PostsListSSRProvider({
 }
 
 export function usePostsListSSR(): PostListItemSSR[] | null {
-  return React.useContext(PostsListSSRContext)
+  const source = React.useContext(PostsListSSRContext)
+  const { pathname } = useLocation()
+  return source?.sourcePath === pathname ? source.posts : null
 }
 
 export function getPostsListSSRFromDom(): PostListItemSSR[] | null {

@@ -31,8 +31,11 @@ export async function copyTextToClipboard(text: string): Promise<boolean> {
   } catch {
     // fall through to the legacy path
   }
+  let textarea: HTMLTextAreaElement | null = null
+  let previouslyFocused: HTMLElement | null = null
   try {
-    const textarea = document.createElement('textarea')
+    previouslyFocused = document.activeElement as HTMLElement | null
+    textarea = document.createElement('textarea')
     textarea.value = text
     textarea.setAttribute('readonly', '')
     textarea.setAttribute('aria-hidden', 'true')
@@ -41,15 +44,14 @@ export async function copyTextToClipboard(text: string): Promise<boolean> {
     textarea.style.left = '-9999px'
     textarea.style.opacity = '0'
     document.body.appendChild(textarea)
-    const previouslyFocused = document.activeElement as HTMLElement | null
     textarea.select()
     textarea.setSelectionRange(0, text.length)
-    const ok = document.execCommand('copy')
-    document.body.removeChild(textarea)
-    previouslyFocused?.focus?.()
-    return ok
+    return document.execCommand('copy')
   } catch {
     return false
+  } finally {
+    textarea?.remove()
+    previouslyFocused?.focus?.()
   }
 }
 
@@ -64,6 +66,7 @@ export interface CodeBlockProps {
   wrap?: boolean
   copyLabel?: string
   copiedLabel?: string
+  failureLabel?: string
   /** Called after a successful copy (analytics). */
   onCopy?: () => void
   className?: string
@@ -81,11 +84,12 @@ export function CodeBlock({
   wrap = false,
   copyLabel = 'Copy code',
   copiedLabel = 'Copied',
+  failureLabel = 'Copy failed. Try again.',
   onCopy,
   className,
 }: CodeBlockProps) {
   const text = normalizeCodeText(code)
-  const [copied, setCopied] = useState(false)
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle')
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const heading = label ?? (language ? language : '')
 
@@ -98,13 +102,19 @@ export function CodeBlock({
 
   const handleCopy = useCallback(async () => {
     const ok = await copyTextToClipboard(text)
-    if (!ok) return
+    if (!ok) {
+      if (resetTimer.current) clearTimeout(resetTimer.current)
+      setCopyState('failed')
+      return
+    }
     onCopy?.()
-    setCopied(true)
+    setCopyState('copied')
     if (resetTimer.current) clearTimeout(resetTimer.current)
-    resetTimer.current = setTimeout(() => setCopied(false), COPIED_RESET_MS)
+    resetTimer.current = setTimeout(() => setCopyState('idle'), COPIED_RESET_MS)
   }, [text, onCopy])
 
+  const copied = copyState === 'copied'
+  const failed = copyState === 'failed'
   const buttonText = copied ? copiedLabel : copyLabel
 
   return (
@@ -147,8 +157,8 @@ export function CodeBlock({
         >
           {copied ? <Check className="h-4 w-4" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />}
         </button>
-        <span className="sr-only" role="status" aria-live="polite">
-          {copied ? copiedLabel : ''}
+        <span className={failed ? 'block max-w-32 text-xs text-destructive' : 'sr-only'} role="status" aria-live="polite">
+          {failed ? failureLabel : copied ? copiedLabel : ''}
         </span>
       </div>
     </div>
@@ -165,7 +175,8 @@ export function MarkdownPre({
   children,
   copyLabel,
   copiedLabel,
-}: React.ComponentPropsWithoutRef<'pre'> & { copyLabel?: string; copiedLabel?: string }) {
+  failureLabel,
+}: React.ComponentPropsWithoutRef<'pre'> & { copyLabel?: string; copiedLabel?: string; failureLabel?: string }) {
   const codeEl = React.Children.toArray(children).find(
     (c): c is React.ReactElement<{ className?: string; children?: React.ReactNode }> =>
       React.isValidElement(c) && c.type === 'code',
@@ -173,10 +184,16 @@ export function MarkdownPre({
   const className = codeEl?.props.className ?? ''
   const language = LANGUAGE_CLASS.exec(className)?.[1] ?? null
   const raw = nodeToPlainText(codeEl ? codeEl.props.children : children)
-  return <CodeBlock code={raw} language={language} copyLabel={copyLabel} copiedLabel={copiedLabel} />
+  return <CodeBlock code={raw} language={language} copyLabel={copyLabel} copiedLabel={copiedLabel} failureLabel={failureLabel} />
 }
 
 /** Spread into any `<ReactMarkdown components={...}>` so fenced code renders through CodeBlock. */
 export const markdownCodeComponents = {
   pre: MarkdownPre,
+}
+
+export function markdownCodeComponentsWithLabels(labels: Pick<CodeBlockProps, 'copyLabel' | 'copiedLabel' | 'failureLabel'>) {
+  return {
+    pre: (props: React.ComponentPropsWithoutRef<'pre'>) => <MarkdownPre {...props} {...labels} />,
+  }
 }

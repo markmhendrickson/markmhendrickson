@@ -57,13 +57,13 @@ export default function Posts({ draft = false }: PostsProps) {
   )
 
   const searchFeed = useMemo(
-    () => buildSearchFeed(postsForSearch, seriesIndexBundles, query, locale),
-    [postsForSearch, seriesIndexBundles, query, locale],
+    () => buildSearchFeed(draft ? standalonePosts : postsForSearch, seriesIndexBundles, query, locale),
+    [draft, standalonePosts, postsForSearch, seriesIndexBundles, query, locale],
   )
 
   /** Search ranks series and posts together; other views keep the existing date ordering. */
   const feedForPagination = useMemo<FeedItem[]>(() => {
-    if (draft) return standalonePosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
+    if (draft) return query.trim() ? searchFeed : standalonePosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
     if (query.trim()) return searchFeed
     return mergedFeed
   }, [draft, query, standalonePosts, searchFeed, mergedFeed])
