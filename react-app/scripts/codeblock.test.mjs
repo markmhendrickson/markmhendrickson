@@ -104,6 +104,40 @@ test('a denied copy visibly explains failure while keeping the action available'
   })
 })
 
+test('overlapping clicks serialize clipboard writes and a failed attempt does not block the next', async () => {
+  await withBrowserDom(async (win, root) => {
+    const requests = []
+    const copied = []
+    win.navigator.clipboard = { writeText: (value) => new Promise((resolve, reject) => requests.push({ value, resolve, reject })) }
+    win.document.execCommand = () => false
+    await act(async () => root.render(React.createElement(CodeBlock, {
+      code: 'echo ordered', copyLabel: 'Copiar', copiedLabel: 'Copiado',
+      failureLabel: 'No se pudo copiar.', onCopy: () => copied.push('copied'),
+    })))
+    const button = win.document.querySelector('button[aria-label="Copiar"]')
+    await act(async () => { button.click(); button.click(); await Promise.resolve() })
+    assert.equal(requests.length, 1, 'a second click cannot start an unordered clipboard write')
+    assert.equal(requests[0].value, 'echo ordered')
+
+    await act(async () => { requests[0].reject(new Error('denied')); await Promise.resolve() })
+    assert.equal(requests.length, 2, 'the queued attempt starts after the first has failed')
+    assert.equal(requests[1].value, 'echo ordered')
+    await act(async () => { requests[1].resolve(); await Promise.resolve() })
+    assert.equal(button.getAttribute('aria-label'), 'Copiado', 'the final completed action determines the status')
+    assert.equal(win.document.querySelector('[role="status"]').textContent, 'Copiado')
+    assert.deepEqual(copied, ['copied'], 'only the successful write invokes the callback')
+
+    await act(async () => { button.click(); button.click(); await Promise.resolve() })
+    assert.equal(requests.length, 3, 'the next pair also starts one write at a time')
+    await act(async () => { requests[2].resolve(); await Promise.resolve() })
+    assert.equal(requests.length, 4, 'the last requested write starts after the prior success')
+    await act(async () => { requests[3].reject(new Error('denied')); await Promise.resolve() })
+    assert.equal(button.getAttribute('aria-label'), 'Copiar', 'a later failure remains retryable')
+    assert.equal(win.document.querySelector('[role="status"]').textContent, 'No se pudo copiar.')
+    assert.deepEqual(copied, ['copied', 'copied'])
+  })
+})
+
 test('published fenced post renders every snippet with a copy action', () => {
   const html = fs.readFileSync(path.join(dist, 'posts/what-my-agentic-stack-actually-does/index.html'), 'utf8')
   const article = html.slice(html.indexOf('<article>'))
