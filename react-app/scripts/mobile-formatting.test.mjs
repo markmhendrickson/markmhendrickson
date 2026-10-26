@@ -36,3 +36,24 @@ test('built phone styles stack labeled rows while post links use text underlines
   assert(postLinks && hasDeclaration(postLinks, 'text-decoration', 'underline'), 'post links use an actual underline')
   assert(!postLinks.nodes.some((node) => node.prop?.startsWith('border-bottom')), 'post links have no hooked bottom border')
 })
+
+test('built guest-floor email action and section anchors keep their intentional plain-link style', () => {
+  const html = fs.readFileSync(path.join(dist, 'posts/barcelona-guest-floor/index.html'), 'utf8')
+  const anchors = [...html.matchAll(/<a\b[^>]*>/g)].map(([tag]) => tag)
+  assert(anchors.some((tag) => tag.includes('href="mailto:') && tag.includes('no-underline')), 'email action retains its plain-link class')
+  assert(anchors.some((tag) => tag.includes('post-heading-anchor') && tag.includes('no-underline')), 'section anchors retain their plain-link class')
+
+  const cssFile = fs.readdirSync(path.join(dist, 'assets')).find((name) => name.endsWith('.css'))
+  assert(cssFile, 'production stylesheet exists')
+  const css = postcss.parse(fs.readFileSync(path.join(dist, 'assets', cssFile), 'utf8'))
+  let ordinaryUnderline = false
+  let plainLinkOverride = false
+  css.walkRules((rule) => {
+    const declaration = rule.nodes.find((node) => node.prop === 'text-decoration')?.value
+    if (rule.selector.split(',').includes('.post-prose a') && declaration === 'underline') ordinaryUnderline = true
+    // The extra class makes this selector outrank the ordinary prose-link rule.
+    if (rule.selector.split(',').includes('.post-prose a.no-underline') && declaration === 'none') plainLinkOverride = true
+  })
+  assert(ordinaryUnderline, 'ordinary prose links retain their underline')
+  assert(plainLinkOverride, 'email actions and section anchors override the prose underline in the built CSS')
+})
