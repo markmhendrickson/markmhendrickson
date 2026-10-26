@@ -41,7 +41,8 @@ export default function Posts({ draft = false }: PostsProps) {
   const [searchInput, setSearchInput] = useState(query)
   const [posts, setPosts] = useState<Post[]>(() => (ssrPosts != null && !draft ? ssrPosts.map(ssrPostToPost) : []))
   /** All published posts including excludeFromListing, for search only */
-  const [postsForSearch, setPostsForSearch] = useState<Post[]>(() => (ssrPosts != null && !draft ? ssrPosts.map(ssrPostToPost) : []))
+  const localePostsData = useMemo(() => loadPostsData(isDev, locale), [locale])
+  const postsForSearch = useMemo(() => draft ? [] : selectSearchPool(localePostsData), [draft, localePostsData])
   const [draftCount, setDraftCount] = useState(0)
 
   /** Published /posts list: exclude series parts (they appear only under the series block). Draft index unchanged. */
@@ -110,23 +111,18 @@ export default function Posts({ draft = false }: PostsProps) {
     if (!draft && ssrPosts != null && ssrPosts.length > 0) return
 
     const loadPosts = async () => {
-      const postsData: Post[] = loadPostsData(isDev, locale)
-
       if (isDev) {
-        const drafts = postsData.filter(post => !isPublishedPost(post))
+        const drafts = localePostsData.filter(post => !isPublishedPost(post))
         setDraftCount(drafts.length)
       }
 
       // Index list: draft route shows only drafts; /posts shows only published, excluding excludeFromListing.
       // Sorted newest first (see selectListingPosts).
-      setPosts(selectListingPosts(postsData, draft))
-
-      // Search pool: all published posts (including excludeFromListing), for search-only matches
-      setPostsForSearch(draft ? [] : selectSearchPool(postsData))
+      setPosts(selectListingPosts(localePostsData, draft))
     }
 
     loadPosts()
-  }, [isDev, draft, locale, ssrPosts])
+  }, [draft, localePostsData, ssrPosts])
 
   const pageTitle = draft ? t.drafts : t.postsTitle
   const pageDesc = draft
