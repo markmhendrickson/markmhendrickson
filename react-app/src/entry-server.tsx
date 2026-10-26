@@ -47,8 +47,9 @@ function getSSRPostForUrl(url: string, unlistedPost?: Record<string, unknown> | 
   const slugToPost = buildSlugToPostMap(posts)
   const post = slugToPost.get(slug)
   if (post) return post.published !== false ? post : null
-  // Unlisted review page: server.js passes the record only when this URL's slug matches one.
-  return (unlistedPost as typeof post | null | undefined) ?? null
+  // This fallback is exclusively for unlisted review pages. Preserve that provenance
+  // even when the injected cache record omits the optional unlisted field.
+  return unlistedPost == null ? null : ({ ...unlistedPost, unlisted: true } as typeof post)
 }
 
 function isPostsIndexUrl(url: string): boolean {
