@@ -63,5 +63,5 @@ test('the localized raw Markdown header action is present for a public post and 
 
   assert(/<a\b(?=[^>]*href="\/es\/posts\/the-human-inversion-the-attention-ceiling\.md")(?=[^>]*aria-label="Ver markdown")[^>]*>/.test(publicHtml), 'Spanish public post has a localized header action')
   assert(!/<a\b(?=[^>]*href="\/posts\/unlisted-editorial-fixture\.md")[^>]*>/.test(unlistedHtml), 'unlisted review omits the header action')
-  assert(unlistedHtml.includes('data-testid="unlisted-preview-banner"'), 'unlisted fixture is a preview')
+  assert(unlistedHtml.includes('Preview body.'), 'unlisted preview still renders its article')
 })
