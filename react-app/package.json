@@ -21,6 +21,7 @@
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "build:full": "npm run build && npm run build:ssr",
     "test:i18n-smoke": "python3 scripts/smoke_i18n_locales.py",
+    "test:paper-motion": "node --test scripts/paper-visual-motion.test.mjs",
     "preview": "vite preview",
     "preview:ssr": "NODE_ENV=production PORT=3002 node server.js"
   },

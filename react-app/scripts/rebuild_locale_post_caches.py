@@ -124,6 +124,9 @@ def build_locale_posts(base_posts: list[dict], locale: str) -> list[dict]:
                 "body",
                 "postscript",
                 "shareDescription",
+                "heroImageLabel",
+                "heroImageCaption",
+                "heroImageAlt",
                 # Must match generate_posts_cache.build_locale_posts so CI deploys
                 # do not strip localized series chrome (series index H1, breadcrumbs).
                 "series",

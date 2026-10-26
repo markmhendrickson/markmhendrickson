@@ -9,6 +9,7 @@ import re
 from pathlib import Path
 
 from deep_translator import GoogleTranslator, MyMemoryTranslator
+from translation_chunks import translate_with_byte_limit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,7 +46,10 @@ LOCALE_TO_MYMEMORY_LANG = {
 TRANSLATABLE_FIELDS = ("title", "excerpt", "summary", "body", "postscript")
 
 # Re-written every CI run; must not drop hand-curated keys (series chrome, share copy).
-PRESERVE_FROM_PRIOR = ("series", "seriesDescription", "shareDescription")
+PRESERVE_FROM_PRIOR = (
+    "series", "seriesDescription", "shareDescription",
+    "heroImageLabel", "heroImageCaption", "heroImageAlt",
+)
 
 
 def _fix_markdown_link_spacing(text: str) -> str:
@@ -88,7 +92,10 @@ def _translate_text(
         translated_chunk = chunk
         for translator in translators:
             try:
-                candidate = (translator.translate(chunk) or "").strip()
+                if isinstance(translator, MyMemoryTranslator):
+                    candidate = translate_with_byte_limit(chunk, translator, 500).strip()
+                else:
+                    candidate = (translator.translate(chunk) or "").strip()
             except Exception:
                 continue
             if not candidate:

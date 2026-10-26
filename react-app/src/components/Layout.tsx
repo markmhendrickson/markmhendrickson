@@ -166,9 +166,11 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <>
+      <Helmet>
+        <html lang={languageTag} dir={direction} />
+      </Helmet>
       {!hasPageHelmet && (
         <Helmet>
-          <html lang={languageTag} dir={direction} />
           <title>{defaultTitle}</title>
           <meta name="description" content={defaultDescription} />
           <meta name="author" content="Mark Hendrickson" />

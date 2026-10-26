@@ -1,0 +1,423 @@
+{
+  "sourceRepository": "https://github.com/markmhendrickson/neotoma",
+  "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+  "sourceFiles": [
+    "frontend/src/components/onepager/PaperScene.tsx",
+    "frontend/src/components/onepager/october_renders.ts",
+    "frontend/src/components/onepager/paper_scene.css",
+    "frontend/src/components/onepager/PaperSceneDrawing.tsx",
+    "frontend/src/site/topic_drawings.ts",
+    "frontend/public/brand/october/paper-fiber.webp",
+    "frontend/src/site/spa_path.ts",
+    "frontend/public/brand/october/hybrid/paper-ivory.webp",
+    "frontend/public/brand/october/hybrid/folder-sage.webp",
+    "frontend/public/brand/october/hybrid/envelope-blue.webp"
+  ],
+  "sourceHashes": {
+    "frontend/src/components/onepager/PaperScene.tsx": "7e4c08a5cd9cbbc7a30162881ab67081231f6ea6caa364492b81f5d95bb5cc24",
+    "frontend/src/components/onepager/october_renders.ts": "f3bca04b282dc0fe43c49b3601d39114e1057a2030b9661b85c2934edce41615",
+    "frontend/src/components/onepager/paper_scene.css": "331388d4536e289481d3a74104de5ad94d599e8cc77b95b42e586dffe1f0a1c0",
+    "frontend/src/components/onepager/PaperSceneDrawing.tsx": "635336e0158af1e561694b27001833b9f7a89597a17d01be7f585f027807851a",
+    "frontend/src/site/topic_drawings.ts": "a799ab83d0824cb2f19dfb99d598b79e0cf6645bee99aa69472a6be8fe33d996",
+    "frontend/public/brand/october/paper-fiber.webp": "9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8",
+    "frontend/src/site/spa_path.ts": "223afa8b712f05dca859f02ff02e8851a47541c9156475195f23652307cd2ef3",
+    "frontend/public/brand/october/hybrid/paper-ivory.webp": "d171c7337f5cdaa68978e54ec4b9b0302cd776ba51a054e91f27ba4c9e59ac7f",
+    "frontend/public/brand/october/hybrid/folder-sage.webp": "280af24f30bdd170f64fdf579b5a69717226d59d3338f2d1a6c1bb2ea7d77ebe",
+    "frontend/public/brand/october/hybrid/envelope-blue.webp": "23d773b7e7bfdb79abd06a5b0b1f308c93de1675a0fee0e14def6ecf829941d6"
+  },
+  "scenes": {
+    "hero": "hero",
+    "observation": "observation",
+    "invoice-example": "invoiceExample",
+    "vision-domain": "visionDomain",
+    "vision-positions": "visionPositions",
+    "vision-explanation": "visionExplanation"
+  },
+  "sourceInputsByCommit": {
+    "38ada80a2a086c1905f12272306e79677dfef581": {
+      "sourceFiles": [
+        "frontend/src/components/onepager/PaperScene.tsx",
+        "frontend/src/components/onepager/october_renders.ts",
+        "frontend/src/components/onepager/paper_scene.css",
+        "frontend/public/brand/october/paper-fiber.webp",
+        "frontend/src/site/spa_path.ts",
+        "frontend/public/brand/october/hybrid/paper-ivory.webp",
+        "frontend/public/brand/october/hybrid/folder-sage.webp",
+        "frontend/public/brand/october/hybrid/envelope-blue.webp"
+      ],
+      "sourceHashes": {
+        "frontend/src/components/onepager/PaperScene.tsx": "d54432b1f7f2e4e4909ac08838d10303f4a33f808039565e2e62474bd1528201",
+        "frontend/src/components/onepager/october_renders.ts": "d690bb9da073c736856a9389c3cbc312c3491418b08718663a6a2a8dae8c186b",
+        "frontend/src/components/onepager/paper_scene.css": "331388d4536e289481d3a74104de5ad94d599e8cc77b95b42e586dffe1f0a1c0",
+        "frontend/public/brand/october/paper-fiber.webp": "9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8",
+        "frontend/src/site/spa_path.ts": "223afa8b712f05dca859f02ff02e8851a47541c9156475195f23652307cd2ef3",
+        "frontend/public/brand/october/hybrid/paper-ivory.webp": "d171c7337f5cdaa68978e54ec4b9b0302cd776ba51a054e91f27ba4c9e59ac7f",
+        "frontend/public/brand/october/hybrid/folder-sage.webp": "280af24f30bdd170f64fdf579b5a69717226d59d3338f2d1a6c1bb2ea7d77ebe",
+        "frontend/public/brand/october/hybrid/envelope-blue.webp": "23d773b7e7bfdb79abd06a5b0b1f308c93de1675a0fee0e14def6ecf829941d6"
+      }
+    },
+    "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca": {
+      "sourceFiles": [
+        "frontend/src/components/onepager/PaperScene.tsx",
+        "frontend/src/components/onepager/october_renders.ts",
+        "frontend/src/components/onepager/paper_scene.css",
+        "frontend/public/brand/october/paper-fiber.webp",
+        "frontend/src/site/spa_path.ts",
+        "frontend/public/brand/october/hybrid/paper-ivory.webp",
+        "frontend/public/brand/october/hybrid/folder-sage.webp",
+        "frontend/public/brand/october/hybrid/envelope-blue.webp"
+      ],
+      "sourceHashes": {
+        "frontend/src/components/onepager/PaperScene.tsx": "44fb4fd6c4e9b33e770138ae08fd91b10f9b20f0ab79076e66d7cb946cb53bec",
+        "frontend/src/components/onepager/october_renders.ts": "f3bca04b282dc0fe43c49b3601d39114e1057a2030b9661b85c2934edce41615",
+        "frontend/src/components/onepager/paper_scene.css": "331388d4536e289481d3a74104de5ad94d599e8cc77b95b42e586dffe1f0a1c0",
+        "frontend/public/brand/october/paper-fiber.webp": "9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8",
+        "frontend/src/site/spa_path.ts": "223afa8b712f05dca859f02ff02e8851a47541c9156475195f23652307cd2ef3",
+        "frontend/public/brand/october/hybrid/paper-ivory.webp": "d171c7337f5cdaa68978e54ec4b9b0302cd776ba51a054e91f27ba4c9e59ac7f",
+        "frontend/public/brand/october/hybrid/folder-sage.webp": "280af24f30bdd170f64fdf579b5a69717226d59d3338f2d1a6c1bb2ea7d77ebe",
+        "frontend/public/brand/october/hybrid/envelope-blue.webp": "23d773b7e7bfdb79abd06a5b0b1f308c93de1675a0fee0e14def6ecf829941d6"
+      }
+    },
+    "53cc68546b5ac653b018cdc997f9cca3f7176700": {
+      "sourceFiles": [
+        "frontend/src/components/onepager/PaperScene.tsx",
+        "frontend/src/components/onepager/october_renders.ts",
+        "frontend/src/components/onepager/paper_scene.css",
+        "frontend/src/components/onepager/PaperSceneDrawing.tsx",
+        "frontend/src/site/topic_drawings.ts",
+        "frontend/public/brand/october/paper-fiber.webp",
+        "frontend/src/site/spa_path.ts",
+        "frontend/public/brand/october/hybrid/paper-ivory.webp",
+        "frontend/public/brand/october/hybrid/folder-sage.webp",
+        "frontend/public/brand/october/hybrid/envelope-blue.webp"
+      ],
+      "sourceHashes": {
+        "frontend/src/components/onepager/PaperScene.tsx": "7e4c08a5cd9cbbc7a30162881ab67081231f6ea6caa364492b81f5d95bb5cc24",
+        "frontend/src/components/onepager/october_renders.ts": "f3bca04b282dc0fe43c49b3601d39114e1057a2030b9661b85c2934edce41615",
+        "frontend/src/components/onepager/paper_scene.css": "331388d4536e289481d3a74104de5ad94d599e8cc77b95b42e586dffe1f0a1c0",
+        "frontend/src/components/onepager/PaperSceneDrawing.tsx": "635336e0158af1e561694b27001833b9f7a89597a17d01be7f585f027807851a",
+        "frontend/src/site/topic_drawings.ts": "a799ab83d0824cb2f19dfb99d598b79e0cf6645bee99aa69472a6be8fe33d996",
+        "frontend/public/brand/october/paper-fiber.webp": "9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8",
+        "frontend/src/site/spa_path.ts": "223afa8b712f05dca859f02ff02e8851a47541c9156475195f23652307cd2ef3",
+        "frontend/public/brand/october/hybrid/paper-ivory.webp": "d171c7337f5cdaa68978e54ec4b9b0302cd776ba51a054e91f27ba4c9e59ac7f",
+        "frontend/public/brand/october/hybrid/folder-sage.webp": "280af24f30bdd170f64fdf579b5a69717226d59d3338f2d1a6c1bb2ea7d77ebe",
+        "frontend/public/brand/october/hybrid/envelope-blue.webp": "23d773b7e7bfdb79abd06a5b0b1f308c93de1675a0fee0e14def6ecf829941d6"
+      }
+    }
+  },
+  "refreshedScenes": [
+    "hero"
+  ],
+  "retainedOutputs": {
+    "tools.svg": {
+      "sourceCommit": "45d2bee4954d6a500523f2d54d238544519fa050",
+      "scene": "localService",
+      "sha256": "f7a9ac79682851bcb7d48f15791cd92eb56e7ab6dc33543118f937b3b38886c9",
+      "renderedInArticle": false
+    },
+    "tools.png": {
+      "sourceCommit": "45d2bee4954d6a500523f2d54d238544519fa050",
+      "scene": "localService",
+      "sha256": "db52e5f85e111368fa28df58d3a8f9ca84b1158d81597ec9f87537bf696f4658",
+      "renderedInArticle": false
+    },
+    "observation.svg": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "observation",
+      "sha256": "0b449f14559a7e2902be93f7b08211729beb692a4d20e94d1a2102ed9de4af39"
+    },
+    "observation.png": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "observation",
+      "sha256": "666dac39f7f8d719e309d176e55c41a8429fce1739c3a89d2d8cd4c6d274ed5f"
+    },
+    "vision-domain.svg": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionDomain",
+      "sha256": "5cafc8a6f27d3985ea99f75dd17f98e599b4ba9677b83b76fe4009e2c75859a6"
+    },
+    "vision-domain.png": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionDomain",
+      "sha256": "89407f20b18fc0b9f1c886f5879dcea58f15eee5b62f47a3365430badc7f2dc8"
+    },
+    "vision-positions.svg": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionPositions",
+      "sha256": "b6ddbef656b6af394f103d27718239b10604e0d5413c4e72960a9780f32bb83e"
+    },
+    "vision-positions.png": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionPositions",
+      "sha256": "73f5d356c579888b0a50182bc7ccd6e18d9bb53968d401bfcacf6ba2dd6387a0"
+    },
+    "vision-explanation.svg": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionExplanation",
+      "sha256": "33ad1eb42a076ac29c1753bbb921521758324030cfe0d764fdc9e1de69c3f5db"
+    },
+    "vision-explanation.png": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionExplanation",
+      "sha256": "bbe855b5ac998309d6739f09d27ae1bc4264a3ebc36cb3014bbba601fef51f3e"
+    },
+    "invoice-example.svg": {
+      "sourceCommit": "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca",
+      "scene": "invoiceExample",
+      "sha256": "4a11a8b9aafcea8a6850b83d2a675756f21a5844cbb9912ad73d2c19b53d1469"
+    },
+    "invoice-example.png": {
+      "sourceCommit": "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca",
+      "scene": "invoiceExample",
+      "sha256": "d98d15082b5651c05075e1ed0cee7272cd7ccfa6b36676380ec04a169858d73b"
+    }
+  },
+  "outputSources": {
+    "tools.svg": {
+      "sourceCommit": "45d2bee4954d6a500523f2d54d238544519fa050",
+      "scene": "localService",
+      "sha256": "f7a9ac79682851bcb7d48f15791cd92eb56e7ab6dc33543118f937b3b38886c9",
+      "renderedInArticle": false
+    },
+    "tools.png": {
+      "sourceCommit": "45d2bee4954d6a500523f2d54d238544519fa050",
+      "scene": "localService",
+      "sha256": "db52e5f85e111368fa28df58d3a8f9ca84b1158d81597ec9f87537bf696f4658",
+      "renderedInArticle": false
+    },
+    "observation.svg": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "observation",
+      "sha256": "0b449f14559a7e2902be93f7b08211729beb692a4d20e94d1a2102ed9de4af39"
+    },
+    "observation.png": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "observation",
+      "sha256": "666dac39f7f8d719e309d176e55c41a8429fce1739c3a89d2d8cd4c6d274ed5f"
+    },
+    "vision-domain.svg": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionDomain",
+      "sha256": "5cafc8a6f27d3985ea99f75dd17f98e599b4ba9677b83b76fe4009e2c75859a6"
+    },
+    "vision-domain.png": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionDomain",
+      "sha256": "89407f20b18fc0b9f1c886f5879dcea58f15eee5b62f47a3365430badc7f2dc8"
+    },
+    "vision-positions.svg": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionPositions",
+      "sha256": "b6ddbef656b6af394f103d27718239b10604e0d5413c4e72960a9780f32bb83e"
+    },
+    "vision-positions.png": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionPositions",
+      "sha256": "73f5d356c579888b0a50182bc7ccd6e18d9bb53968d401bfcacf6ba2dd6387a0"
+    },
+    "vision-explanation.svg": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionExplanation",
+      "sha256": "33ad1eb42a076ac29c1753bbb921521758324030cfe0d764fdc9e1de69c3f5db"
+    },
+    "vision-explanation.png": {
+      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
+      "scene": "visionExplanation",
+      "sha256": "bbe855b5ac998309d6739f09d27ae1bc4264a3ebc36cb3014bbba601fef51f3e"
+    },
+    "invoice-example.svg": {
+      "sourceCommit": "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca",
+      "scene": "invoiceExample",
+      "sha256": "4a11a8b9aafcea8a6850b83d2a675756f21a5844cbb9912ad73d2c19b53d1469"
+    },
+    "invoice-example.png": {
+      "sourceCommit": "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca",
+      "scene": "invoiceExample",
+      "sha256": "d98d15082b5651c05075e1ed0cee7272cd7ccfa6b36676380ec04a169858d73b"
+    },
+    "hero.svg": {
+      "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+      "scene": "hero",
+      "sha256": "d48ad97e5ced86c00cf7c00b30e2118147d2732cb94a3e575aa09a4c94c60262"
+    },
+    "hero.png": {
+      "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+      "scene": "hero",
+      "sha256": "0f973ecb4d41996d36d50ec07fdb0c93a797bda2c69800c747289945b7742312"
+    },
+    "hero-square.png": {
+      "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+      "scene": "hero",
+      "sha256": "669969052b69d6b8a6a436bb1a0c991cec81a7801280b2c3dc624e28601f6279"
+    },
+    "one-place-where-a-fact-is-settled-paper-1200x630.jpg": {
+      "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+      "scene": "hero",
+      "sha256": "0af8639d29100e8569e27da29b71e72aaf735f8d761026b849bb578ad2e5fdf1"
+    }
+  },
+  "derivedRasterMatte": {
+    "color": "#dfd5c2",
+    "source": "Authored hero ground radial-gradient outer stop; no older beige letterbox"
+  },
+  "texture": {
+    "source": "new/paper-fiber.png",
+    "source_sha256": "931d70b5f96ab145c19efdf41c5c460872b7be4ca4dce3f6df15f10a1668c0ed",
+    "bundled_sha256": "9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8",
+    "generator": "Codex built-in image generation",
+    "generated_on": "2026-10-23",
+    "brief": {
+      "meaning": "Fine irregular warm cotton fibers for paper surfaces and tabletop.",
+      "scene": "Evenly lit cream cotton rag paper texture with no objects, words, lines, stains or vignette."
+    },
+    "conversion": "Pillow Lanczos resize 512x512, WebP quality 82",
+    "used_in": "paper-scene material texture",
+    "embedded": "image/webp data URI; decoded losslessly to PNG data URI for librsvg rasterization",
+    "bytes": 19370
+  },
+  "cutouts": {
+    "generated_on": "2026-10-23",
+    "generator": "OpenAI image generation",
+    "optimization": "Sharp crop, resize and WebP quality 82 with alpha quality 90",
+    "assets": {
+      "paper-ivory.webp": {
+        "prompt": "A single blank fibrous ivory paper sheet with a natural edge, paper thickness and soft upper-left light; isolated on transparency, without words or symbols.",
+        "source_sha256": "fbe89698c6c2d54658fa07976bae264c2d6146ca865915276168e22b10ca7589",
+        "webp_sha256": "d171c7337f5cdaa68978e54ec4b9b0302cd776ba51a054e91f27ba4c9e59ac7f"
+      },
+      "folder-sage.webp": {
+        "prompt": "A single blank sage cardstock tab folder with tactile fibers and soft upper-left light; isolated on transparency, without words or symbols.",
+        "source_sha256": "c1ff3b851b94b5ded150165b6b1a8bdd26250f572433854661dd6fd036e8ab9a",
+        "webp_sha256": "280af24f30bdd170f64fdf579b5a69717226d59d3338f2d1a6c1bb2ea7d77ebe"
+      },
+      "envelope-blue.webp": {
+        "prompt": "A single closed blank powder-blue paper envelope with the upper flap overlapping the side and bottom folds, tactile fibers and soft upper-left light; isolated on transparency, without words or symbols.",
+        "source_sha256": "2af91e77d0e9b476df664348e503fac277630213f9615f093028adb5d810ab06",
+        "webp_sha256": "23d773b7e7bfdb79abd06a5b0b1f308c93de1675a0fee0e14def6ecf829941d6"
+      },
+      "instance-archive-v2.png": {
+        "generator": "OpenAI image generation",
+        "reference_asset": "../N-tools.webp",
+        "description": "Open ivory paper archive on a sage plinth containing multiple distinct record cards; transparent background, no words or numbers.",
+        "sha256": "9a41a1fe7c66741c7f7aa86a4fc73fe7ee18a3ce82837e3bcdc7dccb2cedf319",
+        "runtime_derivative": {
+          "asset": "instance-archive-v2.webp",
+          "sha256": "3e08f00668dd290365ee4ce43d75282ff499a3b597ad2ae7cd009cf08d4d54e3",
+          "encoding": "WebP quality 88, alpha quality 100, effort 6; Sharp resize preserving aspect ratio",
+          "width": 900,
+          "source": "instance-archive-v2.png"
+        }
+      },
+      "client-blue-v2.png": {
+        "generator": "Built-in image generation with transparent crop and targeted matte cleanup; no raster edits by code",
+        "reference_asset": "../N-tools.webp",
+        "description": "Blank rounded powder-blue fibrous reader card, physically lit and isolated on transparency.",
+        "alpha_bbox_128": [
+          107,
+          105,
+          1475,
+          934
+        ],
+        "sha256": "7cb759aeb4190fc019e46306e48125bc99966f5123bab960331f4ac6a6f11a15",
+        "runtime_derivative": {
+          "asset": "client-blue-v2.webp",
+          "sha256": "c0c2b3cacf92cfcba6ed29ab7a2a466bedbad6185f3e279bc88509b2946e7703",
+          "encoding": "WebP quality 88, alpha quality 100, effort 6; Sharp resize preserving aspect ratio",
+          "width": 1024,
+          "source": "client-blue-v2.png"
+        }
+      },
+      "client-tent-v2.png": {
+        "generator": "Built-in image generation with transparent crop and targeted matte cleanup; no raster edits by code",
+        "reference_asset": "../N-tools.webp",
+        "description": "Blank folded cream fibrous tent card, physically lit and isolated on transparency.",
+        "alpha_bbox_128": [
+          84,
+          56,
+          1493,
+          987
+        ],
+        "sha256": "b39df1bbb007697245a26d840702d6eb2bfbe8f1e83a02c6d15dae64ba0a9d0d",
+        "runtime_derivative": {
+          "asset": "client-tent-v2.webp",
+          "sha256": "07aa689f5b2644f2850c7d96b9781f52fc025e5c3a6f56c2e13a5a2a7cc9a4b4",
+          "encoding": "WebP quality 88, alpha quality 100, effort 6; Sharp resize preserving aspect ratio",
+          "width": 1024,
+          "source": "client-tent-v2.png"
+        }
+      },
+      "client-sage-v2.png": {
+        "generator": "Built-in image generation with transparent crop and targeted matte cleanup; no raster edits by code",
+        "reference_asset": "../N-tools.webp",
+        "description": "Blank punched sage fibrous tag, physically lit and isolated on transparency.",
+        "alpha_bbox_128": [
+          28,
+          42,
+          1508,
+          1000
+        ],
+        "sha256": "fd8d2c27a1d8528442fc5d6f8a6ad4efe61ce3163714b2c0587e4b34fcf936f0",
+        "runtime_derivative": {
+          "asset": "client-sage-v2.webp",
+          "sha256": "0b618a3b989f5507accda2570dde4b8ea262d711199f7613358005f6db29bdcd",
+          "encoding": "WebP quality 88, alpha quality 100, effort 6; Sharp resize preserving aspect ratio",
+          "width": 1024,
+          "source": "client-sage-v2.png"
+        }
+      }
+    }
+  },
+  "staticTransformation": "One exact known cutoutReady binding is validated: authored true remains unchanged; legacy false becomes true only for hash/decode-verified embedded assets. Matches successful-load settled image state and hides duplicate vector fallback/shadows. staticAssetPath is identity in SSR without window. No donor mutation or client app runtime.",
+  "deduplication": "One embedded WebP per cutout per SVG, symbols preserve stretch/slice fit; local use references retain clip/opacity/blend and motion groups. 1 refreshed 1200x800 raster comparisons must be exact or differ in at most 16 channels by one 8-bit level (symbol sampling roundoff); per-scene measurements follow. Other outputs are retained byte-exact with their own source provenance.",
+  "renderFidelity": {
+    "observation": {
+      "changedChannels": 5,
+      "maxDelta": 1,
+      "channels": 3840000
+    },
+    "visionDomain": {
+      "changedChannels": 0,
+      "maxDelta": 0,
+      "channels": 3840000
+    },
+    "visionPositions": {
+      "changedChannels": 0,
+      "maxDelta": 0,
+      "channels": 3840000
+    },
+    "visionExplanation": {
+      "changedChannels": 0,
+      "maxDelta": 0,
+      "channels": 3840000
+    },
+    "invoiceExample": {
+      "changedChannels": 0,
+      "maxDelta": 0,
+      "channels": 3840000
+    },
+    "hero": {
+      "changedChannels": 0,
+      "maxDelta": 0,
+      "channels": 3840000
+    }
+  },
+  "method": "Pinned Git-object authored settled SVG exports, scoped CSS, literal colors and embedded trusted local texture; identical inline/public SVGs and derived PNG/square/OG exports. No external fetch.",
+  "hashes": {
+    "tools.svg": "f7a9ac79682851bcb7d48f15791cd92eb56e7ab6dc33543118f937b3b38886c9",
+    "tools.png": "db52e5f85e111368fa28df58d3a8f9ca84b1158d81597ec9f87537bf696f4658",
+    "observation.svg": "0b449f14559a7e2902be93f7b08211729beb692a4d20e94d1a2102ed9de4af39",
+    "observation.png": "666dac39f7f8d719e309d176e55c41a8429fce1739c3a89d2d8cd4c6d274ed5f",
+    "vision-domain.svg": "5cafc8a6f27d3985ea99f75dd17f98e599b4ba9677b83b76fe4009e2c75859a6",
+    "vision-domain.png": "89407f20b18fc0b9f1c886f5879dcea58f15eee5b62f47a3365430badc7f2dc8",
+    "vision-positions.svg": "b6ddbef656b6af394f103d27718239b10604e0d5413c4e72960a9780f32bb83e",
+    "vision-positions.png": "73f5d356c579888b0a50182bc7ccd6e18d9bb53968d401bfcacf6ba2dd6387a0",
+    "vision-explanation.svg": "33ad1eb42a076ac29c1753bbb921521758324030cfe0d764fdc9e1de69c3f5db",
+    "vision-explanation.png": "bbe855b5ac998309d6739f09d27ae1bc4264a3ebc36cb3014bbba601fef51f3e",
+    "invoice-example.svg": "4a11a8b9aafcea8a6850b83d2a675756f21a5844cbb9912ad73d2c19b53d1469",
+    "invoice-example.png": "d98d15082b5651c05075e1ed0cee7272cd7ccfa6b36676380ec04a169858d73b",
+    "hero.svg": "d48ad97e5ced86c00cf7c00b30e2118147d2732cb94a3e575aa09a4c94c60262",
+    "hero.png": "0f973ecb4d41996d36d50ec07fdb0c93a797bda2c69800c747289945b7742312",
+    "hero-square.png": "669969052b69d6b8a6a436bb1a0c991cec81a7801280b2c3dc624e28601f6279",
+    "one-place-where-a-fact-is-settled-paper-1200x630.jpg": "0af8639d29100e8569e27da29b71e72aaf735f8d761026b849bb578ad2e5fdf1"
+  }
+}

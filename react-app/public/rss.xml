@@ -5,8 +5,15 @@
     <link>https://markmhendrickson.com/</link>
     <description>Essays on user-owned agent memory, personal infrastructure, and building systems that restore sovereignty in an age of AI, crypto, and complexity.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 11 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>The swarm that runs my work</title>
+    <link>https://markmhendrickson.com/posts/the-swarm-that-runs-my-work</link>
+    <description>My old agentic stack was one agent per session with me in the loop for every task. Ateles is the standing fleet that replaced it. A personal agent swarm defined in Neotoma itself, where agents, tasks, and plans are all entities, and every action is attributed, auditable, and reversible.</description>
+    <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-swarm-that-runs-my-work</guid>
+  </item>
   <item>
     <title>The spine of the loop</title>
     <link>https://markmhendrickson.com/posts/the-spine-of-the-loop</link>
@@ -17,7 +24,7 @@
   <item>
     <title>Agent-to-agent issue resolution, with humans at the edges</title>
     <link>https://markmhendrickson.com/posts/agent-to-agent-issue-resolution-with-humans-at-the-edges</link>
-    <description>Agent-led evaluation tells a user whether Neotoma fits. The issues subsystem lets the same agent file a bug or enhancement, exchange messages with the maintainer, and watch the change arrive — all through MCP, without a human ever opening a browser tab.</description>
+    <description>Agent-led evaluation tells a user whether Neotoma fits. The new issues subsystem lets the same agent file a bug or enhancement, exchange messages with the maintainer, and watch the change arrive, all through MCP, without a human ever opening a browser tab.</description>
     <pubDate>Tue, 19 May 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-to-agent-issue-resolution-with-humans-at-the-edges</guid>
   </item>
@@ -29,25 +36,18 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/from-memory-to-nervous-system</guid>
   </item>
   <item>
+    <title>The Human Inversion: The Reconciler and the Rubric</title>
+    <link>https://markmhendrickson.com/posts/the-human-inversion-the-reconciler-and-the-rubric</link>
+    <description>Async specialists can each be right inside their own domain and still ship something incoherent across domains. Some role has to reconcile cross-disciplinary conflict against explicit commitments rather than hallway consensus, and that work needs durable write integrity instead of team lore or vibes.</description>
+    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-the-reconciler-and-the-rubric</guid>
+  </item>
+  <item>
     <title>The Human Inversion: The Inversion</title>
     <link>https://markmhendrickson.com/posts/the-human-inversion</link>
     <description>Software teams used to spend most of their time in execution—the middle between foundation and review. As that middle gets absorbed by capable AI, human leverage shifts to the ends: sharper standards upstream and denser judgment downstream. That is structurally positive—but emotionally hard for people whose craft lived in the middle.</description>
     <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion</guid>
-  </item>
-  <item>
-    <title>The Human Inversion: Async Parallel Specialists</title>
-    <link>https://markmhendrickson.com/posts/the-human-inversion-async-parallel-specialists</link>
-    <description>Specialists at the ends produce deep artifacts in their own vocabularies; the old org used the execution middle to translate in real time. AI can sit between domains as an async translation layer—replacing most operational meetings, if the underlying artifacts stay trustworthy.</description>
-    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-async-parallel-specialists</guid>
-  </item>
-  <item>
-    <title>The Human Inversion: How the Architecture Bends</title>
-    <link>https://markmhendrickson.com/posts/the-human-inversion-how-the-architecture-bends</link>
-    <description>Humans at the ends, AI in the middle is a clean diagram. Real teams are not clean diagrams. Generalist surfaces, hybrid roles, hardware timelines, and catastrophic-blast partitions each shift where weight sits, without changing whether the ends carry it.</description>
-    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-how-the-architecture-bends</guid>
   </item>
   <item>
     <title>The Human Inversion: The Attention Ceiling</title>
@@ -57,11 +57,18 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-the-attention-ceiling</guid>
   </item>
   <item>
-    <title>The Human Inversion: The Reconciler and the Rubric</title>
-    <link>https://markmhendrickson.com/posts/the-human-inversion-the-reconciler-and-the-rubric</link>
-    <description>Async specialists can each be right inside their own domain and still ship something incoherent across domains. Some role has to reconcile cross-disciplinary conflict against explicit commitments rather than hallway consensus, and that work needs durable write integrity instead of team lore or vibes.</description>
+    <title>The Human Inversion: How the Architecture Bends</title>
+    <link>https://markmhendrickson.com/posts/the-human-inversion-how-the-architecture-bends</link>
+    <description>Humans at the ends, AI in the middle is a clean diagram. Real teams are not clean diagrams. Generalist surfaces, hybrid roles, hardware timelines, and catastrophic-blast partitions each shift where weight sits, without changing whether the ends carry it.</description>
     <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-the-reconciler-and-the-rubric</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-how-the-architecture-bends</guid>
+  </item>
+  <item>
+    <title>The Human Inversion: Async Parallel Specialists</title>
+    <link>https://markmhendrickson.com/posts/the-human-inversion-async-parallel-specialists</link>
+    <description>Specialists at the ends produce deep artifacts in their own vocabularies; the old org used the execution middle to translate in real time. AI can sit between domains as an async translation layer—replacing most operational meetings, if the underlying artifacts stay trustworthy.</description>
+    <pubDate>Wed, 29 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-human-inversion-async-parallel-specialists</guid>
   </item>
   <item>
     <title>Your agent fleet can build trustworthy state with their own keys</title>
@@ -85,11 +92,11 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-substrate-plancast-needed</guid>
   </item>
   <item>
-    <title>OpenClaw plugin for Neotoma gives your agent memory it can&apos;t corrupt</title>
-    <link>https://markmhendrickson.com/posts/neotoma-openclaw-plugin</link>
-    <description>OpenClaw stores memory in markdown files. Neotoma v0.4.3 plugs in natively as a structured state layer underneath, giving OpenClaw agents provenance, entity resolution, and versioned history without replacing the agent.</description>
+    <title>When agents share state, everything breaks</title>
+    <link>https://markmhendrickson.com/posts/when-agents-share-state-everything-breaks</link>
+    <description>Most teams bolt agent memory onto whatever database they already have. It works until two agents write to the same store. Then one bad write propagates at machine speed, triggering downstream actions before any human can intervene. The industry is heading toward a trust crisis that retrieval optimization won&apos;t fix.</description>
     <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-openclaw-plugin</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/when-agents-share-state-everything-breaks</guid>
   </item>
   <item>
     <title>The markdown memory ceiling</title>
@@ -99,11 +106,11 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/the-markdown-memory-ceiling</guid>
   </item>
   <item>
-    <title>When agents share state, everything breaks</title>
-    <link>https://markmhendrickson.com/posts/when-agents-share-state-everything-breaks</link>
-    <description>Most teams bolt agent memory onto whatever database they already have. It works until two agents write to the same store. Then one bad write propagates at machine speed, triggering downstream actions before any human can intervene. The industry is heading toward a trust crisis that retrieval optimization won&apos;t fix.</description>
+    <title>OpenClaw plugin for Neotoma gives your agent memory it can&apos;t corrupt</title>
+    <link>https://markmhendrickson.com/posts/neotoma-openclaw-plugin</link>
+    <description>OpenClaw stores memory in markdown files. Neotoma v0.4.3 plugs in natively as a structured state layer underneath, giving OpenClaw agents provenance, entity resolution, and versioned history without replacing the agent.</description>
     <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/when-agents-share-state-everything-breaks</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-openclaw-plugin</guid>
   </item>
   <item>
     <title>Your agent harness owns context, not truth</title>
@@ -113,13 +120,6 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/your-agent-harness-owns-context-not-truth</guid>
   </item>
   <item>
-    <title>Agent memory breaks at 500K tokens, not 10 million</title>
-    <link>https://markmhendrickson.com/posts/agent-memory-breaks-before-retrieval</link>
-    <description>BEAM tests retrieval at 10 million tokens. State integrity degrades at 500K. The two failure modes activate at different scales, and nobody benchmarks the earlier one.</description>
-    <pubDate>Wed, 08 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-memory-breaks-before-retrieval</guid>
-  </item>
-  <item>
     <title>No AI memory benchmark tests what actually breaks</title>
     <link>https://markmhendrickson.com/posts/no-ai-memory-benchmark-tests-what-actually-breaks</link>
     <description>The metrics that drive adoption in AI memory are almost all retrieval metrics. Good retrieval is necessary. No widely used benchmark tests what happens to stored data after agents write to it.</description>
@@ -127,11 +127,18 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/no-ai-memory-benchmark-tests-what-actually-breaks</guid>
   </item>
   <item>
-    <title>Agent-mediated customer research and onboarding</title>
-    <link>https://markmhendrickson.com/posts/customer-research-through-agents</link>
-    <description>Eighteen human product evaluators ran the same evaluation prompt through their AI tools. The writeups were sharper than any call. That feedback reshaped the product’s positioning — and then its acquisition flow. The homepage now asks agents to evaluate, not humans to sign up.</description>
+    <title>Agent memory breaks at 500K tokens, not 10 million</title>
+    <link>https://markmhendrickson.com/posts/agent-memory-breaks-before-retrieval</link>
+    <description>BEAM tests retrieval at 10 million tokens. State integrity degrades at 500K. The two failure modes activate at different scales, and nobody benchmarks the earlier one.</description>
+    <pubDate>Wed, 08 Apr 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/agent-memory-breaks-before-retrieval</guid>
+  </item>
+  <item>
+    <title>Talking directly to agents as target customers</title>
+    <link>https://markmhendrickson.com/posts/personalized-customer-research-with-agents</link>
+    <description>About eighteen of twenty-six people I reached ran the same evaluation prompt through their AI tools. The writeups were sharper than any call. That feedback reshaped the product’s positioning — and then its acquisition flow. The homepage now asks agents to evaluate, not humans to sign up.</description>
     <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/customer-research-through-agents</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/personalized-customer-research-with-agents</guid>
   </item>
   <item>
     <title>From &quot;it works on my machine&quot; to eleven npm releases</title>
@@ -141,11 +148,11 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/eleven-releases-in-five-weeks</guid>
   </item>
   <item>
-    <title>Talking directly to agents as target customers</title>
-    <link>https://markmhendrickson.com/posts/personalized-customer-research-with-agents</link>
-    <description>About eighteen of twenty-six people I reached ran the same evaluation prompt through their AI tools. The writeups were sharper than any call. That feedback reshaped the product’s positioning — and then its acquisition flow. The homepage now asks agents to evaluate, not humans to sign up.</description>
+    <title>Agent-mediated customer research and onboarding</title>
+    <link>https://markmhendrickson.com/posts/customer-research-through-agents</link>
+    <description>Eighteen human product evaluators ran the same evaluation prompt through their AI tools. The writeups were sharper than any call. That feedback reshaped the product’s positioning — and then its acquisition flow. The homepage now asks agents to evaluate, not humans to sign up.</description>
     <pubDate>Wed, 01 Apr 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/personalized-customer-research-with-agents</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/customer-research-through-agents</guid>
   </item>
   <item>
     <title>What the technology asks of you</title>
@@ -169,32 +176,11 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/chasing-narratives-into-dead-ends</guid>
   </item>
   <item>
-    <title>AI skepticism is really about faith in humans</title>
-    <link>https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</link>
-    <description>The people who embrace AI encounter its problems more directly than anyone. But they also have the most faith that humans can work through them. The real skepticism isn&apos;t about the machines.</description>
+    <title>Your AI remembers your vibe but not your work</title>
+    <link>https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</link>
+    <description>Claude and ChatGPT now offer memory for free, but what they store are profile snippets, not the details of what you actually worked on. My testing showed stale exports, one-shot access, and platform-gated portability. That is why I am building a truth layer underneath.</description>
     <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</guid>
-  </item>
-  <item>
-    <title>Overhauling the Neotoma site with developer release feedback</title>
-    <link>https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</link>
-    <description>I overhauled the Neotoma site. The old single-page wall of text is now a visual presentation backed by documentation, tool-specific integration guides, and architecture deep dives—driven by what testers said and where they got stuck during the developer release.</description>
-    <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</guid>
-  </item>
-  <item>
-    <title>Six agentic trends I&apos;m betting on (and how I might be wrong)</title>
-    <link>https://markmhendrickson.com/posts/six-agentic-trends-betting-on</link>
-    <description>The structural pressures that underpin my work, and what would invalidate them as the AI industry evolves.</description>
-    <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/six-agentic-trends-betting-on</guid>
-  </item>
-  <item>
-    <title>The diary and the dance</title>
-    <link>https://markmhendrickson.com/posts/the-diary-and-the-dance</link>
-    <description>Creation, whether a startup or a blog post, is a continuous habit of revealing your inner world and tuning into what comes back. The MVP is a continuum. So is everything else.</description>
-    <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-diary-and-the-dance</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</guid>
   </item>
   <item>
     <title>When the chain becomes the product</title>
@@ -204,11 +190,32 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/when-the-chain-becomes-the-product</guid>
   </item>
   <item>
-    <title>Your AI remembers your vibe but not your work</title>
-    <link>https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</link>
-    <description>Claude and ChatGPT now offer memory for free, but what they store are profile snippets, not the details of what you actually worked on. My testing showed stale exports, one-shot access, and platform-gated portability. That is why I am building a truth layer underneath.</description>
+    <title>The diary and the dance</title>
+    <link>https://markmhendrickson.com/posts/the-diary-and-the-dance</link>
+    <description>Creation, whether a startup or a blog post, is a continuous habit of revealing your inner world and tuning into what comes back. The MVP is a continuum. So is everything else.</description>
     <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-diary-and-the-dance</guid>
+  </item>
+  <item>
+    <title>Six agentic trends I&apos;m betting on (and how I might be wrong)</title>
+    <link>https://markmhendrickson.com/posts/six-agentic-trends-betting-on</link>
+    <description>The structural pressures that underpin my work, and what would invalidate them as the AI industry evolves.</description>
+    <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/six-agentic-trends-betting-on</guid>
+  </item>
+  <item>
+    <title>Overhauling the Neotoma site with developer release feedback</title>
+    <link>https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</link>
+    <description>I overhauled the Neotoma site. The old single-page wall of text is now a visual presentation backed by documentation, tool-specific integration guides, and architecture deep dives—driven by what testers said and where they got stuck during the developer release.</description>
+    <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/neotoma-site-overhaul-developer-feedback</guid>
+  </item>
+  <item>
+    <title>AI skepticism is really about faith in humans</title>
+    <link>https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</link>
+    <description>The people who embrace AI encounter its problems more directly than anyone. But they also have the most faith that humans can work through them. The real skepticism isn&apos;t about the machines.</description>
+    <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/ai-skepticism-is-really-about-faith-in-humans</guid>
   </item>
   <item>
     <title>What my agentic stack actually does</title>
@@ -274,11 +281,11 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/building-structural-barriers</guid>
   </item>
   <item>
-    <title>Agentic retrieval infers. It doesn&apos;t guarantee.</title>
-    <link>https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer</link>
-    <description>Your AI finds things. It also misses things, overwrites them, and often can&apos;t say where an answer came from. Why that happens and what would fix it.</description>
+    <title>OpenClaw is powerful at doing but could use some help remembering.</title>
+    <link>https://markmhendrickson.com/posts/openclaw-and-the-truth-layer</link>
+    <description>OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.</description>
     <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/openclaw-and-the-truth-layer</guid>
   </item>
   <item>
     <title>Barcelona guest floor</title>
@@ -288,11 +295,11 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/barcelona-guest-floor</guid>
   </item>
   <item>
-    <title>OpenClaw is powerful at doing but could use some help remembering.</title>
-    <link>https://markmhendrickson.com/posts/openclaw-and-the-truth-layer</link>
-    <description>OpenClaw runs on your machine, clears your inbox, and builds skills. The gap is memory you can verify, query, and fix. A truth layer under it gives you provenance, rollback, and the same result every time you ask.</description>
+    <title>Agentic retrieval infers. It doesn&apos;t guarantee.</title>
+    <link>https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer</link>
+    <description>Your AI finds things. It also misses things, overwrites them, and often can&apos;t say where an answer came from. Why that happens and what would fix it.</description>
     <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/openclaw-and-the-truth-layer</guid>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer</guid>
   </item>
   <item>
     <title>Building a truth layer for persistent agent memory</title>
@@ -344,18 +351,18 @@
     <guid isPermaLink="true">https://markmhendrickson.com/posts/alps-snowboarding-recommendations</guid>
   </item>
   <item>
-    <title>The Outline</title>
-    <link>https://markmhendrickson.com/posts/the-outline</link>
-    <description>This is the most impressive media website I&apos;ve seen in a while, from a creative design and construction quality point of view:...</description>
-    <pubDate>Sun, 10 Dec 2017 00:00:00 GMT</pubDate>
-    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-outline</guid>
-  </item>
-  <item>
     <title>Tutor Catala</title>
     <link>https://markmhendrickson.com/posts/tutor-catala</link>
     <description>Algú coneix a un tutor de català bo? Estic buscant un per a fer classes d&apos;una hora i mitja a La Dreta per els matis de dimarts i dijous abans de la...</description>
     <pubDate>Sun, 10 Dec 2017 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/tutor-catala</guid>
+  </item>
+  <item>
+    <title>The Outline</title>
+    <link>https://markmhendrickson.com/posts/the-outline</link>
+    <description>This is the most impressive media website I&apos;ve seen in a while, from a creative design and construction quality point of view:...</description>
+    <pubDate>Sun, 10 Dec 2017 00:00:00 GMT</pubDate>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/the-outline</guid>
   </item>
   <item>
     <title>Syncing Foursquare / Swarm checkins to my website</title>
@@ -559,6 +566,12 @@
     <description>As Erick Schonfeld was kind enough to announce in a post on TechCrunch last week, I&apos;ve left my position at TechCrunch to build and run my own startup.</description>
     <pubDate>Tue, 17 Mar 2009 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/getting-the-lay-of-the-land</guid>
+  </item>
+  <item>
+    <title>One place where a fact is settled</title>
+    <link>https://markmhendrickson.com/posts/one-place-where-a-fact-is-settled</link>
+    <description>Without a system of record, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer.</description>
+    <guid isPermaLink="true">https://markmhendrickson.com/posts/one-place-where-a-fact-is-settled</guid>
   </item>
   </channel>
 </rss>

@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 import express from 'express'
+import { applyDocumentLanguage } from './scripts/apply-document-language.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
@@ -137,6 +138,13 @@ const localeToLanguageTag = {
   id: 'id-ID',
   de: 'de-DE',
 }
+const allowedDocumentLanguages = new Set(SUPPORTED_LOCALES.map((locale) => localeToLanguageTag[locale]))
+
+function withDocumentLanguage(html, helmetContext) {
+  const fallbackTag = localeToLanguageTag[DEFAULT_LOCALE] || 'en-US'
+  const fallbackDir = DEFAULT_LOCALE === 'ar' || DEFAULT_LOCALE === 'ur' ? 'rtl' : 'ltr'
+  return applyDocumentLanguage(html, helmetContext, allowedDocumentLanguages, fallbackTag, fallbackDir)
+}
 
 function isSupportedLocale(locale) {
   return SUPPORTED_LOCALES.includes(locale)
@@ -231,7 +239,7 @@ function getSeriesSitemapEntries() {
       const s = resolveSeriesSlugFromPost(p)
       if (!s) continue
       const pathName = `${localePrefix}/posts/series/${s}`
-      const lastmod = p.updatedDate || p.publishedDate || null
+      const lastmod = p.publishedDate ? (p.updatedDate || p.publishedDate) : null
       const prev = byPath.get(pathName)
       if (!prev || (lastmod && (!prev.lastmod || String(lastmod) > String(prev.lastmod)))) {
         byPath.set(pathName, { pathName, lastmod })
@@ -264,7 +272,7 @@ function getPostEntries() {
     const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
     for (const p of getPosts(locale)) {
       if (p.published === false || !p.slug) continue
-      const lastmod = p.updatedDate || p.publishedDate || null
+      const lastmod = p.publishedDate ? (p.updatedDate || p.publishedDate) : null
       const variants = [p.slug, ...(p.alternativeSlugs ?? [])]
       for (const variant of variants) {
         if (!variant) continue
@@ -324,12 +332,13 @@ function buildRssXml(posts, locale = 'en') {
   const published = posts
     .filter((p) => p.published !== false && p.slug)
     .sort((a, b) => {
-      const da = a.publishedDate || a.updatedDate || ''
-      const db = b.publishedDate || b.updatedDate || ''
+      const da = a.publishedDate || ''
+      const db = b.publishedDate || ''
       return db.localeCompare(da)
     })
-  const latestDate = published[0]
-    ? toRfc822Date(published[0].updatedDate || published[0].publishedDate)
+  const latestDatedPost = published.find((post) => post.publishedDate)
+  const latestDate = latestDatedPost
+    ? toRfc822Date(latestDatedPost.publishedDate)
     : toRfc822Date(new Date().toISOString())
   const items = published
     .map((p) => {
@@ -337,12 +346,11 @@ function buildRssXml(posts, locale = 'en') {
       const link = `${SITE_BASE}${localePrefix}/posts/${p.slug}/`
       const title = escapeXml(p.title || '')
       const description = escapeXml(p.excerpt || '')
-      const pubDate = toRfc822Date(p.publishedDate || p.updatedDate)
+      const pubDate = p.publishedDate ? `\n    <pubDate>${toRfc822Date(p.publishedDate)}</pubDate>` : ''
       return `  <item>
     <title>${title}</title>
     <link>${escapeXml(link)}</link>
-    <description>${description}</description>
-    <pubDate>${pubDate}</pubDate>
+    <description>${description}</description>${pubDate}
     <guid isPermaLink="true">${escapeXml(link)}</guid>
   </item>`
     })
@@ -445,7 +453,14 @@ function readTimelineData() {
   }
 }
 
-function readPostBody(slug) {
+function readPostBody(slug, locale = DEFAULT_LOCALE) {
+  // Localized public cache records are the body source for localized routes.
+  // The source Markdown remains authoritative for the default locale.
+  if (locale !== DEFAULT_LOCALE) {
+    for (const p of getPosts(locale)) {
+      if (p.slug === slug && typeof p.body === 'string' && p.body.trim().length > 0) return p.body
+    }
+  }
   const mdPath = path.resolve(__dirname, 'src', 'content', 'posts', `${slug}.md`)
   if (fs.existsSync(mdPath)) return fs.readFileSync(mdPath, 'utf-8')
   // Fallback when markdown was not committed but cache already has body (e.g. export-only workflow).
@@ -504,7 +519,7 @@ function buildSsrRenderOptions(url) {
   // A slug that is not public may be an unlisted review post; its body comes from the unlisted cache record.
   const unlistedPost = slug && !publicSlugs.has(slug) ? findUnlistedPost(slug) : null
   const canonicalSlug = slug ? resolveSlugToCanonical(slug, routeLocale) : null
-  const postBody = canonicalSlug && !unlistedPost ? readPostBody(canonicalSlug) : null
+  const postBody = canonicalSlug && !unlistedPost ? readPostBody(canonicalSlug, routeLocale) : null
   const isAgentRoute = segments[offset] === 'agent'
   const isSongsRoute = segments[offset] === 'songs'
   const agentContent = isAgentRoute ? readAgentContent(routeLocale) : null
@@ -544,6 +559,7 @@ async function runPrerender() {
     if (template.includes(HELMET_PLACEHOLDER)) {
       html = html.replace(HELMET_PLACEHOLDER, helmetHeadString(helmetContext))
     }
+    html = withDocumentLanguage(html, helmetContext)
     const outPath =
       pathname === '/'
         ? path.join(distPath, 'index.html')
@@ -558,6 +574,7 @@ async function runPrerender() {
   if (template.includes(HELMET_PLACEHOLDER)) {
     notFoundFull = notFoundFull.replace(HELMET_PLACEHOLDER, helmetHeadString(notFoundHelmetContext))
   }
+  notFoundFull = withDocumentLanguage(notFoundFull, notFoundHelmetContext)
   fs.writeFileSync(path.join(distPath, '404.html'), notFoundFull, 'utf-8')
   console.log('prerender: 404.html')
   const sitemapRoutes = [...new Set([...LEGACY_STATIC_ROUTES, ...LOCALIZED_STATIC_ROUTES, '/llms.txt', '/llms-full.txt'])]
@@ -642,6 +659,7 @@ async function createServer() {
         if (template.includes(HELMET_PLACEHOLDER)) {
           html = html.replace(HELMET_PLACEHOLDER, helmetHeadString(helmetContext))
         }
+        html = withDocumentLanguage(html, helmetContext)
         res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
       } catch (e) {
         next(e)
@@ -669,6 +687,7 @@ async function createServer() {
         if (template.includes(HELMET_PLACEHOLDER)) {
           html = html.replace(HELMET_PLACEHOLDER, helmetHeadString(helmetContext))
         }
+        html = withDocumentLanguage(html, helmetContext)
         res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
       } catch (e) {
         vite.ssrFixStacktrace(e)
