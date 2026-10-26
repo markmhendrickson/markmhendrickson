@@ -14,18 +14,16 @@ manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
 src = next((p for p in manifest if p.get('slug') == 'professional-mission'), None)
 if src is None:
   raise RuntimeError('professional-mission not found in src/content/posts/posts.json')
+required = ('title', 'excerpt', 'published', 'publishedDate', 'category',
+            'heroImage', 'heroImageStyle', 'excludeFromListing', 'showMetadata')
+missing = [field for field in required if field not in src]
+if missing:
+  raise RuntimeError(f'professional-mission manifest is missing: {missing}')
+canonical = {**src, 'body': body}
 
 def patch_post(post: dict) -> None:
-  post['title'] = src.get('title', post.get('title', 'Mark Hendrickson'))
-  post['excerpt'] = src.get('excerpt', post.get('excerpt', ''))
-  post['body'] = body
-  post['published'] = True
-  post['publishedDate'] = src.get('publishedDate', post.get('publishedDate', '2025-01-01'))
-  post['category'] = src.get('category', post.get('category', 'essay'))
-  post['heroImage'] = src.get('heroImage', post.get('heroImage', 'profile.jpg'))
-  post['heroImageStyle'] = src.get('heroImageStyle', post.get('heroImageStyle', 'float-right'))
-  post['excludeFromListing'] = src.get('excludeFromListing', post.get('excludeFromListing', True))
-  post['showMetadata'] = src.get('showMetadata', post.get('showMetadata', False))
+  post.clear()
+  post.update(canonical)
 
 cache_posts = json.loads(cache_posts_path.read_text(encoding='utf-8'))
 entry = next((p for p in cache_posts if p.get('slug') == 'professional-mission'), None)
