@@ -15,13 +15,16 @@ export type Dict = {
   pageRawMarkdown: string
   navRss: string
   navLanguage: string
+  sidebarExpandLabel: string
   drafts: string
   latestPost: string
   /** Home / post-page featured alert when item is a series index */
   latestSeries: string
   /** Home: heading above the first page of the posts feed */
   homeLatestPosts: string
-  /** Home: link to page 2 of the posts feed */
+  /** Home: continuation to page 2 when one exists */
+  homeMorePosts: string
+  /** Home: link to the posts index when there is only one page */
   homeViewAllPosts: string
   readMore: string
   nextPost: string
@@ -112,13 +115,15 @@ const enDict: Dict = {
     navWisdom: 'Wisdom',
     navMeet: 'Meet',
     navLinks: 'Links',
-    pageRawMarkdown: 'View markdown',
+    pageRawMarkdown: 'View Markdown',
     navRss: 'RSS feed',
     navLanguage: 'Language',
+    sidebarExpandLabel: 'Expand sidebar',
     drafts: 'Drafts',
     latestPost: 'Latest post',
     latestSeries: 'Latest series',
     homeLatestPosts: 'Latest posts',
+    homeMorePosts: 'More posts',
     homeViewAllPosts: 'View all posts',
     readMore: 'Read more',
     nextPost: 'Next post',
@@ -204,13 +209,15 @@ const esDict: Dict = {
     navWisdom: 'Sabiduría',
     navMeet: 'Reunión',
     navLinks: 'Enlaces',
-    pageRawMarkdown: 'Ver markdown',
+    pageRawMarkdown: 'Ver Markdown',
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
+    sidebarExpandLabel: 'Expandir la barra lateral',
     drafts: 'Borradores',
     latestPost: 'Última publicación',
     latestSeries: 'Última serie',
     homeLatestPosts: 'Últimas publicaciones',
+    homeMorePosts: 'Más publicaciones',
     homeViewAllPosts: 'Ver todas las publicaciones',
     readMore: 'Seguir leyendo',
     nextPost: 'Siguiente publicación',
@@ -296,13 +303,15 @@ const caDict: Dict = {
     navWisdom: 'Saviesa',
     navMeet: 'Trobada',
     navLinks: 'Enllaços',
-    pageRawMarkdown: 'Veure markdown',
+    pageRawMarkdown: 'Veure Markdown',
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
+    sidebarExpandLabel: 'Amplia la barra lateral',
     drafts: 'Esborranys',
     latestPost: 'Última publicació',
     latestSeries: 'Última sèrie',
     homeLatestPosts: 'Últimes publicacions',
+    homeMorePosts: 'Més publicacions',
     homeViewAllPosts: 'Veure totes les publicacions',
     readMore: 'Llegir més',
     nextPost: 'Publicació següent',
@@ -382,9 +391,37 @@ function withEnglishFallback(overrides: Partial<Dict>): Dict {
   return { ...enDict, ...overrides }
 }
 
-function generatedLocaleDict(locale: string): Dict {
+// Markdown names a file format here. Keep these reviewed action labels outside
+// machine-generated UI copy so a price-discount translation cannot replace it.
+const rawMarkdownLabels: Record<Exclude<SupportedLocale, 'en' | 'es' | 'ca'>, string> = {
+  zh: '查看 Markdown',
+  hi: 'Markdown देखें',
+  ar: 'عرض Markdown',
+  fr: 'Voir le Markdown',
+  pt: 'Ver Markdown',
+  ru: 'Просмотреть Markdown',
+  bn: 'Markdown দেখুন',
+  ur: 'Markdown دیکھیں',
+  id: 'Lihat Markdown',
+  de: 'Markdown anzeigen',
+}
+
+const homeFeedLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'homeLatestPosts' | 'homeMorePosts' | 'homeViewAllPosts'>> = {
+  zh: { homeLatestPosts: '最新文章', homeMorePosts: '更多文章', homeViewAllPosts: '查看所有文章' },
+  hi: { homeLatestPosts: 'नवीनतम लेख', homeMorePosts: 'और लेख', homeViewAllPosts: 'सभी लेख देखें' },
+  ar: { homeLatestPosts: 'أحدث المقالات', homeMorePosts: 'المزيد من المقالات', homeViewAllPosts: 'عرض جميع المقالات' },
+  fr: { homeLatestPosts: 'Articles récents', homeMorePosts: 'Plus d’articles', homeViewAllPosts: 'Voir tous les articles' },
+  pt: { homeLatestPosts: 'Publicações recentes', homeMorePosts: 'Mais publicações', homeViewAllPosts: 'Ver todas as publicações' },
+  ru: { homeLatestPosts: 'Новые статьи', homeMorePosts: 'Ещё статьи', homeViewAllPosts: 'Все статьи' },
+  bn: { homeLatestPosts: 'সাম্প্রতিক লেখা', homeMorePosts: 'আরও লেখা', homeViewAllPosts: 'সব লেখা দেখুন' },
+  ur: { homeLatestPosts: 'تازہ مضامین', homeMorePosts: 'مزید مضامین', homeViewAllPosts: 'تمام مضامین دیکھیں' },
+  id: { homeLatestPosts: 'Tulisan terbaru', homeMorePosts: 'Tulisan lainnya', homeViewAllPosts: 'Lihat semua tulisan' },
+  de: { homeLatestPosts: 'Neueste Beiträge', homeMorePosts: 'Weitere Beiträge', homeViewAllPosts: 'Alle Beiträge ansehen' },
+}
+
+function generatedLocaleDict(locale: keyof typeof rawMarkdownLabels): Dict {
   const generated = (generatedDictionaries as Record<string, Partial<Dict> | undefined>)[locale]
-  return generated ? withEnglishFallback(generated) : enDict
+  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale] }) : enDict
 }
 
 const dictionaries: Record<SupportedLocale, Dict> = {
