@@ -20,6 +20,12 @@ export type Dict = {
   latestPost: string
   /** Home / post-page featured alert when item is a series index */
   latestSeries: string
+  /** Home: heading above the first page of the posts feed */
+  homeLatestPosts: string
+  /** Home: continuation to page 2 when one exists */
+  homeMorePosts: string
+  /** Home: link to the posts index when there is only one page */
+  homeViewAllPosts: string
   readMore: string
   nextPost: string
   previousPost: string
@@ -116,6 +122,9 @@ const enDict: Dict = {
     drafts: 'Drafts',
     latestPost: 'Latest post',
     latestSeries: 'Latest series',
+    homeLatestPosts: 'Latest posts',
+    homeMorePosts: 'More posts',
+    homeViewAllPosts: 'View all posts',
     readMore: 'Read more',
     nextPost: 'Next post',
     previousPost: 'Previous post',
@@ -153,7 +162,7 @@ const enDict: Dict = {
     newsletter: 'Newsletter',
     testError: 'Test Error',
     defaultHomeDescription:
-      'Building Neotoma, a deterministic state layer for long-running agents. Every observation versioned, every entity snapshot reproducible, every decision replayable. Local-first, cross-platform via MCP.',
+      'Building Neotoma, the system of record for AI agents, and Ateles, the operating system for agentic organizations. A record, not recall.',
     showMore: 'Show more',
     showLess: 'Show less',
     noMatchPrefix: 'No posts match',
@@ -207,6 +216,9 @@ const esDict: Dict = {
     drafts: 'Borradores',
     latestPost: 'Última publicación',
     latestSeries: 'Última serie',
+    homeLatestPosts: 'Últimas publicaciones',
+    homeMorePosts: 'Más publicaciones',
+    homeViewAllPosts: 'Ver todas las publicaciones',
     readMore: 'Seguir leyendo',
     nextPost: 'Siguiente publicación',
     previousPost: 'Publicación anterior',
@@ -244,7 +256,7 @@ const esDict: Dict = {
     newsletter: 'Newsletter',
     testError: 'Error de prueba',
     defaultHomeDescription:
-      'Construyendo Neotoma, una capa de estado determinista para agentes de larga ejecución. Cada observación versionada, cada snapshot de entidad reproducible, cada decisión reproducible. Local-first, multiplataforma vía MCP.',
+      'Construyendo Neotoma, el sistema de registro para agentes de IA, y Ateles, el sistema operativo para organizaciones agénticas. Un registro, no el recuerdo.',
     showMore: 'Ver más',
     showLess: 'Ver menos',
     noMatchPrefix: 'No hay publicaciones que coincidan con',
@@ -298,6 +310,9 @@ const caDict: Dict = {
     drafts: 'Esborranys',
     latestPost: 'Última publicació',
     latestSeries: 'Última sèrie',
+    homeLatestPosts: 'Últimes publicacions',
+    homeMorePosts: 'Més publicacions',
+    homeViewAllPosts: 'Veure totes les publicacions',
     readMore: 'Llegir més',
     nextPost: 'Publicació següent',
     previousPost: 'Publicació anterior',
@@ -335,7 +350,7 @@ const caDict: Dict = {
     newsletter: 'Butlletí',
     testError: 'Error de prova',
     defaultHomeDescription:
-      "Construint Neotoma, una capa d'estat determinista per a agents de llarga execució. Cada observació versionada, cada snapshot d'entitat reproduïble, cada decisió reproduïble. Local-first, multiplataforma via MCP.",
+      "Construint Neotoma, el sistema de registre per a agents d'IA, i Ateles, el sistema operatiu per a organitzacions agèntiques. Un registre, no el record.",
     showMore: 'Mostra més',
     showLess: 'Mostra menys',
     noMatchPrefix: 'No hi ha publicacions que coincideixin amb',
@@ -391,9 +406,22 @@ const rawMarkdownLabels: Record<Exclude<SupportedLocale, 'en' | 'es' | 'ca'>, st
   de: 'Markdown anzeigen',
 }
 
+const homeFeedLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'homeLatestPosts' | 'homeMorePosts' | 'homeViewAllPosts'>> = {
+  zh: { homeLatestPosts: '最新文章', homeMorePosts: '更多文章', homeViewAllPosts: '查看所有文章' },
+  hi: { homeLatestPosts: 'नवीनतम लेख', homeMorePosts: 'और लेख', homeViewAllPosts: 'सभी लेख देखें' },
+  ar: { homeLatestPosts: 'أحدث المقالات', homeMorePosts: 'المزيد من المقالات', homeViewAllPosts: 'عرض جميع المقالات' },
+  fr: { homeLatestPosts: 'Articles récents', homeMorePosts: 'Plus d’articles', homeViewAllPosts: 'Voir tous les articles' },
+  pt: { homeLatestPosts: 'Publicações recentes', homeMorePosts: 'Mais publicações', homeViewAllPosts: 'Ver todas as publicações' },
+  ru: { homeLatestPosts: 'Новые статьи', homeMorePosts: 'Ещё статьи', homeViewAllPosts: 'Все статьи' },
+  bn: { homeLatestPosts: 'সাম্প্রতিক লেখা', homeMorePosts: 'আরও লেখা', homeViewAllPosts: 'সব লেখা দেখুন' },
+  ur: { homeLatestPosts: 'تازہ مضامین', homeMorePosts: 'مزید مضامین', homeViewAllPosts: 'تمام مضامین دیکھیں' },
+  id: { homeLatestPosts: 'Tulisan terbaru', homeMorePosts: 'Tulisan lainnya', homeViewAllPosts: 'Lihat semua tulisan' },
+  de: { homeLatestPosts: 'Neueste Beiträge', homeMorePosts: 'Weitere Beiträge', homeViewAllPosts: 'Alle Beiträge ansehen' },
+}
+
 function generatedLocaleDict(locale: keyof typeof rawMarkdownLabels): Dict {
   const generated = (generatedDictionaries as Record<string, Partial<Dict> | undefined>)[locale]
-  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale] }) : enDict
+  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale] }) : enDict
 }
 
 const dictionaries: Record<SupportedLocale, Dict> = {

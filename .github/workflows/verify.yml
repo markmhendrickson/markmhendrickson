@@ -53,3 +53,7 @@ jobs:
       - name: Verify navigation, editorial shell, and dependency notices
         working-directory: react-app
         run: node --test scripts/navigation-editorial.test.mjs scripts/third-party-notices.test.mjs
+
+      - name: Verify homepage feed and draft exclusions
+        working-directory: react-app
+        run: node --test scripts/homepage-feed.test.mjs

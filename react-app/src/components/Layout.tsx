@@ -3,7 +3,7 @@ import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, Share2, Clock, Bot, Briefcase, TrendingUp, CalendarPlus } from 'lucide-react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, FileCheck2, Network, type LucideIcon } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, localeToLanguageTag, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
@@ -166,7 +166,7 @@ export function Layout({ children }: LayoutProps) {
   // Home (/:locale) uses the default Helmet here; all other routes should supply their own Helmet.
   const hasPageHelmet = !isHome
 
-  const defaultTitle = 'Mark Hendrickson — Building sovereign memory infrastructure for agentic systems'
+  const defaultTitle = 'Mark Hendrickson — Building the system of record for AI agents'
   const defaultDescription = t.defaultHomeDescription
   const defaultUrl = `https://markmhendrickson.com${localizePath('/', locale)}`
   const defaultImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
@@ -242,7 +242,7 @@ export function Layout({ children }: LayoutProps) {
                 knowsAbout: [
                   'AI agents',
                   'Model Context Protocol',
-                  'sovereign memory infrastructure',
+                  'systems of record for AI agents',
                   'Bitcoin',
                   'product development',
                   'agentic systems',
@@ -291,7 +291,7 @@ const productsFooterCopy = {
       name: 'Neotoma',
       title: 'The system of record for AI agents.',
       description:
-        'One record every agent defers to, whichever vendor built it. Know what was true, when, and on whose evidence.',
+        'One place where a fact is settled. Agents read what was stored, from which source, and what is current now.',
       action: 'Evaluate Neotoma',
     },
     ateles: {
@@ -308,7 +308,7 @@ const productsFooterCopy = {
       name: 'Neotoma',
       title: 'El sistema de registro para agentes de IA.',
       description:
-        'Un único registro al que todo agente se somete, sea cual sea el proveedor que lo creó. Saber qué era verdad, cuándo y con qué pruebas.',
+        'Un único lugar donde se establece un hecho. Los agentes leen lo que se guardó, de qué fuente y qué es vigente ahora.',
       action: 'Evalúa Neotoma',
     },
     ateles: {
@@ -325,7 +325,7 @@ const productsFooterCopy = {
       name: 'Neotoma',
       title: "El sistema de registre per a agents d'IA.",
       description:
-        'Un únic registre al qual tot agent se sotmet, sigui quin sigui el proveïdor que el va crear. Saber què era cert, quan i amb quines proves.',
+        "Un únic lloc on s'estableix un fet. Els agents llegeixen el que es va desar, de quina font i què és vigent ara.",
       action: 'Avalua Neotoma',
     },
     ateles: {
@@ -420,7 +420,7 @@ interface ProductCardProps {
   onClick: () => void
 }
 
-function ProductCard({ name, title, description, action, href, onClick }: ProductCardProps) {
+function ProductCard({ name, title, description, action, href, onClick, icon: Icon }: ProductCardProps & { icon: LucideIcon }) {
   return (
     <a
       href={href}
@@ -429,7 +429,10 @@ function ProductCard({ name, title, description, action, href, onClick }: Produc
       onClick={onClick}
       className="group flex h-full flex-col gap-4 rounded-2xl border border-zinc-800 p-6 text-left transition-colors hover:border-zinc-600 hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
     >
-      <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">{name}</p>
+      <div className="flex items-center gap-2.5 text-zinc-500">
+        <Icon className="h-5 w-5 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+        <p className="text-[11px] font-semibold uppercase tracking-widest">{name}</p>
+      </div>
       <p className="text-lg font-medium leading-snug text-white md:text-xl">{title}</p>
       <p className="text-sm leading-relaxed text-zinc-400">{description}</p>
       <span className="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-medium text-zinc-50">
@@ -456,6 +459,7 @@ function ProductsFooter({ locale, pathname }: { locale: string; pathname: string
       <div className="mx-auto grid w-full max-w-[56rem] grid-cols-1 gap-4 px-6 py-12 md:grid-cols-2 md:py-16">
         <ProductCard
           {...copy.neotoma}
+          icon={FileCheck2}
           href={neotomaMarketingHref(locale)}
           onClick={() =>
             trackUmamiEvent('neotoma_cta_click', { campaign: 'products_site_footer', locale, path })
@@ -463,6 +467,7 @@ function ProductsFooter({ locale, pathname }: { locale: string; pathname: string
         />
         <ProductCard
           {...copy.ateles}
+          icon={Network}
           href={ATELES_HREF}
           onClick={() =>
             trackUmamiEvent('ateles_cta_click', { campaign: 'products_site_footer', locale, path })
