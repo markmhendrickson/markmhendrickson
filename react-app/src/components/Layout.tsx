@@ -336,6 +336,56 @@ const productsFooterCopy = {
       action: 'Llegeix el disseny',
     },
   },
+  zh: {
+    ariaLabel: 'Neotoma 和 Ateles',
+    neotoma: { name: 'Neotoma', title: '面向 AI 智能体的记录系统。', description: '一份供智能体共同参照的记录，不受其供应商限制。查看记录的内容、时间和依据。', action: '了解 Neotoma' },
+    ateles: { name: 'Ateles', title: '正在构建面向智能体组织的操作系统。', description: '一个开发中的开源项目，用于通过受支持的工具组织智能体、任务和计划。', action: '阅读设计' },
+  },
+  hi: {
+    ariaLabel: 'Neotoma और Ateles',
+    neotoma: { name: 'Neotoma', title: 'AI एजेंटों के लिए साझा रिकॉर्ड प्रणाली।', description: 'एक रिकॉर्ड जिसे अलग-अलग प्रदाताओं के एजेंट संदर्भ मान सकें। देखें क्या दर्ज हुआ, कब हुआ और किस साक्ष्य के आधार पर।', action: 'Neotoma देखें' },
+    ateles: { name: 'Ateles', title: 'एजेंट संगठनों के लिए ऑपरेटिंग सिस्टम का निर्माण जारी है।', description: 'समर्थित टूल के साथ एजेंटों, कार्यों और योजनाओं को व्यवस्थित करने के लिए विकासाधीन ओपन-सोर्स परियोजना।', action: 'डिज़ाइन पढ़ें' },
+  },
+  ar: {
+    ariaLabel: 'Neotoma وAteles',
+    neotoma: { name: 'Neotoma', title: 'نظام السجل المرجعي لوكلاء الذكاء الاصطناعي.', description: 'سجل مشترك يرجع إليه الوكلاء بغض النظر عن مزوّدهم. اطّلع على ما سُجّل، ومتى، وعلى أي دليل استند.', action: 'تعرّف على Neotoma' },
+    ateles: { name: 'Ateles', title: 'نبني نظام تشغيل للمؤسسات التي تعمل بالوكلاء.', description: 'مشروع مفتوح المصدر قيد التطوير لتنظيم الوكلاء والمهام والخطط عبر الأدوات المدعومة.', action: 'اقرأ التصميم' },
+  },
+  fr: {
+    ariaLabel: 'Neotoma et Ateles',
+    neotoma: { name: 'Neotoma', title: "Le système de référence pour les agents d’IA.", description: 'Un registre commun auquel les agents peuvent se référer, quel que soit leur fournisseur. Retrouvez les données enregistrées, leur date et leurs preuves.', action: 'Découvrir Neotoma' },
+    ateles: { name: 'Ateles', title: "Un système d’exploitation pour les organisations d’agents, en construction.", description: 'Un projet open source en cours de développement pour organiser agents, tâches et plans avec les outils pris en charge.', action: 'Lire la conception' },
+  },
+  pt: {
+    ariaLabel: 'Neotoma e Ateles',
+    neotoma: { name: 'Neotoma', title: 'O sistema de registro para agentes de IA.', description: 'Um registro comum que agentes de diferentes fornecedores podem consultar. Veja o que foi registrado, quando e com base em quais evidências.', action: 'Conheça Neotoma' },
+    ateles: { name: 'Ateles', title: 'Construindo o sistema operacional para organizações de agentes.', description: 'Um projeto de código aberto em desenvolvimento para organizar agentes, tarefas e planos com as ferramentas compatíveis.', action: 'Leia o projeto' },
+  },
+  ru: {
+    ariaLabel: 'Neotoma и Ateles',
+    neotoma: { name: 'Neotoma', title: 'Единая система записей для ИИ-агентов.', description: 'Общая запись, к которой могут обращаться агенты разных поставщиков. Видно, что и когда было записано и на каких данных основано.', action: 'Узнать о Neotoma' },
+    ateles: { name: 'Ateles', title: 'Создаём операционную систему для организаций с агентами.', description: 'Открытый проект в разработке для организации агентов, задач и планов с помощью поддерживаемых инструментов.', action: 'Читать концепцию' },
+  },
+  bn: {
+    ariaLabel: 'Neotoma ও Ateles',
+    neotoma: { name: 'Neotoma', title: 'এআই এজেন্টদের জন্য অভিন্ন রেকর্ড ব্যবস্থা।', description: 'ভিন্ন সরবরাহকারীর এজেন্টরা একই রেকর্ড ব্যবহার করতে পারে। কী, কখন এবং কোন প্রমাণের ভিত্তিতে সংরক্ষিত হয়েছে তা দেখুন।', action: 'Neotoma সম্পর্কে জানুন' },
+    ateles: { name: 'Ateles', title: 'এজেন্টভিত্তিক সংগঠনের অপারেটিং সিস্টেম তৈরি হচ্ছে।', description: 'সমর্থিত টুল দিয়ে এজেন্ট, কাজ ও পরিকল্পনা সংগঠিত করার জন্য উন্নয়নাধীন ওপেন-সোর্স প্রকল্প।', action: 'নকশা পড়ুন' },
+  },
+  ur: {
+    ariaLabel: 'Neotoma اور Ateles',
+    neotoma: { name: 'Neotoma', title: 'اے آئی ایجنٹس کے لیے مشترکہ ریکارڈ نظام۔', description: 'ایک ریکارڈ جسے مختلف فراہم کنندگان کے ایجنٹس دیکھ سکتے ہیں۔ جانیں کیا اور کب درج ہوا اور اس کی بنیاد کیا تھی۔', action: 'Neotoma جانیں' },
+    ateles: { name: 'Ateles', title: 'ایجنٹ تنظیموں کے لیے آپریٹنگ سسٹم زیرِ تعمیر ہے۔', description: 'معاونت یافتہ ٹولز کے ساتھ ایجنٹس، کاموں اور منصوبوں کو منظم کرنے کے لیے زیرِ ترقی اوپن سورس منصوبہ۔', action: 'ڈیزائن پڑھیں' },
+  },
+  id: {
+    ariaLabel: 'Neotoma dan Ateles',
+    neotoma: { name: 'Neotoma', title: 'Sistem catatan acuan bagi agen AI.', description: 'Satu catatan bersama yang dapat dirujuk agen dari berbagai penyedia. Lihat apa yang dicatat, kapan, dan berdasarkan bukti apa.', action: 'Jelajahi Neotoma' },
+    ateles: { name: 'Ateles', title: 'Membangun sistem operasi bagi organisasi agen.', description: 'Proyek sumber terbuka yang sedang dikembangkan untuk menata agen, tugas, dan rencana melalui alat yang didukung.', action: 'Baca rancangannya' },
+  },
+  de: {
+    ariaLabel: 'Neotoma und Ateles',
+    neotoma: { name: 'Neotoma', title: 'Das maßgebliche Datensystem für KI-Agenten.', description: 'Ein gemeinsamer Datenbestand für Agenten verschiedener Anbieter. Er zeigt, was wann erfasst wurde und auf welchen Belegen es beruht.', action: 'Neotoma ansehen' },
+    ateles: { name: 'Ateles', title: 'Ein Betriebssystem für agentengestützte Organisationen im Aufbau.', description: 'Ein quelloffenes Projekt in Entwicklung, das Agenten, Aufgaben und Pläne mit unterstützten Tools organisiert.', action: 'Konzept lesen' },
+  },
 } as const
 
 /**

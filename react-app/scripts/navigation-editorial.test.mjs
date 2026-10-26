@@ -65,9 +65,16 @@ test('the two product footer cards render as distinct public destinations', () =
     assert(localized.includes(title.replaceAll("'", '&#x27;')), `${locale}: Ateles development status is visible`)
     assert(localized.includes(description), `${locale}: Ateles supported-tools scope is visible`)
   }
-  for (const locale of ['zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']) {
+  const localizedAteles = {
+    zh: '一个开发中的开源项目', hi: 'विकासाधीन ओपन-सोर्स परियोजना', ar: 'مشروع مفتوح المصدر قيد التطوير',
+    fr: 'Un projet open source en cours de développement', pt: 'Um projeto de código aberto em desenvolvimento',
+    ru: 'Открытый проект в разработке', bn: 'উন্নয়নাধীন ওপেন-সোর্স প্রকল্প', ur: 'زیرِ ترقی اوپن سورس منصوبہ',
+    id: 'Proyek sumber terbuka yang sedang dikembangkan', de: 'Ein quelloffenes Projekt in Entwicklung',
+  }
+  for (const [locale, phrase] of Object.entries(localizedAteles)) {
     const localized = fs.readFileSync(path.join(dist, locale, 'index.html'), 'utf8')
-    assert(localized.includes('An open-source project in development for organizing agents, tasks, and plans across supported tools.'), `${locale}: qualified English fallback is visible`)
+    assert(localized.includes(phrase), `${locale}: localized development status is visible`)
+    assert(!localized.includes('An open-source project in development for organizing agents, tasks, and plans across supported tools.'), `${locale}: no English footer fallback`)
   }
 })
 
