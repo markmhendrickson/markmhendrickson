@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet-async'
 import { Search, Rss } from 'lucide-react'
 import {
   isPublishedPost,
-  parseCalendarOrIsoDateString,
   stripSeriesPrefixFromTitle,
 } from '@/lib/utils'
 import { PostsFeedItems } from '@/components/PostsFeedItems'
@@ -12,12 +11,12 @@ import { Input } from '@/components/ui/input'
 import { useLocale } from '@/i18n/LocaleContext'
 import { supportedLocales } from '@/i18n/config'
 import { localizePath } from '@/i18n/routing'
-import { scorePostMatch } from '@/lib/postSearch'
 import { usePostsListSSR } from '@/contexts/PostsListSSRContext'
 import {
   type FeedItem,
   type Post,
   buildMergedFeed,
+  buildSearchFeed,
   buildSeriesIndexBundles,
   loadPostsData,
   paginateFeed,
@@ -42,47 +41,33 @@ export default function Posts({ draft = false }: PostsProps) {
   const [searchInput, setSearchInput] = useState(query)
   const [posts, setPosts] = useState<Post[]>(() => (ssrPosts != null && !draft ? ssrPosts.map(ssrPostToPost) : []))
   /** All published posts including excludeFromListing, for search only */
-  const [postsForSearch, setPostsForSearch] = useState<Post[]>(() => (ssrPosts != null && !draft ? ssrPosts.map(ssrPostToPost) : []))
+  const localePostsData = useMemo(() => loadPostsData(isDev, locale), [locale])
+  const postsForSearch = useMemo(() => draft ? [] : selectSearchPool(localePostsData), [draft, localePostsData])
   const [draftCount, setDraftCount] = useState(0)
 
   /** Published /posts list: exclude series parts (they appear only under the series block). Draft index unchanged. */
   const standalonePosts = useMemo(() => selectStandalonePosts(posts, draft), [posts, draft])
-
-  const postsForSearchStandalone = useMemo(
-    () => selectStandalonePosts(postsForSearch, draft),
-    [postsForSearch, draft],
-  )
-
-  const filteredPosts = useMemo(() => {
-    if (!query) return standalonePosts
-    return postsForSearchStandalone
-      .map((post) => ({ post, score: scorePostMatch(post, query) }))
-      .filter((entry): entry is { post: Post; score: number } => entry.score != null)
-      .sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score
-        const tA = a.post.publishedDate ? parseCalendarOrIsoDateString(a.post.publishedDate).getTime() : 0
-        const tB = b.post.publishedDate ? parseCalendarOrIsoDateString(b.post.publishedDate).getTime() : 0
-        if (tB !== tA) return tB - tA
-        return (a.post.slug || '').localeCompare(b.post.slug || '')
-      })
-      .map((entry) => entry.post)
-  }, [standalonePosts, query, postsForSearchStandalone])
 
   /** Published multi-part series on the index: parts sorted by part number, series keyed by latest published date. */
   const seriesIndexBundles = useMemo(() => buildSeriesIndexBundles(posts, draft), [posts, draft, locale])
 
   /** Merged, date-sorted feed of standalone posts and series bundles (non-search mode only). */
   const mergedFeed = useMemo<FeedItem[]>(
-    () => buildMergedFeed(draft, query, filteredPosts, seriesIndexBundles),
-    [draft, query, filteredPosts, seriesIndexBundles],
+    () => buildMergedFeed(draft, query, standalonePosts, seriesIndexBundles),
+    [draft, query, standalonePosts, seriesIndexBundles],
   )
 
-  /** When searching, show only matched standalone posts (no series bundles). Otherwise use the merged date-sorted feed. */
+  const searchFeed = useMemo(
+    () => buildSearchFeed(draft ? standalonePosts : postsForSearch, seriesIndexBundles, query, locale),
+    [draft, standalonePosts, postsForSearch, seriesIndexBundles, query, locale],
+  )
+
+  /** Search ranks series and posts together; other views keep the existing date ordering. */
   const feedForPagination = useMemo<FeedItem[]>(() => {
-    if (draft) return filteredPosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
-    if (query.trim()) return filteredPosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
+    if (draft) return query.trim() ? searchFeed : standalonePosts.map((post): FeedItem => ({ kind: 'post', post, sortKey: 0 }))
+    if (query.trim()) return searchFeed
     return mergedFeed
-  }, [draft, query, filteredPosts, mergedFeed])
+  }, [draft, query, standalonePosts, searchFeed, mergedFeed])
 
   const pageParam = searchParams.get('page')
   const {
@@ -126,23 +111,18 @@ export default function Posts({ draft = false }: PostsProps) {
     if (!draft && ssrPosts != null && ssrPosts.length > 0) return
 
     const loadPosts = async () => {
-      const postsData: Post[] = loadPostsData(isDev, locale)
-
       if (isDev) {
-        const drafts = postsData.filter(post => !isPublishedPost(post))
+        const drafts = localePostsData.filter(post => !isPublishedPost(post))
         setDraftCount(drafts.length)
       }
 
       // Index list: draft route shows only drafts; /posts shows only published, excluding excludeFromListing.
       // Sorted newest first (see selectListingPosts).
-      setPosts(selectListingPosts(postsData, draft))
-
-      // Search pool: all published posts (including excludeFromListing), for search-only matches
-      setPostsForSearch(draft ? [] : selectSearchPool(postsData))
+      setPosts(selectListingPosts(localePostsData, draft))
     }
 
     loadPosts()
-  }, [isDev, draft, locale, ssrPosts])
+  }, [draft, localePostsData, ssrPosts])
 
   const pageTitle = draft ? t.drafts : t.postsTitle
   const pageDesc = draft
