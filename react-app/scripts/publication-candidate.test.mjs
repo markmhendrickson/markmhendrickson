@@ -20,6 +20,8 @@ test('only the approved essay moves from unlisted review to the public caches', 
   assert.equal(manifest[0].published, true)
   assert.equal(manifest[0].unlisted, undefined)
   assert.equal(manifest[0].excerpt, approvedExcerpt)
+  assert.match(manifest[0].publishedDate, /^\d{4}-\d{2}-\d{2}$/, 'publication candidate has a real launch date')
+  assert(manifest[0].updatedDate >= manifest[0].publishedDate, 'last update cannot precede publication')
   assert.equal(matches(json('cache/unlisted-posts.json')).length, 0)
   assert.equal(matches(json('cache/posts.private.json')).length, 0)
 
@@ -39,6 +41,8 @@ test('only the approved essay moves from unlisted review to the public caches', 
     assert.equal(post.heroImageStyle, 'paper-scene')
     assert.equal(post.heroImageAlt, manifest[0].heroImageAlt)
     assert.equal(post.heroImageCaption, manifest[0].heroImageCaption)
+    assert.equal(post.publishedDate, manifest[0].publishedDate, `${file}: launch date`)
+    assert.equal(post.updatedDate, manifest[0].updatedDate, `${file}: last update`)
     assert(posts.every((candidate) => candidate.published !== false), `${file}: no draft entry`)
     if (post.publishedDate != null) assert.match(post.publishedDate, /^\d{4}-\d{2}-\d{2}$/)
   }
@@ -70,9 +74,10 @@ test('public discovery includes the essay and excludes every unpublished draft',
     .map(([item]) => item)
     .find((item) => item.includes(targetUrl))
   assert(targetFeedItem)
-  if (!matches(json('src/content/posts/posts.json'))[0].publishedDate) {
-    assert(!targetFeedItem.includes('<pubDate>'), 'candidate must not invent a launch date')
-  }
+  const [target] = matches(json('src/content/posts/posts.json'))
+  assert(targetFeedItem.includes(`<pubDate>${new Date(target.publishedDate).toUTCString()}</pubDate>`), 'feed uses manifest launch date')
+  assert(sitemap.includes(`<loc>${targetUrl}</loc><lastmod>${target.updatedDate}</lastmod>`), 'sitemap uses current edit date')
+  assert(inventory.includes(`- Published: ${target.publishedDate}`), 'LLM inventory uses manifest launch date')
 
   const drafts = json('cache/posts.private.json').filter((post) => post.published === false)
   assert(drafts.length > 0, 'draft exclusion instrument must have a positive case')
@@ -89,6 +94,9 @@ test('every localized essay renders its translated copy and paper scenes', () =>
   for (const locale of ['es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']) {
     const [post] = matches(json(`cache/posts.${locale}.json`))
     assert(post, `${locale}: target exists`)
+    const manifest = matches(json('src/content/posts/posts.json'))[0]
+    assert.equal(post.publishedDate, manifest.publishedDate, `${locale}: launch date`)
+    assert.equal(post.updatedDate, manifest.updatedDate, `${locale}: last update`)
     assert.deepEqual(matches(json(`public/api/posts.${locale}.json`).posts), matches(json(`cache/api/posts.${locale}.json`).posts), `${locale}: public API parity`)
     assert.notEqual(post.body, read(`src/content/posts/${slug}.md`), `${locale}: translated body`)
     const override = json(`src/content/posts/translations.${locale}.json`)[slug]
@@ -97,6 +105,7 @@ test('every localized essay renders its translated copy and paper scenes', () =>
       assert.notEqual(post[field], json('src/content/posts/posts.json').find((candidate) => candidate.slug === slug)[field], `${locale}: not English ${field}`)
     }
     const html = read(`dist/${locale}/posts/${slug}/index.html`)
+    assert(html.includes(`property="article:published_time" content="${manifest.publishedDate}"`), `${locale}: published metadata`)
     const visibleArticle = html.slice(html.indexOf('<article>'))
     const firstParagraph = post.body.split('\n').find((line) => line.trim() && !line.startsWith('#'))
     const headings = [...post.body.matchAll(/^## (.+)$/gm)].map((match) => match[1])

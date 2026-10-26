@@ -1503,6 +1503,7 @@
   {
     "slug": "one-place-where-a-fact-is-settled",
     "published": true,
+    "publishedDate": "2026-10-26",
     "title": "One place where a fact is settled",
     "excerpt": "Without a system of record, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer.",
     "category": "Agent Architecture",
@@ -1514,7 +1515,7 @@
       "memory"
     ],
     "createdDate": "2026-10-16",
-    "updatedDate": "2026-10-20",
+    "updatedDate": "2026-10-26",
     "heroImage": "neotoma-paper/hero.svg",
     "heroImageSquare": "neotoma-paper/hero-square.png",
     "heroImageStyle": "paper-scene",
