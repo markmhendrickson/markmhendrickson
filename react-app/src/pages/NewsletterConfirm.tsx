@@ -120,7 +120,7 @@ export default function NewsletterConfirm() {
           <meta name="twitter:image:height" content={String(ogImageHeight)} />
         </Helmet>
         <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-          <div className="max-w-[600px] w-full text-center">
+          <div className="max-w-[var(--content-max)] w-full text-center">
             <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
             <h1 className="text-[28px] font-medium mb-4 tracking-tight">Thank You!</h1>
             <p className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-8">
@@ -156,7 +156,7 @@ export default function NewsletterConfirm() {
         <meta name="twitter:image:height" content={String(ogImageHeight)} />
       </Helmet>
       <div className="flex justify-center items-center min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-        <div className="max-w-[600px] w-full">
+        <div className="max-w-[var(--content-max)] w-full">
 
           <Alert className="mb-6">
             <CheckCircle2 className="h-4 w-4" />

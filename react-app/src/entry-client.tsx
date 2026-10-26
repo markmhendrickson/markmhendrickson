@@ -21,7 +21,7 @@ const ssrSongs = getSongsSSRFromDom()
 // Keep SSR post data in sync during hydrate to avoid loading-state mismatch on post pages.
 const app = (
   <PostSSRProvider postMeta={ssrPost}>
-    <PostsListSSRProvider posts={ssrPostsList}>
+    <PostsListSSRProvider posts={ssrPostsList} sourcePath={window.location.pathname}>
       <AgentSSRProvider content={ssrAgentContent}>
         <SongsSSRProvider songs={ssrSongs}>
           <HelmetProvider>

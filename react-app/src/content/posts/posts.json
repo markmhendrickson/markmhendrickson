@@ -1503,9 +1503,9 @@
   {
     "slug": "one-place-where-a-fact-is-settled",
     "published": true,
-    "unlisted": true,
+    "publishedDate": "2026-10-26",
     "title": "One place where a fact is settled",
-    "excerpt": "Without a record, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer.",
+    "excerpt": "Without a system of record, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer.",
     "category": "Agent Architecture",
     "readTime": 5,
     "tags": [
@@ -1515,10 +1515,13 @@
       "memory"
     ],
     "createdDate": "2026-10-16",
-    "updatedDate": "2026-10-20",
-    "heroImage": "one-place-where-a-fact-is-settled-hero.png",
-    "heroImageSquare": "one-place-where-a-fact-is-settled-hero-square.png",
-    "heroImageStyle": "keep-proportions",
-    "ogImage": "og/one-place-where-a-fact-is-settled-1200x630.jpg"
+    "updatedDate": "2026-10-26",
+    "heroImage": "neotoma-paper/hero.svg",
+    "heroImageSquare": "neotoma-paper/hero-square.png",
+    "heroImageStyle": "paper-scene",
+    "ogImage": "og/one-place-where-a-fact-is-settled-paper-1200x630.jpg",
+    "heroImageAlt": "Five paper records connected by solid navy lines",
+    "heroImageLabel": "Connected records",
+    "heroImageCaption": "Each current field traces to the observations and sources behind it."
   }
 ]

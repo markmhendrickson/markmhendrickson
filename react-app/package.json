@@ -21,6 +21,7 @@
     "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "build:full": "npm run build && npm run build:ssr",
     "test:i18n-smoke": "python3 scripts/smoke_i18n_locales.py",
+    "test:paper-motion": "node --test scripts/paper-visual-motion.test.mjs",
     "preview": "vite preview",
     "preview:ssr": "NODE_ENV=production PORT=3002 node server.js"
   },
@@ -31,6 +32,7 @@
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-tooltip": "^1.2.16",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "express": "^4.21.0",
@@ -50,6 +52,7 @@
     "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.2.1",
+    "jsdom": "^26.1.0",
     "postcss": "^8.4.47",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.13",

@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 
 from deep_translator import GoogleTranslator, MyMemoryTranslator
+from translation_chunks import translate_with_byte_limit
 
 ROOT = Path(__file__).resolve().parents[1]
 EN_CACHE_PATH = ROOT / "cache" / "posts.en.json"
@@ -91,7 +92,10 @@ def translate_text(
             if delay_s > 0:
                 time.sleep(delay_s)
             try:
-                candidate = (translator.translate(chunk) or "").strip()
+                if isinstance(translator, MyMemoryTranslator):
+                    candidate = translate_with_byte_limit(chunk, translator, 500).strip()
+                else:
+                    candidate = (translator.translate(chunk) or "").strip()
             except Exception as exc:
                 print(f"  chunk translate err: {exc}", file=sys.stderr)
                 continue

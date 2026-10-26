@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localizePath } from '@/i18n/routing'
 import { supportedLocales } from '@/i18n/config'
+import { CodeBlock } from '@/components/CodeBlock'
 import wisdomRaw from '@cache/wisdom.json'
 
 interface Quote {
@@ -34,6 +35,20 @@ const DEFAULT_OG_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
 
 const LINK_CLASS =
   'text-foreground underline underline-offset-2 decoration-muted-foreground/70 hover:decoration-foreground'
+
+export function WisdomEmptyState() {
+  const { t } = useLocale()
+  return (
+    <div className="text-center py-12">
+      <p className="text-[15px] text-foreground leading-relaxed">
+        The wisdom collection is being compiled. Run the PithBot to generate it.
+      </p>
+      <div className="mx-auto mt-6 max-w-xl text-left">
+        <CodeBlock code="python execution/scripts/generate_pithbot.py" language="bash" copyLabel={t.postCopyCode} copiedLabel={t.postCodeCopied} failureLabel={t.postCodeCopyFailed} />
+      </div>
+    </div>
+  )
+}
 
 export default function Wisdom() {
   const { locale } = useLocale()
@@ -118,14 +133,7 @@ export default function Wisdom() {
           </header>
 
           {isEmpty ? (
-            <div className="text-center py-12">
-              <p className="text-[15px] text-foreground leading-relaxed">
-                The wisdom collection is being compiled. Run the PithBot to generate it.
-              </p>
-              <pre className="mt-6 inline-block text-left text-[13px] bg-muted/50 rounded-lg p-4 overflow-x-auto text-muted-foreground">
-                python execution/scripts/generate_pithbot.py
-              </pre>
-            </div>
+            <WisdomEmptyState />
           ) : (
             <>
               <div className="flex items-center gap-4 mb-8 flex-wrap">

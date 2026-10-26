@@ -47,8 +47,9 @@ function getSSRPostForUrl(url: string, unlistedPost?: Record<string, unknown> | 
   const slugToPost = buildSlugToPostMap(posts)
   const post = slugToPost.get(slug)
   if (post) return post.published !== false ? post : null
-  // Unlisted review page: server.js passes the record only when this URL's slug matches one.
-  return (unlistedPost as typeof post | null | undefined) ?? null
+  // This fallback is exclusively for unlisted review pages. Preserve that provenance
+  // even when the injected cache record omits the optional unlisted field.
+  return unlistedPost == null ? null : ({ ...unlistedPost, unlisted: true } as typeof post)
 }
 
 function isPostsIndexUrl(url: string): boolean {
@@ -138,7 +139,7 @@ export function render(url: string, helmetContext?: HelmetContext, options?: Ren
   return renderToString(
     <HelmetProvider context={context}>
       <PostSSRProvider postMeta={ssrPost}>
-        <PostsListSSRProvider posts={postsForList}>
+        <PostsListSSRProvider posts={postsForList} sourcePath={new URL(url, 'https://markmhendrickson.com').pathname}>
           <AgentSSRProvider content={agentContent}>
             <SongsSSRProvider songs={songs}>
               <App url={url} />

@@ -244,7 +244,7 @@ export default function SeriesIndex() {
         </Helmet>
 
         <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
-          <div className="max-w-[600px] w-full">
+          <div className="max-w-[var(--content-max)] w-full">
             <div className="flex items-center justify-between gap-4 mb-6">
               <Link
                 to={localizePath('/posts', locale)}
@@ -388,7 +388,7 @@ export default function SeriesIndex() {
           <meta name="robots" content="noindex" />
         </Helmet>
         <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
-          <div className="max-w-[600px] w-full">
+          <div className="max-w-[var(--content-max)] w-full">
             <p className="text-[15px] text-muted-foreground">Series not found.</p>
             <Link to={localizePath('/posts', locale)} className="text-sm text-muted-foreground hover:text-foreground hover:underline mt-4 inline-block">
               ← All posts
@@ -500,7 +500,7 @@ export default function SeriesIndex() {
       </Helmet>
 
       <div className="flex justify-center items-center min-h-content pt-8 pb-8 px-4 md:pt-8 md:pb-8 md:px-8">
-        <div className="max-w-[600px] w-full">
+        <div className="max-w-[var(--content-max)] w-full">
 
           {/* Back link */}
           <Link

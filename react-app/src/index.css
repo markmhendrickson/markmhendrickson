@@ -25,6 +25,23 @@
   .post-prose li {
     @apply text-[16px] leading-[1.75] mb-3 pl-1 [&>p]:mb-2 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0;
   }
+  /* Editorial layout (posts with a hero or "takeover" images): a clear scale from section to
+     sub-section to key message to body. The site's ornamental divider already precedes every h2. */
+  .post-prose--editorial h2 {
+    @apply mt-8 mb-6 text-[30px] font-semibold leading-[1.12] tracking-tight md:text-[38px];
+  }
+  .post-prose--editorial h3 {
+    @apply mt-16 mb-5 text-[22px] font-semibold leading-[1.2] tracking-tight md:text-[27px];
+  }
+  .post-prose--editorial .post-message {
+    @apply my-8 border-l-[3px] border-foreground pl-5 md:pl-6;
+  }
+  .post-prose--editorial .post-message p {
+    @apply m-0 text-[20px] font-medium leading-[1.35] tracking-tight md:text-[23px];
+  }
+  .post-prose--editorial .post-message strong {
+    @apply font-semibold;
+  }
   .post-prose blockquote {
     @apply border-l-4 border-border pl-4 italic text-[16px] text-muted-foreground mb-4;
   }
@@ -68,15 +85,31 @@
     line-height: 1.65 !important;
   }
 
-  /* Copyable prompt fences: not-prose does not stop .post-prose code / pre code rules from applying to descendants */
-  .post-prose .post-copyable-fence pre {
-    @apply m-0 rounded-none shadow-none;
+  /* CodeBlock (src/components/CodeBlock.tsx): beats the .post-prose pre / pre code / inline code rules above. */
+  .code-block .code-block__pre {
+    margin: 0;
+    border: 0 !important;
+    background: transparent !important;
+    border-radius: 0.5rem 0 0 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
-  .post-prose .post-copyable-fence code {
-    @apply rounded-none bg-transparent shadow-none;
-  }
-  .post-prose .post-copyable-fence pre code {
-    @apply m-0 mb-0 block overflow-visible;
+  .code-block .code-block__pre .code-block__code {
+    display: block !important;
+    margin: 0;
+    padding: 0 !important;
+    border: 0;
+    border-radius: 0;
+    background: transparent !important;
+    box-shadow: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
+    font-size: 0.875rem !important;
+    font-weight: 400;
+    line-height: 1.6 !important;
+    color: inherit;
+    tab-size: 2;
+    -webkit-user-select: text;
+    user-select: text;
   }
   .post-prose strong {
     @apply font-semibold;
@@ -84,30 +117,53 @@
   .post-prose em {
     @apply italic;
   }
-  .post-prose a {
-    @apply text-black border-b border-black pb-[1px] rounded-[2px] transition-colors;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
+  /* Links: real underline, not a bottom border. A border-b with a radius curls up at each
+     end (and at every line break on a wrapped link) — the stray hooks under every link.
+     A text-decoration underline also skips descenders instead of striking through them.
+     Colour comes from the theme token so dark mode works without an override. */
+  .post-prose a,
+  .post-prose-summary a,
+  .postscript-prose a {
+    @apply transition-colors;
+    color: hsl(var(--foreground));
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    text-decoration-color: hsl(var(--foreground) / 0.45);
+    text-decoration-skip-ink: auto;
   }
-  .post-prose a:hover {
-    @apply border-b-2 bg-muted/60;
+  .post-prose a.no-underline,
+  .post-prose-summary a.no-underline,
+  .postscript-prose a.no-underline {
+    text-decoration: none;
+  }
+  .post-prose a:hover,
+  .post-prose-summary a:hover,
+  .postscript-prose a:hover {
+    text-decoration-thickness: 2px;
+    text-decoration-color: hsl(var(--foreground));
   }
   .post-prose table {
     @apply w-full min-w-full border-collapse text-[14px] leading-[1.7] sm:text-[15px] sm:leading-[1.75] m-0;
   }
   .post-prose thead th {
-    @apply text-left font-semibold p-3 sm:p-4 border-b-2 border-border bg-muted/90 text-foreground align-top whitespace-normal;
+    @apply text-left font-semibold px-2.5 py-2.5 sm:p-4 border-b-2 border-border bg-muted/90 text-foreground align-top whitespace-normal;
   }
   .post-prose thead th:not(:last-child) {
     @apply border-r border-border/70;
   }
-  /* Last column (e.g. Special events): don’t collapse long descriptive copy when table scrolls horizontally */
-  .post-prose thead th:last-child,
-  .post-prose tbody td:last-child {
-    min-width: min(18rem, 85vw);
+  /* Last column (e.g. Special events): keep long descriptive copy from collapsing to a
+     sliver when a wide table scrolls. Only applies from sm up — on phones this min-width
+     forced even 2-column tables (Place / Getting there) to ~2-4x the viewport, so the
+     whole table had to be scrolled sideways to read a two-word cell. */
+  @media (min-width: 640px) {
+    .post-prose thead th:last-child,
+    .post-prose tbody td:last-child {
+      min-width: min(18rem, 85vw);
+    }
   }
   .post-prose tbody td {
-    @apply py-3 px-3 sm:px-4 border-b border-border text-foreground align-top break-words [overflow-wrap:anywhere] hyphens-auto;
+    @apply py-2.5 px-2.5 sm:py-3 sm:px-4 border-b border-border text-foreground align-top break-words [overflow-wrap:anywhere];
   }
   .post-prose tbody td:not(:last-child) {
     @apply border-r border-border/60;
@@ -120,6 +176,67 @@
   }
   .post-prose tbody td:first-child {
     @apply font-medium text-foreground;
+  }
+  /* Two-column reference tables (Place / Getting there): give the label column a stable
+     share of the row on phones so short names stop wrapping mid-phrase. */
+  @media (max-width: 639px) {
+    .post-prose .table-scroll-outer:not(.table-stacked) thead th:first-child,
+    .post-prose .table-scroll-outer:not(.table-stacked) tbody td:first-child {
+      width: 42%;
+    }
+  }
+
+  /* Wide tables (3+ columns) restack as one card per row on phones. Scrolling a 6-column
+     pricing table sideways on a 375px screen pushes the Month label off-screen while you
+     read the prices, so the numbers lose their referent. Stacking keeps each row intact. */
+  @media (max-width: 639px) {
+    .post-prose .table-stacked thead {
+      @apply sr-only;
+    }
+    .post-prose .table-stacked table,
+    .post-prose .table-stacked tbody,
+    .post-prose .table-stacked tr,
+    .post-prose .table-stacked td {
+      display: block;
+      width: 100%;
+    }
+    .post-prose .table-stacked .table-scroll-inner,
+    .post-prose .table-stacked table {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+    .post-prose .table-stacked tbody tr {
+      @apply border-b border-border px-4 py-3;
+    }
+    .post-prose .table-stacked tbody tr:last-child {
+      @apply border-b-0;
+    }
+    /* First cell is the row's subject (Month, Place) — render it as the card heading */
+    .post-prose .table-stacked tbody td:first-child {
+      @apply mb-2 pt-0 text-[16px] font-semibold;
+    }
+    .post-prose .table-stacked tbody td {
+      @apply border-0 px-0 py-1;
+    }
+    /* Label left, value right — so a column of prices still reads as a column */
+    .post-prose .table-stacked tbody td:not(:first-child) {
+      @apply flex items-baseline justify-between gap-4 text-right;
+    }
+    .post-prose .table-stacked tbody td:not(:first-child)::before {
+      content: attr(data-label);
+      @apply shrink-0 text-[13px] font-medium text-muted-foreground;
+    }
+    .post-prose .table-stacked tbody tr:nth-child(even) td {
+      @apply bg-transparent;
+    }
+    .post-prose .table-stacked tbody tr:nth-child(even) {
+      @apply bg-muted/20;
+    }
+    /* Stacked tables never scroll sideways, so suppress the scroll affordance */
+    .post-prose .table-stacked.table-scrollable .table-scroll-edge,
+    .post-prose .table-stacked.table-scrollable .table-scroll-hint {
+      display: none;
+    }
   }
 
   /* Table horizontal scroll: overlay is sibling of viewport, absolute so flush to right edge of table box */
@@ -190,12 +307,6 @@
   .postscript-prose strong {
     @apply font-semibold text-foreground;
   }
-  .postscript-prose a {
-    @apply text-black border-b border-black pb-[1px] rounded-[2px] transition-colors;
-  }
-  .postscript-prose a:hover {
-    @apply border-b-2 bg-muted/60;
-  }
   .post-prose .footnotes ol {
     @apply list-decimal list-outside ml-5 space-y-2;
   }
@@ -222,12 +333,6 @@
   }
   .post-prose-summary strong {
     @apply font-semibold;
-  }
-  .post-prose-summary a {
-    @apply text-black border-b border-black pb-[1px] rounded-[2px] transition-colors;
-  }
-  .post-prose-summary a:hover {
-    @apply border-b-2 bg-muted/60;
   }
 
   .dark .post-prose p,
@@ -266,15 +371,16 @@
     border-color: hsl(var(--border));
   }
 
-  .dark .post-prose .post-copyable-fence code,
-  .dark .post-prose .post-copyable-fence pre code {
-    background-color: transparent;
-  }
-
   .dark .post-prose a,
-  .dark .post-prose-summary a {
+  .dark .post-prose-summary a,
+  .dark .postscript-prose a {
     color: hsl(var(--foreground));
-    border-color: hsl(var(--foreground));
+    text-decoration-color: hsl(var(--foreground) / 0.45);
+  }
+  .dark .post-prose a:hover,
+  .dark .post-prose-summary a:hover,
+  .dark .postscript-prose a:hover {
+    text-decoration-color: hsl(var(--foreground));
   }
 
   .dark .post-prose .table-scroll-outer.table-scrollable .table-scroll-hint {
@@ -285,6 +391,7 @@
 @layer base {
   :root {
     --header-height: 4rem; /* h-16: matches page header for viewport-height calcs */
+    --content-max: 42rem; /* page and post content column (672px, about 90 characters per line at body size) */
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -366,4 +473,79 @@
     max-width: 100vw;
     overflow-x: hidden;
   }
+}
+
+/* Full-bleed post image ("takeover"): markdown image title "takeover". Spans the whole content area,
+   past the reading column, like a hero. --sidebar-w is set on the layout's main element. */
+.post-takeover {
+  width: calc(100vw - var(--sidebar-w, 0px));
+  max-width: none;
+  margin-left: calc(50% - (100vw - var(--sidebar-w, 0px)) / 2);
+}
+
+/* Visual breaks use the hero's main-column takeover width, with the same sidebar alignment. */
+.essay-paper-hero, .essay-paper-band {
+  background: transparent;
+  border-block: 1px solid hsl(var(--border) / 0.65);
+}
+.essay-paper-hero .essay-paper-art { max-width: 1050px; margin: 0 auto; }
+.essay-paper-hero figcaption {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  max-width: 680px; margin: 0 auto; padding: 1.25rem clamp(1rem, 2vw, 1.5rem) 1.5rem;
+  font-family: 'Instrument Sans Essay', system-ui, sans-serif;
+  color: hsl(var(--muted-foreground)); font-size: 0.9375rem; line-height: 1.6; text-align: left;
+}
+.essay-paper-band {
+  margin-top: clamp(3rem, 6vw, 5rem); margin-bottom: clamp(3rem, 6vw, 5rem);
+  padding-top: clamp(1.5rem, 4vw, 3rem); padding-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+/* A paper visual or aside already separates the next section; keep its heading/anchor. */
+.post-prose:has(> .essay-paper-band) > .essay-paper-band + hr[aria-hidden="true"],
+.post-prose:has(> .essay-paper-band) > .essay-editorial-aside + hr[aria-hidden="true"] {
+  display: none;
+}
+.essay-editorial-aside {
+  margin-top: clamp(3rem, 6vw, 5rem); margin-bottom: clamp(3rem, 6vw, 5rem);
+  padding: clamp(2rem, 5vw, 4rem) 0; background: #f3efe6;
+}
+.dark .essay-editorial-aside { background: #28312f; }
+.essay-editorial-aside__inner { max-width: 680px; margin: 0 auto; padding: 0 clamp(1rem, 3vw, 2rem); }
+.post-prose .essay-editorial-aside p { margin: 0; font-style: normal; font-size: clamp(1.0625rem, 1.6vw, 1.25rem); line-height: 1.7; }
+.post-prose .essay-editorial-aside strong { font-weight: inherit; }
+.essay-paper-break { max-width: 1050px; margin: 0 auto; }
+.essay-paper-gallery {
+  max-width: 1400px; margin: 0 auto; padding: 0 clamp(1rem, 3.5vw, 3rem);
+}
+.essay-paper-figure { min-width: 0; margin: 0; }
+.essay-paper-art { min-width: 0; overflow: hidden; }
+.essay-paper-art svg { display: block; width: 100%; height: auto; overflow: hidden; }
+.essay-paper-art [data-paper-object], .essay-paper-art [data-vision-record] {
+  transform-box: fill-box; transform-origin: center;
+}
+.post-prose .essay-paper-figure img {
+  display: block; width: 100%; height: auto; margin: 0; border-radius: 0.5rem;
+  background: #eee6d6; border: 1px solid #d6d0c4;
+}
+.essay-paper-figure figcaption {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  max-width: 680px; margin: 0 auto; padding: 1.25rem clamp(1rem, 2vw, 1.5rem) 0;
+  font-family: 'Instrument Sans Essay', system-ui, sans-serif;
+  font-size: 0.9375rem; line-height: 1.6; color: hsl(var(--muted-foreground));
+}
+.essay-paper-label, .essay-editorial-aside .essay-paper-label {
+  color: #a14624; font-weight: 600; font-size: 0.75rem;
+  letter-spacing: 0.09em; text-transform: uppercase;
+}
+.essay-editorial-aside .essay-paper-label { margin-top: 0; }
+.dark .essay-paper-label { color: #e5a17c; }
+.dark .post-prose .essay-paper-figure img { border-color: #7b7b70; }
+.essay-paper-gallery { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; }
+@media(max-width: 760px) { .essay-paper-gallery { grid-template-columns: 1fr; gap: 2rem; } }
+@font-face {
+  font-family: 'Instrument Sans Essay'; src: url('/images/posts/neotoma-paper/instrument-sans-regular.ttf') format('truetype');
+  font-display: swap; font-weight: 400;
+}
+@font-face {
+  font-family: 'Instrument Sans Essay'; src: url('/images/posts/neotoma-paper/instrument-sans-semibold.ttf') format('truetype');
+  font-display: swap; font-weight: 600;
 }

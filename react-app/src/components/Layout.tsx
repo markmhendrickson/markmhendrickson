@@ -3,13 +3,16 @@ import { useLocation, useParams, type Params } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Layout as SharedLayout } from '@shared/components/Layout'
 import { Home, FileText, Share2, Clock, Bot, Briefcase, TrendingUp, CalendarPlus } from 'lucide-react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, FileCheck2, Network, type LucideIcon } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, localeToLanguageTag, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
 import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
 import { findUnlistedPost } from '@/lib/unlistedPosts'
 import { trackUmamiEvent } from '@/lib/analytics'
+import { HeaderActionsProvider } from '@/lib/headerActions'
+import { usePostSSR } from '@/contexts/PostSSRContext'
+import { MarkdownLinkAction } from '@/components/MarkdownLinkAction'
 import { stripSeriesPrefixFromTitle } from '@/lib/utils'
 import { resolveSeriesSlug } from '@/lib/resolveSeriesSlug'
 import type { ExtraBreadcrumb } from '@shared/components/Layout'
@@ -43,9 +46,17 @@ export function Layout({ children }: LayoutProps) {
   const location = useLocation()
   const params = useParams()
   const { locale, languageTag, direction, t } = useLocale()
+  const ssrPost = usePostSSR()
   const publicPostsData = getLocalizedPublicPosts(locale) as Post[]
   const [postTitle, setPostTitle] = useState<string | null>(null)
   const [postSeriesInfo, setPostSeriesInfo] = useState<{ name: string; slug: string } | null>(null)
+  // Keep the public post action in the initial HTML. Post registers the same action
+  // after hydration and owns updates during client-side navigation.
+  const [headerActions, setHeaderActions] = useState<React.ReactNode>(() =>
+    ssrPost?.slug && !ssrPost.unlisted ? (
+      <MarkdownLinkAction href={localizePath(`/posts/${ssrPost.slug}.md`, locale)} label={t.pageRawMarkdown} />
+    ) : null,
+  )
   const isHome = location.pathname === localizePath('/', locale)
   const currentSeriesTitle =
     params.seriesSlug
@@ -155,7 +166,7 @@ export function Layout({ children }: LayoutProps) {
   // Home (/:locale) uses the default Helmet here; all other routes should supply their own Helmet.
   const hasPageHelmet = !isHome
 
-  const defaultTitle = 'Mark Hendrickson — Building sovereign memory infrastructure for agentic systems'
+  const defaultTitle = 'Mark Hendrickson — Building the system of record for AI agents'
   const defaultDescription = t.defaultHomeDescription
   const defaultUrl = `https://markmhendrickson.com${localizePath('/', locale)}`
   const defaultImage = 'https://markmhendrickson.com/images/og-default-1200x630.jpg'
@@ -164,9 +175,11 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <>
+      <Helmet>
+        <html lang={languageTag} dir={direction} />
+      </Helmet>
       {!hasPageHelmet && (
         <Helmet>
-          <html lang={languageTag} dir={direction} />
           <title>{defaultTitle}</title>
           <meta name="description" content={defaultDescription} />
           <meta name="author" content="Mark Hendrickson" />
@@ -231,7 +244,7 @@ export function Layout({ children }: LayoutProps) {
                 knowsAbout: [
                   'AI agents',
                   'Model Context Protocol',
-                  'sovereign memory infrastructure',
+                  'systems of record for AI agents',
                   'Bitcoin',
                   'product development',
                   'agentic systems',
@@ -241,6 +254,7 @@ export function Layout({ children }: LayoutProps) {
           </script>
         </Helmet>
       )}
+      <HeaderActionsProvider value={setHeaderActions}>
       <SharedLayout
         direction={direction}
         siteName="Mark Hendrickson"
@@ -253,46 +267,130 @@ export function Layout({ children }: LayoutProps) {
         hiddenPathSegments={[...supportedLocales, 'chapter', 'section']}
         languageMenuItems={languageMenuItems}
         languageMenuLabel={t.navLanguage}
+        languageMenuAriaLabel={t.languageMenuAriaLabel}
         themeMenuLabel={t.themeMenuLabel}
         themeMenuAriaLabel={t.themeMenuAriaLabel}
         themeSystem={t.themeSystem}
         themeLight={t.themeLight}
         themeDark={t.themeDark}
-        footer={<EvaluateCta locale={locale} pathname={location.pathname} />}
+        footer={<ProductsFooter locale={locale} pathname={location.pathname} />}
+        defaultSidebarOpen={false}
+        sidebarCollapsible="icon"
+        sidebarExpandLabel={t.sidebarExpandLabel}
+        sidebarToggleLabel={t.sidebarToggleLabel}
+        sidebarOpenLabel={t.sidebarOpenLabel}
+        sidebarCloseLabel={t.sidebarCloseLabel}
+        collapsedHomeLabel="Mark Hendrickson"
+        headerRight={headerActions}
       >
         {children}
       </SharedLayout>
+      </HeaderActionsProvider>
     </>
   )
 }
 
-/** Packrat + record, post hero style (black / white line-art; see posts README hero guide). */
-const NEOTOMA_CTA_IMAGE_SRC = '/images/neotoma_cta_packrat_hero.png'
-
-const evaluateCtaCopy = {
+const productsFooterCopy = {
   en: {
-    label: 'Neotoma — for builders of agentic systems',
-    title: "You're re-prompting what your agents should already know.",
-    description:
-      'The time you waste is obvious. The real cost is when your agent runs unattended, acts on wrong state, and you only catch it downstream \u2014 in front of a customer or in a broken pipeline. Neotoma stores state once: versioned, replayable, consistent across every tool and every session.',
-    imageAlt: 'Neotoma illustration — packrat holding a record',
-    action: 'Evaluate Neotoma',
+    ariaLabel: 'Neotoma and Ateles',
+    neotoma: {
+      name: 'Neotoma',
+      title: 'The system of record for AI agents.',
+      description:
+        'One place where a fact is settled. Agents read what was stored, from which source, and what is current now.',
+      action: 'Evaluate Neotoma',
+    },
+    ateles: {
+      name: 'Ateles',
+      title: 'Building the operating system for agentic organizations.',
+      description:
+        'An open-source project in development for organizing agents, tasks, and plans across supported tools.',
+      action: 'Read the design',
+    },
   },
   es: {
-    label: 'Neotoma — para quienes construyen sistemas agénticos',
-    title: 'Estás repitiendo lo que tus agentes ya deberían saber.',
-    description:
-      'El tiempo que pierdes es obvio. El coste real es cuando tu agente se ejecuta sin supervisión, actúa sobre un estado incorrecto y solo lo detectas después \u2014 frente a un cliente o en un pipeline roto. Neotoma almacena el estado una vez: versionado, reproducible, consistente en cada herramienta y cada sesión.',
-    imageAlt: 'Ilustración de Neotoma — packrat con un registro',
-    action: 'Evalúa Neotoma',
+    ariaLabel: 'Neotoma y Ateles',
+    neotoma: {
+      name: 'Neotoma',
+      title: 'El sistema de registro para agentes de IA.',
+      description:
+        'Un único lugar donde se establece un hecho. Los agentes leen lo que se guardó, de qué fuente y qué es vigente ahora.',
+      action: 'Evalúa Neotoma',
+    },
+    ateles: {
+      name: 'Ateles',
+      title: 'Construyendo el sistema operativo para organizaciones de agentes.',
+      description:
+        'Un proyecto de código abierto en desarrollo para organizar agentes, tareas y planes con las herramientas compatibles.',
+      action: 'Lee el diseño',
+    },
   },
   ca: {
-    label: "Neotoma — per a qui construeix sistemes agèntics",
-    title: 'Estàs repetint el que els teus agents ja haurien de saber.',
-    description:
-      "El temps que perds és obvi. El cost real és quan el teu agent s'executa sense supervisió, actua sobre un estat incorrecte i només ho detectes després \u2014 davant d'un client o en un pipeline trencat. Neotoma emmagatzema l'estat una vegada: versionat, reproduïble, consistent en cada eina i cada sessió.",
-    imageAlt: "Il·lustració de Neotoma — packrat amb un registre",
-    action: 'Avalua Neotoma',
+    ariaLabel: 'Neotoma i Ateles',
+    neotoma: {
+      name: 'Neotoma',
+      title: "El sistema de registre per a agents d'IA.",
+      description:
+        "Un únic lloc on s'estableix un fet. Els agents llegeixen el que es va desar, de quina font i què és vigent ara.",
+      action: 'Avalua Neotoma',
+    },
+    ateles: {
+      name: 'Ateles',
+      title: "Construint el sistema operatiu per a organitzacions d'agents.",
+      description:
+        'Un projecte de codi obert en desenvolupament per organitzar agents, tasques i plans amb les eines compatibles.',
+      action: 'Llegeix el disseny',
+    },
+  },
+  zh: {
+    ariaLabel: 'Neotoma 和 Ateles',
+    neotoma: { name: 'Neotoma', title: '面向 AI 智能体的记录系统。', description: '一份供智能体共同参照的记录，不受其供应商限制。查看记录的内容、时间和依据。', action: '了解 Neotoma' },
+    ateles: { name: 'Ateles', title: '正在构建面向智能体组织的操作系统。', description: '一个开发中的开源项目，用于通过受支持的工具组织智能体、任务和计划。', action: '阅读设计' },
+  },
+  hi: {
+    ariaLabel: 'Neotoma और Ateles',
+    neotoma: { name: 'Neotoma', title: 'AI एजेंटों के लिए साझा रिकॉर्ड प्रणाली।', description: 'एक रिकॉर्ड जिसे अलग-अलग प्रदाताओं के एजेंट संदर्भ मान सकें। देखें क्या दर्ज हुआ, कब हुआ और किस साक्ष्य के आधार पर।', action: 'Neotoma देखें' },
+    ateles: { name: 'Ateles', title: 'एजेंट संगठनों के लिए ऑपरेटिंग सिस्टम का निर्माण जारी है।', description: 'समर्थित टूल के साथ एजेंटों, कार्यों और योजनाओं को व्यवस्थित करने के लिए विकासाधीन ओपन-सोर्स परियोजना।', action: 'डिज़ाइन पढ़ें' },
+  },
+  ar: {
+    ariaLabel: 'Neotoma وAteles',
+    neotoma: { name: 'Neotoma', title: 'نظام السجل المرجعي لوكلاء الذكاء الاصطناعي.', description: 'سجل مشترك يرجع إليه الوكلاء بغض النظر عن مزوّدهم. اطّلع على ما سُجّل، ومتى، وعلى أي دليل استند.', action: 'تعرّف على Neotoma' },
+    ateles: { name: 'Ateles', title: 'نبني نظام تشغيل للمؤسسات التي تعمل بالوكلاء.', description: 'مشروع مفتوح المصدر قيد التطوير لتنظيم الوكلاء والمهام والخطط عبر الأدوات المدعومة.', action: 'اقرأ التصميم' },
+  },
+  fr: {
+    ariaLabel: 'Neotoma et Ateles',
+    neotoma: { name: 'Neotoma', title: "Le système de référence pour les agents d’IA.", description: 'Un registre commun auquel les agents peuvent se référer, quel que soit leur fournisseur. Retrouvez les données enregistrées, leur date et leurs preuves.', action: 'Découvrir Neotoma' },
+    ateles: { name: 'Ateles', title: "Un système d’exploitation pour les organisations d’agents, en construction.", description: 'Un projet open source en cours de développement pour organiser agents, tâches et plans avec les outils pris en charge.', action: 'Lire la conception' },
+  },
+  pt: {
+    ariaLabel: 'Neotoma e Ateles',
+    neotoma: { name: 'Neotoma', title: 'O sistema de registro para agentes de IA.', description: 'Um registro comum que agentes de diferentes fornecedores podem consultar. Veja o que foi registrado, quando e com base em quais evidências.', action: 'Conheça Neotoma' },
+    ateles: { name: 'Ateles', title: 'Construindo o sistema operacional para organizações de agentes.', description: 'Um projeto de código aberto em desenvolvimento para organizar agentes, tarefas e planos com as ferramentas compatíveis.', action: 'Leia o projeto' },
+  },
+  ru: {
+    ariaLabel: 'Neotoma и Ateles',
+    neotoma: { name: 'Neotoma', title: 'Единая система записей для ИИ-агентов.', description: 'Общая запись, к которой могут обращаться агенты разных поставщиков. Видно, что и когда было записано и на каких данных основано.', action: 'Узнать о Neotoma' },
+    ateles: { name: 'Ateles', title: 'Создаём операционную систему для организаций с агентами.', description: 'Открытый проект в разработке для организации агентов, задач и планов с помощью поддерживаемых инструментов.', action: 'Читать концепцию' },
+  },
+  bn: {
+    ariaLabel: 'Neotoma ও Ateles',
+    neotoma: { name: 'Neotoma', title: 'এআই এজেন্টদের জন্য অভিন্ন রেকর্ড ব্যবস্থা।', description: 'ভিন্ন সরবরাহকারীর এজেন্টরা একই রেকর্ড ব্যবহার করতে পারে। কী, কখন এবং কোন প্রমাণের ভিত্তিতে সংরক্ষিত হয়েছে তা দেখুন।', action: 'Neotoma সম্পর্কে জানুন' },
+    ateles: { name: 'Ateles', title: 'এজেন্টভিত্তিক সংগঠনের অপারেটিং সিস্টেম তৈরি হচ্ছে।', description: 'সমর্থিত টুল দিয়ে এজেন্ট, কাজ ও পরিকল্পনা সংগঠিত করার জন্য উন্নয়নাধীন ওপেন-সোর্স প্রকল্প।', action: 'নকশা পড়ুন' },
+  },
+  ur: {
+    ariaLabel: 'Neotoma اور Ateles',
+    neotoma: { name: 'Neotoma', title: 'اے آئی ایجنٹس کے لیے مشترکہ ریکارڈ نظام۔', description: 'ایک ریکارڈ جسے مختلف فراہم کنندگان کے ایجنٹس دیکھ سکتے ہیں۔ جانیں کیا اور کب درج ہوا اور اس کی بنیاد کیا تھی۔', action: 'Neotoma جانیں' },
+    ateles: { name: 'Ateles', title: 'ایجنٹ تنظیموں کے لیے آپریٹنگ سسٹم زیرِ تعمیر ہے۔', description: 'معاونت یافتہ ٹولز کے ساتھ ایجنٹس، کاموں اور منصوبوں کو منظم کرنے کے لیے زیرِ ترقی اوپن سورس منصوبہ۔', action: 'ڈیزائن پڑھیں' },
+  },
+  id: {
+    ariaLabel: 'Neotoma dan Ateles',
+    neotoma: { name: 'Neotoma', title: 'Sistem catatan acuan bagi agen AI.', description: 'Satu catatan bersama yang dapat dirujuk agen dari berbagai penyedia. Lihat apa yang dicatat, kapan, dan berdasarkan bukti apa.', action: 'Jelajahi Neotoma' },
+    ateles: { name: 'Ateles', title: 'Membangun sistem operasi bagi organisasi agen.', description: 'Proyek sumber terbuka yang sedang dikembangkan untuk menata agen, tugas, dan rencana melalui alat yang didukung.', action: 'Baca rancangannya' },
+  },
+  de: {
+    ariaLabel: 'Neotoma und Ateles',
+    neotoma: { name: 'Neotoma', title: 'Das maßgebliche Datensystem für KI-Agenten.', description: 'Ein gemeinsamer Datenbestand für Agenten verschiedener Anbieter. Er zeigt, was wann erfasst wurde und auf welchen Belegen es beruht.', action: 'Neotoma ansehen' },
+    ateles: { name: 'Ateles', title: 'Ein Betriebssystem für agentengestützte Organisationen im Aufbau.', description: 'Ein quelloffenes Projekt in Entwicklung, das Agenten, Aufgaben und Pläne mit unterstützten Tools organisiert.', action: 'Konzept lesen' },
   },
 } as const
 
@@ -303,9 +401,12 @@ const evaluateCtaCopy = {
 const NEOTOMA_CTA_UTM: Record<string, string> = {
   utm_source: 'markmhendrickson.com',
   utm_medium: 'website_cta',
-  utm_campaign: 'neotoma_site_footer_black',
-  utm_content: 'for_builders_agentic_systems_black_footer',
+  utm_campaign: 'products_site_footer',
+  utm_content: 'neotoma_system_of_record',
 }
+
+/** ateles.co is not live yet, so the Ateles link goes to the public repository. */
+const ATELES_HREF = 'https://github.com/markmhendrickson/ateles'
 
 function neotomaMarketingHref(locale: string): string {
   const path = locale === 'en' ? '/evaluate' : `/${locale}/evaluate`
@@ -316,60 +417,69 @@ function neotomaMarketingHref(locale: string): string {
   return url.toString()
 }
 
-function EvaluateCta({ locale, pathname }: { locale: string; pathname: string }) {
+interface ProductCardProps {
+  name: string
+  title: string
+  description: string
+  action: string
+  href: string
+  onClick: () => void
+}
+
+function ProductCard({ name, title, description, action, href, onClick, icon: Icon }: ProductCardProps & { icon: LucideIcon }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={onClick}
+      className="group flex h-full flex-col gap-4 rounded-2xl border border-zinc-800 p-6 text-left transition-colors hover:border-zinc-600 hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+    >
+      <div className="flex items-center gap-2.5 text-zinc-500">
+        <Icon className="h-5 w-5 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+        <p className="text-[11px] font-semibold uppercase tracking-widest">{name}</p>
+      </div>
+      <p className="text-lg font-medium leading-snug text-white md:text-xl">{title}</p>
+      <p className="text-sm leading-relaxed text-zinc-400">{description}</p>
+      <span className="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-medium text-zinc-50">
+        {action}
+        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </a>
+  )
+}
+
+function ProductsFooter({ locale, pathname }: { locale: string; pathname: string }) {
   const isEvaluatePage = pathname.replace(/\/$/, '').endsWith('/evaluate')
   if (isEvaluatePage) return null
 
-  const copy = evaluateCtaCopy[locale as keyof typeof evaluateCtaCopy] ?? evaluateCtaCopy.en
-
-  const neotomaHref = neotomaMarketingHref(locale)
+  const copy = productsFooterCopy[locale as keyof typeof productsFooterCopy] ?? productsFooterCopy.en
+  const path = pathname.replace(/\/$/, '') || '/'
 
   return (
     <footer
-      className="w-full shrink-0 bg-zinc-950 border-t border-zinc-800"
+      className="w-full shrink-0 border-t border-zinc-800 bg-zinc-950"
       style={{ paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom, 0px))' }}
-      aria-label="Neotoma"
+      aria-label={copy.ariaLabel}
     >
-      <a
-        href={neotomaHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 group"
-        onClick={() => {
-          trackUmamiEvent('neotoma_cta_click', {
-            campaign: 'neotoma_site_footer_black',
-            locale,
-            path: pathname.replace(/\/$/, '') || '/',
-          })
-        }}
-      >
-        <div className="mx-auto max-w-[600px] w-full px-6 py-12 md:py-16 flex flex-col items-center text-center gap-6">
-          <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden bg-zinc-800 shrink-0">
-            <img
-              src={NEOTOMA_CTA_IMAGE_SRC}
-              alt={copy.imageAlt}
-              className="w-full h-full object-cover object-center"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div className="flex flex-col gap-3">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">
-              {copy.label}
-            </p>
-            <p className="text-lg md:text-xl font-medium text-white leading-snug">
-              {copy.title}
-            </p>
-            <p className="text-sm text-zinc-400 leading-relaxed max-w-md mx-auto">
-              {copy.description}
-            </p>
-          </div>
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-zinc-50 border border-zinc-700 rounded-full px-5 py-2.5 group-hover:bg-zinc-800 group-hover:border-zinc-600 transition-colors">
-            {copy.action}
-            <ArrowRight className="w-3.5 h-3.5" />
-          </span>
-        </div>
-      </a>
+      <div className="mx-auto grid w-full max-w-[56rem] grid-cols-1 gap-4 px-6 py-12 md:grid-cols-2 md:py-16">
+        <ProductCard
+          {...copy.neotoma}
+          icon={FileCheck2}
+          href={neotomaMarketingHref(locale)}
+          onClick={() =>
+            trackUmamiEvent('neotoma_cta_click', { campaign: 'products_site_footer', locale, path })
+          }
+        />
+        <ProductCard
+          {...copy.ateles}
+          icon={Network}
+          href={ATELES_HREF}
+          onClick={() =>
+            trackUmamiEvent('ateles_cta_click', { campaign: 'products_site_footer', locale, path })
+          }
+        />
+      </div>
     </footer>
   )
 }

@@ -77,7 +77,7 @@ export default function Newsletter() {
         <meta name="twitter:image:height" content={String(ogImageHeight)} />
       </Helmet>
       <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-        <div className="max-w-[600px] w-full">
+        <div className="max-w-[var(--content-max)] w-full">
           <h1 className="text-[28px] font-medium mb-2 tracking-tight">Subscribe to Newsletter</h1>
           <p className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
             Get technical deep-dives, Neotoma updates, and workflow templates delivered to your inbox.

@@ -19,7 +19,7 @@ export default function NotFound() {
         <meta name="robots" content="noindex, follow" />
       </Helmet>
       <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-        <div className="max-w-[600px] w-full">
+        <div className="max-w-[var(--content-max)] w-full">
           <div className="w-full aspect-[16/10] rounded-lg mb-8 bg-black flex items-center justify-center overflow-hidden">
             <img
               src={getPostImageSrc(HERO_IMAGE)}

@@ -1,66 +1,81 @@
 When several agents work from the same facts, those facts change, and the agents do not all learn of the change at the same time. A due date shows the problem plainly.
 
-Suppose invoice INV-2041 says payment is due on 22 October, and a later email from the vendor moves the due date to 29 October. One agent reads the invoice, another reads the email, and a third prepares the week's payments from whatever it can find. The first answers 22 October, the second answers 29 October, and the third answers whichever it found first. Nothing in that arrangement says which date counts, so the person running the agents has to check.
+Suppose invoice INV-2041 says payment is due on October 22nd, and a later email from the vendor moves the due date to October 29th. One agent reads the invoice, another reads the email, and a third prepares the week's payments from whatever it can find. The first answers October 22nd, the second answers October 29th, and the third answers whichever it found first. Nothing in that arrangement says which date counts, so the person running the agents has to check.
 
-I made up the invoice, but the arrangement behind it is real. I run [agents in three tools](https://markmhendrickson.com/posts/what-my-agentic-stack-actually-does) against one Neotoma instance. A mail poller stores incoming mail with its source and turns the messages that need action into tasks, and sessions in Claude Code, Codex, and Cursor pick up [the same tasks and plans](https://markmhendrickson.com/posts/the-swarm-that-runs-my-work). That setup is where this essay comes from.
+I made up this particular invoice example, but the arrangement behind it is real. I run [agents in three tools](https://markmhendrickson.com/posts/what-my-agentic-stack-actually-does) against one [Neotoma](https://neotoma.io/) instance. A mail poller stores incoming mail with its source and turns the messages that need action into tasks, and sessions in Claude Code, Codex, and Cursor pick up [the same tasks and plans](https://markmhendrickson.com/posts/the-swarm-that-runs-my-work). That setup, and my work on Neotoma as a comprehensive system of record, are where this essay comes from.
+
+![A document and envelope each linked to separate fact slips](/images/posts/neotoma-paper/observation.svg "paper|Synthetic example · INV-2041|Two sources say different things about one invoice: the PDF says due October 22nd, a later email says October 29th.")
 
 ## Recall is good at a different job
 
 Recall finds material that looks related to a question. A vector index or a long chat history does this well, and for many tasks it is enough. It does not [settle anything](https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer). Ask for the due date and recall returns the invoice and the email, ranked by how closely each matches the question, not by which one is current.
 
-More tools make this harder. One agent keeps [notes in a markdown file](https://markmhendrickson.com/posts/the-markdown-memory-ceiling), another keeps what it learned inside its chat product, and a third reads a shared folder. Each copy was correct when it was written. When the fact changes, the copies change at different times, or not at all, and no agent can ask which copy wins, because no place exists where that question has an answer. A vendor's [memory or log](https://markmhendrickson.com/posts/your-agent-harness-owns-context-not-truth) covers that vendor's agents. The record has to sit outside any one of them, in one place all of them can reach.
+More tools and harnesses make this harder. One agent keeps [notes in a markdown file](https://markmhendrickson.com/posts/the-markdown-memory-ceiling), another keeps what it learned inside its chat product, and a third reads a shared folder. Each copy was correct when it was written. When the fact changes, the copies change at different times, or not at all, and no agent can ask which copy wins, because no place exists where that question has an answer. The system of record has to sit outside any one of them, in one place all of them can reach.
 
-At the start of this year I called Neotoma [a memory layer and a truth layer](https://markmhendrickson.com/posts/truth-layer-agent-memory). I stopped because I came to think memory is the wrong category for Neotoma: it is [a confusing one](https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work), and people kept comparing Neotoma to memory products when the comparison does not hold. What I need an agent to keep is exact data about many kinds of things, in a form that can be audited, and the plain word for the place that holds it is a system of record.
+At the start of this year I called Neotoma [a memory layer and a truth layer](https://markmhendrickson.com/posts/truth-layer-agent-memory). I stopped because I came to think memory is the wrong category for Neotoma: it is [a confusing one](https://markmhendrickson.com/posts/your-ai-remembers-your-vibe-but-not-your-work), and people kept comparing Neotoma to memory products. What I need an agent to keep is exact data about many kinds of things, in a form that can be audited, and the plain term for the place that holds it is a system of record.
 
-That place is what I mean by a record: it says what is current, where that came from, and what it replaced. Similarity search cannot answer those questions, because similarity says nothing about time or source.
+That place is what I mean by a system of record: it says what is current, where that came from, and what it replaced. Similarity search cannot answer those questions, because similarity says nothing about time or source.
+
+> **Recall and the record**
+>
+> **Memory and retrieval tools help an agent keep and find context. A system of record takes on a different job. It computes the current value from accepted observations and keeps a path back to the evidence for each field. The two overlap, and a product can cover more than one.**
 
 ## What Neotoma does today
 
-I build Neotoma, the system of record for AI agents. It is open source under the MIT license and runs locally, in a data directory you choose. A local install serves one operator, and there are no organizations, workspaces, or rules for who may correct what. What follows is what the published package (0.25.0 on npm) does today.
+I build Neotoma, the system of record for AI agents. It is open source under the MIT license and runs locally, in a data directory you choose. What follows is what the published package (0.25.0 on npm) does today.
 
-Every write is stored as a new observation, linked to the source it came from. A new value is added beside the old one rather than written over it.
+Every write is stored as a new observation, linked to the source it came from. A new value is added beside the old one rather than written over it. Neotoma can store the [original PDF or email](https://github.com/markmhendrickson/neotoma/blob/v0.25.0/docs/developer/source_storage_by_reference.md) alongside the structured entities derived from it, keeping observations linked to their source.
 
-Observations belong to entities. An entity's id is derived from the entity type and its identifying fields, so the same invoice gets the same id even in a separate data directory, and two agents that store it write to the same entity.
+Observations belong to entities. An entity's ID is derived from the entity type and its identifying fields. Within the same instance and identity rules, the same identifying values deterministically produce the same ID, so two agents storing the same invoice write to the same entity.
 
-A merge rule per field computes the current value from the observations. For most fields the latest observation wins. Given the same observations and the same merge rules, the reduction produces the same snapshot, without asking a model to choose again on each read.
+Entities can also be linked to one another: the invoice to its vendor, or a follow-up task to the invoice it concerns. An agent creates those relationships explicitly. They describe how the records fit together, while source links show the PDF or email behind an observation.
+
+Neotoma automatically applies the schema's merge rule for each field to compute its current value from the observations. For most fields the latest observation wins. Given the same observations and the same merge rules, the reduction produces the same snapshot, without asking a model to choose again on each read.
 
 Each current field names the observation that set it, and a stored observation names its source. That is a trail to the evidence, not proof that an agent read the evidence correctly. A correction is one more observation, not an edit, and the earlier value stays listed. You can also read one entity as Neotoma had it recorded at an earlier time.
 
-Now return to the invoice. Both agents' writes land on one entity. The due date now reads 29 October and names the observation from the email. The amount still names the first observation, because nothing changed it. The payments agent reads 29 October, and the 22 October observation stays listed with its source.
+Now return to the invoice. Both agents' writes land on one entity. The due date now reads October 29th and names the observation from the email. The amount still names the first observation, because nothing changed it. The payments agent reads October 29th, and the October 22nd observation stays listed with its source.
 
-Agents reach Neotoma through an MCP server, a REST API, and a CLI. `neotoma setup --tool` configures Claude Code, Cursor, Codex, OpenClaw, and Claude Desktop, so agents in different tools can connect to one instance. Agents connected to the same MCP entry read and write the same record.
+![A separate invoice and email each connect by fine threads to a marked record card](/images/posts/neotoma-paper/invoice-example.svg "paper|The current record · INV-2041|The due date now reads October 29th. The changed field points to the later observation. The amount still comes from the first observation. Both observations stay on record.")
+
+Agents reach Neotoma through an MCP server, a REST API, and a CLI. The install guide explains how to connect supported tools and harnesses. Point each tool at the same instance and data profile or MCP entry to share records; separate entries can use separate databases.
+
+People can inspect their records in the bundled Neotoma app.
+
+An admitted [signed request](https://markmhendrickson.com/posts/know-which-of-your-agents-wrote-what/) can establish verified agent identity. Active scoped grants determine permitted actions; a signature alone is not permission.
 
 ## Where this is going
 
-So far I have described a record that settles facts for one person's agents. The direction is a record that people and agents maintain together, where anyone can ask which value is current, which source introduced it, whether it was observed, inferred, or decided, who had the authority to correct it, and which agents relied on the version before. Parts of that exist today, and most of it does not yet:
+So far I have described a system of record that settles facts for agents. The direction is a system of record that people and agents maintain together, where anyone can ask which value is current, which source introduced it, whether it was observed, inferred, or decided, who had the authority to correct it, and which agents relied on the version before. The planned governance capabilities extend beyond today's signed identity, scoped grants, and app:
 
-- Agents can already sign their writes and hold access grants. Rules for who may correct which facts, scoped by domain, are not modeled yet.
-- Interpretations of a source are stored as records today. Disputed claims, official positions, and the difference between agreement and open disagreement are not modeled yet.
-- The Inspector shows where each value came from and how it changed. A view that answers "why does the system believe this?" for people who do not write code is not built.
+- Give each domain a clear owner, with authority to correct its records scoped to that domain.
+- Represent competing claims, unresolved disputes and official positions explicitly.
+- Show why a value holds, whose authority it follows and what a change would affect.
+
+Ateles extends that direction on the operational side. In [Ateles's adapter design](https://github.com/markmhendrickson/ateles/blob/a3e4d9ed2c33ac867bb67447221d559cbe8c5810/docs/foundation/adapters.md#L14-L22), adapters bring information from systems such as mail, calendars, and code hosts into Neotoma, and carry authorized actions back to those systems. Neotoma stores the records; the connected tools perform the work.
 
 The full vision, with where each part stands today, is in the [README](https://github.com/markmhendrickson/neotoma#vision-and-execution-status).
 
-The project moves fast, and APIs or storage formats can change between versions. Closer in, four parts of the design for a single operator are not built yet:
+![Domain ownership: a matching holder reaches one of two bounded compartments](/images/posts/neotoma-paper/vision-domain.svg "paper|Domain ownership|Domain ownership will make clear who may correct each bounded part of the system of record.")
+![Position tracking: two retained claims connect to a dossier where one position is marked as selected](/images/posts/neotoma-paper/vision-positions.svg "paper|Position tracking|Position tracking will retain competing claims and make an explicit position inspectable.")
+![Explanations: a lifted current field reveals its basis and a bounded set of effects](/images/posts/neotoma-paper/vision-explanation.svg "paper|Explanations|Explanations will show why a value holds, whose authority it follows and which connected values a change could affect.")
 
-- You cannot yet read everything an instance holds as it stood at a past date. You can read one record, such as INV-2041, as Neotoma had it recorded on 23 October, but no single read returns what all your invoices, contacts, and tasks said that day.
-- A record cannot yet move between instances with its history. If you use `neotoma entities export` to move INV-2041 to a new machine, the file carries the 29 October due date and nothing else about it: the 22 October value, the email the change came from, and when each was recorded stay behind, and on the new machine the record's history starts the day you import it. A full backup and restore carries everything.
-- Corrections do not yet always hold. If you correct the invoice amount by hand, the correction holds only until the next write that carries an amount for that invoice. Any later write with a different payload, from any agent, becomes current, even if it repeats the original amount, while an exact repeat of an earlier write is ignored. The correction stays in the history, but nothing marks it as overridden.
-- Authorship is not yet verified for every write. When an agent [signs its requests](https://markmhendrickson.com/posts/know-which-of-your-agents-wrote-what), Neotoma checks the signature and that you granted the agent's key access before it accepts the write, and the observation records the key and the name the agent registered. When a script stores through the CLI, or calls the API without naming itself, no writer is recorded. Over MCP, or over the API with a client-name header, the writer is the name the client reports, which is not checked.
+## A system of record, not recall
 
-Specific known limits, with workarounds, are listed in the repository's [known limitations](https://github.com/markmhendrickson/neotoma/blob/main/docs/known_limitations.md).
+The answer is not a better index. Recall helps an agent find what was said. [A system of record tells it what is current](https://markmhendrickson.com/posts/the-spine-of-the-loop). Agents that work across several tools need the second, in one place they can all reach, and a system of record helps only when the agents write to it and read from it.
 
-## A record, not recall
-
-The answer is not a better index. Recall helps an agent find what was said. [A record tells it what is current](https://markmhendrickson.com/posts/the-spine-of-the-loop). Agents that work across several tools need the second, in one place they can all reach, and a record helps only when the agents write to it and read from it.
-
-If you run agents in more than one tool, try this on one fact you already keep in two places:
+If you run agents in more than one tool or harness, start with one workflow whose facts and entities belong together:
 
 ```
 npm install -g neotoma
 neotoma init
-neotoma setup --tool claude-code --yes
+neotoma setup --tool claude-code
 ```
 
-Swap `claude-code` for `cursor`, `codex`, `openclaw`, or `claude-desktop`. Then store the fact from one agent and read it from another connected to the same MCP entry. Neotoma runs on macOS and Linux. It sends no telemetry. It does check the npm registry for a newer version: about once a day from the CLI, and when a session starts and about every 6 hours after from the stdio MCP server. Set `NO_UPDATE_NOTIFIER=1` to turn those two checks off. Agents can also call the `npm_check_update` tool, which makes the same request and is not turned off by that variable. The request carries only the package name, and the registry sees ordinary connection details such as your address.
+Use the setup option for your tool or harness; the install guide covers other supported integrations. Then store the workflow's interrelated facts and entities from one agent and read them from another connected to the same configured instance and data profile or MCP entry.
 
-The install guide is at [neotoma.io/install](https://neotoma.io/install?utm_source=site&utm_medium=blog&utm_campaign=essay-2026-10-27). The code and the issue tracker are on GitHub at [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma). If something fails, open an issue there.
+The install guide is at [neotoma.io/install](https://neotoma.io/install?utm_source=site&utm_medium=blog&utm_campaign=essay-system-of-record). The code and the issue tracker are on GitHub at [github.com/markmhendrickson/neotoma](https://github.com/markmhendrickson/neotoma).
+
+> **The ambition**
+>
+> **Neotoma is the system of record for AI agents. The ambition is to give people and agents a shared understanding they can inspect and govern: what is known, why it is believed, where they disagree, and who has authority to change it. That understanding should outlast any particular model, tool or application.**

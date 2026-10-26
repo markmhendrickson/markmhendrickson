@@ -1,0 +1,77 @@
+name: Verify website pull request
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      SKIP_WEBSITE_CACHE_REGEN: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: react-app/package-lock.json
+      - name: Install dependencies
+        working-directory: react-app
+        run: npm ci
+      - name: Rebuild committed locale caches
+        working-directory: react-app
+        run: python3 scripts/rebuild_locale_post_caches.py
+      - name: Validate translated published posts
+        working-directory: react-app
+        run: python3 scripts/validate_post_translations.py
+      - name: Run locale and paper checks
+        working-directory: react-app
+        run: |
+          npm run test:i18n-smoke
+          python3 scripts/test_translation_chunks.py
+          node --test scripts/paper-artwork-export.test.mjs scripts/paper-visual-motion.test.mjs scripts/heading-anchors.test.mjs
+      - name: Verify series-aware post search
+        working-directory: react-app
+        run: node --test scripts/series-search.test.mjs
+      - name: Force professional-mission from repo content
+        working-directory: react-app
+        run: python3 scripts/force_professional_mission.py
+      - name: Verify professional-mission cache binding
+        working-directory: react-app
+        run: python3 scripts/test_force_professional_mission.py
+      - name: Copy committed API cache into static output
+        working-directory: react-app
+        run: |
+          mkdir -p public/api
+          for f in cache/api/*.json; do
+            [ -f "$f" ] && cp "$f" public/api/
+          done
+      - name: Build and verify rendered routes
+        working-directory: react-app
+        run: npm run build:ci
+
+      - name: Verify navigation, editorial shell, and dependency notices
+        working-directory: react-app
+        run: node --test scripts/navigation-editorial.test.mjs scripts/third-party-notices.test.mjs
+
+      - name: Verify homepage feed and draft exclusions
+        working-directory: react-app
+        run: node --test scripts/homepage-feed.test.mjs
+
+      - name: Verify shared code snippet rendering and copy behavior
+        working-directory: react-app
+        run: node --test scripts/codeblock.test.mjs
+
+      - name: Verify mobile table labels and post underlines
+        working-directory: react-app
+        run: node --test scripts/mobile-formatting.test.mjs
+
+      - name: Verify publication presentation and exclusions
+        working-directory: react-app
+        run: node --test scripts/publication-candidate.test.mjs

@@ -167,7 +167,7 @@ export default function SocialMedia() {
         <meta name="twitter:image:height" content={String(ogImageHeight)} />
       </Helmet>
       <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:py-20 md:px-8">
-        <div className="max-w-[600px] w-full">
+        <div className="max-w-[var(--content-max)] w-full">
           <h1 className="text-[28px] font-medium mb-2 tracking-tight">{t.linksTitle}</h1>
           <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-12 font-normal tracking-wide">
             {t.linksSubtitle}

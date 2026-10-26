@@ -15,10 +15,21 @@ export type Dict = {
   pageRawMarkdown: string
   navRss: string
   navLanguage: string
+  sidebarExpandLabel: string
+  sidebarToggleLabel: string
+  sidebarOpenLabel: string
+  sidebarCloseLabel: string
+  languageMenuAriaLabel: string
   drafts: string
   latestPost: string
   /** Home / post-page featured alert when item is a series index */
   latestSeries: string
+  /** Home: heading above the first page of the posts feed */
+  homeLatestPosts: string
+  /** Home: continuation to page 2 when one exists */
+  homeMorePosts: string
+  /** Home: link to the posts index when there is only one page */
+  homeViewAllPosts: string
   readMore: string
   nextPost: string
   previousPost: string
@@ -79,6 +90,8 @@ export type Dict = {
   /** Post body: fenced ```copy blocks */
   postCopyCode: string
   postCodeCopied: string
+  postCodeCopyFailed: string
+  postAgentPrompt: string
   imageViewer: string
   close: string
   previousImage: string
@@ -108,12 +121,20 @@ const enDict: Dict = {
     navWisdom: 'Wisdom',
     navMeet: 'Meet',
     navLinks: 'Links',
-    pageRawMarkdown: 'View markdown',
+    pageRawMarkdown: 'View Markdown',
     navRss: 'RSS feed',
     navLanguage: 'Language',
+    sidebarExpandLabel: 'Expand sidebar',
+    sidebarToggleLabel: 'Toggle sidebar',
+    sidebarOpenLabel: 'Open menu',
+    sidebarCloseLabel: 'Close sidebar',
+    languageMenuAriaLabel: 'Toggle language menu',
     drafts: 'Drafts',
     latestPost: 'Latest post',
     latestSeries: 'Latest series',
+    homeLatestPosts: 'Latest posts',
+    homeMorePosts: 'More posts',
+    homeViewAllPosts: 'View all posts',
     readMore: 'Read more',
     nextPost: 'Next post',
     previousPost: 'Previous post',
@@ -151,7 +172,7 @@ const enDict: Dict = {
     newsletter: 'Newsletter',
     testError: 'Test Error',
     defaultHomeDescription:
-      'Building Neotoma, a deterministic state layer for long-running agents. Every observation versioned, every entity snapshot reproducible, every decision replayable. Local-first, cross-platform via MCP.',
+      'Building Neotoma, the system of record for AI agents, and Ateles, the operating system for agentic organizations. A record, not recall.',
     showMore: 'Show more',
     showLess: 'Show less',
     noMatchPrefix: 'No posts match',
@@ -169,6 +190,8 @@ const enDict: Dict = {
     copied: 'OK',
     postCopyCode: 'Copy',
     postCodeCopied: 'Copied',
+    postCodeCopyFailed: 'Copy failed. Try again.',
+    postAgentPrompt: 'Agent prompt',
     imageViewer: 'Image viewer',
     close: 'Close',
     previousImage: 'Previous image',
@@ -198,12 +221,20 @@ const esDict: Dict = {
     navWisdom: 'Sabiduría',
     navMeet: 'Reunión',
     navLinks: 'Enlaces',
-    pageRawMarkdown: 'Ver markdown',
+    pageRawMarkdown: 'Ver Markdown',
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
+    sidebarExpandLabel: 'Expandir la barra lateral',
+    sidebarToggleLabel: 'Alternar barra lateral',
+    sidebarOpenLabel: 'Abrir menú',
+    sidebarCloseLabel: 'Cerrar barra lateral',
+    languageMenuAriaLabel: 'Alternar menú de idiomas',
     drafts: 'Borradores',
     latestPost: 'Última publicación',
     latestSeries: 'Última serie',
+    homeLatestPosts: 'Últimas publicaciones',
+    homeMorePosts: 'Más publicaciones',
+    homeViewAllPosts: 'Ver todas las publicaciones',
     readMore: 'Seguir leyendo',
     nextPost: 'Siguiente publicación',
     previousPost: 'Publicación anterior',
@@ -241,7 +272,7 @@ const esDict: Dict = {
     newsletter: 'Newsletter',
     testError: 'Error de prueba',
     defaultHomeDescription:
-      'Construyendo Neotoma, una capa de estado determinista para agentes de larga ejecución. Cada observación versionada, cada snapshot de entidad reproducible, cada decisión reproducible. Local-first, multiplataforma vía MCP.',
+      'Construyendo Neotoma, el sistema de registro para agentes de IA, y Ateles, el sistema operativo para organizaciones agénticas. Un registro, no el recuerdo.',
     showMore: 'Ver más',
     showLess: 'Ver menos',
     noMatchPrefix: 'No hay publicaciones que coincidan con',
@@ -259,6 +290,8 @@ const esDict: Dict = {
     copied: 'OK',
     postCopyCode: 'Copiar',
     postCodeCopied: 'Copiado',
+    postCodeCopyFailed: 'No se pudo copiar. Inténtalo de nuevo.',
+    postAgentPrompt: 'Instrucción para el agente',
     imageViewer: 'Visor de imágenes',
     close: 'Cerrar',
     previousImage: 'Imagen anterior',
@@ -288,12 +321,20 @@ const caDict: Dict = {
     navWisdom: 'Saviesa',
     navMeet: 'Trobada',
     navLinks: 'Enllaços',
-    pageRawMarkdown: 'Veure markdown',
+    pageRawMarkdown: 'Veure Markdown',
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
+    sidebarExpandLabel: 'Amplia la barra lateral',
+    sidebarToggleLabel: 'Alterna la barra lateral',
+    sidebarOpenLabel: 'Obre el menú',
+    sidebarCloseLabel: 'Tanca la barra lateral',
+    languageMenuAriaLabel: "Alterna el menú d'idiomes",
     drafts: 'Esborranys',
     latestPost: 'Última publicació',
     latestSeries: 'Última sèrie',
+    homeLatestPosts: 'Últimes publicacions',
+    homeMorePosts: 'Més publicacions',
+    homeViewAllPosts: 'Veure totes les publicacions',
     readMore: 'Llegir més',
     nextPost: 'Publicació següent',
     previousPost: 'Publicació anterior',
@@ -331,7 +372,7 @@ const caDict: Dict = {
     newsletter: 'Butlletí',
     testError: 'Error de prova',
     defaultHomeDescription:
-      "Construint Neotoma, una capa d'estat determinista per a agents de llarga execució. Cada observació versionada, cada snapshot d'entitat reproduïble, cada decisió reproduïble. Local-first, multiplataforma via MCP.",
+      "Construint Neotoma, el sistema de registre per a agents d'IA, i Ateles, el sistema operatiu per a organitzacions agèntiques. Un registre, no el record.",
     showMore: 'Mostra més',
     showLess: 'Mostra menys',
     noMatchPrefix: 'No hi ha publicacions que coincideixin amb',
@@ -349,6 +390,8 @@ const caDict: Dict = {
     copied: 'OK',
     postCopyCode: 'Copia',
     postCodeCopied: 'Copiat',
+    postCodeCopyFailed: "No s'ha pogut copiar. Torna-ho a provar.",
+    postAgentPrompt: "Instrucció per a l'agent",
     imageViewer: "Visor d'imatges",
     close: 'Tanca',
     previousImage: 'Imatge anterior',
@@ -372,9 +415,63 @@ function withEnglishFallback(overrides: Partial<Dict>): Dict {
   return { ...enDict, ...overrides }
 }
 
-function generatedLocaleDict(locale: string): Dict {
+// Markdown names a file format here. Keep these reviewed action labels outside
+// machine-generated UI copy so a price-discount translation cannot replace it.
+const rawMarkdownLabels: Record<Exclude<SupportedLocale, 'en' | 'es' | 'ca'>, string> = {
+  zh: '查看 Markdown',
+  hi: 'Markdown देखें',
+  ar: 'عرض Markdown',
+  fr: 'Voir le Markdown',
+  pt: 'Ver Markdown',
+  ru: 'Просмотреть Markdown',
+  bn: 'Markdown দেখুন',
+  ur: 'Markdown دیکھیں',
+  id: 'Lihat Markdown',
+  de: 'Markdown anzeigen',
+}
+
+const homeFeedLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'homeLatestPosts' | 'homeMorePosts' | 'homeViewAllPosts'>> = {
+  zh: { homeLatestPosts: '最新文章', homeMorePosts: '更多文章', homeViewAllPosts: '查看所有文章' },
+  hi: { homeLatestPosts: 'नवीनतम लेख', homeMorePosts: 'और लेख', homeViewAllPosts: 'सभी लेख देखें' },
+  ar: { homeLatestPosts: 'أحدث المقالات', homeMorePosts: 'المزيد من المقالات', homeViewAllPosts: 'عرض جميع المقالات' },
+  fr: { homeLatestPosts: 'Articles récents', homeMorePosts: 'Plus d’articles', homeViewAllPosts: 'Voir tous les articles' },
+  pt: { homeLatestPosts: 'Publicações recentes', homeMorePosts: 'Mais publicações', homeViewAllPosts: 'Ver todas as publicações' },
+  ru: { homeLatestPosts: 'Новые статьи', homeMorePosts: 'Ещё статьи', homeViewAllPosts: 'Все статьи' },
+  bn: { homeLatestPosts: 'সাম্প্রতিক লেখা', homeMorePosts: 'আরও লেখা', homeViewAllPosts: 'সব লেখা দেখুন' },
+  ur: { homeLatestPosts: 'تازہ مضامین', homeMorePosts: 'مزید مضامین', homeViewAllPosts: 'تمام مضامین دیکھیں' },
+  id: { homeLatestPosts: 'Tulisan terbaru', homeMorePosts: 'Tulisan lainnya', homeViewAllPosts: 'Lihat semua tulisan' },
+  de: { homeLatestPosts: 'Neueste Beiträge', homeMorePosts: 'Weitere Beiträge', homeViewAllPosts: 'Alle Beiträge ansehen' },
+}
+
+const sidebarControlLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'sidebarToggleLabel' | 'sidebarOpenLabel' | 'sidebarCloseLabel' | 'languageMenuAriaLabel'>> = {
+  zh: { sidebarToggleLabel: '切换侧边栏', sidebarOpenLabel: '打开菜单', sidebarCloseLabel: '关闭侧边栏', languageMenuAriaLabel: '切换语言菜单' },
+  hi: { sidebarToggleLabel: 'साइडबार टॉगल करें', sidebarOpenLabel: 'मेन्यू खोलें', sidebarCloseLabel: 'साइडबार बंद करें', languageMenuAriaLabel: 'भाषा मेन्यू टॉगल करें' },
+  ar: { sidebarToggleLabel: 'تبديل الشريط الجانبي', sidebarOpenLabel: 'فتح القائمة', sidebarCloseLabel: 'إغلاق الشريط الجانبي', languageMenuAriaLabel: 'تبديل قائمة اللغات' },
+  fr: { sidebarToggleLabel: 'Afficher ou masquer la barre latérale', sidebarOpenLabel: 'Ouvrir le menu', sidebarCloseLabel: 'Fermer la barre latérale', languageMenuAriaLabel: 'Ouvrir ou fermer le menu des langues' },
+  pt: { sidebarToggleLabel: 'Alternar barra lateral', sidebarOpenLabel: 'Abrir menu', sidebarCloseLabel: 'Fechar barra lateral', languageMenuAriaLabel: 'Alternar menu de idiomas' },
+  ru: { sidebarToggleLabel: 'Переключить боковую панель', sidebarOpenLabel: 'Открыть меню', sidebarCloseLabel: 'Закрыть боковую панель', languageMenuAriaLabel: 'Переключить меню языков' },
+  bn: { sidebarToggleLabel: 'সাইডবার টগল করুন', sidebarOpenLabel: 'মেনু খুলুন', sidebarCloseLabel: 'সাইডবার বন্ধ করুন', languageMenuAriaLabel: 'ভাষার মেনু টগল করুন' },
+  ur: { sidebarToggleLabel: 'سائیڈ بار ٹوگل کریں', sidebarOpenLabel: 'مینو کھولیں', sidebarCloseLabel: 'سائیڈ بار بند کریں', languageMenuAriaLabel: 'زبان کا مینو ٹوگل کریں' },
+  id: { sidebarToggleLabel: 'Alihkan bilah sisi', sidebarOpenLabel: 'Buka menu', sidebarCloseLabel: 'Tutup bilah sisi', languageMenuAriaLabel: 'Alihkan menu bahasa' },
+  de: { sidebarToggleLabel: 'Seitenleiste umschalten', sidebarOpenLabel: 'Menü öffnen', sidebarCloseLabel: 'Seitenleiste schließen', languageMenuAriaLabel: 'Sprachmenü umschalten' },
+}
+
+const codeCopyLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'postCopyCode' | 'postCodeCopied' | 'postCodeCopyFailed' | 'postAgentPrompt'>> = {
+  zh: { postCopyCode: '复制', postCodeCopied: '已复制', postCodeCopyFailed: '复制失败，请重试。', postAgentPrompt: '智能体提示词' },
+  hi: { postCopyCode: 'कॉपी करें', postCodeCopied: 'कॉपी किया गया', postCodeCopyFailed: 'कॉपी नहीं हो सका। फिर कोशिश करें।', postAgentPrompt: 'एजेंट प्रॉम्प्ट' },
+  ar: { postCopyCode: 'نسخ', postCodeCopied: 'تم النسخ', postCodeCopyFailed: 'تعذّر النسخ. حاول مرة أخرى.', postAgentPrompt: 'تعليمة الوكيل' },
+  fr: { postCopyCode: 'Copier', postCodeCopied: 'Copié', postCodeCopyFailed: 'La copie a échoué. Réessayez.', postAgentPrompt: 'Instruction de l’agent' },
+  pt: { postCopyCode: 'Copiar', postCodeCopied: 'Copiado', postCodeCopyFailed: 'Não foi possível copiar. Tente novamente.', postAgentPrompt: 'Instrução para o agente' },
+  ru: { postCopyCode: 'Копировать', postCodeCopied: 'Скопировано', postCodeCopyFailed: 'Не удалось скопировать. Попробуйте ещё раз.', postAgentPrompt: 'Промпт агента' },
+  bn: { postCopyCode: 'কপি করুন', postCodeCopied: 'কপি হয়েছে', postCodeCopyFailed: 'কপি করা যায়নি। আবার চেষ্টা করুন।', postAgentPrompt: 'এজেন্ট নির্দেশনা' },
+  ur: { postCopyCode: 'کاپی کریں', postCodeCopied: 'کاپی ہو گیا', postCodeCopyFailed: 'کاپی نہیں ہو سکی۔ دوبارہ کوشش کریں۔', postAgentPrompt: 'ایجنٹ کی ہدایت' },
+  id: { postCopyCode: 'Salin', postCodeCopied: 'Tersalin', postCodeCopyFailed: 'Gagal menyalin. Coba lagi.', postAgentPrompt: 'Instruksi agen' },
+  de: { postCopyCode: 'Kopieren', postCodeCopied: 'Kopiert', postCodeCopyFailed: 'Kopieren fehlgeschlagen. Bitte erneut versuchen.', postAgentPrompt: 'Agenten-Prompt' },
+}
+
+function generatedLocaleDict(locale: keyof typeof rawMarkdownLabels): Dict {
   const generated = (generatedDictionaries as Record<string, Partial<Dict> | undefined>)[locale]
-  return generated ? withEnglishFallback(generated) : enDict
+  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale], ...sidebarControlLabels[locale], ...codeCopyLabels[locale] }) : enDict
 }
 
 const dictionaries: Record<SupportedLocale, Dict> = {

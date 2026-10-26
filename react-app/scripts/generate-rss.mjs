@@ -42,13 +42,14 @@ function buildRssXml(posts) {
   const published = posts
     .filter((p) => p.published !== false && p.slug)
     .sort((a, b) => {
-      const da = a.publishedDate || a.updatedDate || ''
-      const db = b.publishedDate || b.updatedDate || ''
+      const da = a.publishedDate || ''
+      const db = b.publishedDate || ''
       return db.localeCompare(da)
     })
 
-  const latestDate = published[0]
-    ? toRfc822Date(published[0].updatedDate || published[0].publishedDate)
+  const latestDatedPost = published.find((post) => post.publishedDate)
+  const latestDate = latestDatedPost
+    ? toRfc822Date(latestDatedPost.publishedDate)
     : toRfc822Date(new Date().toISOString())
 
   const items = published
@@ -56,13 +57,12 @@ function buildRssXml(posts) {
       const link = `${SITE_BASE}/posts/${p.slug}`
       const title = escapeXml(p.title || '')
       const description = escapeXml(p.excerpt || '')
-      const pubDate = toRfc822Date(p.publishedDate || p.updatedDate)
+      const pubDate = p.publishedDate ? `\n    <pubDate>${toRfc822Date(p.publishedDate)}</pubDate>` : ''
       const guid = link
       return `  <item>
     <title>${title}</title>
     <link>${escapeXml(link)}</link>
-    <description>${description}</description>
-    <pubDate>${pubDate}</pubDate>
+    <description>${description}</description>${pubDate}
     <guid isPermaLink="true">${escapeXml(guid)}</guid>
   </item>`
     })
