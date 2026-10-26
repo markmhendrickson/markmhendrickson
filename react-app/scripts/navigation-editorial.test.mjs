@@ -53,9 +53,22 @@ test('the hydrated collapsed desktop expand control has an accessible name in ev
 test('the two product footer cards render as distinct public destinations', () => {
   const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
   assert(html.includes('The system of record for AI agents.'))
-  assert(html.includes('The operating system for agentic organizations.'))
+  assert(html.includes('Building the operating system for agentic organizations.'))
+  assert(html.includes('An open-source project in development for organizing agents, tasks, and plans across supported tools.'))
   assert(html.includes('utm_campaign=products_site_footer'))
   assert(html.includes('github.com/markmhendrickson/ateles'))
+  for (const [locale, title, description] of [
+    ['es', 'Construyendo el sistema operativo para organizaciones de agentes.', 'Un proyecto de código abierto en desarrollo para organizar agentes, tareas y planes con las herramientas compatibles.'],
+    ['ca', "Construint el sistema operatiu per a organitzacions d'agents.", 'Un projecte de codi obert en desenvolupament per organitzar agents, tasques i plans amb les eines compatibles.'],
+  ]) {
+    const localized = fs.readFileSync(path.join(dist, locale, 'index.html'), 'utf8')
+    assert(localized.includes(title.replaceAll("'", '&#x27;')), `${locale}: Ateles development status is visible`)
+    assert(localized.includes(description), `${locale}: Ateles supported-tools scope is visible`)
+  }
+  for (const locale of ['zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']) {
+    const localized = fs.readFileSync(path.join(dist, locale, 'index.html'), 'utf8')
+    assert(localized.includes('An open-source project in development for organizing agents, tasks, and plans across supported tools.'), `${locale}: qualified English fallback is visible`)
+  }
 })
 
 test('an editorial post promotes the opening hero once, expands takeover art, and calls out one bold message', () => {
@@ -81,12 +94,33 @@ test('an editorial post promotes the opening hero once, expands takeover art, an
 })
 
 test('the localized raw Markdown header action is present for a public post and absent for its unlisted preview', () => {
-  const publicHtml = visibleHtml(fs.readFileSync(path.join(dist, 'es/posts/the-human-inversion-the-attention-ceiling/index.html'), 'utf8'))
+  const labels = {
+    en: 'View Markdown',
+    es: 'Ver Markdown',
+    ca: 'Veure Markdown',
+    zh: '查看 Markdown',
+    hi: 'Markdown देखें',
+    ar: 'عرض Markdown',
+    fr: 'Voir le Markdown',
+    pt: 'Ver Markdown',
+    ru: 'Просмотреть Markdown',
+    bn: 'Markdown দেখুন',
+    ur: 'Markdown دیکھیں',
+    id: 'Lihat Markdown',
+    de: 'Markdown anzeigen',
+  }
+  const slug = 'the-human-inversion-the-attention-ceiling'
+  for (const [locale, label] of Object.entries(labels)) {
+    const localePath = locale === 'en' ? '' : `${locale}/`
+    const publicHtml = visibleHtml(fs.readFileSync(path.join(dist, localePath, `posts/${slug}/index.html`), 'utf8'))
+    const href = `/${localePath}posts/${slug}.md`
+    const actions = [...publicHtml.matchAll(/<a\b[^>]*>/g)].map(([tag]) => tag)
+    assert(actions.some((tag) => tag.includes(`href="${href}"`) && tag.includes(`aria-label="${label}"`)), `${locale}: public post names its Markdown action`)
+  }
   const unlistedHtml = visibleHtml(render('/posts/unlisted-editorial-fixture/', {}, {
     unlistedPost: { slug: 'unlisted-editorial-fixture', title: 'Unlisted fixture', published: true, unlisted: true, body: 'Preview body.' },
   }))
 
-  assert(/<a\b(?=[^>]*href="\/es\/posts\/the-human-inversion-the-attention-ceiling\.md")(?=[^>]*aria-label="Ver markdown")[^>]*>/.test(publicHtml), 'Spanish public post has a localized header action')
   assert(!/<a\b(?=[^>]*href="\/posts\/unlisted-editorial-fixture\.md")[^>]*>/.test(unlistedHtml), 'unlisted review omits the header action')
   assert(unlistedHtml.includes('Preview body.'), 'unlisted preview still renders its article')
 })

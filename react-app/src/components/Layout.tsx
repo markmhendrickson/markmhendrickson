@@ -296,9 +296,9 @@ const productsFooterCopy = {
     },
     ateles: {
       name: 'Ateles',
-      title: 'The operating system for agentic organizations.',
+      title: 'Building the operating system for agentic organizations.',
       description:
-        'Your agent organization, on any model, owned by you. Agents act within the authority you granted; the rest waits for you.',
+        'An open-source project in development for organizing agents, tasks, and plans across supported tools.',
       action: 'Read the design',
     },
   },
@@ -313,9 +313,9 @@ const productsFooterCopy = {
     },
     ateles: {
       name: 'Ateles',
-      title: 'El sistema operativo para organizaciones agénticas.',
+      title: 'Construyendo el sistema operativo para organizaciones de agentes.',
       description:
-        'Tu organización de agentes, sobre cualquier modelo y en tu propiedad. Los agentes actúan dentro de la autoridad que les diste; lo demás espera por ti.',
+        'Un proyecto de código abierto en desarrollo para organizar agentes, tareas y planes con las herramientas compatibles.',
       action: 'Lee el diseño',
     },
   },
@@ -330,9 +330,9 @@ const productsFooterCopy = {
     },
     ateles: {
       name: 'Ateles',
-      title: 'El sistema operatiu per a organitzacions agèntiques.',
+      title: "Construint el sistema operatiu per a organitzacions d'agents.",
       description:
-        "La teva organització d'agents, sobre qualsevol model i en propietat teva. Els agents actuen dins de l'autoritat que els vas donar; la resta espera per tu.",
+        'Un projecte de codi obert en desenvolupament per organitzar agents, tasques i plans amb les eines compatibles.',
       action: 'Llegeix el disseny',
     },
   },
