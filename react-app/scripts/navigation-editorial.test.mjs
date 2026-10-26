@@ -53,6 +53,7 @@ test('an editorial post promotes the opening hero once, expands takeover art, an
   assert(html.includes('Opening paragraph remains in the article.'), 'opening prose remains in the article')
   assert(/class="post-takeover not-prose[^\"]*"[^>]*><img src="\/images\/editorial-full\.png"/.test(html), 'takeover image gets the full-bleed treatment')
   assert(/<aside class="post-message not-prose" role="note">[\s\S]*?<strong>The key message stands alone\.<\/strong>[\s\S]*?<\/aside>/.test(html), 'one bold blockquote becomes the key-message aside')
+  assert(!/<a\b(?=[^>]*href="\/posts\/editorial-fixture\.md")[^>]*>/.test(html), 'an injected review fixture has no public Markdown action')
 })
 
 test('the localized raw Markdown header action is present for a public post and absent for its unlisted preview', () => {
