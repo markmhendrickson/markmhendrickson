@@ -132,7 +132,9 @@
     text-decoration-color: hsl(var(--foreground) / 0.45);
     text-decoration-skip-ink: auto;
   }
-  .post-prose a.no-underline {
+  .post-prose a.no-underline,
+  .post-prose-summary a.no-underline,
+  .postscript-prose a.no-underline {
     text-decoration: none;
   }
   .post-prose a:hover,

@@ -37,23 +37,31 @@ test('built phone styles stack labeled rows while post links use text underlines
   assert(!postLinks.nodes.some((node) => node.prop?.startsWith('border-bottom')), 'post links have no hooked bottom border')
 })
 
-test('built guest-floor email action and section anchors keep their intentional plain-link style', () => {
+test('built prose scopes underline ordinary links and keep actions and heading anchors plain', () => {
   const html = fs.readFileSync(path.join(dist, 'posts/barcelona-guest-floor/index.html'), 'utf8')
   const anchors = [...html.matchAll(/<a\b[^>]*>/g)].map(([tag]) => tag)
   assert(anchors.some((tag) => tag.includes('href="mailto:') && tag.includes('no-underline')), 'email action retains its plain-link class')
   assert(anchors.some((tag) => tag.includes('post-heading-anchor') && tag.includes('no-underline')), 'section anchors retain their plain-link class')
+  const postscriptHtml = fs.readFileSync(path.join(dist, 'posts/agent-memory-breaks-before-retrieval/index.html'), 'utf8')
+  const postscript = postscriptHtml.slice(postscriptHtml.indexOf('class="postscript-prose'), postscriptHtml.indexOf('</section>', postscriptHtml.indexOf('class="postscript-prose')))
+  const postscriptAnchors = [...postscript.matchAll(/<a\b[^>]*>/g)].map(([tag]) => tag)
+  assert(postscriptAnchors.some((tag) => tag.includes('post-heading-anchor') && tag.includes('no-underline')), 'the published postscript has a plain heading anchor')
+  assert(postscriptAnchors.some((tag) => !tag.includes('no-underline')), 'the published postscript has an ordinary link')
 
   const cssFile = fs.readdirSync(path.join(dist, 'assets')).find((name) => name.endsWith('.css'))
   assert(cssFile, 'production stylesheet exists')
   const css = postcss.parse(fs.readFileSync(path.join(dist, 'assets', cssFile), 'utf8'))
-  let ordinaryUnderline = false
-  let plainLinkOverride = false
+  const scopes = ['.post-prose', '.post-prose-summary', '.postscript-prose']
+  const ordinaryUnderline = new Set()
+  const plainLinkOverride = new Set()
   css.walkRules((rule) => {
     const declaration = rule.nodes.find((node) => node.prop === 'text-decoration')?.value
-    if (rule.selector.split(',').includes('.post-prose a') && declaration === 'underline') ordinaryUnderline = true
-    // The extra class makes this selector outrank the ordinary prose-link rule.
-    if (rule.selector.split(',').includes('.post-prose a.no-underline') && declaration === 'none') plainLinkOverride = true
+    for (const scope of scopes) {
+      if (rule.selector.split(',').includes(`${scope} a`) && declaration === 'underline') ordinaryUnderline.add(scope)
+      // The extra class makes this selector outrank the ordinary prose-link rule.
+      if (rule.selector.split(',').includes(`${scope} a.no-underline`) && declaration === 'none') plainLinkOverride.add(scope)
+    }
   })
-  assert(ordinaryUnderline, 'ordinary prose links retain their underline')
-  assert(plainLinkOverride, 'email actions and section anchors override the prose underline in the built CSS')
+  assert.deepEqual([...ordinaryUnderline], scopes, 'ordinary links in all prose scopes retain their underline')
+  assert.deepEqual([...plainLinkOverride], scopes, 'plain actions and anchors override the underline in every prose scope')
 })

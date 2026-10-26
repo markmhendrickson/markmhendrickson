@@ -91,6 +91,7 @@ export function CodeBlock({
   const text = normalizeCodeText(code)
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle')
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const copyQueue = useRef<Promise<void>>(Promise.resolve())
   const heading = label ?? (language ? language : '')
 
   useEffect(
@@ -100,17 +101,28 @@ export function CodeBlock({
     [],
   )
 
-  const handleCopy = useCallback(async () => {
-    const ok = await copyTextToClipboard(text)
-    if (!ok) {
+  const handleCopy = useCallback(() => {
+    const attempt = async () => {
+      let ok = false
+      try {
+        ok = await copyTextToClipboard(text)
+      } catch {
+        // A browser clipboard failure must not prevent a queued retry.
+      }
       if (resetTimer.current) clearTimeout(resetTimer.current)
-      setCopyState('failed')
-      return
+      if (!ok) {
+        setCopyState('failed')
+        return
+      }
+      setCopyState('copied')
+      resetTimer.current = setTimeout(() => setCopyState('idle'), COPIED_RESET_MS)
+      try {
+        onCopy?.()
+      } catch {
+        // Analytics cannot change the result of a completed clipboard write.
+      }
     }
-    onCopy?.()
-    setCopyState('copied')
-    if (resetTimer.current) clearTimeout(resetTimer.current)
-    resetTimer.current = setTimeout(() => setCopyState('idle'), COPIED_RESET_MS)
+    copyQueue.current = copyQueue.current.then(attempt, attempt)
   }, [text, onCopy])
 
   const copied = copyState === 'copied'
