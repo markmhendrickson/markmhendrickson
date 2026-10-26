@@ -36,6 +36,20 @@ const DEFAULT_OG_IMAGE = `${SITE_BASE}/images/og-default-1200x630.jpg`
 const LINK_CLASS =
   'text-foreground underline underline-offset-2 decoration-muted-foreground/70 hover:decoration-foreground'
 
+export function WisdomEmptyState() {
+  const { t } = useLocale()
+  return (
+    <div className="text-center py-12">
+      <p className="text-[15px] text-foreground leading-relaxed">
+        The wisdom collection is being compiled. Run the PithBot to generate it.
+      </p>
+      <div className="mx-auto mt-6 max-w-xl text-left">
+        <CodeBlock code="python execution/scripts/generate_pithbot.py" language="bash" copyLabel={t.postCopyCode} copiedLabel={t.postCodeCopied} failureLabel={t.postCodeCopyFailed} />
+      </div>
+    </div>
+  )
+}
+
 export default function Wisdom() {
   const { locale } = useLocale()
   const [viewMode, setViewMode] = useState<ViewMode>('stream')
@@ -119,14 +133,7 @@ export default function Wisdom() {
           </header>
 
           {isEmpty ? (
-            <div className="text-center py-12">
-              <p className="text-[15px] text-foreground leading-relaxed">
-                The wisdom collection is being compiled. Run the PithBot to generate it.
-              </p>
-              <div className="mx-auto mt-6 max-w-xl text-left">
-                <CodeBlock code="python execution/scripts/generate_pithbot.py" language="bash" />
-              </div>
-            </div>
+            <WisdomEmptyState />
           ) : (
             <>
               <div className="flex items-center gap-4 mb-8 flex-wrap">
