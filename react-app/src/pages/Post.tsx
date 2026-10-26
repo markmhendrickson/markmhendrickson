@@ -1554,10 +1554,10 @@ export default function Post({ slug: slugProp }: PostProps) {
   // "View markdown" lives in the app header (top right) rather than beside the title.
   useHeaderActions(
     () =>
-      post?.slug ? (
+      post?.slug && !post.unlisted ? (
         <MarkdownLinkAction href={localizePath(`/posts/${post.slug}.md`, locale)} label={t.pageRawMarkdown} />
       ) : null,
-    [post?.slug, locale, t.pageRawMarkdown],
+    [post?.slug, post?.unlisted, locale, t.pageRawMarkdown],
   )
 
   const formatDate = (dateString: string | undefined): string =>
