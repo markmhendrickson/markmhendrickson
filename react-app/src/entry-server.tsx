@@ -139,7 +139,7 @@ export function render(url: string, helmetContext?: HelmetContext, options?: Ren
   return renderToString(
     <HelmetProvider context={context}>
       <PostSSRProvider postMeta={ssrPost}>
-        <PostsListSSRProvider posts={postsForList}>
+        <PostsListSSRProvider posts={postsForList} sourcePath={new URL(url, 'https://markmhendrickson.com').pathname}>
           <AgentSSRProvider content={agentContent}>
             <SongsSSRProvider songs={songs}>
               <App url={url} />
