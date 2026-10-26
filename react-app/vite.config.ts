@@ -333,6 +333,7 @@ export default defineConfig(({ mode, command }) => {
         // Resolve shared package deps from app node_modules (shared has no node_modules)
         'lucide-react': path.resolve(__dirname, 'node_modules/lucide-react'),
         '@radix-ui/react-slot': path.resolve(__dirname, 'node_modules/@radix-ui/react-slot'),
+        '@radix-ui/react-tooltip': path.resolve(__dirname, 'node_modules/@radix-ui/react-tooltip'),
         'clsx': path.resolve(__dirname, 'node_modules/clsx'),
         'tailwind-merge': path.resolve(__dirname, 'node_modules/tailwind-merge'),
         'class-variance-authority': path.resolve(__dirname, 'node_modules/class-variance-authority'),
@@ -365,6 +366,7 @@ export default defineConfig(({ mode, command }) => {
       // Include shared components in dependency optimization
       include: [
         '@radix-ui/react-slot',
+        '@radix-ui/react-tooltip',
         'lucide-react',
         'clsx',
         'tailwind-merge',
