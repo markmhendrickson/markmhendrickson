@@ -61,3 +61,7 @@ jobs:
       - name: Verify shared code snippet rendering and copy behavior
         working-directory: react-app
         run: node --test scripts/codeblock.test.mjs
+
+      - name: Verify mobile table labels and post underlines
+        working-directory: react-app
+        run: node --test scripts/mobile-formatting.test.mjs
