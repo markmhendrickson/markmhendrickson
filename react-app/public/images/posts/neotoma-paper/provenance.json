@@ -1,6 +1,6 @@
 {
   "sourceRepository": "https://github.com/markmhendrickson/neotoma",
-  "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+  "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
   "sourceFiles": [
     "frontend/src/components/onepager/PaperScene.tsx",
     "frontend/src/components/onepager/october_renders.ts",
@@ -17,7 +17,7 @@
     "frontend/src/components/onepager/PaperScene.tsx": "7e4c08a5cd9cbbc7a30162881ab67081231f6ea6caa364492b81f5d95bb5cc24",
     "frontend/src/components/onepager/october_renders.ts": "f3bca04b282dc0fe43c49b3601d39114e1057a2030b9661b85c2934edce41615",
     "frontend/src/components/onepager/paper_scene.css": "331388d4536e289481d3a74104de5ad94d599e8cc77b95b42e586dffe1f0a1c0",
-    "frontend/src/components/onepager/PaperSceneDrawing.tsx": "635336e0158af1e561694b27001833b9f7a89597a17d01be7f585f027807851a",
+    "frontend/src/components/onepager/PaperSceneDrawing.tsx": "ab7db5e1e03804aa56065fd638fef856bdd051e41b7c64819ebd13ac7e5ea2a8",
     "frontend/src/site/topic_drawings.ts": "a799ab83d0824cb2f19dfb99d598b79e0cf6645bee99aa69472a6be8fe33d996",
     "frontend/public/brand/october/paper-fiber.webp": "9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8",
     "frontend/src/site/spa_path.ts": "223afa8b712f05dca859f02ff02e8851a47541c9156475195f23652307cd2ef3",
@@ -96,6 +96,32 @@
         "frontend/src/components/onepager/october_renders.ts": "f3bca04b282dc0fe43c49b3601d39114e1057a2030b9661b85c2934edce41615",
         "frontend/src/components/onepager/paper_scene.css": "331388d4536e289481d3a74104de5ad94d599e8cc77b95b42e586dffe1f0a1c0",
         "frontend/src/components/onepager/PaperSceneDrawing.tsx": "635336e0158af1e561694b27001833b9f7a89597a17d01be7f585f027807851a",
+        "frontend/src/site/topic_drawings.ts": "a799ab83d0824cb2f19dfb99d598b79e0cf6645bee99aa69472a6be8fe33d996",
+        "frontend/public/brand/october/paper-fiber.webp": "9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8",
+        "frontend/src/site/spa_path.ts": "223afa8b712f05dca859f02ff02e8851a47541c9156475195f23652307cd2ef3",
+        "frontend/public/brand/october/hybrid/paper-ivory.webp": "d171c7337f5cdaa68978e54ec4b9b0302cd776ba51a054e91f27ba4c9e59ac7f",
+        "frontend/public/brand/october/hybrid/folder-sage.webp": "280af24f30bdd170f64fdf579b5a69717226d59d3338f2d1a6c1bb2ea7d77ebe",
+        "frontend/public/brand/october/hybrid/envelope-blue.webp": "23d773b7e7bfdb79abd06a5b0b1f308c93de1675a0fee0e14def6ecf829941d6"
+      }
+    },
+    "5d3c3caf1ca64124f03b35b5986be47413517e0b": {
+      "sourceFiles": [
+        "frontend/src/components/onepager/PaperScene.tsx",
+        "frontend/src/components/onepager/october_renders.ts",
+        "frontend/src/components/onepager/paper_scene.css",
+        "frontend/src/components/onepager/PaperSceneDrawing.tsx",
+        "frontend/src/site/topic_drawings.ts",
+        "frontend/public/brand/october/paper-fiber.webp",
+        "frontend/src/site/spa_path.ts",
+        "frontend/public/brand/october/hybrid/paper-ivory.webp",
+        "frontend/public/brand/october/hybrid/folder-sage.webp",
+        "frontend/public/brand/october/hybrid/envelope-blue.webp"
+      ],
+      "sourceHashes": {
+        "frontend/src/components/onepager/PaperScene.tsx": "7e4c08a5cd9cbbc7a30162881ab67081231f6ea6caa364492b81f5d95bb5cc24",
+        "frontend/src/components/onepager/october_renders.ts": "f3bca04b282dc0fe43c49b3601d39114e1057a2030b9661b85c2934edce41615",
+        "frontend/src/components/onepager/paper_scene.css": "331388d4536e289481d3a74104de5ad94d599e8cc77b95b42e586dffe1f0a1c0",
+        "frontend/src/components/onepager/PaperSceneDrawing.tsx": "ab7db5e1e03804aa56065fd638fef856bdd051e41b7c64819ebd13ac7e5ea2a8",
         "frontend/src/site/topic_drawings.ts": "a799ab83d0824cb2f19dfb99d598b79e0cf6645bee99aa69472a6be8fe33d996",
         "frontend/public/brand/october/paper-fiber.webp": "9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8",
         "frontend/src/site/spa_path.ts": "223afa8b712f05dca859f02ff02e8851a47541c9156475195f23652307cd2ef3",
@@ -236,24 +262,24 @@
       "sha256": "d98d15082b5651c05075e1ed0cee7272cd7ccfa6b36676380ec04a169858d73b"
     },
     "hero.svg": {
-      "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+      "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
       "scene": "hero",
-      "sha256": "d48ad97e5ced86c00cf7c00b30e2118147d2732cb94a3e575aa09a4c94c60262"
+      "sha256": "a55e3b5c8f039c454dd8fae19ba13e7a9fb9f9d190a5a3fdc4b75e9bb013e791"
     },
     "hero.png": {
-      "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+      "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
       "scene": "hero",
-      "sha256": "0f973ecb4d41996d36d50ec07fdb0c93a797bda2c69800c747289945b7742312"
+      "sha256": "1af8ba4002481ff49191cb3c2fe5ce05517287af6860e77f79b91a351725dfae"
     },
     "hero-square.png": {
-      "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+      "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
       "scene": "hero",
-      "sha256": "669969052b69d6b8a6a436bb1a0c991cec81a7801280b2c3dc624e28601f6279"
+      "sha256": "bb10ae88111239200e3002934e63826ee82878215e111af6a8bf3bbb0f571474"
     },
     "one-place-where-a-fact-is-settled-paper-1200x630.jpg": {
-      "sourceCommit": "53cc68546b5ac653b018cdc997f9cca3f7176700",
+      "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
       "scene": "hero",
-      "sha256": "0af8639d29100e8569e27da29b71e72aaf735f8d761026b849bb578ad2e5fdf1"
+      "sha256": "385a33acda0c0459f0cdaa124f7e5e8cca23f2daf7fc946702f9cfe5fb37394a"
     }
   },
   "derivedRasterMatte": {
@@ -415,9 +441,9 @@
     "vision-explanation.png": "bbe855b5ac998309d6739f09d27ae1bc4264a3ebc36cb3014bbba601fef51f3e",
     "invoice-example.svg": "4a11a8b9aafcea8a6850b83d2a675756f21a5844cbb9912ad73d2c19b53d1469",
     "invoice-example.png": "d98d15082b5651c05075e1ed0cee7272cd7ccfa6b36676380ec04a169858d73b",
-    "hero.svg": "d48ad97e5ced86c00cf7c00b30e2118147d2732cb94a3e575aa09a4c94c60262",
-    "hero.png": "0f973ecb4d41996d36d50ec07fdb0c93a797bda2c69800c747289945b7742312",
-    "hero-square.png": "669969052b69d6b8a6a436bb1a0c991cec81a7801280b2c3dc624e28601f6279",
-    "one-place-where-a-fact-is-settled-paper-1200x630.jpg": "0af8639d29100e8569e27da29b71e72aaf735f8d761026b849bb578ad2e5fdf1"
+    "hero.svg": "a55e3b5c8f039c454dd8fae19ba13e7a9fb9f9d190a5a3fdc4b75e9bb013e791",
+    "hero.png": "1af8ba4002481ff49191cb3c2fe5ce05517287af6860e77f79b91a351725dfae",
+    "hero-square.png": "bb10ae88111239200e3002934e63826ee82878215e111af6a8bf3bbb0f571474",
+    "one-place-where-a-fact-is-settled-paper-1200x630.jpg": "385a33acda0c0459f0cdaa124f7e5e8cca23f2daf7fc946702f9cfe5fb37394a"
   }
 }

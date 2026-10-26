@@ -1519,7 +1519,7 @@
     "heroImageSquare": "neotoma-paper/hero-square.png",
     "heroImageStyle": "paper-scene",
     "ogImage": "og/one-place-where-a-fact-is-settled-paper-1200x630.jpg",
-    "heroImageAlt": "Two agent clients access the same record; separate access routes and record links show how its fields connect to observations and sources",
+    "heroImageAlt": "Five paper records connected by solid navy lines",
     "heroImageLabel": "Connected records",
     "heroImageCaption": "Each current field traces to the observations and sources behind it."
   }

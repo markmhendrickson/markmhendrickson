@@ -71,6 +71,13 @@ const input = '<svg><image href="/brand/october/paper-fiber.webp"/></svg>'
 const renderedNames = ['hero', 'observation', 'invoice-example', 'vision-domain', 'vision-positions', 'vision-explanation']
 const names = [...renderedNames, 'tools'] // Unused tools artwork remains available, with its older provenance.
 const allScenes = names.map((name) => fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/${name}.svg`, import.meta.url), 'utf8')).join('')
+test('hero follows the current published record-only composition', () => {
+  assert.match(hero, /<title[^>]*>Five paper records connected by solid navy lines<\/title>/)
+  assert.equal((hero.match(/data-paper-object=/g) ?? []).length, 5)
+  assert.equal((hero.match(/data-agent-client=/g) ?? []).length, 0)
+  assert.equal((hero.match(/data-agent-access=/g) ?? []).length, 0)
+  assert.equal((hero.match(/data-paper-connection=/g) ?? []).length, 2)
+})
 const materials = new Map()
 for (const [, encoded] of allScenes.matchAll(/href="data:image\/webp;base64,([^"]+)"/g)) {
   const material = Buffer.from(encoded, 'base64')
@@ -138,7 +145,7 @@ test('reviewed hero and retained invoice and other scenes have truthful mixed-ou
   assert.equal(Object.keys(provenance.scenes).length, renderedNames.length)
   assert(!('tools' in provenance.scenes))
   assert.deepEqual(provenance.refreshedScenes, ['hero'])
-  assert.equal(provenance.sourceCommit, '53cc68546b5ac653b018cdc997f9cca3f7176700')
+  assert.equal(provenance.sourceCommit, '5d3c3caf1ca64124f03b35b5986be47413517e0b')
   assert(provenance.sourceFiles.includes('frontend/src/components/onepager/PaperSceneDrawing.tsx'))
   assert(provenance.sourceFiles.includes('frontend/src/site/topic_drawings.ts'))
   for (const name of names) {
