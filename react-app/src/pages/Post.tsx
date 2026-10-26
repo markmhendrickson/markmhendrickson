@@ -26,7 +26,7 @@ import {
   parseCalendarOrIsoDateString,
   truncateForLatestPublicationTeaser,
 } from '@/lib/utils'
-import { CodeBlock, MarkdownPre, markdownCodeComponents } from '@/components/CodeBlock'
+import { CodeBlock, MarkdownPre, markdownCodeComponentsWithLabels } from '@/components/CodeBlock'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -269,10 +269,16 @@ function PostscriptSection({
   markdown,
   footnoteOptions,
   linkLabel,
+  copyLabel,
+  copiedLabel,
+  failureLabel,
 }: {
   markdown: string
   footnoteOptions: { footnoteLabel: string; footnoteBackLabel: string }
   linkLabel: string
+  copyLabel: string
+  copiedLabel: string
+  failureLabel: string
 }) {
   const makePostscriptHeading = (Tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6') =>
     ({ children, ...props }: React.ComponentPropsWithoutRef<typeof Tag>) => {
@@ -298,7 +304,7 @@ function PostscriptSection({
           remarkPlugins={[remarkGfm]}
           remarkRehypeOptions={footnoteOptions}
           components={{
-            ...markdownCodeComponents,
+            ...markdownCodeComponentsWithLabels({ copyLabel, copiedLabel, failureLabel }),
             h2: makePostscriptHeading('h2'),
             h3: makePostscriptHeading('h3'),
             h4: makePostscriptHeading('h4'),
@@ -467,21 +473,26 @@ function PostCopyableCodeFence({
   text,
   copyLabel,
   copiedLabel,
+  failureLabel,
+  promptLabel,
   postSlug,
 }: {
   text: string
   copyLabel: string
   copiedLabel: string
+  failureLabel: string
+  promptLabel: string
   /** For Umami `post_copy_fence` (optional when slug unknown). */
   postSlug?: string | null
 }) {
   return (
     <CodeBlock
       code={text}
-      label="Agent prompt"
+      label={promptLabel}
       wrap
       copyLabel={copyLabel}
       copiedLabel={copiedLabel}
+      failureLabel={failureLabel}
       onCopy={() => trackUmamiEvent('post_copy_fence', { slug: postSlug ?? '' })}
     />
   )
@@ -1906,7 +1917,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               </AlertTitle>
               <AlertDescription asChild>
                 <div className="post-prose-summary prose prose-sm max-w-none text-sm [&_p]:leading-relaxed">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions} components={markdownCodeComponents}>{displaySummary}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions} components={markdownCodeComponentsWithLabels({ copyLabel: t.postCopyCode, copiedLabel: t.postCodeCopied, failureLabel: t.postCodeCopyFailed })}>{displaySummary}</ReactMarkdown>
                 </div>
               </AlertDescription>
             </Alert>
@@ -2051,11 +2062,11 @@ export default function Post({ slug: slugProp }: PostProps) {
                       React.isValidElement(c) && c.type === 'code',
                   )
                   if (!codeEl) {
-                    return <MarkdownPre {...props} copyLabel={t.postCopyCode} copiedLabel={t.postCodeCopied}>{children}</MarkdownPre>
+                    return <MarkdownPre {...props} copyLabel={t.postCopyCode} copiedLabel={t.postCodeCopied} failureLabel={t.postCodeCopyFailed}>{children}</MarkdownPre>
                   }
                   const codeClass = codeEl.props.className ?? ''
                   if (!/\blanguage-(copy|prompt)\b/.test(codeClass)) {
-                    return <MarkdownPre {...props} copyLabel={t.postCopyCode} copiedLabel={t.postCodeCopied}>{children}</MarkdownPre>
+                    return <MarkdownPre {...props} copyLabel={t.postCopyCode} copiedLabel={t.postCodeCopied} failureLabel={t.postCodeCopyFailed}>{children}</MarkdownPre>
                   }
                   const rawText = markdownPlainText(codeEl.props.children)
                   const text = unwrapHardWrappedFenceBody(rawText.replace(/\n$/, ''))
@@ -2064,6 +2075,8 @@ export default function Post({ slug: slugProp }: PostProps) {
                       text={text}
                       copyLabel={t.postCopyCode}
                       copiedLabel={t.postCodeCopied}
+                      failureLabel={t.postCodeCopyFailed}
+                      promptLabel={t.postAgentPrompt}
                       postSlug={resolvedCanonicalSlug ?? post.slug}
                     />
                   )
@@ -2290,6 +2303,9 @@ export default function Post({ slug: slugProp }: PostProps) {
               markdown={effectivePostscriptContent}
               footnoteOptions={markdownFootnoteOptions}
               linkLabel={t.linkToSection}
+              copyLabel={t.postCopyCode}
+              copiedLabel={t.postCodeCopied}
+              failureLabel={t.postCodeCopyFailed}
             />
           )}
 
