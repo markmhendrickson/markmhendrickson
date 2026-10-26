@@ -90,6 +90,20 @@ test('rejected clipboard and throwing fallback leave focus intact and announce r
   })
 })
 
+test('a denied copy visibly explains failure while keeping the action available', async () => {
+  await withBrowserDom(async (win, root) => {
+    win.navigator.clipboard = { writeText: async () => { throw new Error('denied') } }
+    win.document.execCommand = () => false
+    await act(async () => root.render(React.createElement(CodeBlock, { code: 'echo retry', copyLabel: 'Copiar', copiedLabel: 'Copiado', failureLabel: 'No se pudo copiar. Inténtalo de nuevo.' })))
+    const button = win.document.querySelector('button[aria-label="Copiar"]')
+    await act(async () => { button.click(); await Promise.resolve() })
+    assert.equal(button.getAttribute('aria-label'), 'Copiar')
+    const status = win.document.querySelector('[role="status"]')
+    assert.equal(status.textContent, 'No se pudo copiar. Inténtalo de nuevo.')
+    assert(!status.classList.contains('sr-only'))
+  })
+})
+
 test('published fenced post renders every snippet with a copy action', () => {
   const html = fs.readFileSync(path.join(dist, 'posts/what-my-agentic-stack-actually-does/index.html'), 'utf8')
   const article = html.slice(html.indexOf('<article>'))
