@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
-import { markdownCodeComponents } from '@/components/CodeBlock'
+import { markdownCodeComponentsWithLabels } from '@/components/CodeBlock'
 import remarkGfm from 'remark-gfm'
 import { FileDown } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -28,6 +28,15 @@ const PDF_PATH = '/documents/honors-thesis-nietzsche-morality.pdf'
 
 const LINK_CLASS =
   'text-foreground underline underline-offset-2 decoration-muted-foreground hover:decoration-foreground'
+
+export function HonorsThesisMarkdown({ markdown, footnoteOptions }: { markdown: string; footnoteOptions: { footnoteLabel: string; footnoteBackLabel: string } }) {
+  const { t } = useLocale()
+  return (
+    <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={footnoteOptions} components={markdownCodeComponentsWithLabels({ copyLabel: t.postCopyCode, copiedLabel: t.postCodeCopied, failureLabel: t.postCodeCopyFailed })}>
+      {markdown}
+    </ReactMarkdown>
+  )
+}
 
 interface HonorsThesisCopy {
   title: string
@@ -449,9 +458,7 @@ export default function HonorsThesis() {
               <>
                 <section className="mt-4">
                   <div className="post-prose prose prose-sm max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]} remarkRehypeOptions={markdownFootnoteOptions} components={markdownCodeComponents}>
-                      {isSubsectionPage && subsectionMarkdown != null ? subsectionMarkdown : currentChapter.content}
-                    </ReactMarkdown>
+                    <HonorsThesisMarkdown markdown={isSubsectionPage && subsectionMarkdown != null ? subsectionMarkdown : currentChapter.content} footnoteOptions={markdownFootnoteOptions} />
                   </div>
                 </section>
 
