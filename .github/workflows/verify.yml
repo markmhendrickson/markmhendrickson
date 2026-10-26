@@ -1,0 +1,51 @@
+name: Verify website pull request
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      SKIP_WEBSITE_CACHE_REGEN: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: react-app/package-lock.json
+      - name: Install dependencies
+        working-directory: react-app
+        run: npm ci
+      - name: Rebuild committed locale caches
+        working-directory: react-app
+        run: python3 scripts/rebuild_locale_post_caches.py
+      - name: Validate translated published posts
+        working-directory: react-app
+        run: python3 scripts/validate_post_translations.py
+      - name: Run locale smoke checks
+        working-directory: react-app
+        run: npm run test:i18n-smoke
+      - name: Force professional-mission from repo content
+        working-directory: react-app
+        run: python3 scripts/force_professional_mission.py
+      - name: Verify professional-mission cache binding
+        working-directory: react-app
+        run: python3 scripts/test_force_professional_mission.py
+      - name: Copy committed API cache into static output
+        working-directory: react-app
+        run: |
+          mkdir -p public/api
+          for f in cache/api/*.json; do
+            [ -f "$f" ] && cp "$f" public/api/
+          done
+      - name: Build and verify rendered routes
+        working-directory: react-app
+        run: npm run build:ci
