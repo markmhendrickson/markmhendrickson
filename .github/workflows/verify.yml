@@ -36,6 +36,9 @@ jobs:
       - name: Force professional-mission from repo content
         working-directory: react-app
         run: python3 scripts/force_professional_mission.py
+      - name: Verify professional-mission cache binding
+        working-directory: react-app
+        run: python3 scripts/test_force_professional_mission.py
       - name: Copy committed API cache into static output
         working-directory: react-app
         run: |
