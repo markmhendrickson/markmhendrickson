@@ -46,3 +46,7 @@ jobs:
       - name: Build and verify rendered routes
         working-directory: react-app
         run: npm run build:ci
+
+      - name: Verify navigation, editorial shell, and dependency notices
+        working-directory: react-app
+        run: node --test scripts/navigation-editorial.test.mjs scripts/third-party-notices.test.mjs
