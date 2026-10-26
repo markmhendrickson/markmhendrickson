@@ -50,6 +50,31 @@ test('the hydrated collapsed desktop expand control has an accessible name in ev
   }
 })
 
+test('hydrated desktop and mobile sidebar controls use every active locale', () => {
+  const labels = {
+    en: ['Expand sidebar', 'Toggle sidebar', 'Open menu', 'Close sidebar', 'Toggle language menu', 'Toggle theme menu'],
+    es: ['Expandir la barra lateral', 'Alternar barra lateral', 'Abrir menú', 'Cerrar barra lateral', 'Alternar menú de idiomas', 'Abrir menú de tema'],
+    ca: ['Amplia la barra lateral', 'Alterna la barra lateral', 'Obre el menú', 'Tanca la barra lateral', "Alterna el menú d'idiomes", 'Obrir menú de tema'],
+    zh: ['展开侧边栏', '切换侧边栏', '打开菜单', '关闭侧边栏', '切换语言菜单', '切换主题菜单'],
+    hi: ['साइडबार फैलाएँ', 'साइडबार टॉगल करें', 'मेन्यू खोलें', 'साइडबार बंद करें', 'भाषा मेन्यू टॉगल करें', 'थीम मेनू टॉगल करें'],
+    ar: ['توسيع الشريط الجانبي', 'تبديل الشريط الجانبي', 'فتح القائمة', 'إغلاق الشريط الجانبي', 'تبديل قائمة اللغات', 'تبديل قائمة الموضوع'],
+    fr: ['Développer la barre latérale', 'Afficher ou masquer la barre latérale', 'Ouvrir le menu', 'Fermer la barre latérale', 'Ouvrir ou fermer le menu des langues', 'Basculer le menu du thème'],
+    pt: ['Expandir a barra lateral', 'Alternar barra lateral', 'Abrir menu', 'Fechar barra lateral', 'Alternar menu de idiomas', 'Alternar menu de tema'],
+    ru: ['Развернуть боковую панель', 'Переключить боковую панель', 'Открыть меню', 'Закрыть боковую панель', 'Переключить меню языков', 'Переключить меню темы'],
+    bn: ['সাইডবার প্রসারিত করুন', 'সাইডবার টগল করুন', 'মেনু খুলুন', 'সাইডবার বন্ধ করুন', 'ভাষার মেনু টগল করুন', 'থিম মেনু টগল করুন'],
+    ur: ['سائیڈ بار پھیلائیں', 'سائیڈ بار ٹوگل کریں', 'مینو کھولیں', 'سائیڈ بار بند کریں', 'زبان کا مینو ٹوگل کریں', 'تھیم مینو کو ٹوگل کریں۔'],
+    id: ['Perluas bilah sisi', 'Alihkan bilah sisi', 'Buka menu', 'Tutup bilah sisi', 'Alihkan menu bahasa', 'Alihkan menu tema'],
+    de: ['Seitenleiste erweitern', 'Seitenleiste umschalten', 'Menü öffnen', 'Seitenleiste schließen', 'Sprachmenü umschalten', 'Themenmenü umschalten'],
+  }
+  const probe = path.join(path.dirname(fileURLToPath(import.meta.url)), 'sidebar-controls.probe.mjs')
+  for (const [locale, [expand, toggle, open, close, language, theme]] of Object.entries(labels)) {
+    const desktop = JSON.parse(execFileSync(process.execPath, [probe, dist, locale, 'desktop'], { encoding: 'utf8', timeout: 10000 }))
+    const mobile = JSON.parse(execFileSync(process.execPath, [probe, dist, locale, 'mobile'], { encoding: 'utf8', timeout: 10000 }))
+    assert.deepEqual(desktop, { expand, toggle, toggleHidden: toggle, language, theme }, `${locale}: desktop controls`)
+    assert.deepEqual(mobile, { open, openHidden: open, close, language, theme }, `${locale}: mobile controls`)
+  }
+})
+
 test('the two product footer cards render as distinct public destinations', () => {
   const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
   assert(html.includes('The system of record for AI agents.'))

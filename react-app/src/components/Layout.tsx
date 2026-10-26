@@ -267,6 +267,7 @@ export function Layout({ children }: LayoutProps) {
         hiddenPathSegments={[...supportedLocales, 'chapter', 'section']}
         languageMenuItems={languageMenuItems}
         languageMenuLabel={t.navLanguage}
+        languageMenuAriaLabel={t.languageMenuAriaLabel}
         themeMenuLabel={t.themeMenuLabel}
         themeMenuAriaLabel={t.themeMenuAriaLabel}
         themeSystem={t.themeSystem}
@@ -276,6 +277,9 @@ export function Layout({ children }: LayoutProps) {
         defaultSidebarOpen={false}
         sidebarCollapsible="icon"
         sidebarExpandLabel={t.sidebarExpandLabel}
+        sidebarToggleLabel={t.sidebarToggleLabel}
+        sidebarOpenLabel={t.sidebarOpenLabel}
+        sidebarCloseLabel={t.sidebarCloseLabel}
         collapsedHomeLabel="Mark Hendrickson"
         headerRight={headerActions}
       >

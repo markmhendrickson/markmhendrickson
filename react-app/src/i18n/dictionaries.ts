@@ -16,6 +16,10 @@ export type Dict = {
   navRss: string
   navLanguage: string
   sidebarExpandLabel: string
+  sidebarToggleLabel: string
+  sidebarOpenLabel: string
+  sidebarCloseLabel: string
+  languageMenuAriaLabel: string
   drafts: string
   latestPost: string
   /** Home / post-page featured alert when item is a series index */
@@ -121,6 +125,10 @@ const enDict: Dict = {
     navRss: 'RSS feed',
     navLanguage: 'Language',
     sidebarExpandLabel: 'Expand sidebar',
+    sidebarToggleLabel: 'Toggle sidebar',
+    sidebarOpenLabel: 'Open menu',
+    sidebarCloseLabel: 'Close sidebar',
+    languageMenuAriaLabel: 'Toggle language menu',
     drafts: 'Drafts',
     latestPost: 'Latest post',
     latestSeries: 'Latest series',
@@ -217,6 +225,10 @@ const esDict: Dict = {
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
     sidebarExpandLabel: 'Expandir la barra lateral',
+    sidebarToggleLabel: 'Alternar barra lateral',
+    sidebarOpenLabel: 'Abrir menú',
+    sidebarCloseLabel: 'Cerrar barra lateral',
+    languageMenuAriaLabel: 'Alternar menú de idiomas',
     drafts: 'Borradores',
     latestPost: 'Última publicación',
     latestSeries: 'Última serie',
@@ -313,6 +325,10 @@ const caDict: Dict = {
     navRss: 'Feed RSS',
     navLanguage: 'Idioma',
     sidebarExpandLabel: 'Amplia la barra lateral',
+    sidebarToggleLabel: 'Alterna la barra lateral',
+    sidebarOpenLabel: 'Obre el menú',
+    sidebarCloseLabel: 'Tanca la barra lateral',
+    languageMenuAriaLabel: "Alterna el menú d'idiomes",
     drafts: 'Esborranys',
     latestPost: 'Última publicació',
     latestSeries: 'Última sèrie',
@@ -427,6 +443,19 @@ const homeFeedLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'homeLat
   de: { homeLatestPosts: 'Neueste Beiträge', homeMorePosts: 'Weitere Beiträge', homeViewAllPosts: 'Alle Beiträge ansehen' },
 }
 
+const sidebarControlLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'sidebarToggleLabel' | 'sidebarOpenLabel' | 'sidebarCloseLabel' | 'languageMenuAriaLabel'>> = {
+  zh: { sidebarToggleLabel: '切换侧边栏', sidebarOpenLabel: '打开菜单', sidebarCloseLabel: '关闭侧边栏', languageMenuAriaLabel: '切换语言菜单' },
+  hi: { sidebarToggleLabel: 'साइडबार टॉगल करें', sidebarOpenLabel: 'मेन्यू खोलें', sidebarCloseLabel: 'साइडबार बंद करें', languageMenuAriaLabel: 'भाषा मेन्यू टॉगल करें' },
+  ar: { sidebarToggleLabel: 'تبديل الشريط الجانبي', sidebarOpenLabel: 'فتح القائمة', sidebarCloseLabel: 'إغلاق الشريط الجانبي', languageMenuAriaLabel: 'تبديل قائمة اللغات' },
+  fr: { sidebarToggleLabel: 'Afficher ou masquer la barre latérale', sidebarOpenLabel: 'Ouvrir le menu', sidebarCloseLabel: 'Fermer la barre latérale', languageMenuAriaLabel: 'Ouvrir ou fermer le menu des langues' },
+  pt: { sidebarToggleLabel: 'Alternar barra lateral', sidebarOpenLabel: 'Abrir menu', sidebarCloseLabel: 'Fechar barra lateral', languageMenuAriaLabel: 'Alternar menu de idiomas' },
+  ru: { sidebarToggleLabel: 'Переключить боковую панель', sidebarOpenLabel: 'Открыть меню', sidebarCloseLabel: 'Закрыть боковую панель', languageMenuAriaLabel: 'Переключить меню языков' },
+  bn: { sidebarToggleLabel: 'সাইডবার টগল করুন', sidebarOpenLabel: 'মেনু খুলুন', sidebarCloseLabel: 'সাইডবার বন্ধ করুন', languageMenuAriaLabel: 'ভাষার মেনু টগল করুন' },
+  ur: { sidebarToggleLabel: 'سائیڈ بار ٹوگل کریں', sidebarOpenLabel: 'مینو کھولیں', sidebarCloseLabel: 'سائیڈ بار بند کریں', languageMenuAriaLabel: 'زبان کا مینو ٹوگل کریں' },
+  id: { sidebarToggleLabel: 'Alihkan bilah sisi', sidebarOpenLabel: 'Buka menu', sidebarCloseLabel: 'Tutup bilah sisi', languageMenuAriaLabel: 'Alihkan menu bahasa' },
+  de: { sidebarToggleLabel: 'Seitenleiste umschalten', sidebarOpenLabel: 'Menü öffnen', sidebarCloseLabel: 'Seitenleiste schließen', languageMenuAriaLabel: 'Sprachmenü umschalten' },
+}
+
 const codeCopyLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'postCopyCode' | 'postCodeCopied' | 'postCodeCopyFailed' | 'postAgentPrompt'>> = {
   zh: { postCopyCode: '复制', postCodeCopied: '已复制', postCodeCopyFailed: '复制失败，请重试。', postAgentPrompt: '智能体提示词' },
   hi: { postCopyCode: 'कॉपी करें', postCodeCopied: 'कॉपी किया गया', postCodeCopyFailed: 'कॉपी नहीं हो सका। फिर कोशिश करें।', postAgentPrompt: 'एजेंट प्रॉम्प्ट' },
@@ -442,7 +471,7 @@ const codeCopyLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'postCop
 
 function generatedLocaleDict(locale: keyof typeof rawMarkdownLabels): Dict {
   const generated = (generatedDictionaries as Record<string, Partial<Dict> | undefined>)[locale]
-  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale], ...codeCopyLabels[locale] }) : enDict
+  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale], ...sidebarControlLabels[locale], ...codeCopyLabels[locale] }) : enDict
 }
 
 const dictionaries: Record<SupportedLocale, Dict> = {
