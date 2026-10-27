@@ -22,9 +22,9 @@ That place is what I mean by a system of record: it says what is current, where 
 
 ## What Neotoma does today
 
-I build Neotoma, the system of record for AI agents. It is open source under the MIT license and runs locally, in a data directory you choose. What follows is what the published package (0.25.0 on npm) does today.
+I build Neotoma, the system of record for AI agents. It is open source under the MIT license and runs locally, in a data directory you choose. What follows is what the latest published package on npm does today.
 
-Every write is stored as a new observation, linked to the source it came from. A new value is added beside the old one rather than written over it. Neotoma can store the [original PDF or email](https://github.com/markmhendrickson/neotoma/blob/v0.25.0/docs/developer/source_storage_by_reference.md) alongside the structured entities derived from it, keeping observations linked to their source.
+Every write is stored as a new observation, linked to the source it came from. A new value is added beside the old one rather than written over it. Neotoma can store the [original PDF or email](https://github.com/markmhendrickson/neotoma/blob/main/docs/developer/source_storage_by_reference.md) alongside the structured entities derived from it, keeping observations linked to their source.
 
 Observations belong to entities. An entity's ID is derived from the entity type and its identifying fields. Within the same instance and identity rules, the same identifying values deterministically produce the same ID, so two agents storing the same invoice write to the same entity.
 
