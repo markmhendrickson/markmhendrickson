@@ -178,7 +178,8 @@ export function playPaperScene(target: Element): Animation[] {
     const animations: Animation[] = [];
     for (const object of target.querySelectorAll<SVGElement>("[data-paper-object]")) {
       animations.push(object.animate(
-        springFrames(Number(object.dataset.enterX || 0), Number(object.dataset.enterY || 0), 0),
+        springFrames(Number(object.dataset.enterX || 0), Number(object.dataset.enterY || 0), 0)
+          .map((frame, index) => ({ ...frame, opacity: Math.min(1, index / 5) })),
         { duration: PAPER_SPRING_MS, delay: Number(object.dataset.enterDelay || 0), easing: "linear", fill: "both" }
       ));
     }

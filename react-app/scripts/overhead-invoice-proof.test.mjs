@@ -89,6 +89,8 @@ test('finite semantic playback moves only the independent observations and chang
   for (const node of document.querySelectorAll('[data-paper-object]')) {
     const { frames } = calls.get(node)
     assert(frames.every((frame) => /rotate\(0deg\)/.test(frame.transform)), 'baked light cannot rotate with the sprite')
+    assert.equal(frames[0].opacity, 0, 'the later observation is not already visible during its entry delay')
+    assert.equal(frames.at(-1).opacity, 1, 'both observations remain after arrival')
     assert.equal(frames.at(-1).transform, 'translate(0px, 0px) rotate(0deg)')
   }
   const current = calls.get(document.querySelector('[data-paper-field-state="current"]'))
