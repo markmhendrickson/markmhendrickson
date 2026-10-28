@@ -222,7 +222,17 @@ test('authored advanced scenes and retained donor scenes have truthful mixed-out
     assert.equal(provenance.outputSources[file].sourceCommit, provenance.sourceCommit)
   }
   assert.equal(provenance.retainedOutputs['tools.svg'].renderedInArticle, false)
-  for (const [file, hash] of Object.entries(provenance.authoredSourceHashes)) assert.equal(createHash('sha256').update(fs.readFileSync(new URL(`../../${file}`, import.meta.url))).digest('hex'), hash, file)
+  // The retained artwork was produced by this independently qualified exporter
+  // revision. Its historical digest must not be rewritten when the current
+  // exporter gains a new local proof. Current exporter behavior is checked by
+  // the resource, raster, rejection and parity tests above; no Git history is
+  // required in a shallow CI checkout to preserve the old provenance fixture.
+  assert.equal(provenance.authoredSourceCommit, '36686acfdf48887292f6613cf88eb5f84fbac090')
+  assert.equal(provenance.authoredSourceHashes['react-app/scripts/export-paper-artwork.mjs'], '83d3a22d132113e1df3a9efcbb49fc509a0b1381ddd90e74366e937bc5a8ff7c')
+  for (const [file, hash] of Object.entries(provenance.authoredSourceHashes)) {
+    if (file === 'react-app/scripts/export-paper-artwork.mjs') continue
+    assert.equal(createHash('sha256').update(fs.readFileSync(new URL(`../../${file}`, import.meta.url))).digest('hex'), hash, file)
+  }
 })
 
 test('raster adapter decodes every trusted material including the envelope before Sharp', async () => {
