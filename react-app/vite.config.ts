@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
+import { createPostMarkdownRepository } from './scripts/post-markdown.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const cacheDir = path.resolve(__dirname, 'cache')
@@ -28,61 +29,7 @@ function readCachedPosts(locale?: string): CachedPostRecord[] {
   }
 }
 
-function resolveDefaultLocaleMarkdown(slug: string): string | null {
-  for (const baseDir of [draftPostsContentDir, postsContentDir]) {
-    const filePath = path.join(baseDir, `${slug}.md`)
-    if (fs.existsSync(filePath)) return fs.readFileSync(filePath, 'utf-8')
-  }
-  for (const post of readCachedPosts()) {
-    const variants = [post.slug, ...(Array.isArray(post.alternativeSlugs) ? post.alternativeSlugs : [])]
-      .filter((value): value is string => typeof value === 'string' && value.length > 0)
-    if (variants.includes(slug) && typeof post.body === 'string' && post.body.trim().length > 0) {
-      return post.body
-    }
-  }
-  return null
-}
-
-function resolveLocalizedMarkdown(locale: string | undefined, slug: string): string | null {
-  if (!locale) return resolveDefaultLocaleMarkdown(slug)
-  for (const post of readCachedPosts(locale)) {
-    if (post.published === false) continue
-    const variants = [post.slug, ...(Array.isArray(post.alternativeSlugs) ? post.alternativeSlugs : [])]
-      .filter((value): value is string => typeof value === 'string' && value.length > 0)
-    if (variants.includes(slug) && typeof post.body === 'string' && post.body.trim().length > 0) {
-      return post.body
-    }
-  }
-  return null
-}
-
-function buildPublishedMarkdownOutputs(): Array<{ outputPath: string; body: string }> {
-  const outputs = new Map<string, string>()
-  const cacheFiles = fs.existsSync(cacheDir)
-    ? fs.readdirSync(cacheDir).filter((name) => /^posts(\.[a-z]{2})?\.json$/.test(name))
-    : []
-
-  for (const name of cacheFiles) {
-    const localeMatch = /^posts(?:\.([a-z]{2}))?\.json$/.exec(name)
-    const locale = localeMatch?.[1]
-    const localePrefix = locale ? locale : ''
-    for (const post of readCachedPosts(locale)) {
-      if (post.published === false || typeof post.body !== 'string' || post.body.trim().length === 0) continue
-      if (typeof post.slug !== 'string' || post.slug.length === 0) continue
-      const body = !locale
-        ? (resolveDefaultLocaleMarkdown(post.slug) ?? post.body)
-        : post.body
-      const variants = [post.slug, ...(Array.isArray(post.alternativeSlugs) ? post.alternativeSlugs : [])]
-        .filter((value): value is string => typeof value === 'string' && value.length > 0)
-      for (const variant of variants) {
-        const routePath = path.join(localePrefix, 'posts', `${variant}.md`)
-        outputs.set(routePath, body)
-      }
-    }
-  }
-
-  return [...outputs.entries()].map(([outputPath, body]) => ({ outputPath, body }))
-}
+const markdownRepository = createPostMarkdownRepository(__dirname)
 
 /** Dev/build: serve post markdown at /posts/:slug.md and emit static .md files for published posts. */
 function postMarkdownPlugin() {
@@ -96,7 +43,7 @@ function postMarkdownPlugin() {
         const locale = siblingMatch?.[1]
         const slug = siblingMatch?.[2]
         if (!slug) return next()
-        const body = resolveLocalizedMarkdown(locale, slug)
+        const body = markdownRepository.resolve(slug, locale, { allowDrafts: true })
         if (body == null) {
           res.statusCode = 404
           res.setHeader('Content-Type', 'text/plain; charset=utf-8')
@@ -109,7 +56,7 @@ function postMarkdownPlugin() {
     },
     closeBundle() {
       const outDir = path.resolve(__dirname, 'dist')
-      for (const { outputPath, body } of buildPublishedMarkdownOutputs()) {
+      for (const { outputPath, body } of markdownRepository.publishedOutputs()) {
         const filePath = path.join(outDir, outputPath)
         fs.mkdirSync(path.dirname(filePath), { recursive: true })
         fs.writeFileSync(filePath, body, 'utf-8')
