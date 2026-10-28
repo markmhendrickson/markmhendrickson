@@ -81,6 +81,36 @@ test('authored SVG exports keep the fixed scene, trusted material and inert word
   assert.throws(() => validateAuthoredPaperSvg(source.replace('</svg>', '<image href="data:image/webp;base64,d3Jvbmc="/></svg>'), 'invoiceExample'), /Untrusted authored material/)
 })
 
+for (const [name, payload] of [
+  ['spaced href assignment', '<image href = "https://example.com/external.webp"/>'],
+  ['case-insensitive CSS URL function', '<path fill="URL(https://example.com/external)"/>'],
+  ['namespace-prefixed active SVG element', '<s:script xmlns:s="http://www.w3.org/2000/svg">alert(1)</s:script>'],
+]) {
+  test(`authored XML boundary rejects ${name}`, () => {
+    const source = fs.readFileSync(new URL('../src/assets/neotoma-paper/authored/invoice-example.svg', import.meta.url), 'utf8')
+    assert.throws(() => validateAuthoredPaperSvg(source.replace('</svg>', `${payload}</svg>`), 'invoiceExample'))
+  })
+}
+
+test('authored XML validation retains all canonical materials and rejects equivalent obfuscated resource or active forms', () => {
+  for (const [name, scene] of Object.entries({ 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation' })) {
+    const source = fs.readFileSync(new URL(`../src/assets/neotoma-paper/authored/${name}.svg`, import.meta.url), 'utf8')
+    assert.equal(validateAuthoredPaperSvg(source, scene), source)
+  }
+  const source = fs.readFileSync(new URL('../src/assets/neotoma-paper/authored/invoice-example.svg', import.meta.url), 'utf8')
+  for (const payload of [
+    '<image href = "h&#116;tps://example.com/external.webp"/>',
+    '<path style="fill: u\\72l(https://example.com/external)"/>',
+    '<path fill="u\\72l(https://example.com/external)"/>',
+    '<path style="background-image: image-set(\'external.webp\')"/>',
+    '<s:animate xmlns:s="http://www.w3.org/2000/svg"/>',
+    '<path xmlns:e="urn:events" e:onload="bad()"/>',
+    '<script xmlns="http://www.w3.org/1999/xhtml"/>',
+  ]) assert.throws(() => validateAuthoredPaperSvg(source.replace('</svg>', `${payload}</svg>`), 'invoiceExample'), payload)
+  assert.throws(() => validateAuthoredPaperSvg(`<?xml-stylesheet href="external.css"?>${source}`, 'invoiceExample'), /Unexpected authored XML declaration/)
+  assert.throws(() => validateAuthoredPaperSvg(`<!DOCTYPE svg SYSTEM "external.dtd">${source}`, 'invoiceExample'), /Unexpected authored XML declaration/)
+})
+
 const hero = fs.readFileSync(new URL('../public/images/posts/neotoma-paper/hero.svg', import.meta.url), 'utf8')
 const encoded = hero.match(/href="data:image\/webp;base64,([^"]+)"/)?.[1]
 const bytes = encoded ? Buffer.from(encoded, 'base64') : null

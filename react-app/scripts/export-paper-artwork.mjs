@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
 import postcss from 'postcss'
 import sharp from 'sharp'
+import { JSDOM } from 'jsdom'
 
 const appRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 export const PAPER_TEXTURE_SHA256 = '9e9dfed440f8ff1800180963edc0dfab6c8333607dc000e079018d9f0c6cf1b8'
@@ -150,23 +151,56 @@ export async function rasterPaperSvg(svg) {
 
 /** Native SVGs use the same fixed trust boundary and raster adapter as donor exports. */
 export function validateAuthoredPaperSvg(svg, scene) {
-  if (!Object.values(PAPER_SCENES).includes(scene) || !svg.includes(`data-paper-scene="${scene}"`) || !/viewBox="0 0 900 600"/.test(svg)) throw new Error('Unknown authored scene contract')
-  if (/<(?:script|foreignObject|text|animate|set)\b|\son\w+\s*=|@import\b/i.test(svg)) throw new Error('Unexpected active or visible text content in authored artwork')
-  const ids = new Set([...svg.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]))
-  const materials = new Set()
-  for (const [, href] of svg.matchAll(/\b(?:xlink:)?href=["']([^"']+)["']/g)) {
-    if (href.startsWith('#') && ids.has(href.slice(1))) continue
-    if (!href.startsWith('data:image/webp;base64,')) throw new Error('Unresolved authored SVG dependency')
-    const hash = sha256(Buffer.from(href.slice(href.indexOf(',') + 1), 'base64'))
-    if (!Object.values(PAPER_ASSET_HASHES).includes(hash)) throw new Error('Untrusted authored material')
-    materials.add(hash)
-  }
-  if (!materials.has(PAPER_TEXTURE_SHA256)) throw new Error('Missing authored paper texture')
-  for (const [, value] of svg.matchAll(/url\(([^)]+)\)/g)) {
-    const ref = value.trim().replace(/^(['"])(.*)\1$/, '$2')
-    if (!ref.startsWith('#') || !ids.has(ref.slice(1))) throw new Error('Unresolved authored CSS dependency')
-  }
-  return ensureSvgNamespace(svg)
+  if (/<!DOCTYPE\b|<\?(?!xml\s)/i.test(svg)) throw new Error('Unexpected authored XML declaration')
+  // XML parsing resolves namespace prefixes, entity escapes, quote styles and
+  // assignment whitespace. Scripts/resources stay disabled in this existing DOM tool.
+  const parsed = new JSDOM(svg, { contentType: 'image/svg+xml' })
+  try {
+    const root = parsed.window.document.documentElement
+    const namespace = 'http://www.w3.org/2000/svg'
+    if (root.namespaceURI !== namespace || root.localName !== 'svg' || !Object.values(PAPER_SCENES).includes(scene) || root.getAttribute('data-paper-scene') !== scene || root.getAttribute('viewBox') !== '0 0 900 600') throw new Error('Unknown authored scene contract')
+    const elements = [root, ...root.querySelectorAll('*')]
+    const ids = new Set(elements.map((element) => element.getAttribute('id')).filter(Boolean))
+    const materials = new Set()
+    const localCssUrls = (value) => {
+      if (/\\/.test(value)) throw new Error('Unexpected escaped authored CSS syntax')
+      for (const [, raw] of value.matchAll(/url\s*\(([^)]+)\)/gi)) {
+        const ref = raw.trim().replace(/^(['"])(.*)\1$/, '$2')
+        if (!ref.startsWith('#') || !ids.has(ref.slice(1))) throw new Error('Unresolved authored CSS dependency')
+      }
+    }
+    const inertCss = (value) => {
+      if (/\\/.test(value)) throw new Error('Unexpected escaped authored CSS syntax')
+      const css = postcss.parse(value)
+      css.walkAtRules((rule) => { if (rule.name.toLowerCase() !== 'media') throw new Error('Unexpected authored CSS rule') })
+      css.walkDecls((decl) => {
+        localCssUrls(decl.value)
+        for (const [, name] of decl.value.matchAll(/([\w-]+)\s*\(/g)) {
+          if (!['url', 'rgb', 'rgba', 'hsl', 'hsla', 'var', 'calc', 'min', 'max', 'clamp'].includes(name.toLowerCase())) throw new Error('Unexpected authored CSS function')
+        }
+      })
+    }
+    for (const element of elements) {
+      const name = element.localName.toLowerCase()
+      if (element.namespaceURI !== namespace || ['script', 'foreignobject', 'text', 'set', 'discard', 'handler'].includes(name) || name.startsWith('animate')) throw new Error('Unexpected active or visible text content in authored artwork')
+      if (name === 'style') inertCss(element.textContent || '')
+      for (const attribute of element.attributes) {
+        const attributeName = attribute.localName.toLowerCase()
+        if (attributeName.startsWith('on')) throw new Error('Unexpected active authored SVG attribute')
+        if (attributeName === 'style') inertCss(attribute.value)
+        localCssUrls(attribute.value)
+        if (attributeName !== 'href') continue
+        const href = attribute.value
+        if (href.startsWith('#') && ids.has(href.slice(1))) continue
+        if (!href.startsWith('data:image/webp;base64,')) throw new Error('Unresolved authored SVG dependency')
+        const hash = sha256(Buffer.from(href.slice(href.indexOf(',') + 1), 'base64'))
+        if (!Object.values(PAPER_ASSET_HASHES).includes(hash)) throw new Error('Untrusted authored material')
+        materials.add(hash)
+      }
+    }
+    if (!materials.has(PAPER_TEXTURE_SHA256)) throw new Error('Missing authored paper texture')
+    return svg
+  } finally { parsed.window.close() }
 }
 
 /** Copy the selected authored source, then derive all public rasters from those exact bytes. */
