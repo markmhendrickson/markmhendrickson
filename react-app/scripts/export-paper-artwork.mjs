@@ -169,12 +169,17 @@ export function validateAuthoredPaperSvg(svg, scene) {
 }
 
 /** Copy the selected authored source, then derive all public rasters from those exact bytes. */
+export function canonicalGithubRepository(remote) {
+  const repository = remote.trim().replace(/^git@github\.com:/, 'https://github.com/').replace(/\.git$/, '')
+  if (!/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(repository)) throw new Error('Unknown authored source repository')
+  return repository
+}
+
 export async function exportAuthoredPaperArtwork(commit) {
   if (!/^[a-f0-9]{40}$/.test(commit)) throw new Error('Authored export requires an exact source commit')
   const read = (file) => execFileSync('git', ['-C', appRoot, 'show', `${commit}:${file}`], { maxBuffer: 16 * 1024 * 1024 })
   execFileSync('git', ['-C', appRoot, 'cat-file', '-e', `${commit}^{commit}`])
-  const repository = execFileSync('git', ['-C', appRoot, 'remote', 'get-url', 'origin'], { encoding: 'utf8' }).trim().replace(/\.git$/, '')
-  if (!/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(repository)) throw new Error('Unknown authored source repository')
+  const repository = canonicalGithubRepository(execFileSync('git', ['-C', appRoot, 'remote', 'get-url', 'origin'], { encoding: 'utf8' }))
   const publicDir = path.join(appRoot, 'public/images/posts/neotoma-paper')
   const inlineDir = path.join(appRoot, 'src/assets/neotoma-paper')
   const provenancePath = path.join(publicDir, 'provenance.json')

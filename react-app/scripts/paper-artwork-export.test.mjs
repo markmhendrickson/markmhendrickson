@@ -1,11 +1,16 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import fs from 'node:fs'
-import { embedTrustedPaperTexture, embedTrustedPaperAssets, settledPaperSource, dedupePaperCutouts, rasterPaperSvg, retainedPaperOutputs, paperDonorModules, ensureSvgNamespace, validateAuthoredPaperSvg, PAPER_TEXTURE_SHA256, PAPER_ASSET_HASHES } from './export-paper-artwork.mjs'
+import { embedTrustedPaperTexture, embedTrustedPaperAssets, settledPaperSource, dedupePaperCutouts, rasterPaperSvg, retainedPaperOutputs, paperDonorModules, ensureSvgNamespace, validateAuthoredPaperSvg, canonicalGithubRepository, PAPER_TEXTURE_SHA256, PAPER_ASSET_HASHES } from './export-paper-artwork.mjs'
 import { createHash } from 'node:crypto'
 import sharp from 'sharp'
 import os from 'node:os'
 import path from 'node:path'
+
+test('authored provenance normalizes existing SSH and HTTPS repository remotes without accepting credentials or foreign hosts', () => {
+  for (const remote of ['git@github.com:owner/project.git', 'https://github.com/owner/project.git']) assert.equal(canonicalGithubRepository(remote), 'https://github.com/owner/project')
+  for (const remote of ['https://credential@github.com/owner/project.git', 'https://example.com/owner/project.git']) assert.throws(() => canonicalGithubRepository(remote), /Unknown authored source repository/)
+})
 
 test('selective export retains and verifies other scenes with their original source commits', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'paper-retention-'))
