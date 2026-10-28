@@ -482,6 +482,10 @@
   overflow-y: visible;
 }
 
+#root main :is(h1, h2, h3, h4, h5, h6)[id] {
+  scroll-margin-top: calc(var(--header-height, 4rem) + 1.5rem);
+}
+
 /* Full-bleed post image ("takeover"): markdown image title "takeover". Spans the whole content area,
    past the reading column, like a hero. --sidebar-w is set on the layout's main element. */
 .post-takeover {
