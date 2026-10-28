@@ -71,6 +71,24 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
   // Reconcile the real subtree, removing stale registrations before enrolling replacements.
   const mutations = root && window.MutationObserver ? new window.MutationObserver(() => {
     const current = new Set(root.querySelectorAll<SVGSVGElement>("[data-paper-scene]"));
+    // Preserve actual entry state for an unambiguous replacement of the same scene.
+    // Ordinary Post state changes may replace its DOM, but are not viewport re-entries.
+    const removed = [...registered].filter((target) => !current.has(target as SVGSVGElement));
+    const added = [...current].filter((target) => !registered.has(target));
+    for (const next of added) {
+      const name = next.getAttribute("data-paper-scene");
+      if (!name) continue;
+      const previous = removed.filter((target) => target.getAttribute("data-paper-scene") === name);
+      if (previous.length !== 1 || added.filter((target) => target.getAttribute("data-paper-scene") === name).length !== 1) continue;
+      const old = previous[0];
+      if (inside.has(old)) inside.add(next);
+      if (visible.has(old)) visible.add(next);
+      if (pending.has(old)) pending.add(next);
+      for (const attribute of ["data-motion-entry-count", "data-motion-animation-count"]) {
+        const value = old.getAttribute(attribute);
+        if (value != null) next.setAttribute(attribute, value);
+      }
+    }
     for (const target of registered) {
       if (current.has(target as SVGSVGElement)) continue;
       observer.unobserve(target);

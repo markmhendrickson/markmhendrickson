@@ -56,9 +56,9 @@ Ateles extends that direction on the operational side. In [Ateles's adapter desi
 
 The full vision, with where each part stands today, is in the [README](https://github.com/markmhendrickson/neotoma#vision-and-execution-status).
 
-![Domain ownership: a matching holder reaches one of two bounded compartments](/images/posts/neotoma-paper/vision-domain.svg "paper|Domain ownership|Domain ownership will make clear who may correct each bounded part of the system of record.")
-![Position tracking: two retained claims connect to a dossier where one position is marked as selected](/images/posts/neotoma-paper/vision-positions.svg "paper|Position tracking|Position tracking will retain competing claims and make an explicit position inspectable.")
-![Explanations: a lifted current field reveals its basis and a bounded set of effects](/images/posts/neotoma-paper/vision-explanation.svg "paper|Explanations|Explanations will show why a value holds, whose authority it follows and which connected values a change could affect.")
+![Governed collaboration: a matching authority key enters one bounded part of a shared record while another stays separate](/images/posts/neotoma-paper/vision-domain.svg "paper|Governed collaboration|People and agents will maintain shared records, with clear authority to correct each domain.")
+![Competing claims and decisions: two evidence-backed positions remain attached to the same subject while a selector marks one](/images/posts/neotoma-paper/vision-positions.svg "paper|Competing claims and decisions|The record will distinguish evidence, interpretations and decisions, preserving disagreements alongside explicit positions.")
+![Explanations and impact: an exploded current field reveals its evidence and authority, with connections to affected records](/images/posts/neotoma-paper/vision-explanation.svg "paper|Explanations and impact|You will be able to inspect why a value holds, whose authority it follows and which connected records or agents a change could affect.")
 
 ## A system of record, not recall
 

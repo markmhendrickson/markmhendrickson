@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import fs from 'node:fs'
-import { embedTrustedPaperTexture, embedTrustedPaperAssets, settledPaperSource, dedupePaperCutouts, rasterPaperSvg, retainedPaperOutputs, paperDonorModules, ensureSvgNamespace, PAPER_TEXTURE_SHA256, PAPER_ASSET_HASHES } from './export-paper-artwork.mjs'
+import { embedTrustedPaperTexture, embedTrustedPaperAssets, settledPaperSource, dedupePaperCutouts, rasterPaperSvg, retainedPaperOutputs, paperDonorModules, ensureSvgNamespace, validateAuthoredPaperSvg, PAPER_TEXTURE_SHA256, PAPER_ASSET_HASHES } from './export-paper-artwork.mjs'
 import { createHash } from 'node:crypto'
 import sharp from 'sharp'
 import os from 'node:os'
@@ -62,6 +62,17 @@ test('authored SVG namespace is not added twice', () => {
   const namespaced = '<svg xmlns="http://www.w3.org/2000/svg"><defs/></svg>'
   assert.equal(ensureSvgNamespace(namespaced), namespaced)
   assert.equal(ensureSvgNamespace('<svg><defs/></svg>'), namespaced)
+})
+
+test('authored SVG exports keep the fixed scene, trusted material and inert wordless boundary', () => {
+  const source = fs.readFileSync(new URL('../src/assets/neotoma-paper/authored/invoice-example.svg', import.meta.url), 'utf8')
+  assert.equal(validateAuthoredPaperSvg(source, 'invoiceExample'), source)
+  assert.throws(() => validateAuthoredPaperSvg(source, 'visionDomain'), /Unknown authored scene/)
+  for (const injected of ['<script/>', '<text>Words inside art</text>', '<foreignObject/>', '<path onclick="bad()"/>', '<image href="https://example.com/untrusted.webp"/>']) {
+    assert.throws(() => validateAuthoredPaperSvg(source.replace('</svg>', `${injected}</svg>`), 'invoiceExample'), /Unexpected|Unresolved/)
+  }
+  assert.throws(() => validateAuthoredPaperSvg(source.replace('</svg>', '<path fill="url(https://example.com/paint)"/></svg>'), 'invoiceExample'), /Unresolved authored CSS/)
+  assert.throws(() => validateAuthoredPaperSvg(source.replace('</svg>', '<image href="data:image/webp;base64,d3Jvbmc="/></svg>'), 'invoiceExample'), /Untrusted authored material/)
 })
 
 const hero = fs.readFileSync(new URL('../public/images/posts/neotoma-paper/hero.svg', import.meta.url), 'utf8')

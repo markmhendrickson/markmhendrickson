@@ -20,6 +20,7 @@ export const PAPER_ASSET_HASHES = {
 const paperDir = 'frontend/src/components/onepager/'
 const reviewedWrapper = 'import "./paper_scene.css";\nexport * from "./PaperSceneDrawing";'
 const PAPER_SCENES = { hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation' }
+const AUTHORED_PAPER_SCENES = ['invoice-example', 'vision-domain', 'vision-positions', 'vision-explanation']
 const OG_NAME = 'one-place-where-a-fact-is-settled-paper-1200x630.jpg'
 const sha256 = (value) => createHash('sha256').update(value).digest('hex')
 
@@ -147,11 +148,82 @@ export async function rasterPaperSvg(svg) {
   return Buffer.from(svg)
 }
 
+/** Native SVGs use the same fixed trust boundary and raster adapter as donor exports. */
+export function validateAuthoredPaperSvg(svg, scene) {
+  if (!Object.values(PAPER_SCENES).includes(scene) || !svg.includes(`data-paper-scene="${scene}"`) || !/viewBox="0 0 900 600"/.test(svg)) throw new Error('Unknown authored scene contract')
+  if (/<(?:script|foreignObject|text|animate|set)\b|\son\w+\s*=|@import\b/i.test(svg)) throw new Error('Unexpected active or visible text content in authored artwork')
+  const ids = new Set([...svg.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]))
+  const materials = new Set()
+  for (const [, href] of svg.matchAll(/\b(?:xlink:)?href="([^"]+)"/g)) {
+    if (href.startsWith('#') && ids.has(href.slice(1))) continue
+    if (!href.startsWith('data:image/webp;base64,')) throw new Error('Unresolved authored SVG dependency')
+    const hash = sha256(Buffer.from(href.slice(href.indexOf(',') + 1), 'base64'))
+    if (!Object.values(PAPER_ASSET_HASHES).includes(hash)) throw new Error('Untrusted authored material')
+    materials.add(hash)
+  }
+  if (!materials.has(PAPER_TEXTURE_SHA256)) throw new Error('Missing authored paper texture')
+  for (const [, ref] of svg.matchAll(/url\(["']?([^\s)'";]+)["']?\)/g)) {
+    if (!ref.startsWith('#') || !ids.has(ref.slice(1))) throw new Error('Unresolved authored CSS dependency')
+  }
+  return ensureSvgNamespace(svg)
+}
+
+/** Copy the selected authored source, then derive all public rasters from those exact bytes. */
+export async function exportAuthoredPaperArtwork(commit) {
+  if (!/^[a-f0-9]{40}$/.test(commit)) throw new Error('Authored export requires an exact source commit')
+  const read = (file) => execFileSync('git', ['-C', appRoot, 'show', `${commit}:${file}`], { maxBuffer: 16 * 1024 * 1024 })
+  execFileSync('git', ['-C', appRoot, 'cat-file', '-e', `${commit}^{commit}`])
+  const repository = execFileSync('git', ['-C', appRoot, 'remote', 'get-url', 'origin'], { encoding: 'utf8' }).trim().replace(/\.git$/, '')
+  if (!/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(repository)) throw new Error('Unknown authored source repository')
+  const publicDir = path.join(appRoot, 'public/images/posts/neotoma-paper')
+  const inlineDir = path.join(appRoot, 'src/assets/neotoma-paper')
+  const provenancePath = path.join(publicDir, 'provenance.json')
+  const previous = JSON.parse(fs.readFileSync(provenancePath, 'utf8'))
+  const retained = retainedPaperOutputs(previous, new Set(AUTHORED_PAPER_SCENES), publicDir, inlineDir, path.join(appRoot, 'public/images/og'))
+  const exporterPath = 'react-app/scripts/export-paper-artwork.mjs'
+  const sourceHashes = { [exporterPath]: sha256(read(exporterPath)) }
+  const outputSources = { ...retained }
+  const hashes = Object.fromEntries(Object.entries(retained).map(([file, entry]) => [file, entry.sha256]))
+  const outputs = new Map()
+  for (const name of AUTHORED_PAPER_SCENES) {
+    const sourcePath = `react-app/src/assets/neotoma-paper/authored/${name}.svg`
+    const source = read(sourcePath)
+    const svg = validateAuthoredPaperSvg(source.toString(), PAPER_SCENES[name])
+    if (svg !== source.toString()) throw new Error('Authored source must declare its own SVG namespace')
+    sourceHashes[sourcePath] = sha256(source)
+    const png = await sharp(await rasterPaperSvg(svg)).resize(1200, 800).png().toBuffer()
+    for (const [extension, bytes] of [['svg', source], ['png', png]]) {
+      const file = `${name}.${extension}`
+      outputs.set(file, bytes)
+      hashes[file] = sha256(bytes)
+      outputSources[file] = { sourceRepository: repository, sourceCommit: commit, sourceKind: 'authored-svg', sourcePath, sourceSha256: sha256(source), scene: PAPER_SCENES[name], sha256: hashes[file] }
+    }
+  }
+  for (const [file, bytes] of outputs) {
+    fs.writeFileSync(path.join(publicDir, file), bytes)
+    if (file.endsWith('.svg')) fs.writeFileSync(path.join(inlineDir, file), bytes)
+  }
+  fs.writeFileSync(provenancePath, JSON.stringify({
+    ...previous,
+    refreshedScenes: AUTHORED_PAPER_SCENES,
+    retainedOutputs: retained,
+    authoredSourceRepository: repository,
+    authoredSourceCommit: commit,
+    authoredSourceFiles: Object.keys(sourceHashes),
+    authoredSourceHashes: sourceHashes,
+    sourceInputsByCommit: { ...previous.sourceInputsByCommit, [commit]: { sourceRepository: repository, sourceFiles: Object.keys(sourceHashes), sourceHashes } },
+    outputSources, hashes,
+    method: 'Retained donor scenes keep their original per-output provenance. Invoice and advanced scenes use committed, wordless native SVG source under the same trusted inline/public asset contract; SVG bytes copy exactly and PNGs derive from those bytes through the existing verified material raster adapter. No new renderer or external fetch.',
+  }, null, 2) + '\n')
+  console.log(`Exported ${AUTHORED_PAPER_SCENES.length} authored scenes from ${commit}; retained ${Object.keys(retained).length} outputs`)
+}
+
 /** Read every donor input from Git objects, never a sibling's in-progress working files. */
 export async function exportPaperArtwork(sourceRoot, commit, requestedScenes = Object.keys(PAPER_SCENES)) {
   if (!sourceRoot || !commit) throw new Error('Usage: node scripts/export-paper-artwork.mjs <source-checkout> <commit>')
   if (!/^[a-f0-9]{40}$/.test(commit)) throw new Error('Donor requires an exact commit hash')
   if (!Array.isArray(requestedScenes) || requestedScenes.length === 0 || new Set(requestedScenes).size !== requestedScenes.length || requestedScenes.some((scene) => !PAPER_SCENES[scene])) throw new Error('Unknown or duplicate paper scene selection')
+  if (requestedScenes.some((scene) => fs.existsSync(path.join(appRoot, 'src/assets/neotoma-paper/authored', `${scene}.svg`)))) throw new Error('Authored scenes must use --authored; donor export cannot overwrite approved native artwork')
   const selected = Object.fromEntries(requestedScenes.map((scene) => [scene, PAPER_SCENES[scene]]))
   execFileSync('git', ['-C', sourceRoot, 'cat-file', '-e', `${commit}^{commit}`])
   const read = (file) => execFileSync('git', ['-C', sourceRoot, 'show', `${commit}:${file}`], { maxBuffer: 16 * 1024 * 1024 })
@@ -256,5 +328,6 @@ export async function exportPaperArtwork(sourceRoot, commit, requestedScenes = O
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  await exportPaperArtwork(process.argv[2], process.argv[3], process.argv[4]?.split(','))
+  if (process.argv[2] === '--authored') await exportAuthoredPaperArtwork(process.argv[3])
+  else await exportPaperArtwork(process.argv[2], process.argv[3], process.argv[4]?.split(','))
 }

@@ -227,6 +227,30 @@ test('article registration observes replacement SVG nodes after an ordinary subt
   assert(env.mutations[0].disconnected)
 })
 
+test('an already visible logical scene does not replay merely because Post replaces its DOM', () => {
+  const env = environment()
+  const object = () => new env.Element({ enterX: '20', enterY: '0', enterRotation: '0' })
+  const oldObject = object(), newObject = object()
+  const oldScene = new env.Element(), newScene = new env.Element()
+  for (const scene of [oldScene, newScene]) scene.setAttribute('data-paper-scene', 'visionPositions')
+  oldScene.querySelectorAll = (selector) => selector.includes('object') ? [oldObject] : []
+  newScene.querySelectorAll = (selector) => selector.includes('object') ? [newObject] : []
+  let children = [oldScene]
+  const stop = motion.observePaperArticle({ querySelectorAll: () => children })
+  const observer = env.observers[0]
+  observer.enter(oldScene)
+  oldScene.isConnected = false
+  children = [newScene]
+  env.mutations[0].change()
+  observer.enter(newScene)
+  assert.equal(newObject.calls.length, 0, 'ordinary rerender preserves settled visible pose')
+  assert.equal(newScene.getAttribute('data-motion-entry-count'), '1')
+  observer.enter(newScene, false); observer.enter(newScene)
+  assert.equal(newObject.calls.length, 1, 'real viewport re-entry plays the replacement')
+  assert.equal(newScene.getAttribute('data-motion-entry-count'), '2')
+  stop()
+})
+
 test('arbitrary markdown URLs never enter the inline HTML trust boundary', () => {
   for (const src of ['https://example.com/hero.svg', '/images/posts/neotoma-paper/../../untrusted.svg', '/images/posts/neotoma-paper/hero.svg?untrusted']) {
     assert.equal(hasPaperArtwork(src), false)
