@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { StaticRouter } from 'react-router-dom/server'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Layout } from './components/Layout'
 import ErrorBoundary from '@shared/components/ErrorBoundary'
 import Timeline from './pages/Timeline'
@@ -31,6 +31,7 @@ import { localizePath, resolvePreferredLocale, stripLocaleFromPath } from './i18
 import { UmamiRouteTracker } from './lib/analytics'
 
 const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
+const DesignStudy = import.meta.env.DEV ? lazy(() => import('./dev/DesignStudy')) : null
 
 function RedirectToLocalizedHome() {
   const { locale } = useLocale()
@@ -145,6 +146,7 @@ function App({ url }: AppProps) {
   ) : (
     <BrowserRouter future={routerFuture}>
       <UmamiRouteTracker />
+      {DesignStudy && <Suspense fallback={null}><DesignStudy /></Suspense>}
       {routes}
     </BrowserRouter>
   )
