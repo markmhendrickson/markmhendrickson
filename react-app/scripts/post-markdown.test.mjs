@@ -75,3 +75,27 @@ test('public generation resolves aliases and excludes drafts, unlisted records a
 test('missing optional metadata does not invent summary, image, excerpt or postscript', () => {
   assert.equal(composePostMarkdown({ title: 'Only title', body: 'Only body.' }), '# Only title\n\nOnly body.\n')
 })
+
+test('only recognized publication flags expose source content or emit public Markdown', (t) => {
+  const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'post-markdown-flags-'))
+  t.after(() => fs.rmSync(fixture, { recursive: true, force: true }))
+  fs.mkdirSync(path.join(fixture, 'cache'), { recursive: true })
+  const allowed = [true, 1, 'true', '1', ' TRUE ']
+  const denied = [false, 'false', 0, null, undefined, 'junk', {}, [], 2]
+  const posts = [...allowed, ...denied].map((published, index) => ({ slug: `post-${index}`, title: `Post ${index}`, published, body: `Unique source ${index}.` }))
+  fs.writeFileSync(path.join(fixture, 'cache/posts.json'), JSON.stringify(posts))
+  const repository = createPostMarkdownRepository(fixture)
+  for (let index = 0; index < posts.length; index++) {
+    const actual = repository.resolve(posts[index].slug)
+    if (index < allowed.length) assert(actual?.includes(posts[index].body))
+    else assert.equal(actual, null, `rejects ${JSON.stringify(posts[index].published)}`)
+  }
+  assert.deepEqual(repository.publishedOutputs().map(({ outputPath }) => outputPath), allowed.map((_, index) => `posts/post-${index}.md`))
+})
+
+test('an image example inside fenced code does not suppress the metadata hero or caption', () => {
+  const code = '```md\n![example](/images/posts/hero.svg)\n```'
+  const result = composePostMarkdown({ title: 'Title', heroImage: 'hero.svg', heroImageCaption: 'Caption', body: `${code}\n\nNarrative.` })
+  assert(result.includes('![Title](</images/posts/hero.svg>)\n\nCaption\n\n' + code))
+  assert.equal(result.split('/images/posts/hero.svg').length - 1, 2, 'one rendered hero and one preserved code example')
+})

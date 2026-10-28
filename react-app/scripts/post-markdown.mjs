@@ -1,9 +1,10 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { isPublishedPost, isTruthyFlag } from '../src/lib/post-publication.mjs'
 
 const text = (value) => typeof value === 'string' ? value.trim() : ''
 const variants = (post) => [post.slug, ...(Array.isArray(post.alternativeSlugs) ? post.alternativeSlugs : [])]
-const isPublic = (post) => post.published !== false && post.unlisted !== true
+const isPublic = (post) => isPublishedPost(post) && !isTruthyFlag(post.unlisted)
 const takeawaysHeading = /^##\s+(?:Key\s+takeaways|Conclusiones\s+clave|Mencions\s+clau\s+per\s+emportar|要点|मुख्य\s+बातें|الوجبات\s+الرئيسية|Points\s+clés\s+à\s+retenir|Principais\s+conclusões|Ключевые\s+выводы|মূল\s+উপায়|اہم\s+نکات|Poin-poin\s+penting|Wichtige\s+Erkenntnisse)\s*$/i
 
 function sectionLine(lines, matches) {
@@ -71,6 +72,21 @@ function imageUrl(image) {
   return `/images/${image.startsWith('og/') ? '' : 'posts/'}${image}`
 }
 
+function hasAuthoredHero(body, image) {
+  let fence
+  const prose = body.split(/\r?\n/).filter((line) => {
+    const marker = /^ {0,3}(`{3,}|~{3,})/.exec(line)?.[1]
+    if (marker) {
+      if (!fence) fence = marker
+      else if (marker[0] === fence[0] && marker.length >= fence.length) fence = undefined
+      return false
+    }
+    return !fence
+  }).join('\n').replace(/(`+)[\s\S]*?\1/g, '')
+  const images = [...prose.matchAll(/!\[(?:\\.|[^\]\\])*\]\(\s*(?:<([^>\n]+)>|([^\s)]+))/g)]
+  return images.some((match) => [image, imageUrl(image)].includes(match[1] || match[2]))
+}
+
 /** Assemble a readable document, rather than exporting only the body fragment. */
 export function composePostMarkdown(post, { body = post.body, summary = post.summary, postscript = post.postscript, takeawaysLabel = 'Key takeaways' } = {}) {
   let main = stripFrontmatter(typeof body === 'string' ? body : '').trim()
@@ -93,7 +109,7 @@ export function composePostMarkdown(post, { body = post.body, summary = post.sum
   if (text(post.heroImage)) {
     const url = imageUrl(post.heroImage)
     // Do not repeat a hero already authored in the body.
-    if (!main.includes(url) && !main.includes(`](${post.heroImage}`)) {
+    if (!hasAuthoredHero(main, post.heroImage)) {
       const alt = text(post.heroImageAlt) || title
       sections.push(`![${alt.replace(/([\\\[\]])/g, '\\$1')}](<${url}>)`)
       const caption = [text(post.heroImageLabel), text(post.heroImageCaption)].filter(Boolean).join('. ')
@@ -142,7 +158,7 @@ export function createPostMarkdownRepository(root, { defaultLocale = 'en' } = {}
     if (!post && allowDrafts && !localized) {
       post = readJson(path.join(cache, 'posts.private.json')).find((candidate) => variants(candidate).includes(slug))
     }
-    if (post && (post.unlisted === true || (!allowDrafts && !isPublic(post)))) return null
+    if (post && (isTruthyFlag(post.unlisted) || (!allowDrafts && !isPublic(post)))) return null
     if (!post && (!allowDrafts || localized)) return null
     const canonical = post?.slug || slug
     const draftSource = allowDrafts && (!post || !isPublic(post))
