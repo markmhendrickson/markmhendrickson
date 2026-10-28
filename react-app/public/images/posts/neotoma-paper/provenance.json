@@ -146,6 +146,23 @@
         "react-app/src/assets/neotoma-paper/authored/vision-positions.svg": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
         "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2"
       }
+    },
+    "39d6a508504826e4709434142397256d0efa95fe": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceFiles": [
+        "react-app/scripts/export-paper-artwork.mjs",
+        "react-app/src/assets/neotoma-paper/authored/invoice-example.svg",
+        "react-app/src/assets/neotoma-paper/authored/vision-domain.svg",
+        "react-app/src/assets/neotoma-paper/authored/vision-positions.svg",
+        "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg"
+      ],
+      "sourceHashes": {
+        "react-app/scripts/export-paper-artwork.mjs": "38624613413cc85c2e5728705ee49fba197301681a2526a8dd50e7389ac4e0e1",
+        "react-app/src/assets/neotoma-paper/authored/invoice-example.svg": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
+        "react-app/src/assets/neotoma-paper/authored/vision-domain.svg": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
+        "react-app/src/assets/neotoma-paper/authored/vision-positions.svg": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
+        "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2"
+      }
     }
   },
   "refreshedScenes": [
@@ -243,7 +260,7 @@
     },
     "invoice-example.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
       "sourceKind": "authored-svg",
       "sourcePath": "react-app/src/assets/neotoma-paper/authored/invoice-example.svg",
       "sourceSha256": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
@@ -252,7 +269,7 @@
     },
     "invoice-example.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
       "sourceKind": "authored-svg",
       "sourcePath": "react-app/src/assets/neotoma-paper/authored/invoice-example.svg",
       "sourceSha256": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
@@ -261,7 +278,7 @@
     },
     "vision-domain.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
       "sourceKind": "authored-svg",
       "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-domain.svg",
       "sourceSha256": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
@@ -270,7 +287,7 @@
     },
     "vision-domain.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
       "sourceKind": "authored-svg",
       "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-domain.svg",
       "sourceSha256": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
@@ -279,7 +296,7 @@
     },
     "vision-positions.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
       "sourceKind": "authored-svg",
       "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-positions.svg",
       "sourceSha256": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
@@ -288,7 +305,7 @@
     },
     "vision-positions.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
       "sourceKind": "authored-svg",
       "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-positions.svg",
       "sourceSha256": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
@@ -297,7 +314,7 @@
     },
     "vision-explanation.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
       "sourceKind": "authored-svg",
       "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg",
       "sourceSha256": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2",
@@ -306,7 +323,7 @@
     },
     "vision-explanation.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
       "sourceKind": "authored-svg",
       "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg",
       "sourceSha256": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2",
@@ -479,7 +496,7 @@
     "vision-explanation.png": "b0cb6a25dd84164fd5aa3a11fa338adc9ad9afd2945d571ba0801754a2986e6c"
   },
   "authoredSourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-  "authoredSourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+  "authoredSourceCommit": "39d6a508504826e4709434142397256d0efa95fe",
   "authoredSourceFiles": [
     "react-app/scripts/export-paper-artwork.mjs",
     "react-app/src/assets/neotoma-paper/authored/invoice-example.svg",
@@ -488,7 +505,7 @@
     "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg"
   ],
   "authoredSourceHashes": {
-    "react-app/scripts/export-paper-artwork.mjs": "77bcc87f9d70eb9d61d0e635b5a3c25810844a3b81c6fb6750aecc0ea0374c52",
+    "react-app/scripts/export-paper-artwork.mjs": "38624613413cc85c2e5728705ee49fba197301681a2526a8dd50e7389ac4e0e1",
     "react-app/src/assets/neotoma-paper/authored/invoice-example.svg": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
     "react-app/src/assets/neotoma-paper/authored/vision-domain.svg": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
     "react-app/src/assets/neotoma-paper/authored/vision-positions.svg": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
