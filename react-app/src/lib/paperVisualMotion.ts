@@ -1,74 +1,111 @@
 // Reused from Neotoma's paper-scene motion; entry gate aligned with 7dd82c1 (MIT).
-import { useEffect, type RefObject } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 
 type Play = (target: Element) => Animation[];
 const MAX_ACTIVE_SCENES = 2;
 
-/** Animate only actual entry transitions. The authored final state is always visible without JS. */
-export function observeViewportMotion(targets: Element[], play: Play): () => void {
+/** Animate actual entries, sharing a bounded FIFO budget across all visible scenes. */
+export function observeViewportMotion(targets: Element[], play: Play, root?: HTMLElement): () => void {
   if (!window.matchMedia || !window.IntersectionObserver || !Element.prototype.animate)
     return () => {};
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const registered = new Set(targets);
   const inside = new Set<Element>();
+  const visible = new Set<Element>();
+  const pending = new Set<Element>();
   const running = new Map<Element, Animation[]>();
+  let disposed = false;
   const cancel = (target: Element) => {
     running.get(target)?.forEach((animation) => animation.cancel());
     running.delete(target);
   };
-  const enter = (target: Element) => {
-    cancel(target);
-    // Additional visible scenes keep their complete authored pose. A later viewport re-entry
-    // may animate them, without queuing a jump from a settled pose to an offscreen pose.
-    if (reduced.matches || document.hidden || running.size >= MAX_ACTIVE_SCENES) return;
-    const animations = play(target);
-    if (animations.length === 0) return;
-    target.setAttribute("data-motion-entry-count", String(Number(target.getAttribute("data-motion-entry-count") || 0) + 1));
-    target.setAttribute("data-motion-animation-count", String(animations.length));
-    running.set(target, animations);
-    for (const animation of animations) {
-      void animation.finished
-        .then(() => {
-          animation.cancel();
-          if (
-            running.get(target) === animations &&
-            animations.every((item) => item.playState !== "running")
-          )
-            running.delete(target);
-        })
-        .catch(() => {});
+  const drain = () => {
+    if (disposed || reduced.matches || document.hidden) return;
+    for (const target of pending) {
+      if (running.size >= MAX_ACTIVE_SCENES) break;
+      if (!registered.has(target) || target.isConnected === false) {
+        pending.delete(target);
+        continue;
+      }
+      if (!visible.has(target)) continue;
+      pending.delete(target);
+      const animations = play(target);
+      if (animations.length === 0) continue;
+      target.setAttribute("data-motion-entry-count", String(Number(target.getAttribute("data-motion-entry-count") || 0) + 1));
+      target.setAttribute("data-motion-animation-count", String(animations.length));
+      running.set(target, animations);
+      void Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
+        if (running.get(target) !== animations) return;
+        animations.forEach((animation) => animation.cancel());
+        running.delete(target);
+        drain();
+      });
     }
   };
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
         const target = entry.target;
-        if (entry.isIntersecting) {
-          if (entry.intersectionRatio < 0.35) continue;
+        if (!registered.has(target)) continue;
+        if (!entry.isIntersecting) {
+          inside.delete(target);
+          visible.delete(target);
+          pending.delete(target);
+          cancel(target);
+        } else if (entry.intersectionRatio < 0.35) {
+          visible.delete(target);
+        } else {
+          visible.add(target);
           if (!inside.has(target)) {
             inside.add(target);
-            enter(target);
+            if (!reduced.matches && !document.hidden) pending.add(target);
           }
-        } else {
-          inside.delete(target);
-          cancel(target);
         }
       }
+      drain();
     },
     { threshold: [0, 0.35] }
   );
-  targets.forEach((target) => observer.observe(target));
+  registered.forEach((target) => observer.observe(target));
+  // Markdown components can remount SVGs without changing the article content.
+  // Reconcile the real subtree, removing stale registrations before enrolling replacements.
+  const mutations = root && window.MutationObserver ? new window.MutationObserver(() => {
+    const current = new Set(root.querySelectorAll<SVGSVGElement>("[data-paper-scene]"));
+    for (const target of registered) {
+      if (current.has(target as SVGSVGElement)) continue;
+      observer.unobserve(target);
+      registered.delete(target);
+      inside.delete(target);
+      visible.delete(target);
+      pending.delete(target);
+      cancel(target);
+    }
+    for (const target of current) {
+      if (registered.has(target)) continue;
+      registered.add(target);
+      observer.observe(target);
+    }
+    drain();
+  }) : null;
+  mutations?.observe(root!, { childList: true, subtree: true });
+  const suppress = () => {
+    pending.clear();
+    registered.forEach(cancel);
+  };
   const motionChange = () => {
-    if (reduced.matches) targets.forEach(cancel);
+    if (reduced.matches) suppress();
   };
   const visibilityChange = () => {
-    if (document.hidden) targets.forEach(cancel);
-    // A tab resume keeps settled scenes settled. Only a new viewport entry replays a scene.
+    if (document.hidden) suppress();
+    // Resume remains settled; only a new viewport entry may enqueue motion.
   };
   reduced.addEventListener("change", motionChange);
   document.addEventListener("visibilitychange", visibilityChange);
   return () => {
+    disposed = true;
     observer.disconnect();
-    targets.forEach(cancel);
+    mutations?.disconnect();
+    suppress();
     reduced.removeEventListener("change", motionChange);
     document.removeEventListener("visibilitychange", visibilityChange);
   };
@@ -147,12 +184,20 @@ export function playPaperScene(target: Element): Animation[] {
 }
 
 export function observePaperArticle(root: HTMLElement): () => void {
-  return observeViewportMotion([...root.querySelectorAll<SVGSVGElement>("[data-paper-scene]")], playPaperScene);
+  return observeViewportMotion([...root.querySelectorAll<SVGSVGElement>("[data-paper-scene]")], playPaperScene, root);
 }
 
 export function usePageVisualMotion(ref: RefObject<HTMLElement>, revision?: unknown) {
+  const current = useRef<{ root: HTMLElement; stop: () => void } | null>(null);
+  // Run after every commit to recover a replaced article ref as well as SVG-only remounts.
+  // An unchanged root keeps its observer and playback state; it does not replay on rerender.
   useEffect(() => {
-    if (!ref.current) return;
-    return observePaperArticle(ref.current);
+    if (current.current?.root === ref.current) return;
+    current.current?.stop();
+    current.current = ref.current ? { root: ref.current, stop: observePaperArticle(ref.current) } : null;
+  });
+  useEffect(() => () => {
+    current.current?.stop();
+    current.current = null;
   }, [ref, revision]);
 }

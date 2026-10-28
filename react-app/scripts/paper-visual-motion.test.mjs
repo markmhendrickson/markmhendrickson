@@ -14,12 +14,15 @@ function environment() {
   const preferences = new Map()
   const reduced = { matches: false, addEventListener: (name, fn) => preferences.set(name, fn), removeEventListener: (name) => preferences.delete(name) }
   const observers = []
+  const mutations = []
   class Element {
-    constructor(dataset = {}) { this.dataset = dataset; this.calls = []; this.attributes = new Map() }
+    constructor(dataset = {}) { this.dataset = dataset; this.calls = []; this.attributes = new Map(); this.isConnected = true }
     setAttribute(name, value) { this.attributes.set(name, value) }
     getAttribute(name) { return this.attributes.get(name) ?? null }
     animate(frames, options) {
-      const animation = { frames, options, cancelled: 0, playState: 'running', finished: new Promise(() => {}), cancel() { this.cancelled++; this.playState = 'idle' } }
+      let finish
+      const finished = new Promise((resolve) => { finish = resolve })
+      const animation = { frames, options, cancelled: 0, playState: 'running', finished, finish() { this.playState = 'finished'; finish() }, cancel() { this.cancelled++; this.playState = 'idle' } }
       this.calls.push(animation)
       return animation
     }
@@ -27,14 +30,21 @@ function environment() {
   class Observer {
     constructor(callback, options) { this.callback = callback; this.options = options; this.targets = []; this.disconnected = false; observers.push(this) }
     observe(target) { this.targets.push(target) }
+    unobserve(target) { this.targets = this.targets.filter((item) => item !== target) }
     disconnect() { this.disconnected = true }
     enter(target, isIntersecting = true, intersectionRatio = isIntersecting ? 1 : 0) { this.callback([{ target, isIntersecting, intersectionRatio }]) }
   }
+  class Mutation {
+    constructor(callback) { this.callback = callback; mutations.push(this) }
+    observe(root, options) { this.root = root; this.options = options }
+    disconnect() { this.disconnected = true }
+    change() { this.callback([]) }
+  }
   globalThis.Element = Element
   globalThis.IntersectionObserver = Observer
-  globalThis.window = { matchMedia: () => reduced, IntersectionObserver: Observer }
+  globalThis.window = { matchMedia: () => reduced, IntersectionObserver: Observer, MutationObserver: Mutation }
   globalThis.document = { hidden: false, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: (name) => listeners.delete(name) }
-  return { Element, observers, reduced, preferences, listeners }
+  return { Element, observers, mutations, reduced, preferences, listeners }
 }
 
 test('paper arrivals animate real objects from outside the frame, settle, then draw connections', () => {
@@ -147,7 +157,7 @@ test('every trusted paper scene uses its supplied accessible name', () => {
   }
 })
 
-test('one article observer shares the two-scene budget across hero and all six interior figures', () => {
+test('one article observer shares two slots and drains still-visible scenes in entry order', async () => {
   const env = environment()
   const objects = Array.from({ length: 7 }, () => new env.Element({ enterX: '1050', enterY: '0', enterRotation: '5', enterDelay: '0' }))
   const scenes = objects.map((object) => {
@@ -162,14 +172,59 @@ test('one article observer shares the two-scene budget across hero and all six i
   assert.equal(observer.targets.length, 7)
   scenes.forEach((scene) => observer.enter(scene))
   assert.deepEqual(objects.map((object) => object.calls.length), [1, 1, 0, 0, 0, 0, 0])
-  observer.enter(scenes[0], false)
-  observer.enter(scenes[6], false); observer.enter(scenes[6])
-  assert.equal(objects[6].calls.length, 1)
+  objects[0].calls[0].finish()
+  await new Promise(setImmediate)
+  assert.deepEqual(objects.map((object) => object.calls.length), [1, 1, 1, 0, 0, 0, 0], 'completion enrolls third visible scene without exit/re-entry')
+  observer.enter(scenes[1], false)
+  assert.deepEqual(objects.map((object) => object.calls.length), [1, 1, 1, 1, 0, 0, 0], 'exit releases a slot to the next queued scene')
   document.hidden = true; env.listeners.get('visibilitychange')()
   document.hidden = false; env.listeners.get('visibilitychange')()
-  assert.deepEqual(objects.map((object) => object.calls.length), [1, 1, 0, 0, 0, 0, 1])
+  assert.deepEqual(objects.map((object) => object.calls.length), [1, 1, 1, 1, 0, 0, 0], 'tab resume does not play old queued entries')
+  observer.enter(scenes[6], false); observer.enter(scenes[6])
+  assert.equal(objects[6].calls.length, 1, 'a real new entry can play after resume')
   stop()
   assert(observer.disconnected)
+})
+
+test('queued scenes that leave or become suppressed never replay when a slot frees', async () => {
+  for (const suppress of ['exit', 'reduced', 'hidden']) {
+    const env = environment()
+    const scenes = Array.from({ length: 3 }, () => new env.Element())
+    const stop = motion.observeViewportMotion(scenes, (target) => [target.animate([], {})])
+    const observer = env.observers[0]
+    scenes.forEach((scene) => observer.enter(scene))
+    if (suppress === 'exit') observer.enter(scenes[2], false)
+    if (suppress === 'reduced') { env.reduced.matches = true; env.preferences.get('change')(); env.reduced.matches = false; env.preferences.get('change')() }
+    if (suppress === 'hidden') { document.hidden = true; env.listeners.get('visibilitychange')(); document.hidden = false; env.listeners.get('visibilitychange')() }
+    scenes[0].calls[0].finish()
+    await new Promise(setImmediate)
+    assert.equal(scenes[2].calls.length, 0, suppress)
+    stop()
+  }
+})
+
+test('article registration observes replacement SVG nodes after an ordinary subtree remount', () => {
+  const env = environment()
+  const oldObject = new env.Element({ enterX: '20', enterY: '0', enterRotation: '0' })
+  const newObject = new env.Element({ enterX: '20', enterY: '0', enterRotation: '0' })
+  const oldScene = new env.Element(), newScene = new env.Element()
+  oldScene.querySelectorAll = (selector) => selector.includes('object') ? [oldObject] : []
+  newScene.querySelectorAll = (selector) => selector.includes('object') ? [newObject] : []
+  let children = [oldScene]
+  const stop = motion.observePaperArticle({ querySelectorAll: () => children })
+  const observer = env.observers[0]
+  observer.enter(oldScene)
+  oldScene.isConnected = false
+  children = [newScene]
+  assert.equal(env.mutations.length, 1, 'article child changes are observed')
+  env.mutations[0].change()
+  assert.deepEqual(observer.targets, [newScene], 'removed node unobserved and replacement enrolled')
+  assert.equal(oldObject.calls[0].cancelled, 1)
+  observer.enter(newScene)
+  assert.equal(newScene.getAttribute('data-motion-entry-count'), '1')
+  assert.equal(newObject.calls.length, 1)
+  stop()
+  assert(env.mutations[0].disconnected)
 })
 
 test('arbitrary markdown URLs never enter the inline HTML trust boundary', () => {
