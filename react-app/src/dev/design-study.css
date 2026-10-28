@@ -79,7 +79,7 @@ html[data-design-study='editorial'] .post-prose h2 {
   letter-spacing: -0.025em;
 }
 
-html[data-design-study='editorial'] .post-prose h3 {
+html[data-design-study='editorial'] .post-prose h3:not(.essay-paper-label) {
   font-size: clamp(1.125rem, 2vw, 1.375rem);
   font-weight: 600;
   line-height: 1.3;
