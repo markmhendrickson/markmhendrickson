@@ -8,9 +8,9 @@
     <lastBuildDate>Mon, 26 Oct 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://markmhendrickson.com/rss.xml" rel="self" type="application/rss+xml"/>
   <item>
-    <title>One place where a fact is settled</title>
+    <title>Your agents need a system of record</title>
     <link>https://markmhendrickson.com/posts/one-place-where-a-fact-is-settled</link>
-    <description>Without a system of record, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer.</description>
+    <description>When agents work across tools, they can act on different versions of the same fact. Neotoma gives the agents you connect a system of record where they can read the current values and inspect the observations and sources behind them.</description>
     <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
     <guid isPermaLink="true">https://markmhendrickson.com/posts/one-place-where-a-fact-is-settled</guid>
   </item>

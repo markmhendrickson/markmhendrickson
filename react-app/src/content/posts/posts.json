@@ -1504,8 +1504,8 @@
     "slug": "one-place-where-a-fact-is-settled",
     "published": true,
     "publishedDate": "2026-10-26",
-    "title": "One place where a fact is settled",
-    "excerpt": "Without a system of record, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer.",
+    "title": "Your agents need a system of record",
+    "excerpt": "When agents work across tools, they can act on different versions of the same fact. Neotoma gives the agents you connect a system of record where they can read the current values and inspect the observations and sources behind them.",
     "category": "Agent Architecture",
     "readTime": 5,
     "tags": [
