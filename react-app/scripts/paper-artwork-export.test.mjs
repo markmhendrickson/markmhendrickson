@@ -156,11 +156,11 @@ test('static successful-load state hides duplicate backing only for direct cutou
   assert(!allScenes.includes('onload='))
 })
 
-test('reviewed hero and retained invoice and other scenes have truthful mixed-output provenance', () => {
+test('authored advanced scenes and retained donor scenes have truthful mixed-output provenance', () => {
   const provenance = JSON.parse(fs.readFileSync(new URL('../public/images/posts/neotoma-paper/provenance.json', import.meta.url)))
   assert.equal(Object.keys(provenance.scenes).length, renderedNames.length)
   assert(!('tools' in provenance.scenes))
-  assert.deepEqual(provenance.refreshedScenes, ['hero'])
+  assert.deepEqual(provenance.refreshedScenes, ['invoice-example', 'vision-domain', 'vision-positions', 'vision-explanation'])
   assert.equal(provenance.sourceCommit, '5d3c3caf1ca64124f03b35b5986be47413517e0b')
   assert(provenance.sourceFiles.includes('frontend/src/components/onepager/PaperSceneDrawing.tsx'))
   assert(provenance.sourceFiles.includes('frontend/src/site/topic_drawings.ts'))
@@ -171,9 +171,17 @@ test('reviewed hero and retained invoice and other scenes have truthful mixed-ou
       const hash = createHash('sha256').update(bytes).digest('hex')
       assert.equal(provenance.hashes[file], hash)
       assert.equal(provenance.outputSources[file].sha256, hash)
-      const expectedCommit = name === 'tools' ? '45d2bee4954d6a500523f2d54d238544519fa050' : name === 'hero' ? provenance.sourceCommit : name === 'invoice-example' ? '2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca' : '38ada80a2a086c1905f12272306e79677dfef581'
+      const authored = provenance.refreshedScenes.includes(name)
+      const expectedCommit = authored ? provenance.authoredSourceCommit : name === 'tools' ? '45d2bee4954d6a500523f2d54d238544519fa050' : name === 'hero' ? provenance.sourceCommit : '38ada80a2a086c1905f12272306e79677dfef581'
       assert.equal(provenance.outputSources[file].sourceCommit, expectedCommit)
-      if (name !== 'hero') assert.equal(provenance.retainedOutputs[file].sha256, hash)
+      if (authored) {
+        const source = fs.readFileSync(new URL(`../../${provenance.outputSources[file].sourcePath}`, import.meta.url))
+        assert.equal(provenance.outputSources[file].sourceKind, 'authored-svg')
+        assert.equal(provenance.outputSources[file].sourceSha256, createHash('sha256').update(source).digest('hex'))
+        if (extension === 'svg') assert(source.equals(bytes), `${name}: source and export are byte-identical`)
+        assert.equal(provenance.outputSources[file].sourceRepository, provenance.authoredSourceRepository)
+      } else assert.equal(provenance.retainedOutputs[file].sha256, hash)
+      if (extension === 'svg') assert(fs.readFileSync(new URL(`../src/assets/neotoma-paper/${file}`, import.meta.url)).equals(bytes), `${name}: inline/public parity`)
     }
   }
   for (const file of ['hero-square.png', 'one-place-where-a-fact-is-settled-paper-1200x630.jpg']) {
@@ -183,6 +191,7 @@ test('reviewed hero and retained invoice and other scenes have truthful mixed-ou
     assert.equal(provenance.outputSources[file].sourceCommit, provenance.sourceCommit)
   }
   assert.equal(provenance.retainedOutputs['tools.svg'].renderedInArticle, false)
+  for (const [file, hash] of Object.entries(provenance.authoredSourceHashes)) assert.equal(createHash('sha256').update(fs.readFileSync(new URL(`../../${file}`, import.meta.url))).digest('hex'), hash, file)
 })
 
 test('raster adapter decodes every trusted material including the envelope before Sharp', async () => {

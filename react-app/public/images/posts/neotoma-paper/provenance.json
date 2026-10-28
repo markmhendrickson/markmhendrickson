@@ -129,10 +129,30 @@
         "frontend/public/brand/october/hybrid/folder-sage.webp": "280af24f30bdd170f64fdf579b5a69717226d59d3338f2d1a6c1bb2ea7d77ebe",
         "frontend/public/brand/october/hybrid/envelope-blue.webp": "23d773b7e7bfdb79abd06a5b0b1f308c93de1675a0fee0e14def6ecf829941d6"
       }
+    },
+    "fa4d8282d03c04cc59e7de31625de375ab1c760b": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceFiles": [
+        "react-app/scripts/export-paper-artwork.mjs",
+        "react-app/src/assets/neotoma-paper/authored/invoice-example.svg",
+        "react-app/src/assets/neotoma-paper/authored/vision-domain.svg",
+        "react-app/src/assets/neotoma-paper/authored/vision-positions.svg",
+        "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg"
+      ],
+      "sourceHashes": {
+        "react-app/scripts/export-paper-artwork.mjs": "77bcc87f9d70eb9d61d0e635b5a3c25810844a3b81c6fb6750aecc0ea0374c52",
+        "react-app/src/assets/neotoma-paper/authored/invoice-example.svg": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
+        "react-app/src/assets/neotoma-paper/authored/vision-domain.svg": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
+        "react-app/src/assets/neotoma-paper/authored/vision-positions.svg": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
+        "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2"
+      }
     }
   },
   "refreshedScenes": [
-    "hero"
+    "invoice-example",
+    "vision-domain",
+    "vision-positions",
+    "vision-explanation"
   ],
   "retainedOutputs": {
     "tools.svg": {
@@ -157,45 +177,25 @@
       "scene": "observation",
       "sha256": "666dac39f7f8d719e309d176e55c41a8429fce1739c3a89d2d8cd4c6d274ed5f"
     },
-    "vision-domain.svg": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionDomain",
-      "sha256": "5cafc8a6f27d3985ea99f75dd17f98e599b4ba9677b83b76fe4009e2c75859a6"
+    "hero.svg": {
+      "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
+      "scene": "hero",
+      "sha256": "a55e3b5c8f039c454dd8fae19ba13e7a9fb9f9d190a5a3fdc4b75e9bb013e791"
     },
-    "vision-domain.png": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionDomain",
-      "sha256": "89407f20b18fc0b9f1c886f5879dcea58f15eee5b62f47a3365430badc7f2dc8"
+    "hero.png": {
+      "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
+      "scene": "hero",
+      "sha256": "1af8ba4002481ff49191cb3c2fe5ce05517287af6860e77f79b91a351725dfae"
     },
-    "vision-positions.svg": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionPositions",
-      "sha256": "b6ddbef656b6af394f103d27718239b10604e0d5413c4e72960a9780f32bb83e"
+    "hero-square.png": {
+      "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
+      "scene": "hero",
+      "sha256": "bb10ae88111239200e3002934e63826ee82878215e111af6a8bf3bbb0f571474"
     },
-    "vision-positions.png": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionPositions",
-      "sha256": "73f5d356c579888b0a50182bc7ccd6e18d9bb53968d401bfcacf6ba2dd6387a0"
-    },
-    "vision-explanation.svg": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionExplanation",
-      "sha256": "33ad1eb42a076ac29c1753bbb921521758324030cfe0d764fdc9e1de69c3f5db"
-    },
-    "vision-explanation.png": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionExplanation",
-      "sha256": "bbe855b5ac998309d6739f09d27ae1bc4264a3ebc36cb3014bbba601fef51f3e"
-    },
-    "invoice-example.svg": {
-      "sourceCommit": "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca",
-      "scene": "invoiceExample",
-      "sha256": "4a11a8b9aafcea8a6850b83d2a675756f21a5844cbb9912ad73d2c19b53d1469"
-    },
-    "invoice-example.png": {
-      "sourceCommit": "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca",
-      "scene": "invoiceExample",
-      "sha256": "d98d15082b5651c05075e1ed0cee7272cd7ccfa6b36676380ec04a169858d73b"
+    "one-place-where-a-fact-is-settled-paper-1200x630.jpg": {
+      "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
+      "scene": "hero",
+      "sha256": "385a33acda0c0459f0cdaa124f7e5e8cca23f2daf7fc946702f9cfe5fb37394a"
     }
   },
   "outputSources": {
@@ -221,46 +221,6 @@
       "scene": "observation",
       "sha256": "666dac39f7f8d719e309d176e55c41a8429fce1739c3a89d2d8cd4c6d274ed5f"
     },
-    "vision-domain.svg": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionDomain",
-      "sha256": "5cafc8a6f27d3985ea99f75dd17f98e599b4ba9677b83b76fe4009e2c75859a6"
-    },
-    "vision-domain.png": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionDomain",
-      "sha256": "89407f20b18fc0b9f1c886f5879dcea58f15eee5b62f47a3365430badc7f2dc8"
-    },
-    "vision-positions.svg": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionPositions",
-      "sha256": "b6ddbef656b6af394f103d27718239b10604e0d5413c4e72960a9780f32bb83e"
-    },
-    "vision-positions.png": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionPositions",
-      "sha256": "73f5d356c579888b0a50182bc7ccd6e18d9bb53968d401bfcacf6ba2dd6387a0"
-    },
-    "vision-explanation.svg": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionExplanation",
-      "sha256": "33ad1eb42a076ac29c1753bbb921521758324030cfe0d764fdc9e1de69c3f5db"
-    },
-    "vision-explanation.png": {
-      "sourceCommit": "38ada80a2a086c1905f12272306e79677dfef581",
-      "scene": "visionExplanation",
-      "sha256": "bbe855b5ac998309d6739f09d27ae1bc4264a3ebc36cb3014bbba601fef51f3e"
-    },
-    "invoice-example.svg": {
-      "sourceCommit": "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca",
-      "scene": "invoiceExample",
-      "sha256": "4a11a8b9aafcea8a6850b83d2a675756f21a5844cbb9912ad73d2c19b53d1469"
-    },
-    "invoice-example.png": {
-      "sourceCommit": "2cf74a7a0f8b29bd6a662ec1af6b4c72b4cc39ca",
-      "scene": "invoiceExample",
-      "sha256": "d98d15082b5651c05075e1ed0cee7272cd7ccfa6b36676380ec04a169858d73b"
-    },
     "hero.svg": {
       "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
       "scene": "hero",
@@ -280,6 +240,78 @@
       "sourceCommit": "5d3c3caf1ca64124f03b35b5986be47413517e0b",
       "scene": "hero",
       "sha256": "385a33acda0c0459f0cdaa124f7e5e8cca23f2daf7fc946702f9cfe5fb37394a"
+    },
+    "invoice-example.svg": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceKind": "authored-svg",
+      "sourcePath": "react-app/src/assets/neotoma-paper/authored/invoice-example.svg",
+      "sourceSha256": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
+      "scene": "invoiceExample",
+      "sha256": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9"
+    },
+    "invoice-example.png": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceKind": "authored-svg",
+      "sourcePath": "react-app/src/assets/neotoma-paper/authored/invoice-example.svg",
+      "sourceSha256": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
+      "scene": "invoiceExample",
+      "sha256": "579d465c08a155dfaf0930a2dcc8ba1d2fb671061382a67ef7515a448b1c9a7d"
+    },
+    "vision-domain.svg": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceKind": "authored-svg",
+      "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-domain.svg",
+      "sourceSha256": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
+      "scene": "visionDomain",
+      "sha256": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a"
+    },
+    "vision-domain.png": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceKind": "authored-svg",
+      "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-domain.svg",
+      "sourceSha256": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
+      "scene": "visionDomain",
+      "sha256": "4c3bdd660bec332e69125369e67dfbd3fbdddb928a7144e052dfd8fde2289f7d"
+    },
+    "vision-positions.svg": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceKind": "authored-svg",
+      "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-positions.svg",
+      "sourceSha256": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
+      "scene": "visionPositions",
+      "sha256": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465"
+    },
+    "vision-positions.png": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceKind": "authored-svg",
+      "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-positions.svg",
+      "sourceSha256": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
+      "scene": "visionPositions",
+      "sha256": "f398892fb75e6f0eed5ff035b0c2bde3e03943ab32b0e94eeeaea4abe2e43744"
+    },
+    "vision-explanation.svg": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceKind": "authored-svg",
+      "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg",
+      "sourceSha256": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2",
+      "scene": "visionExplanation",
+      "sha256": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2"
+    },
+    "vision-explanation.png": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+      "sourceKind": "authored-svg",
+      "sourcePath": "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg",
+      "sourceSha256": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2",
+      "scene": "visionExplanation",
+      "sha256": "b0cb6a25dd84164fd5aa3a11fa338adc9ad9afd2945d571ba0801754a2986e6c"
     }
   },
   "derivedRasterMatte": {
@@ -427,23 +459,39 @@
       "channels": 3840000
     }
   },
-  "method": "Pinned Git-object authored settled SVG exports, scoped CSS, literal colors and embedded trusted local texture; identical inline/public SVGs and derived PNG/square/OG exports. No external fetch.",
+  "method": "Retained donor scenes keep their original per-output provenance. Invoice and advanced scenes use committed, wordless native SVG source under the same trusted inline/public asset contract; SVG bytes copy exactly and PNGs derive from those bytes through the existing verified material raster adapter. No new renderer or external fetch.",
   "hashes": {
     "tools.svg": "f7a9ac79682851bcb7d48f15791cd92eb56e7ab6dc33543118f937b3b38886c9",
     "tools.png": "db52e5f85e111368fa28df58d3a8f9ca84b1158d81597ec9f87537bf696f4658",
     "observation.svg": "0b449f14559a7e2902be93f7b08211729beb692a4d20e94d1a2102ed9de4af39",
     "observation.png": "666dac39f7f8d719e309d176e55c41a8429fce1739c3a89d2d8cd4c6d274ed5f",
-    "vision-domain.svg": "5cafc8a6f27d3985ea99f75dd17f98e599b4ba9677b83b76fe4009e2c75859a6",
-    "vision-domain.png": "89407f20b18fc0b9f1c886f5879dcea58f15eee5b62f47a3365430badc7f2dc8",
-    "vision-positions.svg": "b6ddbef656b6af394f103d27718239b10604e0d5413c4e72960a9780f32bb83e",
-    "vision-positions.png": "73f5d356c579888b0a50182bc7ccd6e18d9bb53968d401bfcacf6ba2dd6387a0",
-    "vision-explanation.svg": "33ad1eb42a076ac29c1753bbb921521758324030cfe0d764fdc9e1de69c3f5db",
-    "vision-explanation.png": "bbe855b5ac998309d6739f09d27ae1bc4264a3ebc36cb3014bbba601fef51f3e",
-    "invoice-example.svg": "4a11a8b9aafcea8a6850b83d2a675756f21a5844cbb9912ad73d2c19b53d1469",
-    "invoice-example.png": "d98d15082b5651c05075e1ed0cee7272cd7ccfa6b36676380ec04a169858d73b",
     "hero.svg": "a55e3b5c8f039c454dd8fae19ba13e7a9fb9f9d190a5a3fdc4b75e9bb013e791",
     "hero.png": "1af8ba4002481ff49191cb3c2fe5ce05517287af6860e77f79b91a351725dfae",
     "hero-square.png": "bb10ae88111239200e3002934e63826ee82878215e111af6a8bf3bbb0f571474",
-    "one-place-where-a-fact-is-settled-paper-1200x630.jpg": "385a33acda0c0459f0cdaa124f7e5e8cca23f2daf7fc946702f9cfe5fb37394a"
+    "one-place-where-a-fact-is-settled-paper-1200x630.jpg": "385a33acda0c0459f0cdaa124f7e5e8cca23f2daf7fc946702f9cfe5fb37394a",
+    "invoice-example.svg": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
+    "invoice-example.png": "579d465c08a155dfaf0930a2dcc8ba1d2fb671061382a67ef7515a448b1c9a7d",
+    "vision-domain.svg": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
+    "vision-domain.png": "4c3bdd660bec332e69125369e67dfbd3fbdddb928a7144e052dfd8fde2289f7d",
+    "vision-positions.svg": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
+    "vision-positions.png": "f398892fb75e6f0eed5ff035b0c2bde3e03943ab32b0e94eeeaea4abe2e43744",
+    "vision-explanation.svg": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2",
+    "vision-explanation.png": "b0cb6a25dd84164fd5aa3a11fa338adc9ad9afd2945d571ba0801754a2986e6c"
+  },
+  "authoredSourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+  "authoredSourceCommit": "fa4d8282d03c04cc59e7de31625de375ab1c760b",
+  "authoredSourceFiles": [
+    "react-app/scripts/export-paper-artwork.mjs",
+    "react-app/src/assets/neotoma-paper/authored/invoice-example.svg",
+    "react-app/src/assets/neotoma-paper/authored/vision-domain.svg",
+    "react-app/src/assets/neotoma-paper/authored/vision-positions.svg",
+    "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg"
+  ],
+  "authoredSourceHashes": {
+    "react-app/scripts/export-paper-artwork.mjs": "77bcc87f9d70eb9d61d0e635b5a3c25810844a3b81c6fb6750aecc0ea0374c52",
+    "react-app/src/assets/neotoma-paper/authored/invoice-example.svg": "82c222789f43325530d33a61f4fa40ca637afb907de8bd268c591fafcb3863f9",
+    "react-app/src/assets/neotoma-paper/authored/vision-domain.svg": "0c67053948debb5847e5373e19d53c5387dd16c7f39a4d2ffead1c3333281c2a",
+    "react-app/src/assets/neotoma-paper/authored/vision-positions.svg": "9cb835fa1c17a68df1f8f3c16b37f7184acf6ead55983b4d0440e723ef19a465",
+    "react-app/src/assets/neotoma-paper/authored/vision-explanation.svg": "afceb98154f199d60e48696682dad74635fd2f4b279ed97ab212120c57933af2"
   }
 }
