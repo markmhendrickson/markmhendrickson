@@ -172,6 +172,30 @@ export function springFrames(x: number, y: number, rotation: number): Keyframe[]
 }
 
 export function playPaperScene(target: Element): Animation[] {
+  if (target.getAttribute?.("data-paper-treatment") === "photographic-paper") {
+    // The photograph already contains the complete physical scene. Emphasize
+    // registered ink only; never pretend baked paper objects can move separately.
+    return [...target.querySelectorAll<SVGElement>("[data-paper-highlight]")].map((highlight) => {
+      const trace = highlight.dataset.paperHighlight === "trace";
+      const frames: Keyframe[] = trace ? [
+        { opacity: 0, strokeDasharray: "1", strokeDashoffset: "1", offset: 0 },
+        { opacity: 0.95, strokeDasharray: "1", strokeDashoffset: "1", offset: 0.08 },
+        { opacity: 0.95, strokeDasharray: "1", strokeDashoffset: "0", offset: 0.68 },
+        { opacity: 0.95, strokeDasharray: "1", strokeDashoffset: "0", offset: 0.82 },
+        { opacity: 0, strokeDasharray: "1", strokeDashoffset: "0", offset: 1 },
+      ] : [
+        { opacity: 0, offset: 0 },
+        { opacity: 0.95, offset: 0.2 },
+        { opacity: 0.95, offset: 0.75 },
+        { opacity: 0, offset: 1 },
+      ];
+      return highlight.animate(frames, {
+        duration: Number(highlight.dataset.highlightDuration),
+        delay: Number(highlight.dataset.highlightDelay || 0),
+        easing: "ease-in-out", fill: "both",
+      });
+    });
+  }
   const objects = [...target.querySelectorAll<SVGElement>("[data-paper-object]")];
   const duration = PAPER_SPRING_MS;
   let settledAt = duration;

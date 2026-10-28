@@ -18,6 +18,12 @@ export const PAPER_ASSET_HASHES = {
   '/brand/october/hybrid/folder-sage.webp': '280af24f30bdd170f64fdf579b5a69717226d59d3338f2d1a6c1bb2ea7d77ebe',
   '/brand/october/hybrid/envelope-blue.webp': '23d773b7e7bfdb79abd06a5b0b1f308c93de1675a0fee0e14def6ecf829941d6',
 }
+export const PAPER_PHOTO_ASSETS = {
+  visionDomain: { file: 'governed-collaboration.webp', sha256: '268c61dc2465b1c25cddff288ec9e55de3b0bcbcb62076203839215399f8495a' },
+  visionPositions: { file: 'competing-claims-and-decisions.webp', sha256: '3bdd47b254b163d73b958f7caf6987dd4d69d2f96a5a99a6288a6cad9ad29f07' },
+  visionExplanation: { file: 'explanations-and-impact.webp', sha256: '8083e4bab93c0dcdf79e601a9dd16746e87fdbf6bee6c996c3e7b51795122f40' },
+}
+const trustedRasterHashes = () => [...Object.values(PAPER_ASSET_HASHES), ...Object.values(PAPER_PHOTO_ASSETS).map((asset) => asset.sha256)]
 const paperDir = 'frontend/src/components/onepager/'
 const reviewedWrapper = 'import "./paper_scene.css";\nexport * from "./PaperSceneDrawing";'
 const PAPER_SCENES = { hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation' }
@@ -142,7 +148,7 @@ export async function rasterPaperSvg(svg) {
   if (uris.size === 0) throw new Error('Missing embedded paper texture for rasterization')
   for (const uri of uris) {
     const bytes = Buffer.from(uri.slice(uri.indexOf(',') + 1), 'base64')
-    if (!Object.values(PAPER_ASSET_HASHES).includes(sha256(bytes))) throw new Error('Paper asset hash mismatch')
+    if (!trustedRasterHashes().includes(sha256(bytes))) throw new Error('Paper asset hash mismatch')
     const png = await sharp(bytes).png().toBuffer()
     svg = svg.replaceAll(uri, `data:image/png;base64,${png.toString('base64')}`)
   }
@@ -194,11 +200,22 @@ export function validateAuthoredPaperSvg(svg, scene) {
         if (href.startsWith('#') && ids.has(href.slice(1))) continue
         if (!href.startsWith('data:image/webp;base64,')) throw new Error('Unresolved authored SVG dependency')
         const hash = sha256(Buffer.from(href.slice(href.indexOf(',') + 1), 'base64'))
-        if (!Object.values(PAPER_ASSET_HASHES).includes(hash)) throw new Error('Untrusted authored material')
+        if (!trustedRasterHashes().includes(hash)) throw new Error('Untrusted authored material')
         materials.add(hash)
       }
     }
-    if (!materials.has(PAPER_TEXTURE_SHA256)) throw new Error('Missing authored paper texture')
+    if (root.getAttribute('data-paper-treatment') === 'photographic-paper') {
+      const photo = PAPER_PHOTO_ASSETS[scene]
+      const image = root.querySelector('[data-paper-photograph]')
+      if (!photo || !materials.has(photo.sha256) || materials.size !== 1 || !image || image.parentElement !== root || image.getAttribute('width') !== '900' || image.getAttribute('height') !== '600' || image.getAttribute('preserveAspectRatio') !== 'xMidYMid meet' || image.getAttribute('opacity') !== '1' || image.hasAttribute('style') || image.hasAttribute('transform') || root.querySelector('[data-paper-object]')) throw new Error('Unknown photographic scene binding')
+      const highlights = [...root.querySelectorAll('[data-paper-highlight]')]
+      if (highlights.length === 0) throw new Error('Missing photographic ink emphasis')
+      for (const highlight of highlights) {
+        const duration = Number(highlight.getAttribute('data-highlight-duration'))
+        const delay = Number(highlight.getAttribute('data-highlight-delay'))
+        if (highlight.localName !== 'path' || !['trace', 'focus'].includes(highlight.getAttribute('data-paper-highlight')) || highlight.getAttribute('pathLength') !== '1' || highlight.getAttribute('opacity') !== '0' || highlight.getAttribute('fill') !== 'none' || highlight.hasAttribute('transform') || !Number.isFinite(duration) || duration < 200 || duration > 5000 || !Number.isFinite(delay) || delay < 0 || delay > 5000) throw new Error('Unknown photographic emphasis contract')
+      }
+    } else if (!materials.has(PAPER_TEXTURE_SHA256)) throw new Error('Missing authored paper texture')
     return svg
   } finally { parsed.window.close() }
 }
@@ -222,6 +239,14 @@ export async function exportAuthoredPaperArtwork(commit) {
   const retained = retainedPaperOutputs(previous, new Set(AUTHORED_PAPER_SCENES), publicDir, inlineDir, path.join(appRoot, 'public/images/og'))
   const exporterPath = 'react-app/scripts/export-paper-artwork.mjs'
   const sourceHashes = { [exporterPath]: sha256(read(exporterPath)) }
+  for (const { file, sha256: expected } of Object.values(PAPER_PHOTO_ASSETS)) {
+    const filePath = `react-app/src/assets/neotoma-paper/authored/photos/${file}`
+    const bytes = read(filePath)
+    if (sha256(bytes) !== expected) throw new Error('Changed canonical photograph')
+    sourceHashes[filePath] = expected
+  }
+  const photoOriginPath = 'react-app/src/assets/neotoma-paper/authored/photos/origin.json'
+  sourceHashes[photoOriginPath] = sha256(read(photoOriginPath))
   const outputSources = { ...retained }
   const hashes = Object.fromEntries(Object.entries(retained).map(([file, entry]) => [file, entry.sha256]))
   const outputs = new Map()

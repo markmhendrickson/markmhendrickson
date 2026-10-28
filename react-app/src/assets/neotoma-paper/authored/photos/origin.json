@@ -1,0 +1,45 @@
+{
+  "method": "OpenAI image_gen, reference-guided paper photography; no new model credentials or API provider",
+  "sourceDimensions": [
+    1536,
+    1024
+  ],
+  "formatBuild": {
+    "encoder": "Sharp WebP",
+    "quality": 90,
+    "effort": 6,
+    "purpose": "Asset compression only; complete source composition preserved, no creative pixel painting or resynthesis"
+  },
+  "assets": {
+    "governed-collaboration": {
+      "file": "governed-collaboration.webp",
+      "sha256": "268c61dc2465b1c25cddff288ec9e55de3b0bcbcb62076203839215399f8495a",
+      "bytes": 135144,
+      "originalFile": "governed-collaboration.png",
+      "originalSha256": "527d621d100ba51e6188629c03e261002b190c05b7c540aa682aad53104d5d13",
+      "originalBytes": 2112192
+    },
+    "competing-claims-and-decisions": {
+      "file": "competing-claims-and-decisions.webp",
+      "sha256": "3bdd47b254b163d73b958f7caf6987dd4d69d2f96a5a99a6288a6cad9ad29f07",
+      "bytes": 158068,
+      "originalFile": "competing-claims-and-decisions.png",
+      "originalSha256": "7959ad183ace5b0046b6988b9c66b6e069352ebc336167f53f0aecb8d87c62c7",
+      "originalBytes": 2277382
+    },
+    "explanations-and-impact": {
+      "file": "explanations-and-impact.webp",
+      "sha256": "8083e4bab93c0dcdf79e601a9dd16746e87fdbf6bee6c996c3e7b51795122f40",
+      "bytes": 185462,
+      "originalFile": "explanations-and-impact.png",
+      "originalSha256": "30526f7fafc6ed5aaaecdda84993171918e1fd230571537b6f7b84db1212d866",
+      "originalBytes": 2352084
+    }
+  },
+  "prompts": {
+    "governed_collaboration": "Use case: precise-object-edit. Image1 is edit target, an existing realistic cream two-pocket paper folio. Image2 is the canonical Neotoma material/style reference only. Preserve the target's realistic photographed paper construction, landscape3:2composition, two distinctly bounded pockets, navy ruledbars in leftrecord and outlinedcircle in rightrecord, creamy tabletop, soft light/contactshadows. Change ONLY these details: remove the rust key and its key/socket shape entirely, so no generic security/key/lock symbolism. Instead add a narrow rust paper correction tab folded neatly over ONLY the left pocket edge, and a small cream replacement strip with one navy bar inserted halfway over the leftrecord's previous ruledbars, keeping some originalbar visible beneath; correction is clearly scoped to just that compartment. Right pocket and its circle record stay unchanged and undisturbed. Retain a clear fold separating the two domains. Match Image2's fresh fine paper texture and slightly smoother stock, rather than heavily pebbled watercolor paper; natural thin edges and credible contact shadows. No new objects, no text, words, letters, numerals, logos, hands, people, arrows, metal, locks, keys, CGI geometry, beveled outlines or watermark. Material-world fidelity to reference is crucial.",
+    "competing_claims": "Use case: style-transfer. Asset type: wordless editorial illustration for Neotoma's competing claims and decisions future capability. Image 1 is the REJECTED edit target: replace its flat isometric/vector aesthetic entirely, especially rails, cylinder and beveled stages. Image 2 is the APPROVED STYLE REFERENCE ONLY: copy photographed tactile fresh fiber paper, hand-cut edges, soft directional daylight/contact shadows, ivory surface, navy ink with subdued sage and rust paper accents. Complete realistic tabletop paper scene, landscape 3:2. Subject: two separate clearly visible claim slips, one cream and one pale sage, both carrying the SAME small navy circle at upper left to indicate the same subject; they present incompatible value marks, one hollow square and one hollow triangle. A folded cream decision folio sits below and between them, with a small open pocket/window displaying the square-marked position and a restrained rust selection tab. Both original claim slips remain fully exposed beside the folio, connected to its spine by two short fine navy drafting lines, so selecting a position does not erase disagreement. Do not make them look like two separate database objects or two unrelated decisions. Composition an intimate oblique stationery photograph, irregular fan and overlap, not symmetric infographic or abstract mechanism. Paper edges show small natural variation and believable thin thickness, shadows reveal actual resting layers; no huge slabs, plastic, CGI bevels, outlines around thickness, isometric CAD, glossy surfaces. Fresh and cared-for, no grunge or distressed vintage look. Distinct composition from governed collaboration's overhead divided pockets. No words, letters, numbers, logos, people, hands, arrows, captions or watermark. Readable at330px wide.",
+    "explanations": "Use case: style-transfer. Asset type: wordless editorial illustration for Neotoma's explanations and impact future capability. Image 1 is the REJECTED edit target: replace flat beveled isometric layers with a convincing photographed paper construction. Image 2 is the APPROVED STYLE REFERENCE ONLY: match its fresh tactile cream fiber paper, natural thin cut edges, soft side daylight and contact shadows, navy ruled ink, restrained rust/sage/blue accents, warm ivory tabletop. Complete landscape3:2 scene, oblique close-up view of an open paper folio with three short stepped/offset leaves rather than floating geometric platforms. Bottom leaf carries two small differently shaped evidence pieces, a torn-edge source slip and a folded blue envelope corner. Middle translucent sage paper leaf carries a small rust seal tab for accepted basis/authority. Top cream leaf has one cut window revealing the current small navy value bar. A continuous fine navy drafting trace visibly leads from both evidence pieces through the accepted basis tab to this current value, then branches to TWO small connected record tabs on the surface at right. A third small record tab sits nearby but outside the trace, obviously unaffected. Keep this causal path visible and uncluttered; record tabs different sizes or folds, not anonymous abstract blocks. The folio leaves rest and fold naturally with subtle raised edges; realistic fiber/creases/contact shadows, no uniform white edges, perfect bevels, diagrams, acrylic, plastic, thick architectural slabs, CAD rendering or impossible floating elements. Distinct close-up crop and shallow depth from the other two scenes, with all essential connections crisp. No text, letters, numerals, logos, arrows, hands, people, caption or watermark. Fresh refined paper, not old archive/grunge."
+  },
+  "world": "Fresh tactile cut-paper photography, navy ink, restrained rust and sage, natural edges and contact shadows; variation by paper construction and crop."
+}

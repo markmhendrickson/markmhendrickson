@@ -66,6 +66,30 @@ test('paper arrivals animate real objects from outside the frame, settle, then d
   assert.equal(connections[0].calls[0].frames.at(-1).strokeDashoffset, '0')
 })
 
+test('photographic scenes keep the baked image still while finite highlights trace evidence and return to static', () => {
+  const env = environment()
+  const image = new env.Element()
+  const trace = new env.Element({ highlightDelay: '120', highlightDuration: '1700', paperHighlight: 'trace' })
+  const focus = new env.Element({ highlightDelay: '1100', highlightDuration: '1000', paperHighlight: 'focus' })
+  const root = new env.Element()
+  root.setAttribute('data-paper-treatment', 'photographic-paper')
+  root.querySelectorAll = (selector) => selector === '[data-paper-highlight]' ? [trace, focus] : []
+  const animations = motion.playPaperScene(root)
+  assert.equal(animations.length, 2)
+  assert.equal(image.calls.length, 0, 'no pan, float or fragment motion on the photograph')
+  assert.equal(trace.calls[0].options.delay, 120)
+  assert.equal(trace.calls[0].options.duration, 1700)
+  assert.equal(focus.calls[0].options.delay, 1100)
+  for (const { frames } of animations) {
+    assert.equal(frames[0].opacity, 0)
+    assert.equal(frames.at(-1).opacity, 0, 'clean complete static photograph after emphasis')
+    assert(frames.some((frame) => frame.opacity > 0.5), 'the effect is visibly meaningful between static endpoints')
+    assert(frames.every((frame) => !('transform' in frame)), 'no invented independent photo-object motion')
+  }
+  assert.equal(trace.calls[0].frames[0].strokeDashoffset, '1')
+  assert(trace.calls[0].frames.some((frame) => frame.strokeDashoffset === '0'))
+})
+
 test('observer replays only on real re-entry and cancels on exit, hidden, preference change and unmount', () => {
   const env = environment()
   const root = new env.Element()
