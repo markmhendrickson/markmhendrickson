@@ -152,9 +152,9 @@ export async function rasterPaperSvg(svg) {
 export function validateAuthoredPaperSvg(svg, scene) {
   if (!Object.values(PAPER_SCENES).includes(scene) || !svg.includes(`data-paper-scene="${scene}"`) || !/viewBox="0 0 900 600"/.test(svg)) throw new Error('Unknown authored scene contract')
   if (/<(?:script|foreignObject|text|animate|set)\b|\son\w+\s*=|@import\b/i.test(svg)) throw new Error('Unexpected active or visible text content in authored artwork')
-  const ids = new Set([...svg.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]))
+  const ids = new Set([...svg.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]))
   const materials = new Set()
-  for (const [, href] of svg.matchAll(/\b(?:xlink:)?href="([^"]+)"/g)) {
+  for (const [, href] of svg.matchAll(/\b(?:xlink:)?href=["']([^"']+)["']/g)) {
     if (href.startsWith('#') && ids.has(href.slice(1))) continue
     if (!href.startsWith('data:image/webp;base64,')) throw new Error('Unresolved authored SVG dependency')
     const hash = sha256(Buffer.from(href.slice(href.indexOf(',') + 1), 'base64'))
@@ -162,7 +162,8 @@ export function validateAuthoredPaperSvg(svg, scene) {
     materials.add(hash)
   }
   if (!materials.has(PAPER_TEXTURE_SHA256)) throw new Error('Missing authored paper texture')
-  for (const [, ref] of svg.matchAll(/url\(["']?([^\s)'";]+)["']?\)/g)) {
+  for (const [, value] of svg.matchAll(/url\(([^)]+)\)/g)) {
+    const ref = value.trim().replace(/^(['"])(.*)\1$/, '$2')
     if (!ref.startsWith('#') || !ids.has(ref.slice(1))) throw new Error('Unresolved authored CSS dependency')
   }
   return ensureSvgNamespace(svg)
