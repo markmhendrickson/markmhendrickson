@@ -73,10 +73,12 @@ test('photographic scenes keep the baked image still while finite highlights tra
   const focus = new env.Element({ highlightDelay: '1100', highlightDuration: '1000', paperHighlight: 'focus' })
   const root = new env.Element()
   root.setAttribute('data-paper-treatment', 'photographic-paper')
-  root.querySelectorAll = (selector) => selector === '[data-paper-highlight]' ? [trace, focus] : []
+  root.querySelectorAll = (selector) => selector === '[data-paper-highlight]' ? [trace, focus] : ['image', '[data-paper-photograph]'].includes(selector) ? [image] : []
+  assert.deepEqual(root.querySelectorAll('image'), [image], 'instrument exposes the real photographic base to a mistaken image query')
   const animations = motion.playPaperScene(root)
   assert.equal(animations.length, 2)
   assert.equal(image.calls.length, 0, 'no pan, float or fragment motion on the photograph')
+  assert.equal(root.calls.length, 0, 'the entire scene is not panned or floated either')
   assert.equal(trace.calls[0].options.delay, 120)
   assert.equal(trace.calls[0].options.duration, 1700)
   assert.equal(focus.calls[0].options.delay, 1100)
