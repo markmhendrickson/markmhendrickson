@@ -172,6 +172,34 @@ export function springFrames(x: number, y: number, rotation: number): Keyframe[]
 }
 
 export function playPaperScene(target: Element): Animation[] {
+  if (import.meta.env.DEV && target.getAttribute?.("data-paper-treatment") === "hybrid-record-proof") {
+    // This local proof reuses the shared entry budget and animation ownership.
+    // Sources stay intact; only independent observation carriers and the due field change.
+    const animations: Animation[] = [];
+    for (const object of target.querySelectorAll<SVGElement>("[data-paper-object]")) {
+      animations.push(object.animate(
+        springFrames(Number(object.dataset.enterX || 0), Number(object.dataset.enterY || 0), 0),
+        { duration: PAPER_SPRING_MS, delay: Number(object.dataset.enterDelay || 0), easing: "linear", fill: "both" }
+      ));
+    }
+    for (const path of target.querySelectorAll<SVGGeometryElement>("[data-paper-connection]")) {
+      animations.push(path.animate([
+        { strokeDasharray: "1", strokeDashoffset: "1", opacity: 0 },
+        { strokeDasharray: "1", strokeDashoffset: "1", opacity: 1, offset: 0.02 },
+        { strokeDasharray: "1", strokeDashoffset: "0", opacity: 1 },
+      ], { duration: 650, delay: Number(path.dataset.connectionDelay || 0), easing: "ease-out", fill: "both" }));
+    }
+    for (const field of target.querySelectorAll<SVGElement>("[data-paper-field-state]")) {
+      const current = field.dataset.paperFieldState === "current";
+      animations.push(field.animate([
+        { opacity: current ? 0 : 1, offset: 0 },
+        { opacity: current ? 0 : 1, offset: 0.62 },
+        { opacity: current ? 1 : 0, offset: 0.72 },
+        { opacity: current ? 1 : 0, offset: 1 },
+      ], { duration: 4200, easing: "ease-in-out", fill: "both" }));
+    }
+    return animations;
+  }
   if (target.getAttribute?.("data-paper-treatment") === "photographic-paper") {
     // The photograph already contains the complete physical scene. Emphasize
     // registered ink only; never pretend baked paper objects can move separately.

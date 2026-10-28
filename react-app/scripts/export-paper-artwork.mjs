@@ -23,10 +23,16 @@ export const PAPER_PHOTO_ASSETS = {
   visionPositions: { file: 'competing-claims-and-decisions.webp', sha256: '3bdd47b254b163d73b958f7caf6987dd4d69d2f96a5a99a6288a6cad9ad29f07' },
   visionExplanation: { file: 'explanations-and-impact.webp', sha256: '8083e4bab93c0dcdf79e601a9dd16746e87fdbf6bee6c996c3e7b51795122f40' },
 }
+export const PAPER_PROOF_ASSETS = {
+  'document-packet': '59e2ce139e5606fbc64ecb27abf5b41ac615e8cf86866af21e08158f47fc4773',
+  'email-envelope': '83ef47976c1a1f661a02e90139c294240f532d84a2ba33c5a67e4c2418aacaa6',
+  'observation-slip': 'b13701ca89a9a7b39c542ad55d3a53057944e3df31574019558e8389281c8a05',
+  'entity-dossier': 'd1133eb4e26412fd0be76929ad257756f370e8f2e8760dd599e47bd41b4b9ece',
+}
 const trustedRasterHashes = () => [...Object.values(PAPER_ASSET_HASHES), ...Object.values(PAPER_PHOTO_ASSETS).map((asset) => asset.sha256)]
 const paperDir = 'frontend/src/components/onepager/'
 const reviewedWrapper = 'import "./paper_scene.css";\nexport * from "./PaperSceneDrawing";'
-const PAPER_SCENES = { hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation' }
+const PAPER_SCENES = { hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation', 'overhead-proof': 'invoiceOverheadProof' }
 const AUTHORED_PAPER_SCENES = ['invoice-example', 'vision-domain', 'vision-positions', 'vision-explanation']
 const OG_NAME = 'one-place-where-a-fact-is-settled-paper-1200x630.jpg'
 const sha256 = (value) => createHash('sha256').update(value).digest('hex')
@@ -148,7 +154,7 @@ export async function rasterPaperSvg(svg) {
   if (uris.size === 0) throw new Error('Missing embedded paper texture for rasterization')
   for (const uri of uris) {
     const bytes = Buffer.from(uri.slice(uri.indexOf(',') + 1), 'base64')
-    if (!trustedRasterHashes().includes(sha256(bytes))) throw new Error('Paper asset hash mismatch')
+    if (![...trustedRasterHashes(), ...Object.values(PAPER_PROOF_ASSETS)].includes(sha256(bytes))) throw new Error('Paper asset hash mismatch')
     const png = await sharp(bytes).png().toBuffer()
     svg = svg.replaceAll(uri, `data:image/png;base64,${png.toString('base64')}`)
   }
@@ -168,6 +174,8 @@ export function validateAuthoredPaperSvg(svg, scene) {
     const elements = [root, ...root.querySelectorAll('*')]
     const ids = new Set(elements.map((element) => element.getAttribute('id')).filter(Boolean))
     const materials = new Set()
+    const overheadProof = root.getAttribute('data-paper-treatment') === 'hybrid-record-proof'
+    const allowedMaterials = overheadProof ? [PAPER_TEXTURE_SHA256, ...Object.values(PAPER_PROOF_ASSETS)] : trustedRasterHashes()
     const localCssUrls = (value) => {
       if (/\\/.test(value)) throw new Error('Unexpected escaped authored CSS syntax')
       for (const [, raw] of value.matchAll(/url\s*\(([^)]+)\)/gi)) {
@@ -200,11 +208,24 @@ export function validateAuthoredPaperSvg(svg, scene) {
         if (href.startsWith('#') && ids.has(href.slice(1))) continue
         if (!href.startsWith('data:image/webp;base64,')) throw new Error('Unresolved authored SVG dependency')
         const hash = sha256(Buffer.from(href.slice(href.indexOf(',') + 1), 'base64'))
-        if (!trustedRasterHashes().includes(hash)) throw new Error('Untrusted authored material')
+        if (!allowedMaterials.includes(hash)) throw new Error('Untrusted authored material')
         materials.add(hash)
       }
     }
-    if (root.getAttribute('data-paper-treatment') === 'photographic-paper') {
+    if (overheadProof) {
+      if (scene !== 'invoiceOverheadProof' || root.getAttribute('data-paper-variant') !== 'overhead-invoice-proof' || materials.size !== 5 || allowedMaterials.some((hash) => !materials.has(hash))) throw new Error('Unknown overhead proof binding')
+      const originals = [...root.querySelectorAll('[data-paper-source]')].map((node) => node.getAttribute('data-paper-source')).sort()
+      const observations = [...root.querySelectorAll('[data-paper-observation]')].map((node) => node.getAttribute('data-paper-observation')).sort()
+      if (originals.join(',') !== 'email,invoice' || observations.join(',') !== 'email-observation,invoice-observation' || root.querySelectorAll('[data-paper-current-record]').length !== 1) throw new Error('Incomplete retained record proof')
+      if (root.querySelector('[data-current-field="amount"]')?.getAttribute('data-observation') !== 'invoice-observation' || root.querySelector('[data-current-field="due"]')?.getAttribute('data-observation') !== 'email-observation') throw new Error('Wrong per-field observation')
+      const before = root.querySelector('[data-paper-field-state="prior"]')
+      const current = root.querySelector('[data-paper-field-state="current"]')
+      if (!before || before.getAttribute('opacity') !== '0' || !current || current.getAttribute('opacity') !== '1') throw new Error('Incomplete static current field')
+      for (const object of root.querySelectorAll('[data-paper-object]')) {
+        const delay = Number(object.getAttribute('data-enter-delay'))
+        if (Number(object.getAttribute('data-enter-rotation')) !== 0 || !Number.isFinite(delay) || delay < 0 || delay > 1800) throw new Error('Unknown overhead paper motion')
+      }
+    } else if (root.getAttribute('data-paper-treatment') === 'photographic-paper') {
       const photo = PAPER_PHOTO_ASSETS[scene]
       const image = root.querySelector('[data-paper-photograph]')
       if (!photo || !materials.has(photo.sha256) || materials.size !== 1 || !image || image.parentElement !== root || image.getAttribute('width') !== '900' || image.getAttribute('height') !== '600' || image.getAttribute('preserveAspectRatio') !== 'xMidYMid meet' || image.getAttribute('opacity') !== '1' || image.hasAttribute('style') || image.hasAttribute('transform') || root.querySelector('[data-paper-object]')) throw new Error('Unknown photographic scene binding')

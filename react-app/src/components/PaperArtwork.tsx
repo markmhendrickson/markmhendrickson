@@ -1,4 +1,4 @@
-import { useId } from 'react'
+import { useEffect, useId, useState } from 'react'
 import hero from '@/assets/neotoma-paper/hero.svg?raw'
 import observation from '@/assets/neotoma-paper/observation.svg?raw'
 import invoice from '@/assets/neotoma-paper/invoice-example.svg?raw'
@@ -25,7 +25,20 @@ export function hasPaperArtwork(src: string | undefined): boolean {
 
 export function PaperArtwork({ src, alt }: { src: string; alt: string }) {
   const prefix = `essay-${useId().replace(/:/g, '')}`
-  const source = artwork.get(src)
+  const [proof, setProof] = useState<string | null>(null)
+  const wantsProof = import.meta.env.DEV && typeof window !== 'undefined' &&
+    src === '/images/posts/neotoma-paper/invoice-example.svg' &&
+    new URLSearchParams(window.location?.search || '').get('visual') === 'overhead-proof'
+  useEffect(() => {
+    if (!import.meta.env.DEV || !wantsProof) { setProof(null); return }
+    let active = true
+    void import('../dev/overhead-record/invoice.svg?raw').then(({ default: svg }) => {
+      if (active) setProof(svg)
+    }).catch(() => { if (active) setProof(null) })
+    return () => { active = false }
+  }, [wantsProof])
+  const selectedProof = wantsProof ? proof : null
+  const source = selectedProof ?? artwork.get(src)
   if (!source) return <img src={src} alt={alt} />
 
   // Every instance needs its own filter, gradient and title IDs after inlining.
@@ -33,7 +46,8 @@ export function PaperArtwork({ src, alt }: { src: string; alt: string }) {
   let svg = source
   // The supplied alternative names every trusted inline scene. Escape it as
   // SVG text before inserting it into the authored title element.
-  const title = alt.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  const name = selectedProof ? 'An overhead invoice proof: the original invoice and email feed two retained observations; the current amount follows the invoice and the current due date follows the email.' : alt
+  const title = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
   svg = svg.replace(/(<title\b[^>]*>)[\s\S]*?(<\/title>)/, (_match, open, close) => `${open}${title}${close}`)
   const ids = [...source.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1])
