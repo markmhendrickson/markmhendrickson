@@ -1,6 +1,6 @@
 [
   {
-    "slug": "one-place-where-a-fact-is-settled",
+    "slug": "your-agents-need-a-system-of-record",
     "title": "موضع واحد يُحسم فيه الأمر بشأن الحقيقة السارية",
     "excerpt": "من دون نظام سجل، يعمل الوكيل بما يتذكره مصادفة: جزء من الجلسة السابقة، أو ملاحظة حفظتها أداته، أو لا شيء. ومع وجوده يقرأ ما حُفظ، ومن أي مصدر جاء، وما الذي يسري الآن، كي تعتمد الوكلاء الذين تصلهم على إجابة واحدة.",
     "published": true,
@@ -24,9 +24,12 @@
     "heroImageAlt": "خمسة سجلات ورقية تصل بينها خطوط كحلية متصلة",
     "heroImageLabel": "سجلات مترابطة",
     "heroImageCaption": "يمكن تتبع كل حقل سارٍ إلى المشاهدات والمصادر التي يستند إليها.",
-    "postId": "one-place-where-a-fact-is-settled",
+    "postId": "your-agents-need-a-system-of-record",
     "locale": "ar",
-    "canonicalSlug": "one-place-where-a-fact-is-settled"
+    "canonicalSlug": "your-agents-need-a-system-of-record",
+    "alternativeSlugs": [
+      "one-place-where-a-fact-is-settled"
+    ]
   },
   {
     "slug": "the-swarm-that-runs-my-work",

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { composePostMarkdown, createPostMarkdownRepository } from './post-markdown.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const essay = 'one-place-where-a-fact-is-settled'
+const essay = 'your-agents-need-a-system-of-record'
 
 test('the real essay export includes its title, excerpt, takeaways, hero and unchanged prose in reading order', () => {
   const post = JSON.parse(fs.readFileSync(path.join(root, 'cache/posts.json'), 'utf8')).find((p) => p.slug === essay)

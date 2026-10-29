@@ -1,6 +1,6 @@
 [
   {
-    "slug": "one-place-where-a-fact-is-settled",
+    "slug": "your-agents-need-a-system-of-record",
     "title": "এক জায়গায় যেখানে কার্যকর তথ্য নির্ধারিত হয়",
     "excerpt": "রেকর্ড ব্যবস্থা ছাড়া এজেন্ট কাকতালীয়ভাবে যা মনে আছে তা নিয়ে কাজ করে: আগের সেশনের অংশ, টুলে সংরক্ষিত একটি নোট, অথবা কিছুই নয়। ব্যবস্থা থাকলে সে পড়তে পারে কী সংরক্ষিত হয়েছে, কোন উৎস থেকে এসেছে এবং এখন কী কার্যকর, যাতে যুক্ত এজেন্টরা একটি উত্তরের ওপর নির্ভর করতে পারে।",
     "published": true,
@@ -24,9 +24,12 @@
     "heroImageAlt": "গাঢ় নীল অবিচ্ছিন্ন রেখায় যুক্ত পাঁচটি কাগুজে নথি",
     "heroImageLabel": "সংযুক্ত রেকর্ড",
     "heroImageCaption": "প্রতিটি বর্তমান ক্ষেত্রের পেছনের পর্যবেক্ষণ ও উৎস পর্যন্ত পথ অনুসরণ করা যায়।",
-    "postId": "one-place-where-a-fact-is-settled",
+    "postId": "your-agents-need-a-system-of-record",
     "locale": "bn",
-    "canonicalSlug": "one-place-where-a-fact-is-settled"
+    "canonicalSlug": "your-agents-need-a-system-of-record",
+    "alternativeSlugs": [
+      "one-place-where-a-fact-is-settled"
+    ]
   },
   {
     "slug": "the-swarm-that-runs-my-work",

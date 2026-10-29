@@ -1,3 +1,4 @@
+import { canonicalPostAliasPath } from './src/lib/post-aliases.mjs'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
@@ -274,8 +275,8 @@ function getPostEntries() {
     for (const p of getPosts(locale)) {
       if (p.published === false || !p.slug) continue
       const lastmod = p.publishedDate ? (p.updatedDate || p.publishedDate) : null
-      const variants = [p.slug, ...(p.alternativeSlugs ?? [])]
-      for (const variant of variants) {
+      // Discovery lists canonical URLs; alias pages remain prerendered separately.
+      for (const variant of [p.slug]) {
         if (!variant) continue
         const pathName = `${localePrefix}/posts/${variant}`
         if (seen.has(pathName)) continue
@@ -603,6 +604,14 @@ async function runPrerender() {
     if (RESERVED_ROOT_PATHS.has(variant)) continue
     redirectLines.push(`/${variant}  /posts/${canonical}  301`)
   }
+  for (const locale of SUPPORTED_LOCALES) {
+    const prefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
+    for (const post of getPosts(locale)) {
+      for (const alias of post.alternativeSlugs ?? []) {
+        if (alias && alias !== post.slug) redirectLines.push(`${prefix}/posts/${alias}  ${prefix}/posts/${post.slug}  301`)
+      }
+    }
+  }
   if (redirectLines.length) {
     fs.writeFileSync(path.join(distPath, '_redirects'), redirectLines.join('\n'), 'utf-8')
     console.log('prerender: _redirects (' + redirectLines.length + ' legacy post redirects)')
@@ -645,6 +654,13 @@ async function createServer() {
       if (canonical) {
         return res.redirect(301, `/posts/${canonical}${req.url.slice(req.path.length) || ''}`)
       }
+    }
+
+    const postMatch = /^\/(?:([a-z]{2})\/)?posts\/([a-zA-Z0-9_-]+)\/?$/.exec(req.path)
+    if (postMatch && (!postMatch[1] || isSupportedLocale(postMatch[1]))) {
+      const canonical = resolveSlugToCanonical(postMatch[2], postMatch[1] || DEFAULT_LOCALE)
+      const target = canonicalPostAliasPath(req.originalUrl, canonical)
+      if (target) return res.redirect(301, target)
     }
 
     // /posts/slug/ -> /posts/slug (canonical no trailing slash)

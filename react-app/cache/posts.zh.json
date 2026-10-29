@@ -1,6 +1,6 @@
 [
   {
-    "slug": "one-place-where-a-fact-is-settled",
+    "slug": "your-agents-need-a-system-of-record",
     "title": "在同一处确定事实的当前值",
     "excerpt": "没有记录系统，智能体只能依赖碰巧记得的内容：上一场会话的一部分、工具存下的笔记，或者什么都没有。有了记录系统，它就能读取保存了什么、来自哪个来源、现在什么有效，让你连接的智能体都能依据同一个答案工作。",
     "published": true,
@@ -24,9 +24,12 @@
     "heroImageAlt": "五份纸质记录由深蓝色实线相连",
     "heroImageLabel": "关联记录",
     "heroImageCaption": "每个当前字段都可以追溯到支撑它的观察和来源。",
-    "postId": "one-place-where-a-fact-is-settled",
+    "postId": "your-agents-need-a-system-of-record",
     "locale": "zh",
-    "canonicalSlug": "one-place-where-a-fact-is-settled"
+    "canonicalSlug": "your-agents-need-a-system-of-record",
+    "alternativeSlugs": [
+      "one-place-where-a-fact-is-settled"
+    ]
   },
   {
     "slug": "the-swarm-that-runs-my-work",

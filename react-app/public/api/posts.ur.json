@@ -2,7 +2,7 @@
   "url": "https://markmhendrickson.com/api/posts.ur.json",
   "posts": [
     {
-      "slug": "one-place-where-a-fact-is-settled",
+      "slug": "your-agents-need-a-system-of-record",
       "title": "ایک جگہ جہاں نافذ حقیقت طے ہوتی ہے",
       "excerpt": "نظامِ ریکارڈ کے بغیر ایجنٹ اس بات پر کام کرتا ہے جو اسے اتفاقاً یاد رہ گئی ہو: پچھلے سیشن کا حصہ، اس کے ٹول کا محفوظ کیا ہوا نوٹ، یا کچھ بھی نہیں۔ نظام ہو تو وہ پڑھ سکتا ہے کہ کیا محفوظ ہوا، کس ماخذ سے آیا اور اب کیا نافذ ہے، تاکہ منسلک ایجنٹ ایک ہی جواب پر انحصار کر سکیں۔",
       "published": true,
@@ -26,9 +26,12 @@
       "heroImageAlt": "پانچ کاغذی ریکارڈ جو گہرے نیلے رنگ کی مسلسل لکیروں سے جڑے ہیں",
       "heroImageLabel": "منسلک ریکارڈ",
       "heroImageCaption": "ہر موجودہ خانے کے پیچھے موجود مشاہدات اور ماخذ تک راستہ معلوم کیا جا سکتا ہے۔",
-      "postId": "one-place-where-a-fact-is-settled",
+      "postId": "your-agents-need-a-system-of-record",
       "locale": "ur",
-      "canonicalSlug": "one-place-where-a-fact-is-settled"
+      "canonicalSlug": "your-agents-need-a-system-of-record",
+      "alternativeSlugs": [
+        "one-place-where-a-fact-is-settled"
+      ]
     },
     {
       "slug": "the-swarm-that-runs-my-work",

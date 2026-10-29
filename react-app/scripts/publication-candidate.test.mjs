@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { applyDocumentLanguage } from './apply-document-language.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const slug = 'one-place-where-a-fact-is-settled'
+const slug = 'your-agents-need-a-system-of-record'
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8')
 const json = (file) => JSON.parse(read(file))
 const matches = (posts) => posts.filter((post) => post.slug === slug)

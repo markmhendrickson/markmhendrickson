@@ -2,7 +2,7 @@
   "url": "https://markmhendrickson.com/api/posts.de.json",
   "posts": [
     {
-      "slug": "one-place-where-a-fact-is-settled",
+      "slug": "your-agents-need-a-system-of-record",
       "title": "Ein Ort, an dem ein Fakt festgelegt wird",
       "excerpt": "Ohne Aufzeichnungssystem arbeitet ein Agent mit dem, woran er sich zufällig erinnert: einem Teil der letzten Sitzung, einer Notiz seines Werkzeugs oder gar nichts. Mit einer Aufzeichnung liest er, was gespeichert wurde, aus welcher Quelle es stammt und was jetzt gilt, sodass verbundene Agenten sich auf eine Antwort stützen können.",
       "published": true,
@@ -26,9 +26,12 @@
       "heroImageAlt": "Fünf Papierdatensätze, verbunden durch durchgezogene marineblaue Linien",
       "heroImageLabel": "Verbundene Datensätze",
       "heroImageCaption": "Jedes aktuelle Feld lässt sich zu den zugrunde liegenden Beobachtungen und Quellen zurückverfolgen.",
-      "postId": "one-place-where-a-fact-is-settled",
+      "postId": "your-agents-need-a-system-of-record",
       "locale": "de",
-      "canonicalSlug": "one-place-where-a-fact-is-settled"
+      "canonicalSlug": "your-agents-need-a-system-of-record",
+      "alternativeSlugs": [
+        "one-place-where-a-fact-is-settled"
+      ]
     },
     {
       "slug": "the-swarm-that-runs-my-work",

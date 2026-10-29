@@ -1,6 +1,6 @@
 [
   {
-    "slug": "one-place-where-a-fact-is-settled",
+    "slug": "your-agents-need-a-system-of-record",
     "title": "एक जगह जहाँ लागू तथ्य तय होता है",
     "excerpt": "अभिलेख प्रणाली के बिना एजेंट उस बात पर काम करता है जो उसे संयोग से याद रह गई हो: पिछले सत्र का हिस्सा, उसके टूल में सहेजा गया नोट, या कुछ भी नहीं। अभिलेख प्रणाली हो तो वह पढ़ता है कि क्या सहेजा गया, किस स्रोत से आया और अभी क्या लागू है, ताकि जुड़े हुए एजेंट एक ही उत्तर पर भरोसा कर सकें।",
     "published": true,
@@ -24,9 +24,12 @@
     "heroImageAlt": "गहरे नीले रंग की ठोस रेखाओं से जुड़े पाँच कागज़ी रिकॉर्ड",
     "heroImageLabel": "जुड़े हुए रिकॉर्ड",
     "heroImageCaption": "हर वर्तमान फ़ील्ड के पीछे के अवलोकनों और स्रोतों तक पहुँचा जा सकता है।",
-    "postId": "one-place-where-a-fact-is-settled",
+    "postId": "your-agents-need-a-system-of-record",
     "locale": "hi",
-    "canonicalSlug": "one-place-where-a-fact-is-settled"
+    "canonicalSlug": "your-agents-need-a-system-of-record",
+    "alternativeSlugs": [
+      "one-place-where-a-fact-is-settled"
+    ]
   },
   {
     "slug": "the-swarm-that-runs-my-work",

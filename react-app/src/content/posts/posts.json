@@ -1501,7 +1501,7 @@
     "updatedDate": "2026-04-29"
   },
   {
-    "slug": "one-place-where-a-fact-is-settled",
+    "slug": "your-agents-need-a-system-of-record",
     "published": true,
     "publishedDate": "2026-10-26",
     "title": "Your agents need a system of record",
@@ -1522,6 +1522,9 @@
     "ogImage": "og/one-place-where-a-fact-is-settled-paper-1200x630.jpg",
     "heroImageAlt": "Five paper records connected by solid navy lines",
     "heroImageLabel": "Connected records",
-    "heroImageCaption": "Each current field traces to the observations and sources behind it."
+    "heroImageCaption": "Each current field traces to the observations and sources behind it.",
+    "alternativeSlugs": [
+      "one-place-where-a-fact-is-settled"
+    ]
   }
 ]

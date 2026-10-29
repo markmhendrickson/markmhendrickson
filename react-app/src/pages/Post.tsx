@@ -1,3 +1,4 @@
+import { canonicalPostAliasPath } from '@/lib/post-aliases.mjs'
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom'
 import { useState, useEffect, useRef, useMemo } from 'react'
 import React from 'react'
@@ -1157,6 +1158,10 @@ export default function Post({ slug: slugProp }: PostProps) {
     return buildSlugToPostMap(publicPostsData as Post[])
   }, [isDev, publicPostsData, postsForSeriesRouting])
   const resolvedCanonicalSlug = slug ? (slugToPostForRoute.get(slug)?.slug ?? slug) : null
+  useEffect(() => {
+    const target = canonicalPostAliasPath(location.pathname + location.search + location.hash, resolvedCanonicalSlug)
+    if (target) navigate(target, { replace: true })
+  }, [location.pathname, location.search, location.hash, resolvedCanonicalSlug, navigate])
   const ssrPost = usePostSSR() as Post | null
   const [post, setPost] = useState<Post | null>(ssrPost ?? null)
   const [content, setContent] = useState(

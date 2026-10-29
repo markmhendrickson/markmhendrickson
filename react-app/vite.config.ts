@@ -1,3 +1,4 @@
+import { canonicalPostAliasPath } from './src/lib/post-aliases.mjs'
 import { defineConfig, loadEnv, type ViteDevServer } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
@@ -39,6 +40,12 @@ function postMarkdownPlugin() {
       server.middlewares.use((req, res, next) => {
         if (req.method !== 'GET' || !req.url) return next()
         const clean = req.url.split('?')[0] ?? ''
+        const aliasMatch = /^\/(?:([a-z]{2})\/)?posts\/([a-zA-Z0-9_-]+)\/?$/.exec(clean)
+        if (aliasMatch) {
+          const post = readCachedPosts(aliasMatch[1]).find((candidate) => candidate.slug === aliasMatch[2] || (Array.isArray(candidate.alternativeSlugs) && candidate.alternativeSlugs.includes(aliasMatch[2])))
+          const target = canonicalPostAliasPath(req.url, post?.slug)
+          if (target) { res.statusCode = 301; res.setHeader('Location', target); res.end(); return }
+        }
         const siblingMatch = clean.match(/^\/(?:([a-z]{2})\/)?posts\/([a-zA-Z0-9_-]+)\.md$/)
         const locale = siblingMatch?.[1]
         const slug = siblingMatch?.[2]

@@ -1,6 +1,6 @@
 [
   {
-    "slug": "one-place-where-a-fact-is-settled",
+    "slug": "your-agents-need-a-system-of-record",
     "title": "Um lugar onde um fato fica estabelecido",
     "excerpt": "Sem um sistema de registro, um agente trabalha com o que por acaso recorda: parte da última sessão, uma nota guardada pela sua ferramenta ou nada. Com um registro, lê o que foi guardado, de que fonte veio e o que está em vigor agora, para que os agentes ligados possam seguir uma única resposta.",
     "published": true,
@@ -24,9 +24,12 @@
     "heroImageAlt": "Cinco registos em papel ligados por linhas contínuas azul-marinho",
     "heroImageLabel": "Registros ligados",
     "heroImageCaption": "Cada campo em vigor permite seguir o rastro até às observações e fontes que o sustentam.",
-    "postId": "one-place-where-a-fact-is-settled",
+    "postId": "your-agents-need-a-system-of-record",
     "locale": "pt",
-    "canonicalSlug": "one-place-where-a-fact-is-settled"
+    "canonicalSlug": "your-agents-need-a-system-of-record",
+    "alternativeSlugs": [
+      "one-place-where-a-fact-is-settled"
+    ]
   },
   {
     "slug": "the-swarm-that-runs-my-work",
