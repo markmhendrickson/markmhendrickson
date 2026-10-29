@@ -1,7 +1,7 @@
 [
   {
     "name": "connectedRecordsProof",
-    "sha256": "ede189ffe29f03a7ac5ed86989d19f374b84d7a8d8a41762767936fe9658758b",
+    "sha256": "264784d2098536c120bed9be3183a7c985d71bcfbc5e818b27b9febea49f5263",
     "objects": {
       "person-record": {
         "material": "entity-dossier",
@@ -155,7 +155,7 @@
   },
   {
     "name": "syntheticSourcesProof",
-    "sha256": "fa769a3e99febe83e13d51805e842ce4d967f1b47ac91a16a60ce1895a174ff9",
+    "sha256": "e32aa18aed6f74a759fd50178ed6b70efb627cb41b814ab22b3a8e1a1abadccd",
     "objects": {
       "invoice-source": {
         "material": "document-packet",
@@ -263,5 +263,269 @@
       ]
     },
     "title": "Original invoice and later email produce two retained observations before any current record is selected"
+  },
+  {
+    "name": "governedCollaborationProof",
+    "sha256": "fd5bad2ec7a5bc7151cf2b6a4d78ddf157d01516136955e2a23e82a0d03aee0c",
+    "objects": {
+      "domain-folio": {
+        "material": "governed-folio",
+        "x": 190,
+        "y": 150,
+        "width": 520,
+        "crop": [
+          55,
+          275,
+          1142,
+          718
+        ],
+        "delay": null
+      },
+      "authorized-actor": {
+        "material": "observation-slip",
+        "x": 60,
+        "y": 25,
+        "width": 210,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": null
+      },
+      "correction-observation": {
+        "material": "observation-slip",
+        "x": 80,
+        "y": 455,
+        "width": 200,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 1100
+      }
+    },
+    "ports": {
+      "authority-to-left-a": {
+        "x": 260.953,
+        "y": 76,
+        "carrier": "authorized-actor",
+        "side": "right"
+      },
+      "authority-to-left-b": {
+        "x": 192.96,
+        "y": 227,
+        "carrier": "domain-folio",
+        "side": "left"
+      },
+      "correction-to-left-a": {
+        "x": 271.384,
+        "y": 502,
+        "carrier": "correction-observation",
+        "side": "right"
+      },
+      "correction-to-left-b": {
+        "x": 192.96,
+        "y": 275,
+        "carrier": "domain-folio",
+        "side": "left"
+      }
+    },
+    "printBoxes": {
+      "domain-folio": [
+        223,
+        176,
+        454,
+        126
+      ],
+      "authorized-actor": [
+        81,
+        53,
+        160,
+        48
+      ],
+      "correction-observation": [
+        101,
+        486,
+        151,
+        34
+      ]
+    },
+    "title": "An authorized correction changes only the left domain while the right domain remains intact"
+  },
+  {
+    "name": "competingClaimsProof",
+    "sha256": "27d2213bfedf773f429dc3e6bf66133b5938e7bdf352b6b33be77acc9c5275dc",
+    "objects": {
+      "claims-sleeve": {
+        "material": "claims-sleeve",
+        "x": 190,
+        "y": 40,
+        "width": 500,
+        "crop": [
+          108,
+          148,
+          1042,
+          971
+        ],
+        "delay": null
+      },
+      "decision-authority": {
+        "material": "observation-slip",
+        "x": 700,
+        "y": 420,
+        "width": 150,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 1100
+      }
+    },
+    "ports": {
+      "selection-authority-a": {
+        "x": 701.632,
+        "y": 457,
+        "carrier": "decision-authority",
+        "side": "left"
+      },
+      "selection-authority-b": {
+        "x": 689.28,
+        "y": 360,
+        "carrier": "claims-sleeve",
+        "side": "right"
+      }
+    },
+    "printBoxes": {
+      "claims-sleeve": [
+        225,
+        74,
+        430,
+        320
+      ],
+      "decision-authority": [
+        718,
+        444,
+        110,
+        34
+      ]
+    },
+    "title": "Two incompatible retained claims remain visible beside an explicit selected position"
+  },
+  {
+    "name": "explanationsImpactProof",
+    "sha256": "d7273027421669993ffc5a0af5bc337b77aea73aaddbb899cce8c3ec1c7c0652",
+    "objects": {
+      "explanation-dossier": {
+        "material": "explanation-dossier",
+        "x": 70,
+        "y": 70,
+        "width": 360,
+        "crop": [
+          198,
+          80,
+          896,
+          1107
+        ],
+        "delay": null
+      },
+      "affected-schedule": {
+        "material": "entity-dossier",
+        "x": 625,
+        "y": 45,
+        "width": 160,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": 0
+      },
+      "affected-payment": {
+        "material": "entity-dossier",
+        "x": 625,
+        "y": 300,
+        "width": 160,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": 900
+      },
+      "unaffected-record": {
+        "material": "entity-dossier",
+        "x": 450,
+        "y": 440,
+        "width": 105,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": null
+      }
+    },
+    "ports": {
+      "impact-schedule-a": {
+        "x": 429.799,
+        "y": 161,
+        "carrier": "explanation-dossier",
+        "side": "right"
+      },
+      "impact-schedule-b": {
+        "x": 627.78,
+        "y": 145,
+        "carrier": "affected-schedule",
+        "side": "left"
+      },
+      "impact-payment-a": {
+        "x": 413.728,
+        "y": 207,
+        "carrier": "explanation-dossier",
+        "side": "right"
+      },
+      "impact-payment-b": {
+        "x": 627.78,
+        "y": 400,
+        "carrier": "affected-payment",
+        "side": "left"
+      }
+    },
+    "printBoxes": {
+      "explanation-dossier": [
+        116,
+        118,
+        235,
+        328
+      ],
+      "affected-schedule": [
+        647,
+        76,
+        115,
+        152
+      ],
+      "affected-payment": [
+        647,
+        331,
+        115,
+        152
+      ],
+      "unaffected-record": [
+        466,
+        459,
+        73,
+        92
+      ]
+    },
+    "title": "A current field reveals retained evidence and authority, with two connected dependents and one unaffected record"
   }
 ]

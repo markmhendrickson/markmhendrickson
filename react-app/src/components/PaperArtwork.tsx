@@ -27,12 +27,15 @@ export function PaperArtwork({ src, alt }: { src: string; alt: string }) {
   const prefix = `essay-${useId().replace(/:/g, '')}`
   const [proof, setProof] = useState<string | null>(null)
   const wantsProof = import.meta.env.DEV && typeof window !== 'undefined' &&
-    ['/images/posts/neotoma-paper/invoice-example.svg','/images/posts/neotoma-paper/hero.svg','/images/posts/neotoma-paper/observation.svg'].includes(src) &&
+    ['/images/posts/neotoma-paper/invoice-example.svg','/images/posts/neotoma-paper/hero.svg','/images/posts/neotoma-paper/observation.svg','/images/posts/neotoma-paper/vision-domain.svg','/images/posts/neotoma-paper/vision-positions.svg','/images/posts/neotoma-paper/vision-explanation.svg'].includes(src) &&
     new URLSearchParams(window.location?.search || '').get('visual') === 'overhead-proof'
   useEffect(() => {
     if (!import.meta.env.DEV || !wantsProof) { setProof(null); return }
     let active = true
-    const load = src === '/images/posts/neotoma-paper/hero.svg' ? import('../dev/overhead-record/connectedRecordsProof.svg?raw') :
+    const load = src === '/images/posts/neotoma-paper/vision-domain.svg' ? import('../dev/overhead-record/governedCollaborationProof.svg?raw') :
+      src === '/images/posts/neotoma-paper/vision-positions.svg' ? import('../dev/overhead-record/competingClaimsProof.svg?raw') :
+      src === '/images/posts/neotoma-paper/vision-explanation.svg' ? import('../dev/overhead-record/explanationsImpactProof.svg?raw') :
+      src === '/images/posts/neotoma-paper/hero.svg' ? import('../dev/overhead-record/connectedRecordsProof.svg?raw') :
       src === '/images/posts/neotoma-paper/observation.svg' ? import('../dev/overhead-record/syntheticSourcesProof.svg?raw') :
       import('../dev/overhead-record/invoice.svg?raw')
     void load.then(({ default: svg }) => {
@@ -49,7 +52,7 @@ export function PaperArtwork({ src, alt }: { src: string; alt: string }) {
   let svg = source
   // The supplied alternative names every trusted inline scene. Escape it as
   // SVG text before inserting it into the authored title element.
-  const name = selectedProof ? (src.endsWith('/hero.svg') ? 'Connected entity records keep distinct relationship links and field evidence trails.' : src.endsWith('/observation.svg') ? 'An original invoice and a later email feed two retained observations before a current record is selected.' : 'An overhead invoice proof: the original invoice and email feed two retained observations; the current amount follows the invoice and the current due date follows the email.') : alt
+  const name = selectedProof ? (src.endsWith('/vision-domain.svg') ? 'A proposed governed folio: scoped authority permits a correction in the left domain while the right domain remains unchanged.' : src.endsWith('/vision-positions.svg') ? 'Two incompatible claims remain in separate sleeves while an explicit decision selects the later position.' : src.endsWith('/vision-explanation.svg') ? 'A proposed explanation exposes current field evidence and authority, traces two affected records, and leaves one unconnected record untouched.' : src.endsWith('/hero.svg') ? 'Person, invoice and follow-up task records keep distinct relationship links and field evidence trails.' : src.endsWith('/observation.svg') ? 'An original invoice and a later email feed two retained observations before a current record is selected.' : 'An overhead invoice proof: the original invoice and email feed two retained observations; the current amount follows the invoice and the current due date follows the email.') : alt
   const title = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
   svg = svg.replace(/(<title\b[^>]*>)[\s\S]*?(<\/title>)/, (_match, open, close) => `${open}${title}${close}`)
