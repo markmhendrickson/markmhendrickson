@@ -270,13 +270,15 @@ function getPostSlugs() {
 function getPostEntries() {
   const seen = new Set()
   const entries = []
+  const overrides = JSON.parse(fs.readFileSync(path.join(__dirname, 'src/content/posts/canonical_slug_overrides.json'), 'utf8'))
   for (const locale of SUPPORTED_LOCALES) {
     const localePrefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
     for (const p of getPosts(locale)) {
       if (p.published === false || !p.slug) continue
       const lastmod = p.publishedDate ? (p.updatedDate || p.publishedDate) : null
-      // Discovery lists canonical URLs; alias pages remain prerendered separately.
-      for (const variant of [p.slug]) {
+      // Explicit canonical migrations leave their former URL out of discovery.
+      // Other established alternative-slug listing conventions stay unchanged.
+      for (const variant of [p.slug, ...(p.alternativeSlugs ?? [])].filter((value) => overrides[value] !== p.slug)) {
         if (!variant) continue
         const pathName = `${localePrefix}/posts/${variant}`
         if (seen.has(pathName)) continue
@@ -674,7 +676,7 @@ async function createServer() {
   if (isProd) {
     // Production: serve static assets from dist, run SSR from built server bundle
     const distPath = path.resolve(__dirname, 'dist')
-    app.use(express.static(distPath, { index: false }))
+    app.use(express.static(distPath, { index: false, redirect: false }))
 
     app.use('*', async (req, res, next) => {
       const url = req.originalUrl

@@ -155,7 +155,11 @@ def apply_canonical_slug_overrides(posts: List[Dict[str, Any]]) -> List[Dict[str
             entry["slug"] = canonical
             prior = entry.get("alternative_slugs") or []
             if isinstance(prior, str):
-                prior = json.loads(prior)
+                try:
+                    prior = json.loads(prior)
+                except (ValueError, TypeError):
+                    prior = []
+            prior = [alias for alias in prior if isinstance(alias, str)] if isinstance(prior, list) else []
             entry["alternative_slugs"] = list(dict.fromkeys([*prior, slug]))
         result.append(entry)
     return result
