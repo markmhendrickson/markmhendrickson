@@ -1640,6 +1640,9 @@ export default function Post({ slug: slugProp }: PostProps) {
   const isPaperScenePost = post.heroImageStyle === 'paper-scene'
   const isOverheadProof = import.meta.env.DEV && isPaperScenePost &&
     typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('visual') === 'overhead-proof'
+  const heroImageCaption = isOverheadProof && post.slug === 'your-agents-need-a-system-of-record'
+    ? 'Person, invoice and follow-up task records keep their own forms while their relationships connect in one graph.'
+    : post.heroImageCaption
   const rawTitle = (titleFromMd ?? post.title ?? '').trim()
   const displayTitle = stripSeriesPrefixFromTitle(rawTitle, post.series)
   /** Full stored title for `<title>` / OG / Twitter / JSON-LD (avoids ultra-short share titles when series prefix is stripped for the H1). */
@@ -1936,10 +1939,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                 alt={post.heroImageAlt ?? displayTitle}
                 className="mx-auto block h-auto max-h-[70vh] w-auto max-w-full object-contain"
               />}
-              {isPaperScenePost && post.heroImageCaption && (
+              {isPaperScenePost && heroImageCaption && (
                 <figcaption>
                   {post.heroImageLabel && <span className="essay-paper-label">{post.heroImageLabel}</span>}
-                  <span>{post.heroImageCaption}</span>
+                  <span>{heroImageCaption}</span>
                 </figcaption>
               )}
             </figure>
