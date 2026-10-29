@@ -69,9 +69,10 @@ test('all four connections reach actual foreground ports after the corresponding
     assert.equal(groups.length, 2, 'body and foreground ink are distinct paint layers')
     for (const attribute of ['data-enter-x', 'data-enter-y', 'data-enter-rotation', 'data-enter-delay', 'style']) assert.equal(groups[0].getAttribute(attribute), groups[1].getAttribute(attribute), 'paired layers use the same local pose')
   }
-  const broken = source.replace('M222 195 C', 'M210 195 C')
+  const firstPath = document.querySelector('[data-paper-connection]').getAttribute('d')
+  const broken = source.replace(firstPath, firstPath.replace(/^M[\d.]+/, 'M210'))
   const brokenPath = new JSDOM(broken, { contentType: 'image/svg+xml' }).window.document.querySelector('[data-paper-connection]')
-  assert.notDeepEqual(brokenPath.getAttribute('d').match(/\d+/g).slice(0, 2).map(Number), ports.get('invoice-source'), 'causal geometry negative differs from the actual visible port')
+  assert.notDeepEqual(brokenPath.getAttribute('d').match(/-?\d+(?:\.\d+)?/g).slice(0, 2).map(Number), ports.get('invoice-source'), 'causal geometry negative differs from the actual visible port')
 })
 
 test('finite semantic playback moves only the independent observations and changes only the due field', () => {
@@ -111,7 +112,7 @@ test('derived static art retains texture and clearly exposed connectors at full 
     assert.equal(info.width, width)
     // Connector immediately beyond the invoice surface. The stroke must remain navy,
     // rather than disappear beneath the photographic paper carrier.
-    const x = Math.round(228 * width / 900), y = Math.round(195 * width / 900)
+    const x = Math.round(236 * width / 900), y = Math.round(185 * width / 900)
     const neighborhood = []
     for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
       const i = ((y + dy) * width + x + dx) * info.channels
