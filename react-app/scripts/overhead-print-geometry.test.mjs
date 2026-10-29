@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict'
 import {test} from 'node:test'
 import fs from 'node:fs'
-import {execFileSync} from 'node:child_process'
 import sharp from 'sharp'
 import {JSDOM} from 'jsdom'
 const source=fs.readFileSync(new URL('../src/dev/overhead-record/invoice.svg',import.meta.url),'utf8')
@@ -27,7 +26,7 @@ async function contourErrors(s){
 }
 test('all endpoint centers meet the sampled opaque photographic border; old offsets and +/-3px fail',async()=>{
  assert.deepEqual(await contourErrors(source),[])
- const old=execFileSync('git',['show','fe9bd8846afd8ec04909243681d4f0c85e17be9c:react-app/src/dev/overhead-record/invoice.svg'],{encoding:'utf8',maxBuffer:4000000})
+ const old=fs.readFileSync(new URL('./fixtures/overhead-ink-before.svg',import.meta.url),'utf8')
  assert((await contourErrors(old)).length>=5,'old vector-matched ports fail actual physical contour check')
  for(const delta of [-3,3]){
   const d=parse(source),pin=d.querySelector('[data-paper-port]');pin.setAttribute('cx',Number(pin.getAttribute('cx'))+delta)
@@ -50,7 +49,7 @@ async function printErrors(s){
 }
 test('unclipped ink fits independently specified face-safe regions, including the old observation lower row',async()=>{
  assert.deepEqual(await printErrors(source),[])
- const old=execFileSync('git',['show','fe9bd8846afd8ec04909243681d4f0c85e17be9c:react-app/src/dev/overhead-record/invoice.svg'],{encoding:'utf8',maxBuffer:4000000})
+ const old=fs.readFileSync(new URL('./fixtures/overhead-ink-before.svg',import.meta.url),'utf8')
  assert((await printErrors(old)).includes('invoice-observation'))
  const d=parse(source);d.querySelector('[data-paper-print="invoice-observation"]').setAttribute('transform','translate(0 20)')
  assert((await printErrors(d.documentElement.outerHTML)).includes('invoice-observation'))
@@ -65,6 +64,13 @@ test('calendar identifies due date consistently while selected cell represents v
  assert.notEqual(prior.lastElementChild.getAttribute('d'),current.lastElementChild.getAttribute('d'))
  assert.equal(d.querySelector('[data-current-field="amount"] [data-field-icon]').getAttribute('data-field-icon'),'amount')
  assert.equal(d.querySelectorAll('[data-paper-print][clip-path][mask]').length,4)
- assert(d.querySelector('#screen-grain pattern')===null)
  assert(d.querySelectorAll('#screen-grain circle').length>=5)
+})
+test('screen-print coverage varies within a stroke and remains attached to the carrier ink',async()=>{
+ const d=parse(source),pattern=d.querySelector('#screen-grain').outerHTML,mask=d.querySelector('#screenprint').outerHTML
+ const raster=async masked=>sharp(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20"><defs>${pattern}${mask}</defs><path d="M2 10h36" stroke="#223e50" stroke-width="8" ${masked?'mask="url(#screenprint)"':''}/></svg>`)).ensureAlpha().raw().toBuffer({resolveWithObject:true})
+ const coverage=async masked=>{const {data,info}=await raster(masked),a=[];for(let y=7;y<13;y++)for(let x=4;x<36;x++)a.push(data[(y*info.width+x)*4+3]);return new Set(a)}
+ assert((await coverage(true)).size>5,'matte ink has partial coverage and small knockouts')
+ assert.equal((await coverage(false)).size,1,'solid ink counterexample loses printed texture')
+ for(const id of ['invoice-observation','email-observation'])assert(d.querySelector(`[data-observation-ink="${id}"] [data-paper-print][mask]`),'mask lives inside the carrier motion group')
 })

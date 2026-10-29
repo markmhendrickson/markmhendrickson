@@ -1,0 +1,26 @@
+<!-- Geometry/ink regression fixture extracted unchanged from fe9bd8846afd8ec04909243681d4f0c85e17be9c. Raster data omitted; trusted materials read independently. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="paper-scene" data-paper-scene="invoiceOverheadProof" data-paper-treatment="hybrid-record-proof" data-paper-variant="overhead-invoice-proof" viewBox="0 0 900 600" role="img" aria-labelledby="proof-title">
+
+
+
+
+<g data-paper-source="invoice"><svg x="55" y="70" width="183" height="235.28571428571428" viewBox="239 121 833 1071" overflow="hidden" data-paper-raster="document-packet"/></g>
+<g data-paper-source="email"><svg x="55" y="376" width="205" height="121.3681592039801" viewBox="36 295 1206 714" overflow="hidden" data-paper-raster="email-envelope"/></g>
+<g data-paper-observation="invoice-observation" data-paper-object="" data-paper-motion-carrier="invoice-observation" data-enter-x="-24" data-enter-y="10" data-enter-rotation="0" data-enter-delay="0" style="transform-box:view-box;transform-origin:0px 0px"><svg x="330" y="180" width="220" height="110.4786771105309" viewBox="71 411 1149 577" overflow="hidden" data-paper-raster="observation-slip"/></g>
+<g data-paper-observation="email-observation" data-paper-object="" data-paper-motion-carrier="email-observation" data-enter-x="-24" data-enter-y="10" data-enter-rotation="0" data-enter-delay="1100" style="transform-box:view-box;transform-origin:0px 0px"><svg x="370" y="270" width="220" height="110.4786771105309" viewBox="71 411 1149 577" overflow="hidden" data-paper-raster="observation-slip"/></g>
+<g data-paper-current-record="invoice"><svg x="660" y="172" width="190" height="233.87892376681614" viewBox="199 102 892 1098" overflow="hidden" data-paper-raster="entity-dossier"/></g>
+
+<g data-source-ink="invoice"><path d="M82 112h107" stroke="#223e50" stroke-width="9"/><path d="M82 132h72" stroke="#223e50" stroke-width="3"/><circle cx="94" cy="195" r="12" fill="none" stroke="#223e50" stroke-width="4"/><path d="M121 195h66" stroke="#223e50" stroke-width="7"/><path d="M80 235h28v28h-28z" fill="none" stroke="#223e50" stroke-width="4"/><path d="M121 249h66" stroke="#223e50" stroke-width="7"/><circle data-paper-port="invoice-source" cx="222" cy="195" r="5.5" fill="#ad5635"/></g>
+<g data-source-ink="email"><circle data-paper-port="email-source" cx="250" cy="431" r="5.5" fill="#ad5635"/></g>
+<g data-observation-ink="invoice-observation" data-paper-object="" data-paper-motion-carrier="invoice-observation" data-enter-x="-24" data-enter-y="10" data-enter-rotation="0" data-enter-delay="0" style="transform-box:view-box;transform-origin:0px 0px">
+<circle cx="372" cy="218" r="12" fill="none" stroke="#223e50" stroke-width="4"/><path d="M400 218h93" stroke="#223e50" stroke-width="7"/><path d="M358 244h28v28h-28z" fill="none" stroke="#223e50" stroke-width="4"/><path d="M400 258h72" stroke="#223e50" stroke-width="4"/><circle data-paper-port="invoice-observation-source" cx="332" cy="215" r="5.5" fill="#ad5635"/><circle data-paper-port="invoice-observation-amount" cx="535" cy="218" r="5.5" fill="#ad5635"/></g>
+<g data-observation-ink="email-observation" data-paper-object="" data-paper-motion-carrier="email-observation" data-enter-x="-24" data-enter-y="10" data-enter-rotation="0" data-enter-delay="1100" style="transform-box:view-box;transform-origin:0px 0px">
+<path d="M399 334l16-28 16 28z" fill="none" stroke="#223e50" stroke-width="4"/><path d="M444 320h99" stroke="#223e50" stroke-width="7"/><circle data-paper-port="email-observation-source" cx="373" cy="320" r="5.5" fill="#ad5635"/><circle data-paper-port="email-observation-due" cx="575" cy="320" r="5.5" fill="#ad5635"/></g>
+<g data-current-ink="invoice">
+<path d="M750 204l16 16-16 16-16-16z" fill="none" stroke="#223e50" stroke-width="4"/>
+<g data-current-field="amount" data-observation="invoice-observation"><path d="M691 249h129v43H691z" fill="#98a48b" opacity="0.20"/><circle cx="711" cy="270" r="12" fill="none" stroke="#223e50" stroke-width="4"/><path d="M740 270h70" stroke="#223e50" stroke-width="7"/><circle data-paper-port="current-amount" cx="670" cy="270" r="5.5" fill="#ad5635"/></g>
+<g data-current-field="due" data-observation="email-observation"><path d="M691 328h129v43H691z" fill="#a7bfcc" opacity="0.25"/>
+<g data-paper-field-state="prior" opacity="0"><path d="M697 336h28v28h-28z" fill="none" stroke="#223e50" stroke-width="4"/><path d="M740 350h48" stroke="#223e50" stroke-width="7"/></g>
+<g data-paper-field-state="current" opacity="1"><path d="M697 364l16-28 16 28z" fill="none" stroke="#223e50" stroke-width="4"/><path d="M740 350h70" stroke="#223e50" stroke-width="7"/></g><circle data-paper-port="current-due" cx="670" cy="350" r="5.5" fill="#ad5635"/></g>
+</g>
+</svg>
