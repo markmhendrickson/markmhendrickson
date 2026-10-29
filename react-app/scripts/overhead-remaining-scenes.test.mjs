@@ -14,6 +14,7 @@ for(const name of['document-packet','email-envelope','email-envelope-open','obse
 const server=await createServer({server:{middlewareMode:true,hmr:false},appType:'custom'})
 const motion=await server.ssrLoadModule('/src/lib/paperVisualMotion.ts');after(()=>server.close())
 const carrierMap=d=>Object.fromEntries([...d.querySelectorAll('[data-scene-carrier]')].map(g=>{const svg=g.querySelector('svg');return[g.getAttribute('data-scene-carrier'),{material:svg.getAttribute('data-paper-raster'),x:Number(svg.getAttribute('x')),y:Number(svg.getAttribute('y')),width:Number(svg.getAttribute('width')),crop:svg.getAttribute('viewBox').split(' ').map(Number)}]}))
+const compositionMargins=d=>{const objects=Object.values(carrierMap(d));return{left:Math.min(...objects.map(p=>p.x)),right:900-Math.max(...objects.map(p=>p.x+p.width))}}
 function badPorts(s){const d=parse(s),carriers=carrierMap(d),bad=[];for(const pin of d.querySelectorAll('[data-paper-port]')){const p=carriers[pin.getAttribute('data-port-carrier')],scale=p.width/p.crop[2],sy=Math.round(p.crop[1]+(Number(pin.getAttribute('cy'))-p.y)/scale),sx=Math.round(p.crop[0]+(Number(pin.getAttribute('cx'))-p.x)/scale),{data,info}=pixels[p.material],span=[],side=pin.getAttribute('data-port-side');if(side==='left'||side==='right'){for(let x=p.crop[0];x<p.crop[0]+p.crop[2];x++)if(data[(sy*info.width+x)*4+3]>=200)span.push(x);const expected=side==='left'?span[0]-.5:span.at(-1)+.5;if(!span.length||Math.abs((p.crop[0]+(Number(pin.getAttribute('cx'))-p.x)/scale)-expected)*scale>.35)bad.push(pin.getAttribute('data-paper-port'))}else{for(let y=p.crop[1];y<p.crop[1]+p.crop[3];y++)if(data[(y*info.width+sx)*4+3]>=200)span.push(y);const expected=side==='top'?span[0]-.5:span.at(-1)+.5;if(!span.length||Math.abs((p.crop[1]+(Number(pin.getAttribute('cy'))-p.y)/scale)-expected)*scale>.35)bad.push(pin.getAttribute('data-paper-port'))}}return bad}
 test('all five scenes bind exact approved resource profiles and wordless scene semantics',()=>{
  for(const[name,s]of Object.entries(sources)){assert.equal(validateAuthoredPaperSvg(s,name),s);assert.equal(parse(s).querySelectorAll('text,script,foreignObject').length,0)}
@@ -36,6 +37,16 @@ test('five distinct physical records preserve the original graph layout and sour
  const links=[...hero.querySelectorAll('[data-paper-connection]')].map(n=>[n.getAttribute('data-connection-from'),n.getAttribute('data-connection-to')])
  assert.deepEqual(links,[['invoice-person-a','invoice-person-b'],['person-task-a','person-task-b'],['person-email-a','person-email-b']])
  assert.equal(hero.querySelectorAll('[data-paper-port]').length,6)
+})
+test('gallery compositions have balanced outer margins at desktop and card scale',()=>{
+ for(const name of ['governedCollaborationProof','competingClaimsProof']){
+  const margins=compositionMargins(parse(sources[name]))
+  assert(margins.left>=50&&margins.right>=50,`${name}: keeps a visible gutter`)
+  assert(Math.abs(margins.left-margins.right)<=20,`${name}: balanced outer gutters`)
+  // A source-coordinate regression must fail before rendering, at every size.
+  const shifted=parse(sources[name]);shifted.querySelector('[data-scene-carrier] svg').setAttribute('x',0)
+  const bad=compositionMargins(shifted);assert(Math.abs(bad.left-bad.right)>20)
+ }
 })
 test('photographic ports match their opaque silhouettes; shifted endpoints fail',()=>{
  for(const[name,s]of Object.entries(sources)){assert.deepEqual(badPorts(s),[],name);for(const delta of[-3,3]){const d=parse(s),pin=d.querySelector('[data-paper-port]');pin.setAttribute('cx',Number(pin.getAttribute('cx'))+delta);assert(badPorts(d.documentElement.outerHTML).includes(pin.getAttribute('data-paper-port')))}}

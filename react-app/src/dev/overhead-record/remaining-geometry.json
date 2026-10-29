@@ -273,11 +273,11 @@
   },
   {
     "name": "governedCollaborationProof",
-    "sha256": "12855b53d23293c4cee574de447a28436aed41a51c98c5ec37929ac74fc7675c",
+    "sha256": "0c2fe0bc2888614e9233c9c75b5ed93f3dab5d3971ecbf655e74e68d09da5bc4",
     "objects": {
       "shared-archive": {
         "material": "instance-archive-overhead",
-        "x": 340,
+        "x": 379,
         "y": 40,
         "width": 450,
         "crop": [
@@ -290,7 +290,7 @@
       },
       "chat-reader": {
         "material": "observation-slip",
-        "x": 32,
+        "x": 71,
         "y": 80,
         "width": 170,
         "crop": [
@@ -303,7 +303,7 @@
       },
       "terminal-reader": {
         "material": "observation-slip",
-        "x": 32,
+        "x": 71,
         "y": 270,
         "width": 170,
         "crop": [
@@ -316,7 +316,7 @@
       },
       "planner-reader": {
         "material": "observation-slip",
-        "x": 32,
+        "x": 71,
         "y": 460,
         "width": 170,
         "crop": [
@@ -330,37 +330,37 @@
     },
     "ports": {
       "chat-shared-a": {
-        "x": 194.676,
+        "x": 233.676,
         "y": 130,
         "carrier": "chat-reader",
         "side": "right"
       },
       "chat-shared-b": {
-        "x": 374.848,
+        "x": 413.848,
         "y": 220,
         "carrier": "shared-archive",
         "side": "left"
       },
       "terminal-shared-a": {
-        "x": 194.676,
+        "x": 233.676,
         "y": 320,
         "carrier": "terminal-reader",
         "side": "right"
       },
       "terminal-shared-b": {
-        "x": 356.189,
+        "x": 395.189,
         "y": 320,
         "carrier": "shared-archive",
         "side": "left"
       },
       "planner-shared-a": {
-        "x": 194.676,
+        "x": 233.676,
         "y": 510,
         "carrier": "planner-reader",
         "side": "right"
       },
       "planner-shared-b": {
-        "x": 351.799,
+        "x": 390.799,
         "y": 440,
         "carrier": "shared-archive",
         "side": "left"
@@ -368,25 +368,25 @@
     },
     "printBoxes": {
       "shared-archive": [
-        440,
+        479,
         220,
         205,
         180
       ],
       "chat-reader": [
-        51,
+        90,
         100,
         138,
         56
       ],
       "terminal-reader": [
-        51,
+        90,
         290,
         138,
         56
       ],
       "planner-reader": [
-        51,
+        90,
         480,
         138,
         56
@@ -396,11 +396,11 @@
   },
   {
     "name": "competingClaimsProof",
-    "sha256": "5bf56735a12de1ae3f07059f3ea9aab5c460b1212e73604b7b31a310eaa2b6a7",
+    "sha256": "97cbc351ee1f5c51820540daceaaa6955684b4706358e5248f1cedae40177986",
     "objects": {
       "claims-sleeve": {
         "material": "claims-sleeve",
-        "x": 190,
+        "x": 120,
         "y": 40,
         "width": 500,
         "crop": [
@@ -413,7 +413,7 @@
       },
       "decision-authority": {
         "material": "observation-slip",
-        "x": 730,
+        "x": 660,
         "y": 420,
         "width": 120,
         "crop": [
@@ -427,13 +427,13 @@
     },
     "ports": {
       "selection-authority-a": {
-        "x": 689.28,
+        "x": 619.28,
         "y": 360,
         "carrier": "claims-sleeve",
         "side": "right"
       },
       "selection-authority-b": {
-        "x": 731.305,
+        "x": 661.305,
         "y": 453,
         "carrier": "decision-authority",
         "side": "left"
@@ -441,13 +441,13 @@
     },
     "printBoxes": {
       "claims-sleeve": [
-        225,
+        155,
         74,
         430,
         320
       ],
       "decision-authority": [
-        740,
+        670,
         440,
         95,
         30

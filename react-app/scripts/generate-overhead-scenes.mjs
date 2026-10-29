@@ -33,6 +33,8 @@ const envelope=(x,y)=>`<g fill="none" stroke="${sage}" stroke-width="3"><path d=
 const claimCalendar=(x,y,side)=>`<g data-field-icon="due" data-field-value="${side}" fill="none" stroke="${n}" stroke-width="3.5"><path d="M${x} ${y+8}h82v73h-82zM${x} ${y+26}h82M${x+17} ${y}v16M${x+65} ${y}v16"/><path d="M${x+13} ${y+44}h22v22h-22zM${x+47} ${y+44}h22v22h-22z" stroke="${sage}" stroke-width="2.5"/><path d="M${x+(side==='prior'?14:48)} ${y+45}h20v20h-20z" fill="${r}" stroke="none"/></g>`
 const checkInBox=(x,y)=>`<path d="M${x+3} ${y+9}l4 4 8-9" fill="none" stroke="${n}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>`
 const dueLetter=(x,y)=>`<g data-paper-letter="email" data-due-date="29" style="transform-box:view-box;transform-origin:0px 0px"><path d="M${x} ${y}h114v101h-114z" fill="#e9dfcc" stroke="#d2c4ad" stroke-width="1.8"/><g fill="none" stroke="${sage}" stroke-width="1.8" mask="url(#screenprint)"><path d="M${x+13} ${y+12}h83M${x+13} ${y+20}h58M${x+13} ${y+29}h39v45h-39zM${x+13} ${y+40}h39M${x+20} ${y+26}v7M${x+45} ${y+26}v7"/></g><g data-calendar-day="29" fill="none" stroke="${r}" stroke-width="2.4" mask="url(#screenprint)"><path d="M${x+20} ${y+51}q0-5 5-5t5 5q0 3-10 13h11M${x+38} ${y+59}q-5 1-5-6t6-7q5 0 5 7v7q0 8-11 7"/></g></g>`
+const shiftFace=(dx,[x,y,width,height])=>[x+dx,y,width,height]
+const shiftInk=(dx,marks)=>`<g transform="translate(${dx} 0)">${marks}</g>`
 const motion=(id,delay)=>`data-paper-object="" data-paper-motion-carrier="${id}" data-enter-x="-18" data-enter-y="10" data-enter-rotation="0" data-enter-delay="${delay}" style="transform-box:view-box;transform-origin:0px 0px"`
  function scene(name,title){
  const objects={},ports={},edges=[],boxes={},defs=[],body=[],ink=[]
@@ -108,10 +110,12 @@ const scenes=[]
 }
 {
  const s=scene('governedCollaborationProof','Three different connected tool slips reach one open shared Neotoma filing box')
- s.add('shared-archive','instance-archive-overhead',340,40,450,[440,220,205,180],'','data-shared-instance="one"')
- s.add('chat-reader','observation-slip',32,80,170,[51,100,138,56],`<path d="M54 101h134v52H54z" fill="#abc1cb" opacity=".38"/>${chatCard(64,111,'lines')}${rule(111,127,60)}`,'data-shared-reader="chat-blue"')
- s.add('terminal-reader','observation-slip',32,270,170,[51,290,138,56],`<path d="M54 291h134v52H54z" fill="#aab8a1" opacity=".40"/>${chatCard(64,301,'code')}${rule(111,317,60)}`,'data-shared-reader="chat-sage"')
- s.add('planner-reader','observation-slip',32,460,170,[51,480,138,56],`<path d="M54 481h134v52H54z" fill="#c8a68d" opacity=".35"/>${chatCard(64,491,'split')}${rule(111,507,60)}`,'data-shared-reader="chat-rust"')
+ // Keep the physical gap/three readers intact while centering their outer edges.
+ const dx=39
+ s.add('shared-archive','instance-archive-overhead',340+dx,40,450,shiftFace(dx,[440,220,205,180]),'','data-shared-instance="one"')
+ s.add('chat-reader','observation-slip',32+dx,80,170,shiftFace(dx,[51,100,138,56]),shiftInk(dx,`<path d="M54 101h134v52H54z" fill="#abc1cb" opacity=".38"/>${chatCard(64,111,'lines')}${rule(111,127,60)}`),'data-shared-reader="chat-blue"')
+ s.add('terminal-reader','observation-slip',32+dx,270,170,shiftFace(dx,[51,290,138,56]),shiftInk(dx,`<path d="M54 291h134v52H54z" fill="#aab8a1" opacity=".40"/>${chatCard(64,301,'code')}${rule(111,317,60)}`),'data-shared-reader="chat-sage"')
+ s.add('planner-reader','observation-slip',32+dx,460,170,shiftFace(dx,[51,480,138,56]),shiftInk(dx,`<path d="M54 481h134v52H54z" fill="#c8a68d" opacity=".35"/>${chatCard(64,491,'split')}${rule(111,507,60)}`),'data-shared-reader="chat-rust"')
  s.link('chat-shared','chat-reader','right',130,'shared-archive','left',220,'entity-relation',900)
  s.link('terminal-shared','terminal-reader','right',320,'shared-archive','left',320,'entity-relation',990)
  s.link('planner-shared','planner-reader','right',510,'shared-archive','left',440,'entity-relation',1080)
@@ -119,9 +123,12 @@ const scenes=[]
 }
 {
  const s=scene('competingClaimsProof','Two incompatible retained claims remain visible beside an explicit selected position')
- s.add('claims-sleeve','claims-sleeve',190,40,500,[225,74,430,320],`<g data-retained-claim="prior">${claimCalendar(249,91,'prior')}${rule(356,144,43,3)}</g><g data-retained-claim="later">${claimCalendar(499,91,'current')}${rule(606,144,34,3)}<circle cx="616" cy="168" r="8" fill="${sage}"/></g><g data-selected-position="later"><g data-paper-field-state="prior" opacity="0"><path d="M282 354h22v22h-22z" fill="none" stroke="${sage}" stroke-width="3"/></g><g data-paper-field-state="current" opacity="1"><path d="M274 364l10 11 22-18" fill="none" stroke="${r}" stroke-width="5"/>${calendar(330,353,'current')}${rule(375,358,166)}<circle cx="562" cy="361" r="7" fill="${sage}"/></g></g>`,'data-claims-retained="both"')
+ // The sleeve and decision slip shift as one composition; their connector still
+ // derives both border coordinates from the alpha contours after the move.
+ const dx=-70
+ s.add('claims-sleeve','claims-sleeve',190+dx,40,500,shiftFace(dx,[225,74,430,320]),shiftInk(dx,`<g data-retained-claim="prior">${claimCalendar(249,91,'prior')}${rule(356,144,43,3)}</g><g data-retained-claim="later">${claimCalendar(499,91,'current')}${rule(606,144,34,3)}<circle cx="616" cy="168" r="8" fill="${sage}"/></g><g data-selected-position="later"><g data-paper-field-state="prior" opacity="0"><path d="M282 354h22v22h-22z" fill="none" stroke="${sage}" stroke-width="3"/></g><g data-paper-field-state="current" opacity="1"><path d="M274 364l10 11 22-18" fill="none" stroke="${r}" stroke-width="5"/>${calendar(330,353,'current')}${rule(375,358,166)}<circle cx="562" cy="361" r="7" fill="${sage}"/></g></g>`),'data-claims-retained="both"')
  // The matching rust seal identifies which retained claim the decision adopts.
- s.add('decision-authority','observation-slip',730,420,120,[740,440,95,30],key(751,453)+`<circle cx="812" cy="454" r="5" fill="${sage}"/>`,'data-decision-authority="explicit"',1100)
+ s.add('decision-authority','observation-slip',730+dx,420,120,shiftFace(dx,[740,440,95,30]),shiftInk(dx,key(751,453)+`<circle cx="812" cy="454" r="5" fill="${sage}"/>`),'data-decision-authority="explicit"',1100)
  s.link('selection-authority','claims-sleeve','right',360,'decision-authority','left',453,'authority',1960)
  scenes.push(s.finish())
 }
