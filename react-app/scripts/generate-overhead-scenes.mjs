@@ -80,7 +80,7 @@ const scenes=[]
 {
  const s=scene('governedCollaborationProof','An authorized correction changes only the left domain while the right domain remains intact')
  s.add('domain-folio','governed-folio',190,150,520,[223,176,454,126],`<g data-bounded-domain="authorized"><path d="M229 181h180v100H229z" fill="#98a48b" opacity=".22"/>${person(254,201)}${key(299,211)}<g data-paper-field-state="prior" opacity="0">${calendar(250,247)}${rule(294,260,62)}</g><g data-paper-field-state="current" opacity="1">${calendar(250,247,'current')}${rule(294,260,91)}${check(374,254)}</g></g><g data-bounded-domain="untouched">${bank(495,201)}${rule(539,211,105)}${calendar(495,247)}${rule(539,260,66)}</g>`,'data-governed-domains="two"')
- s.add('authorized-actor','observation-slip',60,25,210,[81,53,160,48],person(96,64)+key(148,76)+`<path d="M190 59h30v25h-30zM198 68l5 4-5 4m10 0h7" fill="none" stroke="${n}" stroke-width="2.5"/>`,'data-correction-authority="scoped"')
+ s.add('authorized-actor','observation-slip',60,25,210,[81,53,160,48],person(98,64)+key(148,76)+`<path d="M190 59h30v25h-30zM198 68l5 4-5 4m10 0h7" fill="none" stroke="${n}" stroke-width="2.5"/>`,'data-correction-authority="scoped"')
  s.add('correction-observation','observation-slip',80,455,200,[101,486,151,34],calendar(103,489,'current')+rule(147,502,100),'data-authorized-correction="left-only"',1100)
  s.link('authority-to-left','authorized-actor','right',76,'domain-folio','left',227,'authority',0)
  s.link('correction-to-left','correction-observation','right',502,'domain-folio','left',275,'evidence',1960)
