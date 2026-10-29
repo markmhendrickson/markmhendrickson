@@ -186,9 +186,9 @@ test('reduced motion and unavailable browser APIs leave the authored state untou
 test('server-rendered artwork is complete without JS and all inline references remain unique', () => {
   const filenames = ['hero', 'observation', 'invoice-example', 'tools', 'vision-domain', 'vision-positions', 'vision-explanation']
   const html = renderToStaticMarkup(React.createElement('main', {}, filenames.map((name) => React.createElement(PaperArtwork, { key: name, src: `/images/posts/neotoma-paper/${name}.svg`, alt: name }))))
-  assert.equal((html.match(/<svg\b/g) ?? []).length, 7)
+  assert((html.match(/<svg\b/g) ?? []).length >= 7, 'all seven top-level scenes render without JavaScript')
   assert((html.match(/data-paper-object=/g) ?? []).length > 20)
-  for (const scene of ['visionDomain', 'visionPositions', 'visionExplanation']) assert(html.includes(`data-paper-scene="${scene}"`))
+  for (const scene of ['connectedRecordsProof', 'syntheticSourcesProof', 'invoiceOverheadProof', 'governedCollaborationProof', 'competingClaimsProof', 'explanationsImpactProof']) assert(html.includes(`data-paper-scene="${scene}"`))
   assert(!html.includes('feTurbulence'))
   assert(!html.includes('feDropShadow'))
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1])

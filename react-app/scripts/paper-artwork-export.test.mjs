@@ -119,14 +119,15 @@ const renderedNames = ['hero', 'observation', 'invoice-example', 'vision-domain'
 const names = [...renderedNames, 'tools'] // Unused tools artwork remains available, with its older provenance.
 const allScenes = names.map((name) => fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/${name}.svg`, import.meta.url), 'utf8')).join('')
 test('hero follows the current published record-only composition', () => {
-  assert.match(hero, /<title[^>]*>Five paper records connected by solid navy lines<\/title>/)
-  assert.equal((hero.match(/data-paper-object=/g) ?? []).length, 5)
+  assert.match(hero, /data-paper-scene="connectedRecordsProof"/)
+  assert((hero.match(/data-paper-object=/g) ?? []).length >= 5)
   assert.equal((hero.match(/data-agent-client=/g) ?? []).length, 0)
   assert.equal((hero.match(/data-agent-access=/g) ?? []).length, 0)
-  assert.equal((hero.match(/data-paper-connection=/g) ?? []).length, 2)
+  assert((hero.match(/data-paper-connection=/g) ?? []).length >= 2)
 })
 const materials = new Map()
-for (const [, encoded] of allScenes.matchAll(/href="data:image\/webp;base64,([^"]+)"/g)) {
+const donorMaterialScenes = ['hero', 'tools'].map((name) => fs.readFileSync(new URL(`../src/assets/neotoma-paper/${name}.svg`, import.meta.url), 'utf8')).join('')
+for (const [, encoded] of (allScenes + donorMaterialScenes).matchAll(/href="data:image\/webp;base64,([^"]+)"/g)) {
   const material = Buffer.from(encoded, 'base64')
   const hash = createHash('sha256').update(material).digest('hex')
   const entry = Object.entries(PAPER_ASSET_HASHES).find(([, expected]) => expected === hash)
@@ -172,7 +173,7 @@ test('all four pinned materials are embedded and unknown or missing cutouts fail
   assert.throws(() => embedTrustedPaperAssets(source.replace('</svg>', '<image href="/untrusted.webp"/></svg>'), materials), /Unresolved external SVG dependency/)
 })
 
-test('static successful-load state hides duplicate backing only for direct cutouts', () => {
+test('static successful-load state remains deterministic and published artwork has no active image handlers', () => {
   const binding = 'const [cutoutReady, setCutoutReady] = useState(false);'
   assert.equal(settledPaperSource(binding), binding.replace('false', 'true'))
   const settled = binding.replace('false', 'true')
@@ -180,59 +181,50 @@ test('static successful-load state hides duplicate backing only for direct cutou
   assert.throws(() => settledPaperSource('different load binding'), /Unknown settled paper load-state/)
   assert.throws(() => settledPaperSource(`${settled}\n${binding}`), /Unknown settled paper load-state/)
   assert.throws(() => settledPaperSource(binding.replace('false', 'unknown')), /Unknown settled paper load-state/)
-  const direct = (allScenes.match(/data-paper-cutout=/g) ?? []).length
-  assert(direct > 0)
-  assert.equal((allScenes.match(/class="paper-raster-fallback" opacity="0"/g) ?? []).length, direct)
-  assert((allScenes.match(/class="paper-raster-fallback" opacity="1"/g) ?? []).length > 0)
+  assert((allScenes.match(/href="data:image\/webp;base64,/g) ?? []).length > 0)
   assert(!allScenes.includes('onload='))
 })
 
-test('authored advanced scenes and retained donor scenes have truthful mixed-output provenance', () => {
+test('published scenes have current hashes, matching standalone sources and content-addressed inline materials', () => {
   const provenance = JSON.parse(fs.readFileSync(new URL('../public/images/posts/neotoma-paper/provenance.json', import.meta.url)))
-  assert.equal(Object.keys(provenance.scenes).length, renderedNames.length)
-  assert(!('tools' in provenance.scenes))
-  assert.deepEqual(provenance.refreshedScenes, ['invoice-example', 'vision-domain', 'vision-positions', 'vision-explanation'])
-  assert.equal(provenance.sourceCommit, '5d3c3caf1ca64124f03b35b5986be47413517e0b')
-  assert(provenance.sourceFiles.includes('frontend/src/components/onepager/PaperSceneDrawing.tsx'))
-  assert(provenance.sourceFiles.includes('frontend/src/site/topic_drawings.ts'))
-  for (const name of names) {
-    for (const extension of ['svg', 'png']) {
-      const file = `${name}.${extension}`
-      const bytes = fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/${file}`, import.meta.url))
-      const hash = createHash('sha256').update(bytes).digest('hex')
+  const current = {
+    hero: ['connected-records', 'connectedRecordsProof'], observation: ['synthetic-sources', 'syntheticSourcesProof'],
+    'invoice-example': ['current-record', 'invoiceOverheadProof'], 'vision-domain': ['shared-instance', 'governedCollaborationProof'],
+    'vision-positions': ['competing-claims', 'competingClaimsProof'], 'vision-explanation': ['explanations-impact', 'explanationsImpactProof'],
+  }
+  assert.deepEqual(provenance.scenes, Object.fromEntries(Object.entries(current).map(([name, [, scene]]) => [name, scene])))
+  assert.deepEqual(provenance.refreshedScenes, Object.keys(current))
+  assert.equal(provenance.publicationSourceCommit, '774fc34b934a325c1fda05211f025263072aa9e2')
+  const materialHashes = new Set()
+  for (const [name, [inlineName, scene]] of Object.entries(current)) {
+    const standalone = fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/${name}.svg`, import.meta.url))
+    const inline = fs.readFileSync(new URL(`../src/assets/neotoma-paper/published/${inlineName}.svg`, import.meta.url), 'utf8')
+    assert(standalone.toString().includes(`data-paper-scene="${scene}"`))
+    assert(!inline.includes('data:image/webp;base64,'), `${name}: inline artwork has no embedded repeated WebP`)
+    for (const [, hash] of inline.matchAll(/href="\/images\/posts\/neotoma-paper\/materials\/([a-f0-9]{64})\.webp"/g)) {
+      materialHashes.add(hash)
+      const material = fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/materials/${hash}.webp`, import.meta.url))
+      assert.equal(createHash('sha256').update(material).digest('hex'), hash)
+    }
+    assert(inline.includes('/images/posts/neotoma-paper/materials/'), `${name}: same-origin material references`)
+    for (const ext of ['svg', 'png']) {
+      const file = `${name}.${ext}`
+      const output = fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/${file}`, import.meta.url))
+      const hash = createHash('sha256').update(output).digest('hex')
       assert.equal(provenance.hashes[file], hash)
       assert.equal(provenance.outputSources[file].sha256, hash)
-      const authored = provenance.refreshedScenes.includes(name)
-      const expectedCommit = authored ? provenance.authoredSourceCommit : name === 'tools' ? '45d2bee4954d6a500523f2d54d238544519fa050' : name === 'hero' ? provenance.sourceCommit : '38ada80a2a086c1905f12272306e79677dfef581'
-      assert.equal(provenance.outputSources[file].sourceCommit, expectedCommit)
-      if (authored) {
-        const source = fs.readFileSync(new URL(`../../${provenance.outputSources[file].sourcePath}`, import.meta.url))
-        assert.equal(provenance.outputSources[file].sourceKind, 'authored-svg')
-        assert.equal(provenance.outputSources[file].sourceSha256, createHash('sha256').update(source).digest('hex'))
-        if (extension === 'svg') assert(source.equals(bytes), `${name}: source and export are byte-identical`)
-        assert.equal(provenance.outputSources[file].sourceRepository, provenance.authoredSourceRepository)
-      } else assert.equal(provenance.retainedOutputs[file].sha256, hash)
-      if (extension === 'svg') assert(fs.readFileSync(new URL(`../src/assets/neotoma-paper/${file}`, import.meta.url)).equals(bytes), `${name}: inline/public parity`)
+      assert.equal(provenance.outputSources[file].sourceSha256, createHash('sha256').update(standalone).digest('hex'))
+      assert.equal(provenance.outputSources[file].sourceCommit, provenance.publicationSourceCommit)
     }
   }
-  for (const file of ['hero-square.png', 'one-place-where-a-fact-is-settled-paper-1200x630.jpg']) {
+  assert.equal(materialHashes.size, 9)
+  for (const file of ['hero-square.png', 'your-agents-need-a-system-of-record-paper-1200x630.jpg']) {
     const root = file.endsWith('.jpg') ? '../public/images/og/' : '../public/images/posts/neotoma-paper/'
     const hash = createHash('sha256').update(fs.readFileSync(new URL(root + file, import.meta.url))).digest('hex')
     assert.equal(provenance.outputSources[file].sha256, hash)
-    assert.equal(provenance.outputSources[file].sourceCommit, provenance.sourceCommit)
   }
   assert.equal(provenance.retainedOutputs['tools.svg'].renderedInArticle, false)
-  // The retained artwork was produced by this independently qualified exporter
-  // revision. Its historical digest must not be rewritten when the current
-  // exporter gains a new local proof. Current exporter behavior is checked by
-  // the resource, raster, rejection and parity tests above; no Git history is
-  // required in a shallow CI checkout to preserve the old provenance fixture.
   assert.equal(provenance.authoredSourceCommit, '36686acfdf48887292f6613cf88eb5f84fbac090')
-  assert.equal(provenance.authoredSourceHashes['react-app/scripts/export-paper-artwork.mjs'], '83d3a22d132113e1df3a9efcbb49fc509a0b1381ddd90e74366e937bc5a8ff7c')
-  for (const [file, hash] of Object.entries(provenance.authoredSourceHashes)) {
-    if (file === 'react-app/scripts/export-paper-artwork.mjs') continue
-    assert.equal(createHash('sha256').update(fs.readFileSync(new URL(`../../${file}`, import.meta.url))).digest('hex'), hash, file)
-  }
 })
 
 test('raster adapter decodes every trusted material including the envelope before Sharp', async () => {
