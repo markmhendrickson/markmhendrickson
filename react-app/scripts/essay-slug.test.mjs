@@ -44,4 +44,10 @@ test('rendered canonical/alias routes, feeds, sitemap and full Markdown agree ac
  }
  const redirects=read('dist/_redirects');assert(redirects.includes(`/posts/${old}  /posts/${slug}  301`));assert(redirects.includes(`/es/posts/${old}  /es/posts/${slug}  301`))
  assert(read('dist/sitemap.xml').includes('/posts/the-human-inversion-part-1/'),'unrelated alias discovery convention is unchanged')
+ assert(read('dist/sitemap.xml').includes('/posts/the-oldest-argument-about-technology/'),'unrelated explicit canonical override does not change alias discovery')
+})
+
+test('the unrelated committed professional-mission RSS item remains byte-identical through this slug migration',()=>{
+ const item=read('public/rss.xml').match(/<item>[\s\S]*?<\/item>/g).find(x=>x.includes('<link>https://markmhendrickson.com/posts/professional-mission</link>'));
+ assert.equal(createHash('sha256').update(item).digest('hex'),'4abb78ccd91a19472f094dcfac34071dede7e0d61f4f2425a4e7b97cdcaca372');
 })

@@ -276,9 +276,9 @@ function getPostEntries() {
     for (const p of getPosts(locale)) {
       if (p.published === false || !p.slug) continue
       const lastmod = p.publishedDate ? (p.updatedDate || p.publishedDate) : null
-      // Explicit canonical migrations leave their former URL out of discovery.
-      // Other established alternative-slug listing conventions stay unchanged.
-      for (const variant of [p.slug, ...(p.alternativeSlugs ?? [])].filter((value) => overrides[value] !== p.slug)) {
+      // This essay migration retires only its former URL from discovery.
+      // Every unrelated alternative-slug listing convention stays unchanged.
+      for (const variant of [p.slug, ...(p.alternativeSlugs ?? [])].filter((value) => value !== 'one-place-where-a-fact-is-settled' || overrides[value] !== p.slug)) {
         if (!variant) continue
         const pathName = `${localePrefix}/posts/${variant}`
         if (seen.has(pathName)) continue
