@@ -32,7 +32,7 @@ export const PAPER_PROOF_ASSETS = {
 const trustedRasterHashes = () => [...Object.values(PAPER_ASSET_HASHES), ...Object.values(PAPER_PHOTO_ASSETS).map((asset) => asset.sha256)]
 const paperDir = 'frontend/src/components/onepager/'
 const reviewedWrapper = 'import "./paper_scene.css";\nexport * from "./PaperSceneDrawing";'
-const PAPER_SCENES = { hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation', 'overhead-proof': 'invoiceOverheadProof' }
+const PAPER_SCENES = { hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation', 'overhead-proof': 'invoiceOverheadProof', 'connected-proof':'connectedRecordsProof', 'synthetic-proof':'syntheticSourcesProof' }
 const AUTHORED_PAPER_SCENES = ['invoice-example', 'vision-domain', 'vision-positions', 'vision-explanation']
 const OG_NAME = 'one-place-where-a-fact-is-settled-paper-1200x630.jpg'
 const sha256 = (value) => createHash('sha256').update(value).digest('hex')
@@ -213,7 +213,8 @@ export function validateAuthoredPaperSvg(svg, scene) {
       }
     }
     if (overheadProof) {
-      if (scene !== 'invoiceOverheadProof' || root.getAttribute('data-paper-variant') !== 'overhead-invoice-proof' || materials.size !== 5 || allowedMaterials.some((hash) => !materials.has(hash))) throw new Error('Unknown overhead proof binding')
+      if (!['invoiceOverheadProof','connectedRecordsProof','syntheticSourcesProof'].includes(scene) || root.getAttribute('data-paper-variant') !== (scene === 'invoiceOverheadProof'?'overhead-invoice-proof':`overhead-${scene}`) || materials.size !== 5 || allowedMaterials.some((hash) => !materials.has(hash))) throw new Error('Unknown overhead proof binding')
+      if (scene === 'invoiceOverheadProof') {
       const originals = [...root.querySelectorAll('[data-paper-source]')].map((node) => node.getAttribute('data-paper-source')).sort()
       const observations = [...root.querySelectorAll('[data-paper-observation]')].map((node) => node.getAttribute('data-paper-observation')).sort()
       if (originals.join(',') !== 'email,invoice' || observations.join(',') !== 'email-observation,invoice-observation' || root.querySelectorAll('[data-paper-current-record]').length !== 1) throw new Error('Incomplete retained record proof')
@@ -221,6 +222,9 @@ export function validateAuthoredPaperSvg(svg, scene) {
       const before = root.querySelector('[data-paper-field-state="prior"]')
       const current = root.querySelector('[data-paper-field-state="current"]')
       if (!before || before.getAttribute('opacity') !== '0' || !current || current.getAttribute('opacity') !== '1') throw new Error('Incomplete static current field')
+      } else if (scene === 'syntheticSourcesProof') {
+        if(root.querySelectorAll('[data-paper-source]').length!==2 || root.querySelectorAll('[data-paper-observation]').length!==2 || root.querySelector('[data-paper-current-record]')) throw new Error('Incomplete unmerged source proof')
+      } else if(root.querySelectorAll('[data-entity-record]').length!==3 || root.querySelectorAll('[data-connection-kind="entity-relation"]').length!==2 || !root.querySelector('[data-retained-evidence]')) throw new Error('Incomplete connected entity proof')
       for (const object of root.querySelectorAll('[data-paper-object]')) {
         const delay = Number(object.getAttribute('data-enter-delay'))
         if (Number(object.getAttribute('data-enter-rotation')) !== 0 || !Number.isFinite(delay) || delay < 0 || delay > 1800) throw new Error('Unknown overhead paper motion')

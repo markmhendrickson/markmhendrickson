@@ -1,0 +1,267 @@
+[
+  {
+    "name": "connectedRecordsProof",
+    "sha256": "ede189ffe29f03a7ac5ed86989d19f374b84d7a8d8a41762767936fe9658758b",
+    "objects": {
+      "person-record": {
+        "material": "entity-dossier",
+        "x": 90,
+        "y": 180,
+        "width": 155,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": null
+      },
+      "invoice-record": {
+        "material": "entity-dossier",
+        "x": 385,
+        "y": 75,
+        "width": 175,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": null
+      },
+      "project-record": {
+        "material": "entity-dossier",
+        "x": 675,
+        "y": 235,
+        "width": 150,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": null
+      },
+      "source-evidence": {
+        "material": "document-packet",
+        "x": 80,
+        "y": 30,
+        "width": 70,
+        "crop": [
+          239,
+          121,
+          833,
+          1071
+        ],
+        "delay": null
+      },
+      "retained-evidence": {
+        "material": "observation-slip",
+        "x": 390,
+        "y": 410,
+        "width": 175,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 0
+      }
+    },
+    "ports": {
+      "person-invoice-a": {
+        "x": 237.441,
+        "y": 247,
+        "carrier": "person-record",
+        "side": "right"
+      },
+      "person-invoice-b": {
+        "x": 388.041,
+        "y": 193,
+        "carrier": "invoice-record",
+        "side": "left"
+      },
+      "invoice-project-a": {
+        "x": 551.466,
+        "y": 193,
+        "carrier": "invoice-record",
+        "side": "right"
+      },
+      "invoice-project-b": {
+        "x": 677.607,
+        "y": 311,
+        "carrier": "project-record",
+        "side": "left"
+      },
+      "source-person-a": {
+        "x": 146.176,
+        "y": 80,
+        "carrier": "source-evidence",
+        "side": "right"
+      },
+      "source-person-b": {
+        "x": 92.693,
+        "y": 322,
+        "carrier": "person-record",
+        "side": "left"
+      },
+      "evidence-invoice-a": {
+        "x": 557.461,
+        "y": 455,
+        "carrier": "retained-evidence",
+        "side": "right"
+      },
+      "evidence-invoice-b": {
+        "x": 551.466,
+        "y": 229,
+        "carrier": "invoice-record",
+        "side": "right"
+      }
+    },
+    "printBoxes": {
+      "person-record": [
+        112,
+        205,
+        110,
+        140
+      ],
+      "invoice-record": [
+        408,
+        108,
+        125,
+        155
+      ],
+      "project-record": [
+        698,
+        262,
+        105,
+        132
+      ],
+      "source-evidence": [
+        89,
+        43,
+        46,
+        57
+      ],
+      "retained-evidence": [
+        410,
+        439,
+        132,
+        38
+      ]
+    },
+    "title": "Connected entity records retain distinct field evidence trails"
+  },
+  {
+    "name": "syntheticSourcesProof",
+    "sha256": "fa769a3e99febe83e13d51805e842ce4d967f1b47ac91a16a60ce1895a174ff9",
+    "objects": {
+      "invoice-source": {
+        "material": "document-packet",
+        "x": 110,
+        "y": 55,
+        "width": 180,
+        "crop": [
+          239,
+          121,
+          833,
+          1071
+        ],
+        "delay": null
+      },
+      "email-source": {
+        "material": "email-envelope",
+        "x": 110,
+        "y": 390,
+        "width": 185,
+        "crop": [
+          36,
+          295,
+          1206,
+          714
+        ],
+        "delay": null
+      },
+      "invoice-observation": {
+        "material": "observation-slip",
+        "x": 515,
+        "y": 105,
+        "width": 245,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 0
+      },
+      "email-observation": {
+        "material": "observation-slip",
+        "x": 515,
+        "y": 355,
+        "width": 245,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 1100
+      }
+    },
+    "ports": {
+      "original-retained-a": {
+        "x": 279.952,
+        "y": 159,
+        "carrier": "invoice-source",
+        "side": "right"
+      },
+      "original-retained-b": {
+        "x": 517.452,
+        "y": 148,
+        "carrier": "invoice-observation",
+        "side": "left"
+      },
+      "later-retained-a": {
+        "x": 289.094,
+        "y": 442,
+        "carrier": "email-source",
+        "side": "right"
+      },
+      "later-retained-b": {
+        "x": 517.665,
+        "y": 409,
+        "carrier": "email-observation",
+        "side": "left"
+      }
+    },
+    "printBoxes": {
+      "invoice-source": [
+        133,
+        82,
+        130,
+        173
+      ],
+      "email-source": [
+        135,
+        424,
+        130,
+        38
+      ],
+      "invoice-observation": [
+        540,
+        134,
+        190,
+        67
+      ],
+      "email-observation": [
+        540,
+        393,
+        190,
+        35
+      ]
+    },
+    "title": "Original invoice and later email produce two retained observations before any current record is selected"
+  }
+]
