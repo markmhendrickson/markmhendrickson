@@ -1519,10 +1519,10 @@
     "heroImage": "neotoma-paper/hero.svg",
     "heroImageSquare": "neotoma-paper/hero-square.png",
     "heroImageStyle": "paper-scene",
-    "ogImage": "og/one-place-where-a-fact-is-settled-paper-1200x630.jpg",
-    "heroImageAlt": "Five paper records connected by solid navy lines",
+    "ogImage": "og/your-agents-need-a-system-of-record-paper-1200x630.jpg",
+    "heroImageAlt": "An invoice record, person record, task, email, and related note linked in one graph.",
     "heroImageLabel": "Connected records",
-    "heroImageCaption": "Each current field traces to the observations and sources behind it.",
+    "heroImageCaption": "Person, invoice, follow-up task, and other connected records keep their own forms while their relationships connect in one graph.",
     "alternativeSlugs": [
       "one-place-where-a-fact-is-settled"
     ]

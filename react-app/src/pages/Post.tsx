@@ -1638,11 +1638,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const isTweetPost = post.category === 'tweet'
   const isUnlisted = post.unlisted === true
   const isPaperScenePost = post.heroImageStyle === 'paper-scene'
-  const isOverheadProof = import.meta.env.DEV && isPaperScenePost &&
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('visual') === 'overhead-proof'
-  const heroImageCaption = isOverheadProof && post.slug === 'your-agents-need-a-system-of-record'
-    ? 'Person, invoice, follow-up task, and other connected records keep their own forms while their relationships connect in one graph.'
-    : post.heroImageCaption
+  const isPublishedEssayArtwork = isPaperScenePost && post.slug === 'your-agents-need-a-system-of-record'
   const rawTitle = (titleFromMd ?? post.title ?? '').trim()
   const displayTitle = stripSeriesPrefixFromTitle(rawTitle, post.series)
   /** Full stored title for `<title>` / OG / Twitter / JSON-LD (avoids ultra-short share titles when series prefix is stripped for the H1). */
@@ -1939,10 +1935,10 @@ export default function Post({ slug: slugProp }: PostProps) {
                 alt={post.heroImageAlt ?? displayTitle}
                 className="mx-auto block h-auto max-h-[70vh] w-auto max-w-full object-contain"
               />}
-              {isPaperScenePost && heroImageCaption && (
+              {isPaperScenePost && post.heroImageCaption && (
                 <figcaption>
                   {post.heroImageLabel && <span className="essay-paper-label">{post.heroImageLabel}</span>}
-                  <span>{heroImageCaption}</span>
+                  <span>{post.heroImageCaption}</span>
                 </figcaption>
               )}
             </figure>
@@ -2118,7 +2114,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                     React.isValidElement(child) && String((child.props as { title?: string }).title ?? '').startsWith('paper|'),
                   )
                   if (allPaperFigures) {
-                    const advancedProofGallery = isOverheadProof && nonEmpty.length === 3 && nonEmpty.some((child) =>
+                    const advancedProofGallery = isPublishedEssayArtwork && nonEmpty.length === 3 && nonEmpty.some((child) =>
                       React.isValidElement(child) && String((child.props as { src?: string }).src ?? '').endsWith('/vision-domain.svg'),
                     )
                     return (
@@ -2191,11 +2187,9 @@ export default function Post({ slug: slugProp }: PostProps) {
                 img: ({ src, alt, title, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
                   if (isPaperScenePost && title?.startsWith('paper|')) {
                     const [, originalLabel, originalCaption] = title.split('|')
-                    const sharedInstanceProof = isOverheadProof && src?.endsWith('/vision-domain.svg')
-                    const label = sharedInstanceProof ? 'Shared instance' : originalLabel
-                    const caption = sharedInstanceProof
-                      ? 'People can inspect records in the Neotoma app while authorized agents read and write against the same configured instance.'
-                      : originalCaption
+                    const sharedInstanceProof = isPublishedEssayArtwork && src?.endsWith('/vision-domain.svg')
+                    const label = originalLabel
+                    const caption = originalCaption
                     const isVision = src?.includes('/vision-')
                     return (
                       <figure className="essay-paper-figure" data-paper-figure={isVision && !sharedInstanceProof ? 'planned' : 'current'}>
