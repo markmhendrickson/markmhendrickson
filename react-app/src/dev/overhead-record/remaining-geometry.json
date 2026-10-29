@@ -1,7 +1,7 @@
 [
   {
     "name": "connectedRecordsProof",
-    "sha256": "c2d3d9bbdb384cd77c3a11dacd2391c13b5b1cf54cf1244be5a81099c334f28c",
+    "sha256": "af2f47f8a8d1800b035fce5b8c7cafb2ba6f7ef0bdc7bd6b996ac6406a626762",
     "objects": {},
     "ports": {},
     "printBoxes": {},
@@ -10,7 +10,7 @@
   },
   {
     "name": "syntheticSourcesProof",
-    "sha256": "51d524d8160567c406f481ff5769c59e2c63b4a32bc9a9c04a83dfeff10e91b2",
+    "sha256": "09435d2c3968cebd9d2107fea89c903af08cdf0d36825b86f767ab5e2210a4dd",
     "objects": {
       "invoice-source": {
         "material": "document-packet",
@@ -26,6 +26,19 @@
         "delay": null
       },
       "email-source": {
+        "material": "email-envelope-open",
+        "x": 110,
+        "y": 317,
+        "width": 185,
+        "crop": [
+          150,
+          255,
+          955,
+          744
+        ],
+        "delay": null
+      },
+      "email-closed": {
         "material": "email-envelope",
         "x": 110,
         "y": 390,
@@ -79,8 +92,8 @@
         "side": "left"
       },
       "later-retained-a": {
-        "x": 289.094,
-        "y": 442,
+        "x": 294.516,
+        "y": 415,
         "carrier": "email-source",
         "side": "right"
       },
@@ -99,6 +112,12 @@
         173
       ],
       "email-source": [
+        136,
+        349,
+        120,
+        55
+      ],
+      "email-closed": [
         135,
         424,
         130,
@@ -121,25 +140,25 @@
   },
   {
     "name": "governedCollaborationProof",
-    "sha256": "1d1a5e1e60c77bb59318e3a9418bf57b14eb8eab25cee10cd9c56fc26cc60a32",
+    "sha256": "93873d09c814964da29302940b3535a2fb17f6a52dc1ed0c33c3b39f4b21f294",
     "objects": {
-      "domain-folio": {
-        "material": "governed-folio",
-        "x": 300,
-        "y": 135,
-        "width": 500,
+      "shared-archive": {
+        "material": "instance-archive-overhead",
+        "x": 340,
+        "y": 40,
+        "width": 450,
         "crop": [
-          55,
-          275,
-          1142,
-          718
+          230,
+          170,
+          820,
+          920
         ],
         "delay": null
       },
-      "person-reader": {
+      "chat-reader": {
         "material": "observation-slip",
-        "x": 40,
-        "y": 120,
+        "x": 32,
+        "y": 80,
         "width": 170,
         "crop": [
           71,
@@ -149,10 +168,23 @@
         ],
         "delay": null
       },
-      "agent-reader": {
+      "terminal-reader": {
         "material": "observation-slip",
-        "x": 40,
-        "y": 330,
+        "x": 32,
+        "y": 270,
+        "width": 170,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": null
+      },
+      "planner-reader": {
+        "material": "observation-slip",
+        "x": 32,
+        "y": 460,
         "width": 170,
         "crop": [
           71,
@@ -164,56 +196,74 @@
       }
     },
     "ports": {
-      "person-shared-a": {
-        "x": 202.676,
-        "y": 175,
-        "carrier": "person-reader",
+      "chat-shared-a": {
+        "x": 194.676,
+        "y": 130,
+        "carrier": "chat-reader",
         "side": "right"
       },
-      "person-shared-b": {
-        "x": 302.846,
-        "y": 252,
-        "carrier": "domain-folio",
+      "chat-shared-b": {
+        "x": 374.848,
+        "y": 220,
+        "carrier": "shared-archive",
         "side": "left"
       },
-      "agent-shared-a": {
-        "x": 202.676,
-        "y": 373,
-        "carrier": "agent-reader",
+      "terminal-shared-a": {
+        "x": 194.676,
+        "y": 320,
+        "carrier": "terminal-reader",
         "side": "right"
       },
-      "agent-shared-b": {
-        "x": 302.846,
-        "y": 316,
-        "carrier": "domain-folio",
+      "terminal-shared-b": {
+        "x": 356.189,
+        "y": 320,
+        "carrier": "shared-archive",
+        "side": "left"
+      },
+      "planner-shared-a": {
+        "x": 194.676,
+        "y": 510,
+        "carrier": "planner-reader",
+        "side": "right"
+      },
+      "planner-shared-b": {
+        "x": 351.799,
+        "y": 440,
+        "carrier": "shared-archive",
         "side": "left"
       }
     },
     "printBoxes": {
-      "domain-folio": [
-        333,
-        190,
-        434,
-        90
+      "shared-archive": [
+        440,
+        220,
+        205,
+        180
       ],
-      "person-reader": [
-        56,
-        140,
-        137,
-        57
+      "chat-reader": [
+        51,
+        100,
+        138,
+        56
       ],
-      "agent-reader": [
-        56,
-        350,
-        137,
-        57
+      "terminal-reader": [
+        51,
+        290,
+        138,
+        56
+      ],
+      "planner-reader": [
+        51,
+        480,
+        138,
+        56
       ]
     },
-    "title": "A person and an agent reach one shared folio through the same configured instance"
+    "title": "Three different connected tool slips reach one open shared Neotoma filing box"
   },
   {
     "name": "competingClaimsProof",
-    "sha256": "03731d1b201b4c38d0d805b7a54e00a7b2a56498a92e24e289568a6ce8250ec7",
+    "sha256": "3bf5bbcc9ef2879ed9c0ffab7129420e1fb7b18adfa9be86fd557f1fd6314034",
     "objects": {
       "claims-sleeve": {
         "material": "claims-sleeve",
@@ -274,7 +324,7 @@
   },
   {
     "name": "explanationsImpactProof",
-    "sha256": "72e13ad3a2bb65066b633995b60af8c56064f337e3a67611a3d01ff01872a568",
+    "sha256": "7e26af3cb639ec1dc1a67a969fb84b8551edec1dfa4c5e2147a097e5cdb1b372",
     "objects": {
       "explanation-dossier": {
         "material": "explanation-dossier",

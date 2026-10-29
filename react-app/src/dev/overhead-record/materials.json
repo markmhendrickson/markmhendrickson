@@ -17,6 +17,13 @@
       "width": 1254,
       "height": 1254
     },
+    "email-envelope-open": {
+      "file": "email-envelope-open-v1.webp",
+      "sha256": "169ffa3c4ef1c0748bb08f61f604305a427fe3c89c1e7b8df0b62199f7260b22",
+      "sourceFile": "email-envelope.webp",
+      "sourceSha256": "83ef47976c1a1f661a02e90139c294240f532d84a2ba33c5a67e4c2418aacaa6",
+      "derivation": "Built-in imagegen precise-object edit of the approved closed envelope to an empty open envelope; transparent PNG converted to alpha-preserving WebP."
+    },
     "observation-slip": {
       "file": "observation-slip.webp",
       "sha256": "b13701ca89a9a7b39c542ad55d3a53057944e3df31574019558e8389281c8a05",

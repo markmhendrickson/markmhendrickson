@@ -7,9 +7,9 @@
       "width": 183
     },
     "email": {
-      "material": "email-envelope",
+      "material": "email-envelope-open",
       "x": 55,
-      "y": 376,
+      "y": 320,
       "width": 205
     },
     "invoice-observation": {
@@ -43,6 +43,12 @@
       295,
       1206,
       714
+    ],
+    "email-envelope-open": [
+      150,
+      255,
+      955,
+      744
     ],
     "observation-slip": [
       71,
@@ -83,12 +89,12 @@
       "sourceEdge": 1170.5
     },
     "email-source": {
-      "x": 253.456,
+      "x": 259.463,
       "y": 431,
       "carrier": "email",
       "side": "right",
-      "sourceRow": 619,
-      "sourceEdge": 1203.5
+      "sourceRow": 772,
+      "sourceEdge": 1102.5
     },
     "email-observation-source": {
       "x": 372.393,

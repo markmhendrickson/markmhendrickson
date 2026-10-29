@@ -85,8 +85,15 @@ test('finite semantic playback moves only the independent observations and chang
   }
   const root = document.documentElement
   const animations = motion.playPaperScene(root)
-  assert.equal(animations.length, 10)
-  for (const node of document.querySelectorAll('[data-paper-source], [data-source-ink], [data-current-field="amount"]')) assert(!calls.has(node), 'source and selected amount are unchanged by read/update emphasis')
+  assert.equal(animations.length, 22)
+  for (const node of document.querySelectorAll('[data-current-field="amount"]')) assert(!calls.has(node), 'selected amount is unchanged by read/update emphasis')
+  assert.equal(document.querySelectorAll('[data-paper-envelope-state="open"]').length, 2)
+  assert.equal(document.querySelector('[data-paper-envelope-state="closed"]').getAttribute('opacity'), '0')
+  assert.equal(document.querySelector('[data-paper-letter]').getAttribute('data-due-date'), '29')
+  const letter = calls.get(document.querySelector('[data-paper-letter]'))
+  assert.equal(letter.frames[0].opacity, 0)
+  assert.equal(letter.frames.at(-1).opacity, 1)
+  assert(letter.options.delay > 500, 'letter rises after envelope opens')
   for (const node of document.querySelectorAll('[data-paper-object]')) {
     const { frames } = calls.get(node)
     assert(frames.every((frame) => /rotate\(0deg\)/.test(frame.transform)), 'baked light cannot rotate with the sprite')

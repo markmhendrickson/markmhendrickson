@@ -15,10 +15,23 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
   const pending = new Set<Element>();
   const running = new Map<Element, Animation[]>();
   let disposed = false;
-  const hybridPorts = (target: Element) => target.getAttribute('data-paper-treatment') === 'hybrid-record-proof'
+  const isHybridProof = (target: Element) => import.meta.env.DEV && target.getAttribute('data-paper-treatment') === 'hybrid-record-proof';
+  const hybridPorts = (target: Element) => isHybridProof(target)
     ? target.querySelectorAll<SVGElement>('[data-paper-port]') : [];
-  const stagePorts = (target: Element) => { for (const port of hybridPorts(target)) port.style.opacity = '0'; };
-  const settlePorts = (target: Element) => { for (const port of hybridPorts(target)) port.style.opacity = '1'; };
+  const stagePorts = (target: Element) => {
+    for (const port of hybridPorts(target)) port.style.opacity = '0';
+    if (!isHybridProof(target)) return;
+    for (const envelope of target.querySelectorAll<SVGElement>('[data-paper-envelope-state]'))
+      envelope.style.opacity = envelope.dataset.paperEnvelopeState === 'open' ? '0' : '1';
+    for (const letter of target.querySelectorAll<SVGElement>('[data-paper-letter]')) letter.style.opacity = '0';
+  };
+  const settlePorts = (target: Element) => {
+    for (const port of hybridPorts(target)) port.style.opacity = '1';
+    if (!isHybridProof(target)) return;
+    for (const envelope of target.querySelectorAll<SVGElement>('[data-paper-envelope-state]'))
+      envelope.style.opacity = envelope.dataset.paperEnvelopeState === 'open' ? '1' : '0';
+    for (const letter of target.querySelectorAll<SVGElement>('[data-paper-letter]')) letter.style.opacity = '1';
+  };
   if (!reduced.matches && !document.hidden) registered.forEach(stagePorts);
   const cancel = (target: Element) => {
     const active = running.get(target);
@@ -227,6 +240,22 @@ export function playPaperScene(target: Element): Animation[] {
         { opacity: current ? 1 : 0, offset: 0.72 },
         { opacity: current ? 1 : 0, offset: 1 },
       ], { duration: 4200, easing: "ease-in-out", fill: "both" }));
+    }
+    // The closed flap is baked into its photograph. Dissolve it into a matching
+    // open cutout, then lift the date letter from the pocket. The SVG itself
+    // remains the completed open frame for reduced-motion and static export.
+    for (const envelope of target.querySelectorAll<SVGElement>("[data-paper-envelope-state]")) {
+      const open = envelope.dataset.paperEnvelopeState === "open";
+      animations.push(envelope.animate(open
+        ? [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.16 }, { opacity: 1, offset: 1 }]
+        : [{ opacity: 1, offset: 0 }, { opacity: 1, offset: 0.16 }, { opacity: 0, offset: 1 }],
+      { duration: 680, easing: "ease-in-out", fill: "both" }));
+    }
+    for (const letter of target.querySelectorAll<SVGElement>("[data-paper-letter]")) {
+      animations.push(letter.animate([
+        { transform: "translateY(48px)", opacity: 0 },
+        { transform: "translateY(0px)", opacity: 1 },
+      ], { duration: 750, delay: 560, easing: "cubic-bezier(.22,.7,.2,1)", fill: "both" }));
     }
     return animations;
   }

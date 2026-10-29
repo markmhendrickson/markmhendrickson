@@ -122,20 +122,32 @@ test('observer replays only on real re-entry and cancels on exit, hidden, prefer
   assert.equal(env.preferences.size, 0)
 })
 
-test('an unseen hybrid scene keeps ports hidden through its first offscreen observer event', async () => {
+test('an unseen hybrid scene keeps ports and the dated letter staged through its first offscreen observer event', async () => {
   const env = environment()
   const scene = new env.Element(), port = new env.Element()
+  const open = new env.Element({ paperEnvelopeState: 'open' })
+  const closed = new env.Element({ paperEnvelopeState: 'closed' })
+  const letter = new env.Element()
   scene.setAttribute('data-paper-treatment', 'hybrid-record-proof')
-  scene.querySelectorAll = (selector) => selector === '[data-paper-port]' ? [port] : []
+  scene.querySelectorAll = (selector) => selector === '[data-paper-port]' ? [port] : selector === '[data-paper-envelope-state]' ? [open, closed] : selector === '[data-paper-letter]' ? [letter] : []
   const stop = motion.observeViewportMotion([scene], (target) => [target.animate([], {})])
   assert.equal(port.style.opacity, '0', 'ports are staged before the observer begins')
+  assert.equal(open.style.opacity, '0')
+  assert.equal(closed.style.opacity, '1')
+  assert.equal(letter.style.opacity, '0')
   env.observers[0].enter(scene, false)
   assert.equal(port.style.opacity, '0', 'an offscreen callback never settles an unplayed scene')
+  assert.equal(open.style.opacity, '0', 'open cutout cannot flash before the first scroll entry')
+  assert.equal(letter.style.opacity, '0', 'dated letter cannot flash before opening')
   env.observers[0].enter(scene)
   assert.equal(port.style.opacity, '0', 'ports remain hidden while their line is drawing')
+  assert.equal(letter.style.opacity, '0')
   scene.calls[0].finish()
   await new Promise(setImmediate)
   assert.equal(port.style.opacity, '1', 'completed scene returns to its readable static state')
+  assert.equal(open.style.opacity, '1')
+  assert.equal(closed.style.opacity, '0')
+  assert.equal(letter.style.opacity, '1')
   stop()
 })
 

@@ -16,5 +16,13 @@
     "sourcePngSha256": "32b07d27a6e85744ebcb6bf68aa448bc0b1f46d3b4d992f3265efba20166b174",
     "sha256": "b4c4f8f9611406000b26de70e44cd28caa667412cf82dde5713dc48be3fa1c11",
     "derivation": "Lossless WebP conversion of approved blank photographic overhead material; alpha preserved."
+  },
+  "instance-archive-overhead": {
+    "file": "instance-archive-overhead-v1.webp",
+    "sha256": "fa8d19bfbdb4370f5f8cb992a95b22d035f188da88c065da366fa34f76a9aa98",
+    "sourceUrl": "https://neotoma.io/brand/october/hybrid/instance-archive-v2.webp",
+    "sourceFile": "instance-archive-v2.webp",
+    "sourceSha256": "3e08f00668dd290365ee4ce43d75282ff499a3b597ad2ae7cd009cf08d4d54e3",
+    "derivation": "Built-in imagegen edit of the live Neotoma filing-box cutout to a near-overhead camera; transparent PNG converted to alpha-preserving WebP."
   }
 }

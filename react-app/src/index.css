@@ -530,11 +530,6 @@
 .essay-paper-figure { min-width: 0; margin: 0; }
 .essay-paper-art { min-width: 0; overflow: hidden; }
 .essay-paper-art svg { display: block; width: 100%; height: auto; overflow: hidden; }
-@media (prefers-reduced-motion: no-preference) {
-  /* Local hybrid proofs begin with hidden ports so a delayed viewport entry
-     cannot briefly show a finished endpoint before its line draws. */
-  .essay-paper-art svg[data-paper-treatment="hybrid-record-proof"] [data-paper-port] { opacity: 0; }
-}
 .essay-paper-art [data-paper-object], .essay-paper-art [data-vision-record] {
   transform-box: fill-box; transform-origin: center;
 }

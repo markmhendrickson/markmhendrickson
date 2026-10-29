@@ -29,10 +29,16 @@ export const PAPER_PROOF_ASSETS = {
   'observation-slip': 'b13701ca89a9a7b39c542ad55d3a53057944e3df31574019558e8389281c8a05',
   'entity-dossier': 'd1133eb4e26412fd0be76929ad257756f370e8f2e8760dd599e47bd41b4b9ece',
 }
+export const PAPER_ENVELOPE_OPEN_SHA256 = '169ffa3c4ef1c0748bb08f61f604305a427fe3c89c1e7b8df0b62199f7260b22'
+export const PAPER_INSTANCE_ARCHIVE_OVERHEAD_SHA256 = 'fa8d19bfbdb4370f5f8cb992a95b22d035f188da88c065da366fa34f76a9aa98'
 export const PAPER_REMAINING_PROOF_ASSETS = {
- governedCollaborationProof:'debf8235bd7c8090c9275d33031cf8b6127758da39fcaeca9ec17f07201dc6bf',
+ governedCollaborationProof:PAPER_INSTANCE_ARCHIVE_OVERHEAD_SHA256,
  competingClaimsProof:'a854ad7b4eebdca431e6cd829c4ccc8239ec8654bedcca54297e82396d834868',
  explanationsImpactProof:'b4c4f8f9611406000b26de70e44cd28caa667412cf82dde5713dc48be3fa1c11',
+}
+const PAPER_ADDITIONAL_PROOF_ASSETS = {
+ invoiceOverheadProof: [PAPER_ENVELOPE_OPEN_SHA256],
+ syntheticSourcesProof: [PAPER_ENVELOPE_OPEN_SHA256],
 }
 const trustedRasterHashes = () => [...Object.values(PAPER_ASSET_HASHES), ...Object.values(PAPER_PHOTO_ASSETS).map((asset) => asset.sha256)]
 const paperDir = 'frontend/src/components/onepager/'
@@ -159,7 +165,7 @@ export async function rasterPaperSvg(svg) {
   if (uris.size === 0) throw new Error('Missing embedded paper texture for rasterization')
   for (const uri of uris) {
     const bytes = Buffer.from(uri.slice(uri.indexOf(',') + 1), 'base64')
-    if (![...trustedRasterHashes(), ...Object.values(PAPER_PROOF_ASSETS), ...Object.values(PAPER_REMAINING_PROOF_ASSETS)].includes(sha256(bytes))) throw new Error('Paper asset hash mismatch')
+    if (![...trustedRasterHashes(), ...Object.values(PAPER_PROOF_ASSETS), ...Object.values(PAPER_REMAINING_PROOF_ASSETS), ...Object.values(PAPER_ADDITIONAL_PROOF_ASSETS).flat()].includes(sha256(bytes))) throw new Error('Paper asset hash mismatch')
     const png = await sharp(bytes).png().toBuffer()
     svg = svg.replaceAll(uri, `data:image/png;base64,${png.toString('base64')}`)
   }
@@ -182,7 +188,7 @@ export function validateAuthoredPaperSvg(svg, scene) {
     const overheadProof = root.getAttribute('data-paper-treatment') === 'hybrid-record-proof'
     const allowedMaterials = overheadProof ? scene==='connectedRecordsProof'
       ? [PAPER_TEXTURE_SHA256,PAPER_ASSET_HASHES['/brand/october/hybrid/paper-ivory.webp']]
-      : [PAPER_TEXTURE_SHA256, ...Object.values(PAPER_PROOF_ASSETS), ...(PAPER_REMAINING_PROOF_ASSETS[scene]?[PAPER_REMAINING_PROOF_ASSETS[scene]]:[])] : trustedRasterHashes()
+      : [PAPER_TEXTURE_SHA256, ...Object.values(PAPER_PROOF_ASSETS), ...(PAPER_REMAINING_PROOF_ASSETS[scene]?[PAPER_REMAINING_PROOF_ASSETS[scene]]:[]), ...(PAPER_ADDITIONAL_PROOF_ASSETS[scene] || [])] : trustedRasterHashes()
     const localCssUrls = (value) => {
       if (/\\/.test(value)) throw new Error('Unexpected escaped authored CSS syntax')
       for (const [, raw] of value.matchAll(/url\s*\(([^)]+)\)/gi)) {
@@ -232,7 +238,7 @@ export function validateAuthoredPaperSvg(svg, scene) {
       } else if (scene === 'syntheticSourcesProof') {
         if(root.querySelectorAll('[data-paper-source]').length!==2 || root.querySelectorAll('[data-paper-observation]').length!==2 || root.querySelector('[data-paper-current-record]')) throw new Error('Incomplete unmerged source proof')
       } else if(scene === 'connectedRecordsProof' && (root.querySelectorAll('[data-entity-record]').length!==3 || root.querySelectorAll('[data-connection-kind="entity-relation"]').length!==2 || !root.querySelector('[data-retained-evidence]'))) throw new Error('Incomplete connected entity proof')
-      if(scene==='governedCollaborationProof' && (root.querySelectorAll('[data-shared-reader]').length!==2 || !root.querySelector('[data-shared-instance="one"]'))) throw new Error('Incomplete shared instance proof')
+      if(scene==='governedCollaborationProof' && (root.querySelectorAll('[data-shared-reader]').length!==3 || !root.querySelector('[data-shared-instance="one"]'))) throw new Error('Incomplete shared instance proof')
       if(scene==='competingClaimsProof' && (root.querySelectorAll('[data-retained-claim]').length!==2 || !root.querySelector('[data-selected-position="later"]') || !root.querySelector('[data-decision-authority]'))) throw new Error('Incomplete retained claims proof')
       if(scene==='explanationsImpactProof' && (root.querySelectorAll('[data-impact-record]').length!==3 || root.querySelectorAll('[data-connection-kind="impact"]').length!==2 || !root.querySelector('[data-explanation-basis]'))) throw new Error('Incomplete bounded impact proof')
       for (const state of root.querySelectorAll('[data-paper-field-state]')) {
