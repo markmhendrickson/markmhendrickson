@@ -1638,6 +1638,8 @@ export default function Post({ slug: slugProp }: PostProps) {
   const isTweetPost = post.category === 'tweet'
   const isUnlisted = post.unlisted === true
   const isPaperScenePost = post.heroImageStyle === 'paper-scene'
+  const isOverheadProof = import.meta.env.DEV && isPaperScenePost &&
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('visual') === 'overhead-proof'
   const rawTitle = (titleFromMd ?? post.title ?? '').trim()
   const displayTitle = stripSeriesPrefixFromTitle(rawTitle, post.series)
   /** Full stored title for `<title>` / OG / Twitter / JSON-LD (avoids ultra-short share titles when series prefix is stripped for the H1). */
@@ -2113,10 +2115,16 @@ export default function Post({ slug: slugProp }: PostProps) {
                     React.isValidElement(child) && String((child.props as { title?: string }).title ?? '').startsWith('paper|'),
                   )
                   if (allPaperFigures) {
+                    const advancedProofGallery = isOverheadProof && nonEmpty.length === 3 && nonEmpty.some((child) =>
+                      React.isValidElement(child) && String((child.props as { src?: string }).src ?? '').endsWith('/vision-domain.svg'),
+                    )
                     return (
-                      <div className="post-takeover essay-paper-band not-prose">
-                        <div className={nonEmpty.length > 1 ? 'essay-paper-gallery' : 'essay-paper-break'}>{children}</div>
-                      </div>
+                      <>
+                        {advancedProofGallery && <p className="mx-auto max-w-[680px] px-5 text-foreground sm:px-0">The shared instance is the foundation in use today. The next two visuals show the direction from here.</p>}
+                        <div className="post-takeover essay-paper-band not-prose">
+                          <div className={nonEmpty.length > 1 ? 'essay-paper-gallery' : 'essay-paper-break'}>{children}</div>
+                        </div>
+                      </>
                     )
                   }
                   const allImg = nonEmpty.length >= 1 && nonEmpty.every((c) => {
@@ -2179,10 +2187,15 @@ export default function Post({ slug: slugProp }: PostProps) {
                 },
                 img: ({ src, alt, title, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
                   if (isPaperScenePost && title?.startsWith('paper|')) {
-                    const [, label, caption] = title.split('|')
+                    const [, originalLabel, originalCaption] = title.split('|')
+                    const sharedInstanceProof = isOverheadProof && src?.endsWith('/vision-domain.svg')
+                    const label = sharedInstanceProof ? 'Shared instance' : originalLabel
+                    const caption = sharedInstanceProof
+                      ? 'People can inspect records in the Neotoma app while authorized agents read and write against the same configured instance.'
+                      : originalCaption
                     const isVision = src?.includes('/vision-')
                     return (
-                      <figure className="essay-paper-figure" data-paper-figure={isVision ? 'planned' : 'current'}>
+                      <figure className="essay-paper-figure" data-paper-figure={isVision && !sharedInstanceProof ? 'planned' : 'current'}>
                         {hasPaperArtwork(src) ? <PaperArtwork src={src!} alt={alt ?? ''} /> : <img src={src} alt={alt ?? ''} width={isVision ? 340 : 900} height={isVision ? 220 : 600} loading="lazy" decoding="async" />}
                         <figcaption>
                           <span className="essay-paper-label">{label}</span>

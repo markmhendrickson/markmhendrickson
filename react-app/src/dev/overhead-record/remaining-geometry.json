@@ -1,161 +1,16 @@
 [
   {
     "name": "connectedRecordsProof",
-    "sha256": "310f7f94374796fc52e4ae468f038447e8f2cd0e1896d62c541b87d352148390",
-    "objects": {
-      "person-record": {
-        "material": "entity-dossier",
-        "x": 90,
-        "y": 180,
-        "width": 155,
-        "crop": [
-          199,
-          102,
-          892,
-          1098
-        ],
-        "delay": null
-      },
-      "invoice-record": {
-        "material": "entity-dossier",
-        "x": 385,
-        "y": 75,
-        "width": 175,
-        "crop": [
-          199,
-          102,
-          892,
-          1098
-        ],
-        "delay": null
-      },
-      "project-record": {
-        "material": "entity-dossier",
-        "x": 675,
-        "y": 235,
-        "width": 150,
-        "crop": [
-          199,
-          102,
-          892,
-          1098
-        ],
-        "delay": null
-      },
-      "source-evidence": {
-        "material": "document-packet",
-        "x": 80,
-        "y": 30,
-        "width": 70,
-        "crop": [
-          239,
-          121,
-          833,
-          1071
-        ],
-        "delay": null
-      },
-      "retained-evidence": {
-        "material": "observation-slip",
-        "x": 390,
-        "y": 410,
-        "width": 175,
-        "crop": [
-          71,
-          411,
-          1149,
-          577
-        ],
-        "delay": 0
-      }
-    },
-    "ports": {
-      "person-invoice-a": {
-        "x": 237.441,
-        "y": 247,
-        "carrier": "person-record",
-        "side": "right"
-      },
-      "person-invoice-b": {
-        "x": 388.041,
-        "y": 193,
-        "carrier": "invoice-record",
-        "side": "left"
-      },
-      "invoice-project-a": {
-        "x": 551.466,
-        "y": 193,
-        "carrier": "invoice-record",
-        "side": "right"
-      },
-      "invoice-project-b": {
-        "x": 677.607,
-        "y": 311,
-        "carrier": "project-record",
-        "side": "left"
-      },
-      "source-person-a": {
-        "x": 146.176,
-        "y": 80,
-        "carrier": "source-evidence",
-        "side": "right"
-      },
-      "source-person-b": {
-        "x": 92.693,
-        "y": 322,
-        "carrier": "person-record",
-        "side": "left"
-      },
-      "evidence-invoice-a": {
-        "x": 557.461,
-        "y": 455,
-        "carrier": "retained-evidence",
-        "side": "right"
-      },
-      "evidence-invoice-b": {
-        "x": 551.466,
-        "y": 229,
-        "carrier": "invoice-record",
-        "side": "right"
-      }
-    },
-    "printBoxes": {
-      "person-record": [
-        112,
-        205,
-        110,
-        140
-      ],
-      "invoice-record": [
-        408,
-        108,
-        125,
-        155
-      ],
-      "project-record": [
-        698,
-        262,
-        105,
-        132
-      ],
-      "source-evidence": [
-        89,
-        43,
-        46,
-        57
-      ],
-      "retained-evidence": [
-        410,
-        439,
-        132,
-        38
-      ]
-    },
-    "title": "Connected entity records retain distinct field evidence trails"
+    "sha256": "c2d3d9bbdb384cd77c3a11dacd2391c13b5b1cf54cf1244be5a81099c334f28c",
+    "objects": {},
+    "ports": {},
+    "printBoxes": {},
+    "title": "Distinct connected person, invoice and task records retain their own physical forms and evidence",
+    "source": "preserved-five-silhouette-hero"
   },
   {
     "name": "syntheticSourcesProof",
-    "sha256": "1001cfcbc9b371da7ed27044e45df20f1af59b3559cf1d487b6fce529f5ff814",
+    "sha256": "51d524d8160567c406f481ff5769c59e2c63b4a32bc9a9c04a83dfeff10e91b2",
     "objects": {
       "invoice-source": {
         "material": "document-packet",
@@ -266,13 +121,13 @@
   },
   {
     "name": "governedCollaborationProof",
-    "sha256": "7df02bc9b5fa22b73a7acb761228064e529f82204287c5af2e2b56eeead57018",
+    "sha256": "1d1a5e1e60c77bb59318e3a9418bf57b14eb8eab25cee10cd9c56fc26cc60a32",
     "objects": {
       "domain-folio": {
         "material": "governed-folio",
-        "x": 190,
-        "y": 150,
-        "width": 520,
+        "x": 300,
+        "y": 135,
+        "width": 500,
         "crop": [
           55,
           275,
@@ -281,11 +136,11 @@
         ],
         "delay": null
       },
-      "authorized-actor": {
+      "person-reader": {
         "material": "observation-slip",
-        "x": 60,
-        "y": 25,
-        "width": 210,
+        "x": 40,
+        "y": 120,
+        "width": 170,
         "crop": [
           71,
           411,
@@ -294,71 +149,71 @@
         ],
         "delay": null
       },
-      "correction-observation": {
+      "agent-reader": {
         "material": "observation-slip",
-        "x": 80,
-        "y": 455,
-        "width": 200,
+        "x": 40,
+        "y": 330,
+        "width": 170,
         "crop": [
           71,
           411,
           1149,
           577
         ],
-        "delay": 1100
+        "delay": null
       }
     },
     "ports": {
-      "authority-to-left-a": {
-        "x": 260.953,
-        "y": 76,
-        "carrier": "authorized-actor",
+      "person-shared-a": {
+        "x": 202.676,
+        "y": 175,
+        "carrier": "person-reader",
         "side": "right"
       },
-      "authority-to-left-b": {
-        "x": 192.96,
-        "y": 227,
+      "person-shared-b": {
+        "x": 302.846,
+        "y": 252,
         "carrier": "domain-folio",
         "side": "left"
       },
-      "correction-to-left-a": {
-        "x": 271.384,
-        "y": 502,
-        "carrier": "correction-observation",
+      "agent-shared-a": {
+        "x": 202.676,
+        "y": 373,
+        "carrier": "agent-reader",
         "side": "right"
       },
-      "correction-to-left-b": {
-        "x": 192.96,
-        "y": 275,
+      "agent-shared-b": {
+        "x": 302.846,
+        "y": 316,
         "carrier": "domain-folio",
         "side": "left"
       }
     },
     "printBoxes": {
       "domain-folio": [
-        223,
-        176,
-        454,
-        126
+        333,
+        190,
+        434,
+        90
       ],
-      "authorized-actor": [
-        81,
-        53,
-        160,
-        48
+      "person-reader": [
+        56,
+        140,
+        137,
+        57
       ],
-      "correction-observation": [
-        101,
-        486,
-        151,
-        34
+      "agent-reader": [
+        56,
+        350,
+        137,
+        57
       ]
     },
-    "title": "An authorized correction changes only the left domain while the right domain remains intact"
+    "title": "A person and an agent reach one shared folio through the same configured instance"
   },
   {
     "name": "competingClaimsProof",
-    "sha256": "6e019ba962c7bb1673d3f9a9c12a5f52581e4af733dfe68273d19b15e0e20306",
+    "sha256": "03731d1b201b4c38d0d805b7a54e00a7b2a56498a92e24e289568a6ce8250ec7",
     "objects": {
       "claims-sleeve": {
         "material": "claims-sleeve",
@@ -375,9 +230,9 @@
       },
       "decision-authority": {
         "material": "observation-slip",
-        "x": 700,
+        "x": 730,
         "y": 420,
-        "width": 150,
+        "width": 120,
         "crop": [
           71,
           411,
@@ -389,16 +244,16 @@
     },
     "ports": {
       "selection-authority-a": {
-        "x": 701.632,
-        "y": 457,
-        "carrier": "decision-authority",
-        "side": "left"
-      },
-      "selection-authority-b": {
         "x": 689.28,
         "y": 360,
         "carrier": "claims-sleeve",
         "side": "right"
+      },
+      "selection-authority-b": {
+        "x": 731.305,
+        "y": 453,
+        "carrier": "decision-authority",
+        "side": "left"
       }
     },
     "printBoxes": {
@@ -409,22 +264,22 @@
         320
       ],
       "decision-authority": [
-        718,
-        444,
-        110,
-        34
+        740,
+        440,
+        95,
+        30
       ]
     },
     "title": "Two incompatible retained claims remain visible beside an explicit selected position"
   },
   {
     "name": "explanationsImpactProof",
-    "sha256": "93a1806f66f1219b9b90095f314a0390f06c0be74f995bc658bbbd94839a63ea",
+    "sha256": "72e13ad3a2bb65066b633995b60af8c56064f337e3a67611a3d01ff01872a568",
     "objects": {
       "explanation-dossier": {
         "material": "explanation-dossier",
         "x": 70,
-        "y": 70,
+        "y": 65,
         "width": 360,
         "crop": [
           198,
@@ -436,8 +291,8 @@
       },
       "affected-schedule": {
         "material": "entity-dossier",
-        "x": 625,
-        "y": 45,
+        "x": 630,
+        "y": 48,
         "width": 160,
         "crop": [
           199,
@@ -447,24 +302,24 @@
         ],
         "delay": 0
       },
-      "affected-payment": {
-        "material": "entity-dossier",
-        "x": 625,
-        "y": 300,
-        "width": 160,
+      "affected-task": {
+        "material": "observation-slip",
+        "x": 620,
+        "y": 355,
+        "width": 230,
         "crop": [
-          199,
-          102,
-          892,
-          1098
+          71,
+          411,
+          1149,
+          577
         ],
         "delay": 900
       },
       "unaffected-record": {
         "material": "entity-dossier",
-        "x": 450,
-        "y": 440,
-        "width": 105,
+        "x": 468,
+        "y": 453,
+        "width": 100,
         "crop": [
           199,
           102,
@@ -477,55 +332,55 @@
     "ports": {
       "impact-schedule-a": {
         "x": 429.799,
-        "y": 161,
+        "y": 159,
         "carrier": "explanation-dossier",
         "side": "right"
       },
       "impact-schedule-b": {
-        "x": 627.78,
-        "y": 145,
+        "x": 632.78,
+        "y": 132,
         "carrier": "affected-schedule",
         "side": "left"
       },
-      "impact-payment-a": {
+      "impact-task-a": {
         "x": 413.728,
-        "y": 207,
+        "y": 390,
         "carrier": "explanation-dossier",
         "side": "right"
       },
-      "impact-payment-b": {
-        "x": 627.78,
+      "impact-task-b": {
+        "x": 622.502,
         "y": 400,
-        "carrier": "affected-payment",
+        "carrier": "affected-task",
         "side": "left"
       }
     },
     "printBoxes": {
       "explanation-dossier": [
         116,
-        118,
+        114,
         235,
-        328
+        334
       ],
       "affected-schedule": [
-        647,
-        76,
+        652,
+        77,
         115,
         152
       ],
-      "affected-payment": [
-        647,
-        331,
-        115,
-        152
+      "affected-task": [
+        645,
+        380,
+        170,
+        62
       ],
       "unaffected-record": [
-        466,
-        459,
-        73,
-        92
+        484,
+        475,
+        71,
+        85
       ]
     },
-    "title": "A current field reveals retained evidence and authority, with two connected dependents and one unaffected record"
+    "title": "The current field rests on its source and authority; the changed value reaches a schedule and task, while an unrelated record stays outside the path"
   }
 ]

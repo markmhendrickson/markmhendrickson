@@ -15,9 +15,18 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
   const pending = new Set<Element>();
   const running = new Map<Element, Animation[]>();
   let disposed = false;
+  const hybridPorts = (target: Element) => target.getAttribute('data-paper-treatment') === 'hybrid-record-proof'
+    ? target.querySelectorAll<SVGElement>('[data-paper-port]') : [];
+  const stagePorts = (target: Element) => { for (const port of hybridPorts(target)) port.style.opacity = '0'; };
+  const settlePorts = (target: Element) => { for (const port of hybridPorts(target)) port.style.opacity = '1'; };
+  if (!reduced.matches && !document.hidden) registered.forEach(stagePorts);
   const cancel = (target: Element) => {
-    running.get(target)?.forEach((animation) => animation.cancel());
+    const active = running.get(target);
+    active?.forEach((animation) => animation.cancel());
     running.delete(target);
+    // An offscreen observer event can arrive before the scene ever plays.
+    // Keep those ports staged until their first connection has drawn.
+    if (active) settlePorts(target);
   };
   const drain = () => {
     if (disposed || reduced.matches || document.hidden) return;
@@ -29,6 +38,7 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
       }
       if (!visible.has(target)) continue;
       pending.delete(target);
+      stagePorts(target);
       const animations = play(target);
       if (animations.length === 0) continue;
       target.setAttribute("data-motion-entry-count", String(Number(target.getAttribute("data-motion-entry-count") || 0) + 1));
@@ -37,6 +47,7 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
       void Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
         if (running.get(target) !== animations) return;
         animations.forEach((animation) => animation.cancel());
+        settlePorts(target);
         running.delete(target);
         drain();
       });
@@ -101,6 +112,7 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
     for (const target of current) {
       if (registered.has(target)) continue;
       registered.add(target);
+      if (!inside.has(target) && !reduced.matches && !document.hidden) stagePorts(target);
       observer.observe(target);
     }
     drain();
@@ -111,10 +123,10 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
     registered.forEach(cancel);
   };
   const motionChange = () => {
-    if (reduced.matches) suppress();
+    if (reduced.matches) { suppress(); registered.forEach(settlePorts); }
   };
   const visibilityChange = () => {
-    if (document.hidden) suppress();
+    if (document.hidden) { suppress(); registered.forEach(settlePorts); }
     // Resume remains settled; only a new viewport entry may enqueue motion.
   };
   reduced.addEventListener("change", motionChange);
@@ -189,6 +201,23 @@ export function playPaperScene(target: Element): Animation[] {
         { strokeDasharray: "1", strokeDashoffset: "1", opacity: 1, offset: 0.02 },
         { strokeDasharray: "1", strokeDashoffset: "0", opacity: 1 },
       ], { duration: 650, delay: Number(path.dataset.connectionDelay || 0), easing: "ease-out", fill: "both" }));
+    }
+    // A port marks a completed connection. Keep the static SVG fully readable
+    // for reduced motion, but reveal each endpoint only after its line lands.
+    const portArrival = new Map<string, number>();
+    for (const path of target.querySelectorAll<SVGGeometryElement>("[data-paper-connection]")) {
+      const landedAt = Number(path.dataset.connectionDelay || 0) + 650;
+      for (const id of [path.dataset.connectionFrom, path.dataset.connectionTo]) {
+        if (id) portArrival.set(id, Math.max(portArrival.get(id) || 0, landedAt));
+      }
+    }
+    for (const port of target.querySelectorAll<SVGElement>("[data-paper-port]")) {
+      const landedAt = portArrival.get(port.dataset.paperPort || "");
+      if (landedAt == null) continue;
+      animations.push(port.animate(
+        [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 180, delay: landedAt, easing: "ease-out", fill: "both" }
+      ));
     }
     for (const field of target.querySelectorAll<SVGElement>("[data-paper-field-state]")) {
       const current = field.dataset.paperFieldState === "current";

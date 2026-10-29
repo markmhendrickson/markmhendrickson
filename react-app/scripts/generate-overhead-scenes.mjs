@@ -16,14 +16,16 @@ const extraDefs={}
 for(const [name,spec]of Object.entries(newMaterials)){const bytes=fs.readFileSync(path.join(dir,'materials',spec.file));if(createHash('sha256').update(bytes).digest('hex')!==spec.sha256)throw Error('Material hash changed');extraDefs[name]=`<image id="proof-${name}" width="1254" height="1254" href="data:image/webp;base64,${bytes.toString('base64')}"/>`}
 const pixels={}
 for(const name of Object.keys(crops))pixels[name]=await sharp(fs.readFileSync(path.join(dir,'materials',`${name}.webp`))).ensureAlpha().raw().toBuffer({resolveWithObject:true})
-const n='#223e50',r='#ad5635'
+const n='#223e50',r='#ad5635',sage='#6c7865',connector='#59665c'
 const rule=(x,y,w=70,thick=5)=>`<path d="M${x} ${y}h${w}" fill="none" stroke="${n}" stroke-width="${thick}"/>`
 const bank=(x,y)=>`<g data-field-icon="amount" fill="none" stroke="${n}" stroke-width="2.6"><path d="M${x} ${y}h28v20h-28zM${x+4} ${y+4}h4M${x+20} ${y+16}h4"/><circle cx="${x+14}" cy="${y+10}" r="4"/></g>`
 const calendar=(x,y,value='prior')=>`<g data-field-icon="due" data-field-value="${value}" stroke="${n}" stroke-width="2.6"><path d="M${x} ${y+4}h28v22h-28zM${x} ${y+11}h28M${x+7} ${y}v8M${x+21} ${y}v8" fill="none"/><path d="M${x+(value==='prior'?5:17)} ${y+16}h6v6h-6z" fill="${n}" stroke="none"/></g>`
-const diamond=(x,y)=>`<path data-record-identity="" d="M${x} ${y-12}l12 12-12 12-12-12z" fill="none" stroke="${n}" stroke-width="3"/>`
 const check=(x,y)=>`<path d="M${x} ${y+8}l7 7 15-19" fill="none" stroke="${n}" stroke-width="3.5"/>`
 const key=(x,y)=>`<g fill="none" stroke="${n}" stroke-width="3"><circle cx="${x}" cy="${y}" r="7"/><path d="M${x+7} ${y}h25m-7 0v7m-8-7v5"/></g>`
 const person=(x,y)=>`<g fill="none" stroke="${n}" stroke-width="3"><circle cx="${x}" cy="${y}" r="8"/><path d="M${x-14} ${y+27}v-8q14-18 28 0v8z"/></g>`
+const agent=(x,y)=>`<g fill="none" stroke="${sage}" stroke-width="3"><rect x="${x}" y="${y}" width="36" height="26" rx="2"/><path d="M${x+7} ${y+8}l6 5-6 5m11 0h10"/></g>`
+const envelope=(x,y)=>`<g fill="none" stroke="${sage}" stroke-width="3"><path d="M${x} ${y}h36v25h-36zM${x} ${y}l18 13 18-13"/></g>`
+const claimCalendar=(x,y,side)=>`<g data-field-icon="due" data-field-value="${side}" fill="none" stroke="${n}" stroke-width="3.5"><path d="M${x} ${y+8}h82v73h-82zM${x} ${y+26}h82M${x+17} ${y}v16M${x+65} ${y}v16"/><path d="M${x+13} ${y+44}h22v22h-22zM${x+47} ${y+44}h22v22h-22z" stroke="${sage}" stroke-width="2.5"/><circle cx="${x+(side==='prior'?24:58)}" cy="${y+55}" r="10" fill="${r}" stroke="none"/></g>`
 const motion=(id,delay)=>`data-paper-object="" data-paper-motion-carrier="${id}" data-enter-x="-18" data-enter-y="10" data-enter-rotation="0" data-enter-delay="${delay}" style="transform-box:view-box;transform-origin:0px 0px"`
 function scene(name,title){
  const objects={},ports={},edges=[],boxes={},defs=[],body=[],ink=[]
@@ -42,8 +44,9 @@ function scene(name,title){
  }
  const link=(id,from,fromSide,fromY,to,toSide,toY,kind='evidence',delay=900)=>{
   const a=edge(from,fromSide,fromY),b=edge(to,toSide,toY);ports[id+'-a']=a;ports[id+'-b']=b
-  const dx=Number(((b.x-a.x)*.5).toFixed(3))
-  edges.push(`<path data-paper-connection="" data-connection-kind="${kind}" data-connection-from="${id}-a" data-connection-to="${id}-b" data-connection-delay="${delay}" d="M${a.x} ${a.y} C${Number((a.x+dx).toFixed(3))} ${a.y} ${Number((b.x-dx).toFixed(3))} ${b.y} ${b.x} ${b.y}" pathLength="1" fill="none" stroke="${n}" stroke-width="${kind==='entity-relation'?4:2.8}" stroke-linecap="round"/>`)
+  if(a.side!=='right'||b.side!=='left'||b.x-a.x<24)throw Error(`Connection crosses an object or lacks a clear gap: ${name}/${id}`)
+  const dx=Number((Math.min(90,(b.x-a.x)*.38)).toFixed(3))
+  edges.push(`<path data-paper-connection="" data-connection-kind="${kind}" data-connection-from="${id}-a" data-connection-to="${id}-b" data-connection-delay="${delay}" d="M${a.x} ${a.y} C${Number((a.x+dx).toFixed(3))} ${a.y} ${Number((b.x-dx).toFixed(3))} ${b.y} ${b.x} ${b.y}" pathLength="1" fill="none" stroke="${connector}" stroke-width="${kind==='entity-relation'?4:2.8}" stroke-linecap="round"/>`)
  }
  const finish=()=>{
   const foreground=ink.map(s=>s.replace(/\{\{ports:([^}]+)\}\}/g,(_,id)=>Object.entries(ports).filter(([,p])=>p.carrier===id).map(([pid,p])=>`<circle data-paper-port="${pid}" data-port-carrier="${id}" data-port-side="${p.side}" cx="${p.x}" cy="${p.y}" r="4.8" fill="${r}"/>`).join(''))).join('')
@@ -55,17 +58,56 @@ function scene(name,title){
 }
 const scenes=[]
 {
- const s=scene('connectedRecordsProof','Connected entity records retain distinct field evidence trails')
- s.add('person-record','entity-dossier',90,180,155,[112,205,110,140],diamond(166,227)+person(166,264)+rule(120,322,88),'data-entity-record="person"')
- s.add('invoice-record','entity-dossier',385,75,175,[408,108,125,155],diamond(471,122)+bank(411,164)+rule(454,174,70)+calendar(411,216,'current')+rule(454,229,70),'data-entity-record="invoice"')
- s.add('project-record','entity-dossier',675,235,150,[698,262,105,132],diamond(749,279)+`<path d="M710 309h14v14h-14zM710 338h14v14h-14z" fill="none" stroke="${n}" stroke-width="2.5"/>`+check(712,310)+rule(734,316,49,3)+rule(734,345,49,3)+rule(706,375,90),'data-entity-record="task"')
- s.add('source-evidence','document-packet',80,30,70,[89,43,46,57],rule(91,49,40,4)+rule(91,65,29,2)+rule(91,80,36,2),'data-source-evidence="original"')
- s.add('retained-evidence','observation-slip',390,410,175,[410,439,132,38],calendar(412,442,'current')+rule(454,455,80),'data-retained-evidence="observation"',0)
- s.link('person-invoice','person-record','right',247,'invoice-record','left',193,'entity-relation',0)
- s.link('invoice-project','invoice-record','right',193,'project-record','left',311,'entity-relation',0)
- s.link('source-person','source-evidence','right',80,'person-record','left',322,'evidence',0)
- s.link('evidence-invoice','retained-evidence','right',455,'invoice-record','right',229,'evidence',900)
- scenes.push(s.finish())
+ // Retain the five accepted physical forms and their composition: tabbed
+ // folder, notched card, dog-eared note, wide record, and small slip. Their
+ // original paper/fiber material is richer than the repeated dossier remake.
+ const source=fs.readFileSync(path.join(app,'src/assets/neotoma-paper/hero.svg'),'utf8')
+ const doc=new JSDOM(source,{contentType:'image/svg+xml'}).window.document,root=doc.documentElement
+ root.setAttribute('data-paper-scene','connectedRecordsProof')
+ root.setAttribute('data-paper-treatment','hybrid-record-proof')
+ root.setAttribute('data-paper-variant','overhead-connectedRecordsProof')
+ root.querySelector('title').textContent='Distinct connected person, invoice and task records retain their own physical forms and evidence'
+ for(const style of root.querySelectorAll('style'))style.textContent=style.textContent.replaceAll('svg[data-paper-scene="hero"]','svg[data-paper-scene="connectedRecordsProof"]')
+ const paper=[...root.querySelectorAll('[data-paper-object]')]
+ const roles=['person','invoice','task',null,null]
+ paper.forEach((object,index)=>{
+  object.setAttribute('data-enter-x',index%2?-14:14)
+  object.setAttribute('data-enter-y',index%2?9:-8)
+  object.setAttribute('data-enter-rotation','0')
+  object.setAttribute('data-enter-delay',index*90)
+  if(roles[index])object.setAttribute('data-entity-record',roles[index])
+  if(index===3)object.setAttribute('data-retained-evidence','observation')
+  if(index===4)object.setAttribute('data-source-evidence','source')
+ })
+ // The new role marks sit on the existing faces. The screenprint grain is the
+ // same pinned material treatment used by the accepted invoice proof.
+ const originalDefs=new JSDOM(approved,{contentType:'image/svg+xml'}).window.document
+ for(const id of ['screen-grain','screenprint'])root.querySelector('defs').insertAdjacentHTML('beforeend',originalDefs.getElementById(id).outerHTML)
+ // Preserve the approved print geometry, while giving its originally solid
+ // navy blocks the same fine ink dropout as the newer proof scenes.
+ for(const object of paper)for(const block of object.querySelectorAll('g[fill="#223e50"]'))block.setAttribute('mask','url(#screenprint)')
+ paper[0].insertAdjacentHTML('beforeend',`<g data-paper-print="person" mask="url(#screenprint)" stroke="${sage}" fill="none" stroke-width="3"><circle cx="250" cy="215" r="8"/><path d="M237 243v-7q13-18 26 0v7z"/></g>`)
+ paper[1].insertAdjacentHTML('beforeend',`<g data-paper-print="invoice" mask="url(#screenprint)">${bank(28,129)}${calendar(83,124,'current')}</g>`)
+ // The native rust bullets already identify the task. An additional mark
+ // would compete with that print on the narrow note.
+ for(const group of root.querySelectorAll('.paper-thread'))group.remove()
+ const connections=[
+  ['folder-card','entity-relation',372,157,472,157,900],
+  ['card-task','entity-relation',633,157,714,157,990],
+  ['card-record','evidence',552,261,552,333,1080],
+ ]
+ const back=doc.createElementNS('http://www.w3.org/2000/svg','g');back.setAttribute('data-paper-connections','')
+ const front=doc.createElementNS('http://www.w3.org/2000/svg','g');front.setAttribute('data-paper-ports','')
+ for(const [id,kind,x1,y1,x2,y2,delay]of connections){
+  const bend=x1===x2?`M${x1} ${y1}V${y2}`:`M${x1} ${y1}H${x2}`
+  back.insertAdjacentHTML('beforeend',`<path data-paper-connection="" data-connection-kind="${kind}" data-connection-from="${id}-a" data-connection-to="${id}-b" data-connection-delay="${delay}" d="${bend}" pathLength="1" fill="none" stroke="${connector}" stroke-width="${kind==='entity-relation'?3.3:2.8}" stroke-linecap="round"/>`)
+  front.insertAdjacentHTML('beforeend',`<circle data-paper-port="${id}-a" cx="${x1}" cy="${y1}" r="4.5" fill="${r}"/><circle data-paper-port="${id}-b" cx="${x2}" cy="${y2}" r="4.5" fill="${r}"/>`)
+ }
+ root.insertBefore(back,paper[0].parentElement)
+ root.appendChild(front)
+ const svg=root.outerHTML+'\n';validateAuthoredPaperSvg(svg,'connectedRecordsProof')
+ fs.writeFileSync(path.join(dir,'connectedRecordsProof.svg'),svg)
+ scenes.push({name:'connectedRecordsProof',sha256:createHash('sha256').update(svg).digest('hex'),objects:{},ports:{},printBoxes:{},title:root.querySelector('title').textContent,source:'preserved-five-silhouette-hero'})
 }
 {
  const s=scene('syntheticSourcesProof','Original invoice and later email produce two retained observations before any current record is selected')
@@ -78,30 +120,30 @@ const scenes=[]
  scenes.push(s.finish())
 }
 {
- const s=scene('governedCollaborationProof','An authorized correction changes only the left domain while the right domain remains intact')
- s.add('domain-folio','governed-folio',190,150,520,[223,176,454,126],`<g data-bounded-domain="authorized"><path d="M229 181h180v100H229z" fill="#98a48b" opacity=".22"/>${person(254,201)}${key(299,211)}<g data-paper-field-state="prior" opacity="0">${calendar(250,247)}${rule(294,260,62)}</g><g data-paper-field-state="current" opacity="1">${calendar(250,247,'current')}${rule(294,260,91)}${check(374,254)}</g></g><g data-bounded-domain="untouched">${bank(495,201)}${rule(539,211,105)}${calendar(495,247)}${rule(539,260,66)}</g>`,'data-governed-domains="two"')
- s.add('authorized-actor','observation-slip',60,25,210,[81,53,160,48],person(98,64)+key(148,76)+`<path d="M190 59h30v25h-30zM198 68l5 4-5 4m10 0h7" fill="none" stroke="${n}" stroke-width="2.5"/>`,'data-correction-authority="scoped"')
- s.add('correction-observation','observation-slip',80,455,200,[101,486,151,34],calendar(103,489,'current')+rule(147,502,100),'data-authorized-correction="left-only"',1100)
- s.link('authority-to-left','authorized-actor','right',76,'domain-folio','left',227,'authority',0)
- s.link('correction-to-left','correction-observation','right',502,'domain-folio','left',275,'evidence',1960)
+ const s=scene('governedCollaborationProof','A person and an agent reach one shared folio through the same configured instance')
+ s.add('domain-folio','governed-folio',300,135,500,[333,190,434,90],`<g data-shared-instance="record"><g data-record-page="left">${bank(349,197)}${rule(394,207,98)}${calendar(349,241,'current')}${rule(394,253,98)}</g><g data-record-page="right">${person(621,203)}${rule(650,214,85)}<path d="M606 245h16v16h-16z" fill="none" stroke="${n}" stroke-width="2.5"/>${rule(636,254,99)}</g></g>`,'data-shared-instance="one"')
+ s.add('person-reader','observation-slip',40,120,170,[56,140,137,57],person(76,154)+rule(117,175,60),'data-shared-reader="person"')
+ s.add('agent-reader','observation-slip',40,330,170,[56,350,137,57],agent(71,360)+rule(117,373,60),'data-shared-reader="agent"')
+ s.link('person-shared','person-reader','right',175,'domain-folio','left',252,'entity-relation',900)
+ s.link('agent-shared','agent-reader','right',373,'domain-folio','left',316,'entity-relation',990)
  scenes.push(s.finish())
 }
 {
  const s=scene('competingClaimsProof','Two incompatible retained claims remain visible beside an explicit selected position')
- s.add('claims-sleeve','claims-sleeve',190,40,500,[225,74,430,320],`<g data-retained-claim="prior">${calendar(247,100)}${rule(292,113,94)}${bank(247,154)}${rule(292,164,100)}</g><g data-retained-claim="later">${calendar(495,100,'current')}${rule(540,113,94)}${bank(495,154)}${rule(540,164,100)}</g><g data-selected-position="later"><g data-paper-field-state="prior" opacity="0"><path d="M278 356h22v22h-22z" fill="none" stroke="${n}" stroke-width="3"/></g><g data-paper-field-state="current" opacity="1">${check(278,356)}${calendar(326,347,'current')}${rule(371,360,176)}</g></g>`,'data-claims-retained="both"')
- // A separate authority seal records selection; neither physical claim is removed.
- s.add('decision-authority','observation-slip',700,420,150,[718,444,110,34],key(729,457)+check(790,450),'data-decision-authority="explicit"',1100)
- s.link('selection-authority','decision-authority','left',457,'claims-sleeve','right',360,'authority',1960)
+ s.add('claims-sleeve','claims-sleeve',190,40,500,[225,74,430,320],`<g data-retained-claim="prior">${claimCalendar(249,91,'prior')}${rule(356,144,43,3)}</g><g data-retained-claim="later">${claimCalendar(499,91,'current')}${rule(606,144,34,3)}<circle cx="616" cy="168" r="8" fill="${r}"/></g><g data-selected-position="later"><g data-paper-field-state="prior" opacity="0"><path d="M282 354h22v22h-22z" fill="none" stroke="${sage}" stroke-width="3"/></g><g data-paper-field-state="current" opacity="1"><path d="M274 364l10 11 22-18" fill="none" stroke="${r}" stroke-width="5"/>${calendar(330,353,'current')}${rule(375,358,166)}<circle cx="562" cy="361" r="7" fill="${r}"/></g></g>`,'data-claims-retained="both"')
+ // The matching rust seal identifies which retained claim the decision adopts.
+ s.add('decision-authority','observation-slip',730,420,120,[740,440,95,30],key(751,453)+`<circle cx="812" cy="454" r="5" fill="${r}"/>`,'data-decision-authority="explicit"',1100)
+ s.link('selection-authority','claims-sleeve','right',360,'decision-authority','left',453,'authority',1960)
  scenes.push(s.finish())
 }
 {
- const s=scene('explanationsImpactProof','A current field reveals retained evidence and authority, with two connected dependents and one unaffected record')
- s.add('explanation-dossier','explanation-dossier',70,70,360,[116,118,235,328],`<g data-explained-current-field="due">${calendar(140,148,'current')}${rule(186,161,125)}${key(245,207)}</g><g data-explanation-basis="retained-evidence-and-authority">${calendar(144,317)}${rule(189,330,99)}${calendar(144,366,'current')}${rule(189,379,130)}${person(154,405)}${key(217,423)}</g>`,'data-explanation-root="current"')
- s.add('affected-schedule','entity-dossier',625,45,160,[647,76,115,152],diamond(704,93)+calendar(652,132,'current')+rule(696,145,62)+rule(652,191,106),'data-impact-record="affected-schedule"',0)
- s.add('affected-payment','entity-dossier',625,300,160,[647,331,115,152],diamond(704,348)+bank(652,390)+rule(696,400,62)+rule(652,446,106),'data-impact-record="affected-payment"',900)
- s.add('unaffected-record','entity-dossier',450,440,105,[466,459,73,92],diamond(502,476)+bank(470,500)+rule(470,538,62),'data-impact-record="unaffected"')
- s.link('impact-schedule','explanation-dossier','right',161,'affected-schedule','left',145,'impact',900)
- s.link('impact-payment','explanation-dossier','right',207,'affected-payment','left',400,'impact',1800)
+ const s=scene('explanationsImpactProof','The current field rests on its source and authority; the changed value reaches a schedule and task, while an unrelated record stays outside the path')
+ s.add('explanation-dossier','explanation-dossier',70,65,360,[116,114,235,334],`<g data-explained-current-field="due">${calendar(143,145,'current')}${rule(189,158,129)}<circle cx="323" cy="159" r="6" fill="${r}"/></g><g data-explanation-basis="retained-evidence-and-authority"><g data-basis-part="source">${envelope(150,315)}${rule(203,327,112)}</g><g data-basis-part="authority">${key(159,391)}${rule(207,390,106)}</g><circle cx="324" cy="389" r="6" fill="${r}"/></g>`,'data-explanation-root="current"')
+ s.add('affected-schedule','entity-dossier',630,48,160,[652,77,115,152],calendar(657,119,'current')+rule(703,132,59)+rule(657,185,102),'data-impact-record="affected-schedule"',0)
+ s.add('affected-task','observation-slip',620,355,230,[645,380,170,62],`<path d="M649 390h18v18h-18z" fill="none" stroke="${n}" stroke-width="2.8"/>${check(647,386)}${rule(687,400,109)}<path d="M649 419h18v18h-18z" fill="none" stroke="${sage}" stroke-width="2.8"/>${rule(687,428,80)}`,'data-impact-record="affected-task"',900)
+ s.add('unaffected-record','entity-dossier',468,453,100,[484,475,71,85],bank(489,502)+rule(489,545,54,3),'data-impact-record="unaffected"')
+ s.link('impact-schedule','explanation-dossier','right',159,'affected-schedule','left',132,'impact',900)
+ s.link('impact-task','explanation-dossier','right',390,'affected-task','left',400,'impact',1800)
  scenes.push(s.finish())
 }
 fs.writeFileSync(path.join(dir,'remaining-geometry.json'),JSON.stringify(scenes,null,2)+'\n')

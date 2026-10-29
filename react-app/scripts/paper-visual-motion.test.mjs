@@ -16,7 +16,7 @@ function environment() {
   const observers = []
   const mutations = []
   class Element {
-    constructor(dataset = {}) { this.dataset = dataset; this.calls = []; this.attributes = new Map(); this.isConnected = true }
+    constructor(dataset = {}) { this.dataset = dataset; this.calls = []; this.attributes = new Map(); this.style = {}; this.isConnected = true }
     setAttribute(name, value) { this.attributes.set(name, value) }
     getAttribute(name) { return this.attributes.get(name) ?? null }
     animate(frames, options) {
@@ -120,6 +120,23 @@ test('observer replays only on real re-entry and cancels on exit, hidden, prefer
   assert(observer.disconnected)
   assert.equal(env.listeners.size, 0)
   assert.equal(env.preferences.size, 0)
+})
+
+test('an unseen hybrid scene keeps ports hidden through its first offscreen observer event', async () => {
+  const env = environment()
+  const scene = new env.Element(), port = new env.Element()
+  scene.setAttribute('data-paper-treatment', 'hybrid-record-proof')
+  scene.querySelectorAll = (selector) => selector === '[data-paper-port]' ? [port] : []
+  const stop = motion.observeViewportMotion([scene], (target) => [target.animate([], {})])
+  assert.equal(port.style.opacity, '0', 'ports are staged before the observer begins')
+  env.observers[0].enter(scene, false)
+  assert.equal(port.style.opacity, '0', 'an offscreen callback never settles an unplayed scene')
+  env.observers[0].enter(scene)
+  assert.equal(port.style.opacity, '0', 'ports remain hidden while their line is drawing')
+  scene.calls[0].finish()
+  await new Promise(setImmediate)
+  assert.equal(port.style.opacity, '1', 'completed scene returns to its readable static state')
+  stop()
 })
 
 test('meaningful visibility starts at 35 percent and ratio dips do not create another entry', () => {

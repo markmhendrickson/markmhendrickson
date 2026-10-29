@@ -180,7 +180,9 @@ export function validateAuthoredPaperSvg(svg, scene) {
     const ids = new Set(elements.map((element) => element.getAttribute('id')).filter(Boolean))
     const materials = new Set()
     const overheadProof = root.getAttribute('data-paper-treatment') === 'hybrid-record-proof'
-    const allowedMaterials = overheadProof ? [PAPER_TEXTURE_SHA256, ...Object.values(PAPER_PROOF_ASSETS), ...(PAPER_REMAINING_PROOF_ASSETS[scene]?[PAPER_REMAINING_PROOF_ASSETS[scene]]:[])] : trustedRasterHashes()
+    const allowedMaterials = overheadProof ? scene==='connectedRecordsProof'
+      ? [PAPER_TEXTURE_SHA256,PAPER_ASSET_HASHES['/brand/october/hybrid/paper-ivory.webp']]
+      : [PAPER_TEXTURE_SHA256, ...Object.values(PAPER_PROOF_ASSETS), ...(PAPER_REMAINING_PROOF_ASSETS[scene]?[PAPER_REMAINING_PROOF_ASSETS[scene]]:[])] : trustedRasterHashes()
     const localCssUrls = (value) => {
       if (/\\/.test(value)) throw new Error('Unexpected escaped authored CSS syntax')
       for (const [, raw] of value.matchAll(/url\s*\(([^)]+)\)/gi)) {
@@ -230,7 +232,7 @@ export function validateAuthoredPaperSvg(svg, scene) {
       } else if (scene === 'syntheticSourcesProof') {
         if(root.querySelectorAll('[data-paper-source]').length!==2 || root.querySelectorAll('[data-paper-observation]').length!==2 || root.querySelector('[data-paper-current-record]')) throw new Error('Incomplete unmerged source proof')
       } else if(scene === 'connectedRecordsProof' && (root.querySelectorAll('[data-entity-record]').length!==3 || root.querySelectorAll('[data-connection-kind="entity-relation"]').length!==2 || !root.querySelector('[data-retained-evidence]'))) throw new Error('Incomplete connected entity proof')
-      if(scene==='governedCollaborationProof' && (root.querySelectorAll('[data-bounded-domain]').length!==2 || !root.querySelector('[data-authorized-correction="left-only"]') || !root.querySelector('[data-bounded-domain="untouched"]'))) throw new Error('Incomplete bounded correction proof')
+      if(scene==='governedCollaborationProof' && (root.querySelectorAll('[data-shared-reader]').length!==2 || !root.querySelector('[data-shared-instance="one"]'))) throw new Error('Incomplete shared instance proof')
       if(scene==='competingClaimsProof' && (root.querySelectorAll('[data-retained-claim]').length!==2 || !root.querySelector('[data-selected-position="later"]') || !root.querySelector('[data-decision-authority]'))) throw new Error('Incomplete retained claims proof')
       if(scene==='explanationsImpactProof' && (root.querySelectorAll('[data-impact-record]').length!==3 || root.querySelectorAll('[data-connection-kind="impact"]').length!==2 || !root.querySelector('[data-explanation-basis]'))) throw new Error('Incomplete bounded impact proof')
       for (const state of root.querySelectorAll('[data-paper-field-state]')) {
