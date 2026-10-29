@@ -126,7 +126,7 @@ test('hero follows the current published record-only composition', () => {
   assert((hero.match(/data-paper-connection=/g) ?? []).length >= 2)
 })
 const materials = new Map()
-const donorMaterialScenes = ['hero', 'tools'].map((name) => fs.readFileSync(new URL(`../src/assets/neotoma-paper/${name}.svg`, import.meta.url), 'utf8')).join('')
+const donorMaterialScenes = ['hero', 'observation', 'tools'].map((name) => fs.readFileSync(new URL(`../src/assets/neotoma-paper/${name}.svg`, import.meta.url), 'utf8')).join('')
 for (const [, encoded] of (allScenes + donorMaterialScenes).matchAll(/href="data:image\/webp;base64,([^"]+)"/g)) {
   const material = Buffer.from(encoded, 'base64')
   const hash = createHash('sha256').update(material).digest('hex')
@@ -207,6 +207,11 @@ test('published scenes have current hashes, matching standalone sources and cont
       assert.equal(createHash('sha256').update(material).digest('hex'), hash)
     }
     assert(inline.includes('/images/posts/neotoma-paper/materials/'), `${name}: same-origin material references`)
+    const restored = inline.replace(/href="\/images\/posts\/neotoma-paper\/materials\/([a-f0-9]{64})\.webp"/g, (_, hash) => {
+      const material = fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/materials/${hash}.webp`, import.meta.url))
+      return `href="data:image/webp;base64,${material.toString('base64')}"`
+    })
+    assert.equal(restored, standalone.toString(), `${name}: externalized material reproduces reviewed standalone art byte for byte`)
     for (const ext of ['svg', 'png']) {
       const file = `${name}.${ext}`
       const output = fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/${file}`, import.meta.url))
