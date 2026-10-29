@@ -1641,7 +1641,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const isOverheadProof = import.meta.env.DEV && isPaperScenePost &&
     typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('visual') === 'overhead-proof'
   const heroImageCaption = isOverheadProof && post.slug === 'your-agents-need-a-system-of-record'
-    ? 'Person, invoice and follow-up task records keep their own forms while their relationships connect in one graph.'
+    ? 'Person, invoice, follow-up task, and other connected records keep their own forms while their relationships connect in one graph.'
     : post.heroImageCaption
   const rawTitle = (titleFromMd ?? post.title ?? '').trim()
   const displayTitle = stripSeriesPrefixFromTitle(rawTitle, post.series)

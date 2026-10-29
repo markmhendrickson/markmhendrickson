@@ -14,7 +14,7 @@ async function contourErrors(s){
   const carrier=d.querySelector(selector+' svg'),crop=carrier.getAttribute('viewBox').split(' ').map(Number)
   const scale=Number(carrier.getAttribute('width'))/crop[2],x=Number(pin.getAttribute('cx')),y=Number(pin.getAttribute('cy'))
   const material=carrier.getAttribute('data-paper-raster')
-  const filename=material==='email-envelope-open'?'email-envelope-open-v1.webp':`${material}.webp`
+  const filename=material==='email-envelope-open'?'email-envelope-open-v2.webp':`${material}.webp`
   const {data,info}=await sharp(fs.readFileSync(new URL(`../src/dev/overhead-record/materials/${filename}`,import.meta.url))).ensureAlpha().raw().toBuffer({resolveWithObject:true})
   const sy=Math.round(crop[1]+(y-Number(carrier.getAttribute('y')))/scale)
   const sx=crop[0]+(x-Number(carrier.getAttribute('x')))/scale

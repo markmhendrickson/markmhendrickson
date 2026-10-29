@@ -18,11 +18,12 @@
       "height": 1254
     },
     "email-envelope-open": {
-      "file": "email-envelope-open-v1.webp",
-      "sha256": "169ffa3c4ef1c0748bb08f61f604305a427fe3c89c1e7b8df0b62199f7260b22",
-      "sourceFile": "email-envelope.webp",
-      "sourceSha256": "83ef47976c1a1f661a02e90139c294240f532d84a2ba33c5a67e4c2418aacaa6",
-      "derivation": "Built-in imagegen precise-object edit of the approved closed envelope to an empty open envelope; transparent PNG converted to alpha-preserving WebP."
+      "file": "email-envelope-open-v2.webp",
+      "sha256": "fb412f23451992251800ffd8680d98ac67943ac8e5fdf1f356de7df487df905c",
+      "pngSha256": "9d1545215100ebf48abfb479e39014174932a0adbe205cdf21c4b6f3e0f149bd",
+      "sourceFile": "email-envelope-open-v1.webp",
+      "sourceSha256": "169ffa3c4ef1c0748bb08f61f604305a427fe3c89c1e7b8df0b62199f7260b22",
+      "derivation": "Built-in imagegen edit of the first open envelope to correct the lower pocket fold; transparent PNG converted to alpha-preserving WebP."
     },
     "observation-slip": {
       "file": "observation-slip.webp",

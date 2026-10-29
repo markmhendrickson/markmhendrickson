@@ -29,7 +29,7 @@ export const PAPER_PROOF_ASSETS = {
   'observation-slip': 'b13701ca89a9a7b39c542ad55d3a53057944e3df31574019558e8389281c8a05',
   'entity-dossier': 'd1133eb4e26412fd0be76929ad257756f370e8f2e8760dd599e47bd41b4b9ece',
 }
-export const PAPER_ENVELOPE_OPEN_SHA256 = '169ffa3c4ef1c0748bb08f61f604305a427fe3c89c1e7b8df0b62199f7260b22'
+export const PAPER_ENVELOPE_OPEN_SHA256 = 'fb412f23451992251800ffd8680d98ac67943ac8e5fdf1f356de7df487df905c'
 export const PAPER_INSTANCE_ARCHIVE_OVERHEAD_SHA256 = 'fa8d19bfbdb4370f5f8cb992a95b22d035f188da88c065da366fa34f76a9aa98'
 export const PAPER_REMAINING_PROOF_ASSETS = {
  governedCollaborationProof:PAPER_INSTANCE_ARCHIVE_OVERHEAD_SHA256,
@@ -187,7 +187,7 @@ export function validateAuthoredPaperSvg(svg, scene) {
     const materials = new Set()
     const overheadProof = root.getAttribute('data-paper-treatment') === 'hybrid-record-proof'
     const allowedMaterials = overheadProof ? scene==='connectedRecordsProof'
-      ? [PAPER_TEXTURE_SHA256,PAPER_ASSET_HASHES['/brand/october/hybrid/paper-ivory.webp']]
+      ? [PAPER_TEXTURE_SHA256,...Object.values(PAPER_PROOF_ASSETS),PAPER_REMAINING_PROOF_ASSETS.explanationsImpactProof]
       : [PAPER_TEXTURE_SHA256, ...Object.values(PAPER_PROOF_ASSETS), ...(PAPER_REMAINING_PROOF_ASSETS[scene]?[PAPER_REMAINING_PROOF_ASSETS[scene]]:[]), ...(PAPER_ADDITIONAL_PROOF_ASSETS[scene] || [])] : trustedRasterHashes()
     const localCssUrls = (value) => {
       if (/\\/.test(value)) throw new Error('Unexpected escaped authored CSS syntax')

@@ -56,77 +56,49 @@ const motion=(id,delay)=>`data-paper-object="" data-paper-motion-carrier="${id}"
   const dx=Number((Math.min(90,(b.x-a.x)*.38)).toFixed(3))
   edges.push(`<path data-paper-connection="" data-connection-kind="${kind}" data-connection-from="${id}-a" data-connection-to="${id}-b" data-connection-delay="${delay}" d="M${a.x} ${a.y} C${Number((a.x+dx).toFixed(3))} ${a.y} ${Number((b.x-dx).toFixed(3))} ${b.y} ${b.x} ${b.y}" pathLength="1" fill="none" stroke="${connector}" stroke-width="${kind==='entity-relation'?4:2.8}" stroke-linecap="round"/>`)
  }
+ const verticalEdge=(id,side,x)=>{
+  const p=objects[id],scale=p.width/p.crop[2],column=Math.round(p.crop[0]+(x-p.x)/scale),{data,info}=pixels[p.material],span=[]
+  for(let y=p.crop[1];y<p.crop[1]+p.crop[3];y++)if(data[(y*info.width+column)*4+3]>=200)span.push(y)
+  if(!span.length)throw Error(`No opaque vertical contour ${name}/${id}/${x}`)
+  return {x,y:Number((p.y+((side==='top'?span[0]-.5:span.at(-1)+.5)-p.crop[1])*scale).toFixed(3)),carrier:id,side}
+ }
+ const linkVertical=(id,from,fromX,to,toX,kind='evidence',delay=900)=>{
+  const a=verticalEdge(from,'bottom',fromX),b=verticalEdge(to,'top',toX);ports[id+'-a']=a;ports[id+'-b']=b
+  if(b.y-a.y<24)throw Error(`Vertical connection crosses an object or lacks a clear gap: ${name}/${id}`)
+  const dy=Number((Math.min(45,(b.y-a.y)*.4)).toFixed(3))
+  edges.push(`<path data-paper-connection="" data-connection-kind="${kind}" data-connection-from="${id}-a" data-connection-to="${id}-b" data-connection-delay="${delay}" d="M${a.x} ${a.y} C${a.x} ${Number((a.y+dy).toFixed(3))} ${b.x} ${Number((b.y-dy).toFixed(3))} ${b.x} ${b.y}" pathLength="1" fill="none" stroke="${connector}" stroke-width="${kind==='entity-relation'?4:2.8}" stroke-linecap="round"/>`)
+ }
  const finish=()=>{
   const foreground=ink.map(s=>s.replace(/\{\{ports:([^}]+)\}\}/g,(_,id)=>Object.entries(ports).filter(([,p])=>p.carrier===id).map(([pid,p])=>`<circle data-paper-port="${pid}" data-port-carrier="${id}" data-port-side="${p.side}" cx="${p.x}" cy="${p.y}" r="4.8" fill="${r}"/>`).join(''))).join('')
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" class="paper-scene" data-paper-scene="${name}" data-paper-treatment="hybrid-record-proof" data-paper-variant="overhead-${name}" viewBox="0 0 900 600" role="img" aria-labelledby="scene-title"><title id="scene-title">${title}</title><style>svg[data-paper-variant="overhead-${name}"]{display:block;width:100%;height:auto;overflow:hidden;isolation:isolate}@media(prefers-reduced-motion:no-preference){svg[data-paper-variant="overhead-${name}"] [data-paper-port]{opacity:0}}</style><defs>${commonDefs}${[...new Set(Object.values(objects).map(p=>p.material))].map(m=>extraDefs[m]||'').join('')}${defs.join('')}</defs><rect width="900" height="600" fill="#f2eee5"/><use href="#proof-ground" opacity=".17"/>${body.join('')}<g data-paper-connections="">${edges.join('')}</g>${foreground}</svg>\n`
   validateAuthoredPaperSvg(svg,name);fs.writeFileSync(path.join(dir,`${name}.svg`),svg)
   return {name,sha256:createHash('sha256').update(svg).digest('hex'),objects,ports,printBoxes:boxes,title}
  }
- return {add,insert,link,finish}
+ return {add,insert,link,linkVertical,finish}
 }
 const scenes=[]
 {
- // Retain the five accepted physical forms and their composition: tabbed
- // folder, notched card, dog-eared note, wide record, and small slip. Their
- // original paper/fiber material is richer than the repeated dossier remake.
- const source=fs.readFileSync(path.join(app,'src/assets/neotoma-paper/hero.svg'),'utf8')
- const doc=new JSDOM(source,{contentType:'image/svg+xml'}).window.document,root=doc.documentElement
- root.setAttribute('data-paper-scene','connectedRecordsProof')
- root.setAttribute('data-paper-treatment','hybrid-record-proof')
- root.setAttribute('data-paper-variant','overhead-connectedRecordsProof')
- root.querySelector('style')?.insertAdjacentText('beforeend','@media(prefers-reduced-motion:no-preference){svg[data-paper-scene="connectedRecordsProof"] [data-paper-port]{opacity:0}}')
- root.querySelector('title').textContent='Distinct connected person, invoice and task records retain their own physical forms and evidence'
- for(const style of root.querySelectorAll('style'))style.textContent=style.textContent.replaceAll('svg[data-paper-scene="hero"]','svg[data-paper-scene="connectedRecordsProof"]')
- const paper=[...root.querySelectorAll('[data-paper-object]')]
- const roles=['person','invoice','task',null,null]
- paper.forEach((object,index)=>{
-  object.setAttribute('data-enter-x',index%2?-14:14)
-  object.setAttribute('data-enter-y',index%2?9:-8)
-  object.setAttribute('data-enter-rotation','0')
-  object.setAttribute('data-enter-delay',index*90)
-  if(roles[index])object.setAttribute('data-entity-record',roles[index])
-  if(index===3)object.setAttribute('data-retained-evidence','observation')
-  if(index===4)object.setAttribute('data-source-evidence','source')
- })
- // The new role marks sit on the existing faces. The screenprint grain is the
- // same pinned material treatment used by the accepted invoice proof.
- const originalDefs=new JSDOM(approved,{contentType:'image/svg+xml'}).window.document
- for(const id of ['screen-grain','screenprint'])root.querySelector('defs').insertAdjacentHTML('beforeend',originalDefs.getElementById(id).outerHTML)
- // Preserve the approved print geometry, while giving its originally solid
- // navy blocks the same fine ink dropout as the newer proof scenes.
- for(const object of paper)for(const block of object.querySelectorAll('g[fill="#223e50"]'))block.setAttribute('mask','url(#screenprint)')
- // Rust circles are reserved for true inter-object connector ports in the
- // proof; the original task-note bullets remain but use sage ink.
- for(const mark of paper[2].querySelectorAll('circle[fill="#ae5632"]'))mark.setAttribute('fill',sage)
- // The original five paper objects already have distinct silhouettes and
- // native printed faces. Avoid a second, generic icon language on top of them.
- // The native rust bullets already identify the task. An additional mark
- // would compete with that print on the narrow note.
- for(const group of root.querySelectorAll('.paper-thread'))group.remove()
- const connections=[
-  ['folder-card','entity-relation',372,157,472,157,900],
-  ['card-task','entity-relation',633,157,714,157,990],
-  ['card-record','evidence',552,261,552,333,1080],
- ]
- const back=doc.createElementNS('http://www.w3.org/2000/svg','g');back.setAttribute('data-paper-connections','')
- const front=doc.createElementNS('http://www.w3.org/2000/svg','g');front.setAttribute('data-paper-ports','')
- for(const [id,kind,x1,y1,x2,y2,delay]of connections){
-  const bend=x1===x2?`M${x1} ${y1}V${y2}`:`M${x1} ${y1}H${x2}`
-  back.insertAdjacentHTML('beforeend',`<path data-paper-connection="" data-connection-kind="${kind}" data-connection-from="${id}-a" data-connection-to="${id}-b" data-connection-delay="${delay}" d="${bend}" pathLength="1" fill="none" stroke="${connector}" stroke-width="${kind==='entity-relation'?3.3:2.8}" stroke-linecap="round"/>`)
-  front.insertAdjacentHTML('beforeend',`<circle data-paper-port="${id}-a" cx="${x1}" cy="${y1}" r="4.5" fill="${r}"/><circle data-paper-port="${id}-b" cx="${x2}" cy="${y2}" r="4.5" fill="${r}"/>`)
- }
- root.insertBefore(back,paper[0].parentElement)
- root.appendChild(front)
- const svg=root.outerHTML+'\n';validateAuthoredPaperSvg(svg,'connectedRecordsProof')
- fs.writeFileSync(path.join(dir,'connectedRecordsProof.svg'),svg)
- scenes.push({name:'connectedRecordsProof',sha256:createHash('sha256').update(svg).digest('hex'),objects:{},ports:{},printBoxes:{},title:root.querySelector('title').textContent,source:'preserved-five-silhouette-hero'})
+ // Keep the five-object graph's original large-left / center / upper-right /
+ // wide-lower / small-lower-right composition and three relationships. Use
+ // the same photographed cutouts as the later scenes so each object has an
+ // immediate, distinct identity rather than a second illustrated vocabulary.
+ const s=scene('connectedRecordsProof','An invoice, person record and follow-up task connect above an email and related paper record')
+ s.add('invoice-record','document-packet',55,70,330,[88,107,256,298],rule(96,119,191,7)+rule(96,137,118,3)+bank(99,192)+rule(146,203,153)+calendar(99,251)+rule(146,264,112)+rule(99,341,195,4),'data-entity-record="invoice"',0)
+ s.add('person-record','entity-dossier',468,68,170,[493,105,126,147],person(514,141)+rule(545,140,63,4)+rule(498,191,107,3)+rule(498,215,83,3),'data-entity-record="person"',90)
+ s.add('followup-task','explanation-dossier',710,69,145,[744,98,91,127],rule(752,110,67,4)+`<path d="M752 169h20v20h-20z" fill="none" stroke="${n}" stroke-width="2.8"/>${checkInBox(753,171)}${rule(783,180,34,4)}${rule(752,201,67,3)}`,'data-entity-record="task"',180)
+ s.add('email-record','email-envelope',400,333,365,[440,368,255,129],'','data-retained-evidence="email"',270)
+ s.add('related-note','observation-slip',742,424,120,[753,436,90,36],rule(759,449,69,4)+rule(759,460,48,3),'data-source-evidence="related-record"',360)
+ s.link('invoice-person','invoice-record','right',157,'person-record','left',157,'entity-relation',930)
+ s.link('person-task','person-record','right',157,'followup-task','left',157,'entity-relation',1020)
+ s.linkVertical('person-email','person-record',552,'email-record',552,'evidence',1130)
+ scenes.push(s.finish())
 }
 {
  const s=scene('syntheticSourcesProof','Original invoice and later email produce two retained observations before any current record is selected')
  s.add('invoice-source','document-packet',110,55,180,[133,82,130,173],rule(135,96,124,7)+bank(135,149)+rule(178,159,78)+calendar(135,204)+rule(178,217,55),'data-paper-source="invoice"')
  s.add('email-source','email-envelope-open',110,317,185,[136,349,120,55],'','data-paper-source="email" data-paper-envelope-state="open"')
  s.insert(dueLetter(137,306))
- s.insert('<g data-paper-envelope-front="email" data-paper-envelope-state="open" clip-path="url(#synthetic-envelope-front)"><svg x="110" y="317" width="185" height="144.094" viewBox="150 255 955 744" overflow="hidden"><use href="#proof-email-envelope-open"/></svg></g>','<clipPath id="synthetic-envelope-front"><rect x="110" y="377" width="185" height="90"/></clipPath>')
+ s.insert('<g data-paper-envelope-front="email" data-paper-envelope-state="open" clip-path="url(#synthetic-envelope-front)"><svg x="110" y="317" width="185" height="144.094" viewBox="150 255 955 744" overflow="hidden"><use href="#proof-email-envelope-open"/></svg></g>','<clipPath id="synthetic-envelope-front"><rect x="110" y="390" width="185" height="90"/></clipPath>')
  s.add('email-closed','email-envelope',110,390,185,[135,424,130,38],'','data-paper-envelope-state="closed" opacity="0"')
  s.add('invoice-observation','observation-slip',515,105,245,[540,134,190,70],bank(542,138)+rule(585,148,135)+calendar(542,175)+rule(585,188,91),'data-paper-observation="invoice-observation"',0)
  s.add('email-observation','observation-slip',515,355,245,[540,393,190,35],calendar(542,396,'current')+rule(585,409,135),'data-paper-observation="email-observation"',1100)

@@ -1,16 +1,149 @@
 [
   {
     "name": "connectedRecordsProof",
-    "sha256": "af2f47f8a8d1800b035fce5b8c7cafb2ba6f7ef0bdc7bd6b996ac6406a626762",
-    "objects": {},
-    "ports": {},
-    "printBoxes": {},
-    "title": "Distinct connected person, invoice and task records retain their own physical forms and evidence",
-    "source": "preserved-five-silhouette-hero"
+    "sha256": "b4108f1780fd805c51e2b0aeef394352ed0f9525810a1ef32ed3d50f01b7262e",
+    "objects": {
+      "invoice-record": {
+        "material": "document-packet",
+        "x": 55,
+        "y": 70,
+        "width": 330,
+        "crop": [
+          239,
+          121,
+          833,
+          1071
+        ],
+        "delay": 0
+      },
+      "person-record": {
+        "material": "entity-dossier",
+        "x": 468,
+        "y": 68,
+        "width": 170,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": 90
+      },
+      "followup-task": {
+        "material": "explanation-dossier",
+        "x": 710,
+        "y": 69,
+        "width": 145,
+        "crop": [
+          198,
+          80,
+          896,
+          1107
+        ],
+        "delay": 180
+      },
+      "email-record": {
+        "material": "email-envelope",
+        "x": 400,
+        "y": 333,
+        "width": 365,
+        "crop": [
+          36,
+          295,
+          1206,
+          714
+        ],
+        "delay": 270
+      },
+      "related-note": {
+        "material": "observation-slip",
+        "x": 742,
+        "y": 424,
+        "width": 120,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 360
+      }
+    },
+    "ports": {
+      "invoice-person-a": {
+        "x": 366.975,
+        "y": 157,
+        "carrier": "invoice-record",
+        "side": "right"
+      },
+      "invoice-person-b": {
+        "x": 470.954,
+        "y": 157,
+        "carrier": "person-record",
+        "side": "left"
+      },
+      "person-task-a": {
+        "x": 629.71,
+        "y": 157,
+        "carrier": "person-record",
+        "side": "right"
+      },
+      "person-task-b": {
+        "x": 710.081,
+        "y": 157,
+        "carrier": "followup-task",
+        "side": "left"
+      },
+      "person-email-a": {
+        "x": 552,
+        "y": 268.207,
+        "carrier": "person-record",
+        "side": "bottom"
+      },
+      "person-email-b": {
+        "x": 552,
+        "y": 337.388,
+        "carrier": "email-record",
+        "side": "top"
+      }
+    },
+    "printBoxes": {
+      "invoice-record": [
+        88,
+        107,
+        256,
+        298
+      ],
+      "person-record": [
+        493,
+        105,
+        126,
+        147
+      ],
+      "followup-task": [
+        744,
+        98,
+        91,
+        127
+      ],
+      "email-record": [
+        440,
+        368,
+        255,
+        129
+      ],
+      "related-note": [
+        753,
+        436,
+        90,
+        36
+      ]
+    },
+    "title": "An invoice, person record and follow-up task connect above an email and related paper record"
   },
   {
     "name": "syntheticSourcesProof",
-    "sha256": "09435d2c3968cebd9d2107fea89c903af08cdf0d36825b86f767ab5e2210a4dd",
+    "sha256": "a0f9f9957ce58746d69408c1236d3c7bb882eff15f2bbba7e91a743732416e2d",
     "objects": {
       "invoice-source": {
         "material": "document-packet",
@@ -92,7 +225,7 @@
         "side": "left"
       },
       "later-retained-a": {
-        "x": 294.516,
+        "x": 294.128,
         "y": 415,
         "carrier": "email-source",
         "side": "right"
@@ -140,7 +273,7 @@
   },
   {
     "name": "governedCollaborationProof",
-    "sha256": "93873d09c814964da29302940b3535a2fb17f6a52dc1ed0c33c3b39f4b21f294",
+    "sha256": "12855b53d23293c4cee574de447a28436aed41a51c98c5ec37929ac74fc7675c",
     "objects": {
       "shared-archive": {
         "material": "instance-archive-overhead",
@@ -263,7 +396,7 @@
   },
   {
     "name": "competingClaimsProof",
-    "sha256": "3bf5bbcc9ef2879ed9c0ffab7129420e1fb7b18adfa9be86fd557f1fd6314034",
+    "sha256": "5bf56735a12de1ae3f07059f3ea9aab5c460b1212e73604b7b31a310eaa2b6a7",
     "objects": {
       "claims-sleeve": {
         "material": "claims-sleeve",
@@ -324,7 +457,7 @@
   },
   {
     "name": "explanationsImpactProof",
-    "sha256": "7e26af3cb639ec1dc1a67a969fb84b8551edec1dfa4c5e2147a097e5cdb1b372",
+    "sha256": "597a5d59b83c1cbf13566612035656be0bfcc5e6e7aa3999d344f53ab11d9751",
     "objects": {
       "explanation-dossier": {
         "material": "explanation-dossier",

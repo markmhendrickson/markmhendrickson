@@ -89,12 +89,12 @@
       "sourceEdge": 1170.5
     },
     "email-source": {
-      "x": 259.463,
+      "x": 259.034,
       "y": 431,
       "carrier": "email",
       "side": "right",
       "sourceRow": 772,
-      "sourceEdge": 1102.5
+      "sourceEdge": 1100.5
     },
     "email-observation-source": {
       "x": 372.393,
