@@ -1,4 +1,4 @@
-When several agents work from the same facts, those facts change, and the agents do not all learn of the change at the same time. A due date shows the problem plainly.
+Agents working on the same task can reach different answers when they read different versions of a fact. A due date shows the problem plainly.
 
 Suppose invoice INV-2041 says payment is due on October 22nd, and a later email from the vendor moves the due date to October 29th. One agent reads the invoice, another reads the email, and a third prepares the week's payments from whatever it can find. The first answers October 22nd, the second answers October 29th, and the third answers whichever it found first. Nothing in that arrangement says which date counts, so the person running the agents has to check.
 
@@ -8,7 +8,7 @@ I made up this particular invoice example, but the arrangement behind it is real
 
 ## Recall is good at a different job
 
-Recall finds material that looks related to a question. A vector index or a long chat history does this well, and for many tasks it is enough. It does not [settle anything](https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer). Ask for the due date and recall returns the invoice and the email, ranked by how closely each matches the question, not by which one is current.
+Recall finds material that looks related to a question. A vector index or a long chat history can return both the invoice and the later email. That helps an agent find the evidence. Relevance alone does not [determine which due date to use](https://markmhendrickson.com/posts/agentic-search-and-the-truth-layer). The email changes the due date, but the original invoice still supplies the amount. A system of record applies a rule to each field so the payments agent can read the selected values and inspect their sources.
 
 More tools and harnesses make this harder. One agent keeps [notes in a markdown file](https://markmhendrickson.com/posts/the-markdown-memory-ceiling), another keeps what it learned inside its chat product, and a third reads a shared folder. Each copy was correct when it was written. When the fact changes, the copies change at different times, or not at all, and no agent can ask which copy wins, because no place exists where that question has an answer. The system of record has to sit outside any one of them, in one place all of them can reach.
 
@@ -46,7 +46,7 @@ An admitted [signed request](https://markmhendrickson.com/posts/know-which-of-yo
 
 ## Where this is going
 
-So far I have described a system of record that settles facts for agents. The direction is a system of record that people and agents maintain together, where anyone can ask which value is current, which source introduced it, whether it was observed, inferred, or decided, who had the authority to correct it, and which agents relied on the version before. The planned governance capabilities extend beyond today's signed identity, scoped grants, and app:
+So far I have described a system of record that computes current values for agents. The direction is a system of record that people and agents maintain together, where anyone can ask which value is current, which source introduced it, whether it was observed, inferred, or decided, who had the authority to correct it, and which agents relied on the version before. The planned governance capabilities extend beyond today's signed identity, scoped grants, and app:
 
 - Give each domain a clear owner, with authority to correct its records scoped to that domain.
 - Represent competing claims, unresolved disputes and official positions explicitly.
@@ -56,13 +56,15 @@ Ateles extends that direction on the operational side. In [Ateles's adapter desi
 
 The full vision, with where each part stands today, is in the [README](https://github.com/markmhendrickson/neotoma#vision-and-execution-status).
 
-![Domain ownership: a matching holder reaches one of two bounded compartments](/images/posts/neotoma-paper/vision-domain.svg "paper|Domain ownership|Domain ownership will make clear who may correct each bounded part of the system of record.")
-![Position tracking: two retained claims connect to a dossier where one position is marked as selected](/images/posts/neotoma-paper/vision-positions.svg "paper|Position tracking|Position tracking will retain competing claims and make an explicit position inspectable.")
-![Explanations: a lifted current field reveals its basis and a bounded set of effects](/images/posts/neotoma-paper/vision-explanation.svg "paper|Explanations|Explanations will show why a value holds, whose authority it follows and which connected values a change could affect.")
+The shared instance is the foundation in use today. The next two visuals show the direction from here.
+
+![A shared filing box receives differently colored agent chats while a person can inspect its records](/images/posts/neotoma-paper/vision-domain.svg "paper|Shared instance|People can inspect records in the Neotoma app while authorized agents read and write against the same configured instance.")
+![Two conflicting due-date claims remain visible while a separate decision adopts the later date](/images/posts/neotoma-paper/vision-positions.svg "paper|Competing claims and decisions|The record will distinguish evidence, interpretations and decisions, preserving disagreements alongside explicit positions.")
+![A current due date rests on source evidence and authority and connects to affected records, with an unrelated record outside the impact path](/images/posts/neotoma-paper/vision-explanation.svg "paper|Explanations and impact|You will be able to inspect why a value holds, whose authority it follows and which connected records or agents a change could affect.")
 
 ## A system of record, not recall
 
-The answer is not a better index. Recall helps an agent find what was said. [A system of record tells it what is current](https://markmhendrickson.com/posts/the-spine-of-the-loop). Agents that work across several tools need the second, in one place they can all reach, and a system of record helps only when the agents write to it and read from it.
+Recall helps an agent find the invoice and the email. [A system of record tells it which values are current](https://markmhendrickson.com/posts/the-spine-of-the-loop). Agents that work across several tools need the second, in one place they can all reach, and a system of record helps only when the agents write to it and read from it.
 
 If you run agents in more than one tool or harness, start with one workflow whose facts and entities belong together:
 

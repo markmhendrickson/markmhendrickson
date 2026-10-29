@@ -458,7 +458,7 @@
     border-color: hsl(var(--border));
   }
   html, body {
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100vw;
   }
   body {
@@ -471,8 +471,19 @@
   #root {
     width: 100%;
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
+}
+
+/* Clip sideways artwork without creating a second scroll container: the shared
+   breadcrumb header must stick to the viewport as the document scrolls. */
+#root main {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+#root main :is(h1, h2, h3, h4, h5, h6)[id] {
+  scroll-margin-top: calc(var(--header-height, 4rem) + 1.5rem);
 }
 
 /* Full-bleed post image ("takeover"): markdown image title "takeover". Spans the whole content area,
@@ -548,4 +559,103 @@
 @font-face {
   font-family: 'Instrument Sans Essay'; src: url('/images/posts/neotoma-paper/instrument-sans-semibold.ttf') format('truetype');
   font-display: swap; font-weight: 600;
+}
+
+/* Personal editorial frame: related materials, distinct typography and identity. */
+:root {
+  --background: 42 30% 98%;
+  --foreground: 195 8% 15%;
+  --card: 42 30% 98%;
+  --card-foreground: 195 8% 15%;
+  --popover: 42 30% 98%;
+  --popover-foreground: 195 8% 15%;
+  --primary: 195 15% 32%;
+  --primary-foreground: 42 30% 98%;
+  --secondary: 40 16% 94%;
+  --secondary-foreground: 195 8% 15%;
+  --muted: 40 16% 94%;
+  --muted-foreground: 36 5% 39%;
+  --accent: 40 16% 93%;
+  --accent-foreground: 195 15% 28%;
+  --border: 40 12% 86%;
+  --input: 40 12% 86%;
+  --ring: 195 15% 32%;
+  --sidebar: hsl(42 20% 96.5%);
+  --sidebar-foreground: hsl(195 8% 23%);
+  --sidebar-primary: hsl(195 15% 32%);
+  --sidebar-primary-foreground: hsl(42 30% 98%);
+  --sidebar-accent: hsl(40 16% 92%);
+  --sidebar-accent-foreground: hsl(195 15% 28%);
+  --sidebar-border: hsl(40 12% 86%);
+  --sidebar-ring: hsl(195 15% 32%);
+}
+
+:root.dark {
+  --background: 195 7% 11%;
+  --foreground: 40 15% 91%;
+  --card: 195 7% 11%;
+  --card-foreground: 40 15% 91%;
+  --popover: 195 7% 14%;
+  --popover-foreground: 40 15% 91%;
+  --primary: 195 18% 77%;
+  --primary-foreground: 195 7% 11%;
+  --secondary: 195 6% 17%;
+  --secondary-foreground: 40 15% 91%;
+  --muted: 195 6% 17%;
+  --muted-foreground: 40 7% 68%;
+  --accent: 195 8% 19%;
+  --accent-foreground: 40 15% 91%;
+  --border: 40 5% 27%;
+  --input: 40 5% 27%;
+  --ring: 195 18% 77%;
+  --sidebar: hsl(195 7% 13%);
+  --sidebar-foreground: hsl(40 15% 87%);
+  --sidebar-primary: hsl(195 18% 77%);
+  --sidebar-primary-foreground: hsl(195 7% 11%);
+  --sidebar-accent: hsl(195 8% 19%);
+  --sidebar-accent-foreground: hsl(40 15% 91%);
+  --sidebar-border: hsl(40 5% 27%);
+  --sidebar-ring: hsl(195 18% 77%);
+}
+
+:root body {
+  font-family: 'Instrument Sans Essay', system-ui, sans-serif;
+}
+
+:root main h1 {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+:root main article header h1 {
+  font-size: clamp(2.125rem, 4.5vw, 3.125rem);
+  max-width: 22ch;
+}
+
+:root .post-prose h2 {
+  font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+:root .post-prose h3:not(.essay-paper-label) {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+:root .essay-editorial-aside {
+  background: transparent;
+  border-block: 1px solid hsl(var(--border));
+}
+
+:root .essay-paper-hero figcaption,
+:root .essay-paper-break .essay-paper-figure figcaption {
+  width: 100%;
+  max-width: 680px;
+  text-align: left;
 }

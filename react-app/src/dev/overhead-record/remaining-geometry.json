@@ -1,0 +1,569 @@
+[
+  {
+    "name": "connectedRecordsProof",
+    "sha256": "b4108f1780fd805c51e2b0aeef394352ed0f9525810a1ef32ed3d50f01b7262e",
+    "objects": {
+      "invoice-record": {
+        "material": "document-packet",
+        "x": 55,
+        "y": 70,
+        "width": 330,
+        "crop": [
+          239,
+          121,
+          833,
+          1071
+        ],
+        "delay": 0
+      },
+      "person-record": {
+        "material": "entity-dossier",
+        "x": 468,
+        "y": 68,
+        "width": 170,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": 90
+      },
+      "followup-task": {
+        "material": "explanation-dossier",
+        "x": 710,
+        "y": 69,
+        "width": 145,
+        "crop": [
+          198,
+          80,
+          896,
+          1107
+        ],
+        "delay": 180
+      },
+      "email-record": {
+        "material": "email-envelope",
+        "x": 400,
+        "y": 333,
+        "width": 365,
+        "crop": [
+          36,
+          295,
+          1206,
+          714
+        ],
+        "delay": 270
+      },
+      "related-note": {
+        "material": "observation-slip",
+        "x": 742,
+        "y": 424,
+        "width": 120,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 360
+      }
+    },
+    "ports": {
+      "invoice-person-a": {
+        "x": 366.975,
+        "y": 157,
+        "carrier": "invoice-record",
+        "side": "right"
+      },
+      "invoice-person-b": {
+        "x": 470.954,
+        "y": 157,
+        "carrier": "person-record",
+        "side": "left"
+      },
+      "person-task-a": {
+        "x": 629.71,
+        "y": 157,
+        "carrier": "person-record",
+        "side": "right"
+      },
+      "person-task-b": {
+        "x": 710.081,
+        "y": 157,
+        "carrier": "followup-task",
+        "side": "left"
+      },
+      "person-email-a": {
+        "x": 552,
+        "y": 268.207,
+        "carrier": "person-record",
+        "side": "bottom"
+      },
+      "person-email-b": {
+        "x": 552,
+        "y": 337.388,
+        "carrier": "email-record",
+        "side": "top"
+      }
+    },
+    "printBoxes": {
+      "invoice-record": [
+        88,
+        107,
+        256,
+        298
+      ],
+      "person-record": [
+        493,
+        105,
+        126,
+        147
+      ],
+      "followup-task": [
+        744,
+        98,
+        91,
+        127
+      ],
+      "email-record": [
+        440,
+        368,
+        255,
+        129
+      ],
+      "related-note": [
+        753,
+        436,
+        90,
+        36
+      ]
+    },
+    "title": "An invoice, person record and follow-up task connect above an email and related paper record"
+  },
+  {
+    "name": "syntheticSourcesProof",
+    "sha256": "a0f9f9957ce58746d69408c1236d3c7bb882eff15f2bbba7e91a743732416e2d",
+    "objects": {
+      "invoice-source": {
+        "material": "document-packet",
+        "x": 110,
+        "y": 55,
+        "width": 180,
+        "crop": [
+          239,
+          121,
+          833,
+          1071
+        ],
+        "delay": null
+      },
+      "email-source": {
+        "material": "email-envelope-open",
+        "x": 110,
+        "y": 317,
+        "width": 185,
+        "crop": [
+          150,
+          255,
+          955,
+          744
+        ],
+        "delay": null
+      },
+      "email-closed": {
+        "material": "email-envelope",
+        "x": 110,
+        "y": 390,
+        "width": 185,
+        "crop": [
+          36,
+          295,
+          1206,
+          714
+        ],
+        "delay": null
+      },
+      "invoice-observation": {
+        "material": "observation-slip",
+        "x": 515,
+        "y": 105,
+        "width": 245,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 0
+      },
+      "email-observation": {
+        "material": "observation-slip",
+        "x": 515,
+        "y": 355,
+        "width": 245,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 1100
+      }
+    },
+    "ports": {
+      "original-retained-a": {
+        "x": 279.952,
+        "y": 159,
+        "carrier": "invoice-source",
+        "side": "right"
+      },
+      "original-retained-b": {
+        "x": 517.452,
+        "y": 148,
+        "carrier": "invoice-observation",
+        "side": "left"
+      },
+      "later-retained-a": {
+        "x": 294.128,
+        "y": 415,
+        "carrier": "email-source",
+        "side": "right"
+      },
+      "later-retained-b": {
+        "x": 517.665,
+        "y": 409,
+        "carrier": "email-observation",
+        "side": "left"
+      }
+    },
+    "printBoxes": {
+      "invoice-source": [
+        133,
+        82,
+        130,
+        173
+      ],
+      "email-source": [
+        136,
+        349,
+        120,
+        55
+      ],
+      "email-closed": [
+        135,
+        424,
+        130,
+        38
+      ],
+      "invoice-observation": [
+        540,
+        134,
+        190,
+        70
+      ],
+      "email-observation": [
+        540,
+        393,
+        190,
+        35
+      ]
+    },
+    "title": "Original invoice and later email produce two retained observations before any current record is selected"
+  },
+  {
+    "name": "governedCollaborationProof",
+    "sha256": "0c2fe0bc2888614e9233c9c75b5ed93f3dab5d3971ecbf655e74e68d09da5bc4",
+    "objects": {
+      "shared-archive": {
+        "material": "instance-archive-overhead",
+        "x": 379,
+        "y": 40,
+        "width": 450,
+        "crop": [
+          230,
+          170,
+          820,
+          920
+        ],
+        "delay": null
+      },
+      "chat-reader": {
+        "material": "observation-slip",
+        "x": 71,
+        "y": 80,
+        "width": 170,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": null
+      },
+      "terminal-reader": {
+        "material": "observation-slip",
+        "x": 71,
+        "y": 270,
+        "width": 170,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": null
+      },
+      "planner-reader": {
+        "material": "observation-slip",
+        "x": 71,
+        "y": 460,
+        "width": 170,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": null
+      }
+    },
+    "ports": {
+      "chat-shared-a": {
+        "x": 233.676,
+        "y": 130,
+        "carrier": "chat-reader",
+        "side": "right"
+      },
+      "chat-shared-b": {
+        "x": 413.848,
+        "y": 220,
+        "carrier": "shared-archive",
+        "side": "left"
+      },
+      "terminal-shared-a": {
+        "x": 233.676,
+        "y": 320,
+        "carrier": "terminal-reader",
+        "side": "right"
+      },
+      "terminal-shared-b": {
+        "x": 395.189,
+        "y": 320,
+        "carrier": "shared-archive",
+        "side": "left"
+      },
+      "planner-shared-a": {
+        "x": 233.676,
+        "y": 510,
+        "carrier": "planner-reader",
+        "side": "right"
+      },
+      "planner-shared-b": {
+        "x": 390.799,
+        "y": 440,
+        "carrier": "shared-archive",
+        "side": "left"
+      }
+    },
+    "printBoxes": {
+      "shared-archive": [
+        479,
+        220,
+        205,
+        180
+      ],
+      "chat-reader": [
+        90,
+        100,
+        138,
+        56
+      ],
+      "terminal-reader": [
+        90,
+        290,
+        138,
+        56
+      ],
+      "planner-reader": [
+        90,
+        480,
+        138,
+        56
+      ]
+    },
+    "title": "Three different connected tool slips reach one open shared Neotoma filing box"
+  },
+  {
+    "name": "competingClaimsProof",
+    "sha256": "97cbc351ee1f5c51820540daceaaa6955684b4706358e5248f1cedae40177986",
+    "objects": {
+      "claims-sleeve": {
+        "material": "claims-sleeve",
+        "x": 120,
+        "y": 40,
+        "width": 500,
+        "crop": [
+          108,
+          148,
+          1042,
+          971
+        ],
+        "delay": null
+      },
+      "decision-authority": {
+        "material": "observation-slip",
+        "x": 660,
+        "y": 420,
+        "width": 120,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 1100
+      }
+    },
+    "ports": {
+      "selection-authority-a": {
+        "x": 619.28,
+        "y": 360,
+        "carrier": "claims-sleeve",
+        "side": "right"
+      },
+      "selection-authority-b": {
+        "x": 661.305,
+        "y": 453,
+        "carrier": "decision-authority",
+        "side": "left"
+      }
+    },
+    "printBoxes": {
+      "claims-sleeve": [
+        155,
+        74,
+        430,
+        320
+      ],
+      "decision-authority": [
+        670,
+        440,
+        95,
+        30
+      ]
+    },
+    "title": "Two incompatible retained claims remain visible beside an explicit selected position"
+  },
+  {
+    "name": "explanationsImpactProof",
+    "sha256": "597a5d59b83c1cbf13566612035656be0bfcc5e6e7aa3999d344f53ab11d9751",
+    "objects": {
+      "explanation-dossier": {
+        "material": "explanation-dossier",
+        "x": 70,
+        "y": 65,
+        "width": 360,
+        "crop": [
+          198,
+          80,
+          896,
+          1107
+        ],
+        "delay": null
+      },
+      "affected-schedule": {
+        "material": "entity-dossier",
+        "x": 630,
+        "y": 48,
+        "width": 160,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": 0
+      },
+      "affected-task": {
+        "material": "observation-slip",
+        "x": 620,
+        "y": 355,
+        "width": 230,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ],
+        "delay": 900
+      },
+      "unaffected-record": {
+        "material": "entity-dossier",
+        "x": 468,
+        "y": 453,
+        "width": 100,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ],
+        "delay": null
+      }
+    },
+    "ports": {
+      "impact-schedule-a": {
+        "x": 429.799,
+        "y": 159,
+        "carrier": "explanation-dossier",
+        "side": "right"
+      },
+      "impact-schedule-b": {
+        "x": 632.78,
+        "y": 132,
+        "carrier": "affected-schedule",
+        "side": "left"
+      },
+      "impact-task-a": {
+        "x": 413.728,
+        "y": 390,
+        "carrier": "explanation-dossier",
+        "side": "right"
+      },
+      "impact-task-b": {
+        "x": 622.502,
+        "y": 400,
+        "carrier": "affected-task",
+        "side": "left"
+      }
+    },
+    "printBoxes": {
+      "explanation-dossier": [
+        116,
+        114,
+        235,
+        334
+      ],
+      "affected-schedule": [
+        652,
+        77,
+        115,
+        152
+      ],
+      "affected-task": [
+        645,
+        380,
+        170,
+        62
+      ],
+      "unaffected-record": [
+        484,
+        475,
+        71,
+        85
+      ]
+    },
+    "title": "The current field rests on its source and authority; the changed value reaches a schedule and task, while an unrelated record stays outside the path"
+  }
+]

@@ -1,0 +1,85 @@
+{
+  "method": "Built-in image_gen tool; four transparent material-object edits and one blank ground edit using inspected local photographic references. No CLI/API key or external provider activation.",
+  "world": "Existing Neotoma Tension and Trace: fresh cream cut paper, tactile fine fibers/edges, navy ink added by code, restrained rust/sage/blue materials, soft coherent NWlight/contactshadow, true90degree top-down flat-lay.",
+  "coordinate_contract": {
+    "sprites": "All four nativecanvases1254x1254pixels. Rectangles are [left,top,right,bottom], portpoints [x,y] in full nativecanvas coordinates.",
+    "crop": "Recommended crop_rect includes all meaningful paper/contactshadow alpha>=2 with8px margin. Sparse alpha1 noise outside is optically negligible and intentionally excluded by the SVGviewBox crop. Original raster bytes remain unchanged.",
+    "placement": "Use nestedSVGviewBox or equivalent existingcomposition transform for crop selection. Preserve aspectratio; do not stretch square nativecanvas to the final objectbox. All coded ink and ports use exactly the same crop/scale/translation mapping as the material.",
+    "aspect": "Observation meaningful crop is~1.99:1; a160wide observation should be about80high, not stretchedto105high. Envelope crop~1.69:1. Documentcrop~0.778:1. Dossiercrop~0.812:1.",
+    "port_status": "Suggested physically attached nativeportpoints verified by read-only pixel sampling: alpha252or253 at each point. Final route/marker sizing belongs to builder; these are geometry anchors, not already painted pins."
+  },
+  "light_shadow_contract": {
+    "camera": "Strict topdown normalpaperplane; opticalaxis90degrees, edgeshorizontal/vertical, no isometricorobliqueview.",
+    "light": "One soft NW/upper-leftlight. Material/highlight and narrowbakedcast/contactshadow fall toward SE/lower-right.",
+    "allowed_motion": "Fixedorientation2Dtranslation ONLY. Entire materialcutout, bakedcontactshadow, codedink andpins share one transform. Keep objectelevation/scaleconstant duringtheactualmotion.",
+    "not_supported": "No rotation,lift,flip,perspectivetilt or changingelevation without separately prepared shadows/hidden surfaces. Translating a narrowbakedshadow atfixedorientation is the documented boundedapproximation.",
+    "assembly": "Groundatback; shadows/bodymaterial then surfaceink; exposedcrossobjectconnectors then foregroundpins unless an explicitphysicalfoldmask requiresotherocclusion. Reusequalifiedinvoiceport/paint principles.",
+    "alpha": "Truealpha observed: outside containsalpha0, edges/contactshadowpartialalpha; centralpaperisnearopaquealpha253ratherthanexact255. There is no opaque backgroundrectangle. Do not harden/composite alpha into a matte without actual review."
+  },
+  "assets": {
+    "document-packet": {
+      "pngSha256": "b884c8c1a05b8a75a339fc4da155cb1450232dcb5d22275bfba563877eaea675",
+      "mime": "image/png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "crop_rect": [
+        239,
+        121,
+        1072,
+        1192
+      ],
+      "prompt": "Use case: style-transfer / production photographic cutout. The input image is a MATERIAL/LIGHTING REFERENCE only. Reconstruct the requested isolated object for a hybrid animation sprite in the SAME fresh tactile Neotoma paper world: realistic fine paper fibers, natural cut edges, thin believable paper thickness, restrained cream/sage/blue palette, soft coherent light coming from upper left/NW with a narrow natural contact shadow toward lower right/SE. STRICT TRUE TOP-DOWN CAMERA, optical axis exactly90degrees to the paper plane, orthographic flat-lay: no oblique angle, no isometric view, no keystone perspective, no visible tall side walls. Edges align horizontally/vertically, not a rotated composition. Transparent background with real alpha. Only the single requested object and its very narrow semitransparent contact shadow; no tabletop/ground/opaque rectangle. Plenty of transparent padding, every edge and shadow entirely inside canvas. Square canvas. No words, text, letters, numerals, logos, navy rules, printed ink, symbols or decoration: the central face must be BLANK because exact semantic marks will be coded later. No watermark. Fresh refined stock, not grubby, distressed, old, crumpled or grunge. Do not substitute a vector or CAD illustration. Subject: one portrait rectangular PDF-like document packet, about3:4 aspect ratio, three thin cream sheets stacked with tiny2–4pixel offsets visible at bottom/right. Entire top sheet is smooth and blank, with a subtle natural paper edge and a very small folded top-right corner. The principal page face is flat and uninterrupted. No folders, tab or envelope. Fill about75percent of canvas height, centered.",
+      "transparent_background": true
+    },
+    "email-envelope": {
+      "pngSha256": "c5002635e91d6c7496251f2e655608d9674467441ada3eebdb80e8fe151cfbe8",
+      "mime": "image/png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "crop_rect": [
+        36,
+        295,
+        1242,
+        1009
+      ],
+      "prompt": "Use case: style-transfer / production photographic cutout. The input image is a MATERIAL/LIGHTING REFERENCE only. Reconstruct the requested isolated object for a hybrid animation sprite in the SAME fresh tactile Neotoma paper world: realistic fine paper fibers, natural cut edges, thin believable paper thickness, restrained cream/sage/blue palette, soft coherent light coming from upper left/NW with a narrow natural contact shadow toward lower right/SE. STRICT TRUE TOP-DOWN CAMERA, optical axis exactly90degrees to the paper plane, orthographic flat-lay: no oblique angle, no isometric view, no keystone perspective, no visible tall side walls. Edges align horizontally/vertically, not a rotated composition. Transparent background with real alpha. Only the single requested object and its very narrow semitransparent contact shadow; no tabletop/ground/opaque rectangle. Plenty of transparent padding, every edge and shadow entirely inside canvas. Square canvas. No words, text, letters, numerals, logos, navy rules, printed ink, symbols or decoration: the central face must be BLANK because exact semantic marks will be coded later. No watermark. Fresh refined stock, not grubby, distressed, old, crumpled or grunge. Do not substitute a vector or CAD illustration. Subject: one muted dusty-blue CLOSED paper envelope, landscape about1.6:1 aspect ratio, viewed directly from above. Its triangular folded closing flap and lower folded seams are clearly recognizable and have realistic paper folds/contact. Envelope face/flap is blank. No document beside it, no other object. Fill about80percent of canvas width, centered.",
+      "transparent_background": true
+    },
+    "observation-slip": {
+      "pngSha256": "568379ff49ae25c299775215ddae4c97bd5038917ce4798fdab2568def88dd87",
+      "mime": "image/png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "crop_rect": [
+        71,
+        411,
+        1220,
+        988
+      ],
+      "prompt": "Use case: style-transfer / production photographic cutout. The input image is a MATERIAL/LIGHTING REFERENCE only. Reconstruct the requested isolated object for a hybrid animation sprite in the SAME fresh tactile Neotoma paper world: realistic fine paper fibers, natural cut edges, thin believable paper thickness, restrained cream/sage/blue palette, soft coherent light coming from upper left/NW with a narrow natural contact shadow toward lower right/SE. STRICT TRUE TOP-DOWN CAMERA, optical axis exactly90degrees to the paper plane, orthographic flat-lay: no oblique angle, no isometric view, no keystone perspective, no visible tall side walls. Edges align horizontally/vertically, not a rotated composition. Transparent background with real alpha. Only the single requested object and its very narrow semitransparent contact shadow; no tabletop/ground/opaque rectangle. Plenty of transparent padding, every edge and shadow entirely inside canvas. Square canvas. No words, text, letters, numerals, logos, navy rules, printed ink, symbols or decoration: the central face must be BLANK because exact semantic marks will be coded later. No watermark. Fresh refined stock, not grubby, distressed, old, crumpled or grunge. Do not substitute a vector or CAD illustration. Subject: one short cream structured-observation paper slip, landscape about2.3:1 aspect ratio. It is a thin small paper tag with one clipped/diagonal top-right corner, all other edges straight, and a completely BLANK broad central face. No punch hole, printing, rulers or fields baked in: exact marks/ports come later in code. Distinguishable from the source document packet and folder. Fill about80percent of canvas width, centered.",
+      "transparent_background": true
+    },
+    "entity-dossier": {
+      "pngSha256": "36040b616fcffd342d95b8d967b53e2c4b8c3faeca26b8d7e04e316f129d4d28",
+      "mime": "image/png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "crop_rect": [
+        199,
+        102,
+        1091,
+        1200
+      ],
+      "prompt": "Use case: style-transfer / production photographic cutout. The input image is a MATERIAL/LIGHTING REFERENCE only. Reconstruct the requested isolated object for a hybrid animation sprite in the SAME fresh tactile Neotoma paper world: realistic fine paper fibers, natural cut edges, thin believable paper thickness, restrained cream/sage/blue palette, soft coherent light coming from upper left/NW with a narrow natural contact shadow toward lower right/SE. STRICT TRUE TOP-DOWN CAMERA, optical axis exactly90degrees to the paper plane, orthographic flat-lay: no oblique angle, no isometric view, no keystone perspective, no visible tall side walls. Edges align horizontally/vertically, not a rotated composition. Transparent background with real alpha. Only the single requested object and its very narrow semitransparent contact shadow; no tabletop/ground/opaque rectangle. Plenty of transparent padding, every edge and shadow entirely inside canvas. Square canvas. No words, text, letters, numerals, logos, navy rules, printed ink, symbols or decoration: the central face must be BLANK because exact semantic marks will be coded later. No watermark. Fresh refined stock, not grubby, distressed, old, crumpled or grunge. Do not substitute a vector or CAD illustration. Subject: one portrait cream manila-like ENTITY DOSSIER FOLDER, about3:4 aspect ratio, with a modest folder tab projecting along its upper-left edge and a slightly inset lighter cream sheet visible inside. Tactile folded folder construction with thin natural layers, not a thick block. The broad flat inset face is completely blank for coded identity and snapshot fields, no printing/rules/windows. Keep side/top margins subtle so it differs from the plain document packet by the folder tab and inset frame. Fill about80percent of canvas height, centered.",
+      "transparent_background": true
+    }
+  }
+}

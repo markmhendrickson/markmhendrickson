@@ -1,0 +1,164 @@
+{
+  "placements": {
+    "invoice": {
+      "material": "document-packet",
+      "x": 55,
+      "y": 70,
+      "width": 183
+    },
+    "email": {
+      "material": "email-envelope-open",
+      "x": 55,
+      "y": 320,
+      "width": 205
+    },
+    "invoice-observation": {
+      "material": "observation-slip",
+      "x": 330,
+      "y": 180,
+      "width": 220
+    },
+    "email-observation": {
+      "material": "observation-slip",
+      "x": 370,
+      "y": 284,
+      "width": 220
+    },
+    "current": {
+      "material": "entity-dossier",
+      "x": 660,
+      "y": 172,
+      "width": 190
+    }
+  },
+  "crops": {
+    "document-packet": [
+      239,
+      121,
+      833,
+      1071
+    ],
+    "email-envelope": [
+      36,
+      295,
+      1206,
+      714
+    ],
+    "email-envelope-open": [
+      150,
+      255,
+      955,
+      744
+    ],
+    "observation-slip": [
+      71,
+      411,
+      1149,
+      577
+    ],
+    "entity-dossier": [
+      199,
+      102,
+      892,
+      1098
+    ]
+  },
+  "ports": {
+    "invoice-source": {
+      "x": 228.004,
+      "y": 185,
+      "carrier": "invoice",
+      "side": "right",
+      "sourceRow": 644,
+      "sourceEdge": 1026.5
+    },
+    "invoice-observation-source": {
+      "x": 332.393,
+      "y": 212,
+      "carrier": "invoice-observation",
+      "side": "left",
+      "sourceRow": 578,
+      "sourceEdge": 83.5
+    },
+    "invoice-observation-amount": {
+      "x": 540.522,
+      "y": 212,
+      "carrier": "invoice-observation",
+      "side": "right",
+      "sourceRow": 578,
+      "sourceEdge": 1170.5
+    },
+    "email-source": {
+      "x": 259.034,
+      "y": 431,
+      "carrier": "email",
+      "side": "right",
+      "sourceRow": 772,
+      "sourceEdge": 1100.5
+    },
+    "email-observation-source": {
+      "x": 372.393,
+      "y": 337,
+      "carrier": "email-observation",
+      "side": "left",
+      "sourceRow": 688,
+      "sourceEdge": 83.5
+    },
+    "email-observation-due": {
+      "x": 580.522,
+      "y": 337,
+      "carrier": "email-observation",
+      "side": "right",
+      "sourceRow": 688,
+      "sourceEdge": 1170.5
+    },
+    "current-amount": {
+      "x": 663.302,
+      "y": 270,
+      "carrier": "current",
+      "side": "left",
+      "sourceRow": 562,
+      "sourceEdge": 214.5
+    },
+    "current-due": {
+      "x": 663.302,
+      "y": 344,
+      "carrier": "current",
+      "side": "left",
+      "sourceRow": 909,
+      "sourceEdge": 214.5
+    }
+  },
+  "printBoxes": {
+    "invoice": [
+      76,
+      93,
+      133,
+      178
+    ],
+    "invoice-observation": [
+      350,
+      198,
+      174,
+      69
+    ],
+    "email-observation": [
+      390,
+      321,
+      174,
+      32
+    ],
+    "current": [
+      684,
+      198,
+      138,
+      169
+    ]
+  },
+  "bodyAlphaThreshold": 200,
+  "borderConvention": "opaque-pixel outer boundary, excluding contact shadow",
+  "iconSemantics": {
+    "amount": "banknote",
+    "due": "calendar; selected cell changes value, never field type"
+  }
+}

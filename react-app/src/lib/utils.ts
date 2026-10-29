@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { isTruthyFlag } from './post-publication.mjs'
+export { isTruthyFlag, isPublishedPost } from './post-publication.mjs'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -294,21 +296,6 @@ export function stripSeriesMarkdownBookends(markdown: string): string {
   s = s.replace(/\n---\s*\n+\*[^*\n]*\]\(\/posts\/[^)]+\)[^*\n]*\*\s*$/i, '')
   s = s.replace(/\n+\*[^*\n]*\]\(\/posts\/[^)]+\)[^*\n]*\*\s*$/i, '')
   return s.replace(/\n{3,}/g, '\n\n').trim()
-}
-
-/** Normalize potentially string/number boolean flags from cache or MCP exports. */
-export function isTruthyFlag(value: unknown): boolean {
-  if (typeof value === 'boolean') return value
-  if (typeof value === 'number') return value === 1
-  if (typeof value === 'string') {
-    const normalized = value.trim().toLowerCase()
-    return normalized === 'true' || normalized === '1'
-  }
-  return false
-}
-
-export function isPublishedPost(post: { published?: unknown }): boolean {
-  return isTruthyFlag(post.published)
 }
 
 export function isExcludedFromListing(post: { excludeFromListing?: unknown }): boolean {

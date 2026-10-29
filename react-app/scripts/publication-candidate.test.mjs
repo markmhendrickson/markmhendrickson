@@ -6,13 +6,13 @@ import { fileURLToPath } from 'node:url'
 import { applyDocumentLanguage } from './apply-document-language.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const slug = 'one-place-where-a-fact-is-settled'
+const slug = 'your-agents-need-a-system-of-record'
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8')
 const json = (file) => JSON.parse(read(file))
 const matches = (posts) => posts.filter((post) => post.slug === slug)
 const visible = (text) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
-const approvedExcerpt = 'Without a system of record, an agent works from whatever it happens to recall: part of the last session, a note its tool saved, or nothing. With one, it reads what was stored, from which source, and what is current now, so the agents you connect can defer to one answer.'
+const approvedExcerpt = 'When agents work across tools, they can act on different versions of the same fact. Neotoma gives the agents you connect a system of record where they can read the current values and inspect the observations and sources behind them.'
 
 test('only the approved essay moves from unlisted review to the public caches', () => {
   const manifest = matches(json('src/content/posts/posts.json'))

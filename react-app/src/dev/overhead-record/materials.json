@@ -1,0 +1,45 @@
+{
+  "method": "Built-in image generation; alpha-preserving WebP optimization; fixed-orientation overhead paper cutouts.",
+  "assets": {
+    "document-packet": {
+      "file": "document-packet.webp",
+      "sha256": "59e2ce139e5606fbc64ecb27abf5b41ac615e8cf86866af21e08158f47fc4773",
+      "bytes": 154202,
+      "pngSha256": "b884c8c1a05b8a75a339fc4da155cb1450232dcb5d22275bfba563877eaea675",
+      "width": 1254,
+      "height": 1254
+    },
+    "email-envelope": {
+      "file": "email-envelope.webp",
+      "sha256": "83ef47976c1a1f661a02e90139c294240f532d84a2ba33c5a67e4c2418aacaa6",
+      "bytes": 349236,
+      "pngSha256": "c5002635e91d6c7496251f2e655608d9674467441ada3eebdb80e8fe151cfbe8",
+      "width": 1254,
+      "height": 1254
+    },
+    "email-envelope-open": {
+      "file": "email-envelope-open-v2.webp",
+      "sha256": "fb412f23451992251800ffd8680d98ac67943ac8e5fdf1f356de7df487df905c",
+      "pngSha256": "9d1545215100ebf48abfb479e39014174932a0adbe205cdf21c4b6f3e0f149bd",
+      "sourceFile": "email-envelope-open-v1.webp",
+      "sourceSha256": "169ffa3c4ef1c0748bb08f61f604305a427fe3c89c1e7b8df0b62199f7260b22",
+      "derivation": "Built-in imagegen edit of the first open envelope to correct the lower pocket fold; transparent PNG converted to alpha-preserving WebP."
+    },
+    "observation-slip": {
+      "file": "observation-slip.webp",
+      "sha256": "b13701ca89a9a7b39c542ad55d3a53057944e3df31574019558e8389281c8a05",
+      "bytes": 149640,
+      "pngSha256": "568379ff49ae25c299775215ddae4c97bd5038917ce4798fdab2568def88dd87",
+      "width": 1254,
+      "height": 1254
+    },
+    "entity-dossier": {
+      "file": "entity-dossier.webp",
+      "sha256": "d1133eb4e26412fd0be76929ad257756f370e8f2e8760dd599e47bd41b4b9ece",
+      "bytes": 179442,
+      "pngSha256": "36040b616fcffd342d95b8d967b53e2c4b8c3faeca26b8d7e04e316f129d4d28",
+      "width": 1254,
+      "height": 1254
+    }
+  }
+}

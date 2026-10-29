@@ -1,11 +1,11 @@
 import { useId } from 'react'
-import hero from '@/assets/neotoma-paper/hero.svg?raw'
-import observation from '@/assets/neotoma-paper/observation.svg?raw'
-import invoice from '@/assets/neotoma-paper/invoice-example.svg?raw'
+import hero from '@/assets/neotoma-paper/published/connected-records.svg?raw'
+import observation from '@/assets/neotoma-paper/published/synthetic-sources.svg?raw'
+import invoice from '@/assets/neotoma-paper/published/current-record.svg?raw'
 import tools from '@/assets/neotoma-paper/tools.svg?raw'
-import domain from '@/assets/neotoma-paper/vision-domain.svg?raw'
-import positions from '@/assets/neotoma-paper/vision-positions.svg?raw'
-import explanation from '@/assets/neotoma-paper/vision-explanation.svg?raw'
+import domain from '@/assets/neotoma-paper/published/shared-instance.svg?raw'
+import positions from '@/assets/neotoma-paper/published/competing-claims.svg?raw'
+import explanation from '@/assets/neotoma-paper/published/explanations-impact.svg?raw'
 
 // Only these committed local exports can become inline markup. Markdown URLs and
 // downloaded SVGs never supply HTML, even when their title requests a paper figure.
@@ -33,7 +33,8 @@ export function PaperArtwork({ src, alt }: { src: string; alt: string }) {
   let svg = source
   // The supplied alternative names every trusted inline scene. Escape it as
   // SVG text before inserting it into the authored title element.
-  const title = alt.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  const name = alt
+  const title = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#x27;')
   svg = svg.replace(/(<title\b[^>]*>)[\s\S]*?(<\/title>)/, (_match, open, close) => `${open}${title}${close}`)
   const ids = [...source.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1])

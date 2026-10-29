@@ -1,3 +1,4 @@
+import { canonicalPostAliasPath } from '@/lib/post-aliases.mjs'
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom'
 import { useState, useEffect, useRef, useMemo } from 'react'
 import React from 'react'
@@ -1157,6 +1158,10 @@ export default function Post({ slug: slugProp }: PostProps) {
     return buildSlugToPostMap(publicPostsData as Post[])
   }, [isDev, publicPostsData, postsForSeriesRouting])
   const resolvedCanonicalSlug = slug ? (slugToPostForRoute.get(slug)?.slug ?? slug) : null
+  useEffect(() => {
+    const target = canonicalPostAliasPath(location.pathname + location.search + location.hash, resolvedCanonicalSlug)
+    if (target) navigate(target, { replace: true })
+  }, [location.pathname, location.search, location.hash, resolvedCanonicalSlug, navigate])
   const ssrPost = usePostSSR() as Post | null
   const [post, setPost] = useState<Post | null>(ssrPost ?? null)
   const [content, setContent] = useState(
@@ -1633,6 +1638,7 @@ export default function Post({ slug: slugProp }: PostProps) {
   const isTweetPost = post.category === 'tweet'
   const isUnlisted = post.unlisted === true
   const isPaperScenePost = post.heroImageStyle === 'paper-scene'
+  const isPublishedEssayArtwork = isPaperScenePost && post.slug === 'your-agents-need-a-system-of-record'
   const rawTitle = (titleFromMd ?? post.title ?? '').trim()
   const displayTitle = stripSeriesPrefixFromTitle(rawTitle, post.series)
   /** Full stored title for `<title>` / OG / Twitter / JSON-LD (avoids ultra-short share titles when series prefix is stripped for the H1). */
@@ -2109,9 +2115,11 @@ export default function Post({ slug: slugProp }: PostProps) {
                   )
                   if (allPaperFigures) {
                     return (
-                      <div className="post-takeover essay-paper-band not-prose">
-                        <div className={nonEmpty.length > 1 ? 'essay-paper-gallery' : 'essay-paper-break'}>{children}</div>
-                      </div>
+                      <>
+                        <div className="post-takeover essay-paper-band not-prose">
+                          <div className={nonEmpty.length > 1 ? 'essay-paper-gallery' : 'essay-paper-break'}>{children}</div>
+                        </div>
+                      </>
                     )
                   }
                   const allImg = nonEmpty.length >= 1 && nonEmpty.every((c) => {
@@ -2174,10 +2182,13 @@ export default function Post({ slug: slugProp }: PostProps) {
                 },
                 img: ({ src, alt, title, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
                   if (isPaperScenePost && title?.startsWith('paper|')) {
-                    const [, label, caption] = title.split('|')
+                    const [, originalLabel, originalCaption] = title.split('|')
+                    const sharedInstanceProof = isPublishedEssayArtwork && src?.endsWith('/vision-domain.svg')
+                    const label = originalLabel
+                    const caption = originalCaption
                     const isVision = src?.includes('/vision-')
                     return (
-                      <figure className="essay-paper-figure" data-paper-figure={isVision ? 'planned' : 'current'}>
+                      <figure className="essay-paper-figure" data-paper-figure={isVision && !sharedInstanceProof ? 'planned' : 'current'}>
                         {hasPaperArtwork(src) ? <PaperArtwork src={src!} alt={alt ?? ''} /> : <img src={src} alt={alt ?? ''} width={isVision ? 340 : 900} height={isVision ? 220 : 600} loading="lazy" decoding="async" />}
                         <figcaption>
                           <span className="essay-paper-label">{label}</span>

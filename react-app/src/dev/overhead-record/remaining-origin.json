@@ -1,0 +1,118 @@
+{
+  "scope": "Local DEV overhead scene material provenance; receiving site qualification and publication remain separate.",
+  "sourceCommitBase": "63df6c1e8c1c20ec2905d6dea2389f35aa6acdfc",
+  "assets": {
+    "governed-folio": {
+      "sha256": "4708a2e002469df27da536c1845ab51c519bd102744f345f92683fdfc294aebb",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "built-in transparent generation",
+      "opaque_alpha_200_bounds": [
+        55,
+        275,
+        1196,
+        993
+      ],
+      "full_prompt": "Use case: product-mockup. Create one isolated photographic paper object assembly for an animation material sprite, on genuinely transparent background. Straight-down 90-degree overhead orthographic camera, no perspective convergence or camera tilt. A landscape open double-pocket archival folio, two equal adjacent bounded compartments separated by a clear central crease, both holding one blank ivory insert whose upper two-thirds are visible and printable. Natural off-white cotton paper, subtle dense fibers, slightly irregular cut edges, shallow thickness, gently used but immaculate. One small muted burnt-rust fabric-paper authorization tab fastens only the LEFT pocket edge; RIGHT pocket remains independent and untouched. A very slight sage lining may show at the left pocket. All faces perfectly blank, no printing, no lines, no symbols, no letters, no text or logos, no navy marks: semantic printing will be composited later. Soft upper-left studio illumination, narrow soft contact shadows beneath physical edges only. Match high-end tactile archival stationery product photography, neutral cream rather than yellow or dark beige; matte not glossy. Folio lies flat square to frame, horizontal and vertical edges aligned, no diagonal rotation. Center the entire assembly in a square canvas, leave 10 percent transparent margin on every side; complete silhouette with nothing clipped. At least 1254px square if possible. No desk, ground plane, scenery, vector look, CGI, cardboard toy, collage decoration or drawn connectors.",
+      "tool": "image_gen.imagegen",
+      "model": "Not exposed by tool result; not inferred",
+      "meaning": "Two bounded record domains share one open folio; a physical authorization tab is confined to left domain. Coded role/authority/correction semantics must distinguish permitted side without implying the paper itself is a person or agent.",
+      "faces": [
+        [
+          130,
+          335,
+          560,
+          620
+        ],
+        [
+          710,
+          335,
+          1120,
+          620
+        ]
+      ],
+      "print_box_convention": "Approximate [x1,y1,x2,y2] native1254px rectangular interior; implementation must independently verify final ink containment and anchor scanlines, not treat these hints as measurement oracle.",
+      "camera": "90 degree overhead, frame-aligned, no perspective/rotation; only shallow physical stock thickness and contact shadow.",
+      "integration_caution": "Generated raw alpha includes faint outer fringe/specks beyond opaque body. Use the alpha>=200 body bbox for nested-SVG crop, excluding exterior noise and transparent padding, as in the accepted sprite pipeline. Do not use raw-alpha canvas extents for geometry or port placement. Never treat shadow as material border."
+    },
+    "claims-sleeve": {
+      "sha256": "ee3d8b3c49d9de4d31741b102f4131f08f38917c740a7e3c3bbd6cb7e9e76357",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "built-in transparent generation",
+      "opaque_alpha_200_bounds": [
+        108,
+        148,
+        1150,
+        1119
+      ],
+      "full_prompt": "Use case: product-mockup. Create one isolated photographic paper object assembly for an animation material sprite, genuinely transparent background. True 90-degree overhead orthographic camera, no perspective or rotation. A distinct landscape flat archival decision sleeve, off-white fibrous matte paper, with TWO separate shallow source-card pockets side by side across the upper half and ONE wider selection window across the lower middle. Each upper pocket holds a fully blank card with at least two-thirds exposed, left card pale sage, right card warm ivory. Both cards remain visible. The separate lower selection window shows a third blank ivory position card, clearly a different physical slot from either upper source claim. Simple tidy geometry, soft natural paper edge irregularities, very shallow layered thickness. No printed symbols, letters, numbers, lines, rules, pictures or words at all; this is blank physical material for code-authored ink. Soft upper-left light and narrow baked contact shadow beneath edges only. Neutral off-white cotton archival stationery realism, not yellow/brown, not vector/clipart/CGI. Assembly lies completely flat, edges square to image frame. Square canvas, whole assembly centered with 10 percent clear transparent margin and no clipping. At least 1254px square if possible. No background surface, desk, scene, labels, diagram or drawn connectors.",
+      "tool": "image_gen.imagegen",
+      "model": "Not exposed by tool result; not inferred",
+      "meaning": "Two source claim cards remain retained and exposed above a third distinct selected-position slot. Coded claim differences and a separate decision mark must keep evidence versus decision roles clear.",
+      "faces": [
+        [
+          185,
+          220,
+          550,
+          440
+        ],
+        [
+          710,
+          220,
+          1055,
+          440
+        ],
+        [
+          245,
+          785,
+          1000,
+          875
+        ]
+      ],
+      "print_box_convention": "Approximate [x1,y1,x2,y2] native1254px rectangular interior; implementation must independently verify final ink containment and anchor scanlines, not treat these hints as measurement oracle.",
+      "camera": "90 degree overhead, frame-aligned, no perspective/rotation; only shallow physical stock thickness and contact shadow.",
+      "integration_caution": "Generated raw alpha includes faint outer fringe/specks beyond opaque body. Use the alpha>=200 body bbox for nested-SVG crop, excluding exterior noise and transparent padding, as in the accepted sprite pipeline. Do not use raw-alpha canvas extents for geometry or port placement. Never treat shadow as material border."
+    },
+    "explanation-dossier": {
+      "sha256": "32b07d27a6e85744ebcb6bf68aa448bc0b1f46d3b4d992f3265efba20166b174",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "built-in transparent generation",
+      "opaque_alpha_200_bounds": [
+        198,
+        80,
+        1094,
+        1187
+      ],
+      "full_prompt": "Use case: product-mockup. Create one isolated photographic layered archival dossier assembly, on genuinely transparent background, for a top-down hybrid animation. Camera locked directly overhead 90 degrees, orthographic, all horizontal/vertical paper edges aligned to image frame, no perspective, diagonal rotation or physically lifted sheets. A portrait ivory archival folder with three flat offset paper layers: a small top current-field card at the upper third; beneath it a broad cream window frame whose rectangular open cutout reveals a clearly visible blank pale sage basis leaf in the middle/lower area; the dossier bottom backing remains visible around the layers. Distinguishable current-card face and basis-leaf face, both ample blank printable areas, no obstruction through center. A small muted dusty-blue paper index tab may extend from one side. High-end tactile cotton stationery product photography: visible fine paper fibers, natural ivory rather than yellow or dark beige, subtle edges and shallow real thickness, quiet upper-left studio light, narrow soft contact shadows under edges. EVERY paper face is completely blank: no words, letters, numbers, lines, marks, icons, diagrams, string or connectors. Navy semantics will be added as code later. Square canvas, entire object centered with 10 percent transparent margin all sides, no clipping, at least 1254px square if possible. No desktop, background ground, hands, scenery, vector art, CAD, plastic, CGI or decorative collage.",
+      "tool": "image_gen.imagegen",
+      "model": "Not exposed by tool result; not inferred",
+      "meaning": "Upper current card and lower window exposing basis leaf establish an inspectable reason beneath the recorded value; coded outside source/dependency records and bounded connectors will carry impact.",
+      "faces": [
+        [
+          330,
+          210,
+          900,
+          480
+        ],
+        [
+          355,
+          650,
+          875,
+          1010
+        ]
+      ],
+      "print_box_convention": "Approximate [x1,y1,x2,y2] native1254px rectangular interior; implementation must independently verify final ink containment and anchor scanlines, not treat these hints as measurement oracle.",
+      "camera": "90 degree overhead, frame-aligned, no perspective/rotation; only shallow physical stock thickness and contact shadow.",
+      "integration_caution": "Generated raw alpha includes faint outer fringe/specks beyond opaque body. Use the alpha>=200 body bbox for nested-SVG crop, excluding exterior noise and transparent padding, as in the accepted sprite pipeline. Do not use raw-alpha canvas extents for geometry or port placement. Never treat shadow as material border."
+    }
+  },
+  "derivation": "Source PNG bytes retained privately; lossless WebP committed with source/output hashes in remaining-materials.json. Ground and previous four sprites remain byte-exact."
+}

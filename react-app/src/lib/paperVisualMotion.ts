@@ -1,74 +1,163 @@
 // Reused from Neotoma's paper-scene motion; entry gate aligned with 7dd82c1 (MIT).
-import { useEffect, type RefObject } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 
 type Play = (target: Element) => Animation[];
 const MAX_ACTIVE_SCENES = 2;
+const PUBLISHED_HYBRID_SCENES = new Set([
+  "connectedRecordsProof", "syntheticSourcesProof", "invoiceOverheadProof",
+  "governedCollaborationProof", "competingClaimsProof", "explanationsImpactProof",
+]);
 
-/** Animate only actual entry transitions. The authored final state is always visible without JS. */
-export function observeViewportMotion(targets: Element[], play: Play): () => void {
+function isPublishedHybridScene(target: Element): boolean {
+  return target.getAttribute?.("data-paper-treatment") === "hybrid-record-proof"
+    && PUBLISHED_HYBRID_SCENES.has(target.getAttribute?.("data-paper-scene") || "");
+}
+
+/** Animate actual entries, sharing a bounded FIFO budget across all visible scenes. */
+export function observeViewportMotion(targets: Element[], play: Play, root?: HTMLElement): () => void {
   if (!window.matchMedia || !window.IntersectionObserver || !Element.prototype.animate)
     return () => {};
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const registered = new Set(targets);
   const inside = new Set<Element>();
+  const visible = new Set<Element>();
+  const pending = new Set<Element>();
   const running = new Map<Element, Animation[]>();
-  const cancel = (target: Element) => {
-    running.get(target)?.forEach((animation) => animation.cancel());
-    running.delete(target);
+  let disposed = false;
+  const isHybridProof = isPublishedHybridScene;
+  const hybridPorts = (target: Element) => isHybridProof(target)
+    ? target.querySelectorAll<SVGElement>('[data-paper-port]') : [];
+  const stagePorts = (target: Element) => {
+    for (const port of hybridPorts(target)) port.style.opacity = '0';
+    if (!isHybridProof(target)) return;
+    for (const envelope of target.querySelectorAll<SVGElement>('[data-paper-envelope-state]'))
+      envelope.style.opacity = envelope.dataset.paperEnvelopeState === 'open' ? '0' : '1';
+    for (const letter of target.querySelectorAll<SVGElement>('[data-paper-letter]')) letter.style.opacity = '0';
   };
-  const enter = (target: Element) => {
-    cancel(target);
-    // Additional visible scenes keep their complete authored pose. A later viewport re-entry
-    // may animate them, without queuing a jump from a settled pose to an offscreen pose.
-    if (reduced.matches || document.hidden || running.size >= MAX_ACTIVE_SCENES) return;
-    const animations = play(target);
-    if (animations.length === 0) return;
-    target.setAttribute("data-motion-entry-count", String(Number(target.getAttribute("data-motion-entry-count") || 0) + 1));
-    target.setAttribute("data-motion-animation-count", String(animations.length));
-    running.set(target, animations);
-    for (const animation of animations) {
-      void animation.finished
-        .then(() => {
-          animation.cancel();
-          if (
-            running.get(target) === animations &&
-            animations.every((item) => item.playState !== "running")
-          )
-            running.delete(target);
-        })
-        .catch(() => {});
+  const settlePorts = (target: Element) => {
+    for (const port of hybridPorts(target)) port.style.opacity = '1';
+    if (!isHybridProof(target)) return;
+    for (const envelope of target.querySelectorAll<SVGElement>('[data-paper-envelope-state]'))
+      envelope.style.opacity = envelope.dataset.paperEnvelopeState === 'open' ? '1' : '0';
+    for (const letter of target.querySelectorAll<SVGElement>('[data-paper-letter]')) letter.style.opacity = '1';
+  };
+  if (!reduced.matches && !document.hidden) registered.forEach(stagePorts);
+  const cancel = (target: Element) => {
+    const active = running.get(target);
+    active?.forEach((animation) => animation.cancel());
+    running.delete(target);
+    // An offscreen observer event can arrive before the scene ever plays.
+    // Keep those ports staged until their first connection has drawn.
+    if (active) settlePorts(target);
+  };
+  const drain = () => {
+    if (disposed || reduced.matches || document.hidden) return;
+    for (const target of pending) {
+      if (running.size >= MAX_ACTIVE_SCENES) break;
+      if (!registered.has(target) || target.isConnected === false) {
+        pending.delete(target);
+        continue;
+      }
+      if (!visible.has(target)) continue;
+      pending.delete(target);
+      stagePorts(target);
+      const animations = play(target);
+      if (animations.length === 0) continue;
+      target.setAttribute("data-motion-entry-count", String(Number(target.getAttribute("data-motion-entry-count") || 0) + 1));
+      target.setAttribute("data-motion-animation-count", String(animations.length));
+      running.set(target, animations);
+      void Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
+        if (running.get(target) !== animations) return;
+        animations.forEach((animation) => animation.cancel());
+        settlePorts(target);
+        running.delete(target);
+        drain();
+      });
     }
   };
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
         const target = entry.target;
-        if (entry.isIntersecting) {
-          if (entry.intersectionRatio < 0.35) continue;
+        if (!registered.has(target)) continue;
+        if (!entry.isIntersecting) {
+          inside.delete(target);
+          visible.delete(target);
+          pending.delete(target);
+          cancel(target);
+        } else if (entry.intersectionRatio < 0.35) {
+          visible.delete(target);
+        } else {
+          visible.add(target);
           if (!inside.has(target)) {
             inside.add(target);
-            enter(target);
+            if (!reduced.matches && !document.hidden) pending.add(target);
           }
-        } else {
-          inside.delete(target);
-          cancel(target);
         }
       }
+      drain();
     },
     { threshold: [0, 0.35] }
   );
-  targets.forEach((target) => observer.observe(target));
+  registered.forEach((target) => observer.observe(target));
+  // Markdown components can remount SVGs without changing the article content.
+  // Reconcile the real subtree, removing stale registrations before enrolling replacements.
+  const mutations = root && window.MutationObserver ? new window.MutationObserver(() => {
+    const current = new Set(root.querySelectorAll<SVGSVGElement>("[data-paper-scene]"));
+    // Preserve actual entry state for an unambiguous replacement of the same scene.
+    // Ordinary Post state changes may replace its DOM, but are not viewport re-entries.
+    const removed = [...registered].filter((target) => !current.has(target as SVGSVGElement));
+    const added = [...current].filter((target) => !registered.has(target));
+    for (const next of added) {
+      const name = next.getAttribute("data-paper-scene");
+      if (!name) continue;
+      const previous = removed.filter((target) => target.getAttribute("data-paper-scene") === name);
+      if (previous.length !== 1 || added.filter((target) => target.getAttribute("data-paper-scene") === name).length !== 1) continue;
+      const old = previous[0];
+      if (inside.has(old)) inside.add(next);
+      if (visible.has(old)) visible.add(next);
+      if (pending.has(old)) pending.add(next);
+      for (const attribute of ["data-motion-entry-count", "data-motion-animation-count"]) {
+        const value = old.getAttribute(attribute);
+        if (value != null) next.setAttribute(attribute, value);
+      }
+    }
+    for (const target of registered) {
+      if (current.has(target as SVGSVGElement)) continue;
+      observer.unobserve(target);
+      registered.delete(target);
+      inside.delete(target);
+      visible.delete(target);
+      pending.delete(target);
+      cancel(target);
+    }
+    for (const target of current) {
+      if (registered.has(target)) continue;
+      registered.add(target);
+      if (!inside.has(target) && !reduced.matches && !document.hidden) stagePorts(target);
+      observer.observe(target);
+    }
+    drain();
+  }) : null;
+  mutations?.observe(root!, { childList: true, subtree: true });
+  const suppress = () => {
+    pending.clear();
+    registered.forEach(cancel);
+  };
   const motionChange = () => {
-    if (reduced.matches) targets.forEach(cancel);
+    if (reduced.matches) { suppress(); registered.forEach(settlePorts); }
   };
   const visibilityChange = () => {
-    if (document.hidden) targets.forEach(cancel);
-    // A tab resume keeps settled scenes settled. Only a new viewport entry replays a scene.
+    if (document.hidden) { suppress(); registered.forEach(settlePorts); }
+    // Resume remains settled; only a new viewport entry may enqueue motion.
   };
   reduced.addEventListener("change", motionChange);
   document.addEventListener("visibilitychange", visibilityChange);
   return () => {
+    disposed = true;
     observer.disconnect();
-    targets.forEach(cancel);
+    mutations?.disconnect();
+    suppress();
     reduced.removeEventListener("change", motionChange);
     document.removeEventListener("visibilitychange", visibilityChange);
   };
@@ -117,6 +206,92 @@ export function springFrames(x: number, y: number, rotation: number): Keyframe[]
 }
 
 export function playPaperScene(target: Element): Animation[] {
+  if (isPublishedHybridScene(target)) {
+    // Published, locally authored scenes reuse the shared entry budget and animation ownership.
+    // Sources stay intact; only independent observation carriers and the due field change.
+    const animations: Animation[] = [];
+    for (const object of target.querySelectorAll<SVGElement>("[data-paper-object]")) {
+      animations.push(object.animate(
+        springFrames(Number(object.dataset.enterX || 0), Number(object.dataset.enterY || 0), 0)
+          .map((frame, index) => ({ ...frame, opacity: Math.min(1, index / 5) })),
+        { duration: PAPER_SPRING_MS, delay: Number(object.dataset.enterDelay || 0), easing: "linear", fill: "both" }
+      ));
+    }
+    for (const path of target.querySelectorAll<SVGGeometryElement>("[data-paper-connection]")) {
+      animations.push(path.animate([
+        { strokeDasharray: "1", strokeDashoffset: "1", opacity: 0 },
+        { strokeDasharray: "1", strokeDashoffset: "1", opacity: 1, offset: 0.02 },
+        { strokeDasharray: "1", strokeDashoffset: "0", opacity: 1 },
+      ], { duration: 650, delay: Number(path.dataset.connectionDelay || 0), easing: "ease-out", fill: "both" }));
+    }
+    // A port marks a completed connection. Keep the static SVG fully readable
+    // for reduced motion, but reveal each endpoint only after its line lands.
+    const portArrival = new Map<string, number>();
+    for (const path of target.querySelectorAll<SVGGeometryElement>("[data-paper-connection]")) {
+      const landedAt = Number(path.dataset.connectionDelay || 0) + 650;
+      for (const id of [path.dataset.connectionFrom, path.dataset.connectionTo]) {
+        if (id) portArrival.set(id, Math.max(portArrival.get(id) || 0, landedAt));
+      }
+    }
+    for (const port of target.querySelectorAll<SVGElement>("[data-paper-port]")) {
+      const landedAt = portArrival.get(port.dataset.paperPort || "");
+      if (landedAt == null) continue;
+      animations.push(port.animate(
+        [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 180, delay: landedAt, easing: "ease-out", fill: "both" }
+      ));
+    }
+    for (const field of target.querySelectorAll<SVGElement>("[data-paper-field-state]")) {
+      const current = field.dataset.paperFieldState === "current";
+      animations.push(field.animate([
+        { opacity: current ? 0 : 1, offset: 0 },
+        { opacity: current ? 0 : 1, offset: 0.62 },
+        { opacity: current ? 1 : 0, offset: 0.72 },
+        { opacity: current ? 1 : 0, offset: 1 },
+      ], { duration: 4200, easing: "ease-in-out", fill: "both" }));
+    }
+    // The closed flap is baked into its photograph. Dissolve it into a matching
+    // open cutout, then lift the date letter from the pocket. The SVG itself
+    // remains the completed open frame for reduced-motion and static export.
+    for (const envelope of target.querySelectorAll<SVGElement>("[data-paper-envelope-state]")) {
+      const open = envelope.dataset.paperEnvelopeState === "open";
+      animations.push(envelope.animate(open
+        ? [{ opacity: 0, offset: 0 }, { opacity: 0, offset: 0.16 }, { opacity: 1, offset: 1 }]
+        : [{ opacity: 1, offset: 0 }, { opacity: 1, offset: 0.16 }, { opacity: 0, offset: 1 }],
+      { duration: 680, easing: "ease-in-out", fill: "both" }));
+    }
+    for (const letter of target.querySelectorAll<SVGElement>("[data-paper-letter]")) {
+      animations.push(letter.animate([
+        { transform: "translateY(48px)", opacity: 0 },
+        { transform: "translateY(0px)", opacity: 1 },
+      ], { duration: 750, delay: 560, easing: "cubic-bezier(.22,.7,.2,1)", fill: "both" }));
+    }
+    return animations;
+  }
+  if (target.getAttribute?.("data-paper-treatment") === "photographic-paper") {
+    // The photograph already contains the complete physical scene. Emphasize
+    // registered ink only; never pretend baked paper objects can move separately.
+    return [...target.querySelectorAll<SVGElement>("[data-paper-highlight]")].map((highlight) => {
+      const trace = highlight.dataset.paperHighlight === "trace";
+      const frames: Keyframe[] = trace ? [
+        { opacity: 0, strokeDasharray: "1", strokeDashoffset: "1", offset: 0 },
+        { opacity: 0.95, strokeDasharray: "1", strokeDashoffset: "1", offset: 0.08 },
+        { opacity: 0.95, strokeDasharray: "1", strokeDashoffset: "0", offset: 0.68 },
+        { opacity: 0.95, strokeDasharray: "1", strokeDashoffset: "0", offset: 0.82 },
+        { opacity: 0, strokeDasharray: "1", strokeDashoffset: "0", offset: 1 },
+      ] : [
+        { opacity: 0, offset: 0 },
+        { opacity: 0.95, offset: 0.2 },
+        { opacity: 0.95, offset: 0.75 },
+        { opacity: 0, offset: 1 },
+      ];
+      return highlight.animate(frames, {
+        duration: Number(highlight.dataset.highlightDuration),
+        delay: Number(highlight.dataset.highlightDelay || 0),
+        easing: "ease-in-out", fill: "both",
+      });
+    });
+  }
   const objects = [...target.querySelectorAll<SVGElement>("[data-paper-object]")];
   const duration = PAPER_SPRING_MS;
   let settledAt = duration;
@@ -147,12 +322,20 @@ export function playPaperScene(target: Element): Animation[] {
 }
 
 export function observePaperArticle(root: HTMLElement): () => void {
-  return observeViewportMotion([...root.querySelectorAll<SVGSVGElement>("[data-paper-scene]")], playPaperScene);
+  return observeViewportMotion([...root.querySelectorAll<SVGSVGElement>("[data-paper-scene]")], playPaperScene, root);
 }
 
 export function usePageVisualMotion(ref: RefObject<HTMLElement>, revision?: unknown) {
+  const current = useRef<{ root: HTMLElement; stop: () => void } | null>(null);
+  // Run after every commit to recover a replaced article ref as well as SVG-only remounts.
+  // An unchanged root keeps its observer and playback state; it does not replay on rerender.
   useEffect(() => {
-    if (!ref.current) return;
-    return observePaperArticle(ref.current);
+    if (current.current?.root === ref.current) return;
+    current.current?.stop();
+    current.current = ref.current ? { root: ref.current, stop: observePaperArticle(ref.current) } : null;
+  });
+  useEffect(() => () => {
+    current.current?.stop();
+    current.current = null;
   }, [ref, revision]);
 }

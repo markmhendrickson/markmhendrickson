@@ -42,6 +42,7 @@ SITE_BASE = "https://markmhendrickson.com"
 
 LISTING_OVERRIDES_JSON = WEBSITE_POSTS_DIR / "listing_overrides.json"
 ALTERNATIVE_SLUGS_JSON = WEBSITE_POSTS_DIR / "alternative_slugs.json"
+CANONICAL_SLUG_OVERRIDES_JSON = WEBSITE_POSTS_DIR / "canonical_slug_overrides.json"
 
 # Slugs that must always use body/title/excerpt from repo markdown (overwrite export).
 # Ensures the homepage and other repo-owned content stay correct when cache is regenerated from Neotoma.
@@ -140,6 +141,28 @@ def load_alternative_slugs() -> Dict[str, List[str]]:
         return out
     except Exception:
         return {}
+
+
+def apply_canonical_slug_overrides(posts: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Use the existing durable old-to-current slug map before export deduplication."""
+    overrides = json.loads(CANONICAL_SLUG_OVERRIDES_JSON.read_text(encoding="utf-8")) if CANONICAL_SLUG_OVERRIDES_JSON.exists() else {}
+    result = []
+    for post in posts:
+        entry = dict(post)
+        slug = entry.get("slug")
+        canonical = overrides.get(slug, slug)
+        if canonical != slug:
+            entry["slug"] = canonical
+            prior = entry.get("alternative_slugs") or []
+            if isinstance(prior, str):
+                try:
+                    prior = json.loads(prior)
+                except (ValueError, TypeError):
+                    prior = []
+            prior = [alias for alias in prior if isinstance(alias, str)] if isinstance(prior, list) else []
+            entry["alternative_slugs"] = list(dict.fromkeys([*prior, slug]))
+        result.append(entry)
+    return result
 
 
 def overlay_alternative_slugs(metadata_list: List[Dict[str, Any]]) -> None:
@@ -725,6 +748,7 @@ def generate_posts_cache(posts: List[Dict[str, Any]]) -> None:
         hydrate_locale_posts_repo_assets()
         return
 
+    posts = apply_canonical_slug_overrides(posts)
     seen: Dict[str, Dict[str, Any]] = {}
     for post in posts:
         slug = post.get("slug")
