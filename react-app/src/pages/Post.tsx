@@ -2114,12 +2114,8 @@ export default function Post({ slug: slugProp }: PostProps) {
                     React.isValidElement(child) && String((child.props as { title?: string }).title ?? '').startsWith('paper|'),
                   )
                   if (allPaperFigures) {
-                    const advancedProofGallery = isPublishedEssayArtwork && nonEmpty.length === 3 && nonEmpty.some((child) =>
-                      React.isValidElement(child) && String((child.props as { src?: string }).src ?? '').endsWith('/vision-domain.svg'),
-                    )
                     return (
                       <>
-                        {advancedProofGallery && <p className="mx-auto max-w-[680px] px-5 text-foreground sm:px-0">The shared instance is the foundation in use today. The next two visuals show the direction from here.</p>}
                         <div className="post-takeover essay-paper-band not-prose">
                           <div className={nonEmpty.length > 1 ? 'essay-paper-gallery' : 'essay-paper-break'}>{children}</div>
                         </div>

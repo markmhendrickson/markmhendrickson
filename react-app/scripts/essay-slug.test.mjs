@@ -14,8 +14,48 @@ test('canonical migration is durable source, preserves old alias and every local
  assert.equal(json('src/content/posts/canonical_slug_overrides.json')[old],slug)
  assert(json('src/content/posts/alternative_slugs.json')[slug].includes(old))
  for(const locale of locales){const post=json(`cache/posts.${locale}.json`).find(x=>x.slug===slug);assert(post,locale);assert.equal(post.canonicalSlug,slug);assert.equal(post.postId,slug);assert(post.alternativeSlugs.includes(old));if(locale!=='en')assert(json(`src/content/posts/translations.${locale}.json`)[slug],locale)}
- assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.md`)).digest('hex'),'79c5f604f6b8a586442995ec8fc707328c0606309940ce8d463746bd38e8a9f7','accepted editorial source bytes remain unchanged')
+ assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.md`)).digest('hex'),'20126a4de19d558c53ff691cc2ed564ced9921b3fc1f0a238c2899f9cdb1dc4d','accepted editorial source bytes remain unchanged')
  assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.summary.md`)).digest('hex'),'c64ff58985846e0e3afdb5855604fe64735d29b49201846b74c29e8d585c0b7d','accepted editorial source bytes remain unchanged')
+})
+test('localized essay metadata is published from the new editorial translations',()=>{
+ for(const locale of locales.filter(x=>x!=='en')){
+  const source=json(`src/content/posts/translations.${locale}.json`)[slug]
+  const post=json(`cache/posts.${locale}.json`).find(x=>x.slug===slug)
+  const api=json(`public/api/posts.${locale}.json`).posts.find(x=>x.slug===slug)
+  for(const field of ['title','excerpt','summary']){
+   assert.equal(post[field],source[field],`${locale}: ${field} in post cache`)
+   assert.equal(api[field],source[field],`${locale}: ${field} in public API`)
+  }
+  assert(source.title.length>10,`${locale}: translated title`)
+  assert(source.excerpt.includes('Neotoma'),`${locale}: category introduction names the product`)
+  assert.equal(source.summary.split('\n').filter(line=>line.startsWith('- ')).length,4,`${locale}: four prioritized takeaways`)
+ }
+})
+test('advanced-gallery bridge and image descriptions belong to each locale source, not English-only JSX',()=>{
+ const bridge='The shared instance is the foundation in use today. The next two visuals show the direction from here.'
+ const names=['vision-domain.svg','vision-positions.svg','vision-explanation.svg']
+ const en=read(`src/content/posts/${slug}.md`)
+ const enAlts=Object.fromEntries(names.map(name=>{
+  const line=en.split('\n').find(line=>line.includes(`/images/posts/neotoma-paper/${name}`))
+  assert(line,`English source has ${name}`)
+  return[name,line.match(/^!\[([^\]]+)\]/)?.[1]]
+ }))
+ assert(en.includes(`${bridge}\n\n![${enAlts[names[0]]}]`),'English bridge precedes gallery in Markdown source')
+ assert(!read('src/pages/Post.tsx').includes(bridge),'renderer does not inject English prose into every locale')
+ for(const locale of locales.filter(x=>x!=='en')){
+  const body=json(`src/content/posts/translations.${locale}.json`)[slug].body
+  assert(!body.includes(bridge),`${locale}: localized bridge does not fall back to English`)
+  const first=body.indexOf(`/images/posts/neotoma-paper/${names[0]}`)
+  assert(first>0,`${locale}: gallery exists`)
+  const preceding=body.slice(Math.max(0,first-700),first).split('\n\n').at(-2)
+  assert(preceding && preceding.length>30 && !preceding.startsWith('!['),`${locale}: localized bridge precedes gallery`)
+  for(const name of names){
+   const line=body.split('\n').find(line=>line.includes(`/images/posts/neotoma-paper/${name}`))
+   assert(line,`${locale}: ${name} exists`)
+   const alt=line.match(/^!\[([^\]]+)\]/)?.[1]
+   assert(alt && alt!==enAlts[name],`${locale}: ${name} has a localized accessible description`)
+  }
+ }
 })
 test('resolved aliases preserve query/hash and locale; canonical and Markdown URLs do not loop or change contract',()=>{
  const tail='?visual=overhead-proof&utm_source=review#a-system-of-record-not-recall'

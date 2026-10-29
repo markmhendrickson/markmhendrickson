@@ -129,6 +129,7 @@ test('an unseen hybrid scene keeps ports and the dated letter staged through its
   const closed = new env.Element({ paperEnvelopeState: 'closed' })
   const letter = new env.Element()
   scene.setAttribute('data-paper-treatment', 'hybrid-record-proof')
+  scene.setAttribute('data-paper-scene', 'invoiceOverheadProof')
   scene.querySelectorAll = (selector) => selector === '[data-paper-port]' ? [port] : selector === '[data-paper-envelope-state]' ? [open, closed] : selector === '[data-paper-letter]' ? [letter] : []
   const stop = motion.observeViewportMotion([scene], (target) => [target.animate([], {})])
   assert.equal(port.style.opacity, '0', 'ports are staged before the observer begins')

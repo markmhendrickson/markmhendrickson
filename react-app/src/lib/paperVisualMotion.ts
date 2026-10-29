@@ -3,6 +3,15 @@ import { useEffect, useRef, type RefObject } from "react";
 
 type Play = (target: Element) => Animation[];
 const MAX_ACTIVE_SCENES = 2;
+const PUBLISHED_HYBRID_SCENES = new Set([
+  "connectedRecordsProof", "syntheticSourcesProof", "invoiceOverheadProof",
+  "governedCollaborationProof", "competingClaimsProof", "explanationsImpactProof",
+]);
+
+function isPublishedHybridScene(target: Element): boolean {
+  return target.getAttribute?.("data-paper-treatment") === "hybrid-record-proof"
+    && PUBLISHED_HYBRID_SCENES.has(target.getAttribute?.("data-paper-scene") || "");
+}
 
 /** Animate actual entries, sharing a bounded FIFO budget across all visible scenes. */
 export function observeViewportMotion(targets: Element[], play: Play, root?: HTMLElement): () => void {
@@ -15,7 +24,7 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
   const pending = new Set<Element>();
   const running = new Map<Element, Animation[]>();
   let disposed = false;
-  const isHybridProof = (target: Element) => import.meta.env.DEV && target.getAttribute('data-paper-treatment') === 'hybrid-record-proof';
+  const isHybridProof = isPublishedHybridScene;
   const hybridPorts = (target: Element) => isHybridProof(target)
     ? target.querySelectorAll<SVGElement>('[data-paper-port]') : [];
   const stagePorts = (target: Element) => {
@@ -197,8 +206,8 @@ export function springFrames(x: number, y: number, rotation: number): Keyframe[]
 }
 
 export function playPaperScene(target: Element): Animation[] {
-  if (import.meta.env.DEV && target.getAttribute?.("data-paper-treatment") === "hybrid-record-proof") {
-    // This local proof reuses the shared entry budget and animation ownership.
+  if (isPublishedHybridScene(target)) {
+    // Published, locally authored scenes reuse the shared entry budget and animation ownership.
     // Sources stay intact; only independent observation carriers and the due field change.
     const animations: Animation[] = [];
     for (const object of target.querySelectorAll<SVGElement>("[data-paper-object]")) {

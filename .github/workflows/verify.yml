@@ -35,7 +35,8 @@ jobs:
         run: |
           npm run test:i18n-smoke
           python3 scripts/test_translation_chunks.py
-          node --test scripts/paper-artwork-export.test.mjs scripts/paper-visual-motion.test.mjs scripts/heading-anchors.test.mjs
+          python3 scripts/publish_overhead_inline_artwork.py --check
+          node --test scripts/paper-artwork-export.test.mjs scripts/paper-visual-motion.test.mjs scripts/paper-production-motion.test.mjs scripts/photographic-paper.test.mjs scripts/heading-anchors.test.mjs
       - name: Verify series-aware post search
         working-directory: react-app
         run: node --test scripts/series-search.test.mjs
@@ -55,6 +56,12 @@ jobs:
       - name: Build and verify rendered routes
         working-directory: react-app
         run: npm run build:ci
+
+      - name: Verify essay publication, aliases, and overhead artwork
+        working-directory: react-app
+        run: |
+          node --test scripts/essay-slug.test.mjs scripts/post-markdown.test.mjs scripts/overhead-invoice-proof.test.mjs scripts/overhead-remaining-scenes.test.mjs scripts/overhead-print-geometry.test.mjs scripts/overhead-production-boundary.test.mjs scripts/paper-scene-geometry.test.mjs
+          node --test scripts/essay-slug-http.test.mjs
 
       - name: Verify navigation, editorial shell, and dependency notices
         working-directory: react-app
