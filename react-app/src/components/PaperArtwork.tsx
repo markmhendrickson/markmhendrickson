@@ -25,7 +25,7 @@ export function hasPaperArtwork(src: string | undefined): boolean {
 
 export function PaperArtwork({ src, alt }: { src: string; alt: string }) {
   const prefix = `essay-${useId().replace(/:/g, '')}`
-  const [proof, setProof] = useState<string | null>(null)
+  const [proof, setProof] = useState<{ src: string; svg: string } | null>(null)
   const wantsProof = import.meta.env.DEV && typeof window !== 'undefined' &&
     ['/images/posts/neotoma-paper/invoice-example.svg','/images/posts/neotoma-paper/hero.svg','/images/posts/neotoma-paper/observation.svg','/images/posts/neotoma-paper/vision-domain.svg','/images/posts/neotoma-paper/vision-positions.svg','/images/posts/neotoma-paper/vision-explanation.svg'].includes(src) &&
     new URLSearchParams(window.location?.search || '').get('visual') === 'overhead-proof'
@@ -39,11 +39,11 @@ export function PaperArtwork({ src, alt }: { src: string; alt: string }) {
       src === '/images/posts/neotoma-paper/observation.svg' ? import('../dev/overhead-record/syntheticSourcesProof.svg?raw') :
       import('../dev/overhead-record/invoice.svg?raw')
     void load.then(({ default: svg }) => {
-      if (active) setProof(svg)
+      if (active) setProof({ src, svg })
     }).catch(() => { if (active) setProof(null) })
     return () => { active = false }
   }, [wantsProof, src])
-  const selectedProof = wantsProof ? proof : null
+  const selectedProof = wantsProof && proof?.src === src ? proof.svg : null
   const source = selectedProof ?? artwork.get(src)
   if (!source) return <img src={src} alt={alt} />
 

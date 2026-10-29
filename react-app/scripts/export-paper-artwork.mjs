@@ -220,19 +220,22 @@ export function validateAuthoredPaperSvg(svg, scene) {
     if (overheadProof) {
       if (!['invoiceOverheadProof','connectedRecordsProof','syntheticSourcesProof',...Object.keys(PAPER_REMAINING_PROOF_ASSETS)].includes(scene) || root.getAttribute('data-paper-variant') !== (scene === 'invoiceOverheadProof'?'overhead-invoice-proof':`overhead-${scene}`) || materials.size !== allowedMaterials.length || allowedMaterials.some((hash) => !materials.has(hash))) throw new Error('Unknown overhead proof binding')
       if (scene === 'invoiceOverheadProof') {
-      const originals = [...root.querySelectorAll('[data-paper-source]')].map((node) => node.getAttribute('data-paper-source')).sort()
-      const observations = [...root.querySelectorAll('[data-paper-observation]')].map((node) => node.getAttribute('data-paper-observation')).sort()
-      if (originals.join(',') !== 'email,invoice' || observations.join(',') !== 'email-observation,invoice-observation' || root.querySelectorAll('[data-paper-current-record]').length !== 1) throw new Error('Incomplete retained record proof')
-      if (root.querySelector('[data-current-field="amount"]')?.getAttribute('data-observation') !== 'invoice-observation' || root.querySelector('[data-current-field="due"]')?.getAttribute('data-observation') !== 'email-observation') throw new Error('Wrong per-field observation')
-      const before = root.querySelector('[data-paper-field-state="prior"]')
-      const current = root.querySelector('[data-paper-field-state="current"]')
-      if (!before || before.getAttribute('opacity') !== '0' || !current || current.getAttribute('opacity') !== '1') throw new Error('Incomplete static current field')
+        const originals = [...root.querySelectorAll('[data-paper-source]')].map((node) => node.getAttribute('data-paper-source')).sort()
+        const observations = [...root.querySelectorAll('[data-paper-observation]')].map((node) => node.getAttribute('data-paper-observation')).sort()
+        if (originals.join(',') !== 'email,invoice' || observations.join(',') !== 'email-observation,invoice-observation' || root.querySelectorAll('[data-paper-current-record]').length !== 1) throw new Error('Incomplete retained record proof')
+        if (root.querySelector('[data-current-field="amount"]')?.getAttribute('data-observation') !== 'invoice-observation' || root.querySelector('[data-current-field="due"]')?.getAttribute('data-observation') !== 'email-observation') throw new Error('Wrong per-field observation')
+        const before = root.querySelector('[data-paper-field-state="prior"]')
+        const current = root.querySelector('[data-paper-field-state="current"]')
+        if (!before || before.getAttribute('opacity') !== '0' || !current || current.getAttribute('opacity') !== '1') throw new Error('Incomplete static current field')
       } else if (scene === 'syntheticSourcesProof') {
         if(root.querySelectorAll('[data-paper-source]').length!==2 || root.querySelectorAll('[data-paper-observation]').length!==2 || root.querySelector('[data-paper-current-record]')) throw new Error('Incomplete unmerged source proof')
       } else if(scene === 'connectedRecordsProof' && (root.querySelectorAll('[data-entity-record]').length!==3 || root.querySelectorAll('[data-connection-kind="entity-relation"]').length!==2 || !root.querySelector('[data-retained-evidence]'))) throw new Error('Incomplete connected entity proof')
       if(scene==='governedCollaborationProof' && (root.querySelectorAll('[data-bounded-domain]').length!==2 || !root.querySelector('[data-authorized-correction="left-only"]') || !root.querySelector('[data-bounded-domain="untouched"]'))) throw new Error('Incomplete bounded correction proof')
       if(scene==='competingClaimsProof' && (root.querySelectorAll('[data-retained-claim]').length!==2 || !root.querySelector('[data-selected-position="later"]') || !root.querySelector('[data-decision-authority]'))) throw new Error('Incomplete retained claims proof')
       if(scene==='explanationsImpactProof' && (root.querySelectorAll('[data-impact-record]').length!==3 || root.querySelectorAll('[data-connection-kind="impact"]').length!==2 || !root.querySelector('[data-explanation-basis]'))) throw new Error('Incomplete bounded impact proof')
+      for (const state of root.querySelectorAll('[data-paper-field-state]')) {
+        if (!['prior','current'].includes(state.getAttribute('data-paper-field-state')) || state.getAttribute('opacity') !== (state.getAttribute('data-paper-field-state')==='current'?'1':'0')) throw new Error('Incomplete static current field')
+      }
       for (const object of root.querySelectorAll('[data-paper-object]')) {
         const delay = Number(object.getAttribute('data-enter-delay'))
         if (Number(object.getAttribute('data-enter-rotation')) !== 0 || !Number.isFinite(delay) || delay < 0 || delay > 1800) throw new Error('Unknown overhead paper motion')

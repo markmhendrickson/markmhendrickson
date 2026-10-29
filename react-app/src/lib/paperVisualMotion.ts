@@ -174,7 +174,7 @@ export function springFrames(x: number, y: number, rotation: number): Keyframe[]
 export function playPaperScene(target: Element): Animation[] {
   if (import.meta.env.DEV && target.getAttribute?.("data-paper-treatment") === "hybrid-record-proof") {
     // This local proof reuses the shared entry budget and animation ownership.
-    // Sources stay intact; independent carriers arrive and explicit field/decision states change.
+    // Sources stay intact; only independent observation carriers and the due field change.
     const animations: Animation[] = [];
     for (const object of target.querySelectorAll<SVGElement>("[data-paper-object]")) {
       animations.push(object.animate(
@@ -184,12 +184,10 @@ export function playPaperScene(target: Element): Animation[] {
       ));
     }
     for (const path of target.querySelectorAll<SVGGeometryElement>("[data-paper-connection]")) {
-      const finalDash = path.getAttribute("stroke-dasharray") || "1";
       animations.push(path.animate([
         { strokeDasharray: "1", strokeDashoffset: "1", opacity: 0 },
         { strokeDasharray: "1", strokeDashoffset: "1", opacity: 1, offset: 0.02 },
-        { strokeDasharray: "1", strokeDashoffset: "0", opacity: 1, offset: 0.98 },
-        { strokeDasharray: finalDash, strokeDashoffset: "0", opacity: 1 },
+        { strokeDasharray: "1", strokeDashoffset: "0", opacity: 1 },
       ], { duration: 650, delay: Number(path.dataset.connectionDelay || 0), easing: "ease-out", fill: "both" }));
     }
     for (const field of target.querySelectorAll<SVGElement>("[data-paper-field-state]")) {

@@ -43,7 +43,7 @@ function scene(name,title){
  const link=(id,from,fromSide,fromY,to,toSide,toY,kind='evidence',delay=900)=>{
   const a=edge(from,fromSide,fromY),b=edge(to,toSide,toY);ports[id+'-a']=a;ports[id+'-b']=b
   const dx=Number(((b.x-a.x)*.5).toFixed(3))
-  edges.push(`<path data-paper-connection="" data-connection-kind="${kind}" data-connection-from="${id}-a" data-connection-to="${id}-b" data-connection-delay="${delay}" d="M${a.x} ${a.y} C${Number((a.x+dx).toFixed(3))} ${a.y} ${Number((b.x-dx).toFixed(3))} ${b.y} ${b.x} ${b.y}" pathLength="1" fill="none" stroke="${n}" stroke-width="${kind==='entity-relation'?4:2.8}" ${kind==='entity-relation'?'':'stroke-dasharray=".025 .025"'} stroke-linecap="round"/>`)
+  edges.push(`<path data-paper-connection="" data-connection-kind="${kind}" data-connection-from="${id}-a" data-connection-to="${id}-b" data-connection-delay="${delay}" d="M${a.x} ${a.y} C${Number((a.x+dx).toFixed(3))} ${a.y} ${Number((b.x-dx).toFixed(3))} ${b.y} ${b.x} ${b.y}" pathLength="1" fill="none" stroke="${n}" stroke-width="${kind==='entity-relation'?4:2.8}" stroke-linecap="round"/>`)
  }
  const finish=()=>{
   const foreground=ink.map(s=>s.replace(/\{\{ports:([^}]+)\}\}/g,(_,id)=>Object.entries(ports).filter(([,p])=>p.carrier===id).map(([pid,p])=>`<circle data-paper-port="${pid}" data-port-carrier="${id}" data-port-side="${p.side}" cx="${p.x}" cy="${p.y}" r="4.8" fill="${r}"/>`).join(''))).join('')
@@ -71,7 +71,7 @@ const scenes=[]
  const s=scene('syntheticSourcesProof','Original invoice and later email produce two retained observations before any current record is selected')
  s.add('invoice-source','document-packet',110,55,180,[133,82,130,173],rule(135,96,124,7)+bank(135,149)+rule(178,159,78)+calendar(135,204)+rule(178,217,55),'data-paper-source="invoice"')
  s.add('email-source','email-envelope',110,390,185,[135,424,130,38],'','data-paper-source="email"')
- s.add('invoice-observation','observation-slip',515,105,245,[540,134,190,67],bank(542,138)+rule(585,148,135)+calendar(542,175)+rule(585,188,91),'data-paper-observation="invoice-observation"',0)
+ s.add('invoice-observation','observation-slip',515,105,245,[540,134,190,70],bank(542,138)+rule(585,148,135)+calendar(542,175)+rule(585,188,91),'data-paper-observation="invoice-observation"',0)
  s.add('email-observation','observation-slip',515,355,245,[540,393,190,35],calendar(542,396,'current')+rule(585,409,135),'data-paper-observation="email-observation"',1100)
  s.link('original-retained','invoice-source','right',159,'invoice-observation','left',148,'evidence',900)
  s.link('later-retained','email-source','right',442,'email-observation','left',409,'evidence',1960)
@@ -80,7 +80,7 @@ const scenes=[]
 {
  const s=scene('governedCollaborationProof','An authorized correction changes only the left domain while the right domain remains intact')
  s.add('domain-folio','governed-folio',190,150,520,[223,176,454,126],`<g data-bounded-domain="authorized"><path d="M229 181h180v100H229z" fill="#98a48b" opacity=".22"/>${person(254,201)}${key(299,211)}<g data-paper-field-state="prior" opacity="0">${calendar(250,247)}${rule(294,260,62)}</g><g data-paper-field-state="current" opacity="1">${calendar(250,247,'current')}${rule(294,260,91)}${check(374,254)}</g></g><g data-bounded-domain="untouched">${bank(495,201)}${rule(539,211,105)}${calendar(495,247)}${rule(539,260,66)}</g>`,'data-governed-domains="two"')
- s.add('authorized-actor','observation-slip',60,25,210,[81,53,160,48],person(96,60)+key(148,76)+`<path d="M190 59h30v25h-30zM198 68l5 4-5 4m10 0h7" fill="none" stroke="${n}" stroke-width="2.5"/>`,'data-correction-authority="scoped"')
+ s.add('authorized-actor','observation-slip',60,25,210,[81,53,160,48],person(96,64)+key(148,76)+`<path d="M190 59h30v25h-30zM198 68l5 4-5 4m10 0h7" fill="none" stroke="${n}" stroke-width="2.5"/>`,'data-correction-authority="scoped"')
  s.add('correction-observation','observation-slip',80,455,200,[101,486,151,34],calendar(103,489,'current')+rule(147,502,100),'data-authorized-correction="left-only"',1100)
  s.link('authority-to-left','authorized-actor','right',76,'domain-folio','left',227,'authority',0)
  s.link('correction-to-left','correction-observation','right',502,'domain-folio','left',275,'evidence',1960)
@@ -88,7 +88,7 @@ const scenes=[]
 }
 {
  const s=scene('competingClaimsProof','Two incompatible retained claims remain visible beside an explicit selected position')
- s.add('claims-sleeve','claims-sleeve',190,40,500,[225,74,430,320],`<g data-retained-claim="prior">${calendar(247,100)}${rule(292,113,94)}${bank(247,164)}${rule(292,174,100)}</g><g data-retained-claim="later">${calendar(495,100,'current')}${rule(540,113,94)}${bank(495,164)}${rule(540,174,100)}</g><g data-selected-position="later"><g data-paper-field-state="prior" opacity="0"><path d="M278 356h22v22h-22z" fill="none" stroke="${n}" stroke-width="3"/></g><g data-paper-field-state="current" opacity="1">${check(278,356)}${calendar(326,347,'current')}${rule(371,360,176)}</g></g>`,'data-claims-retained="both"')
+ s.add('claims-sleeve','claims-sleeve',190,40,500,[225,74,430,320],`<g data-retained-claim="prior">${calendar(247,100)}${rule(292,113,94)}${bank(247,154)}${rule(292,164,100)}</g><g data-retained-claim="later">${calendar(495,100,'current')}${rule(540,113,94)}${bank(495,154)}${rule(540,164,100)}</g><g data-selected-position="later"><g data-paper-field-state="prior" opacity="0"><path d="M278 356h22v22h-22z" fill="none" stroke="${n}" stroke-width="3"/></g><g data-paper-field-state="current" opacity="1">${check(278,356)}${calendar(326,347,'current')}${rule(371,360,176)}</g></g>`,'data-claims-retained="both"')
  // A separate authority seal records selection; neither physical claim is removed.
  s.add('decision-authority','observation-slip',700,420,150,[718,444,110,34],key(729,457)+check(790,450),'data-decision-authority="explicit"',1100)
  s.link('selection-authority','decision-authority','left',457,'claims-sleeve','right',360,'authority',1960)
