@@ -194,7 +194,7 @@ test('published scenes have current hashes, matching standalone sources and cont
   }
   assert.deepEqual(provenance.scenes, Object.fromEntries(Object.entries(current).map(([name, [, scene]]) => [name, scene])))
   assert.deepEqual(provenance.refreshedScenes, Object.keys(current))
-  assert.equal(provenance.publicationSourceCommit, '1d34793560b4f9daf007a8bcbc2e6ab5e243e20f')
+  assert.equal(provenance.publicationSourceCommit, '81ff62f3e41327c5d6b2b3910db9d13eca7a9345')
   const materialHashes = new Set()
   for (const [name, [inlineName, scene]] of Object.entries(current)) {
     const standalone = fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/${name}.svg`, import.meta.url))

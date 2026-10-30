@@ -345,6 +345,36 @@
         "react-app/src/dev/overhead-record/competingClaimsProof.svg": "e76b0aaff773b24fd7fb89f5e248ba54d7a37bec6bc4e8b556550b038d9f6e81",
         "react-app/src/dev/overhead-record/explanationsImpactProof.svg": "019c4fd3c6e62572e1059e08b6e9a3edd66c234fd847e81e1fac827d4f27311a"
       }
+    },
+    "81ff62f3e41327c5d6b2b3910db9d13eca7a9345": {
+      "sourceFiles": [
+        "react-app/src/dev/overhead-record/source-material.svg",
+        "react-app/scripts/overhead-marks.mjs",
+        "react-app/src/dev/overhead-record/physical-materials.json",
+        "react-app/scripts/generate-overhead-proof.mjs",
+        "react-app/scripts/generate-overhead-scenes.mjs",
+        "react-app/scripts/generate-source-storage-proof.mjs",
+        "react-app/src/dev/overhead-record/connectedRecordsProof.svg",
+        "react-app/src/dev/overhead-record/syntheticSourcesProof.svg",
+        "react-app/src/dev/overhead-record/invoice.svg",
+        "react-app/src/dev/overhead-record/governedCollaborationProof.svg",
+        "react-app/src/dev/overhead-record/competingClaimsProof.svg",
+        "react-app/src/dev/overhead-record/explanationsImpactProof.svg"
+      ],
+      "sourceHashes": {
+        "react-app/src/dev/overhead-record/source-material.svg": "c09589a1d261eb1e3b1ab23135bad84f916ce989bf5da147eaeacfb201368e3c",
+        "react-app/scripts/overhead-marks.mjs": "51316bc3c652cccca2baafabd6a5708f87a4b2ea6ee0c1beaa2d50a6c4bd8c5f",
+        "react-app/src/dev/overhead-record/physical-materials.json": "6c7c0b78d0e218b23e86536031a45b2bfacd037996a431aed3f92556fc681062",
+        "react-app/scripts/generate-overhead-proof.mjs": "a20075c8916530782f8450df830b05a2ca6c009d9ca3086f80c887cf4303e6ae",
+        "react-app/scripts/generate-overhead-scenes.mjs": "be041288a6cae856204b97f6f64b4aa2d22cbddceba754d04fb47201e772f2c3",
+        "react-app/scripts/generate-source-storage-proof.mjs": "5baf8797a738b29b6457e3cf10e1e813b0bcabd6d0f14fff4324c38f4a3ebdd5",
+        "react-app/src/dev/overhead-record/connectedRecordsProof.svg": "4b3ec5b1a50aef4fb8fd89a5dbf24c3955a2cc5befa26f34b3f7d9f4623ff713",
+        "react-app/src/dev/overhead-record/syntheticSourcesProof.svg": "6dfeba4e46b2f67dc8a380bc6c7c85ea2217c85a37596d258d07ac881a1ea93f",
+        "react-app/src/dev/overhead-record/invoice.svg": "05e66b81b7ffd3f5fe9dec89b686f86a3a2f4371f205818741fa03e9f8cd57c6",
+        "react-app/src/dev/overhead-record/governedCollaborationProof.svg": "0aa94e451653faf6c79be45144f109224b397436195a61409112dbc3b7d98fc5",
+        "react-app/src/dev/overhead-record/competingClaimsProof.svg": "e76b0aaff773b24fd7fb89f5e248ba54d7a37bec6bc4e8b556550b038d9f6e81",
+        "react-app/src/dev/overhead-record/explanationsImpactProof.svg": "019c4fd3c6e62572e1059e08b6e9a3edd66c234fd847e81e1fac827d4f27311a"
+      }
     }
   },
   "refreshedScenes": [
@@ -384,7 +414,7 @@
     },
     "observation.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/syntheticSourcesProof.svg",
       "sourceSha256": "6dfeba4e46b2f67dc8a380bc6c7c85ea2217c85a37596d258d07ac881a1ea93f",
       "scene": "syntheticSourcesProof",
@@ -392,7 +422,7 @@
     },
     "observation.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/syntheticSourcesProof.svg",
       "sourceSha256": "6dfeba4e46b2f67dc8a380bc6c7c85ea2217c85a37596d258d07ac881a1ea93f",
       "scene": "syntheticSourcesProof",
@@ -400,7 +430,7 @@
     },
     "hero.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/connectedRecordsProof.svg",
       "sourceSha256": "4b3ec5b1a50aef4fb8fd89a5dbf24c3955a2cc5befa26f34b3f7d9f4623ff713",
       "scene": "connectedRecordsProof",
@@ -408,27 +438,27 @@
     },
     "hero.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/connectedRecordsProof.svg",
       "sourceSha256": "4b3ec5b1a50aef4fb8fd89a5dbf24c3955a2cc5befa26f34b3f7d9f4623ff713",
       "scene": "connectedRecordsProof",
       "sha256": "afc6ddb2f18c20924269d0df625c0108d9d068bd917f7c3f3b2943a5123b903b"
     },
     "hero-square.png": {
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "scene": "connectedRecordsProof",
       "sha256": "0f29cd86ecf8d3fae9463ae2c6aa95974a8fb6c62c60f20f4cb290d10a83a573",
       "sourceSha256": "4b3ec5b1a50aef4fb8fd89a5dbf24c3955a2cc5befa26f34b3f7d9f4623ff713"
     },
     "one-place-where-a-fact-is-settled-paper-1200x630.jpg": {
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "scene": "connectedRecordsProof",
       "sha256": "3dc7647f646a639c6b01ea4fad0446131d54709a62ac3a02912260c05e8a7c41",
       "sourceSha256": "4b3ec5b1a50aef4fb8fd89a5dbf24c3955a2cc5befa26f34b3f7d9f4623ff713"
     },
     "invoice-example.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/invoice.svg",
       "sourceSha256": "05e66b81b7ffd3f5fe9dec89b686f86a3a2f4371f205818741fa03e9f8cd57c6",
       "scene": "invoiceOverheadProof",
@@ -436,7 +466,7 @@
     },
     "invoice-example.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/invoice.svg",
       "sourceSha256": "05e66b81b7ffd3f5fe9dec89b686f86a3a2f4371f205818741fa03e9f8cd57c6",
       "scene": "invoiceOverheadProof",
@@ -444,7 +474,7 @@
     },
     "vision-domain.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/governedCollaborationProof.svg",
       "sourceSha256": "0aa94e451653faf6c79be45144f109224b397436195a61409112dbc3b7d98fc5",
       "scene": "governedCollaborationProof",
@@ -452,7 +482,7 @@
     },
     "vision-domain.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/governedCollaborationProof.svg",
       "sourceSha256": "0aa94e451653faf6c79be45144f109224b397436195a61409112dbc3b7d98fc5",
       "scene": "governedCollaborationProof",
@@ -460,7 +490,7 @@
     },
     "vision-positions.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/competingClaimsProof.svg",
       "sourceSha256": "e76b0aaff773b24fd7fb89f5e248ba54d7a37bec6bc4e8b556550b038d9f6e81",
       "scene": "competingClaimsProof",
@@ -468,7 +498,7 @@
     },
     "vision-positions.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/competingClaimsProof.svg",
       "sourceSha256": "e76b0aaff773b24fd7fb89f5e248ba54d7a37bec6bc4e8b556550b038d9f6e81",
       "scene": "competingClaimsProof",
@@ -476,7 +506,7 @@
     },
     "vision-explanation.svg": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/explanationsImpactProof.svg",
       "sourceSha256": "019c4fd3c6e62572e1059e08b6e9a3edd66c234fd847e81e1fac827d4f27311a",
       "scene": "explanationsImpactProof",
@@ -484,14 +514,14 @@
     },
     "vision-explanation.png": {
       "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "sourcePath": "react-app/src/dev/overhead-record/explanationsImpactProof.svg",
       "sourceSha256": "019c4fd3c6e62572e1059e08b6e9a3edd66c234fd847e81e1fac827d4f27311a",
       "scene": "explanationsImpactProof",
       "sha256": "ca552d50fe5bb8297ec0439f9839c5dc64c0cfdf591565243b6b52e6fe6e49b9"
     },
     "your-agents-need-a-system-of-record-paper-1200x630.jpg": {
-      "sourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+      "sourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
       "scene": "connectedRecordsProof",
       "sha256": "3dc7647f646a639c6b01ea4fad0446131d54709a62ac3a02912260c05e8a7c41",
       "sourceSha256": "4b3ec5b1a50aef4fb8fd89a5dbf24c3955a2cc5befa26f34b3f7d9f4623ff713"
@@ -847,6 +877,6 @@
     }
   },
   "publicationSourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
-  "publicationSourceCommit": "1d34793560b4f9daf007a8bcbc2e6ab5e243e20f",
+  "publicationSourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
   "publicationMethod": "Reviewed overhead proof scenes are preserved as standalone self-contained SVGs. Inline article SVGs externalize only content-addressed, same-origin WebP materials to avoid duplicating them in prerendered HTML."
 }
