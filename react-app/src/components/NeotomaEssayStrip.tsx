@@ -1,3 +1,4 @@
+import { buttonVariants } from '@/components/ui/button'
 import { ExternalLink } from 'lucide-react'
 import type { SupportedLocale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
@@ -11,7 +12,7 @@ export function NeotomaEssayStrip({ slug, locale }: { slug: string; locale: Supp
         <img src="/brand/neotoma/n2-nav-light.svg" width="133" height="28" alt="" className="block h-7 w-auto dark:hidden" />
         <img src="/brand/neotoma/n2-nav-dark.svg" width="133" height="28" alt="" className="hidden h-7 w-auto dark:block" />
       </span>
-      <a href={`https://neotoma.io/${locale === 'es' ? 'es' : 'en'}/`} className="inline-flex min-h-11 items-center gap-2 rounded-sm px-1 text-sm underline underline-offset-4 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+      <a href={`https://neotoma.io/${locale === 'es' ? 'es' : 'en'}/`} className={buttonVariants({ variant: 'outline', size: 'sm', className: 'min-h-11' })}>
         {getDictionary(locale).visitNeotoma}
         <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
       </a>

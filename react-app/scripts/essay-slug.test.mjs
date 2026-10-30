@@ -10,11 +10,11 @@ import{createPostMarkdownRepository}from'./post-markdown.mjs'
 const root=path.resolve(import.meta.dirname,'..'),old='one-place-where-a-fact-is-settled',slug='your-agents-need-a-system-of-record'
 const locales=['en','es','ca','zh','hi','ar','fr','pt','ru','bn','ur','id','de']
 const read=n=>fs.readFileSync(path.join(root,n),'utf8'),json=n=>JSON.parse(read(n))
-test('canonical migration is durable source, preserves old alias and every locale identity and editorial byte',()=>{
+test('canonical migration is durable source, preserves old alias and every locale identity and accepted editorial content',()=>{
  assert.equal(json('src/content/posts/canonical_slug_overrides.json')[old],slug)
  assert(json('src/content/posts/alternative_slugs.json')[slug].includes(old))
  for(const locale of locales){const post=json(`cache/posts.${locale}.json`).find(x=>x.slug===slug);assert(post,locale);assert.equal(post.canonicalSlug,slug);assert.equal(post.postId,slug);assert(post.alternativeSlugs.includes(old));if(locale!=='en')assert(json(`src/content/posts/translations.${locale}.json`)[slug],locale)}
- assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.md`)).digest('hex'),'20126a4de19d558c53ff691cc2ed564ced9921b3fc1f0a238c2899f9cdb1dc4d','accepted editorial source bytes remain unchanged')
+ assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.md`)).digest('hex'),'e1338181b8f0075ee8b27900fc9aefa0f43c4d908e473d0a63fea6d56ea691e4','accepted prose and qualified current visual captions remain intact')
  assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.summary.md`)).digest('hex'),'c64ff58985846e0e3afdb5855604fe64735d29b49201846b74c29e8d585c0b7d','accepted editorial source bytes remain unchanged')
 })
 test('localized essay metadata is published from the new editorial translations',()=>{
@@ -22,7 +22,7 @@ test('localized essay metadata is published from the new editorial translations'
   const source=json(`src/content/posts/translations.${locale}.json`)[slug]
   const post=json(`cache/posts.${locale}.json`).find(x=>x.slug===slug)
   const api=json(`public/api/posts.${locale}.json`).posts.find(x=>x.slug===slug)
-  for(const field of ['title','excerpt','summary']){
+  for(const field of ['title','excerpt','summary','body','heroImageAlt','heroImageCaption']){
    assert.equal(post[field],source[field],`${locale}: ${field} in post cache`)
    assert.equal(api[field],source[field],`${locale}: ${field} in public API`)
   }
