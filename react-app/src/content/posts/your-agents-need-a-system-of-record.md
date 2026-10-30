@@ -56,7 +56,7 @@ Ateles extends that direction on the operational side. In [Ateles's adapter desi
 
 The full vision, with where each part stands today, is in the [README](https://github.com/markmhendrickson/neotoma#vision-and-execution-status).
 
-The shared instance is the foundation in use today. The next two visuals show the direction from here.
+The shared instance is the foundation in use today. The next three visuals show that foundation and the direction from here.
 
 ![A shared filing box receives differently colored agent chats while a person can inspect its records](/images/posts/neotoma-paper/vision-domain.svg "paper|Shared instance|People can inspect records in the Neotoma app while authorized agents read and write against the same configured instance.")
 ![Two conflicting due-date claims remain visible while a separate decision adopts the initial date](/images/posts/neotoma-paper/vision-positions.svg "paper|Competing claims and decisions|The record will distinguish evidence, interpretations and decisions, preserving disagreements alongside explicit positions. Here, the planned decision retains the initial date despite the later claim.")
