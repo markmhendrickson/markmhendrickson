@@ -2,7 +2,7 @@
 
 # Hi, I'm Mark
 
-Building the system of record for AI agents and designing an operating system for agentic organizations.
+Building Neotoma, the system of record for AI agents, and Ateles, an operating system for agentic organizations.
 
 I'm building **[Neotoma](https://neotoma.io)**, the system of record for AI agents. Connected agents can read current values and inspect the observations and sources behind them. Neotoma is open source, runs locally, and connects through MCP, a REST API, and a CLI.
 
