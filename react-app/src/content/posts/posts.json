@@ -1516,13 +1516,13 @@
     ],
     "createdDate": "2026-10-16",
     "updatedDate": "2026-10-26",
-    "heroImage": "neotoma-paper/hero.svg",
-    "heroImageSquare": "neotoma-paper/hero-square.png",
+    "heroImage": "neotoma-paper/archive-hero-desktop.svg",
+    "heroImageSquare": "neotoma-paper/archive-hero-square.png",
     "heroImageStyle": "paper-scene",
-    "ogImage": "og/your-agents-need-a-system-of-record-paper-1200x630.jpg",
-    "heroImageAlt": "An itemized invoice, person record and clipboard task connect with an email and its revised due-date note.",
-    "heroImageLabel": "Connected records",
-    "heroImageCaption": "Person, invoice, follow-up task, and other connected records keep their own forms while their relationships connect in one graph.",
+    "ogImage": "og/your-agents-need-a-system-of-record-archive-1200x630.jpg",
+    "heroImageAlt": "An overhead archive of retained records connects with a person dossier, task clipboard, conversation, agent and date record.",
+    "heroImageLabel": "Shared records",
+    "heroImageCaption": "People can inspect retained records while authorized agents read and write against the same configured Neotoma instance. You choose which tools and sources to connect.",
     "alternativeSlugs": [
       "one-place-where-a-fact-is-settled"
     ]

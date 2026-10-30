@@ -1,0 +1,29 @@
+{
+  "file": "archive-tray-overhead-v2.webp",
+  "sha256": "6e204b4da85a9a1f3a96181bf35257a66ae36ce01c261cd21b7a3f71ed9c3505",
+  "pngFile": "archive-tray-overhead-v2.png",
+  "pngSha256": "effbb5d25d059a622e3c67149a9acba8dcf25944a36e5f478ef8b3ae711a3879",
+  "width": 1254,
+  "height": 1254,
+  "crop": [
+    120,
+    125,
+    1020,
+    1010
+  ],
+  "method": "Built-in imagegen reference edit; accepted true-overhead v2 with flat retained folders. Existing Sharp alpha-preserving WebP optimization only.",
+  "reference": "approved paper-records-profile-cover-calendar-fixed.png",
+  "attempts": [
+    {
+      "version": 1,
+      "qualified": false,
+      "reason": "Visible outside front wall did not meet the overhead camera brief.",
+      "prompt": "Use case: precise-object-edit. Asset type: photographic material cutout for an animated website hero. Input reference is the supplied Neotoma social profile cover: extract and carefully adapt ONLY its central open archive filing box. Preserve its attractive real handmade cream fibreboard, warm paper edges, rounded folder tabs, gently worn tactile surfaces, soft believable shadows, and cream/sage/dusty-blue folders. Change the camera to a true overhead flat-lay looking straight down, squarely aligned, so the archive opening, inside folders and narrow surrounding walls are visible with physically plausible depth; avoid an oblique front or isometric view. This is a compact open archive without an attached hinged lid or pedestal. Fill it with six or seven distinct neatly spaced retained paper folders, alternating cream, muted sage and dusty blue tabs, without text or printed marks. Keep each folder physically thick and individual. Keep outer sides cream, no colored branding band. No person cards, robot, chat, calendar, external papers, lines, dots, icons, lettering, logos, labels or decorations: these will be authored as separate animated layers. Isolate the single complete archive object, including all its edges and subtle contact shadow, on a genuinely transparent background. Square image, object centered and occupying most of frame with adequate transparent padding; no clipping. High-quality tactile editorial product photograph, soft natural light from upper left, matching the reference material richness. Do not add anything else."
+    },
+    {
+      "version": 2,
+      "qualified": true,
+      "prompt": "Precise camera/physicality correction to the supplied archive cutout. Keep the same tactile cream fibreboard archive, cream/sage/dusty-blue folders, material richness and soft upper-left lighting. Change the view to an ACTUAL 90-degree orthographic overhead flat-lay: all four outside edges form a clean rectangle, both side rims have equal thickness, and NO outside front wall or outside side wall is visible. To make the contents physically correct from this camera, the folders lie FLAT inside a shallow open archival tray, stacked and slightly shingled vertically so their alternating colored rounded tabs and a portion of every folder face remain visible. Think of a real shallow document archive laid flat on a tabletop, photographed by a camera pointed vertically down. Keep subtle inner-wall depth and soft overlap/contact shadows to retain dimensional paper realism; do not flatten into vector art. No lid, pedestal, front branding band, writing, printed marks, symbols, icons, lines or dots. Isolate only this complete rectangular archive tray and its retained folders on genuinely transparent background, centered with generous transparent padding, square output. The required correction is the true overhead camera and physically flat folder stack, preserving the approved material and palette."
+    }
+  ]
+}

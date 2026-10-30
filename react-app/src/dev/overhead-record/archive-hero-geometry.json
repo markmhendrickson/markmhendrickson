@@ -1,0 +1,402 @@
+[
+  {
+    "layout": "desktop",
+    "scene": "archiveHeroDesktop",
+    "width": 900,
+    "height": 600,
+    "objects": {
+      "archive": {
+        "material": "archive-tray",
+        "x": 305,
+        "y": 105,
+        "width": 350,
+        "height": 346.5686274509804,
+        "crop": [
+          120,
+          125,
+          1020,
+          1010
+        ]
+      },
+      "person": {
+        "material": "entity-dossier",
+        "x": 45,
+        "y": 55,
+        "width": 150,
+        "height": 184.64125560538116,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ]
+      },
+      "conversation": {
+        "material": "observation-slip",
+        "x": 40,
+        "y": 280,
+        "width": 180,
+        "height": 90.39164490861619,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ]
+      },
+      "agent": {
+        "material": "observation-slip",
+        "x": 45,
+        "y": 445,
+        "width": 180,
+        "height": 90.39164490861619,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ]
+      },
+      "task": {
+        "material": "document-packet",
+        "x": 735,
+        "y": 55,
+        "width": 120,
+        "height": 154.28571428571428,
+        "crop": [
+          239,
+          121,
+          833,
+          1071
+        ]
+      },
+      "date-record": {
+        "material": "observation-slip",
+        "x": 725,
+        "y": 405,
+        "width": 145,
+        "height": 72.81549173194082,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ]
+      }
+    },
+    "ports": [
+      {
+        "x": 187.685,
+        "y": 180,
+        "side": "right",
+        "carrier": "person",
+        "id": "person-archive-a"
+      },
+      {
+        "x": 308.946,
+        "y": 195,
+        "side": "left",
+        "carrier": "archive",
+        "id": "person-archive-b"
+      },
+      {
+        "x": 212.245,
+        "y": 326,
+        "side": "right",
+        "carrier": "conversation",
+        "id": "conversation-archive-a"
+      },
+      {
+        "x": 308.603,
+        "y": 305,
+        "side": "left",
+        "carrier": "archive",
+        "id": "conversation-archive-b"
+      },
+      {
+        "x": 217.245,
+        "y": 490,
+        "side": "right",
+        "carrier": "agent",
+        "id": "agent-archive-a"
+      },
+      {
+        "x": 308.946,
+        "y": 415,
+        "side": "left",
+        "carrier": "archive",
+        "id": "agent-archive-b"
+      },
+      {
+        "x": 649.681,
+        "y": 195,
+        "side": "right",
+        "carrier": "archive",
+        "id": "archive-task-a"
+      },
+      {
+        "x": 737.089,
+        "y": 155,
+        "side": "left",
+        "carrier": "task",
+        "id": "archive-task-b"
+      },
+      {
+        "x": 649.681,
+        "y": 395,
+        "side": "right",
+        "carrier": "archive",
+        "id": "archive-date-record-a"
+      },
+      {
+        "x": 726.577,
+        "y": 440,
+        "side": "left",
+        "carrier": "date-record",
+        "id": "archive-date-record-b"
+      }
+    ],
+    "links": [
+      [
+        "person",
+        "right",
+        180,
+        "archive",
+        "left",
+        195
+      ],
+      [
+        "conversation",
+        "right",
+        326,
+        "archive",
+        "left",
+        305
+      ],
+      [
+        "agent",
+        "right",
+        490,
+        "archive",
+        "left",
+        415
+      ],
+      [
+        "archive",
+        "right",
+        195,
+        "task",
+        "left",
+        155
+      ],
+      [
+        "archive",
+        "right",
+        395,
+        "date-record",
+        "left",
+        440
+      ]
+    ]
+  },
+  {
+    "layout": "mobile",
+    "scene": "archiveHeroMobile",
+    "width": 600,
+    "height": 800,
+    "objects": {
+      "archive": {
+        "material": "archive-tray",
+        "x": 150,
+        "y": 250,
+        "width": 300,
+        "height": 297.05882352941177,
+        "crop": [
+          120,
+          125,
+          1020,
+          1010
+        ]
+      },
+      "person": {
+        "material": "entity-dossier",
+        "x": 35,
+        "y": 35,
+        "width": 130,
+        "height": 160.02242152466368,
+        "crop": [
+          199,
+          102,
+          892,
+          1098
+        ]
+      },
+      "task": {
+        "material": "document-packet",
+        "x": 245,
+        "y": 30,
+        "width": 120,
+        "height": 154.28571428571428,
+        "crop": [
+          239,
+          121,
+          833,
+          1071
+        ]
+      },
+      "date-record": {
+        "material": "observation-slip",
+        "x": 415,
+        "y": 80,
+        "width": 150,
+        "height": 75.32637075718016,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ]
+      },
+      "conversation": {
+        "material": "observation-slip",
+        "x": 55,
+        "y": 655,
+        "width": 190,
+        "height": 95.41340295909487,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ]
+      },
+      "agent": {
+        "material": "observation-slip",
+        "x": 350,
+        "y": 655,
+        "width": 190,
+        "height": 95.41340295909487,
+        "crop": [
+          71,
+          411,
+          1149,
+          577
+        ]
+      }
+    },
+    "ports": [
+      {
+        "x": 115,
+        "y": 188.1,
+        "side": "bottom",
+        "carrier": "person",
+        "id": "person-archive-a"
+      },
+      {
+        "x": 200,
+        "y": 253.676,
+        "side": "top",
+        "carrier": "archive",
+        "id": "person-archive-b"
+      },
+      {
+        "x": 300,
+        "y": 177.011,
+        "side": "bottom",
+        "carrier": "task",
+        "id": "task-archive-a"
+      },
+      {
+        "x": 300,
+        "y": 253.676,
+        "side": "top",
+        "carrier": "archive",
+        "id": "task-archive-b"
+      },
+      {
+        "x": 475,
+        "y": 148.342,
+        "side": "bottom",
+        "carrier": "date-record",
+        "id": "date-record-archive-a"
+      },
+      {
+        "x": 400,
+        "y": 253.676,
+        "side": "top",
+        "carrier": "archive",
+        "id": "date-record-archive-b"
+      },
+      {
+        "x": 230,
+        "y": 541.324,
+        "side": "bottom",
+        "carrier": "archive",
+        "id": "archive-conversation-a"
+      },
+      {
+        "x": 150,
+        "y": 657.398,
+        "side": "top",
+        "carrier": "conversation",
+        "id": "archive-conversation-b"
+      },
+      {
+        "x": 370,
+        "y": 541.324,
+        "side": "bottom",
+        "carrier": "archive",
+        "id": "archive-agent-a"
+      },
+      {
+        "x": 445,
+        "y": 657.398,
+        "side": "top",
+        "carrier": "agent",
+        "id": "archive-agent-b"
+      }
+    ],
+    "links": [
+      [
+        "person",
+        "bottom",
+        115,
+        "archive",
+        "top",
+        200
+      ],
+      [
+        "task",
+        "bottom",
+        300,
+        "archive",
+        "top",
+        300
+      ],
+      [
+        "date-record",
+        "bottom",
+        475,
+        "archive",
+        "top",
+        400
+      ],
+      [
+        "archive",
+        "bottom",
+        230,
+        "conversation",
+        "top",
+        150
+      ],
+      [
+        "archive",
+        "bottom",
+        370,
+        "agent",
+        "top",
+        445
+      ]
+    ]
+  }
+]

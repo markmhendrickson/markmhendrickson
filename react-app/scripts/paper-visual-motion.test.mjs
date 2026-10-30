@@ -19,6 +19,7 @@ function environment() {
     constructor(dataset = {}) { this.dataset = dataset; this.calls = []; this.attributes = new Map(); this.style = {}; this.isConnected = true }
     setAttribute(name, value) { this.attributes.set(name, value) }
     getAttribute(name) { return this.attributes.get(name) ?? null }
+    closest() { return this.variant ?? null }
     animate(frames, options) {
       let finish
       const finished = new Promise((resolve) => { finish = resolve })
@@ -42,7 +43,7 @@ function environment() {
   }
   globalThis.Element = Element
   globalThis.IntersectionObserver = Observer
-  globalThis.window = { matchMedia: () => reduced, IntersectionObserver: Observer, MutationObserver: Mutation }
+  globalThis.window = { getComputedStyle: (node) => ({ display: node.style?.display ?? 'block' }), matchMedia: () => reduced, IntersectionObserver: Observer, MutationObserver: Mutation }
   globalThis.document = { hidden: false, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: (name) => listeners.delete(name) }
   return { Element, observers, mutations, reduced, preferences, listeners }
 }
@@ -185,7 +186,7 @@ test('reduced motion and unavailable browser APIs leave the authored state untou
 })
 
 test('server-rendered artwork is complete without JS and all inline references remain unique', () => {
-  const filenames = ['hero', 'observation', 'invoice-example', 'tools', 'vision-domain', 'vision-positions', 'vision-explanation']
+  const filenames = ['archive-hero-desktop', 'archive-hero-mobile', 'hero', 'observation', 'invoice-example', 'tools', 'vision-domain', 'vision-positions', 'vision-explanation']
   const html = renderToStaticMarkup(React.createElement('main', {}, filenames.map((name) => React.createElement(PaperArtwork, { key: name, src: `/images/posts/neotoma-paper/${name}.svg`, alt: name }))))
   assert((html.match(/<svg\b/g) ?? []).length >= 7, 'all seven top-level scenes render without JavaScript')
   assert((html.match(/data-paper-object=/g) ?? []).length > 20)
@@ -201,7 +202,7 @@ test('server-rendered artwork is complete without JS and all inline references r
 })
 
 test('every trusted paper scene uses its supplied accessible name', () => {
-  for (const name of ['hero', 'observation', 'invoice-example', 'tools', 'vision-domain', 'vision-positions', 'vision-explanation']) {
+  for (const name of ['archive-hero-desktop', 'archive-hero-mobile', 'hero', 'observation', 'invoice-example', 'tools', 'vision-domain', 'vision-positions', 'vision-explanation']) {
     const alt = `Localized ${name} <& 'quoted' scene`
     const html = renderToStaticMarkup(React.createElement(PaperArtwork, { src: `/images/posts/neotoma-paper/${name}.svg`, alt }))
     const [, labelId] = html.match(/<svg\b[^>]*aria-labelledby="([^"]+)"/) ?? []
@@ -315,4 +316,17 @@ test('arbitrary markdown URLs never enter the inline HTML trust boundary', () =>
     assert(!html.includes('<svg'))
     assert(!html.includes('<script>'))
   }
+})
+
+test('CSS-hidden responsive twins never consume a slot and a layout switch cancels then plays the visible artboard', () => {
+  const env=environment(),desktop=new env.Element(),mobile=new env.Element(),other=new env.Element()
+  desktop.variant={style:{display:'block'}};mobile.variant={style:{display:'none'}}
+  const stop=motion.observeViewportMotion([desktop,mobile,other],node=>[node.animate([], {})]),observer=env.observers[0]
+  observer.enter(mobile);assert.equal(mobile.calls.length,0,'even a stale intersecting callback cannot animate the CSS-hidden twin')
+  observer.enter(desktop);observer.enter(other);assert.equal(desktop.calls.length,1);assert.equal(other.calls.length,1,'hidden twin leaves the second FIFO slot free')
+  desktop.variant.style.display='none';mobile.variant.style.display='block'
+  observer.enter(desktop);assert.equal(desktop.calls[0].cancelled,1,'hidden old artboard is cancelled on the observer transition')
+  observer.enter(mobile);assert.equal(mobile.calls.length,1,'newly visible fixed artboard enters normally')
+  observer.enter(mobile);assert.equal(mobile.calls.length,1,'ratio updates do not create repeat motion')
+  stop();assert.equal(mobile.calls[0].cancelled,1)
 })

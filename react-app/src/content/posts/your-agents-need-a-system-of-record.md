@@ -30,6 +30,8 @@ Observations belong to entities. An entity's ID is derived from the entity type 
 
 Entities can also be linked to one another: the invoice to its vendor, or a follow-up task to the invoice it concerns. An agent creates those relationships explicitly. They describe how the records fit together, while source links show the PDF or email behind an observation.
 
+![An itemized invoice, person record and clipboard task connect with an email and its revised due-date note.](/images/posts/neotoma-paper/hero.svg "paper|Connected records|Person, invoice, follow-up task, and other connected records keep their own forms while their relationships connect in one graph.")
+
 Neotoma automatically applies the schema's merge rule for each field to compute its current value from the observations. For most fields the latest observation wins. Given the same observations and the same merge rules, the reduction produces the same snapshot, without asking a model to choose again on each read.
 
 Each current field names the observation that set it, and a stored observation names its source. That is a trail to the evidence, not proof that an agent read the evidence correctly. A correction is one more observation, not an edit, and the earlier value stays listed. You can also read one entity as Neotoma had it recorded at an earlier time.
