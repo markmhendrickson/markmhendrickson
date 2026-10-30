@@ -49,7 +49,10 @@ const PAPER_ADDITIONAL_PROOF_ASSETS = {
 const trustedRasterHashes = () => [...Object.values(PAPER_ASSET_HASHES), ...Object.values(PAPER_PHOTO_ASSETS).map((asset) => asset.sha256)]
 const paperDir = 'frontend/src/components/onepager/'
 const reviewedWrapper = 'import "./paper_scene.css";\nexport * from "./PaperSceneDrawing";'
-const PAPER_SCENES = { 'source-storage-proof':'sourceMaterialProof', hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation', 'overhead-proof': 'invoiceOverheadProof', 'connected-proof':'connectedRecordsProof', 'synthetic-proof':'syntheticSourcesProof', 'governed-proof':'governedCollaborationProof','claims-proof':'competingClaimsProof','impact-proof':'explanationsImpactProof' }
+export const PAPER_ARCHIVE_MATERIAL_SHA256='6e204b4da85a9a1f3a96181bf35257a66ae36ce01c261cd21b7a3f71ed9c3505'
+const ARCHIVE_PROFILES={archiveHeroDesktop:'0 0 900 600',archiveHeroMobile:'0 0 600 800'}
+const ARCHIVE_MATERIALS=[PAPER_TEXTURE_SHA256,PAPER_ARCHIVE_MATERIAL_SHA256,PAPER_PROOF_ASSETS['document-packet'],PAPER_PROOF_ASSETS['observation-slip'],PAPER_PROOF_ASSETS['entity-dossier'],PAPER_PHYSICAL_CLIP_SHA256]
+const PAPER_SCENES = { 'archive-hero-desktop':'archiveHeroDesktop','archive-hero-mobile':'archiveHeroMobile', 'source-storage-proof':'sourceMaterialProof', hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation', 'overhead-proof': 'invoiceOverheadProof', 'connected-proof':'connectedRecordsProof', 'synthetic-proof':'syntheticSourcesProof', 'governed-proof':'governedCollaborationProof','claims-proof':'competingClaimsProof','impact-proof':'explanationsImpactProof' }
 const AUTHORED_PAPER_SCENES = ['invoice-example', 'vision-domain', 'vision-positions', 'vision-explanation']
 const OG_NAME = 'one-place-where-a-fact-is-settled-paper-1200x630.jpg'
 const sha256 = (value) => createHash('sha256').update(value).digest('hex')
@@ -171,7 +174,7 @@ export async function rasterPaperSvg(svg) {
   if (uris.size === 0) throw new Error('Missing embedded paper texture for rasterization')
   for (const uri of uris) {
     const bytes = Buffer.from(uri.slice(uri.indexOf(',') + 1), 'base64')
-    if (![...trustedRasterHashes(), ...Object.values(PAPER_PROOF_ASSETS), ...Object.values(PAPER_REMAINING_PROOF_ASSETS), ...Object.values(PAPER_ADDITIONAL_PROOF_ASSETS).flat()].includes(sha256(bytes))) throw new Error('Paper asset hash mismatch')
+    if (![PAPER_ARCHIVE_MATERIAL_SHA256,...trustedRasterHashes(), ...Object.values(PAPER_PROOF_ASSETS), ...Object.values(PAPER_REMAINING_PROOF_ASSETS), ...Object.values(PAPER_ADDITIONAL_PROOF_ASSETS).flat()].includes(sha256(bytes))) throw new Error('Paper asset hash mismatch')
     const png = await sharp(bytes).png().toBuffer()
     svg = svg.replaceAll(uri, `data:image/png;base64,${png.toString('base64')}`)
   }
@@ -187,12 +190,12 @@ export function validateAuthoredPaperSvg(svg, scene) {
   try {
     const root = parsed.window.document.documentElement
     const namespace = 'http://www.w3.org/2000/svg'
-    if (root.namespaceURI !== namespace || root.localName !== 'svg' || !Object.values(PAPER_SCENES).includes(scene) || root.getAttribute('data-paper-scene') !== scene || root.getAttribute('viewBox') !== '0 0 900 600') throw new Error('Unknown authored scene contract')
+    if (root.namespaceURI !== namespace || root.localName !== 'svg' || !Object.values(PAPER_SCENES).includes(scene) || root.getAttribute('data-paper-scene') !== scene || root.getAttribute('viewBox') !== (ARCHIVE_PROFILES[scene] || '0 0 900 600')) throw new Error('Unknown authored scene contract')
     const elements = [root, ...root.querySelectorAll('*')]
     const ids = new Set(elements.map((element) => element.getAttribute('id')).filter(Boolean))
     const materials = new Set()
     const overheadProof = root.getAttribute('data-paper-treatment') === 'hybrid-record-proof'
-    const allowedMaterials = overheadProof ? scene==='connectedRecordsProof'
+    const allowedMaterials = overheadProof ? ARCHIVE_PROFILES[scene] ? ARCHIVE_MATERIALS : scene==='connectedRecordsProof'
       ? [PAPER_TEXTURE_SHA256,...Object.values(PAPER_PROOF_ASSETS),...(PAPER_ADDITIONAL_PROOF_ASSETS[scene] || [])]
       : [PAPER_TEXTURE_SHA256, ...Object.values(PAPER_PROOF_ASSETS), ...(PAPER_REMAINING_PROOF_ASSETS[scene]?[PAPER_REMAINING_PROOF_ASSETS[scene]]:[]), ...(PAPER_ADDITIONAL_PROOF_ASSETS[scene] || [])] : trustedRasterHashes()
     const localCssUrls = (value) => {
@@ -232,7 +235,10 @@ export function validateAuthoredPaperSvg(svg, scene) {
       }
     }
     if (overheadProof) {
-      if (!['sourceMaterialProof','invoiceOverheadProof','connectedRecordsProof','syntheticSourcesProof',...Object.keys(PAPER_REMAINING_PROOF_ASSETS)].includes(scene) || root.getAttribute('data-paper-variant') !== (scene === 'invoiceOverheadProof'?'overhead-invoice-proof':`overhead-${scene}`) || materials.size !== allowedMaterials.length || allowedMaterials.some((hash) => !materials.has(hash))) throw new Error('Unknown overhead proof binding')
+      if (![...Object.keys(ARCHIVE_PROFILES),'sourceMaterialProof','invoiceOverheadProof','connectedRecordsProof','syntheticSourcesProof',...Object.keys(PAPER_REMAINING_PROOF_ASSETS)].includes(scene) || root.getAttribute('data-paper-variant') !== (scene === 'invoiceOverheadProof'?'overhead-invoice-proof':`overhead-${scene}`) || materials.size !== allowedMaterials.length || allowedMaterials.some((hash) => !materials.has(hash))) throw new Error('Unknown overhead proof binding')
+      if(ARCHIVE_PROFILES[scene]){
+        if(root.querySelectorAll('[data-archive-instance="one"]').length!==1 || root.querySelectorAll('[data-archive-satellite]').length!==5 || [...root.querySelectorAll('[data-archive-satellite]')].map(n=>n.getAttribute('data-archive-satellite')).sort().join(',')!=='agent,conversation,date-record,person,task' || root.querySelectorAll('[data-paper-connection]').length!==5 || root.querySelectorAll('[data-paper-port]').length!==10) throw new Error('Incomplete responsive archive hero')
+      }
       if (scene === 'sourceMaterialProof' && (root.querySelectorAll('[data-retained-raw-source]').length!==2 || !root.querySelector('[data-source-archive]') || !root.querySelector('[data-archive-retaining-front]') || root.querySelector('[data-paper-observation]'))) throw new Error('Incomplete raw source storage')
       if (scene === 'invoiceOverheadProof') {
         const originals = [...root.querySelectorAll('[data-paper-source]')].map((node) => node.getAttribute('data-paper-source')).sort()
@@ -465,8 +471,31 @@ export async function exportOverheadPaperArtwork(commit) {
   console.log(`Refreshed six published overhead scenes from ${commit}`)
 }
 
+/** Selective responsive export; the existing six detailed scenes remain byte-exact. */
+export async function exportArchiveHero(commit){
+ if(!/^[a-f0-9]{40}$/.test(commit))throw Error('Archive export requires exact reachable source commit')
+ const read=file=>execFileSync('git',['-C',appRoot,'show',`${commit}:${file}`],{maxBuffer:16*1024*1024})
+ const sourceRepository=canonicalGithubRepository(execFileSync('git',['-C',appRoot,'remote','get-url','origin'],{encoding:'utf8'}))
+ const publicDir=path.join(appRoot,'public/images/posts/neotoma-paper'),provenancePath=path.join(publicDir,'provenance.json'),previous=JSON.parse(fs.readFileSync(provenancePath)),hashes={...previous.hashes},outputSources={...previous.outputSources},sourceHashes={},outputs={}
+ for(const file of ['react-app/scripts/generate-archive-hero.mjs','react-app/scripts/export-paper-artwork.mjs','react-app/scripts/publish_overhead_inline_artwork.py','react-app/src/components/PaperArtwork.tsx','react-app/src/lib/paperVisualMotion.ts','react-app/src/index.css','react-app/src/dev/overhead-record/ARCHIVE-HERO-HANDOFF.md','react-app/scripts/overhead-marks.mjs','react-app/src/dev/overhead-record/materials.json','react-app/src/dev/overhead-record/physical-materials.json','react-app/src/dev/overhead-record/invoice.svg','react-app/src/dev/overhead-record/materials/document-packet.webp','react-app/src/dev/overhead-record/materials/entity-dossier.webp','react-app/src/dev/overhead-record/materials/observation-slip.webp','react-app/src/dev/overhead-record/materials/clipboard-clip-physical-v3.webp','react-app/src/dev/overhead-record/archive-material.json','react-app/src/dev/overhead-record/archive-hero-geometry.json','react-app/src/dev/overhead-record/materials/archive-tray-overhead-v2.png','react-app/src/dev/overhead-record/materials/archive-tray-overhead-v2.webp'])sourceHashes[file]=sha256(read(file))
+ for(const layout of ['desktop','mobile']){
+  const file=`archive-hero-${layout}`,sourcePath=`react-app/src/dev/overhead-record/${file}.svg`,source=read(sourcePath),scene=layout==='desktop'?'archiveHeroDesktop':'archiveHeroMobile'
+  validateAuthoredPaperSvg(source.toString(),scene);sourceHashes[sourcePath]=sha256(source)
+  const png=await sharp(await rasterPaperSvg(source.toString())).resize(layout==='desktop'?1200:900).png().toBuffer();outputs[file+'.svg']=source;outputs[file+'.png']=png
+  for(const[ext,bytes]of [['svg',source],['png',png]]){const name=file+'.'+ext;hashes[name]=sha256(bytes);outputSources[name]={sourceRepository,sourceCommit:commit,sourcePath,sourceSha256:sha256(source),scene,sha256:hashes[name]}}
+ }
+ const desktop=outputs['archive-hero-desktop.png'],square=await sharp(desktop).resize(1200,1200,{fit:'contain',background:'#f2eee5'}).png().toBuffer(),og=await sharp(desktop).resize(1200,630,{fit:'contain',background:'#f2eee5'}).jpeg({quality:92}).toBuffer(),ogName='your-agents-need-a-system-of-record-archive-1200x630.jpg'
+ outputs['archive-hero-square.png']=square
+ for(const[file,bytes]of Object.entries(outputs))fs.writeFileSync(path.join(publicDir,file),bytes)
+ fs.writeFileSync(path.join(appRoot,'public/images/og',ogName),og)
+ for(const[file,bytes]of [['archive-hero-square.png',square],[ogName,og]]){hashes[file]=sha256(bytes);outputSources[file]={sourceRepository,sourceCommit:commit,sourceSha256:sourceHashes['react-app/src/dev/overhead-record/archive-hero-desktop.svg'],scene:'archiveHeroDesktop',sha256:hashes[file]}}
+ fs.writeFileSync(provenancePath,JSON.stringify({...previous,archiveHero:{sourceRepository,sourceCommit:commit,breakpoint:640,layouts:{desktop:'0 0 900 600',mobile:'0 0 600 800'},fit:'Square and OG contain the complete desktop composition on the same warm matte',outputs:[...Object.keys(outputs),ogName]},hashes,outputSources,sourceInputsByCommit:{...previous.sourceInputsByCommit,[commit]:{sourceRepository,sourceFiles:Object.keys(sourceHashes),sourceHashes}}},null,2)+'\n')
+ console.log('Exported responsive archive hero, full-composition square and OG from '+commit)
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  if (process.argv[2] === '--overhead') await exportOverheadPaperArtwork(process.argv[3])
+  if (process.argv[2] === '--archive-hero') await exportArchiveHero(process.argv[3])
+  else if (process.argv[2] === '--overhead') await exportOverheadPaperArtwork(process.argv[3])
   else if (process.argv[2] === '--authored') await exportAuthoredPaperArtwork(process.argv[3])
   else await exportPaperArtwork(process.argv[2], process.argv[3], process.argv[4]?.split(','))
 }

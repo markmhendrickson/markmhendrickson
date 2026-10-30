@@ -15,7 +15,7 @@ test('the real essay export includes its title, excerpt, takeaways, hero and unc
   const result = createPostMarkdownRepository(root).resolve(essay)
   assert(result.startsWith(`# ${post.title}\n\n${post.excerpt}\n\n## Key takeaways\n`))
   assert(result.includes(post.summary.trim()))
-  assert(result.includes(`![${post.heroImageAlt}](</images/posts/neotoma-paper/hero.svg>)`))
+  assert(result.includes(`![${post.heroImageAlt}](</images/posts/neotoma-paper/archive-hero-desktop.svg>)`))
   assert(result.indexOf(post.summary.trim()) < result.indexOf(`![${post.heroImageAlt}]`))
   assert(result.indexOf(post.heroImageCaption) < result.indexOf(body))
   assert(result.endsWith(body + '\n'), 'body including authored images and links is retained')

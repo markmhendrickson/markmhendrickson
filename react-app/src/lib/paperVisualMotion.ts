@@ -4,7 +4,7 @@ import { useEffect, useRef, type RefObject } from "react";
 type Play = (target: Element) => Animation[];
 const MAX_ACTIVE_SCENES = 2;
 const PUBLISHED_HYBRID_SCENES = new Set([
-  "connectedRecordsProof", "syntheticSourcesProof", "invoiceOverheadProof",
+  "archiveHeroDesktop", "archiveHeroMobile", "connectedRecordsProof", "syntheticSourcesProof", "invoiceOverheadProof",
   "governedCollaborationProof", "competingClaimsProof", "explanationsImpactProof",
 ]);
 
@@ -25,6 +25,10 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
   const running = new Map<Element, Animation[]>();
   let disposed = false;
   const isHybridProof = isPublishedHybridScene;
+  const inactiveResponsiveVariant = (target: Element) => {
+    const variant = target.closest('[data-paper-responsive-variant]');
+    return variant != null && window.getComputedStyle(variant).display === 'none';
+  };
   const hybridPorts = (target: Element) => isHybridProof(target)
     ? target.querySelectorAll<SVGElement>('[data-paper-port]') : [];
   const stagePorts = (target: Element) => {
@@ -58,6 +62,7 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
         pending.delete(target);
         continue;
       }
+      if (inactiveResponsiveVariant(target)) { pending.delete(target); settlePorts(target); continue; }
       if (!visible.has(target)) continue;
       pending.delete(target);
       stagePorts(target);
@@ -80,7 +85,7 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
       for (const entry of entries) {
         const target = entry.target;
         if (!registered.has(target)) continue;
-        if (!entry.isIntersecting) {
+        if (!entry.isIntersecting || inactiveResponsiveVariant(target)) {
           inside.delete(target);
           visible.delete(target);
           pending.delete(target);

@@ -13,6 +13,8 @@ const compiled = await build({
 })
 const motion = await import(`data:text/javascript;base64,${Buffer.from(compiled.outputFiles[0].text).toString('base64')}`)
 const scenes = {
+  'archive-hero-desktop': 'archiveHeroDesktop',
+  'archive-hero-mobile': 'archiveHeroMobile',
   'connected-records': 'connectedRecordsProof',
   'synthetic-sources': 'syntheticSourcesProof',
   'current-record': 'invoiceOverheadProof',
@@ -21,7 +23,7 @@ const scenes = {
   'explanations-impact': 'explanationsImpactProof',
 }
 
-test('production compilation animates the six trusted published scenes, including delayed endpoints', () => {
+test('production compilation animates the trusted published scenes and responsive hero variants, including delayed endpoints', () => {
   for (const [file, scene] of Object.entries(scenes)) {
     const svg = fs.readFileSync(new URL(`../src/assets/neotoma-paper/published/${file}.svg`, import.meta.url), 'utf8')
     const document = new JSDOM(svg, { contentType: 'image/svg+xml' }).window.document

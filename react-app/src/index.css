@@ -663,3 +663,11 @@
 .dark .essay-editorial-aside { background: #343029; }
 
 .essay-product-strip { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem 1.5rem; margin-bottom: 1.75rem; }
+
+/* Fixed artboards switch before hydration; one visible/accessible hero at a time. */
+[data-paper-responsive-variant="desktop"] { display: none; }
+[data-paper-responsive-variant="mobile"] { display: block; }
+@media (min-width: 640px) {
+  [data-paper-responsive-variant="desktop"] { display: block; }
+  [data-paper-responsive-variant="mobile"] { display: none; }
+}

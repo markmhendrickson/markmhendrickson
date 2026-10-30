@@ -804,6 +804,18 @@ function PostFooterOgPreviewDev({
             ).
           </p>
 
+          {heroSrc === '/images/posts/neotoma-paper/archive-hero-desktop.svg' && (
+            <section data-dev-homepage-proof className="space-y-3">
+              <p className="text-xs text-muted-foreground">Archive hero — homepage-sized desktop and mobile frames</p>
+              <div className="mx-auto w-full max-w-[900px] overflow-hidden rounded border">
+                <PaperArtwork src={heroSrc} alt="An archive and five connected person, tool and date-record objects" />
+              </div>
+              <div className="mx-auto w-full max-w-[320px] overflow-hidden rounded border">
+                <PaperArtwork src="/images/posts/neotoma-paper/archive-hero-mobile.svg" alt="Mobile archive arrangement with five connected objects" />
+              </div>
+            </section>
+          )}
+
           <DevPostImageAssetRow
             label="Hero (post header)"
             publicPath={heroPublicPath}

@@ -60,7 +60,7 @@ jobs:
       - name: Verify essay publication, aliases, and overhead artwork
         working-directory: react-app
         run: |
-          node --test scripts/essay-slug.test.mjs scripts/post-markdown.test.mjs scripts/overhead-invoice-proof.test.mjs scripts/overhead-remaining-scenes.test.mjs scripts/overhead-print-geometry.test.mjs scripts/overhead-production-boundary.test.mjs scripts/overhead-tactile-materials.test.mjs scripts/essay-product-strip.test.mjs scripts/paper-scene-geometry.test.mjs
+          node --test scripts/essay-slug.test.mjs scripts/post-markdown.test.mjs scripts/overhead-invoice-proof.test.mjs scripts/overhead-remaining-scenes.test.mjs scripts/overhead-print-geometry.test.mjs scripts/overhead-production-boundary.test.mjs scripts/overhead-tactile-materials.test.mjs scripts/archive-hero.test.mjs scripts/essay-product-strip.test.mjs scripts/paper-scene-geometry.test.mjs
           node --test scripts/essay-slug-http.test.mjs
 
       - name: Verify navigation, editorial shell, and dependency notices

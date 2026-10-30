@@ -14,7 +14,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "src/assets/neotoma-paper/published"
 MATERIALS = ROOT / "public/images/posts/neotoma-paper/materials"
-SCENES = ("connected-records", "synthetic-sources", "current-record", "shared-instance", "competing-claims", "explanations-impact")
+SCENES = ("archive-hero-desktop", "archive-hero-mobile", "connected-records", "synthetic-sources", "current-record", "shared-instance", "competing-claims", "explanations-impact")
 DATA_URL = re.compile(r'href="data:image/webp;base64,([A-Za-z0-9+/=]+)"')
 
 
@@ -40,6 +40,7 @@ def main() -> None:
         # The public names are the long-lived article URLs, separate from the
         # semantic names used by the imported inline scenes.
         public_name = {
+            "archive-hero-desktop": "archive-hero-desktop", "archive-hero-mobile": "archive-hero-mobile",
             "connected-records": "hero", "synthetic-sources": "observation",
             "current-record": "invoice-example", "shared-instance": "vision-domain",
             "competing-claims": "vision-positions", "explanations-impact": "vision-explanation",
