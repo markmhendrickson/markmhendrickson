@@ -14,7 +14,7 @@ test('canonical migration is durable source, preserves old alias and every local
  assert.equal(json('src/content/posts/canonical_slug_overrides.json')[old],slug)
  assert(json('src/content/posts/alternative_slugs.json')[slug].includes(old))
  for(const locale of locales){const post=json(`cache/posts.${locale}.json`).find(x=>x.slug===slug);assert(post,locale);assert.equal(post.canonicalSlug,slug);assert.equal(post.postId,slug);assert(post.alternativeSlugs.includes(old));if(locale!=='en')assert(json(`src/content/posts/translations.${locale}.json`)[slug],locale)}
- assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.md`)).digest('hex'),'e1338181b8f0075ee8b27900fc9aefa0f43c4d908e473d0a63fea6d56ea691e4','accepted prose and qualified current visual captions remain intact')
+ assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.md`)).digest('hex'),'f33eb411879b126f7a852f83856db3fc43ab5df0677549f16efa9b0cadd3e607','accepted prose and qualified current visual captions remain intact')
  assert.equal(createHash('sha256').update(read(`src/content/posts/${slug}.summary.md`)).digest('hex'),'c64ff58985846e0e3afdb5855604fe64735d29b49201846b74c29e8d585c0b7d','accepted editorial source bytes remain unchanged')
 })
 test('localized essay metadata is published from the new editorial translations',()=>{
@@ -32,7 +32,7 @@ test('localized essay metadata is published from the new editorial translations'
  }
 })
 test('advanced-gallery bridge and image descriptions belong to each locale source, not English-only JSX',()=>{
- const bridge='The shared instance is the foundation in use today. The next two visuals show the direction from here.'
+ const bridge='The shared instance is the foundation in use today. The next three visuals show that foundation and the direction from here.'
  const names=['vision-domain.svg','vision-positions.svg','vision-explanation.svg']
  const en=read(`src/content/posts/${slug}.md`)
  const enAlts=Object.fromEntries(names.map(name=>{
