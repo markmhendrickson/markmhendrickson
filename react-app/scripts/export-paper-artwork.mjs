@@ -28,22 +28,28 @@ export const PAPER_PROOF_ASSETS = {
   'email-envelope': '83ef47976c1a1f661a02e90139c294240f532d84a2ba33c5a67e4c2418aacaa6',
   'observation-slip': 'b13701ca89a9a7b39c542ad55d3a53057944e3df31574019558e8389281c8a05',
   'entity-dossier': 'd1133eb4e26412fd0be76929ad257756f370e8f2e8760dd599e47bd41b4b9ece',
+  'letter-paper': '3870f2b21ac0235d22dcb356bd4a7b94e0944fb62cc52a5f1aa94b4a60b1087a',
 }
-export const PAPER_ENVELOPE_OPEN_SHA256 = 'fb412f23451992251800ffd8680d98ac67943ac8e5fdf1f356de7df487df905c'
+export const PAPER_ENVELOPE_OPEN_SHA256 = '6a1badbad8680c0af94cd33133054b2378afb24c2b11c418cc3bc86f8b807d51'
 export const PAPER_INSTANCE_ARCHIVE_OVERHEAD_SHA256 = 'fa8d19bfbdb4370f5f8cb992a95b22d035f188da88c065da366fa34f76a9aa98'
 export const PAPER_REMAINING_PROOF_ASSETS = {
  governedCollaborationProof:PAPER_INSTANCE_ARCHIVE_OVERHEAD_SHA256,
  competingClaimsProof:'a854ad7b4eebdca431e6cd829c4ccc8239ec8654bedcca54297e82396d834868',
  explanationsImpactProof:'b4c4f8f9611406000b26de70e44cd28caa667412cf82dde5713dc48be3fa1c11',
 }
+export const PAPER_PHYSICAL_CLIP_SHA256='c79db67612add69e963c4309b0e646b30014de4bd6d781f4cbf481b60e146188'
+export const PAPER_PHYSICAL_GLASS_SHA256='5e66916c08993e9b375c96b6b89a342a04de27e01e28c00cf60d671033171649'
 const PAPER_ADDITIONAL_PROOF_ASSETS = {
+ connectedRecordsProof:[PAPER_PHYSICAL_CLIP_SHA256],
+ explanationsImpactProof:[PAPER_PHYSICAL_GLASS_SHA256],
+ sourceMaterialProof: [PAPER_ENVELOPE_OPEN_SHA256,PAPER_INSTANCE_ARCHIVE_OVERHEAD_SHA256],
  invoiceOverheadProof: [PAPER_ENVELOPE_OPEN_SHA256],
  syntheticSourcesProof: [PAPER_ENVELOPE_OPEN_SHA256],
 }
 const trustedRasterHashes = () => [...Object.values(PAPER_ASSET_HASHES), ...Object.values(PAPER_PHOTO_ASSETS).map((asset) => asset.sha256)]
 const paperDir = 'frontend/src/components/onepager/'
 const reviewedWrapper = 'import "./paper_scene.css";\nexport * from "./PaperSceneDrawing";'
-const PAPER_SCENES = { hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation', 'overhead-proof': 'invoiceOverheadProof', 'connected-proof':'connectedRecordsProof', 'synthetic-proof':'syntheticSourcesProof', 'governed-proof':'governedCollaborationProof','claims-proof':'competingClaimsProof','impact-proof':'explanationsImpactProof' }
+const PAPER_SCENES = { 'source-storage-proof':'sourceMaterialProof', hero: 'hero', observation: 'observation', 'invoice-example': 'invoiceExample', 'vision-domain': 'visionDomain', 'vision-positions': 'visionPositions', 'vision-explanation': 'visionExplanation', 'overhead-proof': 'invoiceOverheadProof', 'connected-proof':'connectedRecordsProof', 'synthetic-proof':'syntheticSourcesProof', 'governed-proof':'governedCollaborationProof','claims-proof':'competingClaimsProof','impact-proof':'explanationsImpactProof' }
 const AUTHORED_PAPER_SCENES = ['invoice-example', 'vision-domain', 'vision-positions', 'vision-explanation']
 const OG_NAME = 'one-place-where-a-fact-is-settled-paper-1200x630.jpg'
 const sha256 = (value) => createHash('sha256').update(value).digest('hex')
@@ -187,7 +193,7 @@ export function validateAuthoredPaperSvg(svg, scene) {
     const materials = new Set()
     const overheadProof = root.getAttribute('data-paper-treatment') === 'hybrid-record-proof'
     const allowedMaterials = overheadProof ? scene==='connectedRecordsProof'
-      ? [PAPER_TEXTURE_SHA256,...Object.values(PAPER_PROOF_ASSETS),PAPER_REMAINING_PROOF_ASSETS.explanationsImpactProof]
+      ? [PAPER_TEXTURE_SHA256,...Object.values(PAPER_PROOF_ASSETS),...(PAPER_ADDITIONAL_PROOF_ASSETS[scene] || [])]
       : [PAPER_TEXTURE_SHA256, ...Object.values(PAPER_PROOF_ASSETS), ...(PAPER_REMAINING_PROOF_ASSETS[scene]?[PAPER_REMAINING_PROOF_ASSETS[scene]]:[]), ...(PAPER_ADDITIONAL_PROOF_ASSETS[scene] || [])] : trustedRasterHashes()
     const localCssUrls = (value) => {
       if (/\\/.test(value)) throw new Error('Unexpected escaped authored CSS syntax')
@@ -226,7 +232,8 @@ export function validateAuthoredPaperSvg(svg, scene) {
       }
     }
     if (overheadProof) {
-      if (!['invoiceOverheadProof','connectedRecordsProof','syntheticSourcesProof',...Object.keys(PAPER_REMAINING_PROOF_ASSETS)].includes(scene) || root.getAttribute('data-paper-variant') !== (scene === 'invoiceOverheadProof'?'overhead-invoice-proof':`overhead-${scene}`) || materials.size !== allowedMaterials.length || allowedMaterials.some((hash) => !materials.has(hash))) throw new Error('Unknown overhead proof binding')
+      if (!['sourceMaterialProof','invoiceOverheadProof','connectedRecordsProof','syntheticSourcesProof',...Object.keys(PAPER_REMAINING_PROOF_ASSETS)].includes(scene) || root.getAttribute('data-paper-variant') !== (scene === 'invoiceOverheadProof'?'overhead-invoice-proof':`overhead-${scene}`) || materials.size !== allowedMaterials.length || allowedMaterials.some((hash) => !materials.has(hash))) throw new Error('Unknown overhead proof binding')
+      if (scene === 'sourceMaterialProof' && (root.querySelectorAll('[data-retained-raw-source]').length!==2 || !root.querySelector('[data-source-archive]') || !root.querySelector('[data-archive-retaining-front]') || root.querySelector('[data-paper-observation]'))) throw new Error('Incomplete raw source storage')
       if (scene === 'invoiceOverheadProof') {
         const originals = [...root.querySelectorAll('[data-paper-source]')].map((node) => node.getAttribute('data-paper-source')).sort()
         const observations = [...root.querySelectorAll('[data-paper-observation]')].map((node) => node.getAttribute('data-paper-observation')).sort()
@@ -239,8 +246,8 @@ export function validateAuthoredPaperSvg(svg, scene) {
         if(root.querySelectorAll('[data-paper-source]').length!==2 || root.querySelectorAll('[data-paper-observation]').length!==2 || root.querySelector('[data-paper-current-record]')) throw new Error('Incomplete unmerged source proof')
       } else if(scene === 'connectedRecordsProof' && (root.querySelectorAll('[data-entity-record]').length!==3 || root.querySelectorAll('[data-connection-kind="entity-relation"]').length!==2 || !root.querySelector('[data-retained-evidence]'))) throw new Error('Incomplete connected entity proof')
       if(scene==='governedCollaborationProof' && (root.querySelectorAll('[data-shared-reader]').length!==3 || !root.querySelector('[data-shared-instance="one"]'))) throw new Error('Incomplete shared instance proof')
-      if(scene==='competingClaimsProof' && (root.querySelectorAll('[data-retained-claim]').length!==2 || !root.querySelector('[data-selected-position="later"]') || !root.querySelector('[data-decision-authority]'))) throw new Error('Incomplete retained claims proof')
-      if(scene==='explanationsImpactProof' && (root.querySelectorAll('[data-impact-record]').length!==3 || root.querySelectorAll('[data-connection-kind="impact"]').length!==2 || !root.querySelector('[data-explanation-basis]'))) throw new Error('Incomplete bounded impact proof')
+      if(scene==='competingClaimsProof' && (root.querySelectorAll('[data-retained-claim]').length!==2 || !root.querySelector('[data-selected-position="initial"]') || !root.querySelector('[data-decision-authority]'))) throw new Error('Incomplete retained claims proof')
+      if(scene==='explanationsImpactProof' && (root.querySelectorAll('[data-explanation-scope="single-record-inspection"]').length!==1 || root.querySelector('[data-impact-record]') || !root.querySelector('[data-explanation-basis]') || !root.querySelector('[data-inspection-object="physical-magnifier"]'))) throw new Error('Incomplete bounded impact proof')
       for (const state of root.querySelectorAll('[data-paper-field-state]')) {
         if (!['prior','current'].includes(state.getAttribute('data-paper-field-state')) || state.getAttribute('opacity') !== (state.getAttribute('data-paper-field-state')==='current'?'1':'0')) throw new Error('Incomplete static current field')
       }
@@ -436,7 +443,30 @@ export async function exportPaperArtwork(sourceRoot, commit, requestedScenes = O
   } finally { fs.rmSync(temp, { recursive: true, force: true }) }
 }
 
+/** Refresh published overhead scenes from one exact local source revision. */
+export async function exportOverheadPaperArtwork(commit) {
+  if (!/^[a-f0-9]{40}$/.test(commit)) throw new Error('Overhead export requires an exact source commit')
+  const read=file=>execFileSync('git',['-C',appRoot,'show',`${commit}:${file}`],{maxBuffer:16*1024*1024})
+  const scenes={hero:['connectedRecordsProof','connected-records'],observation:['syntheticSourcesProof','synthetic-sources'],'invoice-example':['invoiceOverheadProof','current-record'],'vision-domain':['governedCollaborationProof','shared-instance'],'vision-positions':['competingClaimsProof','competing-claims'],'vision-explanation':['explanationsImpactProof','explanations-impact']}
+  const publicDir=path.join(appRoot,'public/images/posts/neotoma-paper'),provenancePath=path.join(publicDir,'provenance.json')
+  const previous=JSON.parse(fs.readFileSync(provenancePath,'utf8')),hashes={...previous.hashes},outputSources={...previous.outputSources},sourceHashes={}
+  for(const file of ['react-app/src/dev/overhead-record/source-material.svg','react-app/scripts/overhead-marks.mjs','react-app/src/dev/overhead-record/physical-materials.json','react-app/scripts/generate-overhead-proof.mjs','react-app/scripts/generate-overhead-scenes.mjs','react-app/scripts/generate-source-storage-proof.mjs']) sourceHashes[file]=sha256(read(file))
+  let hero
+  for(const[name,[scene]] of Object.entries(scenes)){
+    const sourcePath=`react-app/src/dev/overhead-record/${name==='invoice-example'?'invoice':scene}.svg`,source=read(sourcePath)
+    validateAuthoredPaperSvg(source.toString(),scene);sourceHashes[sourcePath]=sha256(source)
+    const png=await sharp(await rasterPaperSvg(source.toString())).resize(1200,800).png().toBuffer()
+    for(const[extension,bytes]of [['svg',source],['png',png]]){const file=`${name}.${extension}`;fs.writeFileSync(path.join(publicDir,file),bytes);hashes[file]=sha256(bytes);outputSources[file]={sourceRepository:canonicalGithubRepository(execFileSync('git',['-C',appRoot,'remote','get-url','origin'],{encoding:'utf8'})),sourceCommit:commit,sourcePath,sourceSha256:sha256(source),scene,sha256:hashes[file]}}
+    if(name==='hero')hero=png
+  }
+  const square=await sharp(hero).resize(1200,1200,{fit:'contain',background:'#f2eee5'}).png().toBuffer(),og=await sharp(hero).resize(1200,630,{fit:'contain',background:'#f2eee5'}).jpeg({quality:92}).toBuffer()
+  for(const[file,bytes,dir]of [['hero-square.png',square,publicDir],[OG_NAME,og,path.join(appRoot,'public/images/og')],['your-agents-need-a-system-of-record-paper-1200x630.jpg',og,path.join(appRoot,'public/images/og')]]){fs.writeFileSync(path.join(dir,file),bytes);hashes[file]=sha256(bytes);outputSources[file]={sourceCommit:commit,scene:'connectedRecordsProof',sha256:hashes[file],sourceSha256:sourceHashes['react-app/src/dev/overhead-record/connectedRecordsProof.svg']}}
+  fs.writeFileSync(provenancePath,JSON.stringify({...previous,publicationSourceCommit:commit,scenes:Object.fromEntries(Object.entries(scenes).map(([name,[scene]])=>[name,scene])),refreshedScenes:Object.keys(scenes),outputSources,hashes,sourceInputsByCommit:{...previous.sourceInputsByCommit,[commit]:{sourceFiles:Object.keys(sourceHashes),sourceHashes}},method:'Exact committed overhead SVG sources; existing trusted raster adapter derives fallback, square and OG outputs. Inline material externalization uses publish_overhead_inline_artwork.py; source material and camera unchanged.'},null,2)+'\n')
+  console.log(`Refreshed six published overhead scenes from ${commit}`)
+}
+
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  if (process.argv[2] === '--authored') await exportAuthoredPaperArtwork(process.argv[3])
+  if (process.argv[2] === '--overhead') await exportOverheadPaperArtwork(process.argv[3])
+  else if (process.argv[2] === '--authored') await exportAuthoredPaperArtwork(process.argv[3])
   else await exportPaperArtwork(process.argv[2], process.argv[3], process.argv[4]?.split(','))
 }

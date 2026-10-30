@@ -1520,7 +1520,7 @@
     "heroImageSquare": "neotoma-paper/hero-square.png",
     "heroImageStyle": "paper-scene",
     "ogImage": "og/your-agents-need-a-system-of-record-paper-1200x630.jpg",
-    "heroImageAlt": "An invoice record, person record, task, email, and related note linked in one graph.",
+    "heroImageAlt": "An itemized invoice, person record and clipboard task connect with an email and its revised due-date note.",
     "heroImageLabel": "Connected records",
     "heroImageCaption": "Person, invoice, follow-up task, and other connected records keep their own forms while their relationships connect in one graph.",
     "alternativeSlugs": [

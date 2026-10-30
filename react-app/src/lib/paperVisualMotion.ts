@@ -62,7 +62,7 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
       pending.delete(target);
       stagePorts(target);
       const animations = play(target);
-      if (animations.length === 0) continue;
+      if (animations.length === 0) { settlePorts(target); continue; }
       target.setAttribute("data-motion-entry-count", String(Number(target.getAttribute("data-motion-entry-count") || 0) + 1));
       target.setAttribute("data-motion-animation-count", String(animations.length));
       running.set(target, animations);
@@ -158,6 +158,7 @@ export function observeViewportMotion(targets: Element[], play: Play, root?: HTM
     observer.disconnect();
     mutations?.disconnect();
     suppress();
+    registered.forEach(settlePorts);
     reduced.removeEventListener("change", motionChange);
     document.removeEventListener("visibilitychange", visibilityChange);
   };

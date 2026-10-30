@@ -14,8 +14,7 @@ async function contourErrors(s){
   const carrier=d.querySelector(selector+' svg'),crop=carrier.getAttribute('viewBox').split(' ').map(Number)
   const scale=Number(carrier.getAttribute('width'))/crop[2],x=Number(pin.getAttribute('cx')),y=Number(pin.getAttribute('cy'))
   const material=carrier.getAttribute('data-paper-raster')
-  const filename=material==='email-envelope-open'?'email-envelope-open-v2.webp':`${material}.webp`
-  const {data,info}=await sharp(fs.readFileSync(new URL(`../src/dev/overhead-record/materials/${filename}`,import.meta.url))).ensureAlpha().raw().toBuffer({resolveWithObject:true})
+  const {data,info}=await sharp(carrier.querySelector('use')?Buffer.from(d.querySelector(carrier.querySelector('use').getAttribute('href')).getAttribute('href').split(',')[1],'base64'):fs.readFileSync(new URL(`../src/dev/overhead-record/materials/${material}.webp`,import.meta.url))).ensureAlpha().raw().toBuffer({resolveWithObject:true})
   const sy=Math.round(crop[1]+(y-Number(carrier.getAttribute('y')))/scale)
   const sx=crop[0]+(x-Number(carrier.getAttribute('x')))/scale
   // Find connected opaque span at this height; 200 excludes translucent soft shadow.
@@ -34,7 +33,7 @@ test('all endpoint centers meet the sampled opaque photographic border; old offs
   assert((await contourErrors(d.documentElement.outerHTML)).includes('invoice-source'))
  }
 })
-const safe={invoice:[76,93,133,178],'invoice-observation':[350,198,174,69],'email-observation':[390,321,174,32],current:[684,198,138,169]}
+const safe={invoice:[76,93,133,178],'invoice-observation':[350,163,174,69],'email-observation':[350,377,174,32],current:[684,198,138,169]}
 async function printErrors(s){
  const d=parse(s),errors=[]
  for(const [id,box]of Object.entries(safe)){
@@ -55,14 +54,14 @@ test('unclipped ink fits independently specified face-safe regions, including th
  const d=parse(source);d.querySelector('[data-paper-print="invoice-observation"]').setAttribute('transform','translate(0 20)')
  assert((await printErrors(d.documentElement.outerHTML)).includes('invoice-observation'))
 })
-test('calendar identifies due date consistently while selected cell represents value; banknote amount persists',()=>{
+test('calendar identifies due date consistently while selected cell represents value; offset coin amount persists',()=>{
  const d=parse(source)
- assert.equal(d.querySelectorAll('[data-field-icon="due"]').length,5)
+ assert.equal(d.querySelectorAll('[data-field-icon="due"]').length,6)
  assert.equal(d.querySelectorAll('[data-field-icon="amount"]').length,3)
  const prior=d.querySelector('[data-paper-field-state="prior"] [data-field-icon="due"]')
  const current=d.querySelector('[data-paper-field-state="current"] [data-field-icon="due"]')
  assert.equal(prior.querySelector('path').getAttribute('d'),current.querySelector('path').getAttribute('d'))
- assert.notEqual(prior.lastElementChild.getAttribute('d'),current.lastElementChild.getAttribute('d'))
+ assert.notEqual(prior.lastElementChild.getAttribute('cx'),current.lastElementChild.getAttribute('cx'))
  assert.equal(d.querySelector('[data-current-field="amount"] [data-field-icon]').getAttribute('data-field-icon'),'amount')
  assert.equal(d.querySelectorAll('[data-paper-print][clip-path][mask]').length,4)
  assert(d.querySelectorAll('#screen-grain circle').length>=5)

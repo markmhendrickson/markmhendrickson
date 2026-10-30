@@ -31,6 +31,7 @@ export type Dict = {
   /** Home: link to the posts index when there is only one page */
   homeViewAllPosts: string
   readMore: string
+  visitNeotoma: string
   nextPost: string
   previousPost: string
   postsTitle: string
@@ -136,6 +137,7 @@ const enDict: Dict = {
     homeMorePosts: 'More posts',
     homeViewAllPosts: 'View all posts',
     readMore: 'Read more',
+    visitNeotoma: 'Visit Neotoma',
     nextPost: 'Next post',
     previousPost: 'Previous post',
     postsTitle: 'Posts',
@@ -236,6 +238,7 @@ const esDict: Dict = {
     homeMorePosts: 'Más publicaciones',
     homeViewAllPosts: 'Ver todas las publicaciones',
     readMore: 'Seguir leyendo',
+    visitNeotoma: 'Visitar Neotoma',
     nextPost: 'Siguiente publicación',
     previousPost: 'Publicación anterior',
     postsTitle: 'Publicaciones',
@@ -336,6 +339,7 @@ const caDict: Dict = {
     homeMorePosts: 'Més publicacions',
     homeViewAllPosts: 'Veure totes les publicacions',
     readMore: 'Llegir més',
+    visitNeotoma: 'Visita Neotoma',
     nextPost: 'Publicació següent',
     previousPost: 'Publicació anterior',
     postsTitle: 'Publicacions',
@@ -469,9 +473,22 @@ const codeCopyLabels: Record<keyof typeof rawMarkdownLabels, Pick<Dict, 'postCop
   de: { postCopyCode: 'Kopieren', postCodeCopied: 'Kopiert', postCodeCopyFailed: 'Kopieren fehlgeschlagen. Bitte erneut versuchen.', postAgentPrompt: 'Agenten-Prompt' },
 }
 
+const neotomaVisitLabels: Record<keyof typeof rawMarkdownLabels, string> = {
+  "zh": "访问 Neotoma",
+  "hi": "Neotoma पर जाएँ",
+  "ar": "زيارة Neotoma",
+  "fr": "Visiter Neotoma",
+  "pt": "Visitar Neotoma",
+  "ru": "Перейти в Neotoma",
+  "bn": "Neotoma দেখুন",
+  "ur": "Neotoma پر جائیں",
+  "id": "Kunjungi Neotoma",
+  "de": "Neotoma besuchen"
+}
+
 function generatedLocaleDict(locale: keyof typeof rawMarkdownLabels): Dict {
   const generated = (generatedDictionaries as Record<string, Partial<Dict> | undefined>)[locale]
-  return generated ? withEnglishFallback({ ...generated, pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale], ...sidebarControlLabels[locale], ...codeCopyLabels[locale] }) : enDict
+  return generated ? withEnglishFallback({ ...generated, visitNeotoma: neotomaVisitLabels[locale], pageRawMarkdown: rawMarkdownLabels[locale], ...homeFeedLabels[locale], ...sidebarControlLabels[locale], ...codeCopyLabels[locale] }) : enDict
 }
 
 const dictionaries: Record<SupportedLocale, Dict> = {

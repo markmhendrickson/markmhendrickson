@@ -9,19 +9,19 @@
     "email": {
       "material": "email-envelope-open",
       "x": 55,
-      "y": 320,
+      "y": 368,
       "width": 205
     },
     "invoice-observation": {
       "material": "observation-slip",
       "x": 330,
-      "y": 180,
+      "y": 145,
       "width": 220
     },
     "email-observation": {
       "material": "observation-slip",
-      "x": 370,
-      "y": 284,
+      "x": 330,
+      "y": 340,
       "width": 220
     },
     "current": {
@@ -45,16 +45,22 @@
       714
     ],
     "email-envelope-open": [
-      150,
-      255,
-      955,
-      744
+      46,
+      82,
+      1170,
+      1110
     ],
     "observation-slip": [
       71,
       411,
       1149,
       577
+    ],
+    "letter-paper": [
+      192,
+      76,
+      880,
+      1108
     ],
     "entity-dossier": [
       199,
@@ -74,7 +80,7 @@
     },
     "invoice-observation-source": {
       "x": 332.393,
-      "y": 212,
+      "y": 177,
       "carrier": "invoice-observation",
       "side": "left",
       "sourceRow": 578,
@@ -82,31 +88,31 @@
     },
     "invoice-observation-amount": {
       "x": 540.522,
-      "y": 212,
+      "y": 177,
       "carrier": "invoice-observation",
       "side": "right",
       "sourceRow": 578,
       "sourceEdge": 1170.5
     },
     "email-source": {
-      "x": 259.034,
-      "y": 431,
+      "x": 256.233,
+      "y": 479,
       "carrier": "email",
       "side": "right",
-      "sourceRow": 772,
-      "sourceEdge": 1100.5
+      "sourceRow": 716,
+      "sourceEdge": 1194.5
     },
     "email-observation-source": {
-      "x": 372.393,
-      "y": 337,
+      "x": 332.393,
+      "y": 393,
       "carrier": "email-observation",
       "side": "left",
       "sourceRow": 688,
       "sourceEdge": 83.5
     },
     "email-observation-due": {
-      "x": 580.522,
-      "y": 337,
+      "x": 540.522,
+      "y": 393,
       "carrier": "email-observation",
       "side": "right",
       "sourceRow": 688,
@@ -138,13 +144,13 @@
     ],
     "invoice-observation": [
       350,
-      198,
+      163,
       174,
       69
     ],
     "email-observation": [
-      390,
-      321,
+      350,
+      377,
       174,
       32
     ],
