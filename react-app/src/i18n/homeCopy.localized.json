@@ -1,6 +1,6 @@
 {
   "zh": {
-    "subtitle": "正在构建 AI 智能体的记录系统，并设计面向智能体组织的操作系统。",
+    "subtitle": "正在构建 Neotoma（面向 AI 智能体的记录系统）和 Ateles（面向智能体组织的操作系统）。",
     "p1Before": "我正在构建 ",
     "p1Link": "Neotoma",
     "p1After": "，一个面向 AI 智能体的记录系统。核心是记录，而不是回忆。没有记录系统，智能体只能依赖碰巧记得的内容：上一次会话的一部分、工具保存的一条笔记，或者什么都没有。有了记录系统，它就能读取已存储的内容、内容的来源以及现在的最新状态，让你连接的智能体都能依据同一份答案。Neotoma 是开源项目，可在本地运行，并通过 MCP、REST API 和 CLI 与智能体连接。",
@@ -13,7 +13,7 @@
     "p4After": "中了解完整历程。"
   },
   "hi": {
-    "subtitle": "AI एजेंटों के लिए साझा रिकॉर्ड प्रणाली बना रहा हूँ और एजेंट संगठनों के लिए ऑपरेटिंग सिस्टम की रूपरेखा तैयार कर रहा हूँ।",
+    "subtitle": "Neotoma, AI एजेंटों के लिए साझा रिकॉर्ड प्रणाली, और Ateles, एजेंट संगठनों के लिए ऑपरेटिंग सिस्टम, बना रहा हूँ।",
     "p1Before": "मैं ",
     "p1Link": "Neotoma",
     "p1After": " बना रहा हूँ, जो AI एजेंटों के लिए साझा रिकॉर्ड प्रणाली है। विचार है रिकॉर्ड पर भरोसा करना, याददाश्त पर नहीं। इसके बिना एजेंट उसी पर काम करता है जो उसे संयोग से याद हो: पिछले सत्र का एक हिस्सा, उसके टूल में सहेजा नोट, या कुछ भी नहीं। इसके साथ वह पढ़ सकता है कि क्या संग्रहीत हुआ, उसका स्रोत क्या है और अब कौन-सा रिकॉर्ड वर्तमान है, ताकि जुड़े एजेंट एक ही उत्तर का संदर्भ लें। Neotoma ओपन-सोर्स है, स्थानीय रूप से चलता है और MCP, REST API तथा CLI के ज़रिए एजेंटों से जुड़ता है।",
@@ -26,7 +26,7 @@
     "p4After": " में देखें।"
   },
   "ar": {
-    "subtitle": "أبني نظام السجل المرجعي لوكلاء الذكاء الاصطناعي وأصمّم نظام تشغيل للمؤسسات التي تعمل بالوكلاء.",
+    "subtitle": "أبني Neotoma، نظام السجل المرجعي لوكلاء الذكاء الاصطناعي، وAteles، نظام تشغيل للمؤسسات التي تعمل بالوكلاء.",
     "p1Before": "أعمل على بناء ",
     "p1Link": "Neotoma",
     "p1After": "، وهو نظام سجل مرجعي لوكلاء الذكاء الاصطناعي. الفكرة هي الاعتماد على سجل لا على الذاكرة. فمن دونه يعمل الوكيل بما يصادف أنه يتذكره: جزء من الجلسة السابقة، أو ملاحظة حفظتها أداته، أو لا شيء. ومعه يستطيع قراءة ما خُزّن ومصدره وما هو الأحدث الآن، كي يستند الوكلاء الذين تربطهم إلى إجابة واحدة. Neotoma مفتوح المصدر، يعمل محلياً، ويتصل بالوكلاء عبر MCP وواجهة REST API وأداة CLI.",
@@ -39,7 +39,7 @@
     "p4After": "."
   },
   "fr": {
-    "subtitle": "Je construis le système de référence pour les agents d'IA et conçois un système d'exploitation pour les organisations d'agents.",
+    "subtitle": "Je construis Neotoma, le système de référence pour les agents d’IA, et Ateles, un système d’exploitation pour les organisations d’agents.",
     "p1Before": "Je construis ",
     "p1Link": "Neotoma",
     "p1After": ", un système de référence pour les agents d'IA. L'idée est de s'appuyer sur un enregistrement, plutôt que sur un souvenir. Sans ce système, un agent travaille avec ce qu'il se trouve retenir : une partie de la dernière session, une note enregistrée par son outil, ou rien du tout. Avec lui, il peut lire ce qui a été enregistré, sa source et son état le plus récent, afin que les agents que vous connectez se réfèrent à une même réponse. Neotoma est open source, fonctionne localement et se connecte aux agents par MCP, une API REST et une CLI.",
@@ -52,7 +52,7 @@
     "p4After": "."
   },
   "pt": {
-    "subtitle": "Construindo o sistema de registro para agentes de IA e projetando um sistema operacional para organizações de agentes.",
+    "subtitle": "Construindo Neotoma, o sistema de registro para agentes de IA, e Ateles, um sistema operacional para organizações de agentes.",
     "p1Before": "Estou construindo ",
     "p1Link": "Neotoma",
     "p1After": ", o sistema de registro para agentes de IA. A ideia é ter um registro, não depender da memória. Sem ele, um agente trabalha com aquilo de que por acaso se lembra: parte da última sessão, uma nota salva por sua ferramenta ou nada. Com ele, pode ler o que foi armazenado, de qual fonte veio e qual é o estado atual, para que os agentes conectados consultem uma mesma resposta. Neotoma é de código aberto, funciona localmente e se conecta a agentes por MCP, API REST e CLI.",
@@ -65,7 +65,7 @@
     "p4After": "."
   },
   "ru": {
-    "subtitle": "Создаю систему записей для ИИ-агентов и проектирую операционную систему для организаций с агентами.",
+    "subtitle": "Создаю Neotoma, систему записей для ИИ-агентов, и Ateles, операционную систему для организаций с агентами.",
     "p1Before": "Я создаю ",
     "p1Link": "Neotoma",
     "p1After": " — систему записей для ИИ-агентов. В основе лежат записи, а не воспоминания. Без них агент опирается на то, что случайно помнит: фрагмент прошлой сессии, заметку своего инструмента или вообще ничего. С ними он читает, что было сохранено, из какого источника и каково текущее состояние, чтобы подключённые агенты могли обращаться к одному ответу. Neotoma — проект с открытым исходным кодом: он работает локально и подключается к агентам через MCP, REST API и CLI.",
@@ -78,7 +78,7 @@
     "p4After": "."
   },
   "bn": {
-    "subtitle": "এআই এজেন্টদের জন্য অভিন্ন রেকর্ড ব্যবস্থা তৈরি করছি এবং এজেন্টভিত্তিক সংগঠনের অপারেটিং সিস্টেমের নকশা করছি।",
+    "subtitle": "Neotoma, এআই এজেন্টদের জন্য অভিন্ন রেকর্ড ব্যবস্থা, এবং Ateles, এজেন্টভিত্তিক সংগঠনের অপারেটিং সিস্টেম, তৈরি করছি।",
     "p1Before": "আমি ",
     "p1Link": "Neotoma",
     "p1After": " তৈরি করছি—এআই এজেন্টদের জন্য একটি অভিন্ন রেকর্ড ব্যবস্থা। মূল ধারণা হলো স্মৃতির বদলে সংরক্ষিত রেকর্ডের ওপর নির্ভর করা। এটি ছাড়া এজেন্ট কেবল যা মনে পড়ে তা নিয়ে কাজ করে: আগের সেশনের কিছু অংশ, টুলে রাখা কোনো নোট, অথবা কিছুই নয়। এটি থাকলে কী সংরক্ষিত হয়েছে, কোন উৎস থেকে এসেছে এবং এখন কোন তথ্যটি বর্তমান, তা পড়তে পারে; ফলে সংযুক্ত এজেন্টরা একই উত্তরের ভিত্তিতে কাজ করতে পারে। Neotoma ওপেন-সোর্স, স্থানীয়ভাবে চলে এবং MCP, REST API ও CLI দিয়ে এজেন্টদের সঙ্গে যুক্ত হয়।",
@@ -91,7 +91,7 @@
     "p4After": "।"
   },
   "ur": {
-    "subtitle": "اے آئی ایجنٹس کے لیے مشترکہ ریکارڈ نظام بنا رہا ہوں اور ایجنٹ تنظیموں کے لیے آپریٹنگ سسٹم کا خاکہ تیار کر رہا ہوں۔",
+    "subtitle": "Neotoma، اے آئی ایجنٹس کے لیے مشترکہ ریکارڈ نظام، اور Ateles، ایجنٹ تنظیموں کے لیے آپریٹنگ سسٹم، بنا رہا ہوں۔",
     "p1Before": "میں ",
     "p1Link": "Neotoma",
     "p1After": " بنا رہا ہوں، جو اے آئی ایجنٹس کے لیے مشترکہ ریکارڈ نظام ہے۔ بنیادی خیال یادداشت کے بجائے ریکارڈ پر بھروسا کرنا ہے۔ اس کے بغیر ایجنٹ جو اتفاقاً یاد ہو اسی سے کام لیتا ہے: پچھلے سیشن کا کوئی حصہ، ٹول میں محفوظ نوٹ، یا کچھ بھی نہیں۔ اس کے ساتھ وہ پڑھ سکتا ہے کہ کیا محفوظ ہوا، کس ذریعے سے آیا اور اب کون سا ریکارڈ تازہ ہے، تاکہ منسلک ایجنٹس ایک ہی جواب پر رجوع کریں۔ Neotoma اوپن سورس ہے، مقامی طور پر چلتا ہے، اور MCP، REST API اور CLI کے ذریعے ایجنٹس سے جڑتا ہے۔",
@@ -104,7 +104,7 @@
     "p4After": " میں دیکھیں۔"
   },
   "id": {
-    "subtitle": "Membangun sistem catatan acuan bagi agen AI dan merancang sistem operasi untuk organisasi agen.",
+    "subtitle": "Membangun Neotoma, sistem catatan acuan bagi agen AI, dan Ateles, sistem operasi untuk organisasi agen.",
     "p1Before": "Saya sedang membangun ",
     "p1Link": "Neotoma",
     "p1After": ", sistem catatan acuan bagi agen AI. Intinya adalah catatan, bukan ingatan. Tanpanya, agen bekerja dengan hal yang kebetulan diingat: sebagian sesi terakhir, catatan yang disimpan alatnya, atau tidak ada apa-apa. Dengannya, agen dapat membaca apa yang tersimpan, dari sumber mana, dan apa yang berlaku saat ini sehingga semua agen yang Anda hubungkan dapat merujuk pada jawaban yang sama. Neotoma bersumber terbuka, berjalan secara lokal, dan terhubung ke agen melalui MCP, REST API, dan CLI.",
@@ -117,7 +117,7 @@
     "p4After": "."
   },
   "de": {
-    "subtitle": "Ich entwickle das maßgebliche Datensystem für KI-Agenten und entwerfe ein Betriebssystem für agentengestützte Organisationen.",
+    "subtitle": "Ich entwickle Neotoma, das maßgebliche Datensystem für KI-Agenten, und Ateles, ein Betriebssystem für agentengestützte Organisationen.",
     "p1Before": "Ich entwickle ",
     "p1Link": "Neotoma",
     "p1After": ", ein maßgebliches Datensystem für KI-Agenten. Entscheidend sind gespeicherte Einträge statt bloßer Erinnerung. Ohne ein solches System arbeitet ein Agent mit dem, woran er sich gerade erinnert: einem Teil der letzten Sitzung, einer Notiz seines Tools oder gar nichts. Mit dem System kann er lesen, was gespeichert wurde, aus welcher Quelle es stammt und welcher Stand aktuell ist. So können sich die verbundenen Agenten auf dieselbe Antwort beziehen. Neotoma ist quelloffen, läuft lokal und verbindet sich über MCP, eine REST-API und eine CLI mit Agenten.",

@@ -41,7 +41,7 @@ export default function Home() {
   const { items: latestItems, totalPages } = usePostsFeedPage(1)
   const copy = {
     en: {
-      subtitle: 'Building the system of record for AI agents and designing an operating system for agentic organizations.',
+      subtitle: 'Building Neotoma, the system of record for AI agents, and Ateles, an operating system for agentic organizations.',
       p1Before: "I'm building ",
       p1Link: 'Neotoma',
       p1After:
@@ -56,7 +56,7 @@ export default function Home() {
       p4After: '.',
     },
     es: {
-      subtitle: 'Construyendo el sistema de registro para agentes de IA y diseñando un sistema operativo para organizaciones de agentes.',
+      subtitle: 'Construyendo Neotoma, el sistema de registro para agentes de IA, y Ateles, un sistema operativo para organizaciones de agentes.',
       p1Before: 'Estoy construyendo ',
       p1Link: 'Neotoma',
       p1After:
@@ -71,7 +71,7 @@ export default function Home() {
       p4After: '.',
     },
     ca: {
-      subtitle: "Construint el sistema de registre per a agents d'IA i dissenyant un sistema operatiu per a organitzacions d'agents.",
+      subtitle: "Construint Neotoma, el sistema de registre per a agents d'IA, i Ateles, un sistema operatiu per a organitzacions d'agents.",
       p1Before: "Estic construint ",
       p1Link: 'Neotoma',
       p1After:
@@ -91,15 +91,19 @@ export default function Home() {
   return (
     <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
       <div className="max-w-[var(--content-max)] w-full">
-        <img
-          src="/profile.jpg"
-          alt="Mark Hendrickson"
-          className="mb-8 w-full h-auto aspect-square rounded-none object-cover sm:float-right sm:ml-6 sm:mb-4 sm:h-[160px] sm:w-[160px] md:ml-8 md:mb-6 md:h-[220px] md:w-[220px] lg:mb-8 lg:h-[300px] lg:w-[300px]"
-        />
-        <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark&nbsp;Hendrickson</h1>
-        <div className="text-[17px] text-muted-foreground dark:text-foreground/80 mb-8 font-normal tracking-wide">
-          {text.subtitle}
-        </div>
+        <header className="mb-8 grid items-start gap-8 sm:grid-cols-[minmax(0,1fr)_auto]">
+          <div className="row-start-2 min-w-0 sm:col-start-1 sm:row-start-1">
+            <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark Hendrickson</h1>
+            <p className="text-[17px] text-muted-foreground dark:text-foreground/80 font-normal tracking-wide">
+              {text.subtitle}
+            </p>
+          </div>
+          <img
+            src="/profile.jpg"
+            alt="Mark Hendrickson"
+            className="row-start-1 w-full h-auto aspect-square rounded-none object-cover sm:col-start-2 sm:w-[160px] md:w-[220px] lg:w-[240px]"
+          />
+        </header>
 
         <div className="text-[16px] leading-[1.75]">
           <p className="mb-6">
