@@ -18,12 +18,19 @@
       "height": 1254
     },
     "email-envelope-open": {
-      "file": "email-envelope-open-v2.webp",
-      "sha256": "fb412f23451992251800ffd8680d98ac67943ac8e5fdf1f356de7df487df905c",
-      "pngSha256": "9d1545215100ebf48abfb479e39014174932a0adbe205cdf21c4b6f3e0f149bd",
-      "sourceFile": "email-envelope-open-v1.webp",
-      "sourceSha256": "169ffa3c4ef1c0748bb08f61f604305a427fe3c89c1e7b8df0b62199f7260b22",
-      "derivation": "Built-in imagegen edit of the first open envelope to correct the lower pocket fold; transparent PNG converted to alpha-preserving WebP."
+      "file": "email-envelope-open-physical-v4.webp",
+      "sha256": "6a1badbad8680c0af94cd33133054b2378afb24c2b11c418cc3bc86f8b807d51",
+      "pngSha256": "3b45c4e3c4d6e1d04d9df0daec7865b1cf8c9c47880854fbb017f7616217a222",
+      "width": 1254,
+      "height": 1254,
+      "opaqueBounds": [
+        60,
+        92,
+        1138,
+        1083
+      ],
+      "prompt": "Opened same broad blue envelope as hero, upright lower pocket fold, empty, top-down, isolated alpha. Targeted body-proportion correction to hero envelope: open body width:height about 1.7:1.",
+      "method": "Built-in imagegen referenced edit/generation; alpha-preserving WebP optimization only."
     },
     "observation-slip": {
       "file": "observation-slip.webp",
@@ -40,6 +47,21 @@
       "pngSha256": "36040b616fcffd342d95b8d967b53e2c4b8c3faeca26b8d7e04e316f129d4d28",
       "width": 1254,
       "height": 1254
+    },
+    "letter-paper": {
+      "file": "letter-paper-physical-v3.webp",
+      "sha256": "3870f2b21ac0235d22dcb356bd4a7b94e0944fb62cc52a5f1aa94b4a60b1087a",
+      "pngSha256": "bac151ce5a6ffc5e41a79fa5e7b818aca3f63c3408faacfa55dae1cc1ee6b5f8",
+      "width": 1254,
+      "height": 1254,
+      "opaqueBounds": [
+        204,
+        89,
+        846,
+        1074
+      ],
+      "prompt": "Single ivory fibrous paper sheet, blank, top-down, isolated alpha.",
+      "method": "Built-in imagegen referenced edit/generation; alpha-preserving WebP optimization only."
     }
   }
 }

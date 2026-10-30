@@ -28,6 +28,7 @@ import {
   truncateForLatestPublicationTeaser,
 } from '@/lib/utils'
 import { CodeBlock, MarkdownPre, markdownCodeComponentsWithLabels } from '@/components/CodeBlock'
+import { NeotomaEssayStrip } from '@/components/NeotomaEssayStrip'
 import { PaperArtwork, hasPaperArtwork } from '@/components/PaperArtwork'
 import { usePageVisualMotion } from '@/lib/paperVisualMotion'
 import { createHeadingIdAllocator, headingIdFromHash } from '@/lib/headingAnchors'
@@ -1864,6 +1865,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10" aria-hidden="true" />
               <div className="relative mx-auto w-full max-w-[calc(var(--content-max)+4rem)] px-8 pb-12 pt-32 md:pb-16">
+                <NeotomaEssayStrip slug={post.slug} locale={locale} />
                 <h1 className="m-0 text-[34px] font-semibold leading-[1.08] tracking-tight md:text-[54px]">
                   {displayTitle}
                 </h1>
@@ -1877,6 +1879,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           )}
           {!(editorialLayout && heroMatch && !isTweetPost) && (
           <header className="mb-8">
+            <NeotomaEssayStrip slug={post.slug} locale={locale} />
             <div className="mb-2 flex flex-col-reverse items-start gap-2 md:flex-row md:flex-wrap md:items-baseline md:justify-between md:gap-x-4 md:gap-y-2">
               <h1 className="m-0 min-w-0 w-full text-[28px] font-medium tracking-tight md:flex-1">
                 {isTweetPost

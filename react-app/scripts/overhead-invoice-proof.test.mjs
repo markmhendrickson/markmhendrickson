@@ -33,7 +33,7 @@ test('overhead proof keeps original sources, both observations and the complete 
 test('new material hashes are exact and cannot be smuggled into an ordinary production scene', async () => {
   const metadata = JSON.parse(fs.readFileSync(new URL('../src/dev/overhead-record/materials.json', import.meta.url)))
   for (const [name, expected] of Object.entries(PAPER_PROOF_ASSETS)) {
-    const bytes = fs.readFileSync(new URL(`../src/dev/overhead-record/materials/${name}.webp`, import.meta.url))
+    const bytes = fs.readFileSync(new URL(`../src/dev/overhead-record/materials/${metadata.assets[name].file}`, import.meta.url))
     assert.equal(createHash('sha256').update(bytes).digest('hex'), expected)
     assert.equal(metadata.assets[name].sha256, expected)
     const info = await sharp(bytes).metadata()
@@ -52,7 +52,7 @@ test('all four connections reach actual foreground ports after the corresponding
   const document = dom().window.document
   const ports = new Map([...document.querySelectorAll('[data-paper-port]')].map((node) => [node.getAttribute('data-paper-port'), [Number(node.getAttribute('cx')), Number(node.getAttribute('cy'))]]))
   const svg = document.documentElement
-  const directChildren = [...svg.children]
+  const directChildren = [...(document.querySelector('[data-paper-composition]') || svg).children]
   const connectionLayer = document.querySelector('[data-paper-connections]')
   for (const field of ['[data-paper-observation]', '[data-paper-source]', '[data-paper-current-record]']) {
     for (const node of document.querySelectorAll(field)) assert(directChildren.indexOf(node) < directChildren.indexOf(connectionLayer), 'opaque carriers paint before exposed connectors')
@@ -89,7 +89,7 @@ test('finite semantic playback moves only the independent observations and chang
   for (const node of document.querySelectorAll('[data-current-field="amount"]')) assert(!calls.has(node), 'selected amount is unchanged by read/update emphasis')
   assert.equal(document.querySelectorAll('[data-paper-envelope-state="open"]').length, 2)
   assert.equal(document.querySelector('[data-paper-envelope-state="closed"]').getAttribute('opacity'), '0')
-  assert.equal(document.querySelector('[data-paper-letter]').getAttribute('data-due-date'), '29')
+  assert.equal(document.querySelector('[data-paper-letter]').getAttribute('data-due-date'), 'later')
   const letter = calls.get(document.querySelector('[data-paper-letter]'))
   assert.equal(letter.frames[0].opacity, 0)
   assert.equal(letter.frames.at(-1).opacity, 1)
@@ -119,12 +119,16 @@ test('derived static art retains texture and clearly exposed connectors at full 
     assert.equal(info.width, width)
     // Connector immediately beyond the invoice surface. The stroke must remain navy,
     // rather than disappear beneath the photographic paper carrier.
-    const x = Math.round(236 * width / 900), y = Math.round(185 * width / 900)
+    const x = Math.round(236 * width / 900), y = Math.round(168 * width / 900)
     const neighborhood = []
     for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
       const i = ((y + dy) * width + x + dx) * info.channels
-      neighborhood.push(data[i] < 100 && data[i + 2] > data[i] && data[i + 1] < 130)
+      neighborhood.push(data[i] < 170 && data[i + 2] > data[i] && data[i + 1] < 180)
     }
-    assert(neighborhood.some(Boolean), `${width}px: exposed navy connection remains visible`)
+    assert(neighborhood.some(Boolean), `${width}px: exposed navy connection remains visibly darker and cooler than the paper after downsampling`)
+    const without=dom().window.document;without.querySelector('[data-paper-connections]').remove()
+    const absent=await sharp(await rasterPaperSvg(without.documentElement.outerHTML)).resize(width).removeAlpha().raw().toBuffer({resolveWithObject:true})
+    const counter=[];for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const i=((y+dy)*width+x+dx)*absent.info.channels;counter.push(absent.data[i]<170&&absent.data[i+2]>absent.data[i]&&absent.data[i+1]<180)}
+    assert(!counter.some(Boolean),'removing the path fails the real-pixel visibility measurement')
   }
 })

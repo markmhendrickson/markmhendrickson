@@ -1,0 +1,18 @@
+{
+  "identity": "Neotoma selected identity: symbol 'Retained sheets', wordmark N2 (Newsreader 600, licensed outlines)",
+  "decision": "The operator selected this Neotoma identity on 2026-10-06.",
+  "source_repository": "github.com/markmhendrickson/sites",
+  "source_commit": "2aed03818f5742e34d4bbc24d7a09662db76dd20",
+  "files": {
+    "n2-nav-light.svg": {
+      "source": "shared/site/generator/dist/images/logo-typography-2026-10-06/exports/n2-nav-light.svg",
+      "sha256": "49109046da1e12f583208e16ad0d2d67c6e95c12fa74682925a80c6d15e48624",
+      "use": "solid lockup on light grounds"
+    },
+    "n2-nav-dark.svg": {
+      "source": "shared/site/generator/dist/images/logo-typography-2026-10-06/exports/n2-nav-dark.svg",
+      "sha256": "dd0c9e14cca3a7780c6b3a28221165791c97ddd87264c9e46220a4ef710cb890",
+      "use": "solid lockup on dark grounds"
+    }
+  }
+}

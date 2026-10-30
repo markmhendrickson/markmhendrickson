@@ -194,7 +194,7 @@ test('published scenes have current hashes, matching standalone sources and cont
   }
   assert.deepEqual(provenance.scenes, Object.fromEntries(Object.entries(current).map(([name, [, scene]]) => [name, scene])))
   assert.deepEqual(provenance.refreshedScenes, Object.keys(current))
-  assert.equal(provenance.publicationSourceCommit, '774fc34b934a325c1fda05211f025263072aa9e2')
+  assert.equal(provenance.publicationSourceCommit, '81ff62f3e41327c5d6b2b3910db9d13eca7a9345')
   const materialHashes = new Set()
   for (const [name, [inlineName, scene]] of Object.entries(current)) {
     const standalone = fs.readFileSync(new URL(`../public/images/posts/neotoma-paper/${name}.svg`, import.meta.url))
@@ -222,11 +222,12 @@ test('published scenes have current hashes, matching standalone sources and cont
       assert.equal(provenance.outputSources[file].sourceCommit, provenance.publicationSourceCommit)
     }
   }
-  assert.equal(materialHashes.size, 9)
+  assert.equal(materialHashes.size, 12)
   for (const file of ['hero-square.png', 'your-agents-need-a-system-of-record-paper-1200x630.jpg']) {
     const root = file.endsWith('.jpg') ? '../public/images/og/' : '../public/images/posts/neotoma-paper/'
     const hash = createHash('sha256').update(fs.readFileSync(new URL(root + file, import.meta.url))).digest('hex')
     assert.equal(provenance.outputSources[file].sha256, hash)
+    assert.equal(provenance.outputSources[file].sourceCommit, provenance.publicationSourceCommit)
   }
   assert.equal(provenance.retainedOutputs['tools.svg'].renderedInArticle, false)
   assert.equal(provenance.authoredSourceCommit, '36686acfdf48887292f6613cf88eb5f84fbac090')

@@ -58,3 +58,60 @@ test('an unrecognized hybrid scene does not enter the privileged choreography', 
   motion.playPaperScene(document.documentElement)
   assert(!calls.has(port), 'unknown scene cannot opt into staged endpoint choreography')
 })
+
+// Evaluate normal-motion CSS in the DOM as well as presentation opacity. This
+// catches media rules that leave the authored fallback invisible without JS.
+function fallbackDocument(svg) {
+  const dom = new JSDOM(`<!doctype html><html><head></head><body>${svg}</body></html>`)
+  for (const style of dom.window.document.querySelectorAll('style')) {
+    // These trusted scenes use only no-preference/reduce media queries. Select
+    // the ordinary no-preference branch so its old opacity:0 regression is real.
+    const sheet = dom.window.document.createElement('style')
+    sheet.textContent = style.textContent.replace(/@media\s*\(prefers-reduced-motion:\s*no-preference\)\s*\{([^{}]*\{[^{}]*\})\s*\}/g, '$1')
+      .replace(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{([^{}]*\{[^{}]*\})\s*\}/g, '')
+    dom.window.document.head.appendChild(sheet)
+  }
+  return dom
+}
+function visibleOpacity(dom, node) {
+  let value = 1
+  for (let current = node; current?.nodeType === 1; current = current.parentElement) {
+    const css = dom.window.getComputedStyle(current).opacity
+    value *= Number(css || current.getAttribute('opacity') || 1)
+  }
+  return value
+}
+function assertFallbackVisible(dom, scene) {
+  for (const node of dom.window.document.querySelectorAll('[data-paper-port],[data-paper-letter],[data-paper-envelope-state="open"],[data-inspection-object],[data-explanation-root]'))
+    assert(visibleOpacity(dom, node) > .99, `${scene}: ${node.getAttribute('data-paper-port') || node.getAttribute('data-paper-letter') || 'open envelope'} stays visible`)
+}
+test('no-JS, missing motion APIs, reduced motion and observer disposal retain the complete authored frame', () => {
+  for (const [file, scene] of Object.entries(scenes)) {
+    const svg = fs.readFileSync(new URL(`../src/assets/neotoma-paper/published/${file}.svg`, import.meta.url), 'utf8')
+    const staticDom = fallbackDocument(svg)
+    assertFallbackVisible(staticDom, scene)
+    for (const missing of ['animate','IntersectionObserver','matchMedia']) {
+      const dom = fallbackDocument(svg), view = dom.window
+      globalThis.window = view; globalThis.document = view.document; globalThis.Element = view.Element
+      view.matchMedia = () => ({matches:false,addEventListener(){},removeEventListener(){}})
+      view.IntersectionObserver = class { observe(){} disconnect(){} }
+      view.Element.prototype.animate = () => { throw Error('fallback must not animate') }
+      if (missing === 'animate') delete view.Element.prototype.animate
+      else if (missing === 'IntersectionObserver') view.IntersectionObserver = undefined
+      else view.matchMedia = undefined
+      const stop = motion.observeViewportMotion([view.document.querySelector('svg')],motion.playPaperScene)
+      assertFallbackVisible(dom, `${scene}/${missing}`);stop();assertFallbackVisible(dom,`${scene}/${missing}/cleanup`)
+    }
+    for (const reduced of [false,true]) {
+      const dom=fallbackDocument(svg),view=dom.window
+      globalThis.window=view;globalThis.document=view.document;globalThis.Element=view.Element
+      view.matchMedia=()=>({matches:reduced,addEventListener(){},removeEventListener(){}})
+      class Observer { observe(){} disconnect(){} }
+      view.IntersectionObserver=Observer;globalThis.IntersectionObserver=Observer
+      view.Element.prototype.animate=()=>{throw Error('not entered')}
+      const stop=motion.observeViewportMotion([view.document.querySelector('svg')],motion.playPaperScene)
+      if(reduced)assertFallbackVisible(dom,`${scene}/reduced`)
+      stop();assertFallbackVisible(dom,`${scene}/disposed-before-entry`)
+    }
+  }
+})
