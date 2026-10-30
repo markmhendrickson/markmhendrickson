@@ -1,18 +1,21 @@
+![Tactile paper records, conversations, and agents connected to a shared archive.](assets/profile/paper-records-cover.png)
+
 # Hi, I'm Mark
 
-Building structured memory for the agentic era.
+Building Neotoma, the system of record for AI agents, and Ateles, an operating system for agentic organizations.
 
-I'm building [Neotoma](https://neotoma.io), a structured memory layer for AI agents. The core problem: agents are increasingly stateful—handling tasks, contacts, transactions, and commitments over time—but their memory is built for retrieval, not truth. Neotoma treats personal data the way production systems treat state: typed entities, stable IDs, full provenance, deterministic queries. Local-first, cross-platform via MCP, and entirely user-controlled.
+I'm building **[Neotoma](https://neotoma.io)**, the system of record for AI agents. Connected agents can read current values and inspect the observations and sources behind them. Neotoma is open source, runs locally, and connects through MCP, a REST API, and a CLI.
 
-The principle underneath is the same one that's driven all of my work: people should control their own data, memory, and digital infrastructure—not rent it from platforms that optimize for engagement over truth.
+I work as a solo founder in Barcelona, operating with AI agents as a team. Email, finance, content, and product workflows run through a shared repo and a shared record. That experience informs **[Ateles](https://github.com/markmhendrickson/ateles)**, an open-source project in development for organizing agents, tasks, and plans around Neotoma's shared record.
 
-I work as a solo founder in Barcelona. Workflows (email, finance, content, product) run through agents against a shared repo and source of truth—only workable when the state layer is explicit and inspectable.
+The principle underneath: people should control their own data, memory, money, and digital infrastructure.
 
-**Previously:** TechCrunch · Plancast (acquired by Active Network) · KITE Solutions · Hiro/Stacks · Leather/Trust Machines. Nearly two decades across consumer web, crypto, and startups. Full arc: [timeline](https://markmhendrickson.com/timeline).
+**Previously:** TechCrunch · Plancast (acquired by Active Network) · KITE Solutions · Hiro/Stacks · Leather/Trust Machines. Nearly two decades across consumer web, crypto, and startups. See the full [timeline](https://markmhendrickson.com/timeline).
 
 **Currently:**
-- **[Neotoma](https://github.com/markmhendrickson/neotoma)** — user-owned memory layer for AI agents (MCP, structured data, provenance)
-- **[Ateles](https://github.com/markmhendrickson/ateles)** — monorepo for my agent-native workflow (site, content, finances, automation); Neotoma is the memory layer underneath
-- **[markmhendrickson.com](https://markmhendrickson.com)** — essays and updates (this repo builds the site)
 
-**Elsewhere:** [Website](https://markmhendrickson.com) · [X @markymark](https://x.com/markymark) · [LinkedIn](https://linkedin.com/in/markmhendrickson)
+- **[Neotoma](https://github.com/markmhendrickson/neotoma)** — the system of record for AI agents.
+- **[Ateles](https://github.com/markmhendrickson/ateles)** — an operating system for agentic organizations, in development.
+- **[markmhendrickson.com](https://markmhendrickson.com)** — essays and updates; this repository also builds the site.
+
+**Elsewhere:** [Website](https://markmhendrickson.com) · [X @markymark](https://x.com/markymark) · [LinkedIn](https://linkedin.com/in/markmhendrickson) · [Medium](https://medium.com/@markymark) · [Substack](https://substack.com/@markmhendrickson)
