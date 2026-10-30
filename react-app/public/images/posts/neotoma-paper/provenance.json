@@ -375,6 +375,55 @@
         "react-app/src/dev/overhead-record/competingClaimsProof.svg": "e76b0aaff773b24fd7fb89f5e248ba54d7a37bec6bc4e8b556550b038d9f6e81",
         "react-app/src/dev/overhead-record/explanationsImpactProof.svg": "019c4fd3c6e62572e1059e08b6e9a3edd66c234fd847e81e1fac827d4f27311a"
       }
+    },
+    "09543b258eea893ed20901ac918909aaee8b21dd": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceFiles": [
+        "react-app/scripts/generate-archive-hero.mjs",
+        "react-app/scripts/export-paper-artwork.mjs",
+        "react-app/scripts/publish_overhead_inline_artwork.py",
+        "react-app/src/components/PaperArtwork.tsx",
+        "react-app/src/lib/paperVisualMotion.ts",
+        "react-app/src/index.css",
+        "react-app/src/dev/overhead-record/ARCHIVE-HERO-HANDOFF.md",
+        "react-app/scripts/overhead-marks.mjs",
+        "react-app/src/dev/overhead-record/materials.json",
+        "react-app/src/dev/overhead-record/physical-materials.json",
+        "react-app/src/dev/overhead-record/invoice.svg",
+        "react-app/src/dev/overhead-record/materials/document-packet.webp",
+        "react-app/src/dev/overhead-record/materials/entity-dossier.webp",
+        "react-app/src/dev/overhead-record/materials/observation-slip.webp",
+        "react-app/src/dev/overhead-record/materials/clipboard-clip-physical-v3.webp",
+        "react-app/src/dev/overhead-record/archive-material.json",
+        "react-app/src/dev/overhead-record/archive-hero-geometry.json",
+        "react-app/src/dev/overhead-record/materials/archive-tray-overhead-v2.png",
+        "react-app/src/dev/overhead-record/materials/archive-tray-overhead-v2.webp",
+        "react-app/src/dev/overhead-record/archive-hero-desktop.svg",
+        "react-app/src/dev/overhead-record/archive-hero-mobile.svg"
+      ],
+      "sourceHashes": {
+        "react-app/scripts/generate-archive-hero.mjs": "07c707c0c57c630da4a536d5da7aa4c9dd995350ffdb107c5fb5731e4e03029e",
+        "react-app/scripts/export-paper-artwork.mjs": "18ce45d4193f402d645c3f4b6ccf62834e4e7bcdf9e0003e7f944535e8a411fe",
+        "react-app/scripts/publish_overhead_inline_artwork.py": "a5abccfeac106ae6bbb6f9b4ff4888a103faad564573c49f96d3e6cfb87e9acb",
+        "react-app/src/components/PaperArtwork.tsx": "864fc6c00a1f8c8250db41a687d17e45ae4ec8aff6504f1452561b977ac39857",
+        "react-app/src/lib/paperVisualMotion.ts": "010dbc996644349654e75a7f6e3c442196af0e3560ed7e84db5ba5fe57f53903",
+        "react-app/src/index.css": "188c906dfc6218aa18d2b628e5aa579651512d9bb30edd258060d04e2cfdc9fb",
+        "react-app/src/dev/overhead-record/ARCHIVE-HERO-HANDOFF.md": "72cd66c551195f8676c0a1ea6822b8d982743bd3ebb5cdb7de729c6c916361bb",
+        "react-app/scripts/overhead-marks.mjs": "51316bc3c652cccca2baafabd6a5708f87a4b2ea6ee0c1beaa2d50a6c4bd8c5f",
+        "react-app/src/dev/overhead-record/materials.json": "284462e2aa8cf024ed7a8a1820f160de671ea36a123f0f65d79602f5d30c0f95",
+        "react-app/src/dev/overhead-record/physical-materials.json": "6c7c0b78d0e218b23e86536031a45b2bfacd037996a431aed3f92556fc681062",
+        "react-app/src/dev/overhead-record/invoice.svg": "05e66b81b7ffd3f5fe9dec89b686f86a3a2f4371f205818741fa03e9f8cd57c6",
+        "react-app/src/dev/overhead-record/materials/document-packet.webp": "59e2ce139e5606fbc64ecb27abf5b41ac615e8cf86866af21e08158f47fc4773",
+        "react-app/src/dev/overhead-record/materials/entity-dossier.webp": "d1133eb4e26412fd0be76929ad257756f370e8f2e8760dd599e47bd41b4b9ece",
+        "react-app/src/dev/overhead-record/materials/observation-slip.webp": "b13701ca89a9a7b39c542ad55d3a53057944e3df31574019558e8389281c8a05",
+        "react-app/src/dev/overhead-record/materials/clipboard-clip-physical-v3.webp": "c79db67612add69e963c4309b0e646b30014de4bd6d781f4cbf481b60e146188",
+        "react-app/src/dev/overhead-record/archive-material.json": "d786b5949f60d7c763addca24892bc219369020937bfcf10418fcb60833e7952",
+        "react-app/src/dev/overhead-record/archive-hero-geometry.json": "b46c3e317cbfaa9bc036579cd479876b4433d42b5b9f46fa4541e8414c515a37",
+        "react-app/src/dev/overhead-record/materials/archive-tray-overhead-v2.png": "effbb5d25d059a622e3c67149a9acba8dcf25944a36e5f478ef8b3ae711a3879",
+        "react-app/src/dev/overhead-record/materials/archive-tray-overhead-v2.webp": "6e204b4da85a9a1f3a96181bf35257a66ae36ce01c261cd21b7a3f71ed9c3505",
+        "react-app/src/dev/overhead-record/archive-hero-desktop.svg": "4caed2b8910ac0c835b23ae9e4d38ca4cf7981284ea7ccb3e8a4b0db218a2cc6",
+        "react-app/src/dev/overhead-record/archive-hero-mobile.svg": "a855ef03a5788c535ab93cfebb346317d2955007b25a9efda888fc379fa8f269"
+      }
     }
   },
   "refreshedScenes": [
@@ -525,6 +574,52 @@
       "scene": "connectedRecordsProof",
       "sha256": "3dc7647f646a639c6b01ea4fad0446131d54709a62ac3a02912260c05e8a7c41",
       "sourceSha256": "4b3ec5b1a50aef4fb8fd89a5dbf24c3955a2cc5befa26f34b3f7d9f4623ff713"
+    },
+    "archive-hero-desktop.svg": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "09543b258eea893ed20901ac918909aaee8b21dd",
+      "sourcePath": "react-app/src/dev/overhead-record/archive-hero-desktop.svg",
+      "sourceSha256": "4caed2b8910ac0c835b23ae9e4d38ca4cf7981284ea7ccb3e8a4b0db218a2cc6",
+      "scene": "archiveHeroDesktop",
+      "sha256": "4caed2b8910ac0c835b23ae9e4d38ca4cf7981284ea7ccb3e8a4b0db218a2cc6"
+    },
+    "archive-hero-desktop.png": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "09543b258eea893ed20901ac918909aaee8b21dd",
+      "sourcePath": "react-app/src/dev/overhead-record/archive-hero-desktop.svg",
+      "sourceSha256": "4caed2b8910ac0c835b23ae9e4d38ca4cf7981284ea7ccb3e8a4b0db218a2cc6",
+      "scene": "archiveHeroDesktop",
+      "sha256": "f00fab4734ba74eca757840fcf184f1794b6c89a4677c440c82c97e6d9b2a0f4"
+    },
+    "archive-hero-mobile.svg": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "09543b258eea893ed20901ac918909aaee8b21dd",
+      "sourcePath": "react-app/src/dev/overhead-record/archive-hero-mobile.svg",
+      "sourceSha256": "a855ef03a5788c535ab93cfebb346317d2955007b25a9efda888fc379fa8f269",
+      "scene": "archiveHeroMobile",
+      "sha256": "a855ef03a5788c535ab93cfebb346317d2955007b25a9efda888fc379fa8f269"
+    },
+    "archive-hero-mobile.png": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "09543b258eea893ed20901ac918909aaee8b21dd",
+      "sourcePath": "react-app/src/dev/overhead-record/archive-hero-mobile.svg",
+      "sourceSha256": "a855ef03a5788c535ab93cfebb346317d2955007b25a9efda888fc379fa8f269",
+      "scene": "archiveHeroMobile",
+      "sha256": "61666351e1d320d634dc4f20b8d2d53504f0dae5be70ed63c271bc8802c87246"
+    },
+    "archive-hero-square.png": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "09543b258eea893ed20901ac918909aaee8b21dd",
+      "sourceSha256": "4caed2b8910ac0c835b23ae9e4d38ca4cf7981284ea7ccb3e8a4b0db218a2cc6",
+      "scene": "archiveHeroDesktop",
+      "sha256": "e140f9948cf51d6132a7b73d8d7bd5104cceee3bd0899ba8dfaff174c7d36d9e"
+    },
+    "your-agents-need-a-system-of-record-archive-1200x630.jpg": {
+      "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+      "sourceCommit": "09543b258eea893ed20901ac918909aaee8b21dd",
+      "sourceSha256": "4caed2b8910ac0c835b23ae9e4d38ca4cf7981284ea7ccb3e8a4b0db218a2cc6",
+      "scene": "archiveHeroDesktop",
+      "sha256": "539608336f6666f49c09cf19b5d719004f207db559b6d262cf2505ca8eee53f9"
     }
   },
   "derivedRasterMatte": {
@@ -690,7 +785,13 @@
     "vision-positions.png": "9e58b91dcea2f1fea7b45659f2d1d2bd406fbf605606c3227ee626f3d8320552",
     "vision-explanation.svg": "019c4fd3c6e62572e1059e08b6e9a3edd66c234fd847e81e1fac827d4f27311a",
     "vision-explanation.png": "ca552d50fe5bb8297ec0439f9839c5dc64c0cfdf591565243b6b52e6fe6e49b9",
-    "your-agents-need-a-system-of-record-paper-1200x630.jpg": "3dc7647f646a639c6b01ea4fad0446131d54709a62ac3a02912260c05e8a7c41"
+    "your-agents-need-a-system-of-record-paper-1200x630.jpg": "3dc7647f646a639c6b01ea4fad0446131d54709a62ac3a02912260c05e8a7c41",
+    "archive-hero-desktop.svg": "4caed2b8910ac0c835b23ae9e4d38ca4cf7981284ea7ccb3e8a4b0db218a2cc6",
+    "archive-hero-desktop.png": "f00fab4734ba74eca757840fcf184f1794b6c89a4677c440c82c97e6d9b2a0f4",
+    "archive-hero-mobile.svg": "a855ef03a5788c535ab93cfebb346317d2955007b25a9efda888fc379fa8f269",
+    "archive-hero-mobile.png": "61666351e1d320d634dc4f20b8d2d53504f0dae5be70ed63c271bc8802c87246",
+    "archive-hero-square.png": "e140f9948cf51d6132a7b73d8d7bd5104cceee3bd0899ba8dfaff174c7d36d9e",
+    "your-agents-need-a-system-of-record-archive-1200x630.jpg": "539608336f6666f49c09cf19b5d719004f207db559b6d262cf2505ca8eee53f9"
   },
   "authoredSourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
   "authoredSourceCommit": "36686acfdf48887292f6613cf88eb5f84fbac090",
@@ -878,5 +979,23 @@
   },
   "publicationSourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
   "publicationSourceCommit": "81ff62f3e41327c5d6b2b3910db9d13eca7a9345",
-  "publicationMethod": "Reviewed overhead proof scenes are preserved as standalone self-contained SVGs. Inline article SVGs externalize only content-addressed, same-origin WebP materials to avoid duplicating them in prerendered HTML."
+  "publicationMethod": "Reviewed overhead proof scenes are preserved as standalone self-contained SVGs. Inline article SVGs externalize only content-addressed, same-origin WebP materials to avoid duplicating them in prerendered HTML.",
+  "archiveHero": {
+    "sourceRepository": "https://github.com/markmhendrickson/markmhendrickson",
+    "sourceCommit": "09543b258eea893ed20901ac918909aaee8b21dd",
+    "breakpoint": 640,
+    "layouts": {
+      "desktop": "0 0 900 600",
+      "mobile": "0 0 600 800"
+    },
+    "fit": "Square and OG contain the complete desktop composition on the same warm matte",
+    "outputs": [
+      "archive-hero-desktop.svg",
+      "archive-hero-desktop.png",
+      "archive-hero-mobile.svg",
+      "archive-hero-mobile.png",
+      "archive-hero-square.png",
+      "your-agents-need-a-system-of-record-archive-1200x630.jpg"
+    ]
+  }
 }
