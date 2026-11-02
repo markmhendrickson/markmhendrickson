@@ -91,56 +91,56 @@ export default function Home() {
   return (
     <div className="flex justify-center items-start min-h-content pt-8 pb-4 px-4 md:pt-20 md:pb-[100px] md:px-8">
       <div className="max-w-[var(--content-max)] w-full">
-        <header className="mb-8 grid items-start gap-8 sm:grid-cols-[minmax(0,1fr)_auto]">
-          <div className="row-start-2 min-w-0 sm:col-start-1 sm:row-start-1">
+        <div className="flow-root">
+          <img
+            src="/profile.jpg"
+            alt="Mark Hendrickson"
+            className="mb-8 w-full h-auto aspect-square rounded-none object-cover sm:float-right sm:mb-6 sm:ml-8 sm:w-[160px] md:w-[220px] lg:w-[240px]"
+          />
+          <header className="mb-8">
             <h1 className="text-[28px] font-medium mb-2 tracking-tight">Mark Hendrickson</h1>
             <p className="text-[17px] text-muted-foreground dark:text-foreground/80 font-normal tracking-wide">
               {text.subtitle}
             </p>
+          </header>
+
+          <div className="text-[16px] leading-[1.75]">
+            <p className="mb-6">
+              {text.p1Before}
+              <a
+                href="https://neotoma.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={LINK_CLASS}
+              >
+                {text.p1Link}
+              </a>
+              {text.p1After}
+            </p>
+
+            <p className="mb-6">{text.p2}</p>
+
+            <p className="mb-6">
+              {text.p3Before}
+              <a
+                href="https://github.com/markmhendrickson/ateles"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={LINK_CLASS}
+              >
+                {text.p3Link}
+              </a>
+              {text.p3After}
+            </p>
+
+            <p>
+              {text.p4Before}
+              <Link to={localizePath('/timeline', locale)} className={LINK_CLASS}>
+                {text.p4Link}
+              </Link>
+              {text.p4After}
+            </p>
           </div>
-          <img
-            src="/profile.jpg"
-            alt="Mark Hendrickson"
-            className="row-start-1 w-full h-auto aspect-square rounded-none object-cover sm:col-start-2 sm:w-[160px] md:w-[220px] lg:w-[240px]"
-          />
-        </header>
-
-        <div className="text-[16px] leading-[1.75]">
-          <p className="mb-6">
-            {text.p1Before}
-            <a
-              href="https://neotoma.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={LINK_CLASS}
-            >
-              {text.p1Link}
-            </a>
-            {text.p1After}
-          </p>
-
-          <p className="mb-6">{text.p2}</p>
-
-          <p className="mb-6">
-            {text.p3Before}
-            <a
-              href="https://github.com/markmhendrickson/ateles"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={LINK_CLASS}
-            >
-              {text.p3Link}
-            </a>
-            {text.p3After}
-          </p>
-
-          <p>
-            {text.p4Before}
-            <Link to={localizePath('/timeline', locale)} className={LINK_CLASS}>
-              {text.p4Link}
-            </Link>
-            {text.p4After}
-          </p>
         </div>
 
         <HomeLatestPosts items={latestItems} totalPages={totalPages} />
