@@ -70,3 +70,24 @@ test('private config is token-free, origin-constrained and safe for output paths
   for (const config of invalid) assert.throws(() => parseShortLinks(JSON.stringify(config)))
   assert.throws(() => parseShortLinks('not json'))
 })
+
+test('full site build emits configured redirect pages without publishing a discovery registry', {
+  skip: process.env.CHECK_SHORT_LINKS_BUILD !== '1',
+}, () => {
+  const dist = new URL('../dist/', import.meta.url)
+  const links = parseShortLinks(process.env.NEOTOMA_SHORT_LINKS_JSON)
+  assert.ok(links.length > 0, 'build verification requires synthetic configured links')
+  for (const { slug, destination: expected } of links) {
+    const html = readFileSync(new URL(`l/${slug}/index.html`, dist), 'utf8')
+    const redirected = new URL(execute(html).redirected)
+    assert.equal(`${redirected.origin}${redirected.pathname}`, expected)
+    assert.equal(redirected.searchParams.get('access_token'), 'synthetic-token')
+    for (const file of ['sitemap.xml', 'rss.xml', 'llms-full.txt', 'index.html']) {
+      const content = readFileSync(new URL(file, dist), 'utf8')
+      assert.equal(content.includes(`/l/${slug}`), false, file)
+      assert.equal(content.includes(expected), false, file)
+    }
+  }
+  assert.equal(existsSync(new URL('l/unknown/index.html', dist)), false)
+  assert.ok(existsSync(new URL('404.html', dist)), 'unknown paths retain the built 404 page')
+})

@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SKIP_WEBSITE_CACHE_REGEN: "1"
+      NEOTOMA_SHORT_LINKS_JSON: '{"origin":"https://records.example","links":{"shared-page":"ent_0123456789abcdef01234567"}}'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,6 +25,9 @@ jobs:
       - name: Install dependencies
         working-directory: react-app
         run: npm ci
+      - name: Verify short-link redirect behavior
+        working-directory: react-app
+        run: npm run test:short-links
       - name: Rebuild committed locale caches
         working-directory: react-app
         run: python3 scripts/rebuild_locale_post_caches.py
@@ -56,6 +60,12 @@ jobs:
       - name: Build and verify rendered routes
         working-directory: react-app
         run: npm run build:ci
+
+      - name: Verify generated short links and discovery exclusions
+        working-directory: react-app
+        env:
+          CHECK_SHORT_LINKS_BUILD: "1"
+        run: npm run test:short-links
 
       - name: Verify essay publication, aliases, and overhead artwork
         working-directory: react-app
