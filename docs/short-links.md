@@ -18,8 +18,28 @@ token-free JSON object. For example, using synthetic values:
 }
 ```
 
-Add or change a slug in that private configuration, then run the normal website
-build/deployment. For local builds, supply the same environment variable from
+Agents use Ateles's `execution/scripts/publish_rendered_page.py` owning workflow
+to publish an approved guest page and automatically register or reuse its alias.
+The complete token-free registry lives in the owning private
+`deployment_configuration.short_links` binding. Initialize it by importing the
+complete known existing map and verified secret metadata; GitHub cannot return
+encrypted secret contents. All registry/secret writers must use that workflow
+on its one configured publisher host and account. Do not race it with manual
+secret edits. It preserves every existing alias and shares a shortened URL only
+after deployment and recipient-path verification; failures retain a verified
+original URL or hold safely with outstanding work. Native Neotoma publishing
+calls themselves continue to return long URLs.
+
+The helper dispatches `deploy.yml` on the repository's default branch using an
+opaque `alias_request_id` and `expected_source_sha`. The workflow serializes
+Pages deployments, reads the current private registry secret during each build,
+and rejects source that no longer equals the default-branch head before building
+and before publishing. Do not rerun an older source to recover a failed alias
+publication. Reconcile ambiguous secret writes or dispatches using the owning
+Ateles workflow's documented recovery procedure rather than guessing contents
+or blindly repeating an effect.
+
+For local builds, supply the same environment variable from
 your existing private configuration process. Never put an access token in this
 configuration, source files, terminal commands, logs, or committed fixtures.
 An absent configuration generates no short links; invalid configuration fails
