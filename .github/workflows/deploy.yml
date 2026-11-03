@@ -177,6 +177,11 @@ jobs:
         with:
           path: react-app/dist
 
+      - name: Refuse a superseded workflow run before publishing
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: node react-app/scripts/verify-latest-pages-run.mjs
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

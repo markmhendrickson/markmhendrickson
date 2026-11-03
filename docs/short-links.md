@@ -32,9 +32,17 @@ calls themselves continue to return long URLs.
 
 The helper dispatches `deploy.yml` on the repository's default branch using an
 opaque `alias_request_id` and `expected_source_sha`. The workflow serializes
-Pages deployments, reads the current private registry secret during each build,
-and rejects source that no longer equals the default-branch head before building
-and before publishing. Do not rerun an older source to recover a failed alias
+Pages deployments and rejects source that no longer equals the default-branch
+head before building and before publishing. GitHub snapshots repository secrets
+when a run is queued. Immediately before deployment, a public metadata check
+therefore requires this to be the newest run of this workflow on the default
+branch, even when a newer run was cancelled, skipped or failed. This prevents an
+older same-source build from restoring an older alias map after a newer build.
+Missing, malformed or incomplete metadata holds deployment; an old rerun with
+more than 100 runs in its creation-time window also holds rather than trusting
+a partial history page. This check reads public metadata without a credential
+or new Actions permission. Dispatch a fresh default-branch build after
+reconciling outstanding work. Do not rerun an older source to recover a failed alias
 publication. Reconcile ambiguous secret writes or dispatches using the owning
 Ateles workflow's documented recovery procedure rather than guessing contents
 or blindly repeating an effect.
