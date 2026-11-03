@@ -1,7 +1,7 @@
 # Shared-page short links
 
-The GitHub Pages build can generate standalone `/l/<slug>/` pages that redirect
-to Neotoma rendered pages. Share `/l/<slug>?t=<access-token>`; GitHub Pages adds
+The GitHub Pages build can generate standalone `/p/<slug>/` pages that redirect
+to Neotoma rendered pages. Share `/p/<slug>?t=<access-token>`; GitHub Pages adds
 the trailing slash, and the page forwards `t` as `access_token` using
 `location.replace`. Neotoma still validates the token, including its scope and
 revocation. A short link does not grant access by itself.

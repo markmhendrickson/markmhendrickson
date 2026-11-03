@@ -16,7 +16,7 @@ function execute(html, suffix = '?t=synthetic-token', slash = '/') {
   let redirected
   vm.runInNewContext(script, {
     URL, document: { getElementById: () => message },
-    window: { location: { href: `https://site.example/l/shared-page${slash}${suffix}`, replace: (url) => { redirected = url } } },
+    window: { location: { href: `https://site.example/p/shared-page${slash}${suffix}`, replace: (url) => { redirected = url } } },
   })
   return { redirected, message: message.textContent, script }
 }
@@ -25,7 +25,7 @@ test('generated deployed page forwards only t to the fixed destination with enco
   const dist = mkdtempSync(path.join(os.tmpdir(), 'short-links-'))
   try {
     assert.equal(generateShortLinks({ raw: fixture, dist }), 1)
-    const html = readFileSync(path.join(dist, 'l/shared-page/index.html'), 'utf8')
+    const html = readFileSync(path.join(dist, 'p/shared-page/index.html'), 'utf8')
     for (const slash of ['', '/']) {
       const token = 'synthetic+/=&?#token'
       const result = execute(html, `?t=${encodeURIComponent(token)}`, slash)
@@ -34,8 +34,8 @@ test('generated deployed page forwards only t to the fixed destination with enco
       assert.equal(target.searchParams.get('access_token'), token)
       assert.deepEqual([...target.searchParams.keys()], ['access_token'])
     }
-    assert.equal(existsSync(path.join(dist, 'l/unknown/index.html')), false)
-    assert.equal(existsSync(path.join(dist, 'l/index.html')), false)
+    assert.equal(existsSync(path.join(dist, 'p/unknown/index.html')), false)
+    assert.equal(existsSync(path.join(dist, 'p/index.html')), false)
     assert.equal(html.includes('synthetic-token'), false)
     assert.match(html, /name="robots" content="noindex,nofollow,noarchive"/)
     assert.match(html, /name="referrer" content="no-referrer"/)
@@ -43,7 +43,7 @@ test('generated deployed page forwards only t to the fixed destination with enco
     const digest = createHash('sha256').update(execute(html).script).digest('base64')
     assert.ok(html.includes(`script-src 'sha256-${digest}'`))
     assert.equal(generateShortLinks({ raw: '', dist }), 0)
-    assert.equal(existsSync(path.join(dist, 'l/shared-page/index.html')), false)
+    assert.equal(existsSync(path.join(dist, 'p/shared-page/index.html')), false)
   } finally { rmSync(dist, { recursive: true, force: true }) }
 })
 
@@ -78,16 +78,16 @@ test('full site build emits configured redirect pages without publishing a disco
   const links = parseShortLinks(process.env.NEOTOMA_SHORT_LINKS_JSON)
   assert.ok(links.length > 0, 'build verification requires synthetic configured links')
   for (const { slug, destination: expected } of links) {
-    const html = readFileSync(new URL(`l/${slug}/index.html`, dist), 'utf8')
+    const html = readFileSync(new URL(`p/${slug}/index.html`, dist), 'utf8')
     const redirected = new URL(execute(html).redirected)
     assert.equal(`${redirected.origin}${redirected.pathname}`, expected)
     assert.equal(redirected.searchParams.get('access_token'), 'synthetic-token')
     for (const file of ['sitemap.xml', 'rss.xml', 'llms-full.txt', 'index.html']) {
       const content = readFileSync(new URL(file, dist), 'utf8')
-      assert.equal(content.includes(`/l/${slug}`), false, file)
+      assert.equal(content.includes(`/p/${slug}`), false, file)
       assert.equal(content.includes(expected), false, file)
     }
   }
-  assert.equal(existsSync(new URL('l/unknown/index.html', dist)), false)
+  assert.equal(existsSync(new URL('p/unknown/index.html', dist)), false)
   assert.ok(existsSync(new URL('404.html', dist)), 'unknown paths retain the built 404 page')
 })

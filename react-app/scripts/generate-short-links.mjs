@@ -65,7 +65,7 @@ export function shortLinkHtml(destination) {
 export function generateShortLinks({ raw, dist }) {
   // Validate everything before touching an existing build. No configuration values are logged.
   const links = parseShortLinks(raw)
-  const directory = path.join(dist, 'l')
+  const directory = path.join(dist, 'p')
   rmSync(directory, { recursive: true, force: true })
   for (const { slug, destination } of links) {
     const pageDirectory = path.join(directory, slug)
