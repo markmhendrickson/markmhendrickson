@@ -1,7 +1,14 @@
 import { createHash } from 'node:crypto'
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+const template = JSON.parse(readFileSync(new URL('./short-link-template.json', import.meta.url), 'utf8'))
+if (template.version !== 1 || Object.keys(template).sort().join(',') !== 'html,script,version' ||
+    template.script.split('{{DESTINATION_JSON}}').length !== 2 ||
+    template.html.split('{{SCRIPT}}').length !== 2 || template.html.split('{{CSP_DIGEST}}').length !== 2) {
+  throw new Error('Invalid short-link template contract')
+}
 
 /** Private build configuration only; never put access tokens in this value. */
 export function parseShortLinks(raw) {
@@ -31,35 +38,9 @@ export function parseShortLinks(raw) {
 }
 
 export function shortLinkHtml(destination) {
-  const script = `(() => {
-  const message = document.getElementById('message');
-  try {
-    const incoming = new URL(window.location.href);
-    const entries = [...incoming.searchParams];
-    const token = incoming.searchParams.get('t');
-    if (entries.length !== 1 || entries[0][0] !== 't' || !token || token.length > 4096 || /[\\s\\u0000-\\u001f\\u007f\\ufffd]/u.test(token) || incoming.hash || /%(?![0-9a-f]{2})/i.test(incoming.search)) {
-      message.textContent = 'This link needs a valid access token. Ask the person who shared it for the complete link.';
-      return;
-    }
-    const destination = new URL(${JSON.stringify(destination).replaceAll('<', '\\u003c')});
-    destination.searchParams.set('access_token', token);
-    window.location.replace(destination.href);
-  } catch {
-    message.textContent = 'This link could not be opened. Ask the person who shared it for a new link.';
-  }
-})();`
+  const script = template.script.replace('{{DESTINATION_JSON}}', JSON.stringify(destination).replaceAll('<', '\\u003c'))
   const digest = createHash('sha256').update(script).digest('base64')
-  return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow,noarchive">
-<meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-${digest}'; base-uri 'none'; form-action 'none'">
-<title>Opening shared page</title></head>
-<body><p id="message">Opening shared page…</p>
-<noscript>JavaScript is required to open this shared link. Ask the person who shared it for the original page link.</noscript>
-<script>${script}</script></body></html>
-`
+  return template.html.replace('{{CSP_DIGEST}}', digest).replace('{{SCRIPT}}', script)
 }
 
 export function generateShortLinks({ raw, dist }) {

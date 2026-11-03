@@ -27,7 +27,7 @@ jobs:
         run: npm ci
       - name: Verify short-link redirect behavior
         working-directory: react-app
-        run: npm run test:short-links
+        run: npm run test:short-links && node --test scripts/short-link-workflow.test.mjs
       - name: Rebuild committed locale caches
         working-directory: react-app
         run: python3 scripts/rebuild_locale_post_caches.py
