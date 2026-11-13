@@ -3,7 +3,7 @@
   "copy": {
     "en": {
       "title": "Neotoma",
-      "subtitle": "A deterministic, privacy-first memory layer for AI agents — built capital-efficient out of Barcelona.",
+      "subtitle": "The system of record for AI agents.",
       "pageDesc": "Overview of Neotoma for investors and prospective design partners: positioning, why now, current state, capital posture, and how to engage.",
       "oneLinerHeading": "What it is",
       "oneLinerParagraphs": [
@@ -20,9 +20,9 @@
       "differentiationPoints": [
         "Schema-first extraction with hash-based IDs and reproducible state",
         "Versioned observations with field-level provenance and immutability guarantees",
-        "Cross-tool access through MCP — works with Claude, ChatGPT, Cursor, and custom agents in one substrate",
+        "Cross-tool access through MCP — works with the AI tools you connect, including custom agents, in one substrate",
         "User-controlled by default: local-first storage, typed export, user-held keys",
-        "Composable typed primitives that span domains (work, finance, health, relationships) rather than per-vertical silos"
+        "Composable typed primitives that span domains (work, finance, relationships) rather than per-vertical silos"
       ],
       "stateHeading": "Where it is today",
       "stateParagraphs": [
@@ -94,7 +94,7 @@
     },
     "es": {
       "title": "Neotoma",
-      "subtitle": "Una capa de memoria determinista y privada para agentes de IA — construida con eficiencia de capital desde Barcelona.",
+      "subtitle": "El sistema de registro para agentes de IA.",
       "pageDesc": "Resumen de Neotoma para inversores y posibles design partners: posicionamiento, por qué ahora, estado actual, postura de capital y cómo iniciar contacto.",
       "oneLinerHeading": "Qué es",
       "oneLinerParagraphs": [
@@ -111,9 +111,9 @@
       "differentiationPoints": [
         "Extracción dirigida por schema, con IDs basados en hash y estado reproducible",
         "Observaciones versionadas con procedencia a nivel de campo y garantías de inmutabilidad",
-        "Acceso entre herramientas vía MCP — funciona con Claude, ChatGPT, Cursor y agentes propios en un mismo sustrato",
+        "Acceso entre herramientas vía MCP — funciona con las herramientas de IA que conectes, incluidos agentes propios, en un mismo sustrato",
         "Control por el usuario por defecto: almacenamiento local-first, exportación tipada, claves del usuario",
-        "Primitivas tipadas componibles que abarcan dominios (trabajo, finanzas, salud, relaciones), no silos verticales"
+        "Primitivas tipadas componibles que abarcan dominios (trabajo, finanzas, relaciones), no silos verticales"
       ],
       "stateHeading": "Dónde está hoy",
       "stateParagraphs": [
