@@ -3,7 +3,7 @@ import { defaultLocale, type SupportedLocale } from '@/i18n/config'
 
 type PostRecord = Record<string, unknown>
 
-function getPostIdentity(post: PostRecord): string | null {
+export function getPostIdentity(post: { canonicalSlug?: unknown; postId?: unknown; slug?: unknown }): string | null {
   const canonicalSlug = post.canonicalSlug
   if (typeof canonicalSlug === 'string' && canonicalSlug) return canonicalSlug
   const postId = post.postId

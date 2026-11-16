@@ -549,7 +549,170 @@
 }
 .essay-editorial-aside .essay-paper-label { margin-top: 0; }
 .dark .essay-paper-label { color: #e5a17c; }
+.post-prose .essay-paper-label a.essay-paper-label-link {
+  color: inherit;
+  text-decoration-color: currentColor;
+}
 .dark .post-prose .essay-paper-figure img { border-color: #7b7b70; }
+.constara-launch-essay .post-prose .essay-paper-figure img {
+  border: 0;
+  border-radius: 0;
+}
+.essay-paper-step, .essay-paper-grid {
+  display: grid;
+  gap: 1.25rem;
+  margin-block: 2.5rem;
+}
+
+.post-prose .essay-paper-step h3 {
+  margin-top: 0;
+}
+
+.post-prose .essay-paper-step p:last-child {
+  margin-bottom: 0;
+}
+
+.essay-paper-step .essay-paper-figure figcaption,
+.essay-paper-grid .essay-paper-figure figcaption {
+  padding-inline: 0;
+}
+
+@media (min-width: 768px) {
+  .essay-paper-step, .essay-paper-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+}
+.constara-interface-examples {
+  display: grid;
+  gap: 2.5rem;
+  margin-block: 2.5rem;
+  --example-surface: #f6f1e6;
+  --example-panel: #fffdf7;
+  --example-tint: #ebe5d8;
+  --example-line: #bbc2b1;
+  --example-ink: #28372f;
+  --example-secondary: #526052;
+  --example-selected: #a84d33;
+}
+.dark .constara-interface-examples {
+  --example-surface: #2f332d;
+  --example-panel: #394037;
+  --example-tint: #45493f;
+  --example-line: #687163;
+  --example-ink: #f5f1e7;
+  --example-secondary: #cccdbf;
+  --example-selected: #e5a17c;
+}
+.constara-interface-examples > figure {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.constara-interface-examples figcaption { margin: 0; padding: 0 0 .625rem; }
+.constara-interface-view {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--example-tint);
+  color: var(--example-ink);
+  font-family: 'Instrument Sans Essay', system-ui, sans-serif;
+  font-size: .9375rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.post-prose .constara-interface-view p {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+:root .post-prose .constara-interface-view h3.constara-interface-bar {
+  margin: 0;
+  padding: .5rem .75rem;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: normal;
+  color: inherit;
+  background: var(--example-panel);
+  border-bottom: 1px solid var(--example-line);
+}
+:root .post-prose .constara-interface-view h3.constara-interface-dashboard-bar {
+  color: #fffdf7;
+  background: #28372f;
+  border-bottom-color: #28372f;
+}
+.post-prose .constara-interface-view :is(ol, ul) {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.post-prose .constara-interface-view li {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+.constara-launch-essay .post-prose .constara-interface-view li + li {
+  margin-block-start: 0;
+}
+.post-prose .constara-interface-view .constara-interface-chat {
+  display: grid;
+  gap: .5rem;
+  padding: .625rem;
+}
+.constara-interface-chat > li {
+  display: grid;
+  gap: .25rem;
+  justify-self: start;
+  max-width: 95%;
+  padding: .5rem .625rem;
+  background: var(--example-panel);
+}
+.constara-interface-chat > .constara-interface-user { justify-self: end; }
+.post-prose .constara-interface-view p.constara-interface-speaker {
+  display: flex;
+  align-items: center;
+  gap: .375rem;
+  color: var(--example-secondary);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.constara-interface-queue > li {
+  padding: .25rem .5rem;
+  border-bottom: 1px solid var(--example-line);
+}
+.constara-interface-queue > li:last-child { border-bottom: 0; }
+.constara-interface-queue > .constara-interface-focused,
+.constara-interface-draft {
+  background: var(--example-panel);
+  border-inline-start: 3px solid var(--example-selected);
+}
+.constara-interface-dashboard {
+  flex: 1;
+  display: grid;
+  align-content: start;
+  gap: .375rem;
+  padding: .625rem;
+  background: var(--example-surface);
+}
+.constara-interface-draft { padding: .375rem .5rem; }
+@media (min-width: 768px) {
+  .constara-interface-examples {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+  }
+}
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 768px) {
+    .constara-interface-examples { row-gap: 0; }
+    .constara-interface-examples > figure {
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+    }
+  }
+}
 .essay-paper-gallery { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; }
 @media(max-width: 760px) { .essay-paper-gallery { grid-template-columns: 1fr; gap: 2rem; } }
 @font-face {

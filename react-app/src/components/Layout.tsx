@@ -7,7 +7,7 @@ import { ArrowRight, FileCheck2, Network, type LucideIcon } from 'lucide-react'
 import { useLocale } from '@/i18n/LocaleContext'
 import { localeToOgLocale, localeToLanguageName, localeToLanguageTag, supportedLocales } from '@/i18n/config'
 import { localizePath, saveLocale, stripLocaleFromPath } from '@/i18n/routing'
-import { getLocalizedPublicPosts } from '@/lib/postsLocaleData'
+import { getLocalizedPublicPosts, getPostIdentity } from '@/lib/postsLocaleData'
 import { findUnlistedPost } from '@/lib/unlistedPosts'
 import { trackUmamiEvent } from '@/lib/analytics'
 import { HeaderActionsProvider } from '@/lib/headerActions'
@@ -152,10 +152,17 @@ export function Layout({ children }: LayoutProps) {
     ? supportedLocales.filter((nextLocale) => primaryLanguageLocales.has(nextLocale))
     : supportedLocales
 
+  const currentPost = params.slug ? buildSlugToPostMap(publicPostsData).get(params.slug) : undefined
+  const currentPostIdentity = currentPost ? getPostIdentity(currentPost) : null
+  const currentPath = stripLocaleFromPath(location.pathname)
   const languageMenuItems = visibleLanguageLocales.map((nextLocale) => {
     const isPrimaryLocale = primaryLanguageLocales.has(nextLocale)
+    const translatedPost = currentPostIdentity
+      ? getLocalizedPublicPosts(nextLocale).find((post) => getPostIdentity(post) === currentPostIdentity)
+      : undefined
+    const translatedPath = typeof translatedPost?.slug === 'string' ? `/posts/${translatedPost.slug}` : currentPath
     return {
-      path: localizePath(stripLocaleFromPath(location.pathname), nextLocale),
+      path: localizePath(translatedPath, nextLocale),
       label: localeToLanguageName[nextLocale],
       isActive: nextLocale === locale,
       onSelect: () => saveLocale(nextLocale),

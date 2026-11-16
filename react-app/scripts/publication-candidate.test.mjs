@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import fs from 'node:fs'
 import path from 'node:path'
+import { JSDOM } from 'jsdom'
 import { fileURLToPath } from 'node:url'
 import { applyDocumentLanguage } from './apply-document-language.mjs'
 
@@ -172,4 +173,43 @@ test('unknown or hostile Helmet language attributes fall back to the configured 
   const html = applyDocumentLanguage('<html lang="en" data-site="website">', attributes, new Set(['en-US', 'es-ES']), 'en-US')
   assert.equal(html, '<html data-site="website" lang="en-US" dir="ltr">')
   assert(!html.includes('onclick'))
+})
+
+
+test('the Constara article uses a localized Spanish canonical route with the same presentation', () => {
+  const enSlug = 'launching-constara'
+  const esSlug = 'lanzamiento-de-constara'
+  const origin = 'https://markmhendrickson.com'
+  const enUrl = `${origin}/posts/${enSlug}/`
+  const esUrl = `${origin}/es/posts/${esSlug}/`
+  const enPost = json('cache/posts.en.json').find((post) => post.slug === enSlug)
+  const esPost = json('cache/posts.es.json').find((post) => post.slug === esSlug)
+  assert.equal(enPost.body, read(`src/content/posts/${enSlug}.md`))
+  assert.equal(esPost.canonicalSlug, enSlug)
+  assert(esPost.alternativeSlugs.includes(enSlug))
+  assert.notEqual(esPost.body, enPost.body)
+
+  for (const [route, canonical, language, exampleLabel] of [
+    [`posts/${enSlug}`, enUrl, 'en-US', 'Sample data'],
+    [`es/posts/${esSlug}`, esUrl, 'es-ES', 'Datos de ejemplo'],
+    [`es/posts/${enSlug}`, esUrl, 'es-ES', 'Datos de ejemplo'],
+  ]) {
+    const { window } = new JSDOM(read(`dist/${route}/index.html`))
+    const { document } = window
+    assert.equal(document.documentElement.lang, language, route)
+    assert.equal(document.querySelector('link[rel="canonical"]').href, canonical, route)
+    assert.equal(document.querySelector('link[hreflang="es-ES"]').href, esUrl, route)
+    assert.equal(document.querySelector('link[hreflang="en-US"]').href, enUrl, route)
+    assert.equal(document.querySelector('meta[property="og:url"]').content, canonical, route)
+    assert.equal(document.querySelector('meta[property="og:image"]').content,
+      `${origin}/images/og/launching-constara-site-1200x630.jpg`, route)
+    assert.equal(document.querySelectorAll('.essay-paper-step').length, 5, route)
+    assert.equal(document.querySelectorAll('.essay-paper-grid').length, 2, route)
+    assert.equal(document.querySelectorAll('.constara-interface-examples figure').length, 2, route)
+    assert(document.querySelector('.constara-interface-examples').textContent.includes(exampleLabel), route)
+    assert(document.querySelector('.essay-product-strip a[href="https://constara.ai/"]'), route)
+    window.close()
+  }
+  assert(read('dist/es/rss.xml').includes(`<link>${esUrl}</link>`))
+  assert(read('dist/sitemap.xml').includes(`<loc>${esUrl}</loc>`))
 })

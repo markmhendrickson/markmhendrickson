@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import ReactMarkdown from 'react-markdown'
+import { rehypePaperLayouts } from '@/lib/rehypePaperLayouts'
 import remarkGfm from 'remark-gfm'
 import { usePostSSR } from '@/contexts/PostSSRContext'
 import {
@@ -28,7 +29,8 @@ import {
   truncateForLatestPublicationTeaser,
 } from '@/lib/utils'
 import { CodeBlock, MarkdownPre, markdownCodeComponentsWithLabels } from '@/components/CodeBlock'
-import { NeotomaEssayStrip } from '@/components/NeotomaEssayStrip'
+import { EssayProductStrip } from '@/components/EssayProductStrip'
+import { ConstaraInterfaceExamples } from '@/components/ConstaraInterfaceExamples'
 import { PaperArtwork, hasPaperArtwork } from '@/components/PaperArtwork'
 import { usePageVisualMotion } from '@/lib/paperVisualMotion'
 import { createHeadingIdAllocator, headingIdFromHash } from '@/lib/headingAnchors'
@@ -1650,6 +1652,8 @@ export default function Post({ slug: slugProp }: PostProps) {
   /** Only treat as tweet post when category is tweet; linkedTweetUrl is for footer "share" link. */
   const isTweetPost = post.category === 'tweet'
   const isUnlisted = post.unlisted === true
+  const postIdentity = post.postId ?? post.canonicalSlug ?? post.slug
+  const isConstaraLaunch = postIdentity === 'launching-constara'
   const isPaperScenePost = post.heroImageStyle === 'paper-scene'
   const isPublishedEssayArtwork = isPaperScenePost && post.slug === 'your-agents-need-a-system-of-record'
   const rawTitle = (titleFromMd ?? post.title ?? '').trim()
@@ -1669,7 +1673,6 @@ export default function Post({ slug: slugProp }: PostProps) {
     ? `${SITE_BASE}${localizePath('/', locale)}`
     : `${SITE_BASE}${localizePath(`/posts/${post.slug}`, locale)}`
   const markdownUrl = `${SITE_BASE}${localizePath(`/posts/${post.slug}.md`, locale)}`
-  const postIdentity = post.postId ?? post.canonicalSlug ?? post.slug
   const localizedAlternateUrls = supportedLocales.map((altLocale) => {
     const localizedPosts = getLocalizedPublicPosts(altLocale) as unknown as Post[]
     const localizedPost = localizedPosts.find((candidate) =>
@@ -1866,7 +1869,7 @@ export default function Post({ slug: slugProp }: PostProps) {
             </Alert>
           </Link>
         )}
-        <article ref={paperArticleRef}>
+        <article ref={paperArticleRef} className={isConstaraLaunch ? "constara-launch-essay" : undefined}>
           {editorialLayout && heroMatch && !isTweetPost && (
             <header className="post-takeover relative -mt-12 mb-12 flex min-h-[calc(100svh-var(--header-height,4rem)-3rem)] flex-col justify-end overflow-hidden bg-black text-white md:-mt-[calc(var(--header-height,4rem)+2rem)]">
               <img
@@ -1877,7 +1880,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10" aria-hidden="true" />
               <div className="relative mx-auto w-full max-w-[calc(var(--content-max)+4rem)] px-8 pb-12 pt-32 md:pb-16">
-                <NeotomaEssayStrip slug={post.slug} locale={locale} />
+                <EssayProductStrip slug={postIdentity} locale={locale} />
                 <h1 className="m-0 text-[34px] font-semibold leading-[1.08] tracking-tight md:text-[54px]">
                   {displayTitle}
                 </h1>
@@ -1891,7 +1894,7 @@ export default function Post({ slug: slugProp }: PostProps) {
           )}
           {!(editorialLayout && heroMatch && !isTweetPost) && (
           <header className="mb-8">
-            <NeotomaEssayStrip slug={post.slug} locale={locale} />
+            <EssayProductStrip slug={postIdentity} locale={locale} />
             <div className="mb-2 flex flex-col-reverse items-start gap-2 md:flex-row md:flex-wrap md:items-baseline md:justify-between md:gap-x-4 md:gap-y-2">
               <h1 className="m-0 min-w-0 w-full text-[28px] font-medium tracking-tight md:flex-1">
                 {isTweetPost
@@ -1928,7 +1931,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               : ''
             const repeatsExcerpt = normalizedExcerpt && normalizedSummary === normalizedExcerpt
             return !repeatsExcerpt && (
-            <Alert className="mb-8">
+            <Alert className={cn("mb-8", isConstaraLaunch && "rounded-none")}>
               <AlertTitle className="mb-4 text-sm font-medium uppercase tracking-wide text-muted-foreground">
                 {t.keyTakeaways}
               </AlertTitle>
@@ -2029,6 +2032,8 @@ export default function Post({ slug: slugProp }: PostProps) {
                   return inner.length === 1 && inner[0].tagName === 'strong'
                 })
               }
+              const isPaperGridTitle = (title?: string) => isConstaraLaunch && title?.startsWith('paper-grid|')
+              const isPaperFigureTitle = (title?: string) => title?.startsWith('paper|') || isPaperGridTitle(title)
               const markdownComponents = {
                 blockquote: ({ node, children, ...props }: React.ComponentPropsWithoutRef<'blockquote'> & { node?: HastLike }) => {
                   if (isPaperScenePost && isKeyMessage(node, true)) {
@@ -2125,8 +2130,14 @@ export default function Post({ slug: slugProp }: PostProps) {
                 p: ({ children, ...props }: React.ComponentPropsWithoutRef<'p'>) => {
                   const arr = React.Children.toArray(children)
                   const nonEmpty = arr.filter((c) => !(typeof c === 'string' && c.trim() === ''))
+                  const first = nonEmpty[0]
+                  if (isConstaraLaunch && nonEmpty.length === 1 && React.isValidElement<{ href?: string; title?: string }>(first) &&
+                    first.props.title === 'constara-interface-examples' &&
+                    (first.props.href === 'https://constara.ai/en/#ask' || first.props.href === 'https://constara.ai/es/#ask')) {
+                    return <ConstaraInterfaceExamples locale={locale} />
+                  }
                   const allPaperFigures = isPaperScenePost && nonEmpty.length > 0 && nonEmpty.every((child) =>
-                    React.isValidElement(child) && String((child.props as { title?: string }).title ?? '').startsWith('paper|'),
+                    React.isValidElement(child) && isPaperFigureTitle((child.props as { title?: string }).title),
                   )
                   if (allPaperFigures) {
                     return (
@@ -2196,17 +2207,23 @@ export default function Post({ slug: slugProp }: PostProps) {
                   )
                 },
                 img: ({ src, alt, title, ...props }: React.ComponentPropsWithoutRef<'img'>) => {
-                  if (isPaperScenePost && title?.startsWith('paper|')) {
-                    const [, originalLabel, originalCaption] = title.split('|')
+                  if (isPaperScenePost && title && isPaperFigureTitle(title)) {
+                    const [, label, caption, useCaseUrl] = title.split('|')
+                    const labelUrl = isPaperGridTitle(title) && useCaseUrl &&
+                      /^https:\/\/constara\.ai\/(?:en|es)\/use-case-[a-z0-9-]+\/?$/.test(useCaseUrl)
+                      ? useCaseUrl
+                      : undefined
                     const sharedInstanceProof = isPublishedEssayArtwork && src?.endsWith('/vision-domain.svg')
-                    const label = originalLabel
-                    const caption = originalCaption
                     const isVision = src?.includes('/vision-')
                     return (
                       <figure className="essay-paper-figure" data-paper-figure={isVision && !sharedInstanceProof ? 'planned' : 'current'}>
                         {hasPaperArtwork(src) ? <PaperArtwork src={src!} alt={alt ?? ''} /> : <img src={src} alt={alt ?? ''} width={isVision ? 340 : 900} height={isVision ? 220 : 600} loading="lazy" decoding="async" />}
                         <figcaption>
-                          <span className="essay-paper-label">{label}</span>
+                          {label && (
+                            <span className="essay-paper-label">
+                              {labelUrl ? <a className="essay-paper-label-link" href={labelUrl}>{label}</a> : label}
+                            </span>
+                          )}
                           <span>{caption}</span>
                         </figcaption>
                       </figure>
@@ -2360,6 +2377,7 @@ export default function Post({ slug: slugProp }: PostProps) {
                   remarkPlugins={[remarkGfm]}
                   remarkRehypeOptions={markdownFootnoteOptions}
                   components={markdownComponents}
+                  rehypePlugins={isConstaraLaunch ? [rehypePaperLayouts] : []}
                 >
                   {bodyContent}
                 </ReactMarkdown>
@@ -2438,7 +2456,7 @@ export default function Post({ slug: slugProp }: PostProps) {
               )}
               {!hideHomeMetaBoxes && (
                 <PostShareBar
-                  shareUrl={isHome ? `${PROD_SITE_BASE}/` : `${PROD_SITE_BASE}/posts/${post.slug}`}
+                  shareUrl={isConstaraLaunch ? canonicalUrl : isHome ? `${PROD_SITE_BASE}/` : `${PROD_SITE_BASE}/posts/${post.slug}`}
                   title={displayTitle}
                   onCopyFeedback={() => {
                     setCopyLinkSuccess(true)

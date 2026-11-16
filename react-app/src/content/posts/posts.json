@@ -1,5 +1,31 @@
 [
   {
+    "slug": "launching-constara",
+    "published": true,
+    "title": "Grow your business capacity while keeping control with Constara",
+    "excerpt": "Constara sets up and runs agents that handle the recurring work around your customers and operations. Your team keeps the decisions, at the checkpoints you set.",
+    "category": "Agent Architecture",
+    "readTime": 10,
+    "tags": [
+      "constara",
+      "agents",
+      "service businesses",
+      "ateles",
+      "neotoma",
+      "build-in-public"
+    ],
+    "heroImage": "launching-constara-site-hero.webp",
+    "heroImageSquare": "launching-constara-site-hero-square.png",
+    "heroImageStyle": "paper-scene",
+    "ogImage": "og/launching-constara-site-1200x630.jpg",
+    "createdDate": "2026-11-14",
+    "updatedDate": "2026-11-16",
+    "publishedDate": "2026-11-16",
+    "heroImageAlt": "An inquiry, form, and calendar card wait on a brass rail before a red cord. A stamped card hangs on the other side.",
+    "heroImageLabel": "The work and the decision",
+    "heroImageCaption": "Agents prepare the next step. Your team decides what goes out and handles the exceptions."
+  },
+  {
     "slug": "the-swarm-that-runs-my-work",
     "published": true,
     "publishedDate": "2026-07-01",
