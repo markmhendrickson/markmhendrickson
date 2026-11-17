@@ -92,7 +92,7 @@ Constara runs the agreed workflow alongside the AI tools your team already uses.
 
 > **Who approves outgoing messages**
 >
-> **A named person on your team approves every outgoing message in the pilot. Under a later agreement, a template you approve in writing can replace individual approval only if the message contains no health data and neither mentions nor implies a treatment, condition, test result or clinical matter.**
+> **Nothing goes out without a checkpoint. In the pilot, a named person on your team approves every message before it is sent. Later, routine messages can go out on templates you have approved in writing, but anything that touches health or a clinical matter always comes back to a person.**
 
 ## Why I built it
 
