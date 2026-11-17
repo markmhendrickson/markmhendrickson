@@ -10,7 +10,7 @@ Constara brings information from the sources you agree on into a shared record. 
 
 ![Loose mail, repeated checklists, and a crossed-out calendar square](/images/posts/constara-paper/site-rail-before.webp "paper-grid|Before the handoff|The pieces of one job can arrive in different places and wait for someone to bring them together.")
 
-![Three inquiries clipped along a brass rail above agents holding a speech bubble, a magnifying glass, and a calendar](/images/posts/constara-paper/site-rail-after.webp "paper-grid|After the handoff|The team can see the source material, the work in progress, and which step comes next.")
+![Three inquiries clipped along a brass rail, with flat tags below showing a speech bubble, a magnifying glass, and a calendar](/images/posts/constara-paper/site-rail-after.webp "paper-grid|After the handoff|The team can see the source material, the work in progress, and which step comes next.")
 
 ## Where to start
 
@@ -20,13 +20,13 @@ The delay might be somewhere else entirely. When a shop [handles a return or exc
 
 The same approach works inside the business. A [weekly owner report](https://constara.ai/en/use-case-weekly-owner-report/) can show which figures have a source and which are missing. A team could also use meeting notes to keep track of pending work and make it clear who owns each commitment.
 
-![Three calendars hang from a brass rail. The last has no marked visits and carries a red tag.](/images/posts/constara-paper/use-case-09-attendance-drop-off.webp "paper-grid|Attendance drop-off|A drop in visits gives the team a reason to decide whether to check in.|https://constara.ai/en/use-case-attendance-drop-off/")
+![A calendar with one date highlighted in white, a speech card, and the dashed outline of a second calendar.](/images/posts/constara-paper/slips-attendance-drop-off.svg "paper-grid|Attendance drop-off|A drop in visits gives the team a reason to decide whether to check in.|https://constara.ai/en/use-case-attendance-drop-off/")
 
-![A parcel tied with twine sits beside a blue message card and a reply sheet.](/images/posts/constara-paper/use-case-15-returns-and-exchanges.webp "paper-grid|Returns and exchanges|The proposed reply can sit alongside the order and the returns policy.|https://constara.ai/en/use-case-returns-and-exchanges/")
+![An envelope, a message card, and a document, each beside an empty dashed outline.](/images/posts/constara-paper/slips-inquiry-to-booked-visit.svg "paper-grid|Returns and exchanges|The proposed reply can sit alongside the order and the returns policy.|https://constara.ai/en/use-case-returns-and-exchanges/")
 
-![Four of five rating dots are filled above a blue envelope.](/images/posts/constara-paper/use-case-07-review-requests.webp "paper-grid|Review requests|The team chooses when to ask for feedback and who responds.|https://constara.ai/en/use-case-review-requests/")
+![A calendar with one date filled in, the dashed outline of an envelope, and a card with five empty rating circles.](/images/posts/constara-paper/slips-review-requests.svg "paper-grid|Review requests|The team chooses when to ask for feedback and who responds.|https://constara.ai/en/use-case-review-requests/")
 
-![A report shows four colored bars and marks a missing fifth figure with a red outline and tag.](/images/posts/constara-paper/use-case-11-weekly-owner-report.webp "paper-grid|Weekly owner report|The report shows which numbers have a source and where the team still needs a figure.|https://constara.ai/en/use-case-weekly-owner-report/")
+![Three paper cards with a dotted arrow to a report with two bars and two dashed outlines for missing figures.](/images/posts/constara-paper/slips-weekly-owner-report.svg "paper-grid|Weekly owner report|The report shows which numbers have a source and where the team still needs a figure.|https://constara.ai/en/use-case-weekly-owner-report/")
 
 For any of these jobs, ask where it tends to stall, what information the agent needs to prepare the next step, and who can decide whether that step should go ahead. Those answers help define the first workflow and give the team a way to tell whether it’s improving.
 
