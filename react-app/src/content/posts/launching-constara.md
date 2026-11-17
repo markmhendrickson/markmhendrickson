@@ -106,13 +106,15 @@ I began building Ateles in May 2026 and developed it through June as I moved fro
 >
 > **Models can read an inquiry and draft a reply. Ateles coordinates work across people and agents, applies the permissions your team sets, and pauses when a person needs to approve an action. Neotoma keeps a shared record of what’s current, where it came from, and what changed. Together, they let your team pick up work across shifts and tools, see what’s already been decided, and check the evidence before acting.**
 
-## Customer service and back-office work
+## Two businesses already using it
 
-For a retailer handling an order question, the person replying needs to see what the customer asked, what they ordered, and what the shipping record says. A shared record gives staff that history in one place. An agent can bring the relevant details together so the person handling the case can decide how to respond.
+I’ve built this setup for two businesses so far, and they use it for different work. Each runs on its own Neotoma instance, so one business’s records stay apart from the other’s.
 
-The same setup can help an agency with work inside the team. When a colleague takes over a lead, they can see the last contact and what still needs doing. When a draft goes into review, the reviewer can open the source material and see what changed since the last version. In either case, there’s a clear place to pick up the work.
+[Theodóre](https://about-theodore.com/) is a Spanish fine-jewelry brand, and it uses the setup with its customers. Its operations team worked from a mailbox, spreadsheets, and the online shop. I built an app for the brand that reads the customer incidents arriving in its mailbox and prepares a reply from the brand’s own returns policy and style rules. It also shows which wholesale invoices are still unpaid. The team starts the day with one list of what’s pending, and nothing goes out without the team’s review. The app is now being rolled out to the team.
 
-The retailer’s next decision is about what to tell a customer. The agency’s might be who will follow up or whether a draft is ready for review. Both need the record of the work that led up to that decision.
+Bottega8, a company I work with, uses its instance for back-office work. The first job is keeping track of leads and contacts: a team member can look up a company and see who at that company someone on the team already knows. A dashboard built on the same record shows each lead’s stage and status updates.
+
+In both cases, the next decision depends on the record behind it. At Theodóre it’s what to tell a customer. At Bottega8 it’s who follows up with a lead and when. A person decides each time, and the app gives them the history to decide with.
 
 ## Why I’m starting in Spain
 
