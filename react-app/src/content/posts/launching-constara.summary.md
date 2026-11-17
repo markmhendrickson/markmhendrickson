@@ -1,0 +1,4 @@
+- Start with a recurring job your team wants to improve. Examples include following up with inquiries, keeping current customers engaged, handling returns or overdue invoices, responding to reviews, and preparing the weekly owner report.
+- Agents work from a shared record your team can inspect. A named person on your team approves every outgoing message in the pilot.
+- A free 30-minute conversation can lead to a written audit starting at €900 plus applicable taxes.
+- A three-month pilot covers one measurable workflow or unit. The monthly fee is capped and based on verified incremental profit.
