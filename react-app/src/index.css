@@ -698,6 +698,33 @@
   background: var(--example-surface);
 }
 .constara-interface-draft { padding: .375rem .5rem; }
+.constara-interface-inquiry {
+  padding: .375rem .5rem;
+  background: var(--example-panel);
+}
+.constara-interface-examples figcaption .constara-interface-caption {
+  display: block;
+  margin-block-start: .25rem;
+  color: var(--example-secondary);
+  font-family: 'Instrument Sans Essay', system-ui, sans-serif;
+  font-size: .9375rem;
+  line-height: 1.45;
+}
+.constara-interface-approve,
+.constara-interface-approve:disabled {
+  justify-self: start;
+  margin-block-start: .25rem;
+  padding: .5rem .875rem;
+  border: 0;
+  border-radius: 0;
+  background: var(--example-ink);
+  color: var(--example-panel);
+  font: inherit;
+  font-weight: 600;
+  opacity: 1;
+  cursor: default;
+  pointer-events: none;
+}
 @media (min-width: 768px) {
   .constara-interface-examples {
     grid-template-columns: repeat(2, minmax(0, 1fr));
