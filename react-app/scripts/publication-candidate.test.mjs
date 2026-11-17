@@ -190,9 +190,9 @@ test('the Constara article uses a localized Spanish canonical route with the sam
   assert.notEqual(esPost.body, enPost.body)
 
   for (const [route, canonical, language, exampleLabel] of [
-    [`posts/${enSlug}`, enUrl, 'en-US', 'Sample data'],
-    [`es/posts/${esSlug}`, esUrl, 'es-ES', 'Datos de ejemplo'],
-    [`es/posts/${enSlug}`, esUrl, 'es-ES', 'Datos de ejemplo'],
+    [`posts/${enSlug}`, enUrl, 'en-US', 'Assistant'],
+    [`es/posts/${esSlug}`, esUrl, 'es-ES', 'Asistente'],
+    [`es/posts/${enSlug}`, esUrl, 'es-ES', 'Asistente'],
   ]) {
     const { window } = new JSDOM(read(`dist/${route}/index.html`))
     const { document } = window
