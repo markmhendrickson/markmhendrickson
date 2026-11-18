@@ -243,3 +243,36 @@ test('the use-case cards use the Constara page heroes with alt text in every loc
     localized.forEach(([, alt], index) => assert.notEqual(alt, english[index][1], `${route} alt ${index} is still English`))
   }
 })
+
+test('the Constara example panels read left to right on right-to-left pages', () => {
+  for (const locale of ['ar', 'ur']) {
+    const route = `${locale}/posts/launching-constara`
+    const { window } = new JSDOM(read(`dist/${route}/index.html`))
+    const { document } = window
+    assert.equal(document.documentElement.dir, 'rtl', `${route}: instrument targets an RTL page`)
+    const panels = document.querySelector('.constara-interface-examples')
+    assert(panels, `${route}: example panels render`)
+    assert.equal(panels.getAttribute('dir'), 'ltr', `${route}: English panels read left to right`)
+    assert.equal(panels.getAttribute('lang'), 'en', `${route}: English panels declare their language`)
+    window.close()
+  }
+})
+
+test('no translated Constara page keeps the English site-rail-after alt text', () => {
+  const siteRailAfterAlt = (route) => {
+    const { window } = new JSDOM(read(`dist/${route}/index.html`))
+    const found = window.document.querySelector('img[src*="/constara-paper/site-rail-after"]')?.getAttribute('alt')
+    window.close()
+    return found
+  }
+  const english = read('src/content/posts/launching-constara.md')
+    .match(/!\[([^\]]+)\]\(\/images\/posts\/constara-paper\/site-rail-after/)[1]
+  assert.equal(siteRailAfterAlt('posts/launching-constara'), english, 'instrument finds the English alt on the English page')
+  for (const locale of ['ar', 'bn', 'ca', 'de', 'fr', 'hi', 'id', 'pt', 'ru', 'ur', 'zh']) {
+    const route = `${locale}/posts/launching-constara`
+    const html = read(`dist/${route}/index.html`)
+    assert(!html.includes(visible(english)) && !html.includes(english), `${route}: English site-rail-after alt is gone`)
+    const alt = siteRailAfterAlt(route)
+    assert(alt && alt.trim().length > 20, `${route}: site-rail-after keeps a translated alt`)
+  }
+})

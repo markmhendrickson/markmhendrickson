@@ -40,9 +40,17 @@ const samples = {
 
 /** Static excerpts of the inquiry examples on the Constara homepage. */
 export function ConstaraInterfaceExamples({ locale }: { locale: SupportedLocale }) {
-  const sample = samples[locale === 'es' ? 'es' : 'en']
+  const sampleLocale = locale === 'es' ? 'es' : 'en'
+  const sample = samples[sampleLocale]
+  // Locales without translated panel strings show the English panels; mark them
+  // as English and left-to-right so RTL pages do not reorder their punctuation.
+  const fallback = locale !== sampleLocale
   return (
-    <div className="constara-interface-examples not-prose">
+    <div
+      className="constara-interface-examples not-prose"
+      lang={fallback ? 'en' : undefined}
+      dir={fallback ? 'ltr' : undefined}
+    >
       <figure className="essay-paper-figure">
         <figcaption>
           <span className="essay-paper-label">{sample.assistantLabel}</span>
