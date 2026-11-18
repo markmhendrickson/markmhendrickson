@@ -112,7 +112,7 @@ I’ve built this setup for two businesses so far, and they use it for different
 
 [Theodóre](https://about-theodore.com/) is a Spanish fine-jewelry brand, and it uses the setup with its customers. Its operations team worked from a mailbox, spreadsheets, and the online shop. I built an app for the brand that reads the customer incidents arriving in its mailbox and prepares a reply from the brand’s own returns policy and style rules. It also shows which wholesale invoices are still unpaid. The team starts the day with one list of what’s pending, and nothing goes out without the team’s review. The app is now being rolled out to the team.
 
-Bottega8, a company I work with, uses its instance for back-office work. The first job is keeping track of leads and contacts: a team member can look up a company and see who at that company someone on the team already knows. A dashboard built on the same record shows each lead’s stage and status updates.
+[Bottega8](https://bottega8.com), a company I work with, uses its instance for back-office work. The first job is keeping track of leads and contacts: a team member can look up a company and see who at that company someone on the team already knows. A dashboard built on the same record shows each lead’s stage and status updates.
 
 In both cases, the next decision depends on the record behind it. At Theodóre it’s what to tell a customer. At Bottega8 it’s who follows up with a lead and when. A person decides each time, and the app gives them the history to decide with.
 

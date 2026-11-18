@@ -209,6 +209,10 @@ test('the Constara article uses a localized Spanish canonical route with the sam
     assert.equal(heroCards.length, 4, route)
     assert(heroCards.every((img) => img.getAttribute('alt').trim().length > 20), route)
     assert.equal(document.querySelectorAll('img[src*="slips-"]').length, 0, route)
+    const bottega8Links = [...document.querySelectorAll('a[href="https://bottega8.com"]')]
+    assert.equal(bottega8Links.length, 1, route)
+    assert.equal(bottega8Links[0].textContent.trim(), 'Bottega8', route)
+    assert.equal(document.querySelectorAll('a[href="https://about-theodore.com/"]').length, 1, route)
     assert.equal(document.querySelectorAll('.constara-interface-examples figure').length, 2, route)
     assert(document.querySelector('.constara-interface-examples').textContent.includes(exampleLabel), route)
     assert(document.querySelector('.essay-product-strip a[href="https://constara.ai/"]'), route)
