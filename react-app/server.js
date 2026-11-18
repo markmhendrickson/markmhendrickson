@@ -3,6 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 import express from 'express'
+import { loadEnv } from 'vite'
 import { applyDocumentLanguage } from './scripts/apply-document-language.mjs'
 import { createPostMarkdownRepository } from './scripts/post-markdown.mjs'
 
@@ -48,8 +49,9 @@ function parseConfiguredLocales(raw) {
   return parsed.length ? [...new Set(parsed)] : [...AVAILABLE_LOCALES]
 }
 
+const productionEnv = isProd ? loadEnv('production', __dirname, 'VITE_') : {}
 const SUPPORTED_LOCALES = parseConfiguredLocales(
-  process.env.WEBSITE_LOCALES || process.env.VITE_WEBSITE_LOCALES
+  process.env.WEBSITE_LOCALES || process.env.VITE_WEBSITE_LOCALES || productionEnv.VITE_WEBSITE_LOCALES
 )
 
 function resolveDefaultLocale(locales) {
