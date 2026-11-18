@@ -20,13 +20,13 @@ The delay might be somewhere else entirely. When a shop [handles a return or exc
 
 The same approach works inside the business. A [weekly owner report](https://constara.ai/en/use-case-weekly-owner-report/) can show which figures have a source and which are missing. A team could also use meeting notes to keep track of pending work and make it clear who owns each commitment.
 
-![A calendar with one date highlighted in white, a speech card, and the dashed outline of a second calendar.](/images/posts/constara-paper/slips-attendance-drop-off.svg "paper-grid|Attendance drop-off|A drop in visits gives the team a reason to decide whether to check in.|https://constara.ai/en/use-case-attendance-drop-off/")
+![Three calendar cards clipped to a brass rail, with a diagonal run of filled squares that shortens card by card, and a red tag on the last card.](/images/posts/constara-paper/use-case-09-attendance-drop-off.webp "paper-grid|Attendance drop-off|A drop in visits gives the team a reason to decide whether to check in.|https://constara.ai/en/use-case-attendance-drop-off/")
 
-![An envelope, a message card, and a document, each beside an empty dashed outline.](/images/posts/constara-paper/slips-inquiry-to-booked-visit.svg "paper-grid|Returns and exchanges|The proposed reply can sit alongside the order and the returns policy.|https://constara.ai/en/use-case-returns-and-exchanges/")
+![A parcel tied with twine, a blue speech bubble leaning on it, and a lined sheet of paper beside it.](/images/posts/constara-paper/use-case-15-returns-and-exchanges.webp "paper-grid|Returns and exchanges|The proposed reply can sit alongside the order and the returns policy.|https://constara.ai/en/use-case-returns-and-exchanges/")
 
-![A calendar with one date filled in, the dashed outline of an envelope, and a card with five empty rating circles.](/images/posts/constara-paper/slips-review-requests.svg "paper-grid|Review requests|The team chooses when to ask for feedback and who responds.|https://constara.ai/en/use-case-review-requests/")
+![A card with four filled gold circles and one empty circle, and a blue envelope in front of it.](/images/posts/constara-paper/use-case-07-review-requests.webp "paper-grid|Review requests|The team chooses when to ask for feedback and who responds.|https://constara.ai/en/use-case-review-requests/")
 
-![Three paper cards with a dotted arrow to a report with two bars and two dashed outlines for missing figures.](/images/posts/constara-paper/slips-weekly-owner-report.svg "paper-grid|Weekly owner report|The report shows which numbers have a source and where the team still needs a figure.|https://constara.ai/en/use-case-weekly-owner-report/")
+![A paper report with a bar chart of five bars, the last one an empty outline, a red tag, and a second sheet behind it.](/images/posts/constara-paper/use-case-11-weekly-owner-report.webp "paper-grid|Weekly owner report|The report shows which numbers have a source and where the team still needs a figure.|https://constara.ai/en/use-case-weekly-owner-report/")
 
 For any of these jobs, ask where it tends to stall, what information the agent needs to prepare the next step, and who can decide whether that step should go ahead. Those answers help define the first workflow and give the team a way to tell whether it’s improving.
 
@@ -112,7 +112,7 @@ I’ve built this setup for two businesses so far, and they use it for different
 
 [Theodóre](https://about-theodore.com/) is a Spanish fine-jewelry brand, and it uses the setup with its customers. Its operations team worked from a mailbox, spreadsheets, and the online shop. I built an app for the brand that reads the customer incidents arriving in its mailbox and prepares a reply from the brand’s own returns policy and style rules. It also shows which wholesale invoices are still unpaid. The team starts the day with one list of what’s pending, and nothing goes out without the team’s review. The app is now being rolled out to the team.
 
-Bottega8, a company I work with, uses its instance for back-office work. The first job is keeping track of leads and contacts: a team member can look up a company and see who at that company someone on the team already knows. A dashboard built on the same record shows each lead’s stage and status updates.
+[Bottega8](https://bottega8.com), a company I work with, uses its instance for back-office work. The first job is keeping track of leads and contacts: a team member can look up a company and see who at that company someone on the team already knows. A dashboard built on the same record shows each lead’s stage and status updates.
 
 In both cases, the next decision depends on the record behind it. At Theodóre it’s what to tell a customer. At Bottega8 it’s who follows up with a lead and when. A person decides each time, and the app gives them the history to decide with.
 

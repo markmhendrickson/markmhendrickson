@@ -205,6 +205,14 @@ test('the Constara article uses a localized Spanish canonical route with the sam
       `${origin}/images/og/launching-constara-site-1200x630.jpg`, route)
     assert.equal(document.querySelectorAll('.essay-paper-step').length, 5, route)
     assert.equal(document.querySelectorAll('.essay-paper-grid').length, 2, route)
+    const heroCards = [...document.querySelectorAll('.essay-paper-grid img[src*="/constara-paper/use-case-"]')]
+    assert.equal(heroCards.length, 4, route)
+    assert(heroCards.every((img) => img.getAttribute('alt').trim().length > 20), route)
+    assert.equal(document.querySelectorAll('img[src*="slips-"]').length, 0, route)
+    const bottega8Links = [...document.querySelectorAll('a[href="https://bottega8.com"]')]
+    assert.equal(bottega8Links.length, 1, route)
+    assert.equal(bottega8Links[0].textContent.trim(), 'Bottega8', route)
+    assert.equal(document.querySelectorAll('a[href="https://about-theodore.com/"]').length, 1, route)
     assert.equal(document.querySelectorAll('.constara-interface-examples figure').length, 2, route)
     assert(document.querySelector('.constara-interface-examples').textContent.includes(exampleLabel), route)
     assert(document.querySelector('.essay-product-strip a[href="https://constara.ai/"]'), route)
@@ -212,4 +220,26 @@ test('the Constara article uses a localized Spanish canonical route with the sam
   }
   assert(read('dist/es/rss.xml').includes(`<link>${esUrl}</link>`))
   assert(read('dist/sitemap.xml').includes(`<loc>${esUrl}</loc>`))
+})
+
+test('the use-case cards use the Constara page heroes with alt text in every locale', () => {
+  const alts = (route) => {
+    const { window } = new JSDOM(read(`dist/${route}/index.html`))
+    const found = [...window.document.querySelectorAll('.essay-paper-grid img[src*="/constara-paper/use-case-"]')]
+      .map((img) => [img.getAttribute('src'), img.getAttribute('alt')])
+    window.close()
+    return found
+  }
+  const english = alts('posts/launching-constara')
+  assert.deepEqual(english.map(([src]) => src), [
+    '/images/posts/constara-paper/use-case-09-attendance-drop-off.webp',
+    '/images/posts/constara-paper/use-case-15-returns-and-exchanges.webp',
+    '/images/posts/constara-paper/use-case-07-review-requests.webp',
+    '/images/posts/constara-paper/use-case-11-weekly-owner-report.webp',
+  ])
+  for (const route of ['es/posts/lanzamiento-de-constara', ...['ar', 'bn', 'ca', 'de', 'fr', 'hi', 'id', 'pt', 'ru', 'ur', 'zh'].map((locale) => `${locale}/posts/launching-constara`)]) {
+    const localized = alts(route)
+    assert.deepEqual(localized.map(([src]) => src), english.map(([src]) => src), route)
+    localized.forEach(([, alt], index) => assert.notEqual(alt, english[index][1], `${route} alt ${index} is still English`))
+  }
 })

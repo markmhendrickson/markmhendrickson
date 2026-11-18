@@ -558,6 +558,11 @@
   border: 0;
   border-radius: 0;
 }
+/* The four use-case cards share one crop: the hero of the Constara page each links to. */
+.constara-launch-essay .post-prose .essay-paper-grid img[src*="/constara-paper/use-case-"] {
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
 .essay-paper-step, .essay-paper-grid {
   display: grid;
   gap: 1.25rem;
