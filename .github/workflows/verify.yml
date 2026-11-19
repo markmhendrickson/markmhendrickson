@@ -61,6 +61,10 @@ jobs:
         working-directory: react-app
         run: npm run build:ci
 
+      - name: Verify the shipped locale set, retired-locale redirects and built output
+        working-directory: react-app
+        run: node --test scripts/locale-build-setting.test.mjs scripts/removed-locale-redirect.test.mjs scripts/removed-locales.test.mjs
+
       - name: Verify generated short links and discovery exclusions
         working-directory: react-app
         env:
