@@ -24,6 +24,23 @@ test('retired prefix mapping preserves English paths, queries, fragments and cas
   }
 })
 
+// Attack inputs: the target must stay a same-origin path (one leading slash, never `//`).
+const attackInputs = [
+  '/ar//evil.example/x', '/ar///evil.example', '/ar/\\evil.example', '/ar/\\/evil.example',
+  '/ar/%2Fevil.example', '/ar/%5Cevil.example', '/ar//\\evil.example', '/AR//evil.example?x=1#h',
+  '/de/\t/evil.example', '/ur/ /evil.example',
+]
+
+function assertSameOriginTarget(target, label) {
+  assert.equal(typeof target, 'string', label)
+  assert.match(target, /^\/(?![/\\])/, `${label}: target starts with exactly one slash: ${target}`)
+  assert.equal(new URL(target, 'https://markmhendrickson.com').origin, 'https://markmhendrickson.com', label)
+}
+
+test('retired prefix mapping never returns a protocol-relative or off-origin target', () => {
+  for (const input of attackInputs) assertSameOriginTarget(redirectRemovedLocaleUrl(input, removed), input)
+})
+
 test('built 404 fallback redirects before React and is excluded from indexing', () => {
   const html = fs.readFileSync(path.join(dist, '404.html'), 'utf8')
   const doc = new JSDOM(html).window.document
@@ -42,6 +59,15 @@ test('built 404 fallback redirects before React and is excluded from indexing', 
       window: { location: { href: `https://markmhendrickson.com${input}`, replace: (target) => { destination = target } } },
     })
     assert.equal(destination, expected, input)
+  }
+  // The real inline script gets the same attack inputs and must stay on this origin.
+  for (const input of attackInputs) {
+    let destination = null
+    runInNewContext(script.textContent, {
+      URL,
+      window: { location: { href: `https://markmhendrickson.com${input}`, replace: (target) => { destination = target } } },
+    })
+    assertSameOriginTarget(destination, `404 script: ${input}`)
   }
 })
 
