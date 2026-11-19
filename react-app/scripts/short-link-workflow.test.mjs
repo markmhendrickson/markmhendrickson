@@ -109,6 +109,40 @@ test('actual latest-run CLI sends no authorization and sanitizes upstream failur
   } finally { rmSync(directory, { recursive: true, force: true }) }
 })
 
+test('the latest-run CLI names a fixed-vocabulary reason for each upstream refusal and never the status or body', () => {
+  const directory = mkdtempSync(path.join(os.tmpdir(), 'latest-pages-reason-'))
+  try {
+    const fixture = path.join(directory, 'fetch-fixture.mjs')
+    writeFileSync(fixture, [
+      "globalThis.fetch = async () => {",
+      "  if (process.env.TEST_NETWORK === '1') throw new Error('secret-network-detail')",
+      "  const status = Number(process.env.TEST_STATUS)",
+      "  return new Response(status === 200 ? 'not json secret-body' : 'secret-body-' + status, { status })",
+      "}",
+    ].join('\n'))
+    const script = new URL('./verify-latest-pages-run.mjs', import.meta.url)
+    const stderrFor = overrides => {
+      try {
+        execFileSync(process.execPath, ['--import', fixture, script.pathname], {
+          env: { ...env, ...overrides }, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
+        })
+      } catch (error) { return error.stderr.toString() }
+      throw new Error('the guard should have refused')
+    }
+    for (const [overrides, reason] of [
+      [{ TEST_STATUS: '403' }, 'upstream-rate-limited'], [{ TEST_STATUS: '429' }, 'upstream-rate-limited'],
+      [{ TEST_STATUS: '404' }, 'upstream-not-found'], [{ TEST_STATUS: '503' }, 'upstream-server-error'],
+      [{ TEST_STATUS: '418' }, 'upstream-unexpected-status'], [{ TEST_NETWORK: '1' }, 'upstream-unreachable'],
+      [{ TEST_STATUS: '200' }, 'upstream-unreadable'],
+      [{ TEST_STATUS: '200', GITHUB_RUN_ID: 'not-a-number' }, 'invalid-binding'],
+    ]) {
+      const message = stderrFor(overrides)
+      assert.match(message, new RegExp(`\\(reason: ${reason}\\)`), JSON.stringify(overrides))
+      assert.doesNotMatch(message, /secret|403|404|429|503|418|api\.github\.example/)
+    }
+  } finally { rmSync(directory, { recursive: true, force: true }) }
+})
+
 test('actual workflow shell guards reject stale dispatch sources and main that moves during the build', () => {
   const directory = mkdtempSync(path.join(os.tmpdir(), 'alias-workflow-'))
   try {
