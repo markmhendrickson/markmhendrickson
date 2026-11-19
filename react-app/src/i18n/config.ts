@@ -28,6 +28,7 @@ function parseConfiguredLocales(raw: string | undefined): SupportedLocale[] {
 }
 
 export const supportedLocales = parseConfiguredLocales(import.meta.env.VITE_WEBSITE_LOCALES)
+export const removedLocales = availableLocales.filter((locale) => !supportedLocales.includes(locale))
 
 function resolveDefaultLocale(locales: SupportedLocale[]): SupportedLocale {
   const configured = (import.meta.env.VITE_WEBSITE_DEFAULT_LOCALE || '').trim().toLowerCase()

@@ -6,6 +6,7 @@ import express from 'express'
 import { loadEnv } from 'vite'
 import { applyDocumentLanguage } from './scripts/apply-document-language.mjs'
 import { createPostMarkdownRepository } from './scripts/post-markdown.mjs'
+import { removedLocaleRedirectScript } from './src/i18n/removed-locale-redirect.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const isProd = process.env.NODE_ENV === 'production'
@@ -550,7 +551,7 @@ async function runPrerender() {
   if (!fs.existsSync(serverPath)) {
     throw new Error('prerender: SSR bundle not found. Run "npm run build" then "npm run build:ssr" first.')
   }
-  const { render } = await import(pathToFileURL(serverPath).href)
+  const { render, removedLocales } = await import(pathToFileURL(serverPath).href)
   const postRoutes = getPostSlugs()
   const seriesDetailRoutes = getSeriesDetailRoutes()
   const unlistedRoutes = getUnlistedRoutes()
@@ -581,8 +582,16 @@ async function runPrerender() {
     notFoundFull = notFoundFull.replace(HELMET_PLACEHOLDER, helmetHeadString(notFoundHelmetContext))
   }
   notFoundFull = withDocumentLanguage(notFoundFull, notFoundHelmetContext)
+  notFoundFull = notFoundFull.replace('<head>', `<head><meta name="robots" content="noindex">${removedLocaleRedirectScript(removedLocales)}`)
+  notFoundFull = notFoundFull.replace('<body>', '<body><noscript><a href="/">Continue to the English home page</a></noscript>')
   fs.writeFileSync(path.join(distPath, '404.html'), notFoundFull, 'utf-8')
   console.log('prerender: 404.html')
+  for (const locale of removedLocales) {
+    fs.rmSync(path.join(distPath, locale), { recursive: true, force: true })
+    for (const stem of ['posts', 'agent']) {
+      fs.rmSync(path.join(distPath, 'api', `${stem}.${locale}.json`), { force: true })
+    }
+  }
   const sitemapRoutes = [...new Set([...LEGACY_STATIC_ROUTES, ...LOCALIZED_STATIC_ROUTES, '/llms.txt', '/llms-full.txt'])]
   const sitemapXml = buildSitemapXml(sitemapRoutes, [...getPostEntries(), ...getSeriesSitemapEntries()])
   fs.writeFileSync(path.join(distPath, 'sitemap.xml'), sitemapXml, 'utf-8')

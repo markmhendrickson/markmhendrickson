@@ -24,10 +24,12 @@ import TestError from './pages/TestError'
 import {
   defaultLocale,
   nonDefaultLocales,
+  removedLocales,
   type SupportedLocale,
 } from './i18n/config'
 import { LocaleProvider, useLocale } from './i18n/LocaleContext'
 import { localizePath, resolvePreferredLocale, stripLocaleFromPath } from './i18n/routing'
+import { redirectRemovedLocaleUrl } from './i18n/removed-locale-redirect.mjs'
 import { UmamiRouteTracker } from './lib/analytics'
 
 const isDev = import.meta.env.DEV || import.meta.env.VITE_SHOW_DRAFTS === 'true'
@@ -46,6 +48,12 @@ function LegacyEnglishRedirect() {
   const location = useLocation()
   const target = stripLocaleFromPath(location.pathname || '/')
   return <Navigate replace to={`${target}${location.search}${location.hash}`} />
+}
+
+function RemovedLocaleRedirect() {
+  const location = useLocation()
+  const target = redirectRemovedLocaleUrl(`${location.pathname}${location.search}${location.hash}`, removedLocales)
+  return <Navigate replace to={target || '/'} />
 }
 
 function PreferredLocaleAppRoutes() {
@@ -124,6 +132,9 @@ const routes = (
     {defaultLocale === 'en' && <Route path="/en/*" element={<LegacyEnglishRedirect />} />}
     {nonDefaultLocales.map((locale) => (
       <Route key={locale} path={`/${locale}/*`} element={<LocalizedAppRoutes locale={locale} />} />
+    ))}
+    {removedLocales.map((locale) => (
+      <Route key={locale} path={`/${locale}/*`} element={<RemovedLocaleRedirect />} />
     ))}
     <Route path="/*" element={<PreferredLocaleAppRoutes />} />
   </Routes>
