@@ -57,7 +57,7 @@ export function Layout({ children }: LayoutProps) {
       <MarkdownLinkAction href={localizePath(`/posts/${ssrPost.slug}.md`, locale)} label={t.pageRawMarkdown} />
     ) : null,
   )
-  const isHome = location.pathname === localizePath('/', locale)
+  const isHome = stripLocaleFromPath(location.pathname) === '/'
   const currentSeriesTitle =
     params.seriesSlug
       ? publicPostsData.find((post) => resolveSeriesSlug(post) === params.seriesSlug && post.series?.trim())?.series ?? null

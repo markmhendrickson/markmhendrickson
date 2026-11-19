@@ -104,7 +104,10 @@ let postRoutes = []
 const tmpDir = mkdtempSync(path.join(tmpdir(), 'verify-ssr-routes-'))
 const routesFile = path.join(tmpDir, 'post-routes.json')
 try {
-  execFileSync(process.execPath, ['server.js', '--list-post-routes-out', routesFile], { cwd: appRoot })
+  execFileSync(process.execPath, ['server.js', '--list-post-routes-out', routesFile], {
+    cwd: appRoot,
+    env: { ...process.env, NODE_ENV: 'production' },
+  })
   postRoutes = JSON.parse(fs.readFileSync(routesFile, 'utf-8'))
   if (!Array.isArray(postRoutes)) throw new Error('expected JSON array')
 } catch (e) {

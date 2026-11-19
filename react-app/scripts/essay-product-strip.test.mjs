@@ -6,9 +6,10 @@ import {fileURLToPath,pathToFileURL} from 'node:url'
 import {createHash} from 'node:crypto'
 import {JSDOM} from 'jsdom'
 import {createPostMarkdownRepository} from './post-markdown.mjs'
+import { buildLocales } from './build-locales.mjs'
 const app=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),dist=process.env.WEBSITE_TEST_DIST??path.join(app,'dist')
 const {render}=await import(pathToFileURL(path.join(dist,'server/entry-server.js')).href)
-const essay='your-agents-need-a-system-of-record',locales=['en','es','ca','zh','hi','ar','fr','pt','ru','bn','ur','id','de']
+const essay='your-agents-need-a-system-of-record',locales=buildLocales
 function assertStrip(html,locale){
  const d=new JSDOM(html).window.document,strip=d.querySelectorAll('article .essay-product-strip');assert.equal(strip.length,1,`${locale}: once in article`)
  const link=strip[0].querySelector('a');assert.equal(link.getAttribute('href'),`https://neotoma.io/${locale==='es'?'es':'en'}/`);assert(link.textContent.trim().length>0)
@@ -21,7 +22,7 @@ function assertStrip(html,locale){
 }
 test('essay product strip appears above title once across every locale and editorial query',()=>{
  const labels=[];for(const locale of locales)for(const query of ['', '?design=editorial']){const route=`${locale==='en'?'':'/'+locale}/posts/${essay}/${query}`;labels.push(assertStrip(render(route),locale))}
- assert(labels.includes('Visit Neotoma'));assert(labels.includes('Visitar Neotoma'));assert.equal(new Set(labels).size,12,'all locales have an authored label; es/pt naturally share wording')
+ assert(labels.includes('Visit Neotoma'));assert(labels.includes('Visitar Neotoma'));assert.equal(new Set(labels).size,locales.length,'all built locales have an authored label')
  const editorial=render(`/posts/${essay}/`,{}, {postBody:'![Opening art](/images/posts/neotoma-paper/hero.png "hero")\n\nEssay body.'})
  assertStrip(editorial,'en');assert(new JSDOM(editorial).window.document.querySelector('article > header.post-takeover'),'hero editorial header also retains strip')
 })

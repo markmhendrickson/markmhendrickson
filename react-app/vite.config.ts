@@ -33,7 +33,7 @@ function readCachedPosts(locale?: string): CachedPostRecord[] {
 const markdownRepository = createPostMarkdownRepository(__dirname)
 
 /** Dev/build: serve post markdown at /posts/:slug.md and emit static .md files for published posts. */
-function postMarkdownPlugin() {
+function postMarkdownPlugin(enabledLocales: ReadonlySet<string> | null, emitPublishedMarkdown: boolean) {
   return {
     name: 'post-markdown',
     configureServer(server: ViteDevServer) {
@@ -62,8 +62,11 @@ function postMarkdownPlugin() {
       })
     },
     closeBundle() {
+      if (!emitPublishedMarkdown) return
       const outDir = path.resolve(__dirname, 'dist')
       for (const { outputPath, body } of markdownRepository.publishedOutputs()) {
+        const prefix = outputPath.split('/')[0]
+        if (prefix !== 'posts' && enabledLocales && !enabledLocales.has(prefix)) continue
         const filePath = path.join(outDir, outputPath)
         fs.mkdirSync(path.dirname(filePath), { recursive: true })
         fs.writeFileSync(filePath, body, 'utf-8')
@@ -112,13 +115,14 @@ function readUnlistedSlugs(): Set<string> {
 }
 
 /** Slugs (canonical and alternative) of every published post across the public caches. */
-function readPublishedSlugs(): Set<string> {
+function readPublishedSlugs(enabledLocales: ReadonlySet<string> | null): Set<string> {
   const slugs = new Set<string>()
   const names = fs.existsSync(cacheDir)
     ? fs.readdirSync(cacheDir).filter((name) => /^posts(\.[a-z]{2})?\.json$/.test(name))
     : []
   for (const name of names) {
     const locale = /^posts\.([a-z]{2})\.json$/.exec(name)?.[1]
+    if (locale && enabledLocales && !enabledLocales.has(locale)) continue
     for (const post of readCachedPosts(locale) as Array<CachedPostRecord & { canonicalSlug?: unknown }>) {
       if (post.published === false) continue
       for (const value of [
@@ -194,8 +198,8 @@ function collectDraftOnlySlugs(publishedSlugs: Set<string>): string[] {
  * - then fails the build if any recognizable draft text is still present in an emitted chunk.
  * Dev (`vite` serve) is untouched, so drafts stay viewable by URL and listed at /posts/draft/.
  */
-function stripDraftsFromBuildPlugin() {
-  const publishedSlugs = readPublishedSlugs()
+function stripDraftsFromBuildPlugin(enabledLocales: ReadonlySet<string> | null) {
+  const publishedSlugs = readPublishedSlugs(enabledLocales)
   const postsDir = postsContentDir + path.sep
   const isPublishedMarkdown = (filePath: string): boolean => {
     if (filePath.startsWith(draftPostsContentDir + path.sep)) return false
@@ -245,8 +249,67 @@ function stripDraftsFromBuildPlugin() {
   }
 }
 
+/** Keep source caches intact while excluding retired locale data from production assets. */
+function productionLocaleAssetsPlugin(enabledLocales: ReadonlySet<string> | null) {
+  const cachedLocales = fs.readdirSync(cacheDir)
+    .map((name) => /^posts\.([a-z]{2})\.json$/.exec(name)?.[1])
+    .filter((locale): locale is string => Boolean(locale))
+  const removed = enabledLocales ? cachedLocales.filter((locale) => !enabledLocales.has(locale)) : []
+  return {
+    name: 'production-locale-assets',
+    apply: 'build' as const,
+    enforce: 'pre' as const,
+    transform(code: string, id: string) {
+      if (id.endsWith('/src/i18n/config.ts') && removed.length) {
+        let filtered = code
+        for (const locale of removed) {
+          const line = new RegExp(`^[ \\t]*${locale}:[^\\n]+\\n`, 'gm')
+          const matches = filtered.match(line) ?? []
+          if (matches.length !== 4) throw new Error(`Locale metadata for ${locale} changed; update the production locale filter`)
+          filtered = filtered.replace(line, '')
+        }
+        return filtered
+      }
+      if (id.endsWith('/src/lib/postsLocaleData.ts') && removed.length) {
+        const glob = "import.meta.glob('@cache/posts.*.json', { eager: true })"
+        if (!code.includes(glob)) throw new Error('Localized post cache glob changed; update the production locale filter')
+        const patterns = ['@cache/posts.*.json', ...removed.map((locale) => `!@cache/posts.${locale}.json`)]
+        return code.replace(glob, `import.meta.glob(${JSON.stringify(patterns)}, { eager: true })`)
+      }
+      if (id.endsWith('/src/i18n/dictionaries.ts') && removed.length) {
+        let filtered = code
+        for (const locale of removed) {
+          const line = new RegExp(`^\\s*${locale}: generatedLocaleDict\\('${locale}'\\),?\\s*$`, 'm')
+          if (!line.test(filtered)) throw new Error(`Dictionary registration for ${locale} changed; update the production locale filter`)
+          filtered = filtered.replace(line, '')
+        }
+        return filtered
+      }
+      if (id.endsWith('/src/i18n/dictionaries.generated.json') || id.endsWith('/src/i18n/homeCopy.localized.json')) {
+        if (!enabledLocales) return null
+        const data = JSON.parse(code) as Record<string, unknown>
+        return JSON.stringify(Object.fromEntries(Object.entries(data).filter(([locale]) => enabledLocales.has(locale))))
+      }
+      return null
+    },
+    closeBundle() {
+      const outDir = path.resolve(__dirname, 'dist')
+      for (const locale of removed) {
+        fs.rmSync(path.join(outDir, locale), { recursive: true, force: true })
+        for (const stem of ['posts', 'agent']) {
+          fs.rmSync(path.join(outDir, 'api', `${stem}.${locale}.json`), { force: true })
+        }
+      }
+    },
+  }
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
+  const rawLocales = process.env.VITE_WEBSITE_LOCALES ?? loadEnv(mode, __dirname, 'VITE_').VITE_WEBSITE_LOCALES
+  const cachedLocales = new Set(fs.readdirSync(cacheDir).map((name) => /^posts\.([a-z]{2})\.json$/.exec(name)?.[1]).filter(Boolean))
+  const configured = rawLocales?.split(',').map((locale) => locale.trim().toLowerCase()).filter((locale) => cachedLocales.has(locale)) ?? []
+  const enabledLocales = configured.length ? new Set(configured) : null
   const umamiScriptUrl = process.env.VITE_UMAMI_SCRIPT_URL?.trim() || ''
   const umamiWebsiteId =
     mode === 'development'
@@ -259,9 +322,10 @@ export default defineConfig(({ mode, command }) => {
 
   return {
     plugins: [
-      ...(command === 'build' && !showDrafts ? [stripDraftsFromBuildPlugin()] : []),
+      ...(command === 'build' && !showDrafts ? [stripDraftsFromBuildPlugin(enabledLocales)] : []),
       cacheReloadPlugin(),
-      postMarkdownPlugin(),
+      postMarkdownPlugin(enabledLocales, command === 'build'),
+      productionLocaleAssetsPlugin(enabledLocales),
       react(),
       // Umami: inject only when VITE_UMAMI_SCRIPT_URL + mode-specific website ID are set (no hardcoded defaults)
       {

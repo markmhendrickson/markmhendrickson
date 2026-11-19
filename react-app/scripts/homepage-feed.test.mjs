@@ -8,13 +8,14 @@ import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server.js'
 import { createServer } from 'vite'
+import { buildLocales } from './build-locales.mjs'
 
 const app = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const dist = process.env.WEBSITE_TEST_DIST ?? path.join(app, 'dist')
 const read = (file) => fs.readFileSync(path.join(dist, file), 'utf8')
 
 test('homepage displays the same first feed page as the posts index', () => {
-  for (const locale of ['', 'es/', 'ca/', 'zh/', 'hi/', 'ar/', 'fr/', 'pt/', 'ru/', 'bn/', 'ur/', 'id/', 'de/']) {
+  for (const locale of buildLocales.map((code) => code === 'en' ? '' : `${code}/`)) {
     const home = read(`${locale}index.html`)
     const posts = read(`${locale}posts/index.html`)
     const start = home.indexOf('<section aria-labelledby="home-latest-posts"')
@@ -55,7 +56,7 @@ test('all locale homepages name the feed and its page-two continuation in the se
     id: ['Tulisan terbaru', 'Tulisan lainnya', 'proyek sumber terbuka yang sedang dikembangkan'],
     de: ['Neueste Beiträge', 'Weitere Beiträge', 'ein quelloffenes Projekt in Entwicklung'],
   }
-  for (const [locale, [heading, more, qualifier]] of Object.entries(labels)) {
+  for (const [locale, [heading, more, qualifier]] of Object.entries(labels).filter(([code]) => buildLocales.includes(code))) {
     const prefix = locale === 'en' ? '' : `${locale}/`
     const home = read(`${prefix}index.html`)
     assert(home.includes(`>${heading}</h2>`), `${locale}: latest feed heading`)
@@ -90,7 +91,7 @@ test('latest-feed component explains an empty feed and names a one-page index ac
 
 test('client navigation from English posts loads the destination locale feed', () => {
   const probe = path.join(app, 'scripts/homepage-locale-navigation.probe.mjs')
-  for (const locale of ['es', 'zh']) {
+  for (const locale of buildLocales.filter((code) => code !== 'en')) {
     const output = execFileSync(process.execPath, [probe, dist, locale], { encoding: 'utf8', timeout: 15000 })
     const { homeItems, postsItems, expectedItems } = JSON.parse(output)
     assert.equal(homeItems.length, 12, `${locale}: homepage has a complete first page`)
