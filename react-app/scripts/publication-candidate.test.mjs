@@ -245,7 +245,9 @@ test('the use-case cards use the Constara page heroes with alt text in every loc
 })
 
 test('the Constara example panels read left to right on right-to-left pages', () => {
-  for (const locale of ['ar', 'ur']) {
+  // Only locales the build ships are checked: the right-to-left locales are retired from the
+  // production build, so this loop is empty there and runs again if one is shipped.
+  for (const locale of prefixedBuildLocales.filter((candidate) => ['ar', 'ur'].includes(candidate))) {
     const route = `${locale}/posts/launching-constara`
     const { window } = new JSDOM(read(`dist/${route}/index.html`))
     const { document } = window
@@ -268,7 +270,7 @@ test('no translated Constara page keeps the English site-rail-after alt text', (
   const english = read('src/content/posts/launching-constara.md')
     .match(/!\[([^\]]+)\]\(\/images\/posts\/constara-paper\/site-rail-after/)[1]
   assert.equal(siteRailAfterAlt('posts/launching-constara'), english, 'instrument finds the English alt on the English page')
-  for (const locale of ['ar', 'bn', 'ca', 'de', 'fr', 'hi', 'id', 'pt', 'ru', 'ur', 'zh']) {
+  for (const locale of prefixedBuildLocales.filter((candidate) => candidate !== 'es')) {
     const route = `${locale}/posts/launching-constara`
     const html = read(`dist/${route}/index.html`)
     assert(!html.includes(visible(english)) && !html.includes(english), `${route}: English site-rail-after alt is gone`)
