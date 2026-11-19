@@ -9,6 +9,7 @@ import { createRoot } from 'react-dom/client'
 import { createServer } from 'vite'
 import { JSDOM } from 'jsdom'
 import { StaticRouter } from 'react-router-dom/server.js'
+import { buildLocales } from './build-locales.mjs'
 
 const app = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const dist = process.env.WEBSITE_TEST_DIST ?? path.join(app, 'dist')
@@ -152,7 +153,7 @@ test('post code controls have localized action names in every supported locale',
     en: 'Copy', es: 'Copiar', ca: 'Copia', zh: '复制', hi: 'कॉपी करें', ar: 'نسخ', fr: 'Copier',
     pt: 'Copiar', ru: 'Копировать', bn: 'কপি করুন', ur: 'کاپی کریں', id: 'Salin', de: 'Kopieren',
   }
-  for (const [locale, label] of Object.entries(labels)) {
+  for (const [locale, label] of Object.entries(labels).filter(([code]) => buildLocales.includes(code))) {
     const prefix = locale === 'en' ? '' : `${locale}/`
     const html = render(`/${prefix}posts/code-label-fixture/`, {}, {
       unlistedPost: {

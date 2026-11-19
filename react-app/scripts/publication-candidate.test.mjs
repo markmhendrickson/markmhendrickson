@@ -5,6 +5,7 @@ import path from 'node:path'
 import { JSDOM } from 'jsdom'
 import { fileURLToPath } from 'node:url'
 import { applyDocumentLanguage } from './apply-document-language.mjs'
+import { buildLocales, prefixedBuildLocales } from './build-locales.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const slug = 'your-agents-need-a-system-of-record'
@@ -92,7 +93,7 @@ test('public discovery includes the essay and excludes every unpublished draft',
 })
 
 test('every localized essay renders its translated copy and paper scenes', () => {
-  for (const locale of ['es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']) {
+  for (const locale of prefixedBuildLocales) {
     const [post] = matches(json(`cache/posts.${locale}.json`))
     assert(post, `${locale}: target exists`)
     const manifest = matches(json('src/content/posts/posts.json'))[0]
@@ -139,8 +140,7 @@ test('server-rendered documents declare the route language and direction', () =>
   for (const [locale, language, direction] of [
     ['en', 'en-US', 'ltr'],
     ['es', 'es-ES', 'ltr'],
-    ['ar', 'ar', 'rtl'],
-    ['zh', 'zh-CN', 'ltr'],
+    ['ca', 'ca-ES', 'ltr'],
   ]) {
     const prefix = locale === 'en' ? '' : `${locale}/`
     const html = read(`dist/${prefix}posts/${slug}/index.html`)
@@ -156,7 +156,7 @@ test('localized heading links identify each distinct visible section', () => {
     'recall-is-good-at-a-different-job', 'what-neotoma-does-today',
     'where-this-is-going', 'a-system-of-record-not-recall',
   ], 'existing English fragments remain stable')
-  for (const locale of ['es', 'ca', 'zh', 'hi', 'ar', 'fr', 'pt', 'ru', 'bn', 'ur', 'id', 'de']) {
+  for (const locale of prefixedBuildLocales) {
     const html = read(`dist/${locale}/posts/${slug}/index.html`)
     const article = html.slice(html.indexOf('<article>'))
     const headings = [...article.matchAll(/<h2 id="([^"]+)"[\s\S]*?<a href="#([^"]+)" class="post-heading-anchor/g)]
@@ -237,7 +237,7 @@ test('the use-case cards use the Constara page heroes with alt text in every loc
     '/images/posts/constara-paper/use-case-07-review-requests.webp',
     '/images/posts/constara-paper/use-case-11-weekly-owner-report.webp',
   ])
-  for (const route of ['es/posts/lanzamiento-de-constara', ...['ar', 'bn', 'ca', 'de', 'fr', 'hi', 'id', 'pt', 'ru', 'ur', 'zh'].map((locale) => `${locale}/posts/launching-constara`)]) {
+  for (const route of ['es/posts/lanzamiento-de-constara', ...prefixedBuildLocales.filter((locale) => locale !== 'es').map((locale) => `${locale}/posts/launching-constara`)]) {
     const localized = alts(route)
     assert.deepEqual(localized.map(([src]) => src), english.map(([src]) => src), route)
     localized.forEach(([, alt], index) => assert.notEqual(alt, english[index][1], `${route} alt ${index} is still English`))
@@ -245,7 +245,9 @@ test('the use-case cards use the Constara page heroes with alt text in every loc
 })
 
 test('the Constara example panels read left to right on right-to-left pages', () => {
-  for (const locale of ['ar', 'ur']) {
+  // Only locales the build ships are checked: the right-to-left locales are retired from the
+  // production build, so this loop is empty there and runs again if one is shipped.
+  for (const locale of prefixedBuildLocales.filter((candidate) => ['ar', 'ur'].includes(candidate))) {
     const route = `${locale}/posts/launching-constara`
     const { window } = new JSDOM(read(`dist/${route}/index.html`))
     const { document } = window
@@ -268,7 +270,7 @@ test('no translated Constara page keeps the English site-rail-after alt text', (
   const english = read('src/content/posts/launching-constara.md')
     .match(/!\[([^\]]+)\]\(\/images\/posts\/constara-paper\/site-rail-after/)[1]
   assert.equal(siteRailAfterAlt('posts/launching-constara'), english, 'instrument finds the English alt on the English page')
-  for (const locale of ['ar', 'bn', 'ca', 'de', 'fr', 'hi', 'id', 'pt', 'ru', 'ur', 'zh']) {
+  for (const locale of prefixedBuildLocales.filter((candidate) => candidate !== 'es')) {
     const route = `${locale}/posts/launching-constara`
     const html = read(`dist/${route}/index.html`)
     assert(!html.includes(visible(english)) && !html.includes(english), `${route}: English site-rail-after alt is gone`)

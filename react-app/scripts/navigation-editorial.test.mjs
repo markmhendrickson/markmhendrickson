@@ -4,6 +4,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { execFileSync } from 'node:child_process'
+import { buildLocales } from './build-locales.mjs'
 
 const dist = process.env.WEBSITE_TEST_DIST ?? path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../dist')
 
@@ -44,7 +45,7 @@ test('the hydrated collapsed desktop expand control has an accessible name in ev
     de: 'Seitenleiste erweitern',
   }
   const probe = path.join(path.dirname(fileURLToPath(import.meta.url)), 'desktop-sidebar-name.probe.mjs')
-  for (const [locale, expected] of Object.entries(labels)) {
+  for (const [locale, expected] of Object.entries(labels).filter(([code]) => buildLocales.includes(code))) {
     const output = execFileSync(process.execPath, [probe, dist, locale], { encoding: 'utf8', timeout: 10000 })
     assert.equal(JSON.parse(output).label, expected, `${locale}: hydrated desktop expand control name`)
   }
@@ -67,7 +68,7 @@ test('hydrated desktop and mobile sidebar controls use every active locale', () 
     de: ['Seitenleiste erweitern', 'Seitenleiste umschalten', 'Menü öffnen', 'Seitenleiste schließen', 'Sprachmenü umschalten', 'Themenmenü umschalten'],
   }
   const probe = path.join(path.dirname(fileURLToPath(import.meta.url)), 'sidebar-controls.probe.mjs')
-  for (const [locale, [expand, toggle, open, close, language, theme]] of Object.entries(labels)) {
+  for (const [locale, [expand, toggle, open, close, language, theme]] of Object.entries(labels).filter(([code]) => buildLocales.includes(code))) {
     const desktop = JSON.parse(execFileSync(process.execPath, [probe, dist, locale, 'desktop'], { encoding: 'utf8', timeout: 10000 }))
     const mobile = JSON.parse(execFileSync(process.execPath, [probe, dist, locale, 'mobile'], { encoding: 'utf8', timeout: 10000 }))
     assert.deepEqual(desktop, { expand, toggle, toggleHidden: toggle, language, theme }, `${locale}: desktop controls`)
@@ -96,7 +97,7 @@ test('the two product footer cards render as distinct public destinations', () =
     ru: 'Открытый проект в разработке', bn: 'উন্নয়নাধীন ওপেন-সোর্স প্রকল্প', ur: 'زیرِ ترقی اوپن سورس منصوبہ',
     id: 'Proyek sumber terbuka yang sedang dikembangkan', de: 'Ein quelloffenes Projekt in Entwicklung',
   }
-  for (const [locale, phrase] of Object.entries(localizedAteles)) {
+  for (const [locale, phrase] of Object.entries(localizedAteles).filter(([code]) => buildLocales.includes(code))) {
     const localized = fs.readFileSync(path.join(dist, locale, 'index.html'), 'utf8')
     assert(localized.includes(phrase), `${locale}: localized development status is visible`)
     assert(!localized.includes('An open-source project in development for organizing agents, tasks, and plans across supported tools.'), `${locale}: no English footer fallback`)
@@ -142,7 +143,7 @@ test('the localized raw Markdown header action is present for a public post and 
     de: 'Markdown anzeigen',
   }
   const slug = 'the-human-inversion-the-attention-ceiling'
-  for (const [locale, label] of Object.entries(labels)) {
+  for (const [locale, label] of Object.entries(labels).filter(([code]) => buildLocales.includes(code))) {
     const localePath = locale === 'en' ? '' : `${locale}/`
     const publicHtml = visibleHtml(fs.readFileSync(path.join(dist, localePath, `posts/${slug}/index.html`), 'utf8'))
     const href = `/${localePath}posts/${slug}.md`

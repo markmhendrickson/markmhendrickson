@@ -7,6 +7,7 @@ import { PostsListSSRProvider, type PostListItemSSR } from './contexts/PostsList
 import { AgentSSRProvider, type AgentContentSSR } from './contexts/AgentSSRContext'
 import { SongsSSRProvider, type SongSSR } from './contexts/SongsSSRContext'
 import { getLocalizedPublicPosts } from './lib/postsLocaleData'
+export { removedLocales } from './i18n/config'
 import { defaultLocale, isSupportedLocale } from './i18n/config'
 import { isExcludedFromListing, isPublishedPost, parseCalendarOrIsoDateString } from './lib/utils'
 

@@ -8,6 +8,7 @@ import{execFileSync}from'node:child_process'
 import{canonicalPostAliasPath}from'../src/lib/post-aliases.mjs'
 import{createPostMarkdownRepository}from'./post-markdown.mjs'
 const root=path.resolve(import.meta.dirname,'..'),old='one-place-where-a-fact-is-settled',slug='your-agents-need-a-system-of-record'
+import { buildLocales } from './build-locales.mjs'
 const locales=['en','es','ca','zh','hi','ar','fr','pt','ru','bn','ur','id','de']
 const read=n=>fs.readFileSync(path.join(root,n),'utf8'),json=n=>JSON.parse(read(n))
 test('canonical migration is durable source, preserves old alias and every locale identity and accepted editorial content',()=>{
@@ -77,7 +78,7 @@ test('regenerating a historical Neotoma export retains the current slug/source/a
  fs.writeFileSync(target,script.replace('    posts = apply_canonical_slug_overrides(posts)\n',''));execFileSync('python3',[target,'--from-neotoma-json',input]);const broken=JSON.parse(fs.readFileSync(path.join(fixture,'cache/posts.json'),'utf8'));assert(!broken.some(x=>x.slug===slug),'old generator loses the canonical binding');assert(broken.some(x=>x.slug===old))
 })
 test('rendered canonical/alias routes, feeds, sitemap and full Markdown agree across locales',()=>{
- for(const locale of locales){const prefix=locale==='en'?'':`${locale}/`,canonical=`https://markmhendrickson.com/${prefix}posts/${slug}`,legacy=`https://markmhendrickson.com/${prefix}posts/${old}`
+ for(const locale of buildLocales){const prefix=locale==='en'?'':`${locale}/`,canonical=`https://markmhendrickson.com/${prefix}posts/${slug}`,legacy=`https://markmhendrickson.com/${prefix}posts/${old}`
  for(const route of[slug,old]){const html=read(`dist/${prefix}posts/${route}/index.html`);assert(html.includes(`rel="canonical" href="${canonical}/"`));assert(html.includes(`property="og:url" content="${canonical}/"`));assert(!html.includes(`property="og:url" content="${legacy}"`))}
  assert.equal(read(`dist/${prefix}posts/${old}.md`),read(`dist/${prefix}posts/${slug}.md`))
  const feed=read(`dist/${prefix}rss.xml`);assert(feed.includes(`${canonical}/</link>`));assert(!feed.includes(`${legacy}/</link>`));const sitemap=read('dist/sitemap.xml');assert(sitemap.includes(`<loc>${canonical}/</loc>`));assert(!sitemap.includes(`<loc>${legacy}/</loc>`))

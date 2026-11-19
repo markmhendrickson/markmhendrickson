@@ -8,6 +8,7 @@ import sharp from 'sharp'
 import {JSDOM} from 'jsdom'
 import postcss from 'postcss'
 import {validateAuthoredPaperSvg,rasterPaperSvg} from './export-paper-artwork.mjs'
+import { buildLocales } from './build-locales.mjs'
 const app=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),read=name=>fs.readFileSync(path.join(app,name),'utf8'),parse=s=>new JSDOM(s,{contentType:'image/svg+xml'}).window.document
 const layouts={desktop:{scene:'archiveHeroDesktop',viewBox:'0 0 900 600',width:900,height:600},mobile:{scene:'archiveHeroMobile',viewBox:'0 0 600 800',width:600,height:800}}
 const source=layout=>read(`src/dev/overhead-record/archive-hero-${layout}.svg`)
@@ -59,7 +60,7 @@ test('responsive publication retains graph bytes and exports complete self-conta
 })
 test('the new hero is responsive while the graph remains one body explainer in every locale and complete Markdown',async()=>{
  const {render}=await import(pathToFileURL(path.join(app,'dist/server/entry-server.js')).href)
- const locales=['en','es','ca','zh','hi','ar','fr','pt','ru','bn','ur','id','de'],slug='your-agents-need-a-system-of-record'
+ const locales=buildLocales,slug='your-agents-need-a-system-of-record'
  for(const locale of locales){const prefix=locale==='en'?'':'/'+locale,d=new JSDOM(render(`${prefix}/posts/${slug}/`)).window.document;assert.equal(d.querySelectorAll('article [data-paper-responsive="archive-hero"]').length,1);assert.equal(d.querySelectorAll('article [data-paper-responsive-variant]').length,2);assert.equal(d.querySelectorAll('article [data-paper-scene="connectedRecordsProof"]').length,1);assert.equal(d.querySelectorAll('article [data-paper-figure]').length,6);const ids=[...d.querySelectorAll('article [id]')].map(n=>n.id);assert.equal(new Set(ids).size,ids.length);const md=read(`dist${prefix}/posts/${slug}.md`);assert(md.includes('/archive-hero-desktop.svg'));assert.equal(md.split('/images/posts/neotoma-paper/hero.svg').length-1,1);assert(!md.includes('data-paper-responsive'))}
 
 })
