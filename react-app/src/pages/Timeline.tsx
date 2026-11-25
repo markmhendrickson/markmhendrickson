@@ -66,6 +66,7 @@ function localizeTimelineItem(item: TimelineItem, locale: SupportedLocale): Time
     'High School': { es: 'Secundaria', ca: 'Batxillerat', zh: '高中' },
   }
   const dateMap: Record<string, { es: string; ca: string; zh: string }> = {
+    '2026 – Present · Barcelona, Spain': { es: '2026 – Actualidad · Barcelona, España', ca: '2026 – Actualitat · Barcelona, Espanya', zh: '2026 – 至今 · 西班牙巴塞罗那' },
     '2025 – Present · Barcelona, Spain': { es: '2025 – Actualidad · Barcelona, España', ca: '2025 – Actualitat · Barcelona, Espanya', zh: '2025 – 至今 · 西班牙巴塞罗那' },
     '2022 – 2025 · Barcelona, Spain': { es: '2022 – 2025 · Barcelona, España', ca: '2022 – 2025 · Barcelona, Espanya', zh: '2022 – 2025 · 西班牙巴塞罗那' },
     '2018 – 2022 · Barcelona, Spain': { es: '2018 – 2022 · Barcelona, España', ca: '2018 – 2022 · Barcelona, Espanya', zh: '2018 – 2022 · 西班牙巴塞罗那' },
@@ -77,6 +78,16 @@ function localizeTimelineItem(item: TimelineItem, locale: SupportedLocale): Time
     '1999 – 2003 · Atherton, California': { es: '1999 – 2003 · Atherton, California', ca: '1999 – 2003 · Atherton, Califòrnia', zh: '1999 – 2003 · 加州阿瑟顿' },
   }
   const descriptionMap: Record<string, { es: string; ca: string; zh: string }> = {
+    'Managed AI operations for growing businesses.': {
+      es: 'Operaciones con IA, gestionadas para su empresa.',
+      ca: 'Managed AI operations for growing businesses.',
+      zh: 'Managed AI operations for growing businesses.',
+    },
+    'We set up and run AI agents for your business, starting with one recurring job. You set the limits and keep the decisions.': {
+      es: 'Implantamos y operamos agentes de IA para su negocio, empezando por una tarea recurrente. Usted fija los límites y conserva las decisiones.',
+      ca: 'We set up and run AI agents for your business, starting with one recurring job. You set the limits and keep the decisions.',
+      zh: 'We set up and run AI agents for your business, starting with one recurring job. You set the limits and keep the decisions.',
+    },
     'Building Neotoma, a truth layer for AI memory, and Ateles, a sovereign agentic operating system for personal workflow automation.': {
       es: 'Construyendo Neotoma, una capa de verdad para memoria de IA, y Ateles, un sistema operativo agéntico soberano para automatización de workflows personales.',
       ca: "Construint Neotoma, una capa de veritat per a memòria d'IA, i Ateles, un sistema operatiu agèntic sobirà per a automatització de workflows personals.",
